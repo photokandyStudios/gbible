@@ -10,12 +10,13 @@
 #import "PKConstants.h"
 #import "PKSettings.h"
 #import "PKDatabase.h"
+#import "PKRootViewController.h"
 
 @interface PKAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) PKDatabase *database;
 @property (strong, nonatomic) PKSettings *mySettings;
-@property (strong, nonatomic) UIViewController *rootViewController;
+@property (strong, nonatomic) PKRootViewController *rootViewController;
 
 @end
