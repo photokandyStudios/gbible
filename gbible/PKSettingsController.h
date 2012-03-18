@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PKSettingsController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
+@interface PKSettingsController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 
     @property (strong, nonatomic) NSArray *layoutSettings;
     @property (strong, nonatomic) NSArray *textSettings;
@@ -18,4 +18,6 @@
     
     @property (strong, nonatomic) NSArray *settingsGroup;
     
+    @property (strong, nonatomic) NSIndexPath *currentPathForPopover;
+    @property (strong, nonatomic) UITableViewCell *theTableCell;
 @end

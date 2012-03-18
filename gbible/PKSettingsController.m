@@ -24,6 +24,8 @@
     
     @synthesize settingsGroup;
     
+    @synthesize currentPathForPopover;
+    @synthesize theTableCell;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -39,6 +41,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [self.tableView setBackgroundView:nil];
+    self.tableView.backgroundColor = [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1];
     layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Typeface", [NSNumber numberWithInt:1], PK_SETTING_FONTFACE, 
                                                                            [NSArray arrayWithObjects: @"Arial", @"Courier", @"Georgia", @"Helvetica", @"Verdana", nil], nil],
                                                 [NSArray arrayWithObjects: @"Font Size", [NSNumber numberWithInt:3], PK_SETTING_FONTSIZE, 
@@ -239,6 +243,7 @@
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UIActionSheet *popover;
     NSUInteger section = [indexPath section];
     NSUInteger row = [indexPath row];
     NSArray *cellData = [[settingsGroup objectAtIndex:section] objectAtIndex:row];
@@ -250,6 +255,20 @@
         case 0: // we're on a "nothing cell", but these will do actions...
                 break;
         case 1: // we're on a cell that wants to display a popover/actionsheet (no lookup)
+                popover = [[UIActionSheet alloc] initWithTitle: [cellData objectAtIndex:0]
+                                                 delegate: self
+                                                 cancelButtonTitle: nil
+                                                 destructiveButtonTitle: nil
+                                                 otherButtonTitles: nil ];
+                for (int i=0; i<[[cellData objectAtIndex:3] count]; i++)
+                {
+                    [popover addButtonWithTitle:[[cellData objectAtIndex:3] objectAtIndex:i]];
+                }
+                [popover addButtonWithTitle:@"Cancel"];
+                popover.cancelButtonIndex = popover.numberOfButtons - 1;
+                currentPathForPopover = indexPath;
+                theTableCell = newCell;
+                [popover showFromRect:theTableCell.frame inView:self.view animated:YES];
                 break;
         case 2: // we're on a cell that we need to toggle the checkmark on
                 curValue = [ [ (PKSettings *)[PKSettings instance] loadSetting:[cellData objectAtIndex:2] ] boolValue];
@@ -259,9 +278,63 @@
                 
                 break;
         case 3: // we're on a cell that we need to display a popover for, with lookup
+                popover = [[UIActionSheet alloc] initWithTitle: [cellData objectAtIndex:0]
+                                                 delegate: self
+                                                 cancelButtonTitle: nil
+                                                 destructiveButtonTitle: nil
+                                                 otherButtonTitles: nil ];
+                for (int i=0; i<[[cellData objectAtIndex:4] count]; i++)
+                {
+                    [popover addButtonWithTitle:[[cellData objectAtIndex:4] objectAtIndex:i]];
+                }
+                [popover addButtonWithTitle:@"Cancel"];
+                popover.cancelButtonIndex = popover.numberOfButtons - 1;
+                currentPathForPopover = indexPath;
+                theTableCell = newCell;
+                [popover showFromRect:theTableCell.frame inView:self.view animated:YES];
                 break;
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+# pragma mark -
+# pragma mark ActionSheet (Popover) methods
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    NSUInteger section = [currentPathForPopover section];
+    NSUInteger row = [currentPathForPopover row];
+    NSArray *cellData = [[settingsGroup objectAtIndex:section] objectAtIndex:row];
+    NSString *selectedValue;
+    NSString *settingValue;
+    
+    // handle Cancel being pressed...
+    if (buttonIndex == actionSheet.cancelButtonIndex)
+    {
+        currentPathForPopover = nil;
+        theTableCell = nil;
+        return; // no action
+    }
+    switch ( [[cellData objectAtIndex:1] intValue] )
+    {
+        case 1: // we're a simple copy-the-value popover -- no lookup.
+                selectedValue = [[cellData objectAtIndex:3] objectAtIndex:buttonIndex];
+                [[PKSettings instance] saveSetting:[cellData objectAtIndex:2] valueForSetting: selectedValue];
+                [[PKSettings instance] reloadSettings];
+                theTableCell.detailTextLabel.text = selectedValue;
+                break;
+        case 3: // we're a lookup popover
+                selectedValue = [[cellData objectAtIndex:4] objectAtIndex:buttonIndex];
+                settingValue  = [[cellData objectAtIndex:3] objectAtIndex:buttonIndex];
+                [[PKSettings instance] saveSetting:[cellData objectAtIndex:2] valueForSetting: settingValue];
+                [[PKSettings instance] reloadSettings];
+                theTableCell.detailTextLabel.text = selectedValue;
+                break;
+    }
+    
+
+    theTableCell = nil;
+    currentPathForPopover = nil;
 }
 
 @end

@@ -52,9 +52,33 @@
         UINavigationController *navStrongsController = [[UINavigationController alloc] initWithRootViewController:strongsViewController ];
         UINavigationController *navAboutController = [[UINavigationController alloc] initWithRootViewController:aboutViewController ];
         UINavigationController *navSettingsController = [[UINavigationController alloc] initWithRootViewController:settingsViewController ];
+        
+        // set up our nav image
+        UINavigationBar *navBar = [navBibleController navigationBar];
+        [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
+        [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
+        [UIColor whiteColor], UITextAttributeTextColor, nil]];
+
+        navBar = [navStrongsController navigationBar];
+        [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
+        [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
+        [UIColor whiteColor], UITextAttributeTextColor, nil]];
+
+        navBar = [navAboutController navigationBar];
+        [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
+        [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
+        [UIColor whiteColor], UITextAttributeTextColor, nil]];
+
+        navBar = [navSettingsController navigationBar];
+        [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
+        [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
+        [UIColor whiteColor], UITextAttributeTextColor, nil]];
+
         // add them to our view
         [self setViewControllers:[NSArray arrayWithObjects:navBibleController, navStrongsController,
                                                            navAboutController, navSettingsController, nil]];
+        UITabBar *myTabBar = [self tabBar];
+        [myTabBar setBackgroundImage:[UIImage imageNamed:@"BlueTabBar.png"]];
         
         self.delegate = self;
                                                                 
