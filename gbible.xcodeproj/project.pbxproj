@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A3E433D1515918900D8745D /* BlueNavigationBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E433B1515918900D8745D /* BlueNavigationBar.png */; };
+		6A3E433E1515918900D8745D /* BlueNavigationBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E433C1515918900D8745D /* BlueNavigationBar@2x.png */; };
+		6A3E43431515981800D8745D /* BlueTabBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43411515981800D8745D /* BlueTabBar.png */; };
+		6A3E43441515981800D8745D /* BlueTabBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43421515981800D8745D /* BlueTabBar@2x.png */; };
 		6A9793AF1513F61B00A5C9F1 /* PKSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793AE1513F61B00A5C9F1 /* PKSettings.m */; };
 		6A9793B41513FC4600A5C9F1 /* PKDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793B31513FC4600A5C9F1 /* PKDatabase.m */; };
 		6A9793B71514162500A5C9F1 /* PKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793B61514162500A5C9F1 /* PKConstants.m */; };
@@ -93,6 +97,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A3E433B1515918900D8745D /* BlueNavigationBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueNavigationBar.png; sourceTree = "<group>"; };
+		6A3E433C1515918900D8745D /* BlueNavigationBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueNavigationBar@2x.png"; sourceTree = "<group>"; };
+		6A3E43411515981800D8745D /* BlueTabBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueTabBar.png; sourceTree = "<group>"; };
+		6A3E43421515981800D8745D /* BlueTabBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueTabBar@2x.png"; sourceTree = "<group>"; };
 		6A9793AD1513F61B00A5C9F1 /* PKSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSettings.h; sourceTree = "<group>"; };
 		6A9793AE1513F61B00A5C9F1 /* PKSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSettings.m; sourceTree = "<group>"; };
 		6A9793B01513F87700A5C9F1 /* PKConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKConstants.h; sourceTree = "<group>"; };
@@ -221,6 +229,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A3E43401515918E00D8745D /* User Interface */ = {
+			isa = PBXGroup;
+			children = (
+				6A3E43411515981800D8745D /* BlueTabBar.png */,
+				6A3E43421515981800D8745D /* BlueTabBar@2x.png */,
+				6A3E433B1515918900D8745D /* BlueNavigationBar.png */,
+				6A3E433C1515918900D8745D /* BlueNavigationBar@2x.png */,
+			);
+			name = "User Interface";
+			sourceTree = "<group>";
+		};
 		6A9793A81513F2E700A5C9F1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -446,6 +465,7 @@
 		6AF9D04F1512975200514499 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6A3E43401515918E00D8745D /* User Interface */,
 				6AF9D0BB1512AA3300514499 /* xib */,
 				6AF9D0621512A5C300514499 /* icons */,
 				6AF9D0501512976000514499 /* bibleContent */,
@@ -620,6 +640,10 @@
 				6AF9D0B81512A6F800514499 /* BracketRight.png in Resources */,
 				6AF9D0BA1512A76800514499 /* Magic.png in Resources */,
 				6AF9D0BD1512AA5800514499 /* PKRootViewControllerIPhone.xib in Resources */,
+				6A3E433D1515918900D8745D /* BlueNavigationBar.png in Resources */,
+				6A3E433E1515918900D8745D /* BlueNavigationBar@2x.png in Resources */,
+				6A3E43431515981800D8745D /* BlueTabBar.png in Resources */,
+				6A3E43441515981800D8745D /* BlueTabBar@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
