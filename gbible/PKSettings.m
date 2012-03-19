@@ -24,6 +24,19 @@
     @synthesize textFontSize;
     @synthesize showMorphology;
     
+    @synthesize currentBook;
+    @synthesize currentChapter;
+    @synthesize currentVerse;
+    @synthesize topVerse;
+    @synthesize noteBook;
+    @synthesize noteChapter;
+    @synthesize noteVerse;
+    @synthesize currentTextHighlight;
+    @synthesize lastStrongsLookup;
+    @synthesize lastSearch;
+    @synthesize oldNote;
+    @synthesize currentNote;
+    
     static id _instance;
 
     +(id) instance
@@ -56,6 +69,23 @@
         showMorphology  = [[self loadSetting: PK_SETTING_SHOWMORPHOLOGY] boolValue];
         useICloud       = [[self loadSetting: PK_SETTING_USEICLOUD] boolValue];
         
+        currentBook     = [[self loadSetting: @"current-book"] intValue];
+        currentChapter  = [[self loadSetting: @"current-chapter"] intValue];
+        currentVerse    = [[self loadSetting: @"current-verse"] intValue];
+        
+        topVerse        = [[self loadSetting: @"top-verse"] intValue];
+        
+        noteBook        = [[self loadSetting: @"note-book"] intValue];
+        noteChapter     = [[self loadSetting: @"note-chapter"] intValue];
+        noteVerse       = [[self loadSetting: @"note-verse"] intValue];
+        
+        currentTextHighlight = [self loadSetting: @"current-text-highlight"];
+        lastStrongsLookup    = [self loadSetting: @"last-strongs-lookup"];
+        lastSearch           = [self loadSetting: @"last-search"];
+        
+        oldNote              = [self loadSetting: @"old-note"];
+        currentNote          = [self loadSetting: @"current-note"];
+        
     }
     
     -(NSString *) loadSetting: (NSString *)theSetting
@@ -85,6 +115,24 @@
         [self saveSetting: PK_SETTING_INLINENOTES valueForSetting: (showNotesInline ? @"YES" : @"NO") ];
         [self saveSetting: PK_SETTING_SHOWMORPHOLOGY valueForSetting: (showMorphology ? @"YES" : @"NO") ];
         [self saveSetting: PK_SETTING_USEICLOUD valueForSetting: (useICloud ? @"YES" : @"NO") ];
+        
+        [self saveSetting: @"current-book" valueForSetting:[NSString stringWithFormat:@"%i", currentBook]];
+        [self saveSetting: @"current-chapter" valueForSetting:[NSString stringWithFormat:@"%i", currentChapter]];
+        [self saveSetting: @"current-verse" valueForSetting:[NSString stringWithFormat:@"%i", currentVerse]];
+
+        [self saveSetting: @"top-verse" valueForSetting:[NSString stringWithFormat:@"%i", topVerse]];
+
+        [self saveSetting: @"note-book" valueForSetting:[NSString stringWithFormat:@"%i", noteBook]];
+        [self saveSetting: @"note-chapter" valueForSetting:[NSString stringWithFormat:@"%i", noteChapter]];
+        [self saveSetting: @"note-verse" valueForSetting:[NSString stringWithFormat:@"%i", noteVerse]];
+        
+        [self saveSetting: @"current-text-highlight" valueForSetting:currentTextHighlight];
+        [self saveSetting: @"last-strongs-lookup" valueForSetting:lastStrongsLookup];
+        [self saveSetting: @"last-search" valueForSetting:lastSearch];
+
+        [self saveSetting: @"old-note" valueForSetting:oldNote];
+        [self saveSetting: @"current-note" valueForSetting:currentNote];
+        
     }
     
     -(void) saveSetting: (NSString *)theSetting valueForSetting: (NSString *)theValue
@@ -124,7 +172,7 @@
         // it's really just a key-value store
         returnVal = [content executeUpdate:@"CREATE TABLE settings ( \
                                                  setting VARCHAR(255), \
-                                                 value   VARCHAR(255) \
+                                                 value   VARCHAR(4096) \
                                              )"];
         if (returnVal)
         {
@@ -139,6 +187,19 @@
             showMorphology = YES;
             useICloud = NO;
             textFontFace = @"Helvetica";
+            
+            currentBook = 40;   // Matthew
+            currentChapter = 1; // Chapter 1
+            currentVerse = 1;   // Verse 1
+            topVerse = 1;       // Top visible verse is 1
+            noteBook = 0;       // no note
+            noteChapter = 0;    // "
+            noteVerse = 0;      // "
+            currentTextHighlight = @"";
+            lastStrongsLookup = @"";
+            lastSearch = @"";
+            oldNote = @"";
+            currentNote = @"";
             
             [self saveSettings];
             // done, return success or failure
