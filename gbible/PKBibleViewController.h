@@ -17,4 +17,10 @@
     @property (strong, nonatomic) NSArray *currentGreekChapter;
     @property (strong, nonatomic) NSArray *currentEnglishChapter;
     
+    @property (strong, nonatomic) NSMutableArray *formattedGreekChapter;
+    @property (strong, nonatomic) NSMutableArray *formattedEnglishChapter;
+    
+    @property (strong, nonatomic) NSMutableArray *formattedGreekVerseHeights;
+    @property (strong, nonatomic) NSMutableArray *formattedEnglishVerseHeights;
+    
 @end
