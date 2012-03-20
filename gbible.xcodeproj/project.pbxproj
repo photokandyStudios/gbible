@@ -12,6 +12,7 @@
 		6A3E43431515981800D8745D /* BlueTabBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43411515981800D8745D /* BlueTabBar.png */; };
 		6A3E43441515981800D8745D /* BlueTabBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43421515981800D8745D /* BlueTabBar@2x.png */; };
 		6A820DDA1517EA3B006523EE /* PKBible.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A820DD91517EA3B006523EE /* PKBible.m */; };
+		6A820DDE151837C6006523EE /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6A820DDD151835E8006523EE /* bibleContent */; };
 		6A92CCA41516EF0100F8AE15 /* Gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A92CC9C1516EF0100F8AE15 /* Gear.png */; };
 		6A92CCA51516EF0100F8AE15 /* Gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A92CC9D1516EF0100F8AE15 /* Gear@2x.png */; };
 		6A92CCA61516EF0100F8AE15 /* Home.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A92CC9E1516EF0100F8AE15 /* Home.png */; };
@@ -69,7 +70,6 @@
 		6AF9D05B15129C7400514499 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9D02A151292D800514499 /* FMDatabasePool.m */; };
 		6AF9D05C15129C7400514499 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9D02C151292D800514499 /* FMDatabaseQueue.m */; };
 		6AF9D05D15129C7400514499 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9D02F151292D800514499 /* FMResultSet.m */; };
-		6AF9D05F15129CE700514499 /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6AF9D0501512976000514499 /* bibleContent */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +79,7 @@
 		6A3E43421515981800D8745D /* BlueTabBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueTabBar@2x.png"; sourceTree = "<group>"; };
 		6A820DD81517EA3B006523EE /* PKBible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBible.h; sourceTree = "<group>"; };
 		6A820DD91517EA3B006523EE /* PKBible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBible.m; sourceTree = "<group>"; };
+		6A820DDD151835E8006523EE /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
 		6A92CC9C1516EF0100F8AE15 /* Gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gear.png; sourceTree = "<group>"; };
 		6A92CC9D1516EF0100F8AE15 /* Gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Gear@2x.png"; sourceTree = "<group>"; };
 		6A92CC9E1516EF0100F8AE15 /* Home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home.png; sourceTree = "<group>"; };
@@ -160,7 +161,6 @@
 		6AF9D0441512944800514499 /* BAMSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BAMSettings.h; sourceTree = "<group>"; };
 		6AF9D0451512944800514499 /* BAMSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BAMSettings.m; sourceTree = "<group>"; };
 		6AF9D046151294E100514499 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		6AF9D0501512976000514499 /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
 		6AF9D0511512978600514499 /* CoolButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoolButton.h; sourceTree = "<group>"; };
 		6AF9D0521512978600514499 /* CoolButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoolButton.m; sourceTree = "<group>"; };
 		6AF9D05415129B9D00514499 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -216,7 +216,7 @@
 		6A92CCC71516F0B000F8AE15 /* Databases */ = {
 			isa = PBXGroup;
 			children = (
-				6AF9D0501512976000514499 /* bibleContent */,
+				6A820DDD151835E8006523EE /* bibleContent */,
 			);
 			name = Databases;
 			sourceTree = "<group>";
@@ -531,7 +531,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AF9D05F15129CE700514499 /* bibleContent in Resources */,
+				6A820DDE151837C6006523EE /* bibleContent in Resources */,
 				6AF0C0B0150EE8BB00BFAE03 /* InfoPlist.strings in Resources */,
 				6AF9D03B1512939E00514499 /* back_icon.png in Resources */,
 				6AF9D03C1512939E00514499 /* back_icon@2x.png in Resources */,
