@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PKBibleViewController : UIViewController
+@interface PKBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
 
+    @property int gotoRefBook;
+    @property int gotoRefChapter;
+    @property int gotoRefVerse;
+    
+    @property (strong, nonatomic) NSArray *currentGreekChapter;
+    @property (strong, nonatomic) NSArray *currentEnglishChapter;
+    
 @end
