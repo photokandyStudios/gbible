@@ -150,20 +150,23 @@
         int totalGreekCount;
         int totalEnglishCount;
         int totalCount;
-        NSString *thePassage = [[self stringFromBook:theBook forChapter:theChapter] stringByAppendingString:@".%"];
-        NSString *theSQL = @"SELECT count(*) FROM content WHERE bibleID=? AND bibleReference LIKE ?";
+        NSString *theSQL = @"SELECT count(*) FROM content WHERE bibleID=? AND bibleBook = ? AND bibleChapter = ?";
     
         int currentGreekBible = [[PKSettings instance] greekText];
         int currentEnglishBible = [[PKSettings instance] englishText];
         FMDatabase *db = [[PKDatabase instance] bible];
         
-        FMResultSet *s = [db executeQuery:theSQL, [NSNumber numberWithInt:currentGreekBible], thePassage];
+        FMResultSet *s = [db executeQuery:theSQL, [NSNumber numberWithInt:currentGreekBible], 
+                                                  [NSNumber numberWithInt:theBook],
+                                                  [NSNumber numberWithInt:theChapter]];
         while ([s next])
         {
             totalGreekCount = [s intForColumnIndex:0];
         }
 
-        s = [db executeQuery:theSQL, [NSNumber numberWithInt:currentEnglishBible], thePassage];
+        s = [db executeQuery:theSQL, [NSNumber numberWithInt:currentEnglishBible], 
+                                                  [NSNumber numberWithInt:theBook],
+                                                  [NSNumber numberWithInt:theChapter]];
         while ([s next])
         {
             totalEnglishCount = [s intForColumnIndex:0];
@@ -176,13 +179,15 @@
     
     +(NSString *) getTextForBook:(int)theBook forChapter:(int)theChapter forVerse:(int)theVerse forSide:(int)theSide
     {
-        NSString *thePassage = [self stringFromBook:theBook forChapter:theChapter forVerse:theVerse];
         int currentBible = (theSide==1 ? [[PKSettings instance] greekText] : [[PKSettings instance] englishText]);
         FMDatabase *db = [[PKDatabase instance] bible];
-        NSString *theSQL = @"SELECT bibleText FROM content WHERE bibleID=? AND bibleReference=?";
+        NSString *theSQL = @"SELECT bibleText FROM content WHERE bibleID=? AND bibleBook=? AND bibleChapter=? AND bibleVerse=?";
         NSString *theText;
         
-        FMResultSet *s = [db executeQuery:theSQL, [NSNumber numberWithInt:currentBible], thePassage];
+        FMResultSet *s = [db executeQuery:theSQL, [NSNumber numberWithInt:currentBible] , 
+                                                  [NSNumber numberWithInt:theBook],
+                                                  [NSNumber numberWithInt:theChapter],
+                                                  [NSNumber numberWithInt:theVerse]];
         while ([s next])
         {
             theText = [s stringForColumnIndex:0];
@@ -193,18 +198,37 @@
 
     +(NSArray *) getTextForBook:(int)theBook forChapter:(int)theChapter forSide:(int)theSide
     {
-        NSString *thePassage = [[self stringFromBook:theBook forChapter:theChapter] stringByAppendingString:@".%"];
         int currentBible = (theSide==1 ? [[PKSettings instance] greekText] : [[PKSettings instance] englishText]);
         FMDatabase *db = [[PKDatabase instance] bible];
-        NSString *theSQL = @"SELECT bibleText FROM content WHERE bibleID=? AND bibleReference LIKE ?";
-        NSArray *theArray = [[NSArray alloc] init];
         
-        FMResultSet *s = [db executeQuery:theSQL, [NSNumber numberWithInt:currentBible], thePassage];
+        NSString *theSQL = @"SELECT bibleText FROM content WHERE bibleID=? AND bibleBook = ? AND bibleChapter = ?";
+        //NSArray *theArray = [[NSArray alloc] init];
+        NSMutableArray *theArray = [[NSMutableArray alloc] init];
+        
+        FMResultSet *s = [db executeQuery:theSQL, [NSNumber numberWithInt:currentBible], 
+                                                  [NSNumber numberWithInt:theBook],
+                                                  [NSNumber numberWithInt:theChapter]];
         while ([s next])
         {
-            theArray = [theArray arrayByAddingObject:[s stringForColumnIndex:0]];
+            [theArray addObject:[s stringForColumnIndex:0]];
         }
         
+        
+        /*
+        NSMutableArray *theArray = [[NSMutableArray alloc] init];
+        NSString *theText;
+        int i = 1;
+        do 
+        {
+            theText = [self getTextForBook:theBook forChapter:theChapter forVerse:i forSide:theSide];
+            if (theText != nil)
+            {
+                [theArray addObject: theText];
+            }
+            i++;
+        } 
+        while (theText != nil);
+        */
         return theArray;
     }
 
@@ -214,7 +238,7 @@
         NSString *theString;
         theString = [[[[[self numericalThreeLetterCodeForBook:theBook] stringByAppendingString:@"."]
                          stringByAppendingFormat:@"%i", theChapter] stringByAppendingString:@"."]
-                         stringByAppendingFormat:@"%i", theBook];
+                         stringByAppendingFormat:@"%i", theVerse];
         return theString;
     }
     
@@ -271,4 +295,229 @@
         return 0;
     }
     
+    +(CGFloat)formattedTextHeight: (NSArray *)theWordArray withParsings:(BOOL)parsed
+    {
+        // this is our font
+        UIFont *theFont = [UIFont fontWithName:[[PKSettings instance] textFontFace]
+                                          size:[[PKSettings instance] textFontSize]];
+        // we need to know the height of an M (* the setting...)
+        CGFloat lineHeight = [@"M" sizeWithFont:theFont].height;
+        lineHeight = lineHeight * ((float)[[PKSettings instance] textLineSpacing] / 100.0);
+        // determine the maximum size of the column (1 line, 2 lines, 3 lines?)
+        CGFloat columnHeight = lineHeight;
+        columnHeight += (lineHeight * [[PKSettings instance] textVerseSpacing]);
+        if (parsed)
+        {
+            // are we going to show morphology?
+            if ([[PKSettings instance] showMorphology])
+            {
+                columnHeight += lineHeight;
+            }
+            columnHeight += lineHeight; // for G#s
+        }
+        
+        CGFloat maxY = 0.0;
+        for (int i=0; i<[theWordArray count];i++)
+        {
+            NSArray *theWordElement = [theWordArray objectAtIndex:i];
+            //NSString *theWord = [theWordElement objectAtIndex:0];
+            //int theWordType = [[theWordElement objectAtIndex:1] intValue];
+            //CGFloat wordX = [[theWordElement objectAtIndex:2] floatValue];
+            CGFloat wordY = [[theWordElement objectAtIndex:3] floatValue];
+            
+            if (wordY > maxY)
+            {
+                maxY = wordY;
+            }
+        }
+        
+        maxY += columnHeight + lineHeight;
+        
+        return maxY;
+    }
+    
+    +(CGFloat) columnWidth: (int) theColumn forBounds: (CGRect)theRect
+    {
+        // define our column (based on incoming rect)
+        float columnMultiplier = 1;
+        int columnSetting = [[PKSettings instance] layoutColumnWidths];
+        if (columnSetting == 0) // 600930
+        {
+            if (theColumn == 1) {   columnMultiplier = 1.75;    }
+            if (theColumn == 2) {   columnMultiplier = 1.00;    }
+        }
+        if (columnSetting == 1) // 300960
+        {
+            if (theColumn == 1) {   columnMultiplier = 1.00;    }
+            if (theColumn == 2) {   columnMultiplier = 1.75;    }
+        }
+        if (columnSetting == 2) // 600930
+        {
+            columnMultiplier = 1.375;
+        }
+        columnMultiplier = columnMultiplier / 3;
+        
+        CGFloat columnWidth = (theRect.size.width) * columnMultiplier;
+        
+        return columnWidth;
+    }
+    
+    +(NSArray *)formatText: (NSString *)theText forColumn: (int)theColumn withBounds: (CGRect)theRect withParsings: (BOOL)parsed
+    {
+        // this array will contain the word elements
+        NSMutableArray *theWordArray = [[NSMutableArray alloc]init];
+        
+        // this is our font
+        UIFont *theFont = [UIFont fontWithName:[[PKSettings instance] textFontFace]
+                                          size:[[PKSettings instance] textFontSize]];
+        
+        // set starting points
+        CGFloat startX = theRect.origin.x;
+        CGFloat startY = theRect.origin.y;
+        CGFloat curX = startX;
+        CGFloat curY = startY;
+        
+        // maximum point
+        CGFloat endX   = startX + theRect.size.width;
+        
+        // define our column (based on incoming rect)
+        float columnMultiplier = 1;
+        int columnSetting = [[PKSettings instance] layoutColumnWidths];
+        if (columnSetting == 0) // 600930
+        {
+            if (theColumn == 1) {   columnMultiplier = 1.75;    }
+            if (theColumn == 2) {   columnMultiplier = 1.00;    }
+        }
+        if (columnSetting == 1) // 300960
+        {
+            if (theColumn == 1) {   columnMultiplier = 1.00;    }
+            if (theColumn == 2) {   columnMultiplier = 1.75;    }
+        }
+        if (columnSetting == 2) // 600930
+        {
+            columnMultiplier = 1.375;
+        }
+        columnMultiplier = columnMultiplier / 3;
+        
+        CGFloat columnWidth = (theRect.size.width) * columnMultiplier;
+        
+        // new maximum point
+        endX = startX + columnWidth;
+                                                  
+        // our regular expression
+        NSError *error = NULL;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[^\\ ]+"
+                                                          options:NSRegularExpressionCaseInsensitive 
+                                                          error:&error];
+        NSArray *matches = [regex matchesInString:theText options:0 range:NSMakeRange(0, [theText length])];
+        
+        // we need to know the width of a space
+        CGFloat spaceWidth = [@" " sizeWithFont:theFont].width;
+        // we need to know the height of an M (* the setting...)
+        CGFloat lineHeight = [@"M" sizeWithFont:theFont].height;
+        lineHeight = lineHeight * ((float)[[PKSettings instance] textLineSpacing] / 100.0);
+        // determine the maximum size of the column (1 line, 2 lines, 3 lines?)
+        CGFloat columnHeight = lineHeight;
+        columnHeight += (lineHeight * [[PKSettings instance] textVerseSpacing]);
+        if (parsed)
+        {
+            // are we going to show morphology?
+            if ([[PKSettings instance] showMorphology])
+            {
+                columnHeight += lineHeight;
+            }
+            columnHeight += lineHeight; // for G#s
+        }
+        CGFloat yOffset = 0.0;
+        
+        // iterate through each word and wrap where necessary, building an
+        // array of x, y points and words.
+        
+        int thePriorWordType = -1;
+        int theWordType = -1;
+        NSString *theWord;
+        NSString *thePriorWord;
+        
+        CGFloat maxX = 0.0;
+        
+        for (int i=0; i<[matches count]; i++)
+        {
+            // get the match
+            NSTextCheckingResult *match = [matches objectAtIndex:i];
+            
+            // move priors
+            thePriorWordType = theWordType;
+            thePriorWord = theWord;
+            
+            // got the current word
+            theWord = [theText substringWithRange:[match range]];
+            
+            // and its size
+            CGSize theSize = [theWord sizeWithFont:theFont];
+            
+            // determine the type of the word
+            theWordType = 0;    // by default, we're a regular word
+            yOffset = 0.0;
+            NSRange r = [theWord rangeOfString:@"G[0-9]+" options:NSRegularExpressionSearch];
+            if (r.location != NSNotFound)
+            {
+                // we're a G#
+                theWordType = 10;
+                yOffset = lineHeight;
+            }
+            else 
+            {
+                // are we a VARiant?
+                r = [theWord rangeOfString:@"VAR[0-9]" options:NSRegularExpressionSearch];
+                if (r.location != NSNotFound)
+                {
+                    theWordType = 0; // we're really just a regular word.
+                    yOffset = 0.0;
+                }
+                else
+                {
+                    // are we a morphology word?
+                    r = [theWord rangeOfString:@"[A-Z]+[A-Z0-9\\-]+" options:NSRegularExpressionSearch];
+                    if (r.location != NSNotFound)
+                    {
+                        // we are!
+                        theWordType = 20;
+                        yOffset = lineHeight *2;
+                    }
+                }
+            }
+            
+            // determine this word's position, and if we should word-wrap or not.
+            if (theWordType <= thePriorWordType || theColumn == 2)
+            {
+                // we're a new variation on the column. curX can move foward by maxX
+                curX += maxX + spaceWidth;
+                if (curX + theSize.width> endX-maxX-spaceWidth)
+                {
+                    curX = startX;
+                    curY += columnHeight;
+                }
+                maxX = 0.0; // reset maximum width
+            }
+            
+            if (theSize.width > maxX)
+            {
+                maxX = theSize.width;
+            }
+            
+            // start creating our word element
+            NSArray *theWordElement = [NSArray arrayWithObjects: theWord,
+                                                                 [NSNumber numberWithInt:theWordType],
+                                                                 [NSNumber numberWithFloat:curX],
+                                                                 [NSNumber numberWithFloat:(curY + yOffset)], 
+                                                                 [NSNumber numberWithFloat:theSize.width],
+                                                                 [NSNumber numberWithFloat:theSize.height],
+                                                                 nil];
+            [theWordArray addObject:theWordElement];
+            
+            
+        }
+        
+        return theWordArray;
+    }
 @end
