@@ -183,6 +183,7 @@
         FMDatabase *db = [[PKDatabase instance] bible];
         NSString *theSQL = @"SELECT bibleText FROM content WHERE bibleID=? AND bibleBook=? AND bibleChapter=? AND bibleVerse=?";
         NSString *theText;
+        NSString *theRef = [NSString stringWithFormat:@"%i ", theVerse];
         
         FMResultSet *s = [db executeQuery:theSQL, [NSNumber numberWithInt:currentBible] , 
                                                   [NSNumber numberWithInt:theBook],
@@ -193,6 +194,11 @@
             theText = [s stringForColumnIndex:0];
         }
         
+        if (theSide == 2)
+        {
+            theText = [theRef stringByAppendingString:theText];
+        }
+        theText = [theText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         return theText;
     }
 
@@ -208,9 +214,18 @@
         FMResultSet *s = [db executeQuery:theSQL, [NSNumber numberWithInt:currentBible], 
                                                   [NSNumber numberWithInt:theBook],
                                                   [NSNumber numberWithInt:theChapter]];
+        int i=1;
         while ([s next])
         {
-            [theArray addObject:[s stringForColumnIndex:0]];
+            NSString *theText = [s stringForColumnIndex:0];
+            NSString *theRef = [NSString stringWithFormat:@"%i ", i];
+            if (theSide == 2)
+            {
+                theText = [theRef stringByAppendingString:theText];
+            }
+            theText = [theText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            [theArray addObject:theText];
+            i++;
         }
         
         
@@ -344,17 +359,18 @@
         if (columnSetting == 0) // 600930
         {
             if (theColumn == 1) {   columnMultiplier = 1.75;    }
-            if (theColumn == 2) {   columnMultiplier = 1.00;    }
+            if (theColumn == 2) {   columnMultiplier = 1.25;    }
         }
         if (columnSetting == 1) // 300960
         {
-            if (theColumn == 1) {   columnMultiplier = 1.00;    }
+            if (theColumn == 1) {   columnMultiplier = 1.25;    }
             if (theColumn == 2) {   columnMultiplier = 1.75;    }
         }
         if (columnSetting == 2) // 600930
         {
-            columnMultiplier = 1.375;
+            columnMultiplier = 1.5;
         }
+        if (theColumn == 3) { columnMultiplier = 0.25; }
         columnMultiplier = columnMultiplier / 3;
         
         CGFloat columnWidth = (theRect.size.width) * columnMultiplier;
@@ -373,33 +389,14 @@
         
         // set starting points
         CGFloat startX = theRect.origin.x;
-        CGFloat startY = theRect.origin.y;
+        CGFloat startY = 0; //theRect.origin.y;
         CGFloat curX = startX;
         CGFloat curY = startY;
         
         // maximum point
         CGFloat endX   = startX + theRect.size.width;
         
-        // define our column (based on incoming rect)
-        float columnMultiplier = 1;
-        int columnSetting = [[PKSettings instance] layoutColumnWidths];
-        if (columnSetting == 0) // 600930
-        {
-            if (theColumn == 1) {   columnMultiplier = 1.75;    }
-            if (theColumn == 2) {   columnMultiplier = 1.00;    }
-        }
-        if (columnSetting == 1) // 300960
-        {
-            if (theColumn == 1) {   columnMultiplier = 1.00;    }
-            if (theColumn == 2) {   columnMultiplier = 1.75;    }
-        }
-        if (columnSetting == 2) // 600930
-        {
-            columnMultiplier = 1.375;
-        }
-        columnMultiplier = columnMultiplier / 3;
-        
-        CGFloat columnWidth = (theRect.size.width) * columnMultiplier;
+        CGFloat columnWidth = [self columnWidth:theColumn forBounds:theRect]; // (theRect.size.width) * columnMultiplier;
         
         // new maximum point
         endX = startX + columnWidth;
@@ -488,7 +485,7 @@
             }
             
             // determine this word's position, and if we should word-wrap or not.
-            if (theWordType <= thePriorWordType || theColumn == 2)
+            if (theWordType <= thePriorWordType || (theColumn == 2 && i>0))
             {
                 // we're a new variation on the column. curX can move foward by maxX
                 curX += maxX + spaceWidth;
