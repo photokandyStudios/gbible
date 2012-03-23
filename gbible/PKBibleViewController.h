@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PKBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
+@interface PKBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 
     @property int gotoRefBook;
     @property int gotoRefChapter;

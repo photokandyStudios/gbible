@@ -39,6 +39,55 @@
     }
     return self;
 }
+- (void)loadChapter: (int)theChapter forBook: (int)theBook
+{
+    PKSettings *theSettings = [PKSettings instance];
+    theSettings.currentBook = theBook;
+    theSettings.currentChapter = theChapter;
+    [theSettings saveSettings];
+    [self loadChapter];
+}
+- (void)nextChapter
+{
+    int currentBook = [[PKSettings instance] currentBook];
+    int currentChapter = [[PKSettings instance] currentChapter];
+    
+    currentChapter++;
+    if (currentChapter > [PKBible countOfChaptersForBook:currentBook])
+    {
+        // advance the book
+        currentChapter = 1;
+        currentBook++;
+        if (currentBook > 66)
+        {
+            return; // can't go past the end of the Bible
+        }
+    }
+    
+    [self loadChapter: currentChapter forBook: currentBook];
+}
+
+- (void)previousChapter
+{
+    int currentBook = [[PKSettings instance] currentBook];
+    int currentChapter = [[PKSettings instance] currentChapter];
+    
+    currentChapter--;
+    if (currentChapter < 1)
+    {
+        // advance the book
+        currentBook--;
+        if (currentBook < 40)
+        {
+            return; // can't go before the start of the NT (currently)
+        }
+        currentChapter = [PKBible countOfChaptersForBook:currentBook];
+    }
+    
+    [self loadChapter: currentChapter forBook: currentBook];
+}
+
+
 - (void)loadChapter
 {
     BOOL parsed = NO;
@@ -59,6 +108,7 @@
     formattedGreekVerseHeights = [[NSMutableArray alloc]init];
     for (int i=0; i<[currentGreekChapter count]; i++)
     {
+        NSLog (@"Greek side(%i): Formatting text...", i);
         NSArray *formattedText = [PKBible formatText:[currentGreekChapter objectAtIndex:i] 
                                            forColumn:1 withBounds:self.view.bounds withParsings:parsed];
         
@@ -66,6 +116,7 @@
             formattedText
         ];
         
+        NSLog (@"Greek side(%i): End Format", i);
         [formattedGreekVerseHeights addObject:
             [NSNumber numberWithFloat: [PKBible formattedTextHeight:formattedText withParsings:parsed]]
         ];
@@ -76,13 +127,15 @@
     formattedEnglishVerseHeights = [[NSMutableArray alloc]init];
     for (int i=0; i<[currentEnglishChapter count]; i++)
     {
+        NSLog (@"English side(%i): Formatting text...", i);
         NSArray *formattedText = [PKBible formatText:[currentEnglishChapter objectAtIndex:i] 
                                            forColumn:2 withBounds:self.view.bounds withParsings:parsed];
-        
+
         [formattedEnglishChapter addObject: 
             formattedText
         ];
         
+        NSLog (@"English side(%i): End Format", i);
         [formattedEnglishVerseHeights addObject:
             [NSNumber numberWithFloat: [PKBible formattedTextHeight:formattedText withParsings:parsed]]
         ];
@@ -101,7 +154,18 @@
 	// Do any additional setup after loading the view.
     [self.tableView setBackgroundView:nil];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1];
-//    [self loadChapter];
+    
+    // add our gestures
+    UISwipeGestureRecognizer *swipeRight=[[UISwipeGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(didReceiveRightSwipe:)];
+    UISwipeGestureRecognizer *swipeLeft =[[UISwipeGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(didReceiveLeftSwipe:)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    swipeLeft.direction  = UISwipeGestureRecognizerDirectionLeft;
+    [swipeRight setNumberOfTouchesRequired:1];
+    [swipeLeft  setNumberOfTouchesRequired:1];
+    [self.tableView addGestureRecognizer:swipeRight];
+    [self.tableView addGestureRecognizer:swipeLeft];
 }
 
 - (void)viewDidUnload
@@ -119,9 +183,14 @@
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self loadChapter];
-    self.tableView.setNeedsDisplay;
+    [self.tableView reloadData];
 }
 
+/*
+-(void)willAnimateSecondHalfOfRotationFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation duration:(NSTimeInterval)duration
+{
+}
+*/
 #pragma mark -
 #pragma mark Table View Data Source Methods
 
@@ -145,8 +214,10 @@
 {
     NSUInteger row = [indexPath row];
     // the height is the MAX of both the formattedGreekVerseHeights and EnglishVerseHeights for row
-    return MAX( [[formattedGreekVerseHeights objectAtIndex:row] floatValue],
+    float theMax= MAX( [[formattedGreekVerseHeights objectAtIndex:row] floatValue],
                 [[formattedEnglishVerseHeights objectAtIndex:row] floatValue] );
+    //NSLog (@"heightForRowAtIndexPath(%i): Maximum = %f", row, theMax);
+    return theMax;
 }
 
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -194,6 +265,9 @@
         if (theWordType == 20) { theLabel.textColor = [UIColor colorWithRed:0.0 green:0.5 blue:0.0 alpha:1.0]; }
         theLabel.font = theFont;
         [cell addSubview:theLabel];
+        
+        //NSLog(@"cellForRowAtIndexPath(%i): Greek Word @(%f,%f,%f,%f)=%@",
+        //          row, wordX, wordY, wordW, wordH, theWord);
     }
     // insert English labels
     for (int i=0; i<[formattedEnglishVerse count]; i++)
@@ -212,6 +286,9 @@
         theLabel.backgroundColor = [UIColor clearColor];
         theLabel.font = theFont;
         [cell addSubview:theLabel];
+
+        //NSLog(@"cellForRowAtIndexPath(%i): English Word @(%f,%f,%f,%f)=%@",
+        //          row, wordX, wordY, wordW, wordH, theWord);
     }
     return cell;
 }
@@ -225,6 +302,21 @@
 //    UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark UISwipeGestureRecognizer
+-(void) didReceiveRightSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    [self previousChapter];
+    [self.tableView reloadData];
+    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+}
+-(void) didReceiveLeftSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    [self nextChapter];
+    [self.tableView reloadData];
+    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
 
 @end
