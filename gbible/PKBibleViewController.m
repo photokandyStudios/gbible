@@ -10,6 +10,7 @@
 #import "PKBible.h"
 #import "PKSettings.h"
 #import "PKConstants.h"
+#import "ZUUIRevealController.h"
 
 @interface PKBibleViewController ()
 
@@ -29,18 +30,16 @@
     
     @synthesize formattedGreekVerseHeights;
     @synthesize formattedEnglishVerseHeights;
+    
+    @synthesize selectedVerses;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // set our title
-        [self.navigationItem setTitle:@"Settings"];
-    }
-    return self;
-}
+#pragma mark -
+#pragma mark Content Loading and Display
+
 - (void)loadChapter: (int)theChapter forBook: (int)theBook
 {
+    // clear selectedVerses
+    selectedVerses = [[NSMutableDictionary alloc] init];
     PKSettings *theSettings = [PKSettings instance];
     theSettings.currentBook = theBook;
     theSettings.currentChapter = theChapter;
@@ -108,7 +107,7 @@
     formattedGreekVerseHeights = [[NSMutableArray alloc]init];
     for (int i=0; i<[currentGreekChapter count]; i++)
     {
-        NSLog (@"Greek side(%i): Formatting text...", i);
+        //NSLog (@"Greek side(%i): Formatting text...", i);
         NSArray *formattedText = [PKBible formatText:[currentGreekChapter objectAtIndex:i] 
                                            forColumn:1 withBounds:self.view.bounds withParsings:parsed];
         
@@ -116,7 +115,7 @@
             formattedText
         ];
         
-        NSLog (@"Greek side(%i): End Format", i);
+        //NSLog (@"Greek side(%i): End Format", i);
         [formattedGreekVerseHeights addObject:
             [NSNumber numberWithFloat: [PKBible formattedTextHeight:formattedText withParsings:parsed]]
         ];
@@ -127,7 +126,7 @@
     formattedEnglishVerseHeights = [[NSMutableArray alloc]init];
     for (int i=0; i<[currentEnglishChapter count]; i++)
     {
-        NSLog (@"English side(%i): Formatting text...", i);
+        //NSLog (@"English side(%i): Formatting text...", i);
         NSArray *formattedText = [PKBible formatText:[currentEnglishChapter objectAtIndex:i] 
                                            forColumn:2 withBounds:self.view.bounds withParsings:parsed];
 
@@ -135,13 +134,25 @@
             formattedText
         ];
         
-        NSLog (@"English side(%i): End Format", i);
+        //NSLog (@"English side(%i): End Format", i);
         [formattedEnglishVerseHeights addObject:
             [NSNumber numberWithFloat: [PKBible formattedTextHeight:formattedText withParsings:parsed]]
         ];
     }
 }
 
+#pragma mark -
+#pragma mark View Lifecycle
+
+- (id)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:style];
+    if (self) {
+        // set our title
+        [self.navigationItem setTitle:@"Settings"];
+    }
+    return self;
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [self loadChapter];
@@ -154,6 +165,7 @@
 	// Do any additional setup after loading the view.
     [self.tableView setBackgroundView:nil];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // add our gestures
     UISwipeGestureRecognizer *swipeRight=[[UISwipeGestureRecognizer alloc]
@@ -166,6 +178,43 @@
     [swipeLeft  setNumberOfTouchesRequired:1];
     [self.tableView addGestureRecognizer:swipeRight];
     [self.tableView addGestureRecognizer:swipeLeft];
+    
+    UILongPressGestureRecognizer *longPress=[[UILongPressGestureRecognizer alloc]
+                                             initWithTarget:self action:@selector(didReceiveLongPress:)];
+    longPress.minimumPressDuration = 1.0;
+    longPress.numberOfTapsRequired = 0;
+    longPress.numberOfTouchesRequired = 1;
+    [self.tableView addGestureRecognizer:longPress];
+    
+    // init our selectedVeres
+    selectedVerses = [[NSMutableDictionary alloc] init];
+    
+    // add navbar items
+    UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
+                                        initWithImage:[UIImage imageNamed:@"listb.png"] 
+                                        landscapeImagePhone:[UIImage imageNamed:@"listLandscape.png"]
+                                        style:UIBarButtonItemStylePlain 
+                                        target:self.parentViewController.parentViewController.parentViewController
+                                        action:@selector(revealToggle:)];
+    changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, nil];
+    
+    // handle pan from left to right to reveal sidebar
+    CGRect leftFrame = self.view.frame;
+    leftFrame.origin.x = 0;
+    leftFrame.origin.y = 0;
+    leftFrame.size.width=10;
+    UILabel *leftLabel = [[UILabel alloc] initWithFrame:leftFrame];
+    leftLabel.backgroundColor = [UIColor clearColor];
+    leftLabel.userInteractionEnabled = YES;
+    [self.view addSubview:leftLabel];
+    
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc]
+                                          initWithTarget:self.parentViewController.parentViewController.parentViewController
+                                          action:@selector(revealGesture:)];
+
+    [leftLabel addGestureRecognizer:panGesture];
+   
 }
 
 - (void)viewDidUnload
@@ -186,11 +235,6 @@
     [self.tableView reloadData];
 }
 
-/*
--(void)willAnimateSecondHalfOfRotationFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation duration:(NSTimeInterval)duration
-{
-}
-*/
 #pragma mark -
 #pragma mark Table View Data Source Methods
 
@@ -218,6 +262,26 @@
                 [[formattedEnglishVerseHeights objectAtIndex:row] floatValue] );
     //NSLog (@"heightForRowAtIndexPath(%i): Maximum = %f", row, theMax);
     return theMax;
+}
+
+-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // determine if the cell is selected
+    NSUInteger row = [indexPath row];
+    BOOL curValue;
+    NSUInteger currentBook = [[PKSettings instance] currentBook];
+    NSUInteger currentChapter = [[PKSettings instance] currentChapter];
+    NSString *passage = [PKBible stringFromBook:currentBook forChapter:currentChapter forVerse:row+1];
+    curValue = [[selectedVerses objectForKey:passage] boolValue];
+
+    if (curValue)
+    {
+        cell.backgroundColor = [UIColor colorWithRed:0.75 green:0.875 blue:1.0 alpha:1.0];
+    }
+    else 
+    {
+        cell.backgroundColor = [UIColor clearColor];
+    }
 }
 
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -290,16 +354,35 @@
         //NSLog(@"cellForRowAtIndexPath(%i): English Word @(%f,%f,%f,%f)=%@",
         //          row, wordX, wordY, wordW, wordH, theWord);
     }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSUInteger section = [indexPath section];
-//    NSUInteger row = [indexPath row];
-//    NSArray *cellData = [[settingsGroup objectAtIndex:section] objectAtIndex:row];
-//    BOOL curValue;
-//    UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
+    NSUInteger row = [indexPath row];
+    BOOL curValue;
+    NSUInteger currentBook = [[PKSettings instance] currentBook];
+    NSUInteger currentChapter = [[PKSettings instance] currentChapter];
+    NSString *passage = [PKBible stringFromBook:currentBook forChapter:currentChapter forVerse:row+1];
+    UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    // toggle the selection state
+
+    curValue = [[selectedVerses objectForKey:passage] boolValue];
+    [selectedVerses setObject:[NSNumber numberWithBool:!curValue] forKey:passage];
+    curValue = [[selectedVerses objectForKey:passage] boolValue];
+
+    if (curValue)
+    {
+        newCell.backgroundColor = [UIColor colorWithRed:0.75 green:0.875 blue:1.0 alpha:1.0];
+    }
+    else 
+    {
+        newCell.backgroundColor = [UIColor clearColor];
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -317,6 +400,15 @@
     [self nextChapter];
     [self.tableView reloadData];
     [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+}
+-(void) didReceiveLongPress:(UILongPressGestureRecognizer*)gestureRecognizer
+{
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
+    {
+        CGPoint p = [gestureRecognizer locationInView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p]; // nil if no row
+        NSLog (@"Long pressed.");
+    }
 }
 
 @end

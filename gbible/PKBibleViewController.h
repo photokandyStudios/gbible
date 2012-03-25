@@ -23,4 +23,6 @@
     @property (strong, nonatomic) NSMutableArray *formattedGreekVerseHeights;
     @property (strong, nonatomic) NSMutableArray *formattedEnglishVerseHeights;
     
+    @property (strong, nonatomic) NSMutableDictionary *selectedVerses;
+    
 @end
