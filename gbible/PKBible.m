@@ -346,7 +346,8 @@
             }
         }
         
-        maxY += columnHeight + lineHeight;
+        //maxY += columnHeight + lineHeight;
+        maxY += lineHeight*2;
         
         return maxY;
     }
@@ -388,7 +389,7 @@
                                           size:[[PKSettings instance] textFontSize]];
         
         // set starting points
-        CGFloat startX = theRect.origin.x;
+        CGFloat startX = theRect.origin.x + 5; // some margin
         CGFloat startY = 0; //theRect.origin.y;
         CGFloat curX = startX;
         CGFloat curY = startY;
@@ -399,14 +400,10 @@
         CGFloat columnWidth = [self columnWidth:theColumn forBounds:theRect]; // (theRect.size.width) * columnMultiplier;
         
         // new maximum point
-        endX = startX + columnWidth;
+        endX = startX + columnWidth - 5; // some margin
                                                   
-        // our regular expression
-        NSError *error = NULL;
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[^\\ ]+"
-                                                          options:NSRegularExpressionCaseInsensitive 
-                                                          error:&error];
-        NSArray *matches = [regex matchesInString:theText options:0 range:NSMakeRange(0, [theText length])];
+        // split by spaces
+        NSArray *matches = [theText componentsSeparatedByString:@" "];
         
         // we need to know the width of a space
         CGFloat spaceWidth = [@" " sizeWithFont:theFont].width;
@@ -439,15 +436,13 @@
         
         for (int i=0; i<[matches count]; i++)
         {
-            // get the match
-            NSTextCheckingResult *match = [matches objectAtIndex:i];
             
             // move priors
             thePriorWordType = theWordType;
             thePriorWord = theWord;
             
             // got the current word
-            theWord = [theText substringWithRange:[match range]];
+            theWord = [matches objectAtIndex:i];
             
             // and its size
             CGSize theSize = [theWord sizeWithFont:theFont];
@@ -455,34 +450,42 @@
             // determine the type of the word
             theWordType = 0;    // by default, we're a regular word
             yOffset = 0.0;
-            NSRange r = [theWord rangeOfString:@"G[0-9]+" options:NSRegularExpressionSearch];
-            if (r.location != NSNotFound)
+            
+            
+            if (theColumn == 1 && [theWord length]>2) // we only do this for greek text
             {
-                // we're a G#
-                theWordType = 10;
-                yOffset = lineHeight;
-            }
-            else 
-            {
-                // are we a VARiant?
-                r = [theWord rangeOfString:@"VAR[0-9]" options:NSRegularExpressionSearch];
-                if (r.location != NSNotFound)
+                // originally we used regular expressions, but they are SLOW
+                // G#s are of the form G[0-9]+
+                
+                if ( [[theWord substringToIndex:1] isEqualToString:@"G"] &&
+                     [[theWord substringFromIndex:1] intValue] > 0 )
                 {
-                    theWordType = 0; // we're really just a regular word.
-                    yOffset = 0.0;
+                    // we're a G#
+                    theWordType = 10;
+                    yOffset = lineHeight;
                 }
-                else
+                else 
                 {
-                    // are we a morphology word?
-                    r = [theWord rangeOfString:@"[A-Z]+[A-Z0-9\\-]+" options:NSRegularExpressionSearch];
-                    if (r.location != NSNotFound)
+                    // are we a VARiant? (regex: VAR[0-9]
+                    if ( [[theWord substringToIndex:2] isEqualToString:@"VAR"] )
                     {
-                        // we are!
-                        theWordType = 20;
-                        yOffset = lineHeight *2;
+                        theWordType = 0; // we're really just a regular word.
+                        yOffset = 0.0;
+                    }
+                    else
+                    {
+                        // are we a morphology word? [A-Z]+[A-Z0-9\\-]+
+                        if ( [[theWord uppercaseString] isEqualToString:theWord] 
+                             && thePriorWordType >= 10)
+                        {
+                            // we are!
+                            theWordType = 20;
+                            yOffset = lineHeight *2;
+                        }
                     }
                 }
             }
+            
             
             // determine this word's position, and if we should word-wrap or not.
             if (theWordType <= thePriorWordType || (theColumn == 2 && i>0))
@@ -510,7 +513,7 @@
                                                                  [NSNumber numberWithFloat:theSize.width],
                                                                  [NSNumber numberWithFloat:theSize.height],
                                                                  nil];
-            [theWordArray addObject:theWordElement];
+            [theWordArray addObject:theWordElement]; 
             
             
         }
