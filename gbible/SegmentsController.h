@@ -14,8 +14,8 @@
     UINavigationController * navigationController;
 }
 
-@property (nonatomic, retain, readonly) NSArray                * viewControllers;
-@property (nonatomic, retain, readonly) UINavigationController * navigationController;
+@property (nonatomic, strong, readonly) NSArray                * viewControllers;
+@property (nonatomic, strong, readonly) UINavigationController * navigationController;
 
 - (id)initWithNavigationController:(UINavigationController *)aNavigationController
                    viewControllers:(NSArray *)viewControllers;

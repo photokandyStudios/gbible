@@ -9,8 +9,8 @@
 #import "SegmentsController.h"
 
 @interface SegmentsController ()
-@property (nonatomic, retain, readwrite) NSArray                * viewControllers;
-@property (nonatomic, retain, readwrite) UINavigationController * navigationController;
+@property (nonatomic, strong, readwrite) NSArray                * viewControllers;
+@property (nonatomic, strong, readwrite) UINavigationController * navigationController;
 @end
 
 @implementation SegmentsController
@@ -37,7 +37,7 @@
 }
 
 - (void)dealloc {
-    [super dealloc];
+  //  [super dealloc];
     self.viewControllers = nil;
     self.navigationController = nil;
 }

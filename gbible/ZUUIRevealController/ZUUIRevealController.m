@@ -100,8 +100,8 @@
 	
 	if (nil != self)
 	{
-		_frontViewController = [aFrontViewController retain];
-		_rearViewController = [aBackViewController retain];
+		_frontViewController = aFrontViewController;
+		_rearViewController = aBackViewController;
 	}
 	
 	return self;
@@ -430,8 +430,8 @@
 		{
 			[self _removeFrontViewControllerFromHierarchy:self.frontViewController];
 			 
-			[_frontViewController release];
-			_frontViewController = [newFrontViewController retain];
+			_frontViewController = nil;
+			_frontViewController = newFrontViewController;
 			 
 			[self _addFrontViewControllerToHierarchy:newFrontViewController];
 			 
@@ -454,8 +454,8 @@
 		[self _removeFrontViewControllerFromHierarchy:self.frontViewController];
 		[self _addFrontViewControllerToHierarchy:newFrontViewController];
 		
-		[_frontViewController release];
-		_frontViewController = [newFrontViewController retain];
+		_frontViewController = nil;
+		_frontViewController = newFrontViewController;
 		
 		if ([self.delegate respondsToSelector:@selector(revealController:didSwapToFrontViewController:)])
 		{
@@ -514,8 +514,8 @@
 {
 	[super viewDidLoad];
 	
-	self.frontView = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
-	self.rearView = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
+	self.frontView = [[UIView alloc] initWithFrame:self.view.bounds];
+	self.rearView = [[UIView alloc] initWithFrame:self.view.bounds];
 	
 	self.frontView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
 	self.rearView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
@@ -620,11 +620,11 @@
 
 - (void)dealloc
 {
-	[_frontViewController release], _frontViewController = nil;
-	[_rearViewController release], _rearViewController = nil;
-	[_frontView release], _frontView = nil;
-	[_rearView release], _rearView = nil;
-	[super dealloc];
+    _frontViewController = nil;
+	_rearViewController = nil;
+	_frontView = nil;
+	_rearView = nil;
+	//[super dealloc];
 }
 
 @end
