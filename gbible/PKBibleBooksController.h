@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PKBibleBooksController : UIViewController
+@interface PKBibleBooksController : UITableViewController
 
 @end

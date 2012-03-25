@@ -14,11 +14,12 @@
 
 @implementation PKBibleBooksController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
         // Custom initialization
+
     }
     return self;
 }
@@ -27,12 +28,37 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+//        self.modalPresentationStyle = UIModalPresentationFormSheet;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    //CGRect newFrame = self.view.frame;
+    //newFrame.size.width = 260;
+    //self.view.frame = newFrame;
+    
+    CGRect newFrame = self.navigationController.view.frame;
+    newFrame.size.width = 260;
+    self.navigationController.view.frame = newFrame;
+    
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+}
+- (void)didAnimateFirstHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    CGRect newFrame = self.navigationController.view.frame;
+    newFrame.size.width = 260;
+    self.navigationController.view.frame = newFrame;
+}
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    CGRect newFrame = self.navigationController.view.frame;
+    newFrame.size.width = 260;
+    self.navigationController.view.frame = newFrame;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
