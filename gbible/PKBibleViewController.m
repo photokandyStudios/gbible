@@ -191,7 +191,7 @@
     
     // add navbar items
     UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
-                                        initWithImage:[UIImage imageNamed:@"listb.png"] 
+                                        initWithImage:[UIImage imageNamed:@"Listb.png"] 
                                         landscapeImagePhone:[UIImage imageNamed:@"listLandscape.png"]
                                         style:UIBarButtonItemStylePlain 
                                         target:self.parentViewController.parentViewController.parentViewController
