@@ -10,10 +10,8 @@
 
 @interface PKBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 
-    @property int gotoRefBook;
-    @property int gotoRefChapter;
-    @property int gotoRefVerse;
-    
+- (void)displayBook: (int)theBook andChapter: (int)theChapter andVerse: (int)theVerse;
+   
     @property (strong, nonatomic) NSArray *currentGreekChapter;
     @property (strong, nonatomic) NSArray *currentEnglishChapter;
     

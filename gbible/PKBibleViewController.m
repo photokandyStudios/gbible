@@ -1,3 +1,4 @@
+
 //
 //  PKBibleViewController.m
 //  gbible
@@ -17,10 +18,7 @@
 @end
 
 @implementation PKBibleViewController
-    
-    @synthesize gotoRefBook;
-    @synthesize gotoRefVerse;
-    @synthesize gotoRefChapter;
+  
     
     @synthesize currentGreekChapter;
     @synthesize currentEnglishChapter;
@@ -36,6 +34,16 @@
 #pragma mark -
 #pragma mark Content Loading and Display
 
+- (void)displayBook: (int)theBook andChapter: (int)theChapter andVerse: (int)theVerse
+{
+    [self loadChapter:theChapter forBook:theBook];
+    [self.tableView reloadData];
+    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theVerse-1 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    
+    UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
+    tbc.selectedIndex = 0;
+}
+
 - (void)loadChapter: (int)theChapter forBook: (int)theBook
 {
     // clear selectedVerses
@@ -43,7 +51,7 @@
     PKSettings *theSettings = [PKSettings instance];
     theSettings.currentBook = theBook;
     theSettings.currentChapter = theChapter;
-    [theSettings saveSettings];
+    [theSettings saveCurrentReference];
     [self loadChapter];
 }
 - (void)nextChapter
@@ -97,12 +105,24 @@
               currentBible == PK_BIBLETEXT_TRP || 
               currentBible == PK_BIBLETEXT_WHP);
 
+    NSDate *startTime;
+    NSDate *endTime;
+    NSDate *tStartTime;
+    NSDate *tEndTime;
+
+    tStartTime = [NSDate date];
+    self.title = [[PKBible nameForBook:currentBook] stringByAppendingFormat:@" %i",currentChapter];    
+    //NSLog (@"---------------------------------------------------");
+    //NSLog (@"Timing for passage %@", self.title);
+    startTime = [NSDate date];
     currentGreekChapter = [PKBible getTextForBook:currentBook forChapter:currentChapter forSide:1];
     currentEnglishChapter = [PKBible getTextForBook:currentBook forChapter:currentChapter forSide:2];
-    self.title = [[PKBible nameForBook:currentBook] stringByAppendingFormat:@" %i",currentChapter];    
-    
+    endTime = [NSDate date];
+    //NSLog (@"Time to read chapter text: %f", [endTime timeIntervalSinceDate:startTime]);
+
     // now, get the formatting for both sides, verse by verse
     // greek side first
+    startTime = [NSDate date];
     formattedGreekChapter = [[NSMutableArray alloc]init];
     formattedGreekVerseHeights = [[NSMutableArray alloc]init];
     for (int i=0; i<[currentGreekChapter count]; i++)
@@ -120,8 +140,13 @@
             [NSNumber numberWithFloat: [PKBible formattedTextHeight:formattedText withParsings:parsed]]
         ];
     }
-
+    endTime = [NSDate date];
+    //NSLog (@"Time to format Greek chapter text: %f", [endTime timeIntervalSinceDate:startTime]);
+    //NSLog (@"... Average time to format verses: %f", [endTime timeIntervalSinceDate:startTime] / [currentGreekChapter count]);
+    //NSLog (@"...          For number of verses: %i", [currentGreekChapter count]);
+    
     // english next
+    startTime = [NSDate date];
     formattedEnglishChapter = [[NSMutableArray alloc]init];
     formattedEnglishVerseHeights = [[NSMutableArray alloc]init];
     for (int i=0; i<[currentEnglishChapter count]; i++)
@@ -139,6 +164,13 @@
             [NSNumber numberWithFloat: [PKBible formattedTextHeight:formattedText withParsings:parsed]]
         ];
     }
+    endTime = [NSDate date];
+    tEndTime = [NSDate date];
+    //NSLog (@"Time to format English chapter text: %f", [endTime timeIntervalSinceDate:startTime]);
+    //NSLog (@"...   Average time to format verses: %f", [endTime timeIntervalSinceDate:startTime] / [currentEnglishChapter count]);
+    //NSLog (@"...            For number of verses: %i", [currentEnglishChapter count]);
+    
+    //NSLog (@"Total time to format passage: %f", [tEndTime timeIntervalSinceDate:tStartTime]);
 }
 
 #pragma mark -
@@ -258,8 +290,20 @@
 {
     NSUInteger row = [indexPath row];
     // the height is the MAX of both the formattedGreekVerseHeights and EnglishVerseHeights for row
-    float theMax= MAX( [[formattedGreekVerseHeights objectAtIndex:row] floatValue],
-                [[formattedEnglishVerseHeights objectAtIndex:row] floatValue] );
+    float greekVerseHeight = 0.0;
+    float englishVerseHeight = 0.0;
+    
+    if (row < [formattedGreekVerseHeights count])
+    {
+        greekVerseHeight = [[formattedGreekVerseHeights objectAtIndex:row] floatValue];
+    }
+    
+    if (row < [formattedEnglishVerseHeights count])
+    {
+        englishVerseHeight = [[formattedEnglishVerseHeights objectAtIndex:row] floatValue] ;
+    }
+    
+    float theMax= MAX( greekVerseHeight, englishVerseHeight );
     //NSLog (@"heightForRowAtIndexPath(%i): Maximum = %f", row, theMax);
     return theMax;
 }
@@ -305,8 +349,24 @@
     
     NSUInteger row = [indexPath row];
     
-    NSArray *formattedGreekVerse = [formattedGreekChapter objectAtIndex:row];
-    NSArray *formattedEnglishVerse = [formattedEnglishChapter objectAtIndex:row];
+    NSArray *formattedGreekVerse;
+    if (row < [formattedGreekChapter count])
+    {
+        formattedGreekVerse = [formattedGreekChapter objectAtIndex:row];
+    }
+    else 
+    {
+        formattedGreekVerse = nil;
+    }
+    NSArray *formattedEnglishVerse;
+    if (row < [formattedEnglishChapter count])
+    {
+        formattedEnglishVerse = [formattedEnglishChapter objectAtIndex:row];
+    }
+    else
+    {
+        formattedEnglishVerse = nil;
+    }
     
     CGFloat greekColumnWidth = [PKBible columnWidth:1 forBounds:self.view.bounds];
 
@@ -397,9 +457,18 @@
 }
 -(void) didReceiveLeftSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
 {
+    NSDate *startTime = [NSDate date];
     [self nextChapter];
+    NSDate *endTime = [NSDate date];
+    //NSLog (@"Time to go to next chapter: %f", [endTime timeIntervalSinceDate:startTime]);
+    startTime = [NSDate date];
     [self.tableView reloadData];
+    endTime = [NSDate date];
+    //NSLog (@"Time to reload data: %f", [endTime timeIntervalSinceDate:startTime]);
+    startTime = [NSDate date];
     [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    endTime = [NSDate date];
+    //NSLog (@"Time to scroll to top: %f", [endTime timeIntervalSinceDate:startTime]);
 }
 -(void) didReceiveLongPress:(UILongPressGestureRecognizer*)gestureRecognizer
 {
