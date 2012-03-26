@@ -39,10 +39,10 @@
 #define REVEAL_EDGE 260.0f
 
 // 'REVEAL_EDGE_OVERDRAW' defines the maximum offset that can occur after the 'REVEAL_EDGE' has been reached.
-#define REVEAL_EDGE_OVERDRAW 60.0f
+#define REVEAL_EDGE_OVERDRAW 0.0f
 
 // 'REVEAL_VIEW_TRIGGER_LEVEL_LEFT' defines the least amount of offset that needs to be panned until the front view snaps to the right edge.
-#define REVEAL_VIEW_TRIGGER_LEVEL_LEFT 125.0f
+#define REVEAL_VIEW_TRIGGER_LEVEL_LEFT 35.0f
 
 // 'REVEAL_VIEW_TRIGGER_LEVEL_RIGHT' defines the least amount of translation that needs to be panned until the front view snaps _BACK_ to the left edge.
 #define REVEAL_VIEW_TRIGGER_LEVEL_RIGHT 200.0f
