@@ -102,6 +102,14 @@
         return theResult;
         
     }
+    
+    -(void) saveCurrentReference
+    {
+        [self saveSetting: @"current-book" valueForSetting:[NSString stringWithFormat:@"%i", currentBook]];
+        [self saveSetting: @"current-chapter" valueForSetting:[NSString stringWithFormat:@"%i", currentChapter]];
+        [self saveSetting: @"current-verse" valueForSetting:[NSString stringWithFormat:@"%i", currentVerse]];
+        [self saveSetting: @"top-verse" valueForSetting:[NSString stringWithFormat:@"%i", topVerse]];
+    }
     -(void) saveSettings
     {
         [self saveSetting: PK_SETTING_FONTFACE valueForSetting: textFontFace];

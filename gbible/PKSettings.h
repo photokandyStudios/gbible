@@ -43,6 +43,7 @@
     -(void) reloadSettings;
     -(void) saveSetting: (NSString *)theSetting valueForSetting: (NSString *)theValue;
     -(void) saveSettings;
+    -(void) saveCurrentReference;
     -(BOOL) createDefaultSettings;
     -(void) dealloc;
 
