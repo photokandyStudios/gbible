@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PKBibleBookChaptersViewController : UIViewController
+@interface PKBibleBookChaptersViewController : UITableViewController
+
+    - (id)initWithBook: (int) theBook;
+    
+    @property int selectedBook;
 
 @end
