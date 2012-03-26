@@ -607,8 +607,8 @@
 			files = (
 				6A820DDE151837C6006523EE /* bibleContent in Resources */,
 				6AF0C0B0150EE8BB00BFAE03 /* InfoPlist.strings in Resources */,
-				6AF9D03B1512939E00514499 /* back_icon.png in Resources */,
 				6AF9D03C1512939E00514499 /* back_icon@2x.png in Resources */,
+				6AF9D03B1512939E00514499 /* back_icon.png in Resources */,
 				6AF9D03D1512939E00514499 /* forward_icon.png in Resources */,
 				6AF9D03E1512939E00514499 /* forward_icon@2x.png in Resources */,
 				6AF9D03F1512939E00514499 /* reload_icon.png in Resources */,
