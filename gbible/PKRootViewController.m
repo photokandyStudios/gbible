@@ -47,6 +47,24 @@
         settingsViewController.tabBarItem = [[UITabBarItem alloc]
                                              initWithTitle:@"Settings"
                                              image:[UIImage imageNamed:@"Gear.png"] tag:4];
+
+        [bibleViewController.tabBarItem setTitleTextAttributes:
+                                            [[NSDictionary alloc] initWithObjectsAndKeys:
+                                             [UIColor whiteColor], UITextAttributeTextColor, nil]
+                                        forState: UIControlStateNormal];
+        [strongsViewController.tabBarItem setTitleTextAttributes:
+                                            [[NSDictionary alloc] initWithObjectsAndKeys:
+                                             [UIColor whiteColor], UITextAttributeTextColor, nil]
+                                        forState: UIControlStateNormal];
+        [aboutViewController.tabBarItem setTitleTextAttributes:
+                                            [[NSDictionary alloc] initWithObjectsAndKeys:
+                                             [UIColor whiteColor], UITextAttributeTextColor, nil]
+                                        forState: UIControlStateNormal];
+        [settingsViewController.tabBarItem setTitleTextAttributes:
+                                            [[NSDictionary alloc] initWithObjectsAndKeys:
+                                             [UIColor whiteColor], UITextAttributeTextColor, nil]
+                                        forState: UIControlStateNormal];
+                                             
         // navigation controllers
         UINavigationController *navBibleController = [[UINavigationController alloc] initWithRootViewController:bibleViewController ];
         UINavigationController *navStrongsController = [[UINavigationController alloc] initWithRootViewController:strongsViewController ];
@@ -79,6 +97,10 @@
                                                            navAboutController, navSettingsController, nil]];
         UITabBar *myTabBar = [self tabBar];
         [myTabBar setBackgroundImage:[UIImage imageNamed:@"BlueTabBar.png"]];
+        [myTabBar setSelectionIndicatorImage:[[UIImage alloc]init]];
+//        [myTabBar setSelectionIndicatorImage:[UIImage imageNamed:@"BlueTabBarSelected.png"]];
+//        NSLog (@"Height of tab bar: %f", myTabBar.bounds.size.height);
+        myTabBar.tintColor = [UIColor colorWithWhite:0.85 alpha:1.0];
         
         self.delegate = self;
                                                                 
