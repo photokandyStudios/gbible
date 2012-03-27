@@ -36,8 +36,11 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.tableView setBackgroundView:nil];
-    self.tableView.backgroundColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    self.tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"Background.png"]];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    self.title = @"Select Chapter";
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
 }
 
 - (void)viewDidUnload
