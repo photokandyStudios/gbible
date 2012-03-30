@@ -37,6 +37,8 @@
     @synthesize oldNote;
     @synthesize currentNote;
     
+    @synthesize highlightColor;
+    
     static id _instance;
 
     +(id) instance
@@ -86,6 +88,16 @@
         oldNote              = [self loadSetting: @"old-note"];
         currentNote          = [self loadSetting: @"current-note"];
         
+        // load up highlight color
+        NSString *theColorString;
+        
+        theColorString      = [self loadSetting: @"highlight-color"];
+        NSArray *theColorArray = [theColorString componentsSeparatedByString:@","];
+        // there will always be 3 values; R=0, G=1, B=2
+        highlightColor = [UIColor colorWithRed:[[theColorArray objectAtIndex:0] floatValue]
+                                   green:[[theColorArray objectAtIndex:1] floatValue] 
+                                    blue:[[theColorArray objectAtIndex:2] floatValue] alpha:1.0];
+        
     }
     
     -(NSString *) loadSetting: (NSString *)theSetting
@@ -110,6 +122,15 @@
         [self saveSetting: @"current-verse" valueForSetting:[NSString stringWithFormat:@"%i", currentVerse]];
         [self saveSetting: @"top-verse" valueForSetting:[NSString stringWithFormat:@"%i", topVerse]];
     }
+    -(void) saveCurrentHighlight
+    {
+        // save the highlight color
+        float red=0.0; float green=0.0; float blue=0.0; float alpha=0.0;
+        [highlightColor getRed:&red green:&green blue:&blue alpha:&alpha];
+        
+        [self saveSetting: @"highlight-color" valueForSetting:[NSString stringWithFormat:@"%f,%f,%f",
+                                                                        red, green, blue]];
+    }
     -(void) saveSettings
     {
         [self saveSetting: PK_SETTING_FONTFACE valueForSetting: textFontFace];
@@ -124,11 +145,7 @@
         [self saveSetting: PK_SETTING_SHOWMORPHOLOGY valueForSetting: (showMorphology ? @"YES" : @"NO") ];
         [self saveSetting: PK_SETTING_USEICLOUD valueForSetting: (useICloud ? @"YES" : @"NO") ];
         
-        [self saveSetting: @"current-book" valueForSetting:[NSString stringWithFormat:@"%i", currentBook]];
-        [self saveSetting: @"current-chapter" valueForSetting:[NSString stringWithFormat:@"%i", currentChapter]];
-        [self saveSetting: @"current-verse" valueForSetting:[NSString stringWithFormat:@"%i", currentVerse]];
-
-        [self saveSetting: @"top-verse" valueForSetting:[NSString stringWithFormat:@"%i", topVerse]];
+        [self saveCurrentReference];
 
         [self saveSetting: @"note-book" valueForSetting:[NSString stringWithFormat:@"%i", noteBook]];
         [self saveSetting: @"note-chapter" valueForSetting:[NSString stringWithFormat:@"%i", noteChapter]];
@@ -141,6 +158,7 @@
         [self saveSetting: @"old-note" valueForSetting:oldNote];
         [self saveSetting: @"current-note" valueForSetting:currentNote];
         
+        [self saveCurrentHighlight];
     }
     
     -(void) saveSetting: (NSString *)theSetting valueForSetting: (NSString *)theValue
@@ -209,6 +227,8 @@
             oldNote = @"";
             currentNote = @"";
             
+            highlightColor = [UIColor yellowColor];
+            
             [self saveSettings];
             // done, return success or failure
         }
@@ -218,5 +238,11 @@
     -(void) dealloc
     {
         textFontFace = nil;
+        currentTextHighlight = nil;
+        lastStrongsLookup = nil;
+        lastSearch = nil;
+        oldNote = nil;
+        currentNote = nil;
+        highlightColor = nil;
     }
 @end

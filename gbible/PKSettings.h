@@ -37,6 +37,7 @@
     @property (readwrite) int noteChapter;
     @property (readwrite) int noteVerse;                            // the reference of the current note (mid-edit)
     
+    @property (readwrite, strong, nonatomic) UIColor *highlightColor;
     
     +(id) instance;
     -(NSString *) loadSetting: (NSString *)theSetting;
@@ -44,6 +45,7 @@
     -(void) saveSetting: (NSString *)theSetting valueForSetting: (NSString *)theValue;
     -(void) saveSettings;
     -(void) saveCurrentReference;
+    -(void) saveCurrentHighlight;
     -(BOOL) createDefaultSettings;
     -(void) dealloc;
 
