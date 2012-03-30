@@ -42,6 +42,11 @@
 #pragma mark -
 #pragma mark Content Loading and Display
 
+/**
+ *
+ * Display the desired book, chapter, and verse. Typically called from the side-bar navigation
+ *
+ */
 - (void)displayBook: (int)theBook andChapter: (int)theChapter andVerse: (int)theVerse
 {
     [self loadChapter:theChapter forBook:theBook];
@@ -52,6 +57,11 @@
     tbc.selectedIndex = 0;
 }
 
+/**
+ *
+ * Load the desired chapter for the desired book. Also saves the settings.
+ *
+ */
 - (void)loadChapter: (int)theChapter forBook: (int)theBook
 {
     // clear selectedVerses
@@ -62,6 +72,12 @@
     [theSettings saveCurrentReference];
     [self loadChapter];
 }
+
+/**
+ *
+ * Loads the next chapter after the current one
+ *
+ */
 - (void)nextChapter
 {
     int currentBook = [[PKSettings instance] currentBook];
@@ -82,6 +98,11 @@
     [self loadChapter: currentChapter forBook: currentBook];
 }
 
+/**
+ *
+ * Loads the previous chapter before the current one
+ *
+ */
 - (void)previousChapter
 {
     int currentBook = [[PKSettings instance] currentBook];
@@ -102,6 +123,11 @@
     [self loadChapter: currentChapter forBook: currentBook];
 }
 
+/**
+ *
+ * load the highlights for this chapter
+ *
+ */
 - (void)loadHighlights
 {
     NSUInteger currentBook = [[PKSettings instance] currentBook];
@@ -111,6 +137,11 @@
                                                                                    andChapter: currentChapter];
 }
 
+/**
+ *
+ * load the current chapter. We will render all the UILabels as well to reduce scrolling delays.
+ *
+ */
 - (void)loadChapter
 {
     BOOL parsed = NO;
@@ -268,6 +299,11 @@
 #pragma mark -
 #pragma mark View Lifecycle
 
+/**
+ *
+ * Set our view title
+ *
+ */
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -277,12 +313,24 @@
     }
     return self;
 }
+
+/**
+ *
+ * Whenever we appear, we need to reload the chapter. (Highlights / Settings / etc., may have changed)
+ *
+ */
 - (void)viewWillAppear:(BOOL)animated
 {
     [self loadChapter];
     [self.tableView reloadData];
 }
 
+/**
+ *
+ * Set up our background color, add gestures for going forward and backward, add the longpress recognizer
+ * and handle a small bar on the left that will allow for swiping open the left-side navigation.
+ *
+ */
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -351,11 +399,30 @@
    
 }
 
+/**
+ *
+ * Release all our variables
+ *
+ */
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
-
+    currentGreekChapter = nil;
+    currentEnglishChapter = nil;
+    
+    formattedGreekChapter = nil;
+    formattedEnglishChapter = nil;
+    
+    formattedGreekVerseHeights = nil;
+    formattedEnglishVerseHeights = nil;
+    
+    selectedVerses = nil;
+    highlightedVerses = nil;
+    
+    changeHighlight = nil;
+    
+    formattedCells = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -363,6 +430,13 @@
 	return YES;
 }
 
+/**
+ *
+ * Since our orientation (can) determine how much content is visible, when it changes, we
+ * have to re-calc it. Obvious visually, but better doing it after the orientation, than
+ * in the middle and have the rotation visually /stop/ for a few ms.
+ *
+ */
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self loadChapter];
@@ -372,12 +446,22 @@
 #pragma mark -
 #pragma mark Table View Data Source Methods
 
-
+/**
+ *
+ * We have 1 section
+ *
+ */
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
+/**
+ *
+ * It's possible for the greek & english columns to have a different number of verses. (Romans 13, 16)
+ * Return the largest verse count.
+ *
+ */
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // return the number of verses in the current passage
@@ -388,6 +472,11 @@
     return currentVerseCount;
 }
 
+/**
+ *
+ * Return the height for each row
+ *
+ */
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger row = [indexPath row];
@@ -410,6 +499,11 @@
     return theMax;
 }
 
+/**
+ *
+ * Determine the cell's highlighted/selection status
+ *
+ */
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // determine if the cell is selected
@@ -441,6 +535,11 @@
     }
 }
 
+/**
+ *
+ * Render the cell. We're pre-calcing the layout, so this is pretty fast.
+ *
+ */
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *bibleCellID = @"PKBibleCellID";
@@ -471,6 +570,11 @@
     return cell;
 }
 
+/**
+ *
+ * If the user taps the row, we change the selection status.
+ *
+ */
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger row = [indexPath row];
@@ -510,12 +614,23 @@
 
 #pragma mark -
 #pragma mark UISwipeGestureRecognizer
+/**
+ *
+ * We swiped right, load the previous chapter
+ *
+ */
 -(void) didReceiveRightSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
 {
     [self previousChapter];
     [self.tableView reloadData];
     [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
+
+/**
+ *
+ * We swiped left, load the next chapter
+ *
+ */
 -(void) didReceiveLeftSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
 {
     NSDate *startTime = [NSDate date];
@@ -531,6 +646,13 @@
     endTime = [NSDate date];
     //NSLog (@"Time to scroll to top: %f", [endTime timeIntervalSinceDate:startTime]);
 }
+
+/**
+ *
+ * We long-pressed on a cell. Determine the cell (and the word we're over: TODO)
+ * and open the long-press popover
+ *
+ */
 -(void) didReceiveLongPress:(UILongPressGestureRecognizer*)gestureRecognizer
 {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
@@ -603,6 +725,11 @@
 #pragma mark -
 #pragma mark miscellaneous selectors (called from popovers, buttons, etc.)
 
+/**
+ *
+ * Display a drop-down for the highlight color button
+ *
+ */
 -(void) changeHighlightColor:(id)sender
 {
     UIActionSheet *theActionSheet = [[UIActionSheet alloc]
@@ -615,16 +742,33 @@
     [theActionSheet showFromBarButtonItem:sender animated:YES];
 }
 
+/**
+ *
+ * Clear the user's selection
+ *
+ */
 -(void) clearSelection
 {
     selectedVerses = [[NSMutableDictionary alloc] init]; // clear selection
     [self.tableView reloadData]; // and reload the table's data
 }
 
+/**
+ *
+ * let the left-hand navigation know that highlights have changed
+ *
+ */
 -(void) notifyChangedHighlights
 {
     [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:1] reloadHighlights];
 }
+
+/**
+ *
+ * Remove any highlights in the current selection. We can remove without checking, since a remove
+ * will never generate an error.
+ *
+ */
 -(void) removeHighlights
 {
     for (NSString* key in selectedVerses)
@@ -640,6 +784,11 @@
     [self clearSelection];
 }
 
+/**
+ *
+ * Copy the selection to the pasteboard
+ *
+ */
 -(void) copySelection
 {
     NSMutableString *theText = [[NSMutableString alloc] init];
@@ -667,6 +816,11 @@
     [self clearSelection];
 }
 
+/**
+ *
+ * Highlight the selection with the currently selected highlight color
+ *
+ */
 -(void) highlightSelection
 {
     // we're highlighting the selection
@@ -686,6 +840,11 @@
 
 #pragma mark -
 #pragma mark popover responder
+/**
+ *
+ * Handle the response to an actionsheet
+ *
+ */
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (actionSheet.tag == 999)

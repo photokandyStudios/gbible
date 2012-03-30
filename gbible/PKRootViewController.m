@@ -18,6 +18,11 @@
 
 @implementation PKRootViewController
 
+/**
+ *
+ * Initialize our main controller. We create a tab bar and include each of our main views in it.
+ *
+ */
 - (id)init
 {
     self = [super init];

@@ -16,6 +16,11 @@
 
     static id _instance;
 
+/**
+ *
+ * Return the global instance of the highlights model. 
+ *
+ */
     +(id) instance
     {
         @synchronized (self)
@@ -31,6 +36,12 @@
         return _instance;
     }
 
+/**
+ *
+ * Called by instance, this will create the schema if it doesn't already exist.
+ * If it does, we fail silently.
+ *
+ */
     -(void) createSchema
     {
         BOOL returnVal = YES;
@@ -50,6 +61,11 @@
         }
     }
     
+/**
+ *
+ * Return the number of user highlights in the table.
+ *
+ */
     -(int) countHighlights
     {
         FMDatabase *content = ((PKDatabase*) [PKDatabase instance]).content;
@@ -62,6 +78,12 @@
         return theCount;
     }
     
+/**
+ *
+ * Return a mutable array containing the passages of every highlighted passage. The
+ * passage is formatted like 40N.10.5 (book.chapter.verse).
+ *
+ */
     -(NSMutableArray *)allHighlightedPassages
     {
         FMDatabase *content = ((PKDatabase*) [PKDatabase instance]).content;
@@ -79,6 +101,13 @@
         return theArray;
     }
 
+/**
+ *
+ * Returns a mutable dictionary containing all the highlighted verses for a given book
+ * and chapter. This dictionary is keyed by the passage (book.chapter.verse) and contains
+ * the UIColor of each highlight.
+ *
+ */
     -(NSMutableDictionary *)allHighlightedPassagesForBook: (int)theBook andChapter: (int)theChapter
     {
         FMDatabase *content = ((PKDatabase*) [PKDatabase instance]).content;
@@ -103,7 +132,12 @@
         return theArray;
     }
 
-    
+/**
+ *
+ * Returns the UIColor for a specific highlighted passage. If the passage has not been
+ * highlighted, it returns nil.
+ *
+ */    
     -(UIColor *)highlightForPassage:(NSString *)thePassage
     {
         NSNumber * theBook = [NSNumber numberWithInt:[PKBible bookFromString:thePassage]];
@@ -132,6 +166,11 @@
         return theColor;
     }
 
+/**
+ *
+ * Creates a highlight for the supplied UIColor for the supplied passage.
+ *
+ */
     -(void) setHighlight: (UIColor *)theColor forPassage: (NSString *)thePassage
     {
         NSNumber * theBook = [NSNumber numberWithInt:[PKBible bookFromString:thePassage]];
@@ -169,6 +208,14 @@
             NSLog ( @"Couldn't save highlight for %@", thePassage);
         }
     }
+
+/**
+ *
+ * Although one could technically call setHighlight:forPassage: with [UIColor clearColor] to
+ * effectively remove a highlight, it is better to call this method instead: here we actually
+ * remove the row in the table, which means the highlight is gone, gone, gone.
+ *
+ */
     -(void) removeHighlightFromPassage: (NSString *)thePassage
     {
         NSNumber * theBook = [NSNumber numberWithInt:[PKBible bookFromString:thePassage]];

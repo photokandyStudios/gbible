@@ -21,6 +21,11 @@
 #pragma mark -
 #pragma mark view lifecycle    
 
+/**
+ *
+ * Initialize; set our selectedBook to the incoming book
+ *
+ */
 - (id)initWithBook:(int)theBook
 {
     self = [super init];
@@ -31,6 +36,11 @@
     return self;
 }
 
+/**
+ *
+ * Set our title, adjust background
+ *
+ */
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -57,16 +67,31 @@
 #pragma mark -
 #pragma mark tableview
 
+/**
+ *
+ * 1 section
+ *
+ */
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
+/**
+ *
+ * Get number of chapters for the book
+ *
+ */
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [PKBible countOfChaptersForBook:selectedBook];
 }
 
+/**
+ *
+ * Return book + chapter in the cell
+ *
+ */
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *bibleBookChapterCellID = @"PKBibleBookChapterCellID";
@@ -86,6 +111,11 @@
     return cell;
 }
 
+/**
+ *
+ * When we select a row, push a Verses controller to select the verse
+ *
+ */
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     NSUInteger row = [indexPath row];

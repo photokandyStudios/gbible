@@ -15,6 +15,11 @@
     
     static id _instance;
     
+/**
+ *
+ * Return the global instance of the database
+ *
+ */
     +(id) instance
     {
         @synchronized (self)
@@ -27,6 +32,14 @@
         return _instance;
     }
     
+/**
+ *
+ * Open our databases:we have two. The first is the bible content database, located within
+ * our application's bundle. The second is the user's content database, which may or may not
+ * even exist, and is located in the documents folder. If we can't open them, we log the error
+ * and return nil. [This means things are bound to crash.]
+ *
+ */
     -(id) init
     {
         if (self = [super init])
@@ -66,7 +79,12 @@
         }
         return self;
     }
-    
+
+/**
+ *
+ * Release our databases and close them.
+ *
+ */
     -(void) dealloc
     {
         // close our databases

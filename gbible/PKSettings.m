@@ -41,6 +41,11 @@
     
     static id _instance;
 
+/**
+ *
+ * Global instance for singletons
+ *
+ */
     +(id) instance
     {
         @synchronized (self)
@@ -53,6 +58,12 @@
         return _instance;
     }
     
+/**
+ *
+ * Reloads all the settings from the database. If the settings don't exist (this might be
+ * our first run), call createDefaultSettings to create them.
+ *
+ */
     -(void) reloadSettings
     {
         // create settings if they don't exist...
@@ -100,6 +111,12 @@
         
     }
     
+/**
+ *
+ * Loads a specific setting identified by the supplied setting key and returns it. As settings
+ * are stored as strings in the database, it may be necessary to parse the return.
+ *
+ */
     -(NSString *) loadSetting: (NSString *)theSetting
     {
         NSString *theResult;
@@ -115,6 +132,12 @@
         
     }
     
+/**
+ *
+ * Saves the variables containing the current reference (book,chapter,verse,top verse). Faster than
+ * saving /all/ the settings every time the reference changes.
+ *
+ */
     -(void) saveCurrentReference
     {
         [self saveSetting: @"current-book" valueForSetting:[NSString stringWithFormat:@"%i", currentBook]];
@@ -122,6 +145,12 @@
         [self saveSetting: @"current-verse" valueForSetting:[NSString stringWithFormat:@"%i", currentVerse]];
         [self saveSetting: @"top-verse" valueForSetting:[NSString stringWithFormat:@"%i", topVerse]];
     }
+
+/**
+ *
+ * Saves the current highlight setting. Faster than saving all settings.
+ *
+ */
     -(void) saveCurrentHighlight
     {
         // save the highlight color
@@ -131,6 +160,12 @@
         [self saveSetting: @"highlight-color" valueForSetting:[NSString stringWithFormat:@"%f,%f,%f",
                                                                         red, green, blue]];
     }
+
+/**
+ *
+ * Saves all our settings to the database.
+ *
+ */
     -(void) saveSettings
     {
         [self saveSetting: PK_SETTING_FONTFACE valueForSetting: textFontFace];
@@ -161,6 +196,12 @@
         [self saveCurrentHighlight];
     }
     
+/**
+ *
+ * Saves a setting for the given key value. Since all values are stored in the database as strings, some
+ * parsing or conversion may be necessary prior to calling this function.
+ *
+ */
     -(void) saveSetting: (NSString *)theSetting valueForSetting: (NSString *)theValue
     {
         FMDatabase *content = ((PKDatabase*) [PKDatabase instance]).content;
@@ -188,6 +229,13 @@
             NSLog(@"Couldn't save %@ into %@", theValue, theSetting);
         }
     }
+
+/**
+ *
+ * Equivalent of createSchema in other models, this will create the settings' table
+ * and insert some good defaults if they don't exist.
+ *
+ */
     -(BOOL) createDefaultSettings
     {
         BOOL returnVal = YES;
@@ -235,6 +283,11 @@
         return returnVal;
     }
     
+/**
+ *
+ * Free up all our strings.
+ *
+ */
     -(void) dealloc
     {
         textFontFace = nil;

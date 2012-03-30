@@ -24,6 +24,11 @@
 # pragma mark -
 # pragma mark view lifecycle
 
+/**
+ *
+ * Initialize our view
+ *
+ */
 - (id)init
 {
     self = [super init];
@@ -33,6 +38,11 @@
     return self;
 }
 
+/**
+ *
+ * set the background color and style of our table
+ *
+ */
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -42,6 +52,11 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
+/**
+ *
+ * Force a reload of all our highlights (can occur because a user just highlighted something)
+ *
+ */
 - (void)reloadHighlights
 {
     // load all highlights
@@ -49,6 +64,11 @@
     [self.tableView reloadData];
 }
 
+/**
+ *
+ * Force our width and then reload our highlights
+ *
+ */
 - (void)viewDidAppear:(BOOL)animated
 {
     CGRect newFrame = self.navigationController.view.frame;
@@ -57,11 +77,23 @@
     [self reloadHighlights];
 }
 
+/**
+ *
+ * Release our highlights
+ *
+ */
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+    highlights = nil;
 }
+
+/**
+ *
+ * When animating for rotation, keep our frame at 260
+ *
+ */
 - (void)didAnimateFirstHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     CGRect newFrame = self.navigationController.view.frame;
@@ -82,16 +114,31 @@
 #pragma mark -
 #pragma mark tableview
 
+/**
+ *
+ * We have one section
+ *
+ */
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
+/**
+ *
+ * Return the number of highlights
+ *
+ */
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [highlights count];
 }
 
+/**
+ *
+ * Generate a cell for the table. We will fill the cell with the "pretty" passage.
+ *
+ */
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     static NSString *highlightCellID = @"PKHighlightCellID";
@@ -119,6 +166,13 @@
     return cell;
 }
 
+/**
+ *
+ * For whatever reason, Apple decided the background should be controlled separately. So here
+ * we load the background color for the desired cell. Oddly enough, it matches the highlight color.
+ * /sarcasm/
+ *
+ */
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath   
 {
     NSUInteger row = [indexPath row];
@@ -135,6 +189,11 @@
     }
 }
 
+/**
+ *
+ * If the user clicks on a highlight, we should navigate to that position in the Bible text.
+ *
+ */
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger row = [indexPath row];

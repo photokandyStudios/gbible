@@ -20,6 +20,11 @@
 # pragma mark -
 # pragma mark view lifecycle
 
+/**
+ *
+ * Initialize
+ *
+ */
 - (id)init
 {
     self = [super init];
@@ -30,6 +35,11 @@
     return self;
 }
 
+/**
+ *
+ * set the background color
+ *
+ */
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -42,6 +52,11 @@
 
 }
 
+/**
+ *
+ * Set our width
+ *
+ */
 - (void)viewDidAppear:(BOOL)animated
 {
     CGRect newFrame = self.navigationController.view.frame;
@@ -54,6 +69,12 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
+
+/**
+ *
+ * keep our width during rotation animation
+ *
+ */
 - (void)didAnimateFirstHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     CGRect newFrame = self.navigationController.view.frame;
@@ -75,16 +96,31 @@
 #pragma mark -
 #pragma mark tableview
 
+/**
+ *
+ * 1 section
+ *
+ */
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
+/**
+ *
+ * 27rows
+ *
+ */
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 27;
 }
 
+/**
+ *
+ * Return the cell with the name of the book
+ *
+ */
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *bibleBookCellID = @"PKBibleBookCellID";
@@ -105,6 +141,11 @@
     return cell;
 }
 
+/**
+ *
+ * Push the Chapter view controller when we select a book.
+ *
+ */
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     NSUInteger row = [indexPath row];

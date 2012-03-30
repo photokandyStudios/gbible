@@ -24,6 +24,11 @@
 #pragma mark -
 #pragma mark view lifecycle    
 
+/**
+ *
+ * Set the book and chapter
+ *
+ */
 - (id)initWithBook:(int)theBook withChapter:(int)theChapter
 {
     self = [super init];
@@ -35,6 +40,11 @@
     return self;
 }
 
+/**
+ *
+ * Set our title and background
+ *
+ */
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -60,16 +70,31 @@
 #pragma mark -
 #pragma mark tableview
 
+/**
+ *
+ * 1 section
+ *
+ */
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
+/**
+ *
+ * Return # of verses for the book & chapter
+ *
+ */
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [PKBible countOfVersesForBook:selectedBook forChapter:selectedChapter];
 }
 
+/**
+ *
+ * Return the cell with a typical reference, like Matthew 1:1
+ *
+ */
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *bibleBookChapterVerseCellID = @"PKBibleBookChapterVerseCellID";
@@ -89,6 +114,11 @@
     return cell;
 }
 
+/**
+ *
+ * If we press a row, we need to tell the BibleView controller to go there
+ *
+ */
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     NSUInteger row = [indexPath row];

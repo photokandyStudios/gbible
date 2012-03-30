@@ -14,6 +14,11 @@
 
 @implementation PKBible
 
+/**
+ *
+ * Returns the canonical name for a Bible book, given the book number. For example, 40=Matthew
+ *
+ */
     +(NSString *) nameForBook: (int)theBook
     {
     //
@@ -35,6 +40,11 @@
         return [bookList objectAtIndex:theBook-1];
     }
     
+/**
+ *
+ * Returns the numerical 3-letter code for the given book. For example, 40 = 40N, 10 = 10O
+ *
+ */
     +(NSString *) numericalThreeLetterCodeForBook:(int)theBook
     {
         NSArray *bookList = [NSArray arrayWithObjects:
@@ -53,6 +63,11 @@
         return [bookList objectAtIndex:theBook-1];
     }
     
+/**
+ *
+ * Returns the 3-letter abbreviation for a given book. For example, 40 = Mat
+ *
+ */
     +(NSString *) abbreviationForBook:(int)theBook
     {
         NSArray *bookList = [NSArray arrayWithObjects:
@@ -71,6 +86,11 @@
         return [bookList objectAtIndex:theBook-1];
     }
     
+/**
+ *
+ * Returns the number of chapters in the given Bible book.
+ *
+ */
     +(int) countOfChaptersForBook:(int)theBook 
     {
         NSArray *chapterCountList = [NSArray arrayWithObjects:
@@ -145,6 +165,11 @@
         return [[chapterCountList objectAtIndex:theBook-1] intValue];
     }
     
+/**
+ *
+ * Returns the number of verses for the given book and chapter.
+ *
+ */
     +(int) countOfVersesForBook:(int)theBook forChapter:(int)theChapter 
     {
         int totalGreekCount;
@@ -177,6 +202,13 @@
         return totalCount;
     }
     
+/**
+ *
+ * Returns the text for a given reference (book chapter:verse) and side (1=greek,2=english)
+ *
+ * Note: adds the verse # to the english side. TODO?: Add to greek side too?
+ *
+ */
     +(NSString *) getTextForBook:(int)theBook forChapter:(int)theChapter forVerse:(int)theVerse forSide:(int)theSide
     {
         int currentBible = (theSide==1 ? [[PKSettings instance] greekText] : [[PKSettings instance] englishText]);
@@ -202,6 +234,13 @@
         return theText;
     }
 
+/**
+ *
+ * Return the text for a given chapter (book chapter) and side (1=greek, 2=english). Note that
+ * the english text has verse #s prepended to the text. Also note that is entirely possible
+ * for the array on one side to be of a different length than the other side (Notably, Romans 13,16)
+ *
+ */
     +(NSArray *) getTextForBook:(int)theBook forChapter:(int)theChapter forSide:(int)theSide
     {
         int currentBible = (theSide==1 ? [[PKSettings instance] greekText] : [[PKSettings instance] englishText]);
@@ -228,26 +267,17 @@
             i++;
         }
         
-        
-        /*
-        NSMutableArray *theArray = [[NSMutableArray alloc] init];
-        NSString *theText;
-        int i = 1;
-        do 
-        {
-            theText = [self getTextForBook:theBook forChapter:theChapter forVerse:i forSide:theSide];
-            if (theText != nil)
-            {
-                [theArray addObject: theText];
-            }
-            i++;
-        } 
-        while (theText != nil);
-        */
         return theArray;
     }
 
     
+/**
+ *
+ * Returns a string for the given passage. For example, for Matthew(book 40), Chapter 1, Verse 1
+ * we return 40N.1.1 . Most useful when maintaining dictionary keys. Otherwise, it is better
+ * and faster to use the book/chapter/verse method.
+ *
+ */
     +(NSString *) stringFromBook:(int)theBook forChapter:(int)theChapter forVerse:(int)theVerse
     {
         NSString *theString;
@@ -257,6 +287,13 @@
         return theString;
     }
     
+/**
+ *
+ * Returns a shortened passage reference, containing the book and chapter. (No verse reference.)
+ *
+ * For example, given Matthew Chapter 1 (book 40), return 40N.1
+ *
+ */
     +(NSString *) stringFromBook:(int)theBook forChapter:(int)theChapter
     {
         NSString *theString;
@@ -265,24 +302,25 @@
         return theString;
     }
 
+/**
+ *
+ * Returns the book portion of a string formatted by stringFromBook:forChapter:forVerse
+ *
+ * For example, given 40N.1.1, return 40
+ *
+ */
     +(int) bookFromString:(NSString *)theString
     {
         return [theString intValue];
-        /*
-        NSError *error = NULL;
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([0-9]+[O|N])\\.([0-9]+)\\.([0-9]+)"
-                                                          options: NSRegularExpressionCaseInsensitive
-                                                          error: &error ];
-        NSArray *matches = [regex matchesInString:theString options:0 range:NSMakeRange(0, [theString length])];
-        if ([matches count]>0)
-        {
-            NSTextCheckingResult *match = [matches objectAtIndex:0];
-            return [[theString substringWithRange:[match range]] intValue];
-        }
-        return 0;
-        */
     }
     
+/**
+ *
+ * Returns the chapter portion of a string formatted by stringFromBook:forChapter:forVerse
+ *
+ * For example, given 40N.12.1, return 12
+ *
+ */
     +(int) chapterFromString:(NSString *)theString
     {
     
@@ -293,6 +331,13 @@
         return [[theString substringWithRange:NSMakeRange(firstPeriod+1, secondPeriod-(firstPeriod+1))] intValue];
     }
     
+/**
+ *
+ * Returns the verse portion of a string formatted by stringfromBook:forChapter:forVerse
+ *
+ * For example, given 40N.12.1, returns 1
+ *
+ */
     +(int) verseFromString:(NSString *)theString
     {
         // return the verse portion of a string
@@ -302,6 +347,12 @@
         return [[theString substringFromIndex:secondPeriod+1] intValue];
     }
     
+/**
+ *
+ * Return the maximum height of the desired formatted text (in theWordArray). If withParsings
+ * is YES, we include the height of the Strong's Numbers and (potentially) the Morphology.
+ *
+ */
     +(CGFloat)formattedTextHeight: (NSArray *)theWordArray withParsings:(BOOL)parsed
     {
         // this is our font
@@ -344,6 +395,12 @@
         return maxY;
     }
     
+/**
+ *
+ * Return the width of a given column for the given bounds, based upon the user's
+ * column settings. TODO: Doesn't feel quite right on a smaller screen, though
+ *
+ */
     +(CGFloat) columnWidth: (int) theColumn forBounds: (CGRect)theRect
     {
         // define our column (based on incoming rect)
@@ -371,6 +428,12 @@
         return columnWidth;
     }
     
+/**
+ *
+ * Formats the supplied text into an array of positions and types that will fit
+ * within the given column's width and perform word-wrap where necessary. 
+ *
+ */
     +(NSArray *)formatText: (NSString *)theText forColumn: (int)theColumn withBounds: (CGRect)theRect withParsings: (BOOL)parsed
     {
         // this array will contain the word elements

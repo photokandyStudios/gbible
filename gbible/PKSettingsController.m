@@ -27,6 +27,11 @@
     @synthesize currentPathForPopover;
     @synthesize theTableCell;
 
+/**
+ *
+ * Initialize our view, namely to set our title.
+ *
+ */
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -37,6 +42,12 @@
     return self;
 }
 
+/**
+ *
+ * Called when the view has finished loading. Here we create our 
+ * settings arrays.
+ *
+ */
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -115,6 +126,11 @@
                                                exportSettings, importSettings, nil ];
 }
 
+/**
+ *
+ * release our settings arrays
+ *
+ */
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -127,6 +143,11 @@
     layoutSettings = nil;
 }
 
+/**
+ *
+ * We support all orientations
+ *
+ */
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
@@ -135,6 +156,11 @@
 #pragma mark -
 #pragma mark Table View Data Source Methods
 
+/**
+ *
+ * Return desired header for each section in the table 
+ *
+ */
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     switch (section)
@@ -155,6 +181,12 @@
     return @"Undefined";
 }
 
+/**
+ *
+ * Return the footer for each group of cells. Note that as currently written (with \ 
+ * linebreaks in strings), iOS renders some of the text strangely. TODO: fix.
+ *
+ */
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
     switch (section)
@@ -180,16 +212,32 @@
     return @"Undefined";
 }
 
+/**
+ *
+ * Return the number of sections we have
+ *
+ */
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return [settingsGroup count];
 }
 
+/**
+ *
+ * Return the number of rows in a particular section
+ *
+ */
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [[self.settingsGroup objectAtIndex:section] count];
 }
 
+/**
+ *
+ * Generate the cell for a given index path. This cell will be based on our settings array defined
+ * and filled earlier, and may contain accessory views, popups, and more.
+ *
+ */
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *settingsCellID = @"PKSettingsCellID";
@@ -241,6 +289,14 @@
     return cell;
 }
 
+/**
+ *
+ * Handle the user tapping on a row. Depending on the setting we have in a row, we may need to:
+ *  - toggle the row's checkbox, 
+ *  - fire off a new action (like import/export)
+ *  - show a popover TODO: these are buggy on the iPad...
+ *
+ */
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UIActionSheet *popover;
@@ -300,6 +356,13 @@
 # pragma mark -
 # pragma mark ActionSheet (Popover) methods
 
+/**
+ *
+ * Handle selecting an option for an actionsheet we've shown previously. Depending on the
+ * currently selected index path, we will either use the result as labeled in the sheet, or
+ * look it up.
+ *
+ */
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     NSUInteger section = [currentPathForPopover section];
