@@ -22,4 +22,6 @@
 @property (strong, nonatomic) SegmentsController *segmentController;
 @property (strong, nonatomic) UISegmentedControl *segmentedControl;
 
++(id) instance;
+
 @end
