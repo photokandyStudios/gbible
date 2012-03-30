@@ -267,6 +267,8 @@
 
     +(int) bookFromString:(NSString *)theString
     {
+        return [theString intValue];
+        /*
         NSError *error = NULL;
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([0-9]+[O|N])\\.([0-9]+)\\.([0-9]+)"
                                                           options: NSRegularExpressionCaseInsensitive
@@ -278,36 +280,26 @@
             return [[theString substringWithRange:[match range]] intValue];
         }
         return 0;
+        */
     }
     
     +(int) chapterFromString:(NSString *)theString
     {
-        NSError *error = NULL;
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([0-9]+[O|N])\\.([0-9]+)\\.([0-9]+)"
-                                                          options: NSRegularExpressionCaseInsensitive
-                                                          error: &error ];
-        NSArray *matches = [regex matchesInString:theString options:0 range:NSMakeRange(0, [theString length])];
-        if ([matches count]>1)
-        {
-            NSTextCheckingResult *match = [matches objectAtIndex:1];
-            return [[theString substringWithRange:[match range]] intValue];
-        }
-        return 0;
+    
+        // return the chapter portion of a string
+        int firstPeriod = [theString rangeOfString:@"."].location;
+        int secondPeriod = [theString rangeOfString:@"." options:0 range:NSMakeRange(firstPeriod+1, [theString length]-(firstPeriod+1))].location;
+        
+        return [[theString substringWithRange:NSMakeRange(firstPeriod+1, secondPeriod-(firstPeriod+1))] intValue];
     }
     
     +(int) verseFromString:(NSString *)theString
     {
-        NSError *error = NULL;
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([0-9]+[O|N])\\.([0-9]+)\\.([0-9]+)"
-                                                          options: NSRegularExpressionCaseInsensitive
-                                                          error: &error ];
-        NSArray *matches = [regex matchesInString:theString options:0 range:NSMakeRange(0, [theString length])];
-        if ([matches count]>2)
-        {
-            NSTextCheckingResult *match = [matches objectAtIndex:2];
-            return [[theString substringWithRange:[match range]] intValue];
-        }
-        return 0;
+        // return the verse portion of a string
+        int firstPeriod = [theString rangeOfString:@"."].location;
+        int secondPeriod = [theString rangeOfString:@"." options:0 range:NSMakeRange(firstPeriod+1, [theString length]-(firstPeriod+1))].location;
+        
+        return [[theString substringFromIndex:secondPeriod+1] intValue];
     }
     
     +(CGFloat)formattedTextHeight: (NSArray *)theWordArray withParsings:(BOOL)parsed
