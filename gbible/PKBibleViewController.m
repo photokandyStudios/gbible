@@ -11,7 +11,10 @@
 #import "PKBible.h"
 #import "PKSettings.h"
 #import "PKConstants.h"
-#import "ZUUIRevealController.h"
+#import "PKHighlights.h"
+#import "PKHighlightsViewController.h"
+#import "PKAppDelegate.h"
+#import "SegmentsController.h"
 
 @interface PKBibleViewController ()
 
@@ -30,6 +33,11 @@
     @synthesize formattedEnglishVerseHeights;
     
     @synthesize selectedVerses;
+    @synthesize highlightedVerses;
+    
+    @synthesize changeHighlight;
+    
+    @synthesize formattedCells;
 
 #pragma mark -
 #pragma mark Content Loading and Display
@@ -94,6 +102,14 @@
     [self loadChapter: currentChapter forBook: currentBook];
 }
 
+- (void)loadHighlights
+{
+    NSUInteger currentBook = [[PKSettings instance] currentBook];
+    NSUInteger currentChapter = [[PKSettings instance] currentChapter];
+    // load our highlighted verses
+    highlightedVerses = [(PKHighlights *)[PKHighlights instance] allHighlightedPassagesForBook: currentBook
+                                                                                   andChapter: currentChapter];
+}
 
 - (void)loadChapter
 {
@@ -171,6 +187,82 @@
     //NSLog (@"...            For number of verses: %i", [currentEnglishChapter count]);
     
     //NSLog (@"Total time to format passage: %f", [tEndTime timeIntervalSinceDate:tStartTime]);
+
+    // now, create all our UILabels here, so we don't have to do it while generating a cell.
+    
+    formattedCells = [[NSMutableArray alloc] init];
+    for (int i=0;i<MAX([currentGreekChapter count], [currentEnglishChapter count]);i++)
+    {
+        // for each verse (i)
+        UIFont *theFont = [UIFont fontWithName:[[PKSettings instance] textFontFace]
+                                          size:[[PKSettings instance] textFontSize]];
+        NSUInteger row = i;
+        
+        NSArray *formattedGreekVerse;
+        if (row < [formattedGreekChapter count])
+        {
+            formattedGreekVerse = [formattedGreekChapter objectAtIndex:row];
+        }
+        else 
+        {
+            formattedGreekVerse = nil;
+        }
+        NSArray *formattedEnglishVerse;
+        if (row < [formattedEnglishChapter count])
+        {
+            formattedEnglishVerse = [formattedEnglishChapter objectAtIndex:row];
+        }
+        else
+        {
+            formattedEnglishVerse = nil;
+        }
+        
+        CGFloat greekColumnWidth = [PKBible columnWidth:1 forBounds:self.view.bounds];
+        NSMutableArray *theLabelArray = [[NSMutableArray alloc]init];
+
+        // insert Greek labels
+        for (int i=0; i<[formattedGreekVerse count]; i++)
+        {
+            NSArray *theWordElement = [formattedGreekVerse objectAtIndex:i];
+            NSString *theWord = [theWordElement objectAtIndex:0];
+            int theWordType = [[theWordElement objectAtIndex:1] intValue];
+            CGFloat wordX = [[theWordElement objectAtIndex:2] floatValue];
+            CGFloat wordY = [[theWordElement objectAtIndex:3] floatValue];
+            CGFloat wordW = [[theWordElement objectAtIndex:4] floatValue];
+            CGFloat wordH = [[theWordElement objectAtIndex:5] floatValue];
+            
+            UILabel *theLabel = [[UILabel alloc] initWithFrame:CGRectMake(wordX, wordY, wordW, wordH)];
+            theLabel.text = theWord;
+            theLabel.textColor = [UIColor blackColor];
+            theLabel.backgroundColor = [UIColor clearColor];
+            if (theWordType == 10) { theLabel.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.5 alpha:1.0]; }
+            if (theWordType == 20) { theLabel.textColor = [UIColor colorWithRed:0.0 green:0.5 blue:0.0 alpha:1.0]; }
+            theLabel.font = theFont;
+            [theLabelArray addObject:theLabel];
+        }
+        // insert English labels
+        for (int i=0; i<[formattedEnglishVerse count]; i++)
+        {
+
+            NSArray *theWordElement = [formattedEnglishVerse objectAtIndex:i];
+            NSString *theWord = [theWordElement objectAtIndex:0];
+            CGFloat wordX = [[theWordElement objectAtIndex:2] floatValue];
+            CGFloat wordY = [[theWordElement objectAtIndex:3] floatValue];
+            CGFloat wordW = [[theWordElement objectAtIndex:4] floatValue];
+            CGFloat wordH = [[theWordElement objectAtIndex:5] floatValue];
+            
+            UILabel *theLabel = [[UILabel alloc] initWithFrame:CGRectMake(wordX + greekColumnWidth, wordY, wordW, wordH)];
+            theLabel.text = theWord;
+            theLabel.textColor = [UIColor blackColor];
+            theLabel.backgroundColor = [UIColor clearColor];
+            theLabel.font = theFont;
+            [theLabelArray addObject:theLabel];
+        }
+        [formattedCells addObject:theLabelArray];
+    }
+
+    [self loadHighlights];
+
 }
 
 #pragma mark -
@@ -181,7 +273,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // set our title
-        [self.navigationItem setTitle:@"Settings"];
+        [self.navigationItem setTitle:@"Read Bible"];
     }
     return self;
 }
@@ -229,7 +321,15 @@
                                         target:self.parentViewController.parentViewController.parentViewController
                                         action:@selector(revealToggle:)];
     changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
-    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, nil];
+    changeReference.accessibilityLabel = @"Go to passage";
+    // need a highlight item
+    changeHighlight = [[UIBarButtonItem alloc]
+                        initWithTitle:@""
+                                style:UIBarButtonItemStylePlain 
+                               target:self action:@selector(changeHighlightColor:)];
+    changeHighlight.accessibilityLabel = @"Highlight Color";
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, 
+                                                                       changeHighlight, nil];
     
     // handle pan from left to right to reveal sidebar
     CGRect leftFrame = self.view.frame;
@@ -246,6 +346,8 @@
                                           action:@selector(revealGesture:)];
 
     [leftLabel addGestureRecognizer:panGesture];
+
+    changeHighlight.tintColor = [[PKSettings instance] highlightColor];
    
 }
 
@@ -315,6 +417,8 @@
     BOOL curValue;
     NSUInteger currentBook = [[PKSettings instance] currentBook];
     NSUInteger currentChapter = [[PKSettings instance] currentChapter];
+    
+    // are we selected? If so, it takes precedence
     NSString *passage = [PKBible stringFromBook:currentBook forChapter:currentChapter forVerse:row+1];
     curValue = [[selectedVerses objectForKey:passage] boolValue];
 
@@ -324,15 +428,21 @@
     }
     else 
     {
-        cell.backgroundColor = [UIColor clearColor];
+        // are we highlighted?
+        
+        if ([highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1] ]!=nil)
+        {
+            cell.backgroundColor = [highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1]];
+        }
+        else // not highlighted, be transparent.
+        {
+            cell.backgroundColor = [UIColor clearColor];
+        }
     }
 }
 
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIFont *theFont = [UIFont fontWithName:[[PKSettings instance] textFontFace]
-                                      size:[[PKSettings instance] textFontSize]];
-
     static NSString *bibleCellID = @"PKBibleCellID";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:bibleCellID];
     if (!cell)
@@ -348,71 +458,12 @@
     }
     
     NSUInteger row = [indexPath row];
+
+    NSMutableArray *formattedCell = [formattedCells objectAtIndex:row];
     
-    NSArray *formattedGreekVerse;
-    if (row < [formattedGreekChapter count])
+    for (int i=0; i<[formattedCell count]; i++)
     {
-        formattedGreekVerse = [formattedGreekChapter objectAtIndex:row];
-    }
-    else 
-    {
-        formattedGreekVerse = nil;
-    }
-    NSArray *formattedEnglishVerse;
-    if (row < [formattedEnglishChapter count])
-    {
-        formattedEnglishVerse = [formattedEnglishChapter objectAtIndex:row];
-    }
-    else
-    {
-        formattedEnglishVerse = nil;
-    }
-    
-    CGFloat greekColumnWidth = [PKBible columnWidth:1 forBounds:self.view.bounds];
-
-    // insert Greek labels
-    for (int i=0; i<[formattedGreekVerse count]; i++)
-    {
-        NSArray *theWordElement = [formattedGreekVerse objectAtIndex:i];
-        NSString *theWord = [theWordElement objectAtIndex:0];
-        int theWordType = [[theWordElement objectAtIndex:1] intValue];
-        CGFloat wordX = [[theWordElement objectAtIndex:2] floatValue];
-        CGFloat wordY = [[theWordElement objectAtIndex:3] floatValue];
-        CGFloat wordW = [[theWordElement objectAtIndex:4] floatValue];
-        CGFloat wordH = [[theWordElement objectAtIndex:5] floatValue];
-        
-        UILabel *theLabel = [[UILabel alloc] initWithFrame:CGRectMake(wordX, wordY, wordW, wordH)];
-        theLabel.text = theWord;
-        theLabel.textColor = [UIColor blackColor];
-        theLabel.backgroundColor = [UIColor clearColor];
-        if (theWordType == 10) { theLabel.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.5 alpha:1.0]; }
-        if (theWordType == 20) { theLabel.textColor = [UIColor colorWithRed:0.0 green:0.5 blue:0.0 alpha:1.0]; }
-        theLabel.font = theFont;
-        [cell addSubview:theLabel];
-        
-        //NSLog(@"cellForRowAtIndexPath(%i): Greek Word @(%f,%f,%f,%f)=%@",
-        //          row, wordX, wordY, wordW, wordH, theWord);
-    }
-    // insert English labels
-    for (int i=0; i<[formattedEnglishVerse count]; i++)
-    {
-
-        NSArray *theWordElement = [formattedEnglishVerse objectAtIndex:i];
-        NSString *theWord = [theWordElement objectAtIndex:0];
-        CGFloat wordX = [[theWordElement objectAtIndex:2] floatValue];
-        CGFloat wordY = [[theWordElement objectAtIndex:3] floatValue];
-        CGFloat wordW = [[theWordElement objectAtIndex:4] floatValue];
-        CGFloat wordH = [[theWordElement objectAtIndex:5] floatValue];
-        
-        UILabel *theLabel = [[UILabel alloc] initWithFrame:CGRectMake(wordX + greekColumnWidth, wordY, wordW, wordH)];
-        theLabel.text = theWord;
-        theLabel.textColor = [UIColor blackColor];
-        theLabel.backgroundColor = [UIColor clearColor];
-        theLabel.font = theFont;
-        [cell addSubview:theLabel];
-
-        //NSLog(@"cellForRowAtIndexPath(%i): English Word @(%f,%f,%f,%f)=%@",
-        //          row, wordX, wordY, wordW, wordH, theWord);
+        [cell addSubview:[formattedCell objectAtIndex:i]];
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -441,7 +492,17 @@
     }
     else 
     {
-        newCell.backgroundColor = [UIColor clearColor];
+        // are we highlighted?
+        
+        if ([highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1] ]!=nil)
+        {
+            newCell.backgroundColor = [highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1]];
+        }
+        else // not highlighted, be transparent.
+        {
+            newCell.backgroundColor = [UIColor clearColor];
+        }
+
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -476,7 +537,219 @@
     {
         CGPoint p = [gestureRecognizer locationInView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p]; // nil if no row
+        if (indexPath != nil)
+        {
+            // determine the word we're over
+            UIView *hitView = [[self.tableView cellForRowAtIndexPath:indexPath] hitTest:p withEvent:nil];
+
+            // select the row
+            NSUInteger row = [indexPath row];
+            BOOL curValue;
+            NSUInteger currentBook = [[PKSettings instance] currentBook];
+            NSUInteger currentChapter = [[PKSettings instance] currentChapter];
+            NSString *passage = [PKBible stringFromBook:currentBook forChapter:currentChapter forVerse:row+1];
+            UITableViewCell *newCell = [self.tableView cellForRowAtIndexPath:indexPath];
+            [selectedVerses setObject:[NSNumber numberWithBool:YES] forKey:passage];
+            curValue = [[selectedVerses objectForKey:passage] boolValue];
+            if (curValue)
+            {
+                newCell.backgroundColor = [UIColor colorWithRed:0.75 green:0.875 blue:1.0 alpha:1.0];
+            }
+            else 
+            {
+                newCell.backgroundColor = [UIColor clearColor];
+            }
+        }
         NSLog (@"Long pressed.");
+        
+        NSString *theTitle = @"What do you want to do?";
+        
+        UIActionSheet *theActionSheet = [[UIActionSheet alloc] 
+                                         initWithTitle: nil 
+                                              delegate: self 
+                                     cancelButtonTitle: nil 
+                                destructiveButtonTitle: nil 
+                                     otherButtonTitles: nil ];
+        
+        // add the buttons we need to show based on our selection and word under our point
+        [theActionSheet addButtonWithTitle:@"Copy Selection"];
+        [theActionSheet addButtonWithTitle:@"Highlight Selection"];
+        [theActionSheet addButtonWithTitle:@"Remove Highlight(s)"];
+        [theActionSheet addButtonWithTitle:@"Add Bookmark..."];
+        [theActionSheet addButtonWithTitle:@"Remove Bookmark(s)"];
+        [theActionSheet addButtonWithTitle:@"Add Note..."];
+        [theActionSheet addButtonWithTitle:@"Edit Note..."];
+        [theActionSheet addButtonWithTitle:@"Remove Note(s)"];
+        [theActionSheet addButtonWithTitle:@"Search Bible..."];
+        [theActionSheet addButtonWithTitle:@"Search Strong's..."];
+        [theActionSheet addButtonWithTitle:@"Define..."];
+        [theActionSheet addButtonWithTitle:@"Explain (Online)..."];
+        [theActionSheet addButtonWithTitle:@"Clear Selection"];
+        [theActionSheet addButtonWithTitle:@"Cancel"];
+        
+        theActionSheet.cancelButtonIndex = theActionSheet.numberOfButtons-1;
+        
+        CGRect theRect;
+        theRect.origin.x = p.x;
+        theRect.origin.y = p.y;
+        theRect.size.width = 1;
+        theRect.size.height = 1;
+        theActionSheet.tag = 999; // long-press chooser
+        [theActionSheet showFromRect:theRect inView:self.tableView animated:YES];
+        [theActionSheet sizeToFit];
+    }
+}
+
+#pragma mark -
+#pragma mark miscellaneous selectors (called from popovers, buttons, etc.)
+
+-(void) changeHighlightColor:(id)sender
+{
+    UIActionSheet *theActionSheet = [[UIActionSheet alloc]
+                                     initWithTitle:@"Choose Color" 
+                                          delegate:self 
+                                 cancelButtonTitle:@"Cancel"
+                            destructiveButtonTitle:nil 
+                                 otherButtonTitles:@"Yellow", @"Green", @"Magenta", nil ];
+    theActionSheet.tag = 1999; // color chooser
+    [theActionSheet showFromBarButtonItem:sender animated:YES];
+}
+
+-(void) clearSelection
+{
+    selectedVerses = [[NSMutableDictionary alloc] init]; // clear selection
+    [self.tableView reloadData]; // and reload the table's data
+}
+
+-(void) notifyChangedHighlights
+{
+    [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:1] reloadHighlights];
+}
+-(void) removeHighlights
+{
+    for (NSString* key in selectedVerses)
+    {
+        if ( [[selectedVerses objectForKey:key] boolValue])
+        {
+            [(PKHighlights *)[PKHighlights instance] 
+                removeHighlightFromPassage:key];
+        }
+    }
+    [self notifyChangedHighlights];
+    [self loadHighlights]; // get our new highlights
+    [self clearSelection];
+}
+
+-(void) copySelection
+{
+    NSMutableString *theText = [[NSMutableString alloc] init];
+    
+    for (NSString* key in selectedVerses)
+    {
+        if ( [[selectedVerses objectForKey:key] boolValue])
+        {
+            int theVerse = [PKBible verseFromString:key];
+            if ([currentGreekChapter count] <= theVerse)
+            {
+                [theText appendString:[currentGreekChapter objectAtIndex:theVerse]];
+            }
+            [theText appendString:@"\n"];
+            if ([currentEnglishChapter count] <= theVerse)
+            {
+                [theText appendString:[currentEnglishChapter objectAtIndex:theVerse]];
+            }
+        }
+    }
+    
+    UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+    pasteBoard.string = theText;
+    
+    [self clearSelection];
+}
+
+-(void) highlightSelection
+{
+    // we're highlighting the selection
+    for (NSString* key in selectedVerses)
+    {
+        if ( [[selectedVerses objectForKey:key] boolValue])
+        {
+            [(PKHighlights *)[PKHighlights instance] 
+                setHighlight: self.changeHighlight.tintColor
+                  forPassage: key];
+        }
+    }
+    [self notifyChangedHighlights];
+    [self loadHighlights]; // get our new highlights
+    [self clearSelection];
+}
+
+#pragma mark -
+#pragma mark popover responder
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (actionSheet.tag == 999)
+    {
+        // handle long-press options
+        if (buttonIndex >-1)
+        {
+            NSString *theButton = [actionSheet buttonTitleAtIndex:buttonIndex];
+/*
+        [theActionSheet addButtonWithTitle:@"Copy Selection"];
+        [theActionSheet addButtonWithTitle:@"Highlight Selection"];
+        [theActionSheet addButtonWithTitle:@"Remove Highlight(s)"];
+        [theActionSheet addButtonWithTitle:@"Add Bookmark..."];
+        [theActionSheet addButtonWithTitle:@"Remove Bookmark(s)"];
+        [theActionSheet addButtonWithTitle:@"Add Note..."];
+        [theActionSheet addButtonWithTitle:@"Edit Note..."];
+        [theActionSheet addButtonWithTitle:@"Remove Note(s)"];
+        [theActionSheet addButtonWithTitle:@"Search Bible..."];
+        [theActionSheet addButtonWithTitle:@"Search Strong's..."];
+        [theActionSheet addButtonWithTitle:@"Define..."];
+        [theActionSheet addButtonWithTitle:@"Explain (Online)..."];
+        [theActionSheet addButtonWithTitle:@"Clear Selection"];
+        [theActionSheet addButtonWithTitle:@"Cancel"];
+ */
+            if ( [theButton isEqualToString:@"Clear Selection"] )       {[self clearSelection];}
+            if ( [theButton isEqualToString:@"Copy Selection"] )        {[self copySelection];}
+            if ( [theButton isEqualToString:@"Highlight Selection"] )   {[self highlightSelection];}
+            if ( [theButton isEqualToString:@"Remove Highlight(s)"] )   {[self removeHighlights];}
+/* TODO:
+            if ( [theButton isEqualToString:@"Add Bookmark..."] )       {[self addBookmark];}
+            if ( [theButton isEqualToString:@"Remove Bookmark(s)"] )    {[self removeBookmarks];}
+            if ( [theButton isEqualToString:@"Add Note..."] )           {[self addNote];}
+            if ( [theButton isEqualToString:@"Edit Note..."] )          {[self editNote];}
+            if ( [theButton isEqualToString:@"Remove Note(s)"] )        {[self removeNotes];}
+            if ( [theButton isEqualToString:@"Search Bible..."] )       {[self searchBible];}
+            if ( [theButton isEqualToString:@"Search Strong's..."] )    {[self searchStrongs];}
+            if ( [theButton isEqualToString:@"Define..."] )             {[self defineWord];}
+            if ( [theButton isEqualToString:@"Explain (Online)..."] )   {[self explainOnline];}
+ */
+        }
+    }
+    
+    if (actionSheet.tag == 1999)
+    {
+        // handle color change options
+        UIColor *newColor;
+        switch (buttonIndex)
+        {
+case 0:
+            newColor = [UIColor yellowColor];
+            break;
+case 1:
+            newColor = [UIColor colorWithRed:0.5 green:1.0 blue:0.5 alpha:1.0];
+            break;
+case 2:
+            newColor = [UIColor colorWithRed:1.0 green:0.5 blue:1.0 alpha:1.0];
+            break;
+default:
+            return; // either cancelling, or out of range. we don't care.
+        }
+        
+        self.changeHighlight.tintColor = newColor;
+        ((PKSettings *)[PKSettings instance]).highlightColor = newColor;
+        [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
     }
 }
 

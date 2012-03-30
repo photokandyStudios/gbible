@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PKBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
+@interface PKBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UIActionSheetDelegate>
 
 - (void)displayBook: (int)theBook andChapter: (int)theChapter andVerse: (int)theVerse;
    
@@ -22,5 +22,10 @@
     @property (strong, nonatomic) NSMutableArray *formattedEnglishVerseHeights;
     
     @property (strong, nonatomic) NSMutableDictionary *selectedVerses;
+    @property (strong, nonatomic) NSMutableDictionary *highlightedVerses;
+    
+    // UI elements
+    @property (strong, nonatomic) UIBarButtonItem *changeHighlight;
+    @property (strong, nonatomic) NSMutableArray *formattedCells;
     
 @end
