@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PKHighlightsViewController : UIViewController
+@interface PKHighlightsViewController : UITableViewController
+
+    @property (strong, nonatomic) NSArray *highlights;
+
+- (void)reloadHighlights;
 
 @end
