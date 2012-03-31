@@ -36,8 +36,10 @@
     @synthesize highlightedVerses;
     
     @synthesize changeHighlight;
-    
     @synthesize formattedCells;
+    @synthesize ourMenu;
+    @synthesize ourMenuState;
+    @synthesize selectedWord;
 
 #pragma mark -
 #pragma mark Content Loading and Display
@@ -397,6 +399,53 @@
 
     changeHighlight.tintColor = [[PKSettings instance] highlightColor];
    
+   
+    ourMenu = [UIMenuController sharedMenuController];
+    ourMenu.menuItems = [NSArray arrayWithObjects:
+                            [[UIMenuItem alloc] initWithTitle:@"Copy"      action:@selector(copySelection:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Highlight" action:@selector(askHighlight:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Search"    action:@selector(askSearch:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Define"    action:@selector(defineWord:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Explain"   action:@selector(explainVerse:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Clear"     action:@selector(clearSelection:)],
+                            // handle second-tier items
+                            [[UIMenuItem alloc] initWithTitle:@"Add Highlight" action:@selector(highlightSelection:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Remove"        action:@selector(removeHighlights:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Search Bible"  action:@selector(searchBible:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Search Strong's" action:@selector(searchStrongs:)]
+                         , nil ];
+}
+
+-(BOOL) canPerformAction:(SEL)action withSender:(id)sender
+{
+    if (ourMenuState == 0)
+    {
+        if (action == @selector(copySelection:))    { return YES; }
+        if (action == @selector(askHighlight:))     { return YES; }
+        if (action == @selector(doAnnotate:))      { return YES; }
+        if (action == @selector(askSearch:))        { return selectedWord!=nil; }
+        if (action == @selector(defineWord:))       { return selectedWord!=nil; } 
+        if (action == @selector(explainVerse:))     { return YES; }
+        if (action == @selector(clearSelection:))   { return YES; }
+    }
+    
+    if (ourMenuState == 1)  // we're asking about highlighting
+    {
+        if (action == @selector(highlightSelection:))  { return YES; }
+        if (action == @selector(removeHighlights:)) { return YES; }
+    }
+    
+    if (ourMenuState == 2) // we're asking about searching
+    {
+        if (action == @selector(searchBible:))      { return selectedWord!=nil; }
+        if (action == @selector(searchStrongs:))    { return selectedWord!=nil; }
+    }
+    return NO;
+}
+-(BOOL) canBecomeFirstResponder
+{
+    return YES;
 }
 
 /**
@@ -421,8 +470,10 @@
     highlightedVerses = nil;
     
     changeHighlight = nil;
-    
     formattedCells = nil;
+    ourMenu = nil;
+    
+    selectedWord = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -577,6 +628,13 @@
  */
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // if we have a menu open, we don't want to change anything....
+    if (ourMenu.isMenuVisible)
+    {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+
     NSUInteger row = [indexPath row];
     BOOL curValue;
     NSUInteger currentBook = [[PKSettings instance] currentBook];
@@ -659,13 +717,47 @@
     {
         CGPoint p = [gestureRecognizer locationInView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p]; // nil if no row
+        
+        selectedWord = nil;
+        
         if (indexPath != nil)
         {
-            // determine the word we're over
-            UIView *hitView = [[self.tableView cellForRowAtIndexPath:indexPath] hitTest:p withEvent:nil];
+            NSUInteger row = [indexPath row];
+
+            // determine the word we're closest to
+            float minDistance = 999;
+            UITableViewCell *theCell = [self.tableView cellForRowAtIndexPath:indexPath];
+            CGPoint wp = [gestureRecognizer locationInView:theCell];
+            NSString *theWord = nil;
+            for (int i=0;i<[theCell.subviews count]; i++)
+            {
+                UIView *theView = [theCell.subviews objectAtIndex:i];
+                CGRect theRect = theView.frame;
+                
+                CGPoint theCenter = CGPointMake( theRect.origin.x + (theRect.size.width/2), 
+                                                 theRect.origin.y + (theRect.size.height/2));
+                float theDistance = sqrtf( ABS(theCenter.x - wp.x)*2 +
+                                           ABS(theCenter.y - wp.y)*2 );
+                if (theDistance < minDistance)
+                {
+                    theWord = ((UILabel *)theView).text;
+                    minDistance = theDistance;
+                }
+            }
+            if (theWord != nil)
+            {
+                // strip any junk characters
+                NSCharacterSet *junkChars = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
+                theWord = [theWord stringByTrimmingCharactersInSet:junkChars];
+                if ([theWord isEqualToString:@""])
+                {
+                    theWord = nil;
+                }
+            }
+            selectedWord = theWord;
+            NSLog(@"The word is %@", theWord);
 
             // select the row
-            NSUInteger row = [indexPath row];
             BOOL curValue;
             NSUInteger currentBook = [[PKSettings instance] currentBook];
             NSUInteger currentChapter = [[PKSettings instance] currentChapter];
@@ -682,48 +774,37 @@
                 newCell.backgroundColor = [UIColor clearColor];
             }
         }
-        NSLog (@"Long pressed.");
-        
-        NSString *theTitle = @"What do you want to do?";
-        
-        UIActionSheet *theActionSheet = [[UIActionSheet alloc] 
-                                         initWithTitle: nil 
-                                              delegate: self 
-                                     cancelButtonTitle: nil 
-                                destructiveButtonTitle: nil 
-                                     otherButtonTitles: nil ];
-        
-        // add the buttons we need to show based on our selection and word under our point
-        [theActionSheet addButtonWithTitle:@"Copy Selection"];
-        [theActionSheet addButtonWithTitle:@"Highlight Selection"];
-        [theActionSheet addButtonWithTitle:@"Remove Highlight(s)"];
-        [theActionSheet addButtonWithTitle:@"Add Bookmark..."];
-        [theActionSheet addButtonWithTitle:@"Remove Bookmark(s)"];
-        [theActionSheet addButtonWithTitle:@"Add Note..."];
-        [theActionSheet addButtonWithTitle:@"Edit Note..."];
-        [theActionSheet addButtonWithTitle:@"Remove Note(s)"];
-        [theActionSheet addButtonWithTitle:@"Search Bible..."];
-        [theActionSheet addButtonWithTitle:@"Search Strong's..."];
-        [theActionSheet addButtonWithTitle:@"Define..."];
-        [theActionSheet addButtonWithTitle:@"Explain (Online)..."];
-        [theActionSheet addButtonWithTitle:@"Clear Selection"];
-        [theActionSheet addButtonWithTitle:@"Cancel"];
-        
-        theActionSheet.cancelButtonIndex = theActionSheet.numberOfButtons-1;
         
         CGRect theRect;
         theRect.origin.x = p.x;
         theRect.origin.y = p.y;
         theRect.size.width = 1;
         theRect.size.height = 1;
-        theActionSheet.tag = 999; // long-press chooser
-        [theActionSheet showFromRect:theRect inView:self.tableView animated:YES];
-        [theActionSheet sizeToFit];
+        ourMenuState = 0; // show entire menu (not second-tier)
+        [self becomeFirstResponder];
+        [ourMenu update]; // just in case
+        [ourMenu setTargetRect:theRect inView:self.tableView ];
+        [ourMenu setMenuVisible:YES animated:YES];
+        
     }
 }
 
 #pragma mark -
 #pragma mark miscellaneous selectors (called from popovers, buttons, etc.)
+
+-(void) askHighlight: (id)sender
+{
+    ourMenuState = 1;
+    [ourMenu update];
+    [ourMenu setMenuVisible:YES animated:YES];
+}
+
+-(void) askSearch: (id)sender
+{
+    ourMenuState = 2;
+    [ourMenu update];
+    [ourMenu setMenuVisible:YES animated:YES];
+}
 
 /**
  *
@@ -737,7 +818,8 @@
                                           delegate:self 
                                  cancelButtonTitle:@"Cancel"
                             destructiveButtonTitle:nil 
-                                 otherButtonTitles:@"Yellow", @"Green", @"Magenta", nil ];
+                                 otherButtonTitles:@"Yellow", @"Green", @"Magenta", 
+                                                   @"Pink",   @"Blue",    nil ];
     theActionSheet.tag = 1999; // color chooser
     [theActionSheet showFromBarButtonItem:sender animated:YES];
 }
@@ -747,7 +829,7 @@
  * Clear the user's selection
  *
  */
--(void) clearSelection
+-(void) clearSelection: (id) sender
 {
     selectedVerses = [[NSMutableDictionary alloc] init]; // clear selection
     [self.tableView reloadData]; // and reload the table's data
@@ -769,7 +851,7 @@
  * will never generate an error.
  *
  */
--(void) removeHighlights
+-(void) removeHighlights: (id) sender
 {
     for (NSString* key in selectedVerses)
     {
@@ -781,7 +863,7 @@
     }
     [self notifyChangedHighlights];
     [self loadHighlights]; // get our new highlights
-    [self clearSelection];
+    [self clearSelection:nil];
 }
 
 /**
@@ -789,7 +871,7 @@
  * Copy the selection to the pasteboard
  *
  */
--(void) copySelection
+-(void) copySelection: (id)sender
 {
     NSMutableString *theText = [[NSMutableString alloc] init];
     
@@ -813,7 +895,7 @@
     UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
     pasteBoard.string = theText;
     
-    [self clearSelection];
+    [self clearSelection:nil];
 }
 
 /**
@@ -821,7 +903,7 @@
  * Highlight the selection with the currently selected highlight color
  *
  */
--(void) highlightSelection
+-(void) highlightSelection: (id)sender
 {
     // we're highlighting the selection
     for (NSString* key in selectedVerses)
@@ -835,7 +917,19 @@
     }
     [self notifyChangedHighlights];
     [self loadHighlights]; // get our new highlights
-    [self clearSelection];
+    [self clearSelection:nil];
+}
+
+/**
+ *
+ * Define the selectedWord
+ *
+ */
+-(void)defineWord: (id)sender
+{
+
+    UIReferenceLibraryViewController *dictionary = [[UIReferenceLibraryViewController alloc] initWithTerm:selectedWord];
+    [self presentModalViewController:dictionary animated:YES];
 }
 
 #pragma mark -
@@ -847,46 +941,6 @@
  */
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (actionSheet.tag == 999)
-    {
-        // handle long-press options
-        if (buttonIndex >-1)
-        {
-            NSString *theButton = [actionSheet buttonTitleAtIndex:buttonIndex];
-/*
-        [theActionSheet addButtonWithTitle:@"Copy Selection"];
-        [theActionSheet addButtonWithTitle:@"Highlight Selection"];
-        [theActionSheet addButtonWithTitle:@"Remove Highlight(s)"];
-        [theActionSheet addButtonWithTitle:@"Add Bookmark..."];
-        [theActionSheet addButtonWithTitle:@"Remove Bookmark(s)"];
-        [theActionSheet addButtonWithTitle:@"Add Note..."];
-        [theActionSheet addButtonWithTitle:@"Edit Note..."];
-        [theActionSheet addButtonWithTitle:@"Remove Note(s)"];
-        [theActionSheet addButtonWithTitle:@"Search Bible..."];
-        [theActionSheet addButtonWithTitle:@"Search Strong's..."];
-        [theActionSheet addButtonWithTitle:@"Define..."];
-        [theActionSheet addButtonWithTitle:@"Explain (Online)..."];
-        [theActionSheet addButtonWithTitle:@"Clear Selection"];
-        [theActionSheet addButtonWithTitle:@"Cancel"];
- */
-            if ( [theButton isEqualToString:@"Clear Selection"] )       {[self clearSelection];}
-            if ( [theButton isEqualToString:@"Copy Selection"] )        {[self copySelection];}
-            if ( [theButton isEqualToString:@"Highlight Selection"] )   {[self highlightSelection];}
-            if ( [theButton isEqualToString:@"Remove Highlight(s)"] )   {[self removeHighlights];}
-/* TODO:
-            if ( [theButton isEqualToString:@"Add Bookmark..."] )       {[self addBookmark];}
-            if ( [theButton isEqualToString:@"Remove Bookmark(s)"] )    {[self removeBookmarks];}
-            if ( [theButton isEqualToString:@"Add Note..."] )           {[self addNote];}
-            if ( [theButton isEqualToString:@"Edit Note..."] )          {[self editNote];}
-            if ( [theButton isEqualToString:@"Remove Note(s)"] )        {[self removeNotes];}
-            if ( [theButton isEqualToString:@"Search Bible..."] )       {[self searchBible];}
-            if ( [theButton isEqualToString:@"Search Strong's..."] )    {[self searchStrongs];}
-            if ( [theButton isEqualToString:@"Define..."] )             {[self defineWord];}
-            if ( [theButton isEqualToString:@"Explain (Online)..."] )   {[self explainOnline];}
- */
-        }
-    }
-    
     if (actionSheet.tag == 1999)
     {
         // handle color change options
@@ -901,6 +955,12 @@ case 1:
             break;
 case 2:
             newColor = [UIColor colorWithRed:1.0 green:0.5 blue:1.0 alpha:1.0];
+            break;
+case 3:
+            newColor = [UIColor colorWithRed:1.0 green:0.75 blue:0.75 alpha:1.0];
+            break;
+case 4:
+            newColor = [UIColor colorWithRed:0.5 green:0.75 blue:1.0 alpha:1.0];
             break;
 default:
             return; // either cancelling, or out of range. we don't care.

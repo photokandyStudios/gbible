@@ -24,8 +24,12 @@
     @property (strong, nonatomic) NSMutableDictionary *selectedVerses;
     @property (strong, nonatomic) NSMutableDictionary *highlightedVerses;
     
+    @property (strong, nonatomic) NSString *selectedWord;
+    
     // UI elements
     @property (strong, nonatomic) UIBarButtonItem *changeHighlight;
     @property (strong, nonatomic) NSMutableArray *formattedCells;
+    @property (strong, nonatomic) UIMenuController *ourMenu;
+    @property int ourMenuState;
     
 @end
