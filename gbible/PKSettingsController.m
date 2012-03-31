@@ -324,7 +324,8 @@
                 popover.cancelButtonIndex = popover.numberOfButtons - 1;
                 currentPathForPopover = indexPath;
                 theTableCell = newCell;
-                [popover showFromRect:theTableCell.frame inView:self.view animated:YES];
+                [popover showInView:super.view];
+//                [popover showFromRect:theTableCell.frame inView:self.view animated:YES];
                 break;
         case 2: // we're on a cell that we need to toggle the checkmark on
                 curValue = [ [ (PKSettings *)[PKSettings instance] loadSetting:[cellData objectAtIndex:2] ] boolValue];
@@ -347,7 +348,8 @@
                 popover.cancelButtonIndex = popover.numberOfButtons - 1;
                 currentPathForPopover = indexPath;
                 theTableCell = newCell;
-                [popover showFromRect:theTableCell.frame inView:self.view animated:YES];
+                [popover showInView:self.parentViewController.parentViewController.view];
+//                [popover showFromRect:theTableCell.frame inView:self.view animated:YES];
                 break;
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
