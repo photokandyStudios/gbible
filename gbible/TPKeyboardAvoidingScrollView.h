@@ -14,4 +14,10 @@
 }
 
 - (void)adjustOffsetToIdealIfNeeded;
+
+// add auto sizing from http://codethink.no-ip.org/wordpress/archives/357
+- (void) adjustHeightForCurrentSubviews: (int) verticalPadding;
+- (void) adjustWidthForCurrentSubviews: (int) horizontalPadding;
+- (void) adjustWidth: (bool) changeWidth andHeight: (bool) changeHeight withHorizontalPadding: (int) horizontalPadding andVerticalPadding: (int) verticalPadding;
+
 @end

@@ -9,11 +9,13 @@
 
 #define _UIKeyboardFrameEndUserInfoKey (&UIKeyboardFrameEndUserInfoKey != NULL ? UIKeyboardFrameEndUserInfoKey : @"UIKeyboardBoundsUserInfoKey")
 
+ 
 @interface TPKeyboardAvoidingScrollView ()
 - (UIView*)findFirstResponderBeneathView:(UIView*)view;
 - (UIEdgeInsets)contentInsetForKeyboard;
 - (CGFloat)idealOffsetForView:(UIView *)view withSpace:(CGFloat)space;
 - (CGRect)keyboardRect;
+
 @end
 
 @implementation TPKeyboardAvoidingScrollView
@@ -39,7 +41,7 @@
 
 -(void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
+   // [super dealloc];
 }
 
 -(void)setFrame:(CGRect)frame {
@@ -177,6 +179,31 @@
         keyboardRect.origin = CGPointMake(0, screenBounds.size.height - keyboardRect.size.height);
     }
     return keyboardRect;
+}
+
+// autosizing
+- (void) adjustWidth: (bool) changeWidth andHeight: (bool) changeHeight withHorizontalPadding: (int) horizontalPadding andVerticalPadding: (int) verticalPadding {
+    float contentWidth = horizontalPadding;
+    float contentHeight = verticalPadding;
+    for (UIView* subview in self.subviews) {
+        [subview sizeToFit];
+        contentWidth += subview.frame.size.width;
+        contentHeight += subview.frame.size.height;
+    }
+ 
+    contentWidth = changeWidth ? contentWidth : self.superview.frame.size.width;
+    contentHeight = changeHeight ? contentHeight : self.superview.frame.size.height;
+ 
+    NSLog(@"Adjusting ScrollView size to %fx%f, verticalPadding=%d, horizontalPadding=%d", contentWidth, contentHeight, verticalPadding, horizontalPadding);
+    self.contentSize = CGSizeMake(contentWidth, contentHeight);
+}
+ 
+- (void) adjustHeightForCurrentSubviews: (int) verticalPadding {
+    [self adjustWidth:NO andHeight:YES withHorizontalPadding:0 andVerticalPadding:verticalPadding];
+}
+ 
+- (void) adjustWidthForCurrentSubviews: (int) horizontalPadding {
+    [self adjustWidth:YES andHeight:NO withHorizontalPadding:horizontalPadding andVerticalPadding:0];
 }
 
 @end
