@@ -29,6 +29,8 @@
 		6A3E433E1515918900D8745D /* BlueNavigationBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E433C1515918900D8745D /* BlueNavigationBar@2x.png */; };
 		6A3E43431515981800D8745D /* BlueTabBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43411515981800D8745D /* BlueTabBar.png */; };
 		6A3E43441515981800D8745D /* BlueTabBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43421515981800D8745D /* BlueTabBar@2x.png */; };
+		6A58AE101529567D00EAF960 /* PKNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE0F1529567D00EAF960 /* PKNotes.m */; };
+		6A58AE1415295BBD00EAF960 /* PKNoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */; };
 		6A820DDA1517EA3B006523EE /* PKBible.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A820DD91517EA3B006523EE /* PKBible.m */; };
 		6A820DDE151837C6006523EE /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6A820DDD151835E8006523EE /* bibleContent */; };
 		6A8D44B5152262F000746EA9 /* TableCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A8D44B1152262F000746EA9 /* TableCell.png */; };
@@ -73,6 +75,7 @@
 		6A9793D615143B3400A5C9F1 /* PKHighlightsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793D515143B3400A5C9F1 /* PKHighlightsViewController.m */; };
 		6A9793D915143B5400A5C9F1 /* PKNotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793D815143B5300A5C9F1 /* PKNotesViewController.m */; };
 		6A9793DC15143B7A00A5C9F1 /* PKRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793DB15143B7A00A5C9F1 /* PKRootViewController.m */; };
+		6AD7E2CB152977F50072483E /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2C9152976BA0072483E /* TPKeyboardAvoidingScrollView.m */; };
 		6AF0C0A6150EE8BB00BFAE03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */; };
 		6AF0C0A8150EE8BB00BFAE03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */; };
 		6AF0C0AA150EE8BB00BFAE03 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A9150EE8BB00BFAE03 /* CoreGraphics.framework */; };
@@ -122,6 +125,10 @@
 		6A3E433C1515918900D8745D /* BlueNavigationBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueNavigationBar@2x.png"; sourceTree = "<group>"; };
 		6A3E43411515981800D8745D /* BlueTabBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueTabBar.png; sourceTree = "<group>"; };
 		6A3E43421515981800D8745D /* BlueTabBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueTabBar@2x.png"; sourceTree = "<group>"; };
+		6A58AE0E1529567D00EAF960 /* PKNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKNotes.h; sourceTree = "<group>"; };
+		6A58AE0F1529567D00EAF960 /* PKNotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKNotes.m; sourceTree = "<group>"; };
+		6A58AE1215295BBD00EAF960 /* PKNoteEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKNoteEditorViewController.h; sourceTree = "<group>"; };
+		6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKNoteEditorViewController.m; sourceTree = "<group>"; };
 		6A820DD81517EA3B006523EE /* PKBible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBible.h; sourceTree = "<group>"; };
 		6A820DD91517EA3B006523EE /* PKBible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBible.m; sourceTree = "<group>"; };
 		6A820DDD151835E8006523EE /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
@@ -182,6 +189,8 @@
 		6A9793D815143B5300A5C9F1 /* PKNotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKNotesViewController.m; sourceTree = "<group>"; };
 		6A9793DA15143B7A00A5C9F1 /* PKRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKRootViewController.h; sourceTree = "<group>"; };
 		6A9793DB15143B7A00A5C9F1 /* PKRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRootViewController.m; sourceTree = "<group>"; };
+		6AD7E2C8152976BA0072483E /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		6AD7E2C9152976BA0072483E /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		6AF0C0A1150EE8BB00BFAE03 /* gbible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gbible.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -301,6 +310,8 @@
 		6A92CCC81516F0CC00F8AE15 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				6AD7E2C8152976BA0072483E /* TPKeyboardAvoidingScrollView.h */,
+				6AD7E2C9152976BA0072483E /* TPKeyboardAvoidingScrollView.m */,
 				6A12F6EF151EDA7A00B49B6E /* SegmentedControllerRevisited */,
 				6A12F6EB151ED75B00B49B6E /* ZUUIRevealController */,
 				6AF9D0431512943A00514499 /* BAMSettings */,
@@ -356,6 +367,8 @@
 				6A9793C315143ACD00A5C9F1 /* PKSettingsController.m */,
 				6A9793C515143ADB00A5C9F1 /* PKStrongsController.h */,
 				6A9793C615143ADB00A5C9F1 /* PKStrongsController.m */,
+				6A58AE1215295BBD00EAF960 /* PKNoteEditorViewController.h */,
+				6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -390,6 +403,8 @@
 		6A9793B815141C3D00A5C9F1 /* notes */ = {
 			isa = PBXGroup;
 			children = (
+				6A58AE0E1529567D00EAF960 /* PKNotes.h */,
+				6A58AE0F1529567D00EAF960 /* PKNotes.m */,
 			);
 			name = notes;
 			sourceTree = "<group>";
@@ -694,6 +709,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AD7E2CB152977F50072483E /* TPKeyboardAvoidingScrollView.m in Sources */,
 				6A12F6F2151EDF0800B49B6E /* SegmentsController.m in Sources */,
 				6AF9D05715129C7400514499 /* CoolButton.m in Sources */,
 				6AF9D05915129C7400514499 /* FMDatabase.m in Sources */,
@@ -721,6 +737,8 @@
 				6A820DDA1517EA3B006523EE /* PKBible.m in Sources */,
 				6A12F6EE151ED75B00B49B6E /* ZUUIRevealController.m in Sources */,
 				6A8D44C21524F3F400746EA9 /* PKHighlights.m in Sources */,
+				6A58AE101529567D00EAF960 /* PKNotes.m in Sources */,
+				6A58AE1415295BBD00EAF960 /* PKNoteEditorViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
