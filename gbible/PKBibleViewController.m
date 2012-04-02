@@ -15,6 +15,7 @@
 #import "PKHighlightsViewController.h"
 #import "PKAppDelegate.h"
 #import "SegmentsController.h"
+#import "PKNoteEditorViewController.h"
 
 @interface PKBibleViewController ()
 
@@ -930,6 +931,32 @@
 
     UIReferenceLibraryViewController *dictionary = [[UIReferenceLibraryViewController alloc] initWithTerm:selectedWord];
     [self presentModalViewController:dictionary animated:YES];
+}
+
+-(void)doAnnotate: (id)sender
+{
+    NSString *thePassage = nil;
+    for (NSString* key in selectedVerses)
+    {
+        if ( [[selectedVerses objectForKey:key] boolValue] && thePassage == nil)
+        {
+            thePassage = key;
+        }
+    }
+
+    PKNoteEditorViewController *nevc = [[PKNoteEditorViewController alloc] initWithPassage:thePassage];
+//    nevc.modalPresentationStyle = UIModalPresentationFormSheet;
+    UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController:nevc];
+    mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
+
+        UINavigationBar *navBar = [mvnc navigationBar];
+        [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
+        [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
+        [UIColor whiteColor], UITextAttributeTextColor, nil]];
+
+
+
+    [self presentModalViewController:mvnc animated:YES];
 }
 
 #pragma mark -
