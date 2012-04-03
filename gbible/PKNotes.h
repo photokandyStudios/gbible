@@ -16,7 +16,7 @@
     -(int)  countNotes;
     -(void) setNote: (NSString*)theNote withTitle: (NSString *)theTitle forPassage: (NSString*)thePassage;
     -(NSArray *)getNoteForPassage: (NSString *)thePassage;
-    -(NSMutableDictionary *)allNotes;
+    -(NSMutableArray *)allNotes;
     -(void) deleteNoteForPassage: (NSString*) thePassage;
 
 @end
