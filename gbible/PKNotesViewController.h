@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PKNotesViewController : UIViewController
+@interface PKNotesViewController : UITableViewController
+
+    @property (strong, nonatomic) NSArray *notes;
+
+- (void)reloadNotes;
 
 @end
