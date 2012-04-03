@@ -9,6 +9,8 @@
 #import "PKNoteEditorViewController.h"
 #import "PKNotes.h"
 #import "PKBible.h"
+#import "PKAppDelegate.h"
+#import "PKNotesViewController.h"
 
 @interface PKNoteEditorViewController ()
 
@@ -201,6 +203,7 @@ default:
         if (state == 1)
         {
             [(PKNotes *)[PKNotes instance] setNote:txtNote.text withTitle:txtTitle.text forPassage:passage];
+            [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:2] reloadNotes];
         }
         [self dismissModalViewControllerAnimated:YES];        
     }
@@ -208,6 +211,7 @@ default:
     - (void)deletePressed: (id)sender
     {
         [(PKNotes *)[PKNotes instance] deleteNoteForPassage:passage];
+        [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:2] reloadNotes];
         [self dismissModalViewControllerAnimated:YES];        
     }
     
