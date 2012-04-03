@@ -71,11 +71,12 @@
 		6A9793CA15143AF200A5C9F1 /* PKBibleBooksController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793C915143AF200A5C9F1 /* PKBibleBooksController.m */; };
 		6A9793CD15143B0000A5C9F1 /* PKBibleBookChaptersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793CC15143B0000A5C9F1 /* PKBibleBookChaptersViewController.m */; };
 		6A9793D015143B0F00A5C9F1 /* PKBibleBookChapterVersesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793CF15143B0F00A5C9F1 /* PKBibleBookChapterVersesViewController.m */; };
-		6A9793D315143B1D00A5C9F1 /* PKBookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793D215143B1D00A5C9F1 /* PKBookmarksViewController.m */; };
 		6A9793D615143B3400A5C9F1 /* PKHighlightsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793D515143B3400A5C9F1 /* PKHighlightsViewController.m */; };
 		6A9793D915143B5400A5C9F1 /* PKNotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793D815143B5300A5C9F1 /* PKNotesViewController.m */; };
 		6A9793DC15143B7A00A5C9F1 /* PKRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793DB15143B7A00A5C9F1 /* PKRootViewController.m */; };
 		6AD7E2CB152977F50072483E /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2C9152976BA0072483E /* TPKeyboardAvoidingScrollView.m */; };
+		6AD7E2D2152AA3A60072483E /* PKHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D1152AA3A60072483E /* PKHistoryViewController.m */; };
+		6AD7E2D5152AA4130072483E /* PKSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D4152AA4130072483E /* PKSearchViewController.m */; };
 		6AF0C0A6150EE8BB00BFAE03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */; };
 		6AF0C0A8150EE8BB00BFAE03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */; };
 		6AF0C0AA150EE8BB00BFAE03 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A9150EE8BB00BFAE03 /* CoreGraphics.framework */; };
@@ -181,8 +182,6 @@
 		6A9793CC15143B0000A5C9F1 /* PKBibleBookChaptersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBibleBookChaptersViewController.m; sourceTree = "<group>"; };
 		6A9793CE15143B0F00A5C9F1 /* PKBibleBookChapterVersesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBibleBookChapterVersesViewController.h; sourceTree = "<group>"; };
 		6A9793CF15143B0F00A5C9F1 /* PKBibleBookChapterVersesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBibleBookChapterVersesViewController.m; sourceTree = "<group>"; };
-		6A9793D115143B1D00A5C9F1 /* PKBookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBookmarksViewController.h; sourceTree = "<group>"; };
-		6A9793D215143B1D00A5C9F1 /* PKBookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBookmarksViewController.m; sourceTree = "<group>"; };
 		6A9793D415143B3400A5C9F1 /* PKHighlightsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHighlightsViewController.h; sourceTree = "<group>"; };
 		6A9793D515143B3400A5C9F1 /* PKHighlightsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKHighlightsViewController.m; sourceTree = "<group>"; };
 		6A9793D715143B5300A5C9F1 /* PKNotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKNotesViewController.h; sourceTree = "<group>"; };
@@ -191,6 +190,10 @@
 		6A9793DB15143B7A00A5C9F1 /* PKRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRootViewController.m; sourceTree = "<group>"; };
 		6AD7E2C8152976BA0072483E /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		6AD7E2C9152976BA0072483E /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		6AD7E2D0152AA3A60072483E /* PKHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHistoryViewController.h; sourceTree = "<group>"; };
+		6AD7E2D1152AA3A60072483E /* PKHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKHistoryViewController.m; sourceTree = "<group>"; };
+		6AD7E2D3152AA4130072483E /* PKSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSearchViewController.h; sourceTree = "<group>"; };
+		6AD7E2D4152AA4130072483E /* PKSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSearchViewController.m; sourceTree = "<group>"; };
 		6AF0C0A1150EE8BB00BFAE03 /* gbible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gbible.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -355,8 +358,6 @@
 				6A9793C915143AF200A5C9F1 /* PKBibleBooksController.m */,
 				6A9793BC15143AA200A5C9F1 /* PKBibleViewController.h */,
 				6A9793BD15143AA200A5C9F1 /* PKBibleViewController.m */,
-				6A9793D115143B1D00A5C9F1 /* PKBookmarksViewController.h */,
-				6A9793D215143B1D00A5C9F1 /* PKBookmarksViewController.m */,
 				6A9793D415143B3400A5C9F1 /* PKHighlightsViewController.h */,
 				6A9793D515143B3400A5C9F1 /* PKHighlightsViewController.m */,
 				6A9793D715143B5300A5C9F1 /* PKNotesViewController.h */,
@@ -369,6 +370,10 @@
 				6A9793C615143ADB00A5C9F1 /* PKStrongsController.m */,
 				6A58AE1215295BBD00EAF960 /* PKNoteEditorViewController.h */,
 				6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */,
+				6AD7E2D0152AA3A60072483E /* PKHistoryViewController.h */,
+				6AD7E2D1152AA3A60072483E /* PKHistoryViewController.m */,
+				6AD7E2D3152AA4130072483E /* PKSearchViewController.h */,
+				6AD7E2D4152AA4130072483E /* PKSearchViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -730,7 +735,6 @@
 				6A9793CA15143AF200A5C9F1 /* PKBibleBooksController.m in Sources */,
 				6A9793CD15143B0000A5C9F1 /* PKBibleBookChaptersViewController.m in Sources */,
 				6A9793D015143B0F00A5C9F1 /* PKBibleBookChapterVersesViewController.m in Sources */,
-				6A9793D315143B1D00A5C9F1 /* PKBookmarksViewController.m in Sources */,
 				6A9793D615143B3400A5C9F1 /* PKHighlightsViewController.m in Sources */,
 				6A9793D915143B5400A5C9F1 /* PKNotesViewController.m in Sources */,
 				6A9793DC15143B7A00A5C9F1 /* PKRootViewController.m in Sources */,
@@ -739,6 +743,8 @@
 				6A8D44C21524F3F400746EA9 /* PKHighlights.m in Sources */,
 				6A58AE101529567D00EAF960 /* PKNotes.m in Sources */,
 				6A58AE1415295BBD00EAF960 /* PKNoteEditorViewController.m in Sources */,
+				6AD7E2D2152AA3A60072483E /* PKHistoryViewController.m in Sources */,
+				6AD7E2D5152AA4130072483E /* PKSearchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
