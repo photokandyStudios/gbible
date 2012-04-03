@@ -428,6 +428,39 @@
         return columnWidth;
     }
     
+    +(NSString *)transliterate: (NSString*)theWord
+    {
+        NSMutableString *theNewWord = [theWord mutableCopy];
+       
+        [theNewWord replaceOccurrencesOfString:@"α" withString:@"a" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"β" withString:@"b" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"γ" withString:@"g" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"δ" withString:@"d" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"ε" withString:@"e" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"ζ" withString:@"z" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"η" withString:@"e" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"θ" withString:@"th" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"ι" withString:@"i" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"κ" withString:@"k" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"λ" withString:@"l" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"μ" withString:@"m" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"ν" withString:@"n" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"ξ" withString:@"c" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"ο" withString:@"o" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"π" withString:@"p" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"ρ" withString:@"r" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"σ" withString:@"s" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"ς" withString:@"s" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"τ" withString:@"t" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"υ" withString:@"u" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"φ" withString:@"ph" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"χ" withString:@"ch" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"ψ" withString:@"ps" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        [theNewWord replaceOccurrencesOfString:@"ω" withString:@"o" options:0 range:NSMakeRange(0,  [theNewWord length])];
+        
+        return theNewWord;
+    }
+    
 /**
  *
  * Formats the supplied text into an array of positions and types that will fit
@@ -436,6 +469,12 @@
  */
     +(NSArray *)formatText: (NSString *)theText forColumn: (int)theColumn withBounds: (CGRect)theRect withParsings: (BOOL)parsed
     {
+        // should we include the morphology?
+        BOOL showMorphology = [[PKSettings instance] showMorphology];
+        
+        // should we transliterate?
+        BOOL transliterate = [[PKSettings instance] transliterateText];
+    
         // this array will contain the word elements
         NSMutableArray *theWordArray = [[NSMutableArray alloc]init];
         
@@ -498,6 +537,12 @@
             
             // got the current word
             theWord = [matches objectAtIndex:i];
+            
+            // transliterate?
+            if (transliterate)
+            {
+                theWord = [self transliterate:theWord];
+            }
             
             // and its size
             CGSize theSize = [theWord sizeWithFont:theFont];
@@ -568,7 +613,10 @@
                                                                  [NSNumber numberWithFloat:theSize.width],
                                                                  [NSNumber numberWithFloat:theSize.height],
                                                                  nil];
-            [theWordArray addObject:theWordElement]; 
+            if ( showMorphology || (theWordType < 20 && !showMorphology) )
+            {
+                [theWordArray addObject:theWordElement]; 
+            }
             
             
         }
