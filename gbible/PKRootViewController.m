@@ -11,6 +11,7 @@
 #import "PKAboutViewController.h"
 #import "PKSettingsController.h"
 #import "PKStrongsController.h"
+#import "PKSearchViewController.h"
 
 @interface PKRootViewController ()
 
@@ -31,12 +32,14 @@
         
         // initialize our tab bar
         PKBibleViewController *bibleViewController = [[PKBibleViewController alloc] init];
+        PKSearchViewController *searchViewController=[[PKSearchViewController alloc] init];
         PKStrongsController   *strongsViewController=[[PKStrongsController alloc] init];
         PKAboutViewController *aboutViewController = [[PKAboutViewController alloc] init];
         PKSettingsController  *settingsViewController=[[PKSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
 
         // Titles
         bibleViewController.title = @"Read Bible";
+        searchViewController.title = @"Search";
         strongsViewController.title = @"Strong's Lookup";
         aboutViewController.title = @"About";
         settingsViewController.title = @"Settings";
@@ -52,6 +55,8 @@
         settingsViewController.tabBarItem = [[UITabBarItem alloc]
                                              initWithTitle:@"Settings"
                                              image:[UIImage imageNamed:@"Gear.png"] tag:4];
+        searchViewController.tabBarItem = [[UITabBarItem alloc]
+                                           initWithTabBarSystemItem:UITabBarSystemItemSearch tag:5];
 
         [bibleViewController.tabBarItem setTitleTextAttributes:
                                             [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -69,15 +74,25 @@
                                             [[NSDictionary alloc] initWithObjectsAndKeys:
                                              [UIColor whiteColor], UITextAttributeTextColor, nil]
                                         forState: UIControlStateNormal];
+        [searchViewController.tabBarItem setTitleTextAttributes:
+                                            [[NSDictionary alloc] initWithObjectsAndKeys:
+                                             [UIColor whiteColor], UITextAttributeTextColor, nil]
+                                        forState: UIControlStateNormal];
                                              
         // navigation controllers
         UINavigationController *navBibleController = [[UINavigationController alloc] initWithRootViewController:bibleViewController ];
         UINavigationController *navStrongsController = [[UINavigationController alloc] initWithRootViewController:strongsViewController ];
         UINavigationController *navAboutController = [[UINavigationController alloc] initWithRootViewController:aboutViewController ];
         UINavigationController *navSettingsController = [[UINavigationController alloc] initWithRootViewController:settingsViewController ];
+        UINavigationController *navSearchController = [[UINavigationController alloc] initWithRootViewController:searchViewController ];
         
         // set up our nav image
         UINavigationBar *navBar = [navBibleController navigationBar];
+        [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
+        [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
+        [UIColor whiteColor], UITextAttributeTextColor, nil]];
+
+        navBar = [navSearchController navigationBar];
         [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
         [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
         [UIColor whiteColor], UITextAttributeTextColor, nil]];
@@ -98,7 +113,7 @@
         [UIColor whiteColor], UITextAttributeTextColor, nil]];
 
         // add them to our view
-        [self setViewControllers:[NSArray arrayWithObjects:navBibleController, navStrongsController,
+        [self setViewControllers:[NSArray arrayWithObjects:navBibleController, navSearchController, navStrongsController,
                                                            navAboutController, navSettingsController, nil]];
         UITabBar *myTabBar = [self tabBar];
         [myTabBar setBackgroundImage:[UIImage imageNamed:@"BlueTabBar.png"]];
