@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PKStrongsController : UIViewController
+@interface PKStrongsController : UITableViewController <UISearchBarDelegate>
 
+    @property (strong, nonatomic) NSString * theSearchTerm;
+    
+    @property (strong, nonatomic) NSArray * theSearchResults;
+    
+    @property (strong, nonatomic) UISearchBar *theSearchBar;
+    
+    -(void)doSearchForTerm: (NSString *)theTerm;
+    
 @end
