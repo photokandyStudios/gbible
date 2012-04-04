@@ -32,7 +32,6 @@
 		6A58AE101529567D00EAF960 /* PKNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE0F1529567D00EAF960 /* PKNotes.m */; };
 		6A58AE1415295BBD00EAF960 /* PKNoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */; };
 		6A820DDA1517EA3B006523EE /* PKBible.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A820DD91517EA3B006523EE /* PKBible.m */; };
-		6A820DDE151837C6006523EE /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6A820DDD151835E8006523EE /* bibleContent */; };
 		6A8D44B5152262F000746EA9 /* TableCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A8D44B1152262F000746EA9 /* TableCell.png */; };
 		6A8D44B6152262F000746EA9 /* TableCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A8D44B2152262F000746EA9 /* TableCell@2x.png */; };
 		6A8D44BA1522634F00746EA9 /* BlueTabBarSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A8D44B81522634F00746EA9 /* BlueTabBarSelected.png */; };
@@ -78,6 +77,8 @@
 		6AD7E2D2152AA3A60072483E /* PKHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D1152AA3A60072483E /* PKHistoryViewController.m */; };
 		6AD7E2D5152AA4130072483E /* PKSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D4152AA4130072483E /* PKSearchViewController.m */; };
 		6AD7E2D7152AB51C0072483E /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D6152AB51C0072483E /* readme.md */; };
+		6AD7E2D9152BAB8B0072483E /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D8152BAB700072483E /* bibleContent */; };
+		6AD7E2DD152BAC540072483E /* PKStrongs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2DC152BAC540072483E /* PKStrongs.m */; };
 		6AF0C0A6150EE8BB00BFAE03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */; };
 		6AF0C0A8150EE8BB00BFAE03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */; };
 		6AF0C0AA150EE8BB00BFAE03 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A9150EE8BB00BFAE03 /* CoreGraphics.framework */; };
@@ -133,7 +134,6 @@
 		6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKNoteEditorViewController.m; sourceTree = "<group>"; };
 		6A820DD81517EA3B006523EE /* PKBible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBible.h; sourceTree = "<group>"; };
 		6A820DD91517EA3B006523EE /* PKBible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBible.m; sourceTree = "<group>"; };
-		6A820DDD151835E8006523EE /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
 		6A8D44B1152262F000746EA9 /* TableCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TableCell.png; sourceTree = "<group>"; };
 		6A8D44B2152262F000746EA9 /* TableCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TableCell@2x.png"; sourceTree = "<group>"; };
 		6A8D44B81522634F00746EA9 /* BlueTabBarSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueTabBarSelected.png; sourceTree = "<group>"; };
@@ -196,6 +196,9 @@
 		6AD7E2D3152AA4130072483E /* PKSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSearchViewController.h; sourceTree = "<group>"; };
 		6AD7E2D4152AA4130072483E /* PKSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSearchViewController.m; sourceTree = "<group>"; };
 		6AD7E2D6152AB51C0072483E /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
+		6AD7E2D8152BAB700072483E /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
+		6AD7E2DB152BAC540072483E /* PKStrongs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKStrongs.h; sourceTree = "<group>"; };
+		6AD7E2DC152BAC540072483E /* PKStrongs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKStrongs.m; sourceTree = "<group>"; };
 		6AF0C0A1150EE8BB00BFAE03 /* gbible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gbible.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -307,7 +310,7 @@
 		6A92CCC71516F0B000F8AE15 /* Databases */ = {
 			isa = PBXGroup;
 			children = (
-				6A820DDD151835E8006523EE /* bibleContent */,
+				6AD7E2D8152BAB700072483E /* bibleContent */,
 			);
 			name = Databases;
 			sourceTree = "<group>";
@@ -330,8 +333,9 @@
 		6A9793A81513F2E700A5C9F1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6AD7E2DA152BAC240072483E /* strongs */,
 				6A9793BB15141C5200A5C9F1 /* bible */,
-				6A9793B915141C4200A5C9F1 /* bookmarks */,
+				6A9793B915141C4200A5C9F1 /* history */,
 				6A9793B11513FC2400A5C9F1 /* database */,
 				6A9793BA15141C4900A5C9F1 /* highlights */,
 				6A9793B815141C3D00A5C9F1 /* notes */,
@@ -416,11 +420,11 @@
 			name = notes;
 			sourceTree = "<group>";
 		};
-		6A9793B915141C4200A5C9F1 /* bookmarks */ = {
+		6A9793B915141C4200A5C9F1 /* history */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = bookmarks;
+			name = history;
 			sourceTree = "<group>";
 		};
 		6A9793BA15141C4900A5C9F1 /* highlights */ = {
@@ -439,6 +443,15 @@
 				6A820DD91517EA3B006523EE /* PKBible.m */,
 			);
 			name = bible;
+			sourceTree = "<group>";
+		};
+		6AD7E2DA152BAC240072483E /* strongs */ = {
+			isa = PBXGroup;
+			children = (
+				6AD7E2DB152BAC540072483E /* PKStrongs.h */,
+				6AD7E2DC152BAC540072483E /* PKStrongs.m */,
+			);
+			name = strongs;
 			sourceTree = "<group>";
 		};
 		6AF0C096150EE8BB00BFAE03 = {
@@ -651,7 +664,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A820DDE151837C6006523EE /* bibleContent in Resources */,
+				6AD7E2D9152BAB8B0072483E /* bibleContent in Resources */,
 				6AF0C0B0150EE8BB00BFAE03 /* InfoPlist.strings in Resources */,
 				6AF9D03C1512939E00514499 /* back_icon@2x.png in Resources */,
 				6AF9D03B1512939E00514499 /* back_icon.png in Resources */,
@@ -749,6 +762,7 @@
 				6A58AE1415295BBD00EAF960 /* PKNoteEditorViewController.m in Sources */,
 				6AD7E2D2152AA3A60072483E /* PKHistoryViewController.m in Sources */,
 				6AD7E2D5152AA4130072483E /* PKSearchViewController.m in Sources */,
+				6AD7E2DD152BAC540072483E /* PKStrongs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
