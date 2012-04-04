@@ -16,6 +16,9 @@
 #import "PKAppDelegate.h"
 #import "SegmentsController.h"
 #import "PKNoteEditorViewController.h"
+#import "PKStrongsController.h"
+#import "ZUUIRevealController.h"
+#import "PKRootViewController.h"
 
 @interface PKBibleViewController ()
 
@@ -928,9 +931,27 @@
  */
 -(void)defineWord: (id)sender
 {
+    // if the word is a strong's #, we'll do that lookup instead.
+    if ( [[selectedWord substringToIndex:1] isEqualToString:@"G"] &&
+         [[selectedWord substringFromIndex:1] intValue] > 0 )
+    {
+        [self searchStrongs:sender];
+        return;
+    }
 
     UIReferenceLibraryViewController *dictionary = [[UIReferenceLibraryViewController alloc] initWithTerm:selectedWord];
     [self presentModalViewController:dictionary animated:YES];
+}
+
+-(void)searchStrongs: (id)sender
+{
+    ZUUIRevealController *rc = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
+    PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
+    PKStrongsController *svc = [[[rvc.viewControllers objectAtIndex:2] viewControllers] objectAtIndex:0];
+    
+    [svc doSearchForTerm:selectedWord];
+    
+
 }
 
 -(void)doAnnotate: (id)sender
