@@ -10,4 +10,7 @@
 
 @interface PKStrongs : NSObject
 
+    +(NSArray *) entryForKey: (NSString *)theKey;
+    +(NSArray *) keysThatMatch: (NSString *)theTerm;
+
 @end
