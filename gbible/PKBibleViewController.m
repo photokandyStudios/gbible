@@ -19,6 +19,7 @@
 #import "PKStrongsController.h"
 #import "ZUUIRevealController.h"
 #import "PKRootViewController.h"
+#import "PKSearchViewController.h"
 
 @interface PKBibleViewController ()
 
@@ -359,7 +360,7 @@
     
     UILongPressGestureRecognizer *longPress=[[UILongPressGestureRecognizer alloc]
                                              initWithTarget:self action:@selector(didReceiveLongPress:)];
-    longPress.minimumPressDuration = 1.0;
+    longPress.minimumPressDuration = 0.5;
     longPress.numberOfTapsRequired = 0;
     longPress.numberOfTouchesRequired = 1;
     [self.tableView addGestureRecognizer:longPress];
@@ -943,13 +944,25 @@
     [self presentModalViewController:dictionary animated:YES];
 }
 
+-(void)searchBible: (id)sender
+{
+    ZUUIRevealController *rc = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
+    PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
+    PKSearchViewController *svc = [[[rvc.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0];
+    
+    [svc doSearchForTerm:selectedWord];
+}
+
 -(void)searchStrongs: (id)sender
 {
+    BOOL isStrongs = [[selectedWord substringToIndex:1] isEqualToString:@"G"] &&
+                     [[selectedWord substringFromIndex:1] intValue] > 0;
+
     ZUUIRevealController *rc = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
     PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
     PKStrongsController *svc = [[[rvc.viewControllers objectAtIndex:2] viewControllers] objectAtIndex:0];
     
-    [svc doSearchForTerm:selectedWord];
+    [svc doSearchForTerm:selectedWord byKeyOnly:isStrongs];
     
 
 }
