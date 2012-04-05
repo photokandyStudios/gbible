@@ -7,6 +7,12 @@
 //
 
 #import "PKSearchViewController.h"
+#import "PKSettings.h"
+#import "PKBible.h"
+#import "PKAppDelegate.h"
+#import "ZUUIRevealController.h"
+#import "PKRootViewController.h"
+#import "PKBibleViewController.h"
 
 @interface PKSearchViewController ()
 
@@ -14,114 +20,209 @@
 
 @implementation PKSearchViewController
 
+    @synthesize theSearchBar;
+    @synthesize theSearchTerm;
+    @synthesize theSearchResults;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        [self.navigationItem setTitle:@"Search"];
+        self.theSearchTerm = [[PKSettings instance] lastSearch];
     }
     return self;
 }
+
+-(void)doSearchForTerm:(NSString *)theTerm
+{
+    [self doSearchForTerm:theTerm requireParsings:NO];
+}
+
+-(void)doSearchForTerm:(NSString *)theTerm requireParsings:(BOOL)parsings
+{
+    theSearchResults = nil;
+    theSearchTerm = theTerm;
+    
+    if ([theTerm isEqualToString:@""])
+    {
+        theSearchResults = nil;
+    }
+    else
+    {
+        theSearchResults = [PKBible passagesMatching:theTerm requireParsings:parsings];
+    }
+    [self.tableView reloadData];
+    
+    theSearchBar.text = theTerm;
+    
+    ((PKSettings *)[PKSettings instance]).lastSearch = theTerm;
+
+    UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
+    tbc.selectedIndex = 1;
+
+}
+
+
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    // add search bar
+    theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
+    theSearchBar.delegate = self;
+    theSearchBar.placeholder = @"Search Term";
+    theSearchBar.showsCancelButton = NO;
+    theSearchBar.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+
+    
+    self.tableView.tableHeaderView = theSearchBar;
+    
+    // add navbar items
+    UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
+                                        initWithImage:[UIImage imageNamed:@"Listb.png"] 
+                                        landscapeImagePhone:[UIImage imageNamed:@"listLandscape.png"]
+                                        style:UIBarButtonItemStylePlain 
+                                        target:self.parentViewController.parentViewController.parentViewController
+                                        action:@selector(revealToggle:)];
+    changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    changeReference.accessibilityLabel = @"Go to passage";
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, nil];
+    
+    // handle pan from left to right to reveal sidebar
+    CGRect leftFrame = self.view.frame;
+    leftFrame.origin.x = 0;
+    leftFrame.origin.y = 0;
+    leftFrame.size.width=10;
+    UILabel *leftLabel = [[UILabel alloc] initWithFrame:leftFrame];
+    leftLabel.backgroundColor = [UIColor clearColor];
+    leftLabel.userInteractionEnabled = YES;
+    [self.view addSubview:leftLabel];
+    
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc]
+                                          initWithTarget:self.parentViewController.parentViewController.parentViewController
+                                          action:@selector(revealGesture:)];
+
+    [leftLabel addGestureRecognizer:panGesture];
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+    [self doSearchForTerm:self.theSearchTerm];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    // reload the search? TODO
+    [self.tableView reloadData];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    theSearchResults = nil;
+    theSearchTerm = nil;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation  
+{
+    [self.tableView reloadData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	return YES;
+}
+-(BOOL)canBecomeFirstResponder
+{
+    return YES;
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    if (theSearchResults != nil)
+    {
+        return [theSearchResults count];
+    }
+    else 
+    {
+        return 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *searchCellID = @"PKSearchCellID";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:searchCellID];
+    if (!cell)
+    {
+        cell = [[UITableViewCell alloc]
+                initWithStyle:UITableViewCellStyleSubtitle
+                reuseIdentifier:searchCellID];
+    }
     
-    // Configure the cell...
+    NSUInteger row = [indexPath row];
+    
+    NSString *thePassage = [theSearchResults objectAtIndex:row];
+    int theBook = [PKBible bookFromString:thePassage];
+    int theChapter = [PKBible chapterFromString:thePassage];
+    int theVerse = [PKBible verseFromString:thePassage];
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ %i:%@", 
+                                                    [PKBible nameForBook:theBook],
+                                                    theChapter,
+                                                    [PKBible getTextForBook:theBook 
+                                                                 forChapter:theChapter 
+                                                                   forVerse:theVerse 
+                                                                    forSide:2]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %i:%i - %@", 
+                                                    [PKBible nameForBook:theBook],
+                                                    theChapter,
+                                                    theVerse,
+                                                    [PKBible getTextForBook:theBook 
+                                                                 forChapter:theChapter 
+                                                                   forVerse:theVerse 
+                                                                    forSide:1]];
     
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+    NSUInteger row = [indexPath row];
+    
+    ZUUIRevealController *rc = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
+    PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
+    PKBibleViewController *bvc = [[[rvc.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];
+    
+    NSString *thePassage = [theSearchResults objectAtIndex:row];
+    int theBook = [PKBible bookFromString:thePassage];
+    int theChapter = [PKBible chapterFromString:thePassage];
+    int theVerse = [PKBible verseFromString:thePassage];
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+    [bvc displayBook:theBook andChapter:theChapter andVerse:theVerse];
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark Searching
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    [self doSearchForTerm:searchBar.text];
+    [self becomeFirstResponder];
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-}
 
 @end
