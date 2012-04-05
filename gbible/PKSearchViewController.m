@@ -80,6 +80,17 @@
 
     
     self.tableView.tableHeaderView = theSearchBar;
+
+    UISwipeGestureRecognizer *swipeRight=[[UISwipeGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(didReceiveRightSwipe:)];
+    UISwipeGestureRecognizer *swipeLeft =[[UISwipeGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(didReceiveLeftSwipe:)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    swipeLeft.direction  = UISwipeGestureRecognizerDirectionLeft;
+    [swipeRight setNumberOfTouchesRequired:1];
+    [swipeLeft  setNumberOfTouchesRequired:1];
+    [self.tableView addGestureRecognizer:swipeRight];
+    [self.tableView addGestureRecognizer:swipeLeft];
     
     // add navbar items
     UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
@@ -224,5 +235,34 @@
     [self becomeFirstResponder];
 }
 
+-(void) didReceiveRightSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+    if (p.x < 75)
+    {
+        // show the sidebar, if not visible
+        ZUUIRevealController *rc = (ZUUIRevealController*) self.parentViewController.parentViewController.parentViewController;
+        if ( [rc currentFrontViewPosition] == FrontViewPositionLeft )
+        {
+            [rc revealToggle:nil];
+            return;
+        }
+    }
+}
+
+-(void) didReceiveLeftSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+//    if (p.x < 75)
+//    {
+        // hide the sidebar, if visible
+        ZUUIRevealController *rc = (ZUUIRevealController*) self.parentViewController.parentViewController.parentViewController;
+        if ( [rc currentFrontViewPosition] == FrontViewPositionRight )
+        {
+            [rc revealToggle:nil];
+            return;
+        }
+//    }
+}
 
 @end

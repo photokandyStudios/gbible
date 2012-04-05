@@ -684,6 +684,17 @@
  */
 -(void) didReceiveRightSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
 {
+    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+    if (p.x < 75)
+    {
+        // show the sidebar, if not visible
+        ZUUIRevealController *rc = (ZUUIRevealController*) self.parentViewController.parentViewController.parentViewController;
+        if ( [rc currentFrontViewPosition] == FrontViewPositionLeft )
+        {
+            [rc revealToggle:nil];
+            return;
+        }
+    }
     [self previousChapter];
     [self.tableView reloadData];
     [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
@@ -696,6 +707,17 @@
  */
 -(void) didReceiveLeftSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
 {
+    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+//    if (p.x < 75)
+//    {
+        // hide the sidebar, if visible
+        ZUUIRevealController *rc = (ZUUIRevealController*) self.parentViewController.parentViewController.parentViewController;
+        if ( [rc currentFrontViewPosition] == FrontViewPositionRight )
+        {
+            [rc revealToggle:nil];
+            return;
+        }
+//    }
     NSDate *startTime = [NSDate date];
     [self nextChapter];
     NSDate *endTime = [NSDate date];

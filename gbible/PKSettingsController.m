@@ -9,6 +9,7 @@
 #import "PKSettingsController.h"
 #import "PKConstants.h"
 #import "PKSettings.h"
+#import "ZUUIRevealController.h"
 
 @interface PKSettingsController ()
 
@@ -109,7 +110,7 @@
                                                                            [NSArray arrayWithObjects: @"King James/Authorized Version",
                                                                                                       @"Young's Literal Translation", nil], nil],
                                               [NSArray arrayWithObjects: @"Transliterate Greek?", [NSNumber numberWithInt:2], PK_SETTING_TRANSLITERATE, nil],
-                                              [NSArray arrayWithObjects: @"Show Inline Notes?", [NSNumber numberWithInt:2], PK_SETTING_INLINENOTES, nil],
+                                              //[NSArray arrayWithObjects: @"Show Inline Notes?", [NSNumber numberWithInt:2], PK_SETTING_INLINENOTES, nil],
                                               [NSArray arrayWithObjects: @"Show Morphology?", [NSNumber numberWithInt:2], PK_SETTING_SHOWMORPHOLOGY, nil],
                                               nil];
     iCloudSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Enable iCloud?", [NSNumber numberWithInt:2], PK_SETTING_USEICLOUD, nil],
@@ -124,6 +125,30 @@
     
     settingsGroup = [NSArray arrayWithObjects: textSettings, layoutSettings, iCloudSettings,
                                                exportSettings, importSettings, nil ];
+
+
+    UISwipeGestureRecognizer *swipeRight=[[UISwipeGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(didReceiveRightSwipe:)];
+    UISwipeGestureRecognizer *swipeLeft =[[UISwipeGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(didReceiveLeftSwipe:)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    swipeLeft.direction  = UISwipeGestureRecognizerDirectionLeft;
+    [swipeRight setNumberOfTouchesRequired:1];
+    [swipeLeft  setNumberOfTouchesRequired:1];
+    [self.tableView addGestureRecognizer:swipeRight];
+    [self.tableView addGestureRecognizer:swipeLeft];
+
+    UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
+                                        initWithImage:[UIImage imageNamed:@"Listb.png"] 
+                                        landscapeImagePhone:[UIImage imageNamed:@"listLandscape.png"]
+                                        style:UIBarButtonItemStylePlain 
+                                        target:self.parentViewController.parentViewController.parentViewController
+                                        action:@selector(revealToggle:)];
+    changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    changeReference.accessibilityLabel = @"Go to passage";
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, 
+                                                                       nil];
+    
 }
 
 /**
@@ -400,6 +425,36 @@
 
     theTableCell = nil;
     currentPathForPopover = nil;
+}
+
+-(void) didReceiveRightSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+    if (p.x < 75)
+    {
+        // show the sidebar, if not visible
+        ZUUIRevealController *rc = (ZUUIRevealController*) self.parentViewController.parentViewController.parentViewController;
+        if ( [rc currentFrontViewPosition] == FrontViewPositionLeft )
+        {
+            [rc revealToggle:nil];
+            return;
+        }
+    }
+}
+
+-(void) didReceiveLeftSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+//    if (p.x < 75)
+//    {
+        // hide the sidebar, if visible
+        ZUUIRevealController *rc = (ZUUIRevealController*) self.parentViewController.parentViewController.parentViewController;
+        if ( [rc currentFrontViewPosition] == FrontViewPositionRight )
+        {
+            [rc revealToggle:nil];
+            return;
+        }
+//    }
 }
 
 @end
