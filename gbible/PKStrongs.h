@@ -12,5 +12,6 @@
 
     +(NSArray *) entryForKey: (NSString *)theKey;
     +(NSArray *) keysThatMatch: (NSString *)theTerm;
+    +(NSArray *)keysThatMatch:(NSString *)theTerm byKeyOnly:(BOOL)keyOnly;
 
 @end

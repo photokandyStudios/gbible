@@ -45,4 +45,22 @@
         return [theResult copy];
     }
 
+    +(NSArray *)keysThatMatch:(NSString *)theTerm byKeyOnly:(BOOL)keyOnly
+    {
+        if (!keyOnly)
+        {
+            return [self keysThatMatch:theTerm];
+        }
+        FMDatabase *db = [(PKDatabase *)[PKDatabase instance] bible];
+
+        NSString *theNewTerm = [NSString stringWithFormat:@"%@", [[theTerm uppercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+
+        FMResultSet *s = [db executeQuery:@"SELECT * FROM strongs WHERE UPPER(key) = ? ORDER BY 1 LIMIT 100", theNewTerm, theNewTerm, theNewTerm, theNewTerm, theNewTerm];
+        NSMutableArray *theResult = [[NSMutableArray alloc] init ];
+        while ([s next]) {
+            [theResult addObject:[s stringForColumnIndex:0]];
+        }
+        return [theResult copy];
+    }
+
 @end
