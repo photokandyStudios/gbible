@@ -9,6 +9,10 @@
 #import "PKStrongsController.h"
 #import "PKStrongs.h"
 #import "PKSettings.h"
+#import "PKAppDelegate.h"
+#import "ZUUIRevealController.h"
+#import "PKSearchViewController.h"
+#import "PKRootViewController.h"
 
 @interface PKStrongsController ()
 
@@ -30,7 +34,12 @@
     return self;
 }
 
--(void)doSearchForTerm:(NSString *)theTerm
+-(void)doSearchForTerm:(NSString *)theTerm  
+{
+    [self doSearchForTerm:theTerm byKeyOnly:NO];
+}
+
+-(void)doSearchForTerm:(NSString *)theTerm byKeyOnly:(BOOL)keyOnly
 {
     theSearchResults = nil;
     theSearchTerm = theTerm;
@@ -41,7 +50,7 @@
     }
     else
     {
-        theSearchResults = [PKStrongs keysThatMatch:theTerm];
+        theSearchResults = [PKStrongs keysThatMatch:theTerm byKeyOnly:keyOnly];
     }
     [self.tableView reloadData];
     
@@ -255,6 +264,13 @@
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger row = [indexPath row];
+
+
+    ZUUIRevealController *rc = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
+    PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
+    PKSearchViewController *svc = [[[rvc.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0];
+    
+    [svc doSearchForTerm:[theSearchResults objectAtIndex:row] requireParsings:YES];
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
