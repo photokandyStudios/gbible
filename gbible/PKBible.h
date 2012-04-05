@@ -27,6 +27,12 @@
     +(int) bookFromString: (NSString *)theString;
     +(int) chapterFromString: (NSString *)theString;
     +(int) verseFromString: (NSString *)theString;
+    
+    +(NSArray *) passagesMatching: (NSString *)theTerm;
+    +(int) parsedVariant: (int)theBook;
+    +(BOOL) checkParsingsForBook: (int)theBook;
+    +(NSArray *) passagesMatching:(NSString *)theTerm requireParsings: (BOOL)parsings;
+    +(NSArray *) passagesMatching: (NSString *)theTerm withGreekBible: (int)theGreekBible andEnglishBible: (int)theEnglishBible;
 
     // formatting routines
     +(CGFloat)formattedTextHeight: (NSArray *)theWordArray withParsings:(BOOL)parsed;

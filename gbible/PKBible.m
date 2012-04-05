@@ -228,7 +228,14 @@
         
         if (theSide == 2)
         {
-            theText = [theRef stringByAppendingString:theText];
+            if (theText != nil)
+            {
+                theText = [theRef stringByAppendingString:theText];
+            }
+            else 
+            {
+                theText = theRef;
+            }
         }
         theText = [theText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         return theText;
@@ -623,4 +630,70 @@
         
         return theWordArray;
     }
+    
+    +(NSArray *) passagesMatching:(NSString *)theTerm
+    {
+        int currentGreekBible = [[PKSettings instance] greekText];
+        int currentEnglishBible=[[PKSettings instance] englishText];
+        
+        return [self passagesMatching:theTerm withGreekBible:currentGreekBible andEnglishBible:currentEnglishBible];
+    }
+    
+    +(int) parsedVariant: (int)theBook
+    {
+        int theParsedBook = -1; // return this if nothing matches
+        FMDatabase *db = [[PKDatabase instance] bible];
+        FMResultSet *s = [db executeQuery:@"SELECT IFNULL(bibleParsedID,-1) FROM bibles WHERE bibleID=?",[NSNumber numberWithInt:theBook]];
+        if ([s next])
+        {
+            theParsedBook = [s intForColumnIndex:0];
+        }
+        return theParsedBook;
+    }
+    
+    +(BOOL) checkParsingsForBook: (int)theBook
+    {
+        return (theBook == [self parsedVariant:theBook]);
+    }
+    
+    +(NSArray *) passagesMatching:(NSString *)theTerm requireParsings: (BOOL)parsings
+    {
+        int currentGreekBible = [[PKSettings instance] greekText];
+        int currentEnglishBible=[[PKSettings instance] englishText];
+        
+        if (parsings)
+        {
+            int parsedGreekBible = [self parsedVariant:currentGreekBible];
+            if (parsedGreekBible>-1)
+            {
+                currentGreekBible = parsedGreekBible;
+            }
+        }
+        return [self passagesMatching:theTerm withGreekBible:currentGreekBible andEnglishBible:currentEnglishBible];
+    }
+    
+
+    +(NSArray *) passagesMatching: (NSString *)theTerm withGreekBible: (int)theGreekBible andEnglishBible: (int)theEnglishBible
+    {
+        NSMutableArray *theMatches = [[NSMutableArray alloc] init];
+        FMDatabase *db = [[PKDatabase instance] bible];
+        FMResultSet *s = [db executeQuery:@"SELECT bibleBook, bibleChapter, bibleVerse FROM content WHERE bibleID in (?,?) AND TRIM(UPPER(bibleText)) LIKE ? ORDER BY 1,2,3",
+                                           [NSNumber numberWithInt:theGreekBible],
+                                           [NSNumber numberWithInt:theEnglishBible],
+                                           [NSString stringWithFormat:@"%%%@%%", [[theTerm uppercaseString] 
+                                           stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]]];
+        while ([s next])
+        {
+            int theBook = [s intForColumnIndex:0];
+            int theChapter=[s intForColumnIndex:1];
+            int theVerse=[s intForColumnIndex:2];
+            NSString *thePassage = [PKBible stringFromBook:theBook forChapter:theChapter forVerse:theVerse];
+            [theMatches addObject:thePassage];
+        }
+        
+        return [theMatches copy];
+    }
+
+
+
 @end
