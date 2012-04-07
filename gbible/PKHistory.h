@@ -10,4 +10,11 @@
 
 @interface PKHistory : NSObject
 
+    +(id) instance;
+    -(NSMutableArray *)mostRecentPassages;
+    -(NSMutableArray *)mostRecentPassagesWithLimit: (int) theLimit;
+    -(void) addPassage: (NSString *)thePassage;
+    -(void) addPassagewithBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse;
+    -(void) createSchema;
+
 @end

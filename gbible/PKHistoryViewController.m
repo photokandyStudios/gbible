@@ -7,12 +7,25 @@
 //
 
 #import "PKHistoryViewController.h"
+#import "PKHistory.h"
+#import "PKBible.h"
+#import "ZUUIRevealController.h"
+#import "PKRootViewController.h"
+#import "PKBibleViewController.h"
 
 @interface PKHistoryViewController ()
 
 @end
 
 @implementation PKHistoryViewController
+
+    @synthesize history;
+    
+- (void)reloadHistory
+{
+    history = [(PKHistory *)[PKHistory instance] mostRecentPassages];
+    [self.tableView reloadData];
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -27,101 +40,104 @@
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.backgroundView = nil; 
+    self.tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"Background.png"]];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    history = nil;
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    CGRect newFrame = self.navigationController.view.frame;
+    newFrame.size.width = 260;
+    self.navigationController.view.frame = newFrame;
+    [self reloadHistory];
 }
 
+
+- (void)didAnimateFirstHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    CGRect newFrame = self.navigationController.view.frame;
+    newFrame.size.width = 260;
+    self.navigationController.view.frame = newFrame;
+}
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    CGRect newFrame = self.navigationController.view.frame;
+    newFrame.size.width = 260;
+    self.navigationController.view.frame = newFrame;
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	return YES;
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [history count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *historyCellID = @"PKHistoryCellID";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:historyCellID];
+    if (!cell)
+    {
+        cell = [[UITableViewCell alloc]
+                initWithStyle: UITableViewCellStyleDefault
+                reuseIdentifier:historyCellID];
+    }
     
-    // Configure the cell...
+    NSUInteger row = [indexPath row];
     
+    NSString *thePassage = [history objectAtIndex:row];
+    int theBook = [PKBible bookFromString:thePassage];
+    int theChapter = [PKBible chapterFromString:thePassage];
+    int theVerse = [PKBible verseFromString:thePassage];
+    NSString *thePrettyPassage = [NSString stringWithFormat:@"%@ %i:%i",
+                                           [PKBible nameForBook:theBook], theChapter, theVerse];
+                                           
+    cell.textLabel.text = thePrettyPassage;
+    cell.textLabel.textColor = [UIColor whiteColor];
+
     return cell;
+
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+    NSUInteger row = [indexPath row];
+    NSString *thePassage = [history objectAtIndex:row];
+    int theBook = [PKBible bookFromString:thePassage];
+    int theChapter = [PKBible chapterFromString:thePassage];
+    int theVerse = [PKBible verseFromString:thePassage];
+    
+    ZUUIRevealController  *rc = (ZUUIRevealController *)self.parentViewController
+                                                            .parentViewController;
+    PKRootViewController *rvc = (PKRootViewController *)rc.frontViewController;
+        
+    PKBibleViewController *bvc = [[[rvc.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];     
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [rc revealToggle:self];
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [bvc displayBook:theBook andChapter:theChapter andVerse:theVerse];
+    
+  
 }
 
 @end
