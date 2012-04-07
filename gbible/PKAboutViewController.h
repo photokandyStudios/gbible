@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PKAboutViewController : UIViewController
+@interface PKAboutViewController : UIViewController <UIWebViewDelegate>
 
+    @property (nonatomic, strong) UIWebView *aboutWebView;
+    
 @end
