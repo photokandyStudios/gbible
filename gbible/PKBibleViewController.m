@@ -20,6 +20,8 @@
 #import "ZUUIRevealController.h"
 #import "PKRootViewController.h"
 #import "PKSearchViewController.h"
+#import "PKHistoryViewController.h"
+#import "PKHistory.h"
 
 @interface PKBibleViewController ()
 
@@ -57,6 +59,8 @@
 - (void)displayBook: (int)theBook andChapter: (int)theChapter andVerse: (int)theVerse
 {
     [self loadChapter:theChapter forBook:theBook];
+    [(PKHistory *)[PKHistory instance] addPassagewithBook:theBook andChapter:theChapter andVerse:theVerse];
+    [self notifyChangedHistory];
     [self.tableView reloadData];
     [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theVerse-1 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     
@@ -103,6 +107,8 @@
     }
     
     [self loadChapter: currentChapter forBook: currentBook];
+    [(PKHistory *)[PKHistory instance] addPassagewithBook:currentBook andChapter:currentChapter andVerse:1];
+    [self notifyChangedHistory];
 }
 
 /**
@@ -128,6 +134,8 @@
     }
     
     [self loadChapter: currentChapter forBook: currentBook];
+    [(PKHistory *)[PKHistory instance] addPassagewithBook:currentBook andChapter:currentChapter andVerse:1];
+    [self notifyChangedHistory];
 }
 
 /**
@@ -270,12 +278,15 @@
             CGFloat wordH = [[theWordElement objectAtIndex:5] floatValue];
             
             UILabel *theLabel = [[UILabel alloc] initWithFrame:CGRectMake(wordX, wordY, wordW, wordH)];
-            theLabel.text = theWord;
-            theLabel.textColor = [UIColor blackColor];
+            theLabel.text = theWord; //#573920 87, 57, 32
+            theLabel.textColor = [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0];
             theLabel.backgroundColor = [UIColor clearColor];
             if (theWordType == 10) { theLabel.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.5 alpha:1.0]; }
             if (theWordType == 20) { theLabel.textColor = [UIColor colorWithRed:0.0 green:0.5 blue:0.0 alpha:1.0]; }
             theLabel.font = theFont;
+            theLabel.accessibilityLanguage = @"en";
+            if (theWordType == 0) { theLabel.accessibilityLanguage = @"gr"; }
+            theLabel.accessibilityLabel = theWord;
             [theLabelArray addObject:theLabel];
         }
         // insert English labels
@@ -291,9 +302,11 @@
             
             UILabel *theLabel = [[UILabel alloc] initWithFrame:CGRectMake(wordX + greekColumnWidth, wordY, wordW, wordH)];
             theLabel.text = theWord;
-            theLabel.textColor = [UIColor blackColor];
+            theLabel.textColor = [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0];
             theLabel.backgroundColor = [UIColor clearColor];
             theLabel.font = theFont;
+            theLabel.accessibilityLanguage = @"en";
+            theLabel.accessibilityLabel = theWord;
             [theLabelArray addObject:theLabel];
         }
         [formattedCells addObject:theLabelArray];
@@ -612,14 +625,22 @@
         [view removeFromSuperview];
     }
     
+
+    
     NSUInteger row = [indexPath row];
 
     NSMutableArray *formattedCell = [formattedCells objectAtIndex:row];
     
+    NSMutableString *theAString = [[NSMutableString alloc] init];
+    
     for (int i=0; i<[formattedCell count]; i++)
     {
         [cell addSubview:[formattedCell objectAtIndex:i]];
+        [theAString appendString:[[formattedCell objectAtIndex:i] text]];
+        [theAString appendString:@" "];
     }
+    
+    cell.accessibilityLabel = theAString;
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -870,6 +891,11 @@
 -(void) notifyChangedHighlights
 {
     [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:1] reloadHighlights];
+}
+
+-(void) notifyChangedHistory
+{
+    [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:3] reloadHistory];
 }
 
 /**
