@@ -25,6 +25,8 @@
 		6A12F6DD151E979D00B49B6E /* Listb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A12F6DB151E979D00B49B6E /* Listb@2x.png */; };
 		6A12F6EE151ED75B00B49B6E /* ZUUIRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A12F6ED151ED75B00B49B6E /* ZUUIRevealController.m */; };
 		6A12F6F2151EDF0800B49B6E /* SegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A12F6F1151EDA9100B49B6E /* SegmentsController.m */; };
+		6A21635F1530EE3600D41447 /* PKHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A21635E1530EE3600D41447 /* PKHistory.m */; };
+		6A2163701530F7E700D41447 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21636F1530F7E700D41447 /* about.html */; };
 		6A3E433D1515918900D8745D /* BlueNavigationBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E433B1515918900D8745D /* BlueNavigationBar.png */; };
 		6A3E433E1515918900D8745D /* BlueNavigationBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E433C1515918900D8745D /* BlueNavigationBar@2x.png */; };
 		6A3E43431515981800D8745D /* BlueTabBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43411515981800D8745D /* BlueTabBar.png */; };
@@ -124,6 +126,9 @@
 		6A12F6ED151ED75B00B49B6E /* ZUUIRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZUUIRevealController.m; sourceTree = "<group>"; };
 		6A12F6F0151EDA9100B49B6E /* SegmentsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SegmentsController.h; sourceTree = "<group>"; };
 		6A12F6F1151EDA9100B49B6E /* SegmentsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SegmentsController.m; sourceTree = "<group>"; };
+		6A21635D1530EE3600D41447 /* PKHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHistory.h; sourceTree = "<group>"; };
+		6A21635E1530EE3600D41447 /* PKHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKHistory.m; sourceTree = "<group>"; };
+		6A21636F1530F7E700D41447 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		6A3E433B1515918900D8745D /* BlueNavigationBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueNavigationBar.png; sourceTree = "<group>"; };
 		6A3E433C1515918900D8745D /* BlueNavigationBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueNavigationBar@2x.png"; sourceTree = "<group>"; };
 		6A3E43411515981800D8745D /* BlueTabBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueTabBar.png; sourceTree = "<group>"; };
@@ -270,6 +275,142 @@
 			name = SegmentedControllerRevisited;
 			sourceTree = "<group>";
 		};
+		6A2163611530F1D100D41447 /* Navigation Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6A21636B1530F27700D41447 /* Passage Selection Controller */,
+				6A21636C1530F28000D41447 /* Highlights Controller */,
+				6A21636D1530F28700D41447 /* Notes (List) Controller */,
+				6A21636E1530F29000D41447 /* History Controller */,
+			);
+			name = "Navigation Controllers";
+			sourceTree = "<group>";
+		};
+		6A2163621530F1F000D41447 /* Content Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6A9793DA15143B7A00A5C9F1 /* PKRootViewController.h */,
+				6A9793DB15143B7A00A5C9F1 /* PKRootViewController.m */,
+				6A2163641530F21900D41447 /* About Controller */,
+				6A2163651530F22200D41447 /* Bible Controller */,
+				6A2163661530F22D00D41447 /* Settings Controller */,
+				6A2163671530F23900D41447 /* Search Controllers */,
+			);
+			name = "Content Controllers";
+			sourceTree = "<group>";
+		};
+		6A2163631530F20400D41447 /* Editing Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6A21636A1530F26600D41447 /* Note Editor Controller */,
+			);
+			name = "Editing Controllers";
+			sourceTree = "<group>";
+		};
+		6A2163641530F21900D41447 /* About Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6A9793BF15143ABF00A5C9F1 /* PKAboutViewController.h */,
+				6A9793C015143ABF00A5C9F1 /* PKAboutViewController.m */,
+				6A21636F1530F7E700D41447 /* about.html */,
+			);
+			name = "About Controller";
+			sourceTree = "<group>";
+		};
+		6A2163651530F22200D41447 /* Bible Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6A9793BC15143AA200A5C9F1 /* PKBibleViewController.h */,
+				6A9793BD15143AA200A5C9F1 /* PKBibleViewController.m */,
+			);
+			name = "Bible Controller";
+			sourceTree = "<group>";
+		};
+		6A2163661530F22D00D41447 /* Settings Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6A9793C215143ACD00A5C9F1 /* PKSettingsController.h */,
+				6A9793C315143ACD00A5C9F1 /* PKSettingsController.m */,
+			);
+			name = "Settings Controller";
+			sourceTree = "<group>";
+		};
+		6A2163671530F23900D41447 /* Search Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6A2163681530F24100D41447 /* Search Strongs Controller */,
+				6A2163691530F24D00D41447 /* Search Bible Controller */,
+			);
+			name = "Search Controllers";
+			sourceTree = "<group>";
+		};
+		6A2163681530F24100D41447 /* Search Strongs Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6A9793C515143ADB00A5C9F1 /* PKStrongsController.h */,
+				6A9793C615143ADB00A5C9F1 /* PKStrongsController.m */,
+			);
+			name = "Search Strongs Controller";
+			sourceTree = "<group>";
+		};
+		6A2163691530F24D00D41447 /* Search Bible Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6AD7E2D3152AA4130072483E /* PKSearchViewController.h */,
+				6AD7E2D4152AA4130072483E /* PKSearchViewController.m */,
+			);
+			name = "Search Bible Controller";
+			sourceTree = "<group>";
+		};
+		6A21636A1530F26600D41447 /* Note Editor Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6A58AE1215295BBD00EAF960 /* PKNoteEditorViewController.h */,
+				6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */,
+			);
+			name = "Note Editor Controller";
+			sourceTree = "<group>";
+		};
+		6A21636B1530F27700D41447 /* Passage Selection Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6A9793CB15143B0000A5C9F1 /* PKBibleBookChaptersViewController.h */,
+				6A9793CC15143B0000A5C9F1 /* PKBibleBookChaptersViewController.m */,
+				6A9793CE15143B0F00A5C9F1 /* PKBibleBookChapterVersesViewController.h */,
+				6A9793CF15143B0F00A5C9F1 /* PKBibleBookChapterVersesViewController.m */,
+				6A9793C815143AF200A5C9F1 /* PKBibleBooksController.h */,
+				6A9793C915143AF200A5C9F1 /* PKBibleBooksController.m */,
+			);
+			name = "Passage Selection Controller";
+			sourceTree = "<group>";
+		};
+		6A21636C1530F28000D41447 /* Highlights Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6A9793D415143B3400A5C9F1 /* PKHighlightsViewController.h */,
+				6A9793D515143B3400A5C9F1 /* PKHighlightsViewController.m */,
+			);
+			name = "Highlights Controller";
+			sourceTree = "<group>";
+		};
+		6A21636D1530F28700D41447 /* Notes (List) Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6A9793D715143B5300A5C9F1 /* PKNotesViewController.h */,
+				6A9793D815143B5300A5C9F1 /* PKNotesViewController.m */,
+			);
+			name = "Notes (List) Controller";
+			sourceTree = "<group>";
+		};
+		6A21636E1530F29000D41447 /* History Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6AD7E2D0152AA3A60072483E /* PKHistoryViewController.h */,
+				6AD7E2D1152AA3A60072483E /* PKHistoryViewController.m */,
+			);
+			name = "History Controller";
+			sourceTree = "<group>";
+		};
 		6A3E43401515918E00D8745D /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
@@ -354,32 +495,9 @@
 		6A9793AB1513F2F500A5C9F1 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				6A9793BF15143ABF00A5C9F1 /* PKAboutViewController.h */,
-				6A9793C015143ABF00A5C9F1 /* PKAboutViewController.m */,
-				6A9793CB15143B0000A5C9F1 /* PKBibleBookChaptersViewController.h */,
-				6A9793CC15143B0000A5C9F1 /* PKBibleBookChaptersViewController.m */,
-				6A9793CE15143B0F00A5C9F1 /* PKBibleBookChapterVersesViewController.h */,
-				6A9793CF15143B0F00A5C9F1 /* PKBibleBookChapterVersesViewController.m */,
-				6A9793C815143AF200A5C9F1 /* PKBibleBooksController.h */,
-				6A9793C915143AF200A5C9F1 /* PKBibleBooksController.m */,
-				6A9793BC15143AA200A5C9F1 /* PKBibleViewController.h */,
-				6A9793BD15143AA200A5C9F1 /* PKBibleViewController.m */,
-				6A9793D415143B3400A5C9F1 /* PKHighlightsViewController.h */,
-				6A9793D515143B3400A5C9F1 /* PKHighlightsViewController.m */,
-				6A9793D715143B5300A5C9F1 /* PKNotesViewController.h */,
-				6A9793D815143B5300A5C9F1 /* PKNotesViewController.m */,
-				6A9793DA15143B7A00A5C9F1 /* PKRootViewController.h */,
-				6A9793DB15143B7A00A5C9F1 /* PKRootViewController.m */,
-				6A9793C215143ACD00A5C9F1 /* PKSettingsController.h */,
-				6A9793C315143ACD00A5C9F1 /* PKSettingsController.m */,
-				6A9793C515143ADB00A5C9F1 /* PKStrongsController.h */,
-				6A9793C615143ADB00A5C9F1 /* PKStrongsController.m */,
-				6A58AE1215295BBD00EAF960 /* PKNoteEditorViewController.h */,
-				6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */,
-				6AD7E2D0152AA3A60072483E /* PKHistoryViewController.h */,
-				6AD7E2D1152AA3A60072483E /* PKHistoryViewController.m */,
-				6AD7E2D3152AA4130072483E /* PKSearchViewController.h */,
-				6AD7E2D4152AA4130072483E /* PKSearchViewController.m */,
+				6A2163621530F1F000D41447 /* Content Controllers */,
+				6A2163631530F20400D41447 /* Editing Controllers */,
+				6A2163611530F1D100D41447 /* Navigation Controllers */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -423,6 +541,8 @@
 		6A9793B915141C4200A5C9F1 /* history */ = {
 			isa = PBXGroup;
 			children = (
+				6A21635D1530EE3600D41447 /* PKHistory.h */,
+				6A21635E1530EE3600D41447 /* PKHistory.m */,
 			);
 			name = history;
 			sourceTree = "<group>";
@@ -721,6 +841,7 @@
 				6A8D44BE152263B400746EA9 /* Background.png in Resources */,
 				6A8D44BF152263B400746EA9 /* Background@2x.png in Resources */,
 				6AD7E2D7152AB51C0072483E /* readme.md in Resources */,
+				6A2163701530F7E700D41447 /* about.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,6 +884,7 @@
 				6AD7E2D2152AA3A60072483E /* PKHistoryViewController.m in Sources */,
 				6AD7E2D5152AA4130072483E /* PKSearchViewController.m in Sources */,
 				6AD7E2DD152BAC540072483E /* PKStrongs.m in Sources */,
+				6A21635F1530EE3600D41447 /* PKHistory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
