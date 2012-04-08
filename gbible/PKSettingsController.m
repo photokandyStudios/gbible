@@ -58,9 +58,9 @@
     layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Typeface", [NSNumber numberWithInt:1], PK_SETTING_FONTFACE, 
                                                                            [NSArray arrayWithObjects: @"Arial", @"Courier", @"Georgia", @"Helvetica", @"Verdana", nil], nil],
                                                 [NSArray arrayWithObjects: @"Font Size", [NSNumber numberWithInt:3], PK_SETTING_FONTSIZE, 
-                                                                           [NSArray arrayWithObjects: [NSNumber numberWithInt:6],
-                                                                                                      [NSNumber numberWithInt:7],
-                                                                                                      [NSNumber numberWithInt:8],
+                                                                           [NSArray arrayWithObjects: //[NSNumber numberWithInt:6],
+                                                                                                      //[NSNumber numberWithInt:7],
+                                                                                                      //[NSNumber numberWithInt:8],
                                                                                                       [NSNumber numberWithInt:9],
                                                                                                       [NSNumber numberWithInt:10],
                                                                                                       [NSNumber numberWithInt:11],
@@ -69,10 +69,16 @@
                                                                                                       [NSNumber numberWithInt:16],
                                                                                                       [NSNumber numberWithInt:18],
                                                                                                       [NSNumber numberWithInt:20],
-                                                                                                      [NSNumber numberWithInt:22], nil],
-                                                                           [NSArray arrayWithObjects: @"6pt", @"7pt", @"8pt", @"9pt", @"10pt", @"11pt", @"12pt",
-                                                                                                      @"14pt", @"16pt", @"18pt", @"20pt", @"22pt", nil] ,nil],
-                                                [NSArray arrayWithObjects: @"Line Spacing", [NSNumber numberWithInt:3], PK_SETTING_LINESPACING, 
+                                                                                                      [NSNumber numberWithInt:22], 
+                                                                                                      [NSNumber numberWithInt:26],
+                                                                                                      [NSNumber numberWithInt:32],
+                                                                                                      [NSNumber numberWithInt:48], nil],
+                                                                           [NSArray arrayWithObjects: //@"6pt", @"7pt", @"8pt", 
+                                                                                                      @"9pt", @"10pt", @"11pt", @"12pt",
+                                                                                                      @"14pt", @"16pt", @"18pt", @"20pt", @"22pt", 
+                                                                                                      @"26pt", @"32pt", @"48pt",
+                                                                                                      nil] ,nil],
+                                                [NSArray arrayWithObjects: @"Inter-line Spacing", [NSNumber numberWithInt:3], PK_SETTING_LINESPACING, 
                                                                            [NSArray arrayWithObjects: [NSNumber numberWithInt:PK_LS_CRAMPED],
                                                                                                       [NSNumber numberWithInt:PK_LS_TIGHT],
                                                                                                       [NSNumber numberWithInt:PK_LS_NORMAL],
@@ -81,7 +87,7 @@
                                                                                                       [NSNumber numberWithInt:PK_LS_DOUBLE], nil],
                                                                            [NSArray arrayWithObjects: @"Cramped", @"Tight", @"Normal", @"One-Quarter",
                                                                                                       @"One-Half", @"Double", nil], nil ],
-                                                [NSArray arrayWithObjects: @"Verse Spacing", [NSNumber numberWithInt:3], PK_SETTING_VERSESPACING, 
+                                                [NSArray arrayWithObjects: @"Line Spacing", [NSNumber numberWithInt:3], PK_SETTING_VERSESPACING, 
                                                                            [NSArray arrayWithObjects: [NSNumber numberWithInt:PK_VS_NONE],
                                                                                                       [NSNumber numberWithInt:PK_VS_SINGLE],
                                                                                                       [NSNumber numberWithInt:PK_VS_DOUBLE], nil],
@@ -110,20 +116,20 @@
                                                                            [NSArray arrayWithObjects: @"King James/Authorized Version",
                                                                                                       @"Young's Literal Translation", nil], nil],
                                               [NSArray arrayWithObjects: @"Transliterate Greek?", [NSNumber numberWithInt:2], PK_SETTING_TRANSLITERATE, nil],
-                                              //[NSArray arrayWithObjects: @"Show Inline Notes?", [NSNumber numberWithInt:2], PK_SETTING_INLINENOTES, nil],
+                                              [NSArray arrayWithObjects: @"Show Inline Notes?", [NSNumber numberWithInt:2], PK_SETTING_INLINENOTES, nil],
                                               [NSArray arrayWithObjects: @"Show Morphology?", [NSNumber numberWithInt:2], PK_SETTING_SHOWMORPHOLOGY, nil],
                                               nil];
-    iCloudSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Enable iCloud?", [NSNumber numberWithInt:2], PK_SETTING_USEICLOUD, nil],
-                                                nil];
-    importSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Import Notes", [NSNumber numberWithInt:0], nil, nil ],
-                                                [NSArray arrayWithObjects: @"Import Bookmarks", [NSNumber numberWithInt:0],nil, nil ],
+   // iCloudSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Enable iCloud?", [NSNumber numberWithInt:2], PK_SETTING_USEICLOUD, nil],
+    //                                            nil];
+    importSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Import Annotations", [NSNumber numberWithInt:0], nil, nil ],
+//                                                [NSArray arrayWithObjects: @"Import Bookmarks", [NSNumber numberWithInt:0],nil, nil ],
                                                 [NSArray arrayWithObjects: @"Import Highlights", [NSNumber numberWithInt:0],nil, nil ],
                                                 [NSArray arrayWithObjects: @"Import Everything", [NSNumber numberWithInt:0], nil, nil ],
                                                 nil];
     exportSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Export", [NSNumber numberWithInt:0], nil, nil ],
                                                 nil];
     
-    settingsGroup = [NSArray arrayWithObjects: textSettings, layoutSettings, iCloudSettings,
+    settingsGroup = [NSArray arrayWithObjects: textSettings, layoutSettings, // iCloudSettings,
                                                exportSettings, importSettings, nil ];
 
 
@@ -163,7 +169,7 @@
     settingsGroup = nil;
     exportSettings = nil;
     importSettings = nil;
-    iCloudSettings = nil;
+   // iCloudSettings = nil;
     textSettings = nil;
     layoutSettings = nil;
 }
@@ -194,11 +200,11 @@
                 break;
         case 1: return @"Layout";
                 break;
-        case 2: return @"Synchronization";
+      //  case 2: return @"Synchronization";
+      //          break;
+        case 2: return @"Export";
                 break;
-        case 3: return @"Export";
-                break;
-        case 4: return @"Import";
+        case 3: return @"Import";
                 break;
         default:return @"Undefined";
                 break;
@@ -220,16 +226,12 @@
                 break;
         case 1: return @"";
                 break;
-        case 2: return @"Enable iCloud to synchronize your data across multiple devices. It is suggested \
-                         that you export your data prior to enabling iCloud synchronization.";
+//        case 2: return @"Enable iCloud to synchronize your data across multiple devices. It is suggested \
+//                         that you export your data prior to enabling iCloud synchronization.";
+//                break;
+        case 2: return @"Export will create a file named 'export_MMDDYYYY_HHMMSS.dat' that you can download when your device is connected to iTunes. You can then save this file in a safe place, or use it to import data to another device.";
                 break;
-        case 3: return @"Export will create a file named 'export_MMDDYYYY_HHMMSS.dat' that you can download \
-                         when your device is connected to iTunes. You can then save this file in a safe \
-                         place, or use it to import data to another device.";
-                break;
-        case 4: return @"Before importing, connect your device to iTunes and copy the file you want to \
-                         import. Be sure to name it 'import.dat'. Then select the desired option above. \
-                         You can import more than one time from the same file.";
+        case 3: return @"Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.";
                 break;
         default:return @"Undefined";
                 break;
