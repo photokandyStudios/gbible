@@ -22,6 +22,7 @@
 #import "PKSearchViewController.h"
 #import "PKHistoryViewController.h"
 #import "PKHistory.h"
+#import "PKNotes.h"
 
 @interface PKBibleViewController ()
 
@@ -47,6 +48,8 @@
     @synthesize ourMenu;
     @synthesize ourMenuState;
     @synthesize selectedWord;
+    
+    @synthesize ourPopover;
 
 #pragma mark -
 #pragma mark Content Loading and Display
@@ -281,8 +284,16 @@
             theLabel.text = theWord; //#573920 87, 57, 32
             theLabel.textColor = [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0];
             theLabel.backgroundColor = [UIColor clearColor];
-            if (theWordType == 10) { theLabel.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.5 alpha:1.0]; }
-            if (theWordType == 20) { theLabel.textColor = [UIColor colorWithRed:0.0 green:0.5 blue:0.0 alpha:1.0]; }
+            if (theWordType == 10) 
+            {   //#204057
+                theLabel.textColor = [UIColor colorWithRed:0.125490 green:0.250980 blue:0.341176 alpha:1.0]; 
+            }
+            if (theWordType == 20) 
+            {   //#305720
+                theLabel.textColor = [UIColor colorWithRed:0.188235 green:0.341176 blue:0.125490 alpha:1.0]; 
+            }
+            theLabel.shadowColor = [UIColor whiteColor];
+            theLabel.shadowOffset = CGSizeMake(1, 1);
             theLabel.font = theFont;
             theLabel.accessibilityLanguage = @"en";
             if (theWordType == 0) { theLabel.accessibilityLanguage = @"gr"; }
@@ -305,6 +316,8 @@
             theLabel.textColor = [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0];
             theLabel.backgroundColor = [UIColor clearColor];
             theLabel.font = theFont;
+            theLabel.shadowColor = [UIColor whiteColor];
+            theLabel.shadowOffset = CGSizeMake(1, 1);
             theLabel.accessibilityLanguage = @"en";
             theLabel.accessibilityLabel = theWord;
             [theLabelArray addObject:theLabel];
@@ -386,7 +399,7 @@
                                         initWithImage:[UIImage imageNamed:@"Listb.png"] 
                                         landscapeImagePhone:[UIImage imageNamed:@"listLandscape.png"]
                                         style:UIBarButtonItemStylePlain 
-                                        target:self.parentViewController.parentViewController.parentViewController
+                                        target:self //self.parentViewController.parentViewController.parentViewController
                                         action:@selector(revealToggle:)];
     changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
     changeReference.accessibilityLabel = @"Go to passage";
@@ -492,6 +505,8 @@
     ourMenu = nil;
     
     selectedWord = nil;
+    
+    ourPopover = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -565,6 +580,22 @@
     
     float theMax= MAX( greekVerseHeight, englishVerseHeight );
     //NSLog (@"heightForRowAtIndexPath(%i): Maximum = %f", row, theMax);
+    
+    // if we have a note to display, add to theMax
+    int theBook = [[PKSettings instance] currentBook];
+    int theChapter = [[PKSettings instance] currentChapter];
+
+    NSArray *theNote = [[PKNotes instance] getNoteForPassage:[PKBible stringFromBook:theBook forChapter:theChapter forVerse:row+1]];
+    if (theNote != nil && [[PKSettings instance] showNotesInline])
+    {
+        NSString *theNoteText = [NSString stringWithFormat:@"%@ - %@", 
+                                 [theNote objectAtIndex:0],
+                                 [theNote objectAtIndex:1]];
+        CGSize theSize=[theNoteText sizeWithFont:[UIFont fontWithName:[[PKSettings instance] textFontFace]
+                                          size:[[PKSettings instance] textFontSize]] constrainedToSize:CGSizeMake(self.tableView.bounds.size.width-20, 999)];
+        theMax += 10 + theSize.height + 10;
+    }
+    
     return theMax;
 }
 
@@ -625,9 +656,73 @@
         [view removeFromSuperview];
     }
     
-
-    
     NSUInteger row = [indexPath row];
+    
+    // add in a verse #
+    UILabel *theVerseNumber = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 80)];
+
+    theVerseNumber.text = [NSString stringWithFormat:@"%i", row+1];
+    theVerseNumber.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.125];
+    theVerseNumber.backgroundColor = [UIColor clearColor];
+    theVerseNumber.textAlignment = UITextAlignmentCenter;
+    theVerseNumber.font = [UIFont fontWithName:@"Helvetica" size:96];
+    [cell addSubview:theVerseNumber];
+    
+    // and check if we have a note
+    int theBook = [[PKSettings instance] currentBook];
+    int theChapter = [[PKSettings instance] currentChapter];
+
+    NSArray *theNote = [[PKNotes instance] getNoteForPassage:[PKBible stringFromBook:theBook forChapter:theChapter forVerse:row+1]];
+
+    float greekVerseHeight = 0.0;
+    float englishVerseHeight = 0.0;
+    
+    if (row < [formattedGreekVerseHeights count])
+    {
+        greekVerseHeight = [[formattedGreekVerseHeights objectAtIndex:row] floatValue];
+    }
+    
+    if (row < [formattedEnglishVerseHeights count])
+    {
+        englishVerseHeight = [[formattedEnglishVerseHeights objectAtIndex:row] floatValue] ;
+    }
+    
+    float theMax= MAX( greekVerseHeight, englishVerseHeight );
+
+    if (theNote != nil && [[PKSettings instance] showNotesInline])
+    {
+
+
+        NSString *theNoteText = [NSString stringWithFormat:@"%@ - %@", 
+                                 [theNote objectAtIndex:0],
+                                 [theNote objectAtIndex:1]];
+        CGSize theSize=[theNoteText sizeWithFont:[UIFont fontWithName:[[PKSettings instance] textFontFace]
+                                          size:[[PKSettings instance] textFontSize]] constrainedToSize:CGSizeMake(self.tableView.bounds.size.width-20, 999)];
+        CGRect theRect = CGRectMake(10, theMax + 10, self.tableView.bounds.size.width-20, theSize.height);
+        
+        UILabel *theNoteLabel = [[UILabel alloc] initWithFrame:theRect];
+        theNoteLabel.text = theNoteText;
+        theNoteLabel.numberOfLines = 0;
+        theNoteLabel.font = [UIFont fontWithName:[[PKSettings instance] textFontFace]
+                                          size:[[PKSettings instance] textFontSize]];
+                                          //#502057, 80, 32, 97
+        theNoteLabel.textColor = [UIColor colorWithRed:.313725 green:0.125490 blue:0.380392 alpha:1.0];
+        theNoteLabel.backgroundColor = [UIColor clearColor];
+        theNoteLabel.shadowColor = [UIColor whiteColor];
+        theNoteLabel.shadowOffset = CGSizeMake(1, 1);
+        [cell addSubview:theNoteLabel];
+    }
+    else 
+    {
+        if (theNote != nil)
+        {
+            // need to indicate /somehow/ that we have a note.
+            UIImageView *theImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Pencil.png"]];
+            theImage.frame = CGRectMake(self.tableView.bounds.size.width-52, theMax-42, 32, 32);
+            [cell addSubview:theImage];
+        }
+    }
+    
 
     NSMutableArray *formattedCell = [formattedCells objectAtIndex:row];
     
@@ -788,8 +883,11 @@
                                            ABS(theCenter.y - wp.y)*2 );
                 if (theDistance < minDistance)
                 {
-                    theWord = ((UILabel *)theView).text;
-                    minDistance = theDistance;
+                    if ([theView respondsToSelector:@selector(text)])
+                    {
+                        theWord = ((UILabel *)theView).text;
+                        minDistance = theDistance;
+                    }
                 }
             }
             if (theWord != nil)
@@ -861,6 +959,8 @@
  */
 -(void) changeHighlightColor:(id)sender
 {
+    [ourPopover dismissWithClickedButtonIndex:-1 animated:YES];
+
     UIActionSheet *theActionSheet = [[UIActionSheet alloc]
                                      initWithTitle:@"Choose Color" 
                                           delegate:self 
@@ -869,6 +969,7 @@
                                  otherButtonTitles:@"Yellow", @"Green", @"Magenta", 
                                                    @"Pink",   @"Blue",    nil ];
     theActionSheet.tag = 1999; // color chooser
+    ourPopover = theActionSheet;
     [theActionSheet showFromBarButtonItem:sender animated:YES];
 }
 
@@ -881,6 +982,12 @@
 {
     selectedVerses = [[NSMutableDictionary alloc] init]; // clear selection
     [self.tableView reloadData]; // and reload the table's data
+}
+
+-(void) revealToggle: (id) sender
+{
+    [ourPopover dismissWithClickedButtonIndex:-1 animated:YES];
+    [(ZUUIRevealController *)[[PKAppDelegate instance] rootViewController] revealToggle: sender];
 }
 
 /**

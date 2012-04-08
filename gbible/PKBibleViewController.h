@@ -31,5 +31,6 @@
     @property (strong, nonatomic) NSMutableArray *formattedCells;
     @property (strong, nonatomic) UIMenuController *ourMenu;
     @property int ourMenuState;
+    @property (strong, nonatomic) UIActionSheet *ourPopover;
     
 @end
