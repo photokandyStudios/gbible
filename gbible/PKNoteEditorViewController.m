@@ -11,6 +11,9 @@
 #import "PKBible.h"
 #import "PKAppDelegate.h"
 #import "PKNotesViewController.h"
+#import "PKBibleViewController.h"
+#import "ZUUIRevealController.h"
+#import "PKRootViewController.h"
 
 @interface PKNoteEditorViewController ()
 
@@ -203,6 +206,9 @@ default:
         if (state == 1)
         {
             [(PKNotes *)[PKNotes instance] setNote:txtNote.text withTitle:txtTitle.text forPassage:passage];
+            PKRootViewController *pvc = (PKRootViewController *)[[(PKAppDelegate *)[PKAppDelegate instance] rootViewController] frontViewController];
+            PKBibleViewController *bvc = [[[pvc.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];
+            [bvc notifyNoteChanged];
             [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:2] reloadNotes];
         }
         [self dismissModalViewControllerAnimated:YES];        
@@ -211,6 +217,9 @@ default:
     - (void)deletePressed: (id)sender
     {
         [(PKNotes *)[PKNotes instance] deleteNoteForPassage:passage];
+        PKRootViewController *pvc = (PKRootViewController *)[[(PKAppDelegate *)[PKAppDelegate instance] rootViewController] frontViewController];
+        PKBibleViewController *bvc = [[[pvc.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];
+        [bvc notifyNoteChanged];
         [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:2] reloadNotes];
         [self dismissModalViewControllerAnimated:YES];        
     }
