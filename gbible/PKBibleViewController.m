@@ -23,6 +23,7 @@
 #import "PKHistoryViewController.h"
 #import "PKHistory.h"
 #import "PKNotes.h"
+#import "TSMiniWebBrowser.h"
 
 @interface PKBibleViewController ()
 
@@ -50,6 +51,8 @@
     @synthesize selectedWord;
     
     @synthesize ourPopover;
+    
+    @synthesize selectedPassage;
 
 #pragma mark -
 #pragma mark Content Loading and Display
@@ -292,7 +295,7 @@
             {   //#305720
                 theLabel.textColor = [UIColor colorWithRed:0.188235 green:0.341176 blue:0.125490 alpha:1.0]; 
             }
-            theLabel.shadowColor = [UIColor whiteColor];
+            theLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
             theLabel.shadowOffset = CGSizeMake(1, 1);
             theLabel.font = theFont;
             theLabel.accessibilityLanguage = @"en";
@@ -316,7 +319,7 @@
             theLabel.textColor = [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0];
             theLabel.backgroundColor = [UIColor clearColor];
             theLabel.font = theFont;
-            theLabel.shadowColor = [UIColor whiteColor];
+            theLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
             theLabel.shadowOffset = CGSizeMake(1, 1);
             theLabel.accessibilityLanguage = @"en";
             theLabel.accessibilityLabel = theWord;
@@ -448,6 +451,11 @@
                          , nil ];
 }
 
+/**
+ *
+ * Determine what actions can occur when a menu is displayed.
+ *
+ */
 -(BOOL) canPerformAction:(SEL)action withSender:(id)sender
 {
     if (ourMenuState == 0)
@@ -474,6 +482,12 @@
     }
     return NO;
 }
+
+/**
+ *
+ * We become first responder so that we can show a menu
+ *
+ */
 -(BOOL) canBecomeFirstResponder
 {
     return YES;
@@ -505,6 +519,7 @@
     ourMenu = nil;
     
     selectedWord = nil;
+    selectedPassage =nil;
     
     ourPopover = nil;
 }
@@ -708,7 +723,7 @@
                                           //#502057, 80, 32, 97
         theNoteLabel.textColor = [UIColor colorWithRed:.313725 green:0.125490 blue:0.380392 alpha:1.0];
         theNoteLabel.backgroundColor = [UIColor clearColor];
-        theNoteLabel.shadowColor = [UIColor whiteColor];
+        theNoteLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
         theNoteLabel.shadowOffset = CGSizeMake(1, 1);
         [cell addSubview:theNoteLabel];
     }
@@ -823,7 +838,7 @@
  */
 -(void) didReceiveLeftSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
 {
-    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+//    CGPoint p = [gestureRecognizer locationInView:self.tableView];
 //    if (p.x < 75)
 //    {
         // hide the sidebar, if visible
@@ -908,6 +923,9 @@
             NSUInteger currentBook = [[PKSettings instance] currentBook];
             NSUInteger currentChapter = [[PKSettings instance] currentChapter];
             NSString *passage = [PKBible stringFromBook:currentBook forChapter:currentChapter forVerse:row+1];
+            
+            selectedPassage = passage;
+            
             UITableViewCell *newCell = [self.tableView cellForRowAtIndexPath:indexPath];
             [selectedVerses setObject:[NSNumber numberWithBool:YES] forKey:passage];
             curValue = [[selectedVerses objectForKey:passage] boolValue];
@@ -938,6 +956,11 @@
 #pragma mark -
 #pragma mark miscellaneous selectors (called from popovers, buttons, etc.)
 
+/**
+ *
+ * When "Highlight" is pressed on the menu, we need to present new options.
+ *
+ */
 -(void) askHighlight: (id)sender
 {
     ourMenuState = 1;
@@ -945,6 +968,11 @@
     [ourMenu setMenuVisible:YES animated:YES];
 }
 
+/**
+ *
+ * When "Search" is pressed on the menu, we need to present new options.
+ *
+ */
 -(void) askSearch: (id)sender
 {
     ourMenuState = 2;
@@ -984,6 +1012,11 @@
     [self.tableView reloadData]; // and reload the table's data
 }
 
+/**
+ *
+ * Toggle the sidebar and hide any popovers we might have generated.
+ *
+ */
 -(void) revealToggle: (id) sender
 {
     [ourPopover dismissWithClickedButtonIndex:-1 animated:YES];
@@ -1000,9 +1033,24 @@
     [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:1] reloadHighlights];
 }
 
+/**
+ *
+ * let the left-hand navigation know that history has changed
+ *
+ */
 -(void) notifyChangedHistory
 {
     [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:3] reloadHistory];
+}
+
+/**
+ *
+ * called to let us know that notes have changed: reload the table view
+ *
+ */
+-(void) notifyNoteChanged
+{
+    [self.tableView reloadData];
 }
 
 /**
@@ -1099,6 +1147,11 @@
     [self presentModalViewController:dictionary animated:YES];
 }
 
+/**
+ *
+ * Switches to the Search tab and searches the Bible for the selected word.
+ *
+ */
 -(void)searchBible: (id)sender
 {
     ZUUIRevealController *rc = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
@@ -1108,6 +1161,12 @@
     [svc doSearchForTerm:selectedWord];
 }
 
+/**
+ *
+ * Switches to the Strong's Lookup tab and searches for the selectedWord. If the word is a 
+ * strong's number, we indicate that we only want that value (not partial matches).
+ *
+ */
 -(void)searchStrongs: (id)sender
 {
     BOOL isStrongs = [[selectedWord substringToIndex:1] isEqualToString:@"G"] &&
@@ -1122,19 +1181,43 @@
 
 }
 
+/**
+ *
+ * Explains a verse by loading bible.cc's website.
+ *
+ */
+-(void)explainVerse: (id)sender
+{
+    // TODO: check for internet
+    int theBook = [PKBible bookFromString:selectedPassage];
+    int theChapter=[PKBible chapterFromString:selectedPassage];
+    int theVerse=[PKBible verseFromString:selectedPassage];
+    
+    NSString *theTransformedURL = [NSString stringWithFormat:@"http://bible.cc/%@/%i-%i.htm",
+                                                            [[PKBible nameForBook:theBook] lowercaseString],
+                                                            theChapter, theVerse];
+    theTransformedURL = [theTransformedURL stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    NSLog(@"The URL:%@", theTransformedURL);
+    NSURL *theURL = [[NSURL alloc] initWithString:theTransformedURL];
+    TSMiniWebBrowser *wb = [[TSMiniWebBrowser alloc] initWithUrl:theURL];
+    wb.showURLStringOnActionSheetTitle = YES;
+    wb.showPageTitleOnTitleBar = YES;
+    wb.showActionButton = YES;
+    wb.showReloadButton = YES;
+    wb.mode = TSMiniWebBrowserModeModal;
+    wb.barStyle = UIBarStyleBlack;
+    wb.modalDismissButtonTitle = @"Done";
+    [self presentModalViewController:wb animated:YES];
+}
+
+/**
+ *
+ * creates a NoteEditorViewController, tells it the passage we're annotating, and shows it modally.
+ *
+ */
 -(void)doAnnotate: (id)sender
 {
-    NSString *thePassage = nil;
-    for (NSString* key in selectedVerses)
-    {
-        if ( [[selectedVerses objectForKey:key] boolValue] && thePassage == nil)
-        {
-            thePassage = key;
-        }
-    }
-
-    PKNoteEditorViewController *nevc = [[PKNoteEditorViewController alloc] initWithPassage:thePassage];
-//    nevc.modalPresentationStyle = UIModalPresentationFormSheet;
+    PKNoteEditorViewController *nevc = [[PKNoteEditorViewController alloc] initWithPassage:selectedPassage];
     UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController:nevc];
     mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
 

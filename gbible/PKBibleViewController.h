@@ -25,6 +25,7 @@
     @property (strong, nonatomic) NSMutableDictionary *highlightedVerses;
     
     @property (strong, nonatomic) NSString *selectedWord;
+    @property (strong, nonatomic) NSString *selectedPassage;
     
     // UI elements
     @property (strong, nonatomic) UIBarButtonItem *changeHighlight;
@@ -32,5 +33,7 @@
     @property (strong, nonatomic) UIMenuController *ourMenu;
     @property int ourMenuState;
     @property (strong, nonatomic) UIActionSheet *ourPopover;
+    
+    -(void)notifyNoteChanged;
     
 @end
