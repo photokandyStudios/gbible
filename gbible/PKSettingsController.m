@@ -10,6 +10,10 @@
 #import "PKConstants.h"
 #import "PKSettings.h"
 #import "ZUUIRevealController.h"
+#import "PKDatabase.h"
+#import "PKAppDelegate.h"
+#import "PKHighlightsViewController.h"
+#import "PKNotesViewController.h"
 
 @interface PKSettingsController ()
 
@@ -229,7 +233,7 @@
 //        case 2: return @"Enable iCloud to synchronize your data across multiple devices. It is suggested \
 //                         that you export your data prior to enabling iCloud synchronization.";
 //                break;
-        case 2: return @"Export will create a file named 'export_MMDDYYYY_HHMMSS.dat' that you can download when your device is connected to iTunes. You can then save this file in a safe place, or use it to import data to another device.";
+        case 2: return @"Export will create a file named 'export' and the current date and time that you can download when your device is connected to iTunes. You can then save this file in a safe place, or use it to import data to another device.";
                 break;
         case 3: return @"Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.";
                 break;
@@ -333,10 +337,33 @@
     BOOL curValue;
     UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
     
+    NSString *title = @"Operation";
+
     switch ( [[cellData objectAtIndex:1] intValue] )
     {
-        case 0: // we're on a "nothing cell", but these will do actions...
-                break;
+        case 0: {// we're on a "nothing cell", but these will do actions...
+                if (section == 2) 
+                { 
+                    title = @"Export Operation";
+                    [(PKDatabase *)[PKDatabase instance] exportAll]; 
+                }
+                if (section == 3)
+                {
+                    title = @"Import Operation";
+                    if (row==0) { [(PKDatabase *)[PKDatabase instance] importNotes]; }
+                    if (row==1) { [(PKDatabase *)[PKDatabase instance] importHighlights]; }
+                    if (row==2) { 
+                                  [(PKDatabase *)[PKDatabase instance] importNotes]; 
+                                  [(PKDatabase *)[PKDatabase instance] importHighlights]; 
+                                  [(PKDatabase *)[PKDatabase instance] importSettings]; 
+                                }
+                    [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:1] reloadHighlights];
+                    [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:2] reloadNotes];
+                    [self.tableView reloadData]; // settings may be different.
+                }
+                UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:@"Done!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                [theAlertView show];
+                break;}
         case 1: // we're on a cell that wants to display a popover/actionsheet (no lookup)
                 popover = [[UIActionSheet alloc] initWithTitle: [cellData objectAtIndex:0]
                                                  delegate: self
