@@ -79,17 +79,13 @@
         switch (state)
         {
 case 0:
-            self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:
-                                                        btnDelete, nil];
-            self.navigationItem.rightBarButtonItems= [NSArray arrayWithObjects:
-                                                        btnDone, nil];
+            self.navigationItem.leftBarButtonItem = btnDelete;
+            self.navigationItem.rightBarButtonItem= btnDone;
             self.navigationItem.title = @"Viewing Note";
             break;
 case 1:
-            self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:
-                                                        btnCancel, nil];
-            self.navigationItem.rightBarButtonItems= [NSArray arrayWithObjects:
-                                                        btnDone, nil];
+            self.navigationItem.leftBarButtonItem = btnCancel;
+            self.navigationItem.rightBarButtonItem= btnDone;
             self.navigationItem.title = @"Editing Note";
             break;
 default:

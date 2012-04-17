@@ -95,13 +95,16 @@
     // add navbar items
     UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
                                         initWithImage:[UIImage imageNamed:@"Listb.png"] 
-                                        landscapeImagePhone:[UIImage imageNamed:@"listLandscape.png"]
                                         style:UIBarButtonItemStylePlain 
                                         target:self.parentViewController.parentViewController.parentViewController
                                         action:@selector(revealToggle:)];
-    changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+
+    if ([changeReference respondsToSelector:@selector(setTintColor:)])
+    {
+        changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    }
     changeReference.accessibilityLabel = @"Go to passage";
-    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, nil];
+    self.navigationItem.leftBarButtonItem = changeReference;
     
     // handle pan from left to right to reveal sidebar
     CGRect leftFrame = self.view.frame;

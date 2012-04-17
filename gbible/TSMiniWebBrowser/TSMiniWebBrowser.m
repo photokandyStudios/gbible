@@ -132,10 +132,13 @@
     UIBarButtonItem *buttonContainer = [[UIBarButtonItem alloc] initWithCustomView:containerView];
     
     // nuke the appearance proxy for these buttons:
+    if ([buttonGoBack respondsToSelector:@selector(setTintColor:)])
+    {
     buttonGoBack.tintColor = [UIColor whiteColor];
     buttonGoForward.tintColor = [UIColor whiteColor];
     buttonReload.tintColor = [UIColor whiteColor];
     buttonAction.tintColor = [UIColor whiteColor];
+    }
     
     // Add butons to an array
     NSMutableArray *toolBarButtons = [[NSMutableArray alloc] init];

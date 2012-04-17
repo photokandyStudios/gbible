@@ -183,7 +183,20 @@
         int rowCount = 0;
         
         float red=0.0; float green=0.0; float blue=0.0; float alpha=0.0;
-        [theColor getRed:&red green:&green blue:&blue alpha:&alpha];
+        if ([theColor respondsToSelector:@selector(getRed:green:blue:alpha:)])
+        {
+            [theColor getRed:&red green:&green blue:&blue alpha:&alpha];
+        }
+        else 
+        {
+            const CGFloat* components = CGColorGetComponents([theColor CGColor]);
+            red = components[0];
+            green = components[1];
+            blue = components[2];
+            alpha = CGColorGetAlpha([theColor CGColor]);        
+        }
+
+
         
         NSString *theValue = [NSString  stringWithFormat:@"%f,%f,%f", red, green, blue];
         
