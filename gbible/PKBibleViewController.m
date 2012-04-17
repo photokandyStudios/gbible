@@ -68,8 +68,8 @@
     [(PKHistory *)[PKHistory instance] addPassagewithBook:theBook andChapter:theChapter andVerse:theVerse];
     [self notifyChangedHistory];
     [self.tableView reloadData];
-    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theVerse-1 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-    
+    ((PKSettings *)[PKSettings instance]).topVerse = theVerse;
+    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theVerse-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
     tbc.selectedIndex = 0;
 }
@@ -86,7 +86,7 @@
     PKSettings *theSettings = [PKSettings instance];
     theSettings.currentBook = theBook;
     theSettings.currentChapter = theChapter;
-    [theSettings saveCurrentReference];
+    //[theSettings saveCurrentReference]; -- removed for speed
     [self loadChapter];
 }
 
@@ -359,6 +359,17 @@
 {
     [self loadChapter];
     [self.tableView reloadData];
+    [self.tableView scrollToRowAtIndexPath: 
+         [NSIndexPath indexPathForRow:
+             [[PKSettings instance] topVerse]-1 inSection:0] 
+         atScrollPosition:UITableViewScrollPositionTop animated:NO];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+   int theVerse = [[[self.tableView indexPathsForVisibleRows] objectAtIndex:0] row]+1;
+   ((PKSettings *)[PKSettings instance]).topVerse = theVerse;
+   [[PKSettings instance] saveCurrentReference];
 }
 
 /**
@@ -400,11 +411,14 @@
     // add navbar items
     UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
                                         initWithImage:[UIImage imageNamed:@"Listb.png"] 
-                                        landscapeImagePhone:[UIImage imageNamed:@"listLandscape.png"]
                                         style:UIBarButtonItemStylePlain 
                                         target:self //self.parentViewController.parentViewController.parentViewController
                                         action:@selector(revealToggle:)];
-    changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+
+    if ([changeReference respondsToSelector:@selector(setTintColor:)])
+    {
+        changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    }
     changeReference.accessibilityLabel = @"Go to passage";
     // need a highlight item
     changeHighlight = [[UIBarButtonItem alloc]
@@ -412,9 +426,28 @@
                                 style:UIBarButtonItemStylePlain 
                                target:self action:@selector(changeHighlightColor:)];
     changeHighlight.accessibilityLabel = @"Highlight Color";
-    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, 
-                                                                       changeHighlight, nil];
-    
+    if (![changeHighlight respondsToSelector:@selector(setTintColor:)])
+    {
+        changeHighlight.title = ((PKSettings *)[PKSettings instance]).highlightTextColor;
+    }
+    if ([self.navigationItem respondsToSelector:@selector(setLeftBarButtonItems:)])
+    {
+        self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, 
+                                                                           changeHighlight, nil];
+    }
+    else 
+    {
+        changeHighlight.style = UIBarButtonItemStyleBordered;
+        changeReference.style = UIBarButtonItemStyleBordered;
+        NSArray *buttons = [NSArray arrayWithObjects:changeReference, changeHighlight, nil];
+        UIToolbar *tb = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 150, 44)];
+        tb.backgroundColor = [UIColor clearColor];
+        [tb setItems:buttons animated:NO];
+        
+         
+       // [tb sizeToFit];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tb];
+    }
     // handle pan from left to right to reveal sidebar
     CGRect leftFrame = self.view.frame;
     leftFrame.origin.x = 0;
@@ -431,8 +464,10 @@
 
     [leftLabel addGestureRecognizer:panGesture];
 
+    if ([changeHighlight respondsToSelector:@selector(setTintColor:)])
+    {
     changeHighlight.tintColor = [[PKSettings instance] highlightColor];
-   
+    }
    
     ourMenu = [UIMenuController sharedMenuController];
     ourMenu.menuItems = [NSArray arrayWithObjects:
@@ -461,12 +496,25 @@
     if (ourMenuState == 0)
     {
         if (action == @selector(copySelection:))    { return YES; }
-        if (action == @selector(askHighlight:))     { return YES; }
         if (action == @selector(doAnnotate:))      { return YES; }
-        if (action == @selector(askSearch:))        { return selectedWord!=nil; }
         if (action == @selector(defineWord:))       { return selectedWord!=nil; } 
         if (action == @selector(explainVerse:))     { return YES; }
         if (action == @selector(clearSelection:))   { return YES; }
+
+        if (SYSTEM_VERSION_LESS_THAN(@"5.0")) // < ios 5
+        {
+            if (action == @selector(highlightSelection:))  { return YES; }
+            if (action == @selector(removeHighlights:)) { return YES; }
+            if (action == @selector(searchBible:))      { return selectedWord!=nil; }
+            if (action == @selector(searchStrongs:))    { return selectedWord!=nil; }
+            if (action == @selector(askHighlight:))     { return NO; }
+            if (action == @selector(askSearch:))        { return NO; }            
+        }
+        else
+        {
+            if (action == @selector(askHighlight:))     { return YES; }
+            if (action == @selector(askSearch:))        { return selectedWord!=nil; }
+        }
     }
     
     if (ourMenuState == 1)  // we're asking about highlighting
@@ -538,9 +586,19 @@
  */
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+    // get the top verse so we can scroll back to it after the rotation change
+    int theVerse = [[[self.tableView indexPathsForVisibleRows] objectAtIndex:0] row]+1;
+    
+//    ([self.tableView indexPathForRowAtPoint:CGPointMake(0,0)].row)+1;
+//    ((PKSettings *)[PKSettings instance]).topVerse = theVerse;
     [self loadChapter];
     [self.tableView reloadData];
+    [self.tableView scrollToRowAtIndexPath: 
+         [NSIndexPath indexPathForRow:
+             theVerse-1 inSection:0] 
+         atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
+
 
 #pragma mark -
 #pragma mark Table View Data Source Methods
@@ -648,6 +706,7 @@
             cell.backgroundColor = [UIColor clearColor];
         }
     }
+    
 }
 
 /**
@@ -677,9 +736,9 @@
     UILabel *theVerseNumber = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 80)];
 
     theVerseNumber.text = [NSString stringWithFormat:@"%i", row+1];
-    theVerseNumber.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.125];
+    theVerseNumber.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0625];
     theVerseNumber.backgroundColor = [UIColor clearColor];
-    theVerseNumber.textAlignment = UITextAlignmentCenter;
+    theVerseNumber.textAlignment = UITextAlignmentRight;
     theVerseNumber.font = [UIFont fontWithName:@"Helvetica" size:96];
     [cell addSubview:theVerseNumber];
     
@@ -1088,15 +1147,24 @@
         if ( [[selectedVerses objectForKey:key] boolValue])
         {
             int theVerse = [PKBible verseFromString:key];
-            if ([currentGreekChapter count] <= theVerse)
-            {
-                [theText appendString:[currentGreekChapter objectAtIndex:theVerse]];
-            }
-            [theText appendString:@"\n"];
-            if ([currentEnglishChapter count] <= theVerse)
+            if (theVerse <= [currentEnglishChapter count] )
             {
                 [theText appendString:[currentEnglishChapter objectAtIndex:theVerse]];
             }
+            [theText appendString:@"\n"];
+            if (theVerse <= [currentGreekChapter count])
+            {
+                [theText appendString:[currentGreekChapter objectAtIndex:theVerse]];
+            }
+            
+            int theBook = [[PKSettings instance] currentBook];
+            int theChapter = [[PKSettings instance] currentChapter];
+            NSArray *theNote = [[PKNotes instance] getNoteForPassage:[PKBible stringFromBook:theBook forChapter:theChapter forVerse:theVerse]];
+            if (theNote != nil)
+            {
+                [theText appendFormat:@"\n%@ - %@", [theNote objectAtIndex:0], [theNote objectAtIndex:1]];
+            }
+            [theText appendString:@"\n\n"];
         }
     }
     
@@ -1119,7 +1187,7 @@
         if ( [[selectedVerses objectForKey:key] boolValue])
         {
             [(PKHighlights *)[PKHighlights instance] 
-                setHighlight: self.changeHighlight.tintColor
+                setHighlight: ((PKSettings *)[PKSettings instance]).highlightColor
                   forPassage: key];
         }
     }
@@ -1144,7 +1212,14 @@
     }
 
     UIReferenceLibraryViewController *dictionary = [[UIReferenceLibraryViewController alloc] initWithTerm:selectedWord];
-    [self presentModalViewController:dictionary animated:YES];
+    if (dictionary != nil)
+    {
+        [self presentModalViewController:dictionary animated:YES];
+    }
+    else
+    {
+        // what to do?
+    }
 }
 
 /**
@@ -1222,10 +1297,12 @@
     mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
 
         UINavigationBar *navBar = [mvnc navigationBar];
-        [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
-        [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
-        [UIColor whiteColor], UITextAttributeTextColor, nil]];
-
+        if ([navBar respondsToSelector:@selector(setBackgroundImage:)])
+        {
+            [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
+            [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
+            [UIColor whiteColor], UITextAttributeTextColor, nil]];
+        }
 
 
     [self presentModalViewController:mvnc animated:YES];
@@ -1244,29 +1321,43 @@
     {
         // handle color change options
         UIColor *newColor;
+        NSString *textColor;
         switch (buttonIndex)
         {
 case 0:
             newColor = [UIColor yellowColor];
+            textColor = @"Yellow";
             break;
 case 1:
             newColor = [UIColor colorWithRed:0.5 green:1.0 blue:0.5 alpha:1.0];
+            textColor = @"Green";
             break;
 case 2:
             newColor = [UIColor colorWithRed:1.0 green:0.5 blue:1.0 alpha:1.0];
+            textColor = @"Magenta";
             break;
 case 3:
             newColor = [UIColor colorWithRed:1.0 green:0.75 blue:0.75 alpha:1.0];
+            textColor = @"Pink";
             break;
 case 4:
             newColor = [UIColor colorWithRed:0.5 green:0.75 blue:1.0 alpha:1.0];
+            textColor = @"Blue";
             break;
 default:
             return; // either cancelling, or out of range. we don't care.
         }
         
-        self.changeHighlight.tintColor = newColor;
+        if ([changeHighlight respondsToSelector:@selector(setTintColor:)])
+        {
+            self.changeHighlight.tintColor = newColor;
+        }
+        else
+        { 
+            self.changeHighlight.title = textColor;
+        }
         ((PKSettings *)[PKSettings instance]).highlightColor = newColor;
+        ((PKSettings *)[PKSettings instance]).highlightTextColor = textColor;
         [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
     }
 }
