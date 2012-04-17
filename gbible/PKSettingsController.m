@@ -60,7 +60,18 @@
     [self.tableView setBackgroundView:nil];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1];
     layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Typeface", [NSNumber numberWithInt:1], PK_SETTING_FONTFACE, 
-                                                                           [NSArray arrayWithObjects: @"Arial", @"Courier", @"Georgia", @"Helvetica", @"Verdana", nil], nil],
+                                                                           [NSArray arrayWithObjects: @"AmericanTypewriter",
+                                                                                                      @"Arial", 
+                                                                                                      @"Baskerville",
+                                                                                                      @"Courier",
+                                                                                                      @"Georgia", 
+                                                                                                      @"Helvetica",
+                                                                                                      @"Helvetica-Light",
+                                                                                                      @"HoeflerText-Regular",
+                                                                                                      @"Marion-Regular",
+                                                                                                      @"Optima-Regular",
+                                                                                                      @"Palatino-Roman",
+                                                                                                      @"Verdana", nil], nil],
                                                 [NSArray arrayWithObjects: @"Font Size", [NSNumber numberWithInt:3], PK_SETTING_FONTSIZE, 
                                                                            [NSArray arrayWithObjects: //[NSNumber numberWithInt:6],
                                                                                                       //[NSNumber numberWithInt:7],
@@ -150,14 +161,16 @@
 
     UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
                                         initWithImage:[UIImage imageNamed:@"Listb.png"] 
-                                        landscapeImagePhone:[UIImage imageNamed:@"listLandscape.png"]
                                         style:UIBarButtonItemStylePlain 
                                         target:self.parentViewController.parentViewController.parentViewController
                                         action:@selector(revealToggle:)];
-    changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+
+    if ([changeReference respondsToSelector:@selector(setTintColor:)])
+    {
+        changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    }
     changeReference.accessibilityLabel = @"Go to passage";
-    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, 
-                                                                       nil];
+    self.navigationItem.leftBarButtonItem = changeReference;
     
 }
 
