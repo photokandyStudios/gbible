@@ -38,6 +38,7 @@
     @property (readwrite) int noteVerse;                            // the reference of the current note (mid-edit)
     
     @property (readwrite, strong, nonatomic) UIColor *highlightColor;
+    @property (readwrite, strong, nonatomic) NSString *highlightTextColor;
     
     +(id) instance;
     -(NSString *) loadSetting: (NSString *)theSetting;

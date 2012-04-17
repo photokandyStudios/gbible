@@ -38,6 +38,7 @@
     @synthesize currentNote;
     
     @synthesize highlightColor;
+    @synthesize highlightTextColor;
     
     static id _instance;
 
@@ -99,6 +100,7 @@
         oldNote              = [self loadSetting: @"old-note"];
         currentNote          = [self loadSetting: @"current-note"];
         
+        highlightTextColor   = [self loadSetting: @"highlight-text-color"];
         // load up highlight color
         NSString *theColorString;
         
@@ -155,10 +157,24 @@
     {
         // save the highlight color
         float red=0.0; float green=0.0; float blue=0.0; float alpha=0.0;
-        [highlightColor getRed:&red green:&green blue:&blue alpha:&alpha];
+        
+        if ([highlightColor respondsToSelector:@selector(getRed:green:blue:alpha:)])
+        {
+            [highlightColor getRed:&red green:&green blue:&blue alpha:&alpha];
+        }
+        else 
+        {
+            const CGFloat* components = CGColorGetComponents([highlightColor CGColor]);
+            red = components[0];
+            green = components[1];
+            blue = components[2];
+            alpha = CGColorGetAlpha([highlightColor CGColor]);        
+        }
         
         [self saveSetting: @"highlight-color" valueForSetting:[NSString stringWithFormat:@"%f,%f,%f",
                                                                         red, green, blue]];
+     
+        [self saveSetting: @"highlight-text-color" valueForSetting:highlightTextColor];
     }
 
 /**
@@ -276,6 +292,7 @@
             currentNote = @"";
             
             highlightColor = [UIColor yellowColor];
+            highlightTextColor = @"Yellow";
             
             [self saveSettings];
             // done, return success or failure
@@ -297,5 +314,6 @@
         oldNote = nil;
         currentNote = nil;
         highlightColor = nil;
+        highlightTextColor = nil;
     }
 @end
