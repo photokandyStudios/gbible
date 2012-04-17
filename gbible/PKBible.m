@@ -489,8 +489,15 @@
         UIFont *theFont = [UIFont fontWithName:[[PKSettings instance] textFontFace]
                                           size:[[PKSettings instance] textFontSize]];
         
+        // set Margin
+        CGFloat theMargin = 5;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            // iPad gets wider margins
+            theMargin = 50;
+        }
         // set starting points
-        CGFloat startX = theRect.origin.x + 5; // some margin
+        CGFloat startX = theRect.origin.x + theMargin; // some margin
         CGFloat startY = 0; //theRect.origin.y;
         CGFloat curX = startX;
         CGFloat curY = startY;
@@ -501,7 +508,11 @@
         CGFloat columnWidth = [self columnWidth:theColumn forBounds:theRect]; // (theRect.size.width) * columnMultiplier;
         
         // new maximum point
-        endX = startX + columnWidth - 5; // some margin
+        endX = startX + columnWidth;
+        if (theColumn == 2)
+        {
+            endX = endX - theMargin;
+        }
                                                   
         // split by spaces
         NSArray *matches = [theText componentsSeparatedByString:@" "];
