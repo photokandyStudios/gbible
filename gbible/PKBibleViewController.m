@@ -44,6 +44,9 @@
     @synthesize selectedVerses;
     @synthesize highlightedVerses;
     
+    @synthesize cellHeights;
+    @synthesize cells;
+    
     @synthesize changeHighlight;
     @synthesize formattedCells;
     @synthesize ourMenu;
@@ -53,6 +56,8 @@
     @synthesize ourPopover;
     
     @synthesize selectedPassage;
+    
+    @synthesize theCachedCell;
 
 #pragma mark -
 #pragma mark Content Loading and Display
@@ -65,9 +70,10 @@
 - (void)displayBook: (int)theBook andChapter: (int)theChapter andVerse: (int)theVerse
 {
     [self loadChapter:theChapter forBook:theBook];
+    //[self.tableView reloadData];
+    [self reloadTableCache];
     [(PKHistory *)[PKHistory instance] addPassagewithBook:theBook andChapter:theChapter andVerse:theVerse];
     [self notifyChangedHistory];
-    [self.tableView reloadData];
     ((PKSettings *)[PKSettings instance]).topVerse = theVerse;
     [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theVerse-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
@@ -248,6 +254,31 @@
         // for each verse (i)
         UIFont *theFont = [UIFont fontWithName:[[PKSettings instance] textFontFace]
                                           size:[[PKSettings instance] textFontSize]];
+        if (theFont == nil)
+        {
+            theFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", [[PKSettings instance] textFontFace]]
+                                                  size:[[PKSettings instance] textFontSize]];
+        }
+        if (theFont == nil)
+        {
+            theFont = [UIFont fontWithName:@"Helvetica"
+                                                  size:[[PKSettings instance] textFontSize]];
+        }
+
+        UIFont *theBoldFont = [UIFont fontWithName:[[PKSettings instance] textGreekFontFace]
+                                              size:[[PKSettings instance] textFontSize]];
+        
+        if (theBoldFont == nil)
+        {
+            theBoldFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", [[PKSettings instance] textGreekFontFace]]
+                                          size:[[PKSettings instance] textFontSize]];
+        }
+        
+        if (theBoldFont == nil)     // just in case there's no alternate
+        {
+            theBoldFont = theFont;
+        }
+
         NSUInteger row = i;
         
         NSArray *formattedGreekVerse;
@@ -286,7 +317,7 @@
             UILabel *theLabel = [[UILabel alloc] initWithFrame:CGRectMake(wordX, wordY, wordW, wordH)];
             theLabel.text = theWord; //#573920 87, 57, 32
             theLabel.textColor = [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0];
-            theLabel.backgroundColor = [UIColor clearColor];
+            theLabel.backgroundColor = self.tableView.backgroundColor;
             if (theWordType == 10) 
             {   //#204057
                 theLabel.textColor = [UIColor colorWithRed:0.125490 green:0.250980 blue:0.341176 alpha:1.0]; 
@@ -298,6 +329,10 @@
             theLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
             theLabel.shadowOffset = CGSizeMake(1, 1);
             theLabel.font = theFont;
+            if (theWordType == 0)
+            {
+                theLabel.font = theBoldFont;
+            }
             theLabel.accessibilityLanguage = @"en";
             if (theWordType == 0) { theLabel.accessibilityLanguage = @"gr"; }
             theLabel.accessibilityLabel = theWord;
@@ -317,7 +352,7 @@
             UILabel *theLabel = [[UILabel alloc] initWithFrame:CGRectMake(wordX + greekColumnWidth, wordY, wordW, wordH)];
             theLabel.text = theWord;
             theLabel.textColor = [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0];
-            theLabel.backgroundColor = [UIColor clearColor];
+            theLabel.backgroundColor = self.tableView.backgroundColor;
             theLabel.font = theFont;
             theLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
             theLabel.shadowOffset = CGSizeMake(1, 1);
@@ -330,6 +365,34 @@
 
     [self loadHighlights];
 
+}
+
+/**
+ *
+ * reloadTableCache nukes the old cellHeights and cells array,
+ * recalculates them, and then tells the tableView to reload its data.
+ *
+ * RE: ISSUE #1
+ */
+- (void) reloadTableCache
+{
+    cellHeights = nil;
+    
+    cellHeights = [[NSMutableArray alloc] init];
+    
+    for (int row=0; row<MAX([formattedGreekChapter count],[formattedEnglishChapter count]); row++)
+    {
+        [cellHeights addObject: [NSNumber numberWithFloat:[self heightForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]]]];
+    }
+    
+    cells = nil;
+    cells = [[NSMutableArray alloc] init];
+    for (int row=0; row<MAX([formattedGreekChapter count],[formattedEnglishChapter count]); row++)
+    {
+        [cells addObject: [self cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]]];
+    }
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark -
@@ -358,7 +421,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self loadChapter];
-    [self.tableView reloadData];
+    //[self.tableView reloadData];
+    [self reloadTableCache];
     [self.tableView scrollToRowAtIndexPath: 
          [NSIndexPath indexPathForRow:
              [[PKSettings instance] topVerse]-1 inSection:0] 
@@ -382,6 +446,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [TestFlight passCheckpoint:@"VIEW_BIBLE"];
     [self.tableView setBackgroundView:nil];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -570,6 +635,10 @@
     selectedPassage =nil;
     
     ourPopover = nil;
+    
+    theCachedCell = nil;
+    cells = nil;
+    cellHeights = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -592,7 +661,8 @@
 //    ([self.tableView indexPathForRowAtPoint:CGPointMake(0,0)].row)+1;
 //    ((PKSettings *)[PKSettings instance]).topVerse = theVerse;
     [self loadChapter];
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
+    [self reloadTableCache];
     [self.tableView scrollToRowAtIndexPath: 
          [NSIndexPath indexPathForRow:
              theVerse-1 inSection:0] 
@@ -635,6 +705,11 @@
  *
  */
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[cellHeights objectAtIndex: indexPath.row] floatValue];
+}
+
+-(CGFloat) heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger row = [indexPath row];
     // the height is the MAX of both the formattedGreekVerseHeights and EnglishVerseHeights for row
@@ -703,9 +778,18 @@
         }
         else // not highlighted, be transparent.
         {
-            cell.backgroundColor = [UIColor clearColor];
+            cell.backgroundColor = self.tableView.backgroundColor;
         }
     }
+    
+    // all our subviews need to change to the background color
+    for (UIView *view in cell.subviews)
+    {
+        view.backgroundColor = cell.backgroundColor;
+
+    }
+    
+    
     
 }
 
@@ -716,8 +800,14 @@
  */
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    return [cells objectAtIndex:[indexPath row]];
+
+}
+
+-(UITableViewCell *) cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     static NSString *bibleCellID = @"PKBibleCellID";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:bibleCellID];
+    UITableViewCell *cell = nil; //[tableView dequeueReusableCellWithIdentifier:bibleCellID];
     if (!cell)
     {
         cell = [[UITableViewCell alloc]
@@ -733,14 +823,13 @@
     NSUInteger row = [indexPath row];
     
     // add in a verse #
-    UILabel *theVerseNumber = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 80)];
+    UILabel *theVerseNumber = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.bounds.size.width-120, 0, 120, 80)];
 
     theVerseNumber.text = [NSString stringWithFormat:@"%i", row+1];
     theVerseNumber.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0625];
     theVerseNumber.backgroundColor = [UIColor clearColor];
     theVerseNumber.textAlignment = UITextAlignmentRight;
     theVerseNumber.font = [UIFont fontWithName:@"Helvetica" size:96];
-    [cell addSubview:theVerseNumber];
     
     // and check if we have a note
     int theBook = [[PKSettings instance] currentBook];
@@ -781,7 +870,7 @@
                                           size:[[PKSettings instance] textFontSize]];
                                           //#502057, 80, 32, 97
         theNoteLabel.textColor = [UIColor colorWithRed:.313725 green:0.125490 blue:0.380392 alpha:1.0];
-        theNoteLabel.backgroundColor = [UIColor clearColor];
+        theNoteLabel.backgroundColor = self.tableView.backgroundColor;
         theNoteLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
         theNoteLabel.shadowOffset = CGSizeMake(1, 1);
         [cell addSubview:theNoteLabel];
@@ -808,6 +897,7 @@
         [theAString appendString:[[formattedCell objectAtIndex:i] text]];
         [theAString appendString:@" "];
     }
+    //[cell addSubview:theVerseNumber];
     
     cell.accessibilityLabel = theAString;
     
@@ -857,8 +947,13 @@
         }
         else // not highlighted, be transparent.
         {
-            newCell.backgroundColor = [UIColor clearColor];
+            newCell.backgroundColor = self.tableView.backgroundColor;
         }
+
+    }
+    for (UIView *view in newCell.subviews)
+    {
+        view.backgroundColor = newCell.backgroundColor;
 
     }
     
@@ -886,7 +981,8 @@
         }
     }
     [self previousChapter];
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
+    [self reloadTableCache];
     [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
 
@@ -908,17 +1004,18 @@
             return;
         }
 //    }
-    NSDate *startTime = [NSDate date];
+    //NSDate *startTime = [NSDate date];
     [self nextChapter];
-    NSDate *endTime = [NSDate date];
+    //NSDate *endTime = [NSDate date];
     //NSLog (@"Time to go to next chapter: %f", [endTime timeIntervalSinceDate:startTime]);
-    startTime = [NSDate date];
-    [self.tableView reloadData];
-    endTime = [NSDate date];
+    //startTime = [NSDate date];
+//    [self.tableView reloadData];
+    [self reloadTableCache];
+    //endTime = [NSDate date];
     //NSLog (@"Time to reload data: %f", [endTime timeIntervalSinceDate:startTime]);
-    startTime = [NSDate date];
+    //startTime = [NSDate date];
     [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    endTime = [NSDate date];
+    //endTime = [NSDate date];
     //NSLog (@"Time to scroll to top: %f", [endTime timeIntervalSinceDate:startTime]);
 }
 
@@ -1068,7 +1165,8 @@
 -(void) clearSelection: (id) sender
 {
     selectedVerses = [[NSMutableDictionary alloc] init]; // clear selection
-    [self.tableView reloadData]; // and reload the table's data
+//    [self.tableView reloadData]; // and reload the table's data
+    [self reloadTableCache];
 }
 
 /**
@@ -1109,7 +1207,8 @@
  */
 -(void) notifyNoteChanged
 {
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
+    [self reloadTableCache];
 }
 
 /**

@@ -27,6 +27,9 @@
     @property (strong, nonatomic) NSString *selectedWord;
     @property (strong, nonatomic) NSString *selectedPassage;
     
+    @property (strong, nonatomic) NSMutableArray *cellHeights; // RE: ISSUE #1
+    @property (strong, nonatomic) NSMutableArray *cells;       // RE: ISSUE #1
+    
     // UI elements
     @property (strong, nonatomic) UIBarButtonItem *changeHighlight;
     @property (strong, nonatomic) NSMutableArray *formattedCells;
@@ -34,6 +37,7 @@
     @property int ourMenuState;
     @property (strong, nonatomic) UIActionSheet *ourPopover;
     
+    @property (strong, nonatomic) UITableViewCell *theCachedCell;
     -(void)notifyNoteChanged;
     
 @end
