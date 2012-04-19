@@ -67,6 +67,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [TestFlight passCheckpoint:@"SEARCH_STRONGS"];
     
     // add search bar
     theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
@@ -181,7 +182,7 @@
     CGSize theSize;
     CGFloat theHeight = 0;
     CGFloat theCellWidth = (self.tableView.bounds.size.width-30);
-    CGFloat theColumnWidth = (theCellWidth) / 2;
+//    CGFloat theColumnWidth = (theCellWidth) / 2;
     CGSize maxSize = CGSizeMake(theCellWidth, 300);
 
     theHeight += 10; // the top margin
@@ -313,7 +314,7 @@
 
 -(void) didReceiveLeftSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
 {
-    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+//    CGPoint p = [gestureRecognizer locationInView:self.tableView];
 //    if (p.x < 75)
 //    {
         // hide the sidebar, if visible

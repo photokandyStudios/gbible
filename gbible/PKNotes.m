@@ -55,7 +55,7 @@
     {
         FMDatabase *content = ((PKDatabase*) [PKDatabase instance]).content;
         FMResultSet *s = [content executeQuery:@"SELECT COUNT(*) FROM notes"];
-        int theCount;
+        int theCount =0;
         if ([s next])
         {
             theCount = [s intForColumnIndex:0];

@@ -31,6 +31,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [TestFlight passCheckpoint:@"ABOUT"];
     CGRect theRect = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     self.aboutWebView = [[UIWebView alloc] initWithFrame:theRect];
     [self.view addSubview:self.aboutWebView];
@@ -95,7 +96,7 @@
 
 -(void) didReceiveLeftSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
 {
-    CGPoint p = [gestureRecognizer locationInView:self.aboutWebView];
+//    CGPoint p = [gestureRecognizer locationInView:self.aboutWebView];
 //    if (p.x < 75)
 //    {
         // hide the sidebar, if visible

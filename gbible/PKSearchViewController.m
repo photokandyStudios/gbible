@@ -70,6 +70,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [TestFlight passCheckpoint:@"SEARCH_BIBLE"];
 
     // add search bar
     theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
@@ -255,7 +256,7 @@
 
 -(void) didReceiveLeftSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
 {
-    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+//    CGPoint p = [gestureRecognizer locationInView:self.tableView];
 //    if (p.x < 75)
 //    {
         // hide the sidebar, if visible

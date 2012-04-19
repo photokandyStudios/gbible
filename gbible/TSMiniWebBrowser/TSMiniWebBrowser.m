@@ -408,12 +408,13 @@
     [self hideActivityIndicators];
     
     // Show error alert
+    /*
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Could not load page", nil)
                                                     message:error.localizedDescription
                                                    delegate:self
                                           cancelButtonTitle:nil
                                           otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-	//[alert show];
+	[alert show];*/
 }
 
 @end
