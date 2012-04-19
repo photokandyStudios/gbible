@@ -799,7 +799,8 @@
  *
  */
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+{ 
+#warning - do we need to include a deque?
     return [cells objectAtIndex:[indexPath row]];
 
 }
