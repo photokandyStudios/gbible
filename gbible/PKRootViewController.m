@@ -131,6 +131,7 @@
         self.delegate = self;
                                                                 
     }
+    [TestFlight passCheckpoint:@"ROOTVIEW"];
     return self;
 }
 

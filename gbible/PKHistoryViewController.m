@@ -39,6 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [TestFlight passCheckpoint:@"HISTORY"];
 
     self.tableView.backgroundView = nil; 
     self.tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"Background.png"]];

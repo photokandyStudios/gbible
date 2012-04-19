@@ -116,6 +116,7 @@ default:
     {
         [super viewDidLoad];
         // Do any additional setup after loading the view.
+    [TestFlight passCheckpoint:@"ANNOTATION"];
         
         scroller = [[TPKeyboardAvoidingScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 

@@ -40,6 +40,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [TestFlight passCheckpoint:@"ANNOTATIONS"];
     self.tableView.backgroundView = nil; 
     self.tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"Background.png"]];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

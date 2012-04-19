@@ -44,6 +44,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [TestFlight passCheckpoint:@"BIBLE_BOOKS"];
     
     self.tableView.backgroundView = nil; 
     self.tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"Background.png"]];
