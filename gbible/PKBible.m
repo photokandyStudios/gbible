@@ -172,8 +172,8 @@
  */
     +(int) countOfVersesForBook:(int)theBook forChapter:(int)theChapter 
     {
-        int totalGreekCount;
-        int totalEnglishCount;
+        int totalGreekCount =0 ;
+        int totalEnglishCount =0;
         int totalCount;
         NSString *theSQL = @"SELECT count(*) FROM content WHERE bibleID=? AND bibleBook = ? AND bibleChapter = ?";
     
@@ -397,7 +397,7 @@
         }
         
         //maxY += columnHeight + lineHeight;
-        maxY += lineHeight*2;
+        maxY += lineHeight + (lineHeight / 2); //RE: ISSUE # 5
         
         return maxY;
     }
@@ -488,6 +488,29 @@
         // this is our font
         UIFont *theFont = [UIFont fontWithName:[[PKSettings instance] textFontFace]
                                           size:[[PKSettings instance] textFontSize]];
+        if (theFont == nil)
+        {
+            theFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", [[PKSettings instance] textFontFace]]
+                                                  size:[[PKSettings instance] textFontSize]];
+        }
+        if (theFont == nil)
+        {
+            theFont = [UIFont fontWithName:@"Helvetica"
+                                                  size:[[PKSettings instance] textFontSize]];
+        }
+
+        UIFont *theBoldFont = [UIFont fontWithName:[[PKSettings instance] textGreekFontFace]
+                                              size:[[PKSettings instance] textFontSize]];
+        
+        if (theBoldFont == nil)
+        {
+            theBoldFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", [[PKSettings instance] textGreekFontFace]]
+                                          size:[[PKSettings instance] textFontSize]];
+        }
+        if (theBoldFont == nil)     // just in case there's no alternate
+        {
+            theBoldFont = theFont;
+        }
         
         // set Margin
         CGFloat theMargin = 5;
@@ -499,6 +522,7 @@
         // set starting points
         CGFloat startX = theRect.origin.x + theMargin; // some margin
         CGFloat startY = 0; //theRect.origin.y;
+        
         CGFloat curX = startX;
         CGFloat curY = startY;
         
@@ -536,6 +560,10 @@
         }
         CGFloat yOffset = 0.0;
         
+        // give us some margin at the top
+        startY = lineHeight / 2; //RE: ISSUE # 5
+        curY = startY; //RE: ISSUE # 5
+        
         // iterate through each word and wrap where necessary, building an
         // array of x, y points and words.
         
@@ -563,7 +591,8 @@
             }
             
             // and its size
-            CGSize theSize = [theWord sizeWithFont:theFont];
+            CGSize theSize;
+            
             
             // determine the type of the word
             theWordType = 0;    // by default, we're a regular word
@@ -605,6 +634,15 @@
             }
             
             
+            if (theColumn == 1 && theWordType == 0)
+            {
+                theSize = [theWord sizeWithFont:theBoldFont];
+            }
+            else
+            {
+                theSize  = [theWord sizeWithFont:theFont];
+            }
+
             // determine this word's position, and if we should word-wrap or not.
             if (theWordType <= thePriorWordType || (theColumn == 2 && i>0))
             {

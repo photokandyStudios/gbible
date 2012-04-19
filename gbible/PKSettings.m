@@ -13,6 +13,7 @@
 
 @implementation PKSettings
     @synthesize textFontFace;
+    @synthesize textGreekFontFace;//RE: ISSUE #6
     @synthesize textLineSpacing;
     @synthesize textVerseSpacing;
     @synthesize layoutColumnWidths;
@@ -72,6 +73,7 @@
         
         // now, load up our settings
         textFontFace    = [self loadSetting: PK_SETTING_FONTFACE];
+        textGreekFontFace=[self loadSetting: @"greek-typeface"];//RE: ISSUE #6
         textFontSize    = [[self loadSetting: PK_SETTING_FONTSIZE] intValue];
         textLineSpacing = [[self loadSetting: PK_SETTING_LINESPACING] intValue];
         textVerseSpacing= [[self loadSetting: PK_SETTING_VERSESPACING] intValue];
@@ -185,6 +187,7 @@
     -(void) saveSettings
     {
         [self saveSetting: PK_SETTING_FONTFACE valueForSetting: textFontFace];
+        [self saveSetting: @"greek-typeface" valueForSetting:textGreekFontFace];//RE: ISSUE #6
         [self saveSetting: PK_SETTING_FONTSIZE valueForSetting: [NSString stringWithFormat:@"%i",textFontSize]];
         [self saveSetting: PK_SETTING_LINESPACING valueForSetting: [NSString stringWithFormat:@"%i",textLineSpacing]];
         [self saveSetting: PK_SETTING_VERSESPACING valueForSetting: [NSString stringWithFormat:@"%i",textVerseSpacing]];
@@ -277,6 +280,7 @@
             showMorphology = YES;
             useICloud = NO;
             textFontFace = @"Helvetica";
+            textGreekFontFace = @"Helvetica-Bold";//RE: ISSUE #6
             
             currentBook = 40;   // Matthew
             currentChapter = 1; // Chapter 1
@@ -315,5 +319,6 @@
         currentNote = nil;
         highlightColor = nil;
         highlightTextColor = nil;
+        textGreekFontFace = nil;
     }
 @end

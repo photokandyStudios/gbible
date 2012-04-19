@@ -57,22 +57,35 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [TestFlight passCheckpoint:@"SETTINGS"];
     [self.tableView setBackgroundView:nil];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1];
-    layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Typeface", [NSNumber numberWithInt:1], PK_SETTING_FONTFACE, 
+    layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"English Typeface", [NSNumber numberWithInt:1], PK_SETTING_FONTFACE, 
                                                                            [NSArray arrayWithObjects: @"AmericanTypewriter",
                                                                                                       @"Arial", 
                                                                                                       @"Baskerville",
-                                                                                                      @"Courier",
                                                                                                       @"Georgia", 
                                                                                                       @"Helvetica",
+                                                                                                      @"HelveticaNeue",
                                                                                                       @"Helvetica-Light",
-                                                                                                      @"HoeflerText-Regular",
-                                                                                                      @"Marion-Regular",
-                                                                                                      @"Optima-Regular",
-                                                                                                      @"Palatino-Roman",
+                                                                                                      @"HelveticaNeue-Light",
+                                                                                                      @"HeoflerText",
+                                                                                                      @"Marion",
+                                                                                                      @"Optima",
                                                                                                       @"Verdana", nil], nil],
-                                                [NSArray arrayWithObjects: @"Font Size", [NSNumber numberWithInt:3], PK_SETTING_FONTSIZE, 
+                                                [NSArray arrayWithObjects: @"Greek Typeface", [NSNumber numberWithInt:1], @"greek-typeface", //RE: ISSUE #6
+                                                                           [NSArray arrayWithObjects: @"Arial",
+                                                                                                      @"Baskerville",
+                                                                                                      @"Georgia", 
+                                                                                                      @"Georgia-Bold",
+                                                                                                      @"Helvetica",
+                                                                                                      @"Helvetica-Bold",
+                                                                                                      @"HelveticaNeue",
+                                                                                                      @"HelveticaNeue-Bold",
+                                                                                                      @"Marion",
+                                                                                                      @"Marion-Bold",
+                                                                                                      @"Verdana",
+                                                                                                      @"Verdana-Bold", nil], nil],                                                [NSArray arrayWithObjects: @"Font Size", [NSNumber numberWithInt:3], PK_SETTING_FONTSIZE, 
                                                                            [NSArray arrayWithObjects: //[NSNumber numberWithInt:6],
                                                                                                       //[NSNumber numberWithInt:7],
                                                                                                       //[NSNumber numberWithInt:8],
@@ -486,7 +499,7 @@
 
 -(void) didReceiveLeftSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
 {
-    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+//    CGPoint p = [gestureRecognizer locationInView:self.tableView];
 //    if (p.x < 75)
 //    {
         // hide the sidebar, if visible

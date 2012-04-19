@@ -22,6 +22,7 @@
     @property BOOL showMorphology;
     @property BOOL useICloud;
     @property (strong, nonatomic) NSString *textFontFace;
+    @property (strong, nonatomic) NSString *textGreekFontFace;//RE: ISSUE #6
     
     // User-invisible settings [that they can change, but do so indirectly]
     @property (readwrite) int currentBook; // current visible book (1-based; Matthew = 40)
