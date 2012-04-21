@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PKAboutViewController : UIViewController <UIWebViewDelegate>
+@interface PKAboutViewController : UIViewController <UIWebViewDelegate, UIScrollViewDelegate>
 
     @property (nonatomic, strong) UIWebView *aboutWebView;
     

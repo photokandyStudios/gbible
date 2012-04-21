@@ -8,6 +8,7 @@
 
 #import "PKAboutViewController.h"
 #import "ZUUIRevealController.h"
+#import "PKRootViewController.h"
 
 @interface PKAboutViewController ()
 
@@ -39,6 +40,10 @@
     [self.aboutWebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"]isDirectory:NO]]];
     
     self.aboutWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    if ([self.aboutWebView respondsToSelector:@selector(scrollView)])
+    {
+    self.aboutWebView.scrollView.delegate = self;
+    }
     self.view.autoresizesSubviews = YES;
     
     UISwipeGestureRecognizer *swipeRight=[[UISwipeGestureRecognizer alloc]
@@ -76,6 +81,54 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
+}
+
+-(void)calculateShadows
+{
+
+    if ([self.aboutWebView respondsToSelector:@selector(scrollView)])
+    {
+        CGFloat topOpacity = 0.0f;
+        CGFloat theContentOffset = (self.aboutWebView.scrollView.contentOffset.y);
+        if (theContentOffset > 15)
+        {
+            theContentOffset = 15;
+        }
+        topOpacity = (theContentOffset/15)*0.5;
+        
+        [((PKRootViewController *)self.parentViewController.parentViewController ) showTopShadowWithOpacity:topOpacity];
+
+        CGFloat bottomOpacity = 0.0f;
+        
+        theContentOffset = self.aboutWebView.scrollView.contentSize.height - self.aboutWebView.scrollView.contentOffset.y -
+                           self.aboutWebView.scrollView.bounds.size.height;
+        if (theContentOffset > 15)
+        {
+            theContentOffset = 15;
+        }
+        bottomOpacity = (theContentOffset/15)*0.5;
+        
+        [((PKRootViewController *)self.parentViewController.parentViewController ) showBottomShadowWithOpacity:bottomOpacity];
+    }
+    else
+    {
+        [((PKRootViewController *)self.parentViewController.parentViewController ) showTopShadowWithOpacity:0.5];
+        [((PKRootViewController *)self.parentViewController.parentViewController ) showBottomShadowWithOpacity:0.5];
+    }
+}
+-(void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self calculateShadows];
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self calculateShadows];
+}
+-(void) scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self calculateShadows];
 }
 
 

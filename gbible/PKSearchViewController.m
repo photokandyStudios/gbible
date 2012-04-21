@@ -106,7 +106,7 @@
     }
     changeReference.accessibilityLabel = @"Go to passage";
     self.navigationItem.leftBarButtonItem = changeReference;
-    
+    /*
     // handle pan from left to right to reveal sidebar
     CGRect leftFrame = self.view.frame;
     leftFrame.origin.x = 0;
@@ -121,7 +121,7 @@
                                           initWithTarget:self.parentViewController.parentViewController.parentViewController
                                           action:@selector(revealGesture:)];
 
-    [leftLabel addGestureRecognizer:panGesture];
+    [leftLabel addGestureRecognizer:panGesture];*/
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
@@ -143,6 +143,8 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation  
 {
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self calculateShadows];
     [self.tableView reloadData];
 }
 
@@ -154,7 +156,39 @@
 {
     return YES;
 }
+-(void)calculateShadows
+{
+    CGFloat topOpacity = 0.0f;
+    CGFloat theContentOffset = (self.tableView.contentOffset.y);
+    if (theContentOffset > 15)
+    {
+        theContentOffset = 15;
+    }
+    topOpacity = (theContentOffset/15)*0.5;
+    
+    [((PKRootViewController *)self.parentViewController.parentViewController ) showTopShadowWithOpacity:topOpacity];
 
+    CGFloat bottomOpacity = 0.0f;
+    
+    theContentOffset = self.tableView.contentSize.height - self.tableView.contentOffset.y -
+                       self.tableView.bounds.size.height;
+    if (theContentOffset > 15)
+    {
+        theContentOffset = 15;
+    }
+    bottomOpacity = (theContentOffset/15)*0.5;
+    
+    [((PKRootViewController *)self.parentViewController.parentViewController ) showBottomShadowWithOpacity:bottomOpacity];
+}
+-(void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self calculateShadows];
+}
+-(void) scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self calculateShadows];
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
