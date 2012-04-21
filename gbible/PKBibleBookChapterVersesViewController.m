@@ -51,7 +51,7 @@
 	// Do any additional setup after loading the view.
     [TestFlight passCheckpoint:@"BIBLE_BOOK_CHAPTER_VERSES"];
     [self.tableView setBackgroundView:nil];
-    self.tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"Background.png"]];
+    self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.title = @"Select Verse";

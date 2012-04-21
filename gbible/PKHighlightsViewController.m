@@ -49,7 +49,7 @@
 	// Do any additional setup after loading the view.
     [TestFlight passCheckpoint:@"HIGHLIGHTS"];
     self.tableView.backgroundView = nil; 
-    self.tableView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"Background.png"]];
+    self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
