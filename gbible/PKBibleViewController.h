@@ -37,6 +37,10 @@
     @property int ourMenuState;
     @property (strong, nonatomic) UIActionSheet *ourPopover;
     
+    @property (strong, nonatomic) UIButton *btnRegularScreen;
+    
+    @property BOOL fullScreen;
+    
     @property (strong, nonatomic) UITableViewCell *theCachedCell;
     -(void)notifyNoteChanged;
     

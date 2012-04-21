@@ -25,6 +25,13 @@
 #import "PKNotes.h"
 #import "TSMiniWebBrowser.h"
 
+#import <QuartzCore/QuartzCore.h>
+
+#import <sys/socket.h>
+#import <netinet/in.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+
+
 @interface PKBibleViewController ()
 
 @end
@@ -58,6 +65,65 @@
     @synthesize selectedPassage;
     
     @synthesize theCachedCell;
+    
+    @synthesize fullScreen;
+    @synthesize btnRegularScreen;
+
+#pragma mark -
+#pragma mark Network Connectivity
+/* 
+from:http://stackoverflow.com/a/7934636/741043
+Connectivity testing code pulled from Apple's Reachability Example: http://developer.apple.com/library/ios/#samplecode/Reachability
+ */
++(BOOL)hasConnectivity {
+    struct sockaddr_in zeroAddress;
+    bzero(&zeroAddress, sizeof(zeroAddress));
+    zeroAddress.sin_len = sizeof(zeroAddress);
+    zeroAddress.sin_family = AF_INET;
+
+    SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr*)&zeroAddress);
+    if(reachability != NULL) {
+        //NetworkStatus retVal = NotReachable;
+        SCNetworkReachabilityFlags flags;
+        if (SCNetworkReachabilityGetFlags(reachability, &flags)) {
+            if ((flags & kSCNetworkReachabilityFlagsReachable) == 0)
+            {
+                // if target host is not reachable
+                return NO;
+            }
+
+            if ((flags & kSCNetworkReachabilityFlagsConnectionRequired) == 0)
+            {
+                // if target host is reachable and no connection is required
+                //  then we'll assume (for now) that your on Wi-Fi
+                return YES;
+            }
+
+
+            if ((((flags & kSCNetworkReachabilityFlagsConnectionOnDemand ) != 0) ||
+                 (flags & kSCNetworkReachabilityFlagsConnectionOnTraffic) != 0))
+            {
+                // ... and the connection is on-demand (or on-traffic) if the
+                //     calling application is using the CFSocketStream or higher APIs
+
+                if ((flags & kSCNetworkReachabilityFlagsInterventionRequired) == 0)
+                {
+                    // ... and no [user] intervention is needed
+                    return YES;
+                }
+            }
+
+            if ((flags & kSCNetworkReachabilityFlagsIsWWAN) == kSCNetworkReachabilityFlagsIsWWAN)
+            {
+                // ... but WWAN connections are OK if the calling application
+                //     is using the CFNetwork (CFSocketStream?) APIs.
+                return YES;
+            }
+        }
+    }
+
+    return NO;
+}
 
 #pragma mark -
 #pragma mark Content Loading and Display
@@ -393,6 +459,7 @@
     }
     
     [self.tableView reloadData];
+    [self calculateShadows];
 }
 
 #pragma mark -
@@ -427,6 +494,7 @@
          [NSIndexPath indexPathForRow:
              [[PKSettings instance] topVerse]-1 inSection:0] 
          atScrollPosition:UITableViewScrollPositionTop animated:NO];
+   [self calculateShadows];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -434,6 +502,11 @@
    int theVerse = [[[self.tableView indexPathsForVisibleRows] objectAtIndex:0] row]+1;
    ((PKSettings *)[PKSettings instance]).topVerse = theVerse;
    [[PKSettings instance] saveCurrentReference];
+   
+   if (fullScreen)
+   {
+    [self goRegularScreen:nil];
+   }
 }
 
 /**
@@ -513,8 +586,18 @@
        // [tb sizeToFit];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tb];
     }
+    
+    UIBarButtonItem *goFullScreen = [[UIBarButtonItem alloc] initWithTitle:@"Full Screen" 
+                                                                     style:UIBarButtonItemStyleBordered 
+                                                                    target:self 
+                                                                    action:@selector(goFullScreen:)];
+    if ([goFullScreen respondsToSelector:@selector(setTintColor:)])
+    {
+        goFullScreen.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    }
+    self.navigationItem.rightBarButtonItem = goFullScreen;
     // handle pan from left to right to reveal sidebar
-    CGRect leftFrame = self.view.frame;
+    /*CGRect leftFrame = self.view.frame;
     leftFrame.origin.x = 0;
     leftFrame.origin.y = 0;
     leftFrame.size.width=10;
@@ -527,7 +610,7 @@
                                           initWithTarget:self.parentViewController.parentViewController.parentViewController
                                           action:@selector(revealGesture:)];
 
-    [leftLabel addGestureRecognizer:panGesture];
+    [leftLabel addGestureRecognizer:panGesture];*/
 
     if ([changeHighlight respondsToSelector:@selector(setTintColor:)])
     {
@@ -549,6 +632,7 @@
                             [[UIMenuItem alloc] initWithTitle:@"Search Bible"  action:@selector(searchBible:)],
                             [[UIMenuItem alloc] initWithTitle:@"Search Strong's" action:@selector(searchStrongs:)]
                          , nil ];
+
 }
 
 /**
@@ -563,7 +647,7 @@
         if (action == @selector(copySelection:))    { return YES; }
         if (action == @selector(doAnnotate:))      { return YES; }
         if (action == @selector(defineWord:))       { return selectedWord!=nil; } 
-        if (action == @selector(explainVerse:))     { return YES; }
+        if (action == @selector(explainVerse:))     { return [PKBibleViewController hasConnectivity]; }
         if (action == @selector(clearSelection:))   { return YES; }
 
         if (SYSTEM_VERSION_LESS_THAN(@"5.0")) // < ios 5
@@ -639,6 +723,8 @@
     theCachedCell = nil;
     cells = nil;
     cellHeights = nil;
+    
+    btnRegularScreen =nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -655,18 +741,46 @@
  */
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+    [self calculateShadows];
     // get the top verse so we can scroll back to it after the rotation change
     int theVerse = [[[self.tableView indexPathsForVisibleRows] objectAtIndex:0] row]+1;
     
-//    ([self.tableView indexPathForRowAtPoint:CGPointMake(0,0)].row)+1;
-//    ((PKSettings *)[PKSettings instance]).topVerse = theVerse;
     [self loadChapter];
-//    [self.tableView reloadData];
     [self reloadTableCache];
     [self.tableView scrollToRowAtIndexPath: 
          [NSIndexPath indexPathForRow:
              theVerse-1 inSection:0] 
          atScrollPosition:UITableViewScrollPositionTop animated:NO];
+}
+
+-(void)calculateShadows
+{
+    CGFloat topOpacity = 0.0f;
+    CGFloat theContentOffset = (self.tableView.contentOffset.y);
+    if (theContentOffset > 15)
+    {
+        theContentOffset = 15;
+    }
+    topOpacity = (theContentOffset/15)*0.5;
+    
+    [((PKRootViewController *)self.parentViewController.parentViewController ) showTopShadowWithOpacity:topOpacity];
+
+    CGFloat bottomOpacity = 0.0f;
+    
+    theContentOffset = self.tableView.contentSize.height - self.tableView.contentOffset.y -
+                       self.tableView.bounds.size.height;
+    if (theContentOffset > 15)
+    {
+        theContentOffset = 15;
+    }
+    bottomOpacity = (theContentOffset/15)*0.5;
+    
+    [((PKRootViewController *)self.parentViewController.parentViewController ) showBottomShadowWithOpacity:bottomOpacity];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self calculateShadows];
 }
 
 
@@ -1092,7 +1206,12 @@
             }
             else 
             {
-                newCell.backgroundColor = [UIColor clearColor];
+                newCell.backgroundColor = self.tableView.backgroundColor;
+            }
+            for (UIView *view in newCell.subviews)
+            {
+                view.backgroundColor = newCell.backgroundColor;
+
             }
         }
         
@@ -1112,6 +1231,68 @@
 
 #pragma mark -
 #pragma mark miscellaneous selectors (called from popovers, buttons, etc.)
+
+-(void) goFullScreen: (id)sender
+{
+    ((PKRootViewController *)self.parentViewController.parentViewController).aViewHasFullScreen = YES;
+    //[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
+    CGRect theRect = ((PKRootViewController *)self.parentViewController.parentViewController).tabBar.frame;
+    theRect.origin.y += 49;
+    [((PKRootViewController *)self.parentViewController.parentViewController).tabBar setFrame:theRect];
+    
+    theRect = self.parentViewController.parentViewController.view.frame;
+    //theRect.origin.y -= 20;
+    theRect.size.height += 49;
+    [self.parentViewController.parentViewController.view setFrame:theRect];
+    [((PKRootViewController *)self.parentViewController.parentViewController) calcShadowPosition:[[UIDevice currentDevice] orientation]];
+  
+    self.fullScreen = YES;
+    
+    // create a button to get us back!
+    theRect = self.parentViewController.parentViewController.view.frame;
+    theRect.origin.x = theRect.size.width - 100;
+    theRect.origin.y = 10;
+    theRect.size.width = 90;
+    theRect.size.height = 32;
+
+    btnRegularScreen = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [btnRegularScreen setFrame:theRect];
+    [btnRegularScreen setTitle:@"Back" forState:UIControlStateNormal];
+    [btnRegularScreen setTitle:@"Back" forState:UIControlStateHighlighted];
+    [btnRegularScreen setTitle:@"Back" forState:UIControlStateDisabled];
+    [btnRegularScreen setTitle:@"Back" forState:UIControlStateSelected];
+    btnRegularScreen.titleLabel.textColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    btnRegularScreen.layer.opacity = 0.5;
+    btnRegularScreen.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    [btnRegularScreen addTarget:self action:@selector(goRegularScreen:) forControlEvents:UIControlEventTouchUpInside];
+    [self.parentViewController.view addSubview:btnRegularScreen];
+    [self.parentViewController.view bringSubviewToFront:btnRegularScreen];    
+}
+
+-(void) goRegularScreen: (id)sender
+{
+    [btnRegularScreen removeFromSuperview];
+    btnRegularScreen = nil;
+
+    ((PKRootViewController *)self.parentViewController.parentViewController).aViewHasFullScreen = NO;
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    
+    CGRect theRect = ((PKRootViewController *)self.parentViewController.parentViewController).tabBar.frame;
+    theRect.origin.y -= 49;
+    [((PKRootViewController *)self.parentViewController.parentViewController).tabBar setFrame:theRect];
+    
+    theRect = self.parentViewController.parentViewController.view.frame;
+   // theRect.origin.y += 20;
+    theRect.size.height -= 49;
+    [self.parentViewController.parentViewController.view setFrame:theRect];
+    [((PKRootViewController *)self.parentViewController.parentViewController) calcShadowPosition:[[UIDevice currentDevice] orientation]];
+    //[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+  
+    self.fullScreen = NO;
+    
+}
 
 /**
  *
