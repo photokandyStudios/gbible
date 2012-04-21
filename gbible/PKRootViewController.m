@@ -13,12 +13,19 @@
 #import "PKStrongsController.h"
 #import "PKSearchViewController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
+ 
+
+
 @interface PKRootViewController ()
 
 @end
 
 @implementation PKRootViewController
-
+    @synthesize topShadow;
+    @synthesize bottomShadow;
+    @synthesize aViewHasFullScreen;
 /**
  *
  * Initialize our main controller. We create a tab bar and include each of our main views in it.
@@ -29,7 +36,7 @@
     self = [super init];
     if (self) {
         // I know this is harder to do in code than IB, but for crying out loud - i hate magic!
-        
+        aViewHasFullScreen = NO;
         // initialize our tab bar
         PKBibleViewController *bibleViewController = [[PKBibleViewController alloc] init];
         PKSearchViewController *searchViewController=[[PKSearchViewController alloc] init];
@@ -88,6 +95,7 @@
         UINavigationController *navSettingsController = [[UINavigationController alloc] initWithRootViewController:settingsViewController ];
         UINavigationController *navSearchController = [[UINavigationController alloc] initWithRootViewController:searchViewController ];
         
+        
         // set up our nav image
         UINavigationBar *navBar = [navBibleController navigationBar];
         if ([navBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
@@ -139,12 +147,72 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    // add our shadows
+    topShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"topShadow.png"]];
+    bottomShadow= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottomShadow.png"]];
+    
+    topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
+    bottomShadow.frame = CGRectMake(0, self.view.bounds.size.height-44-20,self.view.bounds.size.width,15);
+    
+    topShadow.contentMode = UIViewContentModeScaleToFill;
+    bottomShadow.contentMode = UIViewContentModeScaleToFill;
+    
+    topShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth ;
+    bottomShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    
+    topShadow.layer.opacity = 0.0f;
+    bottomShadow.layer.opacity = 0.0f;
+    
+    [self.view addSubview:topShadow];
+    [self.view addSubview:bottomShadow];
+
 }
+
+    -(void) showTopShadowWithOpacity: (CGFloat) opacity;
+    {
+        topShadow.layer.opacity = opacity;
+    }
+    -(void) showBottomShadowWithOpacity: (CGFloat) opacity;
+    {
+        bottomShadow.layer.opacity = opacity;
+    }
+
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+    topShadow = nil;
+    bottomShadow = nil;
+}
+
+-(void)calcShadowPosition:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        // for iphone we have 44 and 32(?) for the navbar height
+        if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
+        {
+            topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
+        }
+        else 
+        {
+            topShadow.frame = CGRectMake(0, 32, self.view.bounds.size.width, 15);
+        }
+    }
+    else 
+    {
+        topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
+    }
+    if (aViewHasFullScreen)
+    {
+       topShadow.frame = CGRectMake(0, 0, self.view.bounds.size.width, 15);
+    }
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self calcShadowPosition:toInterfaceOrientation];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
