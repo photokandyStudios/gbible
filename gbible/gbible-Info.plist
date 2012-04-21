@@ -16,14 +16,13 @@
 			<array>
 				<string>GreekInterlinearBibleIcon-144.png</string>
 				<string>GreekInterlinearBibleIcon-iPad72.png</string>
-				<string>Default-Landscape~ipad.png</string>
-				<string>Default-Portrait~ipad.png</string>
-				<string>GreekInterlinearBibleIcon-114.png</string>
 				<string>GreekInterlinearBibleIcon-57.png</string>
-				<string>Default.png</string>
-				<string>Default@2x.png</string>
-				<string>Default-Landscape@2x~ipad.png</string>
-				<string>Default-Portrait@2x~ipad.png</string>
+				<string>GreekInterlinearBibleIcon-29.png</string>
+				<string>GreekInterlinearBibleIcon-48.png</string>
+				<string>GreekInterlinearBibleIcon-58.png</string>
+				<string>GreekInterlinearBibleIcon-64.png</string>
+				<string>GreekInterlinearBibleIcon-iPad72.png</string>
+				<string>GreekInterlinearBibleIcon-114.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<true/>
@@ -42,7 +41,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>3584</string>
+	<string>3651</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIFileSharingEnabled</key>
@@ -65,6 +64,26 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Pfennig.ttf</string>
+		<string>PfennigBold.ttf</string>
+		<string>NewsCycle-Regular.ttf</string>
+	</array>
+	<key>CFBundleIconFile</key>
+	<string>GreekInterlinearBibleIcon-57.png</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>GreekInterlinearBibleIcon-29.png</string>
+		<string>GreekInterlinearBibleIcon-48.png</string>
+		<string>GreekInterlinearBibleIcon-57.png</string>
+		<string>GreekInterlinearBibleIcon-58.png</string>
+		<string>GreekInterlinearBibleIcon-64.png</string>
+		<string>GreekInterlinearBibleIcon-iPad72.png</string>
+		<string>GreekInterlinearBibleIcon-114.png</string>
+		<string>GreekInterlinearBibleIcon-144.png</string>
+		<string>GreekInterlinearBibleIcon-320.png</string>
 	</array>
 </dict>
 </plist>
