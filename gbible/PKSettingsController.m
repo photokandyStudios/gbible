@@ -14,6 +14,8 @@
 #import "PKAppDelegate.h"
 #import "PKHighlightsViewController.h"
 #import "PKNotesViewController.h"
+#import "PKRootViewController.h"
+
 
 @interface PKSettingsController ()
 
@@ -62,7 +64,7 @@
     self.tableView.backgroundColor = [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1];
     layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"English Typeface", [NSNumber numberWithInt:1], PK_SETTING_FONTFACE, 
                                                                            [NSArray arrayWithObjects: @"AmericanTypewriter",
-                                                                                                      @"Arial", 
+                                                                                                      //@"Arial", 
                                                                                                       @"Baskerville",
                                                                                                       @"Georgia", 
                                                                                                       @"Helvetica",
@@ -71,10 +73,12 @@
                                                                                                       @"HelveticaNeue-Light",
                                                                                                       @"HeoflerText",
                                                                                                       @"Marion",
+                                                                                                      @"NewsCycle",
                                                                                                       @"Optima",
+                                                                                                    //  @"Pfennig",
                                                                                                       @"Verdana", nil], nil],
                                                 [NSArray arrayWithObjects: @"Greek Typeface", [NSNumber numberWithInt:1], @"greek-typeface", //RE: ISSUE #6
-                                                                           [NSArray arrayWithObjects: @"Arial",
+                                                                           [NSArray arrayWithObjects: //@"Arial",
                                                                                                       @"Baskerville",
                                                                                                       @"Georgia", 
                                                                                                       @"Georgia-Bold",
@@ -84,6 +88,9 @@
                                                                                                       @"HelveticaNeue-Bold",
                                                                                                       @"Marion",
                                                                                                       @"Marion-Bold",
+                                                                                                      @"NewsCycle",
+                                                                                                   //   @"Pfennig",
+                                                                                                   //   @"PfennigBold",
                                                                                                       @"Verdana",
                                                                                                       @"Verdana-Bold", nil], nil],                                                [NSArray arrayWithObjects: @"Font Size", [NSNumber numberWithInt:3], PK_SETTING_FONTSIZE, 
                                                                            [NSArray arrayWithObjects: //[NSNumber numberWithInt:6],
@@ -107,13 +114,14 @@
                                                                                                       @"26pt", @"32pt", @"48pt",
                                                                                                       nil] ,nil],
                                                 [NSArray arrayWithObjects: @"Inter-line Spacing", [NSNumber numberWithInt:3], PK_SETTING_LINESPACING, 
-                                                                           [NSArray arrayWithObjects: [NSNumber numberWithInt:PK_LS_CRAMPED],
-                                                                                                      [NSNumber numberWithInt:PK_LS_TIGHT],
+                                                                           [NSArray arrayWithObjects: //[NSNumber numberWithInt:PK_LS_CRAMPED],
+                                                                                                      //[NSNumber numberWithInt:PK_LS_TIGHT],
                                                                                                       [NSNumber numberWithInt:PK_LS_NORMAL],
                                                                                                       [NSNumber numberWithInt:PK_LS_ONEQUARTER],
                                                                                                       [NSNumber numberWithInt:PK_LS_ONEHALF],
                                                                                                       [NSNumber numberWithInt:PK_LS_DOUBLE], nil],
-                                                                           [NSArray arrayWithObjects: @"Cramped", @"Tight", @"Normal", @"One-Quarter",
+                                                                           [NSArray arrayWithObjects: //@"Cramped", @"Tight", 
+                                                                                                      @"Normal", @"One-Quarter",
                                                                                                       @"One-Half", @"Double", nil], nil ],
                                                 [NSArray arrayWithObjects: @"Line Spacing", [NSNumber numberWithInt:3], PK_SETTING_VERSESPACING, 
                                                                            [NSArray arrayWithObjects: [NSNumber numberWithInt:PK_VS_NONE],
@@ -204,6 +212,44 @@
     layoutSettings = nil;
 }
 
+-(void)calculateShadows
+{
+    CGFloat topOpacity = 0.0f;
+    CGFloat theContentOffset = (self.tableView.contentOffset.y);
+    if (theContentOffset > 15)
+    {
+        theContentOffset = 15;
+    }
+    topOpacity = (theContentOffset/15)*0.5;
+    
+    [((PKRootViewController *)self.parentViewController.parentViewController ) showTopShadowWithOpacity:topOpacity];
+
+    CGFloat bottomOpacity = 0.0f;
+    
+    theContentOffset = self.tableView.contentSize.height - self.tableView.contentOffset.y -
+                       self.tableView.bounds.size.height;
+    if (theContentOffset > 15)
+    {
+        theContentOffset = 15;
+    }
+    bottomOpacity = (theContentOffset/15)*0.5;
+    
+    [((PKRootViewController *)self.parentViewController.parentViewController ) showBottomShadowWithOpacity:bottomOpacity];
+}
+-(void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self calculateShadows];
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self calculateShadows];
+}
+-(void) scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self calculateShadows];
+}
 /**
  *
  * We support all orientations
@@ -213,7 +259,6 @@
 {
 	return YES;
 }
-
 #pragma mark -
 #pragma mark Table View Data Source Methods
 
@@ -337,8 +382,15 @@
                 // find it in the cell's 3rd array
                 int theIndex = [[cellData objectAtIndex:3] indexOfObject:theSettingValue];
                 // now look up the corresponding text in the 4th array
-                NSString *theValue = [ [cellData objectAtIndex:4] objectAtIndex: theIndex ];
-                cell.detailTextLabel.text = theValue;
+                if (theIndex != NSNotFound)
+                {
+                    NSString *theValue = [ [cellData objectAtIndex:4] objectAtIndex: theIndex ];
+                    cell.detailTextLabel.text = theValue;
+                }
+                else 
+                {
+                    cell.detailTextLabel.text = @"Bad Setting";
+                }
                 break;
                 
     }
