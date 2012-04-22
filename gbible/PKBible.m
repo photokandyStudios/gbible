@@ -728,7 +728,7 @@
         FMDatabase *db = [[PKDatabase instance] bible];
         NSString *theLike = [NSString stringWithFormat:@"%%%@%%", [[theTerm lowercaseString] // RE: ISSUE #18
                                            stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
-        FMResultSet *s = [db executeQuery:@"SELECT bibleBook, bibleChapter, bibleVerse FROM content WHERE bibleID in (?,?) AND TRIM(UPPER(bibleText)) LIKE ? ORDER BY 1,2,3",
+        FMResultSet *s = [db executeQuery:@"SELECT bibleBook, bibleChapter, bibleVerse FROM content WHERE bibleID in (?,?) AND TRIM(LOWER(bibleText)) LIKE ? ORDER BY 1,2,3",
                                            [NSNumber numberWithInt:theGreekBible],
                                            [NSNumber numberWithInt:theEnglishBible],
                                            theLike];
