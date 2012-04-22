@@ -8,6 +8,20 @@
 	<string>Greek Bible</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIconFile</key>
+	<string>GreekInterlinearBibleIcon-57.png</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>GreekInterlinearBibleIcon-29.png</string>
+		<string>GreekInterlinearBibleIcon-48.png</string>
+		<string>GreekInterlinearBibleIcon-57.png</string>
+		<string>GreekInterlinearBibleIcon-58.png</string>
+		<string>GreekInterlinearBibleIcon-64.png</string>
+		<string>GreekInterlinearBibleIcon-iPad72.png</string>
+		<string>GreekInterlinearBibleIcon-114.png</string>
+		<string>GreekInterlinearBibleIcon-144.png</string>
+		<string>GreekInterlinearBibleIcon-320.png</string>
+	</array>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundlePrimaryIcon</key>
@@ -41,15 +55,22 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>3651</string>
+	<string>3698</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Pfennig.ttf</string>
+		<string>PfennigBold.ttf</string>
+		<string>NewsCycle-Regular.ttf</string>
+	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
+		<string>armv6</string>
 		<string>armv7</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
@@ -64,26 +85,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Pfennig.ttf</string>
-		<string>PfennigBold.ttf</string>
-		<string>NewsCycle-Regular.ttf</string>
-	</array>
-	<key>CFBundleIconFile</key>
-	<string>GreekInterlinearBibleIcon-57.png</string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>GreekInterlinearBibleIcon-29.png</string>
-		<string>GreekInterlinearBibleIcon-48.png</string>
-		<string>GreekInterlinearBibleIcon-57.png</string>
-		<string>GreekInterlinearBibleIcon-58.png</string>
-		<string>GreekInterlinearBibleIcon-64.png</string>
-		<string>GreekInterlinearBibleIcon-iPad72.png</string>
-		<string>GreekInterlinearBibleIcon-114.png</string>
-		<string>GreekInterlinearBibleIcon-144.png</string>
-		<string>GreekInterlinearBibleIcon-320.png</string>
 	</array>
 </dict>
 </plist>
