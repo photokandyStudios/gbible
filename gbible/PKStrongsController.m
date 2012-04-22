@@ -22,6 +22,7 @@
     @synthesize theSearchTerm;
     @synthesize theSearchResults;
     @synthesize theSearchBar;
+    @synthesize byKeyOnly;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -36,31 +37,35 @@
 
 -(void)doSearchForTerm:(NSString *)theTerm  
 {
-    [self doSearchForTerm:theTerm byKeyOnly:NO];
+    [self doSearchForTerm:theTerm byKeyOnly:self.byKeyOnly];
 }
 
 -(void)doSearchForTerm:(NSString *)theTerm byKeyOnly:(BOOL)keyOnly
 {
-    theSearchResults = nil;
-    theSearchTerm = theTerm;
-    
-    if ([theTerm isEqualToString:@""])
-    {
+    self.byKeyOnly = byKeyOnly;
+    [((PKRootViewController *)self.parentViewController.parentViewController ) showWaitingIndicator];
+    PKWait(
         theSearchResults = nil;
-    }
-    else
-    {
-        theSearchResults = [PKStrongs keysThatMatch:theTerm byKeyOnly:keyOnly];
-    }
-    [self.tableView reloadData];
-    
-    theSearchBar.text = theTerm;
-    
-    ((PKSettings *)[PKSettings instance]).lastStrongsLookup = theTerm;
+        theSearchTerm = theTerm;
+        
+        if ([theTerm isEqualToString:@""])
+        {
+            theSearchResults = nil;
+        }
+        else
+        {
+            theSearchResults = [PKStrongs keysThatMatch:theTerm byKeyOnly:keyOnly];
+        }
+        [self.tableView reloadData];
+        
+        theSearchBar.text = theTerm;
+        
+        ((PKSettings *)[PKSettings instance]).lastStrongsLookup = theTerm;
 
-    UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
-    tbc.selectedIndex = 2;
-
+        UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
+        tbc.selectedIndex = 2;
+        self.byKeyOnly = NO;
+    );
 }
 
 - (void)viewDidLoad

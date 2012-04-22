@@ -135,17 +135,20 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 - (void)displayBook: (int)theBook andChapter: (int)theChapter andVerse: (int)theVerse
 {
-    [self loadChapter:theChapter forBook:theBook];
-    //[self.tableView reloadData];
-    [self reloadTableCache];
-    [(PKHistory *)[PKHistory instance] addPassagewithBook:theBook andChapter:theChapter andVerse:theVerse];
-    [self notifyChangedHistory];
-    ((PKSettings *)[PKSettings instance]).topVerse = theVerse;
-    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theVerse-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
-    tbc.selectedIndex = 0;
-}
 
+    [((PKRootViewController *)self.parentViewController.parentViewController ) showWaitingIndicator];
+      PKWait(
+                [self loadChapter:theChapter forBook:theBook];
+                //[self.tableView reloadData];
+                [self reloadTableCache];
+                [(PKHistory *)[PKHistory instance] addPassagewithBook:theBook andChapter:theChapter andVerse:theVerse];
+                [self notifyChangedHistory];
+                ((PKSettings *)[PKSettings instance]).topVerse = theVerse;
+                [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theVerse-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
+                tbc.selectedIndex = 0;
+            );
+}
 /**
  *
  * Load the desired chapter for the desired book. Also saves the settings.
@@ -169,6 +172,8 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 - (void)nextChapter
 {
+    [((PKRootViewController *)self.parentViewController.parentViewController ) showLeftSwipeIndicator];
+    PKWait(
     int currentBook = [[PKSettings instance] currentBook];
     int currentChapter = [[PKSettings instance] currentChapter];
     
@@ -183,10 +188,15 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             return; // can't go past the end of the Bible
         }
     }
+
     
-    [self loadChapter: currentChapter forBook: currentBook];
-    [(PKHistory *)[PKHistory instance] addPassagewithBook:currentBook andChapter:currentChapter andVerse:1];
-    [self notifyChangedHistory];
+        [self loadChapter: currentChapter forBook: currentBook];
+        [self reloadTableCache];
+        [(PKHistory *)[PKHistory instance] addPassagewithBook:currentBook andChapter:currentChapter andVerse:1];
+        [self notifyChangedHistory];
+    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    
+    );
 }
 
 /**
@@ -196,6 +206,9 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 - (void)previousChapter
 {
+    [((PKRootViewController *)self.parentViewController.parentViewController ) showRightSwipeIndicator];
+    PKWait(
+
     int currentBook = [[PKSettings instance] currentBook];
     int currentChapter = [[PKSettings instance] currentChapter];
     
@@ -212,8 +225,12 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     }
     
     [self loadChapter: currentChapter forBook: currentBook];
+    [self reloadTableCache];
     [(PKHistory *)[PKHistory instance] addPassagewithBook:currentBook andChapter:currentChapter andVerse:1];
     [self notifyChangedHistory];
+    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    
+    );
 }
 
 /**
@@ -487,14 +504,17 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self loadChapter];
-    //[self.tableView reloadData];
-    [self reloadTableCache];
-    [self.tableView scrollToRowAtIndexPath: 
-         [NSIndexPath indexPathForRow:
-             [[PKSettings instance] topVerse]-1 inSection:0] 
-         atScrollPosition:UITableViewScrollPositionTop animated:NO];
-   [self calculateShadows];
+//    [((PKRootViewController *)self.parentViewController.parentViewController ) showWaitingIndicator];
+//    PKWait(
+        [self loadChapter];
+        //[self.tableView reloadData];
+        [self reloadTableCache];
+        [self.tableView scrollToRowAtIndexPath: 
+             [NSIndexPath indexPathForRow:
+                 [[PKSettings instance] topVerse]-1 inSection:0] 
+             atScrollPosition:UITableViewScrollPositionTop animated:NO];
+       [self calculateShadows];
+//    ) ;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -1097,8 +1117,6 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     }
     [self previousChapter];
 //    [self.tableView reloadData];
-    [self reloadTableCache];
-    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
 
 /**
@@ -1125,11 +1143,9 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     //NSLog (@"Time to go to next chapter: %f", [endTime timeIntervalSinceDate:startTime]);
     //startTime = [NSDate date];
 //    [self.tableView reloadData];
-    [self reloadTableCache];
     //endTime = [NSDate date];
     //NSLog (@"Time to reload data: %f", [endTime timeIntervalSinceDate:startTime]);
     //startTime = [NSDate date];
-    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     //endTime = [NSDate date];
     //NSLog (@"Time to scroll to top: %f", [endTime timeIntervalSinceDate:startTime]);
 }

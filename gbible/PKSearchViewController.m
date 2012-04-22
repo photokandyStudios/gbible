@@ -42,26 +42,28 @@
 
 -(void)doSearchForTerm:(NSString *)theTerm requireParsings:(BOOL)parsings
 {
-    theSearchResults = nil;
-    theSearchTerm = theTerm;
-    
-    if ([theTerm isEqualToString:@""])
-    {
+    [((PKRootViewController *)self.parentViewController.parentViewController ) showWaitingIndicator];
+    PKWait(
         theSearchResults = nil;
-    }
-    else
-    {
-        theSearchResults = [PKBible passagesMatching:theTerm requireParsings:parsings];
-    }
-    [self.tableView reloadData];
-    
-    theSearchBar.text = theTerm;
-    
-    ((PKSettings *)[PKSettings instance]).lastSearch = theTerm;
+        theSearchTerm = theTerm;
+        
+        if ([theTerm isEqualToString:@""])
+        {
+            theSearchResults = nil;
+        }
+        else
+        {
+            theSearchResults = [PKBible passagesMatching:theTerm requireParsings:parsings];
+        }
+        [self.tableView reloadData];
+        
+        theSearchBar.text = theTerm;
+        
+        ((PKSettings *)[PKSettings instance]).lastSearch = theTerm;
 
-    UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
-    tbc.selectedIndex = 1;
-
+        UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
+        tbc.selectedIndex = 1;
+    );
 }
 
 

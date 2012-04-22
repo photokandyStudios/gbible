@@ -13,11 +13,19 @@
     @property (strong, nonatomic) UIImageView  *topShadow;
     @property (strong, nonatomic) UIImageView *bottomShadow;
     @property BOOL aViewHasFullScreen;
+    
+    @property (strong, nonatomic) UIImageView *ourIndicator;
 
     -(id) init;
     
     -(void) showTopShadowWithOpacity: (CGFloat) opacity;
     -(void) showBottomShadowWithOpacity: (CGFloat) opacity;
     -(void)calcShadowPosition:(UIInterfaceOrientation)toInterfaceOrientation;
+    
+    -(void) showWaitingIndicator;
+    -(void) showRightSwipeIndicator;
+    -(void) showLeftSwipeIndicator;
+    
+    -(void) hideIndicator;
 
 @end

@@ -26,6 +26,7 @@
     @synthesize topShadow;
     @synthesize bottomShadow;
     @synthesize aViewHasFullScreen;
+    @synthesize ourIndicator;
 /**
  *
  * Initialize our main controller. We create a tab bar and include each of our main views in it.
@@ -219,5 +220,62 @@
 {
 	return YES;
 }
+
+
+    -(void) showWaitingIndicator
+    {
+        ourIndicator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Wait.png"]];
+        
+        CGPoint centerPoint = self.view.center;
+        CGRect theRect = CGRectMake(centerPoint.x-96, centerPoint.y-96, 192, 192);
+        [ourIndicator setFrame:theRect];
+        ourIndicator.alpha = 0.5f;
+        
+        [self.view addSubview:ourIndicator];
+        
+        [self performSelector:@selector(hideIndicator) withObject:self afterDelay:0.2f];
+    }
+    -(void) showRightSwipeIndicator
+    {
+        ourIndicator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Swipe.png"]];
+        
+        CGPoint centerPoint = self.view.center;
+        centerPoint.x = 0;
+        CGRect theRect = CGRectMake(centerPoint.x-96, centerPoint.y-96, 192, 192);
+        [ourIndicator setFrame:theRect];
+        ourIndicator.alpha = 0.5f;
+        
+        [self.view addSubview:ourIndicator];
+        
+        [self performSelector:@selector(hideIndicator) withObject:self afterDelay:0.2f];
+    }
+    -(void) showLeftSwipeIndicator
+    {
+        ourIndicator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Swipe.png"]];
+        
+        CGPoint centerPoint = self.view.center;
+        centerPoint.x = self.view.bounds.size.width;
+        CGRect theRect = CGRectMake(centerPoint.x-96, centerPoint.y-96, 192, 192);
+        [ourIndicator setFrame:theRect];
+        ourIndicator.alpha = 0.5f;
+        
+        [self.view addSubview:ourIndicator];
+        
+        [self performSelector:@selector(hideIndicator) withObject:self afterDelay:0.2f];
+    }
+    
+    -(void) hideIndicator
+    {
+        [UIView animateWithDuration:0.2f animations:
+        ^{
+            ourIndicator.alpha = 0.0;
+        } 
+        completion:^(BOOL finished) 
+        {
+            [ourIndicator removeFromSuperview];
+            ourIndicator = nil;
+        }];
+    }
+
 
 @end
