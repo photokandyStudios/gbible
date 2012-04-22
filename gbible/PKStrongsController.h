@@ -16,6 +16,8 @@
     
     @property (strong, nonatomic) UISearchBar *theSearchBar;
     
+    @property BOOL byKeyOnly;
+    
     -(void)doSearchForTerm: (NSString *)theTerm;
     -(void)doSearchForTerm:(NSString *)theTerm byKeyOnly:(BOOL)keyOnly;
     

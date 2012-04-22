@@ -33,11 +33,11 @@
     {
         FMDatabase *db = [(PKDatabase *)[PKDatabase instance] bible];
 
-        NSString *theNewTerm = [NSString stringWithFormat:@"%%%@%%", [[theTerm uppercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+        NSString *theNewTerm = [NSString stringWithFormat:@"%%%@%%", [[theTerm lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 
-        FMResultSet *s = [db executeQuery:@"SELECT * FROM strongs WHERE UPPER(key) LIKE ? OR UPPER(derivation) LIKE ? \
-                                                                     OR UPPER(lemma) LIKE ? OR UPPER(kjv_def) LIKE ? \
-                                                                     OR UPPER(strongs_def) LIKE ? ORDER BY 1 LIMIT 100", theNewTerm, theNewTerm, theNewTerm, theNewTerm, theNewTerm];
+        FMResultSet *s = [db executeQuery:@"SELECT * FROM strongs WHERE LOWER(key) LIKE ? OR LOWER(derivation) LIKE ? \
+                                                                     OR LOWER(lemma) LIKE ? OR LOWER(kjv_def) LIKE ? \
+                                                                     OR LOWER(strongs_def) LIKE ? ORDER BY 1 LIMIT 100", theNewTerm, theNewTerm, theNewTerm, theNewTerm, theNewTerm];
         NSMutableArray *theResult = [[NSMutableArray alloc] init ];
         while ([s next]) {
             [theResult addObject:[s stringForColumnIndex:0]];
