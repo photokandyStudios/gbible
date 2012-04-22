@@ -13,6 +13,10 @@
     #import <Foundation/Foundation.h>
     
     #import "TestFlight.h"
+
+
+    #define PKWait(block)     dispatch_after(      dispatch_time(        DISPATCH_TIME_NOW,        100000),        dispatch_get_current_queue(), ^{ block })
+
 #endif
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
