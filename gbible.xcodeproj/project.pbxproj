@@ -86,6 +86,10 @@
 		6A9B86B5154283C900E4ABC0 /* Pfennig.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86B21542818600E4ABC0 /* Pfennig.ttf */; };
 		6A9B86B6154283C900E4ABC0 /* PfennigBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86B31542818600E4ABC0 /* PfennigBold.ttf */; };
 		6A9B86B7154283C900E4ABC0 /* NewsCycle-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86B11542816700E4ABC0 /* NewsCycle-Regular.ttf */; };
+		6A9B86C11543A5CD00E4ABC0 /* Swipe.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BD1543A5CD00E4ABC0 /* Swipe.png */; };
+		6A9B86C21543A5CD00E4ABC0 /* Swipe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */; };
+		6A9B86C31543A5CD00E4ABC0 /* Wait.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BF1543A5CD00E4ABC0 /* Wait.png */; };
+		6A9B86C41543A5CD00E4ABC0 /* Wait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */; };
 		6AABABC5153FC8B200FCBAB9 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AABABC1153FC8B200FCBAB9 /* libTestFlight.a */; };
 		6AABABC6153FC8B300FCBAB9 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6AABABC2153FC8B200FCBAB9 /* README.txt */; };
 		6AABABC7153FC8B300FCBAB9 /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6AABABC3153FC8B200FCBAB9 /* release_notes.txt */; };
@@ -220,6 +224,10 @@
 		6A9B86B11542816700E4ABC0 /* NewsCycle-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewsCycle-Regular.ttf"; sourceTree = "<group>"; };
 		6A9B86B21542818600E4ABC0 /* Pfennig.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pfennig.ttf; sourceTree = "<group>"; };
 		6A9B86B31542818600E4ABC0 /* PfennigBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PfennigBold.ttf; sourceTree = "<group>"; };
+		6A9B86BD1543A5CD00E4ABC0 /* Swipe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Swipe.png; sourceTree = "<group>"; };
+		6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Swipe@2x.png"; sourceTree = "<group>"; };
+		6A9B86BF1543A5CD00E4ABC0 /* Wait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wait.png; sourceTree = "<group>"; };
+		6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wait@2x.png"; sourceTree = "<group>"; };
 		6AABABC1153FC8B200FCBAB9 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		6AABABC2153FC8B200FCBAB9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		6AABABC3153FC8B200FCBAB9 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
@@ -770,6 +778,10 @@
 		6AF9D0621512A5C300514499 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				6A9B86BD1543A5CD00E4ABC0 /* Swipe.png */,
+				6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */,
+				6A9B86BF1543A5CD00E4ABC0 /* Wait.png */,
+				6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */,
 				6A12F6DA151E979D00B49B6E /* Listb.png */,
 				6A12F6DB151E979D00B49B6E /* Listb@2x.png */,
 				6A12F6D6151E96BD00B49B6E /* Lista.png */,
@@ -920,6 +932,10 @@
 				6A9B86AB15422E6100E4ABC0 /* bottomShadow@2x.png in Resources */,
 				6A9B86AC15422E6100E4ABC0 /* topShadow.png in Resources */,
 				6A9B86AD15422E6100E4ABC0 /* topShadow@2x.png in Resources */,
+				6A9B86C11543A5CD00E4ABC0 /* Swipe.png in Resources */,
+				6A9B86C21543A5CD00E4ABC0 /* Swipe@2x.png in Resources */,
+				6A9B86C31543A5CD00E4ABC0 /* Wait.png in Resources */,
+				6A9B86C41543A5CD00E4ABC0 /* Wait@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1030,6 +1046,10 @@
 		6AF0C0BA150EE8BB00BFAE03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "gbible/gbible-Prefix.pch";
 				INFOPLIST_FILE = "gbible/gbible-Info.plist";
@@ -1046,6 +1066,10 @@
 		6AF0C0BB150EE8BB00BFAE03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "gbible/gbible-Prefix.pch";
 				INFOPLIST_FILE = "gbible/gbible-Info.plist";
