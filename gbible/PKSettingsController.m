@@ -61,7 +61,7 @@
 	// Do any additional setup after loading the view.
     [TestFlight passCheckpoint:@"SETTINGS"];
     [self.tableView setBackgroundView:nil];
-    self.tableView.backgroundColor = [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1];
+    self.tableView.backgroundColor = PKPageColor;
     layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"English Typeface", [NSNumber numberWithInt:1], PK_SETTING_FONTFACE, 
                                                                            [NSArray arrayWithObjects: @"AmericanTypewriter",
                                                                                                       //@"Arial", 
@@ -188,11 +188,11 @@
 
     if ([changeReference respondsToSelector:@selector(setTintColor:)])
     {
-        changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+        changeReference.tintColor = PKBaseUIColor;
     }
     changeReference.accessibilityLabel = @"Go to passage";
     self.navigationItem.leftBarButtonItem = changeReference;
-    
+
 }
 
 /**

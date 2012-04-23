@@ -51,7 +51,8 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.title = @"Select Chapter";
-    self.navigationItem.leftBarButtonItem.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    self.navigationItem.leftBarButtonItem.tintColor = PKBaseUIColor;
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 
 - (void)viewDidUnload

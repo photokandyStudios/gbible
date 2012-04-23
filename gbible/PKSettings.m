@@ -295,7 +295,7 @@
             oldNote = @"";
             currentNote = @"";
             
-            highlightColor = [UIColor yellowColor];
+            highlightColor = PKYellowHighlightColor;
             highlightTextColor = @"Yellow";
             
             [self saveSettings];

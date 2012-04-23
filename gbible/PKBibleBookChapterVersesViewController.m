@@ -55,6 +55,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.title = @"Select Verse";
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 
 - (void)viewDidUnload
