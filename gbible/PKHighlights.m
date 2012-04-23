@@ -125,7 +125,7 @@
             // there will always be 3 values; R=0, G=1, B=2
             UIColor *theColor = [UIColor colorWithRed:[[theColorArray objectAtIndex:0] floatValue]
                                        green:[[theColorArray objectAtIndex:1] floatValue] 
-                                        blue:[[theColorArray objectAtIndex:2] floatValue] alpha:1.0];
+                                        blue:[[theColorArray objectAtIndex:2] floatValue] alpha:0.33];
             
             [theArray setValue:theColor forKey:[NSString stringWithFormat:@"%i", theVerse]];
         }
@@ -160,7 +160,7 @@
             // there will always be 3 values; R=0, G=1, B=2
             theColor = [UIColor colorWithRed:[[theColorArray objectAtIndex:0] floatValue]
                                        green:[[theColorArray objectAtIndex:1] floatValue] 
-                                        blue:[[theColorArray objectAtIndex:2] floatValue] alpha:1.0];
+                                        blue:[[theColorArray objectAtIndex:2] floatValue] alpha:0.33];
         }
         
         return theColor;
