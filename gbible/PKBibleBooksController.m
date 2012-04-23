@@ -49,10 +49,11 @@
 
     self.tableView.backgroundView = nil; 
     self.tableView.backgroundColor = [UIColor clearColor];
-    //[UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    //PKBaseUIColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.view bringSubviewToFront:self.tableView];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 
 }
 
