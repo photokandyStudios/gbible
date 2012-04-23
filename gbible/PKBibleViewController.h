@@ -39,6 +39,8 @@
     
     @property (strong, nonatomic) UIButton *btnRegularScreen;
     
+    @property int theWordTag;
+    
     @property BOOL fullScreen;
     
     @property (strong, nonatomic) UITableViewCell *theCachedCell;

@@ -68,6 +68,8 @@
     
     @synthesize fullScreen;
     @synthesize btnRegularScreen;
+    
+    @synthesize theWordTag;
 
 #pragma mark -
 #pragma mark Network Connectivity
@@ -399,19 +401,20 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             
             UILabel *theLabel = [[UILabel alloc] initWithFrame:CGRectMake(wordX, wordY, wordW, wordH)];
             theLabel.text = theWord; //#573920 87, 57, 32
-            theLabel.textColor = [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0];
+            theLabel.textColor = PKTextColor;
             theLabel.backgroundColor = self.tableView.backgroundColor;
             if (theWordType == 10) 
             {   //#204057
-                theLabel.textColor = [UIColor colorWithRed:0.125490 green:0.250980 blue:0.341176 alpha:1.0]; 
+                theLabel.textColor = PKStrongsColor; 
             }
             if (theWordType == 20) 
             {   //#305720
-                theLabel.textColor = [UIColor colorWithRed:0.188235 green:0.341176 blue:0.125490 alpha:1.0]; 
+                theLabel.textColor = PKMorphologyColor; 
             }
-            theLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+            theLabel.shadowColor = PKLightShadowColor;
             theLabel.shadowOffset = CGSizeMake(1, 1);
             theLabel.font = theFont;
+            theLabel.tag = theWordType; // so we can avoid certain words later
             if (theWordType == 0)
             {
                 theLabel.font = theBoldFont;
@@ -434,10 +437,11 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             
             UILabel *theLabel = [[UILabel alloc] initWithFrame:CGRectMake(wordX + greekColumnWidth, wordY, wordW, wordH)];
             theLabel.text = theWord;
-            theLabel.textColor = [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0];
+            theLabel.textColor = PKTextColor;
             theLabel.backgroundColor = self.tableView.backgroundColor;
             theLabel.font = theFont;
-            theLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+            theLabel.tag = -1;
+            theLabel.shadowColor = PKLightShadowColor;
             theLabel.shadowOffset = CGSizeMake(1, 1);
             theLabel.accessibilityLanguage = @"en";
             theLabel.accessibilityLabel = theWord;
@@ -541,7 +545,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 	// Do any additional setup after loading the view.
     [TestFlight passCheckpoint:@"VIEW_BIBLE"];
     [self.tableView setBackgroundView:nil];
-    self.tableView.backgroundColor = [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1];
+    self.tableView.backgroundColor = PKPageColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // add our gestures
@@ -575,7 +579,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 
     if ([changeReference respondsToSelector:@selector(setTintColor:)])
     {
-        changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+        changeReference.tintColor = PKBaseUIColor;
     }
     changeReference.accessibilityLabel = @"Go to passage";
     // need a highlight item
@@ -600,6 +604,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         NSArray *buttons = [NSArray arrayWithObjects:changeReference, changeHighlight, nil];
         UIToolbar *tb = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 150, 44)];
         tb.backgroundColor = [UIColor clearColor];
+        tb.barStyle = UIBarStyleBlack;
         [tb setItems:buttons animated:NO];
         
          
@@ -607,13 +612,13 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tb];
     }
     
-    UIBarButtonItem *goFullScreen = [[UIBarButtonItem alloc] initWithTitle:@"Full Screen" 
+    UIBarButtonItem *goFullScreen = [[UIBarButtonItem alloc]  initWithImage:[UIImage imageNamed:@"Resize.png"]
                                                                      style:UIBarButtonItemStyleBordered 
                                                                     target:self 
                                                                     action:@selector(goFullScreen:)];
     if ([goFullScreen respondsToSelector:@selector(setTintColor:)])
     {
-        goFullScreen.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+        goFullScreen.tintColor = PKBaseUIColor;
     }
     self.navigationItem.rightBarButtonItem = goFullScreen;
     // handle pan from left to right to reveal sidebar
@@ -666,7 +671,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     {
         if (action == @selector(copySelection:))    { return YES; }
         if (action == @selector(doAnnotate:))      { return YES; }
-        if (action == @selector(defineWord:))       { return selectedWord!=nil; } 
+        if (action == @selector(defineWord:))       { return selectedWord!=nil && theWordTag != 0; } 
         if (action == @selector(explainVerse:))     { return [PKBibleViewController hasConnectivity]; }
         if (action == @selector(clearSelection:))   { return YES; }
 
@@ -900,7 +905,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 
     if (curValue)
     {
-        cell.backgroundColor = [UIColor colorWithRed:0.75 green:0.875 blue:1.0 alpha:1.0];
+        cell.backgroundColor = PKSelectionColor;
     }
     else 
     {
@@ -957,6 +962,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     
     NSUInteger row = [indexPath row];
     
+    /*
     // add in a verse #
     UILabel *theVerseNumber = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.bounds.size.width-120, 0, 120, 80)];
 
@@ -965,7 +971,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     theVerseNumber.backgroundColor = [UIColor clearColor];
     theVerseNumber.textAlignment = UITextAlignmentRight;
     theVerseNumber.font = [UIFont fontWithName:@"Helvetica" size:96];
-    
+    */
     // and check if we have a note
     int theBook = [[PKSettings instance] currentBook];
     int theChapter = [[PKSettings instance] currentChapter];
@@ -1004,10 +1010,11 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         theNoteLabel.font = [UIFont fontWithName:[[PKSettings instance] textFontFace]
                                           size:[[PKSettings instance] textFontSize]];
                                           //#502057, 80, 32, 97
-        theNoteLabel.textColor = [UIColor colorWithRed:.313725 green:0.125490 blue:0.380392 alpha:1.0];
+        theNoteLabel.textColor = PKAnnotationColor;
         theNoteLabel.backgroundColor = self.tableView.backgroundColor;
-        theNoteLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+        theNoteLabel.shadowColor = PKLightShadowColor;
         theNoteLabel.shadowOffset = CGSizeMake(1, 1);
+        theNoteLabel.tag = 99;
         [cell addSubview:theNoteLabel];
     }
     else 
@@ -1015,7 +1022,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         if (theNote != nil)
         {
             // need to indicate /somehow/ that we have a note.
-            UIImageView *theImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Pencil.png"]];
+            UIImageView *theImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SlantedPencil.png"]];
             theImage.frame = CGRectMake(self.tableView.bounds.size.width-52, theMax-42, 32, 32);
             [cell addSubview:theImage];
         }
@@ -1070,7 +1077,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 
     if (curValue)
     {
-        newCell.backgroundColor = [UIColor colorWithRed:0.75 green:0.875 blue:1.0 alpha:1.0];
+        newCell.backgroundColor = PKSelectionColor;
     }
     else 
     {
@@ -1162,7 +1169,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     {
         CGPoint p = [gestureRecognizer locationInView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p]; // nil if no row
-        
+        UILabel *theWordLabel = nil;
         selectedWord = nil;
         
         if (indexPath != nil)
@@ -1174,21 +1181,30 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             UITableViewCell *theCell = [self.tableView cellForRowAtIndexPath:indexPath];
             CGPoint wp = [gestureRecognizer locationInView:theCell];
             NSString *theWord = nil;
+            theWordTag = -1;
             for (int i=0;i<[theCell.subviews count]; i++)
             {
                 UIView *theView = [theCell.subviews objectAtIndex:i];
-                CGRect theRect = theView.frame;
-                
-                CGPoint theCenter = CGPointMake( theRect.origin.x + (theRect.size.width/2), 
-                                                 theRect.origin.y + (theRect.size.height/2));
-                float theDistance = sqrtf( ABS(theCenter.x - wp.x)*2 +
-                                           ABS(theCenter.y - wp.y)*2 );
-                if (theDistance < minDistance)
+                // only UILabels, please
+                if ([theView respondsToSelector:@selector(text)])
                 {
-                    if ([theView respondsToSelector:@selector(text)])
+                    // no morphology labels or note labels
+                    if (theView.tag < 20)
                     {
-                        theWord = ((UILabel *)theView).text;
-                        minDistance = theDistance;
+
+                        CGRect theRect = theView.frame;
+                        
+                        CGPoint theCenter = CGPointMake( theRect.origin.x + (theRect.size.width/2), 
+                                                         theRect.origin.y + (theRect.size.height/2));
+                        float theDistance = sqrtf( ABS(theCenter.x - wp.x)*2 +
+                                                   ABS(theCenter.y - wp.y)*2 );
+                        if (theDistance < minDistance)
+                        {
+                                theWordTag = theView.tag;
+                                theWord = ((UILabel *)theView).text;
+                                theWordLabel = (UILabel *)theView;
+                                minDistance = theDistance;
+                        }
                     }
                 }
             }
@@ -1199,7 +1215,9 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                 theWord = [theWord stringByTrimmingCharactersInSet:junkChars];
                 if ([theWord isEqualToString:@""])
                 {
+                    theWordTag = -1;
                     theWord = nil;
+                    theWordLabel = nil;
                 }
             }
             selectedWord = theWord;
@@ -1218,7 +1236,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             curValue = [[selectedVerses objectForKey:passage] boolValue];
             if (curValue)
             {
-                newCell.backgroundColor = [UIColor colorWithRed:0.75 green:0.875 blue:1.0 alpha:1.0];
+                newCell.backgroundColor = PKSelectionColor;
             }
             else 
             {
@@ -1227,7 +1245,11 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             for (UIView *view in newCell.subviews)
             {
                 view.backgroundColor = newCell.backgroundColor;
-
+            }
+            if (selectedWord != nil)
+            {
+                // highlight the word we got
+                theWordLabel.backgroundColor = [UIColor whiteColor];
             }
         }
         
@@ -1279,7 +1301,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     [btnRegularScreen setTitle:@"Back" forState:UIControlStateHighlighted];
     [btnRegularScreen setTitle:@"Back" forState:UIControlStateDisabled];
     [btnRegularScreen setTitle:@"Back" forState:UIControlStateSelected];
-    btnRegularScreen.titleLabel.textColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    btnRegularScreen.titleLabel.textColor = PKBaseUIColor;
     btnRegularScreen.layer.opacity = 0.5;
     btnRegularScreen.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [btnRegularScreen addTarget:self action:@selector(goRegularScreen:) forControlEvents:UIControlEventTouchUpInside];
@@ -1303,7 +1325,11 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
    // theRect.origin.y += 20;
     theRect.size.height -= 49;
     [self.parentViewController.parentViewController.view setFrame:theRect];
-    [((PKRootViewController *)self.parentViewController.parentViewController) calcShadowPosition:[[UIDevice currentDevice] orientation]];
+    
+    PKWaitDelay( 
+        2000,
+        [((PKRootViewController *)self.parentViewController.parentViewController) calcShadowPosition:[[UIDevice currentDevice] orientation]];
+    );
     //[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
   
     self.fullScreen = NO;
@@ -1622,23 +1648,23 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         switch (buttonIndex)
         {
 case 0:
-            newColor = [UIColor yellowColor];
+            newColor = PKYellowHighlightColor;
             textColor = @"Yellow";
             break;
 case 1:
-            newColor = [UIColor colorWithRed:0.5 green:1.0 blue:0.5 alpha:1.0];
+            newColor = PKGreenHighlightColor;
             textColor = @"Green";
             break;
 case 2:
-            newColor = [UIColor colorWithRed:1.0 green:0.5 blue:1.0 alpha:1.0];
+            newColor = PKMagentaHighlightColor;
             textColor = @"Magenta";
             break;
 case 3:
-            newColor = [UIColor colorWithRed:1.0 green:0.75 blue:0.75 alpha:1.0];
+            newColor = PKPinkHighlightColor;
             textColor = @"Pink";
             break;
 case 4:
-            newColor = [UIColor colorWithRed:0.5 green:0.75 blue:1.0 alpha:1.0];
+            newColor = PKBlueHighlightColor;
             textColor = @"Blue";
             break;
 default:
