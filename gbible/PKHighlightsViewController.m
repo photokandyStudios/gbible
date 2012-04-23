@@ -20,6 +20,7 @@
 @implementation PKHighlightsViewController
 
     @synthesize highlights;
+    @synthesize noResults;
 
 # pragma mark -
 # pragma mark view lifecycle
@@ -49,8 +50,20 @@
 	// Do any additional setup after loading the view.
     [TestFlight passCheckpoint:@"HIGHLIGHTS"];
     self.tableView.backgroundView = nil; 
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = PKPageColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+    CGRect theRect = CGRectMake(0, self.tableView.center.y - 20, 260, 60);
+    noResults = [[UILabel alloc] initWithFrame:theRect];
+    noResults.textColor = PKTextColor;
+    noResults.font = [UIFont fontWithName:@"Zapfino" size:15];
+    noResults.textAlignment = UITextAlignmentCenter;
+    noResults.backgroundColor = [UIColor clearColor];
+    noResults.shadowColor = [UIColor whiteColor];
+    noResults.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    noResults.numberOfLines = 0;
+    [self.view addSubview:noResults];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 
 /**
@@ -63,6 +76,14 @@
     // load all highlights
     highlights = [[PKHighlights instance] allHighlightedPassages];
     [self.tableView reloadData];
+    if ([highlights count] == 0)
+    {
+        noResults.text = @"You've no highlights.";
+    }
+    else 
+    {
+        noResults.text = @"";
+    }
 }
 
 /**
@@ -88,6 +109,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     highlights = nil;
+    noResults = nil;
 }
 
 /**
@@ -163,6 +185,7 @@
     
     cell.textLabel.text = thePrettyPassage;
     cell.textLabel.textColor = [UIColor blackColor];
+    cell.textLabel.backgroundColor = [UIColor clearColor];
     
     return cell;
 }

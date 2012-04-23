@@ -20,11 +20,21 @@
 @implementation PKNotesViewController
 
     @synthesize notes;
+    @synthesize noResults;
 
 - (void)reloadNotes
 {
     notes = [(PKNotes *)[PKNotes instance] allNotes];
     [self.tableView reloadData];
+    
+    if ([notes count] == 0)
+    {
+        noResults.text = @"You don't have any notes.";
+    }
+    else 
+    {
+        noResults.text = @"";
+    }
 }
 
 - (id)init
@@ -44,6 +54,19 @@
     self.tableView.backgroundView = nil; 
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    CGRect theRect = CGRectMake(0, self.tableView.center.y - 20, 260, 60);
+    noResults = [[UILabel alloc] initWithFrame:theRect];
+    noResults.textColor = [UIColor whiteColor];
+    noResults.font = [UIFont fontWithName:@"Zapfino" size:15];
+    noResults.textAlignment = UITextAlignmentCenter;
+    noResults.backgroundColor = [UIColor clearColor];
+    noResults.shadowColor = [UIColor blackColor];
+    noResults.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    noResults.numberOfLines = 0;
+    [self.view addSubview:noResults];
+     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+   
 }
 
 /**
@@ -65,6 +88,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     notes = nil;
+    noResults = nil;
 }
 
 /**

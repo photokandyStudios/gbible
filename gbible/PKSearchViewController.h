@@ -13,6 +13,8 @@
     @property (strong, nonatomic) NSString * theSearchTerm;
     @property (strong, nonatomic) NSArray * theSearchResults;
     @property (strong, nonatomic) UISearchBar *theSearchBar;
+    @property (strong, nonatomic) UIButton *clickToDismiss;
+    @property (strong, nonatomic) UILabel *noResults;
     -(void)doSearchForTerm: (NSString *)theTerm;
     -(void)doSearchForTerm: (NSString *)theTerm requireParsings: (BOOL) parsings;
 

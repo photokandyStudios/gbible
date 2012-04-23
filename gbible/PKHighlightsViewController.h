@@ -11,6 +11,7 @@
 @interface PKHighlightsViewController : UITableViewController
 
     @property (strong, nonatomic) NSArray *highlights;
+    @property (strong, nonatomic) UILabel *noResults;
 
 - (void)reloadHighlights;
 

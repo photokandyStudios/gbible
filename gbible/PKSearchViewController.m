@@ -23,6 +23,8 @@
     @synthesize theSearchBar;
     @synthesize theSearchTerm;
     @synthesize theSearchResults;
+    @synthesize clickToDismiss;
+    @synthesize noResults;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -63,6 +65,14 @@
 
         UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
         tbc.selectedIndex = 1;
+         if ([theSearchResults count] == 0)
+            {
+                noResults.text = @"No results. Please try again.";
+            }
+            else 
+            {
+                noResults.text = @"";
+            }
     );
 }
 
@@ -79,7 +89,7 @@
     theSearchBar.delegate = self;
     theSearchBar.placeholder = @"Search Term";
     theSearchBar.showsCancelButton = NO;
-    theSearchBar.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+    theSearchBar.tintColor = PKBaseUIColor;
 
     
     self.tableView.tableHeaderView = theSearchBar;
@@ -104,27 +114,23 @@
 
     if ([changeReference respondsToSelector:@selector(setTintColor:)])
     {
-        changeReference.tintColor = [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0];
+        changeReference.tintColor = PKBaseUIColor;
     }
     changeReference.accessibilityLabel = @"Go to passage";
     self.navigationItem.leftBarButtonItem = changeReference;
-    /*
-    // handle pan from left to right to reveal sidebar
-    CGRect leftFrame = self.view.frame;
-    leftFrame.origin.x = 0;
-    leftFrame.origin.y = 0;
-    leftFrame.size.width=10;
-    UILabel *leftLabel = [[UILabel alloc] initWithFrame:leftFrame];
-    leftLabel.backgroundColor = [UIColor clearColor];
-    leftLabel.userInteractionEnabled = YES;
-    [self.view addSubview:leftLabel];
-    
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc]
-                                          initWithTarget:self.parentViewController.parentViewController.parentViewController
-                                          action:@selector(revealGesture:)];
 
-    [leftLabel addGestureRecognizer:panGesture];*/
-    
+    CGRect theRect = CGRectMake(0, self.tableView.center.y + 40, self.tableView.bounds.size.width, 60);
+    noResults = [[UILabel alloc] initWithFrame:theRect];
+    noResults.textColor = PKTextColor;
+    noResults.font = [UIFont fontWithName:@"Zapfino" size:15];
+    noResults.textAlignment = UITextAlignmentCenter;
+    noResults.backgroundColor = [UIColor clearColor];
+    noResults.shadowColor = [UIColor whiteColor];
+    noResults.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    noResults.numberOfLines = 0;
+    [self.view addSubview:noResults];
+
+    self.tableView.backgroundColor = PKPageColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     [self doSearchForTerm:self.theSearchTerm];
@@ -141,6 +147,8 @@
     [super viewDidUnload];
     theSearchResults = nil;
     theSearchTerm = nil;
+    clickToDismiss = nil;
+    noResults = nil;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation  
@@ -271,10 +279,31 @@
 #pragma mark Searching
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    [self hideKeyboard];
     [self doSearchForTerm:searchBar.text];
-    [self becomeFirstResponder];
 }
 
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    CGRect theRect = self.tableView.frame;
+    theRect.origin.y += 44;
+    clickToDismiss = [[UIButton alloc] initWithFrame:theRect];
+    clickToDismiss.autoresizingMask = UIViewAutoresizingFlexibleWidth |
+                                      UIViewAutoresizingFlexibleHeight;
+    clickToDismiss.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+    [clickToDismiss addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventTouchDown |
+                                                                                   UIControlEventTouchDragInside
+    ];
+    self.tableView.scrollEnabled = NO;
+    [self.view addSubview:clickToDismiss];
+}
+-(void) hideKeyboard
+{
+    [clickToDismiss removeFromSuperview];
+    clickToDismiss = nil;
+    [self becomeFirstResponder];
+    self.tableView.scrollEnabled = YES;
+}
 -(void) didReceiveRightSwipe:(UISwipeGestureRecognizer*)gestureRecognizer
 {
     CGPoint p = [gestureRecognizer locationInView:self.tableView];

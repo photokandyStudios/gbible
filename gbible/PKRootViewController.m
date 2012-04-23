@@ -96,7 +96,11 @@
         UINavigationController *navSettingsController = [[UINavigationController alloc] initWithRootViewController:settingsViewController ];
         UINavigationController *navSearchController = [[UINavigationController alloc] initWithRootViewController:searchViewController ];
         
-        
+        navBibleController.navigationBar.barStyle = UIBarStyleBlack;
+        navStrongsController.navigationBar.barStyle = UIBarStyleBlack;
+        navAboutController.navigationBar.barStyle = UIBarStyleBlack;
+        navSettingsController.navigationBar.barStyle = UIBarStyleBlack;
+        navSearchController.navigationBar.barStyle = UIBarStyleBlack;
         // set up our nav image
         UINavigationBar *navBar = [navBibleController navigationBar];
         if ([navBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
@@ -166,9 +170,14 @@
     
     [self.view addSubview:topShadow];
     [self.view addSubview:bottomShadow];
+    
+    self.selectedIndex = 0;
 
 }
-
+-(void) viewDidAppear:(BOOL)animated    
+{
+    self.selectedIndex = 0;
+}
     -(void) showTopShadowWithOpacity: (CGFloat) opacity;
     {
         topShadow.layer.opacity = opacity;
@@ -224,12 +233,13 @@
 
     -(void) showWaitingIndicator
     {
+        if (ourIndicator != nil) { [ourIndicator removeFromSuperview]; }
         ourIndicator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Wait.png"]];
         
         CGPoint centerPoint = self.view.center;
         CGRect theRect = CGRectMake(centerPoint.x-96, centerPoint.y-96, 192, 192);
         [ourIndicator setFrame:theRect];
-        ourIndicator.alpha = 0.5f;
+        ourIndicator.alpha = 0.25f;
         
         [self.view addSubview:ourIndicator];
         
@@ -237,13 +247,14 @@
     }
     -(void) showRightSwipeIndicator
     {
+        if (ourIndicator != nil) { [ourIndicator removeFromSuperview]; }
         ourIndicator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Swipe.png"]];
         
         CGPoint centerPoint = self.view.center;
         centerPoint.x = 0;
         CGRect theRect = CGRectMake(centerPoint.x-96, centerPoint.y-96, 192, 192);
         [ourIndicator setFrame:theRect];
-        ourIndicator.alpha = 0.5f;
+        ourIndicator.alpha = 0.25f;
         
         [self.view addSubview:ourIndicator];
         
@@ -251,13 +262,14 @@
     }
     -(void) showLeftSwipeIndicator
     {
+        if (ourIndicator != nil) { [ourIndicator removeFromSuperview]; }
         ourIndicator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Swipe.png"]];
         
         CGPoint centerPoint = self.view.center;
         centerPoint.x = self.view.bounds.size.width;
         CGRect theRect = CGRectMake(centerPoint.x-96, centerPoint.y-96, 192, 192);
         [ourIndicator setFrame:theRect];
-        ourIndicator.alpha = 0.5f;
+        ourIndicator.alpha = 0.25f;
         
         [self.view addSubview:ourIndicator];
         
@@ -266,7 +278,7 @@
     
     -(void) hideIndicator
     {
-        [UIView animateWithDuration:0.2f animations:
+        [UIView animateWithDuration:0.4f animations:
         ^{
             ourIndicator.alpha = 0.0;
         } 

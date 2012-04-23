@@ -16,6 +16,10 @@
     
     @property (strong, nonatomic) UISearchBar *theSearchBar;
     
+    @property (strong, nonatomic) UIButton *clickToDismiss;
+    
+    @property (strong, nonatomic) UILabel *noResults;
+    
     @property BOOL byKeyOnly;
     
     -(void)doSearchForTerm: (NSString *)theTerm;

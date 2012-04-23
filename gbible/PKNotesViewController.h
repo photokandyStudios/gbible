@@ -11,6 +11,7 @@
 @interface PKNotesViewController : UITableViewController
 
     @property (strong, nonatomic) NSArray *notes;
+    @property (strong, nonatomic) UILabel *noResults;
 
 - (void)reloadNotes;
 
