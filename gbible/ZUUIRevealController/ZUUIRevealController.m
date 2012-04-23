@@ -516,6 +516,7 @@
 	
 	self.frontView = [[UIView alloc] initWithFrame:self.view.bounds];
 	self.rearView = [[UIView alloc] initWithFrame:self.view.bounds];
+    
 	
 	self.frontView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
 	self.rearView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
