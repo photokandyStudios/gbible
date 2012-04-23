@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A0FDF041545195F004E70A7 /* Resize.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0FDF001545195F004E70A7 /* Resize.png */; };
+		6A0FDF051545195F004E70A7 /* Resize@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0FDF011545195F004E70A7 /* Resize@2x.png */; };
+		6A0FDF061545195F004E70A7 /* SlantedPencil.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0FDF021545195F004E70A7 /* SlantedPencil.png */; };
+		6A0FDF071545195F004E70A7 /* SlantedPencil@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0FDF031545195F004E70A7 /* SlantedPencil@2x.png */; };
 		6A12F6C5151E5C7600B49B6E /* Trash.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A12F6B9151E5C7600B49B6E /* Trash.png */; };
 		6A12F6C6151E5C7600B49B6E /* Trash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A12F6BA151E5C7600B49B6E /* Trash@2x.png */; };
 		6A12F6C7151E5C7600B49B6E /* Tag.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A12F6BB151E5C7600B49B6E /* Tag.png */; };
@@ -125,6 +129,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A0FDF001545195F004E70A7 /* Resize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Resize.png; sourceTree = "<group>"; };
+		6A0FDF011545195F004E70A7 /* Resize@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Resize@2x.png"; sourceTree = "<group>"; };
+		6A0FDF021545195F004E70A7 /* SlantedPencil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlantedPencil.png; sourceTree = "<group>"; };
+		6A0FDF031545195F004E70A7 /* SlantedPencil@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SlantedPencil@2x.png"; sourceTree = "<group>"; };
 		6A12F6B9151E5C7600B49B6E /* Trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Trash.png; sourceTree = "<group>"; };
 		6A12F6BA151E5C7600B49B6E /* Trash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Trash@2x.png"; sourceTree = "<group>"; };
 		6A12F6BB151E5C7600B49B6E /* Tag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tag.png; sourceTree = "<group>"; };
@@ -197,17 +205,17 @@
 		6A9793B31513FC4600A5C9F1 /* PKDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDatabase.m; sourceTree = "<group>"; };
 		6A9793B61514162500A5C9F1 /* PKConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKConstants.m; sourceTree = "<group>"; };
 		6A9793BC15143AA200A5C9F1 /* PKBibleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBibleViewController.h; sourceTree = "<group>"; };
-		6A9793BD15143AA200A5C9F1 /* PKBibleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBibleViewController.m; sourceTree = "<group>"; };
+		6A9793BD15143AA200A5C9F1 /* PKBibleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PKBibleViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6A9793BF15143ABF00A5C9F1 /* PKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKAboutViewController.h; sourceTree = "<group>"; };
-		6A9793C015143ABF00A5C9F1 /* PKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKAboutViewController.m; sourceTree = "<group>"; };
+		6A9793C015143ABF00A5C9F1 /* PKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PKAboutViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6A9793C215143ACD00A5C9F1 /* PKSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSettingsController.h; sourceTree = "<group>"; };
-		6A9793C315143ACD00A5C9F1 /* PKSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSettingsController.m; sourceTree = "<group>"; };
+		6A9793C315143ACD00A5C9F1 /* PKSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PKSettingsController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6A9793C515143ADB00A5C9F1 /* PKStrongsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKStrongsController.h; sourceTree = "<group>"; };
 		6A9793C615143ADB00A5C9F1 /* PKStrongsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKStrongsController.m; sourceTree = "<group>"; };
 		6A9793C815143AF200A5C9F1 /* PKBibleBooksController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBibleBooksController.h; sourceTree = "<group>"; };
 		6A9793C915143AF200A5C9F1 /* PKBibleBooksController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBibleBooksController.m; sourceTree = "<group>"; };
 		6A9793CB15143B0000A5C9F1 /* PKBibleBookChaptersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBibleBookChaptersViewController.h; sourceTree = "<group>"; };
-		6A9793CC15143B0000A5C9F1 /* PKBibleBookChaptersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBibleBookChaptersViewController.m; sourceTree = "<group>"; };
+		6A9793CC15143B0000A5C9F1 /* PKBibleBookChaptersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PKBibleBookChaptersViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6A9793CE15143B0F00A5C9F1 /* PKBibleBookChapterVersesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBibleBookChapterVersesViewController.h; sourceTree = "<group>"; };
 		6A9793CF15143B0F00A5C9F1 /* PKBibleBookChapterVersesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBibleBookChapterVersesViewController.m; sourceTree = "<group>"; };
 		6A9793D415143B3400A5C9F1 /* PKHighlightsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHighlightsViewController.h; sourceTree = "<group>"; };
@@ -250,9 +258,9 @@
 		6AF0C0AD150EE8BB00BFAE03 /* gbible-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "gbible-Info.plist"; sourceTree = "<group>"; };
 		6AF0C0AF150EE8BB00BFAE03 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6AF0C0B1150EE8BB00BFAE03 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6AF0C0B3150EE8BB00BFAE03 /* gbible-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "gbible-Prefix.pch"; sourceTree = "<group>"; };
+		6AF0C0B3150EE8BB00BFAE03 /* gbible-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "gbible-Prefix.pch"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6AF0C0B4150EE8BB00BFAE03 /* PKAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKAppDelegate.h; sourceTree = "<group>"; };
-		6AF0C0B5150EE8BB00BFAE03 /* PKAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PKAppDelegate.m; sourceTree = "<group>"; };
+		6AF0C0B5150EE8BB00BFAE03 /* PKAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PKAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6AF9D025151292D800514499 /* FMDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		6AF9D026151292D800514499 /* FMDatabase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		6AF9D027151292D800514499 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -273,10 +281,10 @@
 		6AF9D0391512939E00514499 /* TSMiniWebBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMiniWebBrowser.m; sourceTree = "<group>"; };
 		6AF9D03A1512939E00514499 /* TSMiniWebBrowser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TSMiniWebBrowser.xib; sourceTree = "<group>"; };
 		6AF9D0441512944800514499 /* BAMSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BAMSettings.h; sourceTree = "<group>"; };
-		6AF9D0451512944800514499 /* BAMSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BAMSettings.m; sourceTree = "<group>"; };
+		6AF9D0451512944800514499 /* BAMSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BAMSettings.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6AF9D046151294E100514499 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6AF9D0511512978600514499 /* CoolButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoolButton.h; sourceTree = "<group>"; };
-		6AF9D0521512978600514499 /* CoolButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoolButton.m; sourceTree = "<group>"; };
+		6AF9D0521512978600514499 /* CoolButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CoolButton.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6AF9D05415129B9D00514499 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -778,16 +786,6 @@
 		6AF9D0621512A5C300514499 /* icons */ = {
 			isa = PBXGroup;
 			children = (
-				6A9B86BD1543A5CD00E4ABC0 /* Swipe.png */,
-				6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */,
-				6A9B86BF1543A5CD00E4ABC0 /* Wait.png */,
-				6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */,
-				6A12F6DA151E979D00B49B6E /* Listb.png */,
-				6A12F6DB151E979D00B49B6E /* Listb@2x.png */,
-				6A12F6D6151E96BD00B49B6E /* Lista.png */,
-				6A12F6D7151E96BD00B49B6E /* Lista@2x.png */,
-				6A12F6D2151E5EAC00B49B6E /* List.png */,
-				6A12F6D3151E5EAC00B49B6E /* List@2x.png */,
 				6A12F6C1151E5C7600B49B6E /* Bookmark.png */,
 				6A12F6C2151E5C7600B49B6E /* Bookmark@2x.png */,
 				6A92CC9C1516EF0100F8AE15 /* Gear.png */,
@@ -798,14 +796,28 @@
 				6A92CC9F1516EF0100F8AE15 /* Home@2x.png */,
 				6A92CCA01516EF0100F8AE15 /* Info.png */,
 				6A92CCA11516EF0100F8AE15 /* Info@2x.png */,
+				6A12F6D2151E5EAC00B49B6E /* List.png */,
+				6A12F6D3151E5EAC00B49B6E /* List@2x.png */,
+				6A12F6D6151E96BD00B49B6E /* Lista.png */,
+				6A12F6D7151E96BD00B49B6E /* Lista@2x.png */,
+				6A12F6DA151E979D00B49B6E /* Listb.png */,
+				6A12F6DB151E979D00B49B6E /* Listb@2x.png */,
 				6A92CCA21516EF0100F8AE15 /* Magic.png */,
 				6A92CCA31516EF0100F8AE15 /* Magic@2x.png */,
 				6A12F6BD151E5C7600B49B6E /* Pencil.png */,
 				6A12F6BE151E5C7600B49B6E /* Pencil@2x.png */,
+				6A0FDF001545195F004E70A7 /* Resize.png */,
+				6A0FDF011545195F004E70A7 /* Resize@2x.png */,
+				6A0FDF021545195F004E70A7 /* SlantedPencil.png */,
+				6A0FDF031545195F004E70A7 /* SlantedPencil@2x.png */,
+				6A9B86BD1543A5CD00E4ABC0 /* Swipe.png */,
+				6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */,
 				6A12F6BB151E5C7600B49B6E /* Tag.png */,
 				6A12F6BC151E5C7600B49B6E /* Tag@2x.png */,
 				6A12F6B9151E5C7600B49B6E /* Trash.png */,
 				6A12F6BA151E5C7600B49B6E /* Trash@2x.png */,
+				6A9B86BF1543A5CD00E4ABC0 /* Wait.png */,
+				6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */,
 			);
 			name = icons;
 			sourceTree = "<group>";
@@ -817,6 +829,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6AF0C0B9150EE8BB00BFAE03 /* Build configuration list for PBXNativeTarget "gbible" */;
 			buildPhases = (
+				6A11FDA41543C7E2008A939D /* ShellScript */,
 				6AF0C09D150EE8BB00BFAE03 /* Sources */,
 				6AF0C09E150EE8BB00BFAE03 /* Frameworks */,
 				6AF0C09F150EE8BB00BFAE03 /* Resources */,
@@ -936,10 +949,31 @@
 				6A9B86C21543A5CD00E4ABC0 /* Swipe@2x.png in Resources */,
 				6A9B86C31543A5CD00E4ABC0 /* Wait.png in Resources */,
 				6A9B86C41543A5CD00E4ABC0 /* Wait@2x.png in Resources */,
+				6A0FDF041545195F004E70A7 /* Resize.png in Resources */,
+				6A0FDF051545195F004E70A7 /* Resize@2x.png in Resources */,
+				6A0FDF061545195F004E70A7 /* SlantedPencil.png in Resources */,
+				6A0FDF071545195F004E70A7 /* SlantedPencil@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6A11FDA41543C7E2008A939D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/gbible/gbible-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TARGET=\"$PROJECT_DIR/gbible/gbible-Info.plist\"\necho $TARGET\nif [ ! -f \"$TARGET\" ]; then\n   echo \"missing file $TARGET\"\n   exit 1;\nfi\n\n# the perl regex splits out the last part of a build number (ie: 1.1.1) and increments it by one\n# if you have a build number that is more than 3 components, add a '\\.\\d+' into the first part of the regex.\n\nNEW_VERSION=`/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$TARGET\" | /usr/bin/perl -pe 's/(\\d+\\.\\d+\\.)(\\d+)/$1.($2+1)/eg'`\necho $NEW_VERSION;\n/usr/libexec/PListBuddy -c \"Set CFBundleVersion $NEW_VERSION\" \"$TARGET\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6AF0C09D150EE8BB00BFAE03 /* Sources */ = {
