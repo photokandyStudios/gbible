@@ -599,7 +599,7 @@
             yOffset = 0.0;
             
             
-            if (theColumn == 1 && [theWord length]>2) // we only do this for greek text
+            if (theColumn == 1 && [theWord length]>1) // we only do this for greek text
             {
                 // originally we used regular expressions, but they are SLOW
                 // G#s are of the form G[0-9]+
