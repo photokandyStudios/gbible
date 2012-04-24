@@ -34,11 +34,15 @@
 
 @interface PKBibleViewController ()
 
+    @property UIDeviceOrientation lastKnownOrientation;
+    @property int reusableLabelQueuePosition;
 @end
 
 @implementation PKBibleViewController
   
-    
+    @synthesize reusableLabels;
+    @synthesize reusableLabelQueuePosition;
+    @synthesize lastKnownOrientation;
     @synthesize currentGreekChapter;
     @synthesize currentEnglishChapter;
     
@@ -70,6 +74,7 @@
     @synthesize btnRegularScreen;
     
     @synthesize theWordTag;
+    @synthesize dirty;
 
 #pragma mark -
 #pragma mark Network Connectivity
@@ -249,6 +254,26 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                                                                                    andChapter: currentChapter];
 }
 
+-(UILabel *) deQueueReusableLabel
+{
+    UILabel *theLabel = nil;
+    
+    reusableLabelQueuePosition++;
+    if ([reusableLabels count] > reusableLabelQueuePosition)
+    {
+        theLabel = [reusableLabels objectAtIndex:reusableLabelQueuePosition];
+        [theLabel removeFromSuperview];
+        return theLabel;
+    }
+    else
+    {
+        theLabel = [[UILabel alloc] init];
+        theLabel.backgroundColor = [UIColor clearColor];
+        [reusableLabels addObject:theLabel];
+        return theLabel;
+    }
+    
+}
 /**
  *
  * load the current chapter. We will render all the UILabels as well to reduce scrolling delays.
@@ -257,6 +282,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 - (void)loadChapter
 {
     BOOL parsed = NO;
+    reusableLabelQueuePosition = -1;
     NSUInteger currentBook = [[PKSettings instance] currentBook];
     NSUInteger currentChapter = [[PKSettings instance] currentChapter];
     NSUInteger currentBible = [[PKSettings instance] greekText];
@@ -399,10 +425,11 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             CGFloat wordW = [[theWordElement objectAtIndex:4] floatValue];
             CGFloat wordH = [[theWordElement objectAtIndex:5] floatValue];
             
-            UILabel *theLabel = [[UILabel alloc] initWithFrame:CGRectMake(wordX, wordY, wordW, wordH)];
+            UILabel *theLabel = [self deQueueReusableLabel]; //[[UILabel alloc] init];
+            [theLabel setFrame:CGRectMake(wordX, wordY, wordW, wordH)];
             theLabel.text = theWord; //#573920 87, 57, 32
             theLabel.textColor = PKTextColor;
-            theLabel.backgroundColor = self.tableView.backgroundColor;
+            //theLabel.backgroundColor = self.tableView.backgroundColor;
             if (theWordType == 10) 
             {   //#204057
                 theLabel.textColor = PKStrongsColor; 
@@ -411,8 +438,8 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             {   //#305720
                 theLabel.textColor = PKMorphologyColor; 
             }
-            theLabel.shadowColor = PKLightShadowColor;
-            theLabel.shadowOffset = CGSizeMake(1, 1);
+            //theLabel.shadowColor = PKLightShadowColor;
+            //theLabel.shadowOffset = CGSizeMake(1, 1);
             theLabel.font = theFont;
             theLabel.tag = theWordType; // so we can avoid certain words later
             if (theWordType == 0)
@@ -435,14 +462,15 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             CGFloat wordW = [[theWordElement objectAtIndex:4] floatValue];
             CGFloat wordH = [[theWordElement objectAtIndex:5] floatValue];
             
-            UILabel *theLabel = [[UILabel alloc] initWithFrame:CGRectMake(wordX + greekColumnWidth, wordY, wordW, wordH)];
+            UILabel *theLabel = [self deQueueReusableLabel]; //[[UILabel alloc] init];
+            [theLabel setFrame:CGRectMake(wordX + greekColumnWidth, wordY, wordW, wordH)];
             theLabel.text = theWord;
             theLabel.textColor = PKTextColor;
-            theLabel.backgroundColor = self.tableView.backgroundColor;
+            //theLabel.backgroundColor = self.tableView.backgroundColor;
             theLabel.font = theFont;
             theLabel.tag = -1;
-            theLabel.shadowColor = PKLightShadowColor;
-            theLabel.shadowOffset = CGSizeMake(1, 1);
+            //theLabel.shadowColor = PKLightShadowColor;
+            //theLabel.shadowOffset = CGSizeMake(1, 1);
             theLabel.accessibilityLanguage = @"en";
             theLabel.accessibilityLabel = theWord;
             [theLabelArray addObject:theLabel];
@@ -471,14 +499,14 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     {
         [cellHeights addObject: [NSNumber numberWithFloat:[self heightForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]]]];
     }
-    
+    /*
     cells = nil;
     cells = [[NSMutableArray alloc] init];
     for (int row=0; row<MAX([formattedGreekChapter count],[formattedEnglishChapter count]); row++)
     {
         [cells addObject: [self cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]]];
     }
-    
+    */
     [self.tableView reloadData];
     [self calculateShadows];
 }
@@ -497,6 +525,8 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     if (self) {
         // set our title
         [self.navigationItem setTitle:@"Read Bible"];
+        reusableLabelQueuePosition = -1;
+        reusableLabels = [[NSMutableArray alloc] init ];
     }
     return self;
 }
@@ -508,17 +538,18 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 - (void)viewWillAppear:(BOOL)animated
 {
-//    [((PKRootViewController *)self.parentViewController.parentViewController ) showWaitingIndicator];
-//    PKWait(
+    if (dirty || lastKnownOrientation != [[UIDevice currentDevice] orientation])
+    {
+        lastKnownOrientation = [[UIDevice currentDevice] orientation];
         [self loadChapter];
-        //[self.tableView reloadData];
         [self reloadTableCache];
         [self.tableView scrollToRowAtIndexPath: 
              [NSIndexPath indexPathForRow:
                  [[PKSettings instance] topVerse]-1 inSection:0] 
              atScrollPosition:UITableViewScrollPositionTop animated:NO];
        [self calculateShadows];
-//    ) ;
+       dirty = NO;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -543,6 +574,8 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    dirty = YES;
+    lastKnownOrientation = [[UIDevice currentDevice] orientation];
     [TestFlight passCheckpoint:@"VIEW_BIBLE"];
     [self.tableView setBackgroundView:nil];
     self.tableView.backgroundColor = PKPageColor;
@@ -620,6 +653,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     {
         goFullScreen.tintColor = PKBaseUIColor;
     }
+    goFullScreen.accessibilityLabel = @"Enter Full Screen";
     self.navigationItem.rightBarButtonItem = goFullScreen;
     // handle pan from left to right to reveal sidebar
     /*CGRect leftFrame = self.view.frame;
@@ -750,6 +784,9 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     cellHeights = nil;
     
     btnRegularScreen =nil;
+    
+    reusableLabels = nil;
+    reusableLabelQueuePosition =-1;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -766,6 +803,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+    lastKnownOrientation = [[UIDevice currentDevice] orientation];
     [self calculateShadows];
     // get the top verse so we can scroll back to it after the rotation change
     int theVerse = [[[self.tableView indexPathsForVisibleRows] objectAtIndex:0] row]+1;
@@ -775,7 +813,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     [self.tableView scrollToRowAtIndexPath: 
          [NSIndexPath indexPathForRow:
              theVerse-1 inSection:0] 
-         atScrollPosition:UITableViewScrollPositionTop animated:NO];
+         atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 -(void)calculateShadows
@@ -921,13 +959,14 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         }
     }
     
+    /*
     // all our subviews need to change to the background color
     for (UIView *view in cell.subviews)
     {
         view.backgroundColor = cell.backgroundColor;
 
     }
-    
+    */
     
     
 }
@@ -940,14 +979,16 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 { 
 #warning - do we need to include a deque?
-    return [cells objectAtIndex:[indexPath row]];
+    //return [cells objectAtIndex:[indexPath row]];
+    return [self cellForRowAtIndexPath:indexPath];
 
 }
 
 -(UITableViewCell *) cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *bibleCellID = @"PKBibleCellID";
-    UITableViewCell *cell = nil; //[tableView dequeueReusableCellWithIdentifier:bibleCellID];
+    UITableViewCell *cell = //nil; //
+                            [self.tableView dequeueReusableCellWithIdentifier:bibleCellID];
     if (!cell)
     {
         cell = [[UITableViewCell alloc]
@@ -959,7 +1000,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     {
         [view removeFromSuperview];
     }
-    
+    cell.autoresizesSubviews = NO; 
     NSUInteger row = [indexPath row];
     
     /*
@@ -1093,12 +1134,13 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         }
 
     }
+    /*
     for (UIView *view in newCell.subviews)
     {
         view.backgroundColor = newCell.backgroundColor;
 
     }
-    
+    */
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -1171,6 +1213,11 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p]; // nil if no row
         UILabel *theWordLabel = nil;
         selectedWord = nil;
+        CGRect theRect;
+        theRect.origin.x = p.x;
+        theRect.origin.y = p.y;
+        theRect.size.width = 1;
+        theRect.size.height = 1;
         
         if (indexPath != nil)
         {
@@ -1244,20 +1291,17 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             }
             for (UIView *view in newCell.subviews)
             {
-                view.backgroundColor = newCell.backgroundColor;
+                view.backgroundColor = [UIColor clearColor]; //newCell.backgroundColor;
             }
             if (selectedWord != nil)
             {
                 // highlight the word we got
-                theWordLabel.backgroundColor = [UIColor whiteColor];
+                //theWordLabel.backgroundColor = [UIColor whiteColor];
+                theRect = theWordLabel.frame;
+                theRect.origin.y += newCell.frame.origin.y;
             }
         }
         
-        CGRect theRect;
-        theRect.origin.x = p.x;
-        theRect.origin.y = p.y;
-        theRect.size.width = 1;
-        theRect.size.height = 1;
         ourMenuState = 0; // show entire menu (not second-tier)
         [self becomeFirstResponder];
         [ourMenu update]; // just in case
@@ -1290,17 +1334,25 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     
     // create a button to get us back!
     theRect = self.parentViewController.parentViewController.view.frame;
-    theRect.origin.x = theRect.size.width - 100;
+    theRect.origin.x = theRect.size.width - 54;
     theRect.origin.y = 10;
-    theRect.size.width = 90;
+    theRect.size.width = 44;
     theRect.size.height = 32;
 
     btnRegularScreen = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [btnRegularScreen setFrame:theRect];
+/*
     [btnRegularScreen setTitle:@"Back" forState:UIControlStateNormal];
     [btnRegularScreen setTitle:@"Back" forState:UIControlStateHighlighted];
     [btnRegularScreen setTitle:@"Back" forState:UIControlStateDisabled];
     [btnRegularScreen setTitle:@"Back" forState:UIControlStateSelected];
+ */
+    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateNormal];
+    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateHighlighted];
+    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateDisabled];
+    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateSelected];
+    btnRegularScreen.accessibilityLabel = @"Leave Full Screen";
+    
     btnRegularScreen.titleLabel.textColor = PKBaseUIColor;
     btnRegularScreen.layer.opacity = 0.5;
     btnRegularScreen.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;

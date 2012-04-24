@@ -30,6 +30,8 @@
     @property (strong, nonatomic) NSMutableArray *cellHeights; // RE: ISSUE #1
     @property (strong, nonatomic) NSMutableArray *cells;       // RE: ISSUE #1
     
+    @property (strong, nonatomic) NSMutableArray *reusableLabels;
+    
     // UI elements
     @property (strong, nonatomic) UIBarButtonItem *changeHighlight;
     @property (strong, nonatomic) NSMutableArray *formattedCells;
@@ -44,6 +46,9 @@
     @property BOOL fullScreen;
     
     @property (strong, nonatomic) UITableViewCell *theCachedCell;
+    
+    @property BOOL dirty;
+    
     -(void)notifyNoteChanged;
     
 @end
