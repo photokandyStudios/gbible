@@ -17,7 +17,9 @@
     #define PKWait(block)     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,100000),dispatch_get_current_queue(), ^{ block })
     #define PKWaitDelay(dly, block)     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,dly*100000),dispatch_get_current_queue(), ^{ block })
 
-    #define PKSelectionColor        [UIColor colorWithRed:0.875 green:0.9325 blue:1.0 alpha:1.0]
+//    #define PKSelectionColor        [UIColor colorWithRed:0.875 green:0.9325 blue:1.0 alpha:1.0]
+    #define PKSelectionColor        [UIColor colorWithRed:0.8125 green:0.800781 blue:0.773437 alpha:1.0]
+    #define PKWordSelectColor       [UIColor whiteColor]
     #define PKPageColor             [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1]
     #define PKTextColor             [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0]
     #define PKStrongsColor          [UIColor colorWithRed:0.125490 green:0.250980 blue:0.341176 alpha:1.0]
