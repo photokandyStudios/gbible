@@ -15,6 +15,7 @@
 #import "PKHighlightsViewController.h"
 #import "PKNotesViewController.h"
 #import "PKRootViewController.h"
+#import "PKBibleViewController.h"
 
 
 @interface PKSettingsController ()
@@ -239,6 +240,9 @@
 -(void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    PKRootViewController *pvc = (PKRootViewController *)[[(PKAppDelegate *)[PKAppDelegate instance] rootViewController] frontViewController];
+    PKBibleViewController *bvc = [[[pvc.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];
+    bvc.dirty = YES;
     [self calculateShadows];
 }
 -(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
