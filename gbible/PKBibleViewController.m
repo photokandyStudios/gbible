@@ -24,6 +24,8 @@
 #import "PKHistory.h"
 #import "PKNotes.h"
 #import "TSMiniWebBrowser.h"
+#import "PKTableViewCell.h"
+#import "PKLabel.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -254,21 +256,20 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                                                                                    andChapter: currentChapter];
 }
 
--(UILabel *) deQueueReusableLabel
+-(PKLabel *) deQueueReusableLabel
 {
-    UILabel *theLabel = nil;
+    PKLabel *theLabel = nil;
     
     reusableLabelQueuePosition++;
     if ([reusableLabels count] > reusableLabelQueuePosition)
     {
         theLabel = [reusableLabels objectAtIndex:reusableLabelQueuePosition];
-        [theLabel removeFromSuperview];
+        //[theLabel removeFromSuperview];
         return theLabel;
     }
     else
     {
-        theLabel = [[UILabel alloc] init];
-        theLabel.backgroundColor = [UIColor clearColor];
+        theLabel = [[PKLabel alloc] init];
         [reusableLabels addObject:theLabel];
         return theLabel;
     }
@@ -360,35 +361,36 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     // now, create all our UILabels here, so we don't have to do it while generating a cell.
     
     formattedCells = [[NSMutableArray alloc] init];
+    UIFont *theFont = [UIFont fontWithName:[[PKSettings instance] textFontFace]
+                                      size:[[PKSettings instance] textFontSize]];
+    if (theFont == nil)
+    {
+        theFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", [[PKSettings instance] textFontFace]]
+                                              size:[[PKSettings instance] textFontSize]];
+    }
+    if (theFont == nil)
+    {
+        theFont = [UIFont fontWithName:@"Helvetica"
+                                              size:[[PKSettings instance] textFontSize]];
+    }
+
+    UIFont *theBoldFont = [UIFont fontWithName:[[PKSettings instance] textGreekFontFace]
+                                          size:[[PKSettings instance] textFontSize]];
+    
+    if (theBoldFont == nil)
+    {
+        theBoldFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", [[PKSettings instance] textGreekFontFace]]
+                                      size:[[PKSettings instance] textFontSize]];
+    }
+    
+    if (theBoldFont == nil)     // just in case there's no alternate
+    {
+        theBoldFont = theFont;
+    }
+
     for (int i=0;i<MAX([currentGreekChapter count], [currentEnglishChapter count]);i++)
     {
         // for each verse (i)
-        UIFont *theFont = [UIFont fontWithName:[[PKSettings instance] textFontFace]
-                                          size:[[PKSettings instance] textFontSize]];
-        if (theFont == nil)
-        {
-            theFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", [[PKSettings instance] textFontFace]]
-                                                  size:[[PKSettings instance] textFontSize]];
-        }
-        if (theFont == nil)
-        {
-            theFont = [UIFont fontWithName:@"Helvetica"
-                                                  size:[[PKSettings instance] textFontSize]];
-        }
-
-        UIFont *theBoldFont = [UIFont fontWithName:[[PKSettings instance] textGreekFontFace]
-                                              size:[[PKSettings instance] textFontSize]];
-        
-        if (theBoldFont == nil)
-        {
-            theBoldFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", [[PKSettings instance] textGreekFontFace]]
-                                          size:[[PKSettings instance] textFontSize]];
-        }
-        
-        if (theBoldFont == nil)     // just in case there's no alternate
-        {
-            theBoldFont = theFont;
-        }
 
         NSUInteger row = i;
         
@@ -425,7 +427,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             CGFloat wordW = [[theWordElement objectAtIndex:4] floatValue];
             CGFloat wordH = [[theWordElement objectAtIndex:5] floatValue];
             
-            UILabel *theLabel = [self deQueueReusableLabel]; //[[UILabel alloc] init];
+            PKLabel *theLabel = [self deQueueReusableLabel]; //[[UILabel alloc] init];
             [theLabel setFrame:CGRectMake(wordX, wordY, wordW, wordH)];
             theLabel.text = theWord; //#573920 87, 57, 32
             theLabel.textColor = PKTextColor;
@@ -446,9 +448,6 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             {
                 theLabel.font = theBoldFont;
             }
-            theLabel.accessibilityLanguage = @"en";
-            if (theWordType == 0) { theLabel.accessibilityLanguage = @"gr"; }
-            theLabel.accessibilityLabel = theWord;
             [theLabelArray addObject:theLabel];
         }
         // insert English labels
@@ -462,7 +461,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             CGFloat wordW = [[theWordElement objectAtIndex:4] floatValue];
             CGFloat wordH = [[theWordElement objectAtIndex:5] floatValue];
             
-            UILabel *theLabel = [self deQueueReusableLabel]; //[[UILabel alloc] init];
+            PKLabel *theLabel = [self deQueueReusableLabel]; //[[UILabel alloc] init];
             [theLabel setFrame:CGRectMake(wordX + greekColumnWidth, wordY, wordW, wordH)];
             theLabel.text = theWord;
             theLabel.textColor = PKTextColor;
@@ -471,8 +470,6 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             theLabel.tag = -1;
             //theLabel.shadowColor = PKLightShadowColor;
             //theLabel.shadowOffset = CGSizeMake(1, 1);
-            theLabel.accessibilityLanguage = @"en";
-            theLabel.accessibilityLabel = theWord;
             [theLabelArray addObject:theLabel];
         }
         [formattedCells addObject:theLabelArray];
@@ -987,19 +984,22 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 -(UITableViewCell *) cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *bibleCellID = @"PKBibleCellID";
-    UITableViewCell *cell = //nil; //
+    PKTableViewCell *cell = //nil; //
                             [self.tableView dequeueReusableCellWithIdentifier:bibleCellID];
     if (!cell)
     {
-        cell = [[UITableViewCell alloc]
+        cell = [[PKTableViewCell alloc]
                 initWithStyle:UITableViewCellStyleValue1
                 reuseIdentifier:bibleCellID];
     }
+
     // need to remove the cell's subviews, if they exist...
     for (UIView *view in cell.subviews)
     {
         [view removeFromSuperview];
     }
+
+    cell.contentMode = UIViewContentModeRedraw;
     cell.autoresizesSubviews = NO; 
     NSUInteger row = [indexPath row];
     
@@ -1052,7 +1052,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                                           size:[[PKSettings instance] textFontSize]];
                                           //#502057, 80, 32, 97
         theNoteLabel.textColor = PKAnnotationColor;
-        theNoteLabel.backgroundColor = self.tableView.backgroundColor;
+        theNoteLabel.backgroundColor = [UIColor clearColor];
         theNoteLabel.shadowColor = PKLightShadowColor;
         theNoteLabel.shadowOffset = CGSizeMake(1, 1);
         theNoteLabel.tag = 99;
@@ -1076,13 +1076,16 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     
     for (int i=0; i<[formattedCell count]; i++)
     {
-        [cell addSubview:[formattedCell objectAtIndex:i]];
+//        [cell addSubview:[formattedCell objectAtIndex:i]];
         [theAString appendString:[[formattedCell objectAtIndex:i] text]];
         [theAString appendString:@" "];
     }
+
+    cell.labels = formattedCell;
     //[cell addSubview:theVerseNumber];
     
     cell.accessibilityLabel = theAString;
+    [cell setNeedsDisplay];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -1225,13 +1228,13 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 
             // determine the word we're closest to
             float minDistance = 999;
-            UITableViewCell *theCell = [self.tableView cellForRowAtIndexPath:indexPath];
+            PKTableViewCell *theCell = [self.tableView cellForRowAtIndexPath:indexPath];
             CGPoint wp = [gestureRecognizer locationInView:theCell];
             NSString *theWord = nil;
             theWordTag = -1;
-            for (int i=0;i<[theCell.subviews count]; i++)
+            for (int i=0;i<[theCell.labels count]; i++)
             {
-                UIView *theView = [theCell.subviews objectAtIndex:i];
+                PKLabel *theView = [theCell.labels objectAtIndex:i];
                 // only UILabels, please
                 if ([theView respondsToSelector:@selector(text)])
                 {
