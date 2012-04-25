@@ -269,7 +269,7 @@
                                              )"];
         if (returnVal)
         {
-            textFontSize = 12;  // 12pt default font size
+            textFontSize = 14;  // 14pt default font size
             textLineSpacing = PK_LS_NORMAL;
             textVerseSpacing = PK_VS_NONE;
             layoutColumnWidths = PK_CW_WIDEGREEK;
