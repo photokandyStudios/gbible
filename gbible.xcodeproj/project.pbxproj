@@ -13,6 +13,8 @@
 		6A0FDF071545195F004E70A7 /* SlantedPencil@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0FDF031545195F004E70A7 /* SlantedPencil@2x.png */; };
 		6A0FDF3215466D92004E70A7 /* ResizeBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0FDF3015466D92004E70A7 /* ResizeBlack.png */; };
 		6A0FDF3315466D92004E70A7 /* ResizeBlack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0FDF3115466D92004E70A7 /* ResizeBlack@2x.png */; };
+		6A0FDF3715485157004E70A7 /* PKLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A0FDF3615485157004E70A7 /* PKLabel.m */; };
+		6A0FDF3A15485840004E70A7 /* PKTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A0FDF3915485840004E70A7 /* PKTableViewCell.m */; };
 		6A12F6C5151E5C7600B49B6E /* Trash.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A12F6B9151E5C7600B49B6E /* Trash.png */; };
 		6A12F6C6151E5C7600B49B6E /* Trash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A12F6BA151E5C7600B49B6E /* Trash@2x.png */; };
 		6A12F6C7151E5C7600B49B6E /* Tag.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A12F6BB151E5C7600B49B6E /* Tag.png */; };
@@ -137,6 +139,10 @@
 		6A0FDF031545195F004E70A7 /* SlantedPencil@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SlantedPencil@2x.png"; sourceTree = "<group>"; };
 		6A0FDF3015466D92004E70A7 /* ResizeBlack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResizeBlack.png; sourceTree = "<group>"; };
 		6A0FDF3115466D92004E70A7 /* ResizeBlack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ResizeBlack@2x.png"; sourceTree = "<group>"; };
+		6A0FDF3515485157004E70A7 /* PKLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLabel.h; sourceTree = "<group>"; };
+		6A0FDF3615485157004E70A7 /* PKLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLabel.m; sourceTree = "<group>"; };
+		6A0FDF3815485840004E70A7 /* PKTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKTableViewCell.h; sourceTree = "<group>"; };
+		6A0FDF3915485840004E70A7 /* PKTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKTableViewCell.m; sourceTree = "<group>"; };
 		6A12F6B9151E5C7600B49B6E /* Trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Trash.png; sourceTree = "<group>"; };
 		6A12F6BA151E5C7600B49B6E /* Trash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Trash@2x.png"; sourceTree = "<group>"; };
 		6A12F6BB151E5C7600B49B6E /* Tag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tag.png; sourceTree = "<group>"; };
@@ -311,6 +317,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A0FDF3415485129004E70A7 /* Base Objects */ = {
+			isa = PBXGroup;
+			children = (
+				6A0FDF3515485157004E70A7 /* PKLabel.h */,
+				6A0FDF3615485157004E70A7 /* PKLabel.m */,
+			);
+			name = "Base Objects";
+			sourceTree = "<group>";
+		};
 		6A12F6EB151ED75B00B49B6E /* ZUUIRevealController */ = {
 			isa = PBXGroup;
 			children = (
@@ -550,6 +565,8 @@
 		6A9793AA1513F2EF00A5C9F1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6A0FDF3815485840004E70A7 /* PKTableViewCell.h */,
+				6A0FDF3915485840004E70A7 /* PKTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -691,6 +708,7 @@
 		6AF0C0AB150EE8BB00BFAE03 /* gbible */ = {
 			isa = PBXGroup;
 			children = (
+				6A0FDF3415485129004E70A7 /* Base Objects */,
 				6A92CCC81516F0CC00F8AE15 /* Third Party */,
 				6A9793B5151413AE00A5C9F1 /* App */,
 				6A9793AB1513F2F500A5C9F1 /* Controllers */,
@@ -1021,6 +1039,8 @@
 				6AD7E2D5152AA4130072483E /* PKSearchViewController.m in Sources */,
 				6AD7E2DD152BAC540072483E /* PKStrongs.m in Sources */,
 				6A21635F1530EE3600D41447 /* PKHistory.m in Sources */,
+				6A0FDF3715485157004E70A7 /* PKLabel.m in Sources */,
+				6A0FDF3A15485840004E70A7 /* PKTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
