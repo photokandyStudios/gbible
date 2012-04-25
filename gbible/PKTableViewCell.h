@@ -10,4 +10,6 @@
 
 @interface PKTableViewCell : UITableViewCell
 
+    @property (strong, nonatomic) NSArray * labels;
+    
 @end
