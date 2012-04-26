@@ -4,6 +4,8 @@ Greek Interlinear Bible for iOS
 Project code for the Greek Interlinear Bible for iOS. This code is COPYRIGHT (C) 2012 photoKandy Studios LLC.
 Portions of the code are under different licenses, see the THIRD PARTY COMPONENTS Wiki page.
 
+For screenshots of current (and previous) builds, see https://plus.google.com/photos/110429856422449500918/albums/5734725845327381729
+
 Attributions
 ------------
 
