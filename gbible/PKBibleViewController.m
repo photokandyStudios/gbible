@@ -77,6 +77,8 @@
     
     @synthesize theWordTag;
     @synthesize dirty;
+    
+    @synthesize tableTitle;
 
 #pragma mark -
 #pragma mark Network Connectivity
@@ -153,7 +155,14 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                 [(PKHistory *)[PKHistory instance] addPassagewithBook:theBook andChapter:theChapter andVerse:theVerse];
                 [self notifyChangedHistory];
                 ((PKSettings *)[PKSettings instance]).topVerse = theVerse;
-                [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theVerse-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                if (theVerse>1)
+                {
+                    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theVerse-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                }
+                else 
+                {
+                    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+                }
                 UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
                 tbc.selectedIndex = 0;
             );
@@ -203,7 +212,10 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         [self reloadTableCache];
         [(PKHistory *)[PKHistory instance] addPassagewithBook:currentBook andChapter:currentChapter andVerse:1];
         [self notifyChangedHistory];
-    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+
+        //[self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+
     
     );
 }
@@ -235,9 +247,9 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     
     [self loadChapter: currentChapter forBook: currentBook];
     [self reloadTableCache];
-    [(PKHistory *)[PKHistory instance] addPassagewithBook:currentBook andChapter:currentChapter andVerse:1];
+    [(PKHistory *)[PKHistory instance] addPassagewithBook:currentBook andChapter:currentChapter andVerse:[PKBible countOfVersesForBook:currentBook forChapter:currentChapter] ];
     [self notifyChangedHistory];
-    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:[PKBible countOfVersesForBook:currentBook forChapter:currentChapter]-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     
     );
 }
@@ -297,7 +309,8 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     NSDate *tEndTime;
 
     tStartTime = [NSDate date];
-    self.title = [[PKBible nameForBook:currentBook] stringByAppendingFormat:@" %i",currentChapter];    
+    self.title = [[PKBible nameForBook:currentBook] stringByAppendingFormat:@" %i",currentChapter];
+    tableTitle.text = self.title;
     //NSLog (@"---------------------------------------------------");
     //NSLog (@"Timing for passage %@", self.title);
     startTime = [NSDate date];
@@ -540,10 +553,19 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         lastKnownOrientation = [[UIDevice currentDevice] orientation];
         [self loadChapter];
         [self reloadTableCache];
+        [(PKHistory *)[PKHistory instance] addPassagewithBook:[[PKSettings instance] currentBook] andChapter:[[PKSettings instance] currentChapter] andVerse:[[PKSettings instance] topVerse]];
+        [self notifyChangedHistory];
+        if ([[PKSettings instance] topVerse] > 1)
+        {
         [self.tableView scrollToRowAtIndexPath: 
              [NSIndexPath indexPathForRow:
                  [[PKSettings instance] topVerse]-1 inSection:0] 
              atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        }
+        else 
+        {
+            [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+        }
        [self calculateShadows];
        dirty = NO;
     }
@@ -652,21 +674,6 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     }
     goFullScreen.accessibilityLabel = @"Enter Full Screen";
     self.navigationItem.rightBarButtonItem = goFullScreen;
-    // handle pan from left to right to reveal sidebar
-    /*CGRect leftFrame = self.view.frame;
-    leftFrame.origin.x = 0;
-    leftFrame.origin.y = 0;
-    leftFrame.size.width=10;
-    UILabel *leftLabel = [[UILabel alloc] initWithFrame:leftFrame];
-    leftLabel.backgroundColor = [UIColor clearColor];
-    leftLabel.userInteractionEnabled = YES;
-    [self.view addSubview:leftLabel];
-    
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc]
-                                          initWithTarget:self.parentViewController.parentViewController.parentViewController
-                                          action:@selector(revealGesture:)];
-
-    [leftLabel addGestureRecognizer:panGesture];*/
 
     if ([changeHighlight respondsToSelector:@selector(setTintColor:)])
     {
@@ -689,6 +696,58 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                             [[UIMenuItem alloc] initWithTitle:@"Search Strong's" action:@selector(searchStrongs:)]
                          , nil ];
 
+    // create the header and footer views
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
+    tableTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
+    UIButton * previousChapter = [UIButton buttonWithType:UIButtonTypeCustom];
+    [previousChapter setFrame:CGRectMake(10, 22, 44, 44)];
+    
+    UIView * footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 64)];
+    UIButton * nextChapter = [UIButton buttonWithType:UIButtonTypeCustom];
+    [nextChapter setFrame:CGRectMake(self.tableView.frame.size.width - 54, 10, 44, 44)];
+    
+    // set the button titles
+    [previousChapter setImage:[UIImage imageNamed:@"ArrowLeft.png"] forState:UIControlStateNormal];
+    [previousChapter setImage:[UIImage imageNamed:@"ArrowLeft.png"] forState:UIControlStateHighlighted];
+    [previousChapter setImage:[UIImage imageNamed:@"ArrowLeft.png"] forState:UIControlStateDisabled];
+    [previousChapter setImage:[UIImage imageNamed:@"ArrowLeft.png"] forState:UIControlStateSelected];
+    
+    [nextChapter setImage:[UIImage imageNamed:@"ArrowRight.png"] forState:UIControlStateNormal];
+    [nextChapter setImage:[UIImage imageNamed:@"ArrowRight.png"] forState:UIControlStateHighlighted];
+    [nextChapter setImage:[UIImage imageNamed:@"ArrowRight.png"] forState:UIControlStateDisabled];
+    [nextChapter setImage:[UIImage imageNamed:@"ArrowRight.png"] forState:UIControlStateSelected];
+    
+    // set the targets
+    [previousChapter addTarget:self action:@selector(previousChapter) forControlEvents:UIControlEventTouchUpInside];
+    [nextChapter addTarget:self action:@selector(nextChapter) forControlEvents:UIControlEventTouchUpInside];
+                                                                                       
+
+    nextChapter.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    
+    previousChapter.alpha = 0.5f;
+    nextChapter.alpha = 0.5f; 
+    
+    previousChapter.accessibilityLabel = @"Previous Chapter";
+    nextChapter.accessibilityLabel = @"Next Chapter";
+    
+    // set the table title up
+    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] size:44];
+    tableTitle.textAlignment = UITextAlignmentCenter;
+    tableTitle.textColor = PKTextColor;
+    tableTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    tableTitle.backgroundColor = [UIColor clearColor];
+    
+    // add the items to our views
+    [headerView addSubview:tableTitle];
+    [headerView addSubview:previousChapter];
+    
+    [footerView addSubview:nextChapter];
+    
+    // add the views to the table
+    self.tableView.tableHeaderView = headerView;
+    self.tableView.tableFooterView = footerView;
+    
+    
 }
 
 /**
@@ -784,6 +843,8 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     
     reusableLabels = nil;
     reusableLabelQueuePosition =-1;
+    
+    tableTitle = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -807,10 +868,17 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     
     [self loadChapter];
     [self reloadTableCache];
+    if (theVerse > 1)
+    {
     [self.tableView scrollToRowAtIndexPath: 
          [NSIndexPath indexPathForRow:
              theVerse-1 inSection:0] 
          atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+    else
+    {
+        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    }
 }
 
 -(void)calculateShadows
@@ -975,7 +1043,6 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 { 
-#warning - do we need to include a deque?
     //return [cells objectAtIndex:[indexPath row]];
     return [self cellForRowAtIndexPath:indexPath];
 
@@ -1228,7 +1295,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 
             // determine the word we're closest to
             float minDistance = 999;
-            PKTableViewCell *theCell = [self.tableView cellForRowAtIndexPath:indexPath];
+            PKTableViewCell *theCell = (PKTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
             CGPoint wp = [gestureRecognizer locationInView:theCell];
             NSString *theWord = nil;
             theWordTag = -1;
@@ -1271,7 +1338,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                 }
             }
             selectedWord = theWord;
-            NSLog(@"The word is %@", theWord);
+            //NSLog(@"The word is %@", theWord);
 
             // select the row
             BOOL curValue;
@@ -1302,14 +1369,63 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                 //theWordLabel.backgroundColor = [UIColor whiteColor];
                 theRect = theWordLabel.frame;
                 theRect.origin.y += newCell.frame.origin.y;
+                
+                // create a new view and animate it in
+                
+                CGRect theNewRect = theWordLabel.frame;
+                theNewRect.origin.x -= 15;
+                theNewRect.origin.y -= 5;
+                theNewRect.size.width += 30;
+                theNewRect.size.height += 10;
+                UILabel * theNewWord = [[UILabel alloc] initWithFrame:theNewRect];
+                theNewWord.alpha = 0.0f;
+                theNewWord.backgroundColor = [UIColor whiteColor];
+                theNewWord.textColor = PKTextColor;
+                theNewWord.font = theWordLabel.font;
+                theNewWord.text = theWordLabel.text;
+//                theNewWord.layer.borderColor = [[UIColor blackColor] CGColor];
+//                theNewWord.layer.borderWidth = 1;
+
+                theNewWord.layer.cornerRadius = 10;
+
+
+                theNewWord.textAlignment = UITextAlignmentCenter;
+                [theCell addSubview:theNewWord];
+                [UIView animateWithDuration:0.5f animations:
+                    ^{
+                        theNewWord.alpha = 1.0f;
+                     }
+                     completion:^(BOOL finished)
+                     {
+                        [UIView animateWithDuration:1 animations:
+                        ^{
+                            theNewWord.alpha = 1;
+                         }
+                        completion:^(BOOL finished)
+                        {
+                            [UIView animateWithDuration:0.55f animations:
+                           ^{
+                                theNewWord.alpha = 0.0f;
+                            }
+                            completion:^(BOOL finished)
+                            {
+                                [theNewWord removeFromSuperview];
+                            }
+                            ];
+                        }
+                        ];
+                     }
+                ];
             }
-        }
+        
         
         ourMenuState = 0; // show entire menu (not second-tier)
         [self becomeFirstResponder];
         [ourMenu update]; // just in case
         [ourMenu setTargetRect:theRect inView:self.tableView ];
         [ourMenu setMenuVisible:YES animated:YES];
+        
+        }
         
     }
 }
@@ -1323,16 +1439,16 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     //[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
+    
     CGRect theRect = ((PKRootViewController *)self.parentViewController.parentViewController).tabBar.frame;
     theRect.origin.y += 49;
     [((PKRootViewController *)self.parentViewController.parentViewController).tabBar setFrame:theRect];
-    
     theRect = self.parentViewController.parentViewController.view.frame;
     //theRect.origin.y -= 20;
     theRect.size.height += 49;
     [self.parentViewController.parentViewController.view setFrame:theRect];
     [((PKRootViewController *)self.parentViewController.parentViewController) calcShadowPosition:[[UIDevice currentDevice] orientation]];
-  
+    
     self.fullScreen = YES;
     
     // create a button to get us back!

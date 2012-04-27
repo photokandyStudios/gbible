@@ -41,6 +41,8 @@
     
     @property (strong, nonatomic) UIButton *btnRegularScreen;
     
+    @property (strong, nonatomic) UILabel *tableTitle;
+    
     @property int theWordTag;
     
     @property BOOL fullScreen;
