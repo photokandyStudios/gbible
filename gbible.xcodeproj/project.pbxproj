@@ -38,6 +38,10 @@
 		6A21637215338DDE00D41447 /* parsings.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21637115338DDE00D41447 /* parsings.html */; };
 		6A2163741533A21F00D41447 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A2163731533A21F00D41447 /* Default-Landscape@2x~ipad.png */; };
 		6A2163761533A22700D41447 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A2163751533A22600D41447 /* Default-Portrait@2x~ipad.png */; };
+		6A3DCDD7154A5DF3009CE7C9 /* ArrowLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3DCDD3154A5DF3009CE7C9 /* ArrowLeft.png */; };
+		6A3DCDD8154A5DF3009CE7C9 /* ArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3DCDD4154A5DF3009CE7C9 /* ArrowLeft@2x.png */; };
+		6A3DCDD9154A5DF3009CE7C9 /* ArrowRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3DCDD5154A5DF3009CE7C9 /* ArrowRight.png */; };
+		6A3DCDDA154A5DF3009CE7C9 /* ArrowRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3DCDD6154A5DF3009CE7C9 /* ArrowRight@2x.png */; };
 		6A3E433D1515918900D8745D /* BlueNavigationBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E433B1515918900D8745D /* BlueNavigationBar.png */; };
 		6A3E433E1515918900D8745D /* BlueNavigationBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E433C1515918900D8745D /* BlueNavigationBar@2x.png */; };
 		6A3E43431515981800D8745D /* BlueTabBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43411515981800D8745D /* BlueTabBar.png */; };
@@ -169,6 +173,10 @@
 		6A21637115338DDE00D41447 /* parsings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = parsings.html; sourceTree = "<group>"; };
 		6A2163731533A21F00D41447 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "../Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		6A2163751533A22600D41447 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait@2x~ipad.png"; path = "../Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		6A3DCDD3154A5DF3009CE7C9 /* ArrowLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ArrowLeft.png; sourceTree = "<group>"; };
+		6A3DCDD4154A5DF3009CE7C9 /* ArrowLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ArrowLeft@2x.png"; sourceTree = "<group>"; };
+		6A3DCDD5154A5DF3009CE7C9 /* ArrowRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ArrowRight.png; sourceTree = "<group>"; };
+		6A3DCDD6154A5DF3009CE7C9 /* ArrowRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ArrowRight@2x.png"; sourceTree = "<group>"; };
 		6A3E433B1515918900D8745D /* BlueNavigationBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueNavigationBar.png; sourceTree = "<group>"; };
 		6A3E433C1515918900D8745D /* BlueNavigationBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueNavigationBar@2x.png"; sourceTree = "<group>"; };
 		6A3E43411515981800D8745D /* BlueTabBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueTabBar.png; sourceTree = "<group>"; };
@@ -808,6 +816,10 @@
 		6AF9D0621512A5C300514499 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				6A3DCDD3154A5DF3009CE7C9 /* ArrowLeft.png */,
+				6A3DCDD4154A5DF3009CE7C9 /* ArrowLeft@2x.png */,
+				6A3DCDD5154A5DF3009CE7C9 /* ArrowRight.png */,
+				6A3DCDD6154A5DF3009CE7C9 /* ArrowRight@2x.png */,
 				6A0FDF3015466D92004E70A7 /* ResizeBlack.png */,
 				6A0FDF3115466D92004E70A7 /* ResizeBlack@2x.png */,
 				6A12F6C1151E5C7600B49B6E /* Bookmark.png */,
@@ -979,6 +991,10 @@
 				6A0FDF071545195F004E70A7 /* SlantedPencil@2x.png in Resources */,
 				6A0FDF3215466D92004E70A7 /* ResizeBlack.png in Resources */,
 				6A0FDF3315466D92004E70A7 /* ResizeBlack@2x.png in Resources */,
+				6A3DCDD7154A5DF3009CE7C9 /* ArrowLeft.png in Resources */,
+				6A3DCDD8154A5DF3009CE7C9 /* ArrowLeft@2x.png in Resources */,
+				6A3DCDD9154A5DF3009CE7C9 /* ArrowRight.png in Resources */,
+				6A3DCDDA154A5DF3009CE7C9 /* ArrowRight@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
