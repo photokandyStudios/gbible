@@ -141,7 +141,7 @@
                               [NSNumber numberWithInt:28], 
                               [NSNumber numberWithInt:16], 
                               [NSNumber numberWithInt:16], 
-                              [NSNumber numberWithInt:12], 
+                              [NSNumber numberWithInt:13], // re: issue #29
                               [NSNumber numberWithInt:6], 
                               [NSNumber numberWithInt:6], 
                               [NSNumber numberWithInt:4], 
