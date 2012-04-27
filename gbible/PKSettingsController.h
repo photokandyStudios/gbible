@@ -15,6 +15,7 @@
     @property (strong, nonatomic) NSArray *iCloudSettings;
     @property (strong, nonatomic) NSArray *importSettings;
     @property (strong, nonatomic) NSArray *exportSettings;
+    @property (strong, nonatomic) NSArray *versionSettings;
     
     @property (strong, nonatomic) NSArray *settingsGroup;
     

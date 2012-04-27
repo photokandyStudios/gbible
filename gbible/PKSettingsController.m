@@ -29,6 +29,7 @@
     @synthesize iCloudSettings;
     @synthesize importSettings;
     @synthesize exportSettings;
+    @synthesize versionSettings;
     
     @synthesize settingsGroup;
     
@@ -63,37 +64,58 @@
     [TestFlight passCheckpoint:@"SETTINGS"];
     [self.tableView setBackgroundView:nil];
     self.tableView.backgroundColor = PKPageColor;
+    NSArray * englishTypeface = [NSArray arrayWithObjects: @"AmericanTypewriter",
+                                                         //@"Arial", 
+                                                           @"Baskerville",
+                                                           @"Georgia", 
+                                                           @"Helvetica",
+                                                           @"HelveticaNeue",
+                                                           @"Helvetica-Light",
+                                                           @"HelveticaNeue-Light",
+                                                           @"HeoflerText",
+                                                           @"Marion",
+                                                           @"NewsCycle",
+                                                           @"Optima",
+                                                       //  @"Pfennig",
+                                                           @"Verdana", nil];
+    NSArray * greekTypeface = [NSArray arrayWithObjects: //@"Arial",
+                                                           @"Baskerville",
+                                                           @"Georgia", 
+                                                           @"Georgia-Bold",
+                                                           @"Helvetica",
+                                                           @"Helvetica-Bold",
+                                                           @"HelveticaNeue",
+                                                           @"HelveticaNeue-Bold",
+                                                           @"Marion",
+                                                           @"Marion-Bold",
+                                                           @"NewsCycle",
+                                                      //   @"Pfennig",
+                                                      //   @"PfennigBold",
+                                                           @"Verdana",
+                                                           @"Verdana-Bold", nil];                                                           
+    if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
+    {
+              englishTypeface = [NSArray arrayWithObjects: @"Baskerville",
+                                                           @"Georgia", 
+                                                           @"Helvetica",
+                                                           @"NewsCycle",
+                                                           @"Optima",
+                                                           @"Verdana", nil];
+            greekTypeface = [NSArray arrayWithObjects:     @"Baskerville",
+                                                           @"Georgia", 
+                                                           @"Georgia-Bold",
+                                                           @"Helvetica",
+                                                           @"Helvetica-Bold",
+                                                           @"NewsCycle",
+                                                           @"Verdana",
+                                                           @"Verdana-Bold", nil];                                                           
+    
+    }
     layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"English Typeface", [NSNumber numberWithInt:1], PK_SETTING_FONTFACE, 
-                                                                           [NSArray arrayWithObjects: @"AmericanTypewriter",
-                                                                                                      //@"Arial", 
-                                                                                                      @"Baskerville",
-                                                                                                      @"Georgia", 
-                                                                                                      @"Helvetica",
-                                                                                                      @"HelveticaNeue",
-                                                                                                      @"Helvetica-Light",
-                                                                                                      @"HelveticaNeue-Light",
-                                                                                                      @"HeoflerText",
-                                                                                                      @"Marion",
-                                                                                                      @"NewsCycle",
-                                                                                                      @"Optima",
-                                                                                                    //  @"Pfennig",
-                                                                                                      @"Verdana", nil], nil],
+                                                                           englishTypeface, nil],
                                                 [NSArray arrayWithObjects: @"Greek Typeface", [NSNumber numberWithInt:1], @"greek-typeface", //RE: ISSUE #6
-                                                                           [NSArray arrayWithObjects: //@"Arial",
-                                                                                                      @"Baskerville",
-                                                                                                      @"Georgia", 
-                                                                                                      @"Georgia-Bold",
-                                                                                                      @"Helvetica",
-                                                                                                      @"Helvetica-Bold",
-                                                                                                      @"HelveticaNeue",
-                                                                                                      @"HelveticaNeue-Bold",
-                                                                                                      @"Marion",
-                                                                                                      @"Marion-Bold",
-                                                                                                      @"NewsCycle",
-                                                                                                   //   @"Pfennig",
-                                                                                                   //   @"PfennigBold",
-                                                                                                      @"Verdana",
-                                                                                                      @"Verdana-Bold", nil], nil],                                                [NSArray arrayWithObjects: @"Font Size", [NSNumber numberWithInt:3], PK_SETTING_FONTSIZE, 
+                                                                           greekTypeface, nil],
+                                                [NSArray arrayWithObjects: @"Font Size", [NSNumber numberWithInt:3], PK_SETTING_FONTSIZE, 
                                                                            [NSArray arrayWithObjects: //[NSNumber numberWithInt:6],
                                                                                                       //[NSNumber numberWithInt:7],
                                                                                                       //[NSNumber numberWithInt:8],
@@ -165,9 +187,12 @@
                                                 nil];
     exportSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Export", [NSNumber numberWithInt:0], nil, nil ],
                                                 nil];
+                                                
+    versionSettings = [NSArray arrayWithObjects:  [NSArray arrayWithObjects: [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"], [NSNumber numberWithInt:0], nil, nil ],
+                                                nil];
     
     settingsGroup = [NSArray arrayWithObjects: textSettings, layoutSettings, // iCloudSettings,
-                                               exportSettings, importSettings, nil ];
+                                               exportSettings, importSettings, versionSettings, nil ];
 
 
     UISwipeGestureRecognizer *swipeRight=[[UISwipeGestureRecognizer alloc]
@@ -211,6 +236,7 @@
    // iCloudSettings = nil;
     textSettings = nil;
     layoutSettings = nil;
+    versionSettings = nil;
 }
 
 -(void)calculateShadows
@@ -285,6 +311,8 @@
                 break;
         case 3: return @"Import";
                 break;
+        case 4: return @"Version";
+                break;
         default:return @"Undefined";
                 break;
     }
@@ -311,6 +339,8 @@
         case 2: return @"Export will create a file named 'export' and the current date and time that you can download when your device is connected to iTunes. You can then save this file in a safe place, or use it to import data to another device.";
                 break;
         case 3: return @"Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.";
+                break;
+        case 4: return @"This application is Copyright 2012 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information.";
                 break;
         default:return @"Undefined";
                 break;
@@ -443,8 +473,11 @@
                     [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:2] reloadNotes];
                     [self.tableView reloadData]; // settings may be different.
                 }
-                UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:@"Done!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                [theAlertView show];
+                if (section < 4)
+                {
+                    UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:@"Done!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                    [theAlertView show];
+                }
                 break;}
         case 1: // we're on a cell that wants to display a popover/actionsheet (no lookup)
                 popover = [[UIActionSheet alloc] initWithTitle: [cellData objectAtIndex:0]
