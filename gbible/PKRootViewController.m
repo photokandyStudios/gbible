@@ -171,6 +171,8 @@
     [self.view addSubview:topShadow];
     [self.view addSubview:bottomShadow];
     
+    self.view.backgroundColor = PKBaseUIColor;
+    
     self.selectedIndex = 0;
 
 }
