@@ -731,7 +731,14 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     nextChapter.accessibilityLabel = @"Next Chapter";
     
     // set the table title up
-    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] size:44];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] size:44];
+    }
+    else
+    {
+        tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] size:28];
+    }
     tableTitle.textAlignment = UITextAlignmentCenter;
     tableTitle.textColor = PKTextColor;
     tableTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
