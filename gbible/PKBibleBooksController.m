@@ -51,6 +51,7 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     //PKBaseUIColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.title = @"Goto";
     
     [self.view bringSubviewToFront:self.tableView];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
