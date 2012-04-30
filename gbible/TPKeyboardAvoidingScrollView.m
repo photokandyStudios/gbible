@@ -194,7 +194,7 @@
     contentWidth = changeWidth ? contentWidth : self.superview.frame.size.width;
     contentHeight = changeHeight ? contentHeight : self.superview.frame.size.height;
  
-    NSLog(@"Adjusting ScrollView size to %fx%f, verticalPadding=%d, horizontalPadding=%d", contentWidth, contentHeight, verticalPadding, horizontalPadding);
+    //NSLog(@"Adjusting ScrollView size to %fx%f, verticalPadding=%d, horizontalPadding=%d", contentWidth, contentHeight, verticalPadding, horizontalPadding);
     self.contentSize = CGSizeMake(contentWidth, contentHeight);
 }
  

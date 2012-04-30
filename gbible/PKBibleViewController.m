@@ -754,7 +754,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     self.tableView.tableHeaderView = headerView;
     self.tableView.tableFooterView = footerView;
     
-    
+
 }
 
 /**
@@ -1773,7 +1773,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                                                             [[PKBible nameForBook:theBook] lowercaseString],
                                                             theChapter, theVerse];
     theTransformedURL = [theTransformedURL stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-    NSLog(@"The URL:%@", theTransformedURL);
+    //NSLog(@"The URL:%@", theTransformedURL);
     NSURL *theURL = [[NSURL alloc] initWithString:theTransformedURL];
     TSMiniWebBrowser *wb = [[TSMiniWebBrowser alloc] initWithUrl:theURL];
     wb.showURLStringOnActionSheetTitle = YES;
