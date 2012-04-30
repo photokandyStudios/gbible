@@ -134,7 +134,7 @@
     self.tableView.backgroundColor = PKPageColor;
 
 //    [self doSearchForTerm:self.theSearchTerm];
-    
+    theSearchBar.text = self.theSearchTerm;
 }
 
 - (void)viewWillAppear:(BOOL)animated
