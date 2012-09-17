@@ -24,6 +24,7 @@
     #define PKTextColor             [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0]
     #define PKStrongsColor          [UIColor colorWithRed:0.125490 green:0.250980 blue:0.341176 alpha:1.0]
     #define PKMorphologyColor       [UIColor colorWithRed:0.188235 green:0.341176 blue:0.125490 alpha:1.0]
+    #define PKInterlinearColor      [UIColor colorWithRed:0.333333 green:0.333333 blue:0.333333 alpha:1.0]
     #define PKAnnotationColor       [UIColor colorWithRed:.313725 green:0.125490 blue:0.380392 alpha:1.0]
     #define PKBaseUIColor           [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0]
     #define PKYellowHighlightColor  [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:0.5]
