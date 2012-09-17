@@ -51,16 +51,16 @@
     [TestFlight passCheckpoint:@"HISTORY"];
 
     self.tableView.backgroundView = nil; 
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = PKSelectionColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-    CGRect theRect = CGRectMake(0, self.tableView.center.y - 20, 260, 60);
+    CGRect theRect = CGRectMake(0, self.tableView.center.y + 20, 260, 60);
     noResults = [[UILabel alloc] initWithFrame:theRect];
-    noResults.textColor = [UIColor whiteColor];
+    noResults.textColor = PKTextColor;
     noResults.font = [UIFont fontWithName:@"Zapfino" size:15];
     noResults.textAlignment = UITextAlignmentCenter;
     noResults.backgroundColor = [UIColor clearColor];
-    noResults.shadowColor = [UIColor blackColor];
+    noResults.shadowColor = [UIColor clearColor];
     noResults.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     noResults.numberOfLines = 0;
     [self.view addSubview:noResults];
@@ -134,7 +134,7 @@
                                            [PKBible nameForBook:theBook], theChapter, theVerse];
                                            
     cell.textLabel.text = thePrettyPassage;
-    cell.textLabel.textColor = [UIColor whiteColor];
+    //cell.textLabel.textColor = PKTextColor;
 
     return cell;
 

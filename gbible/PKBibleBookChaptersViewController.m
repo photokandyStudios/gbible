@@ -47,7 +47,7 @@
 	// Do any additional setup after loading the view.
     [TestFlight passCheckpoint:@"BIBLE_BOOK_CHAPTERS"];
     [self.tableView setBackgroundView:nil];
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = PKSelectionColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.title = @"Select Chapter";
@@ -108,7 +108,7 @@
     NSUInteger row = [indexPath row];
     
     cell.textLabel.text = [[PKBible nameForBook: selectedBook] stringByAppendingFormat:@" %i",row + 1];  // get book + chapter
-    cell.textLabel.textColor = [UIColor whiteColor];
+    //cell.textLabel.textColor = [UIColor whiteColor];
     
     return cell;
 }

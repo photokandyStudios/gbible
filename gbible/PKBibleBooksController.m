@@ -48,7 +48,7 @@
     
 
     self.tableView.backgroundView = nil; 
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = PKSelectionColor;
     //PKBaseUIColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.title = @"Goto";
@@ -141,7 +141,7 @@
     NSUInteger row = [indexPath row];
     
     cell.textLabel.text = [PKBible nameForBook: row + 40];  // get book name
-    cell.textLabel.textColor = [UIColor whiteColor];
+//    cell.textLabel.textColor = [UIColor whiteColor];
 //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;

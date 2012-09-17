@@ -50,16 +50,16 @@
 	// Do any additional setup after loading the view.
     [TestFlight passCheckpoint:@"HIGHLIGHTS"];
     self.tableView.backgroundView = nil; 
-    self.tableView.backgroundColor = PKPageColor;
+    self.tableView.backgroundColor = PKSelectionColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-    CGRect theRect = CGRectMake(0, self.tableView.center.y - 20, 260, 60);
+    CGRect theRect = CGRectMake(0, self.tableView.center.y + 20, 260, 60);
     noResults = [[UILabel alloc] initWithFrame:theRect];
     noResults.textColor = PKTextColor;
     noResults.font = [UIFont fontWithName:@"Zapfino" size:15];
     noResults.textAlignment = UITextAlignmentCenter;
     noResults.backgroundColor = [UIColor clearColor];
-    noResults.shadowColor = [UIColor whiteColor];
+    noResults.shadowColor = [UIColor clearColor];
     noResults.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     noResults.numberOfLines = 0;
     [self.view addSubview:noResults];
