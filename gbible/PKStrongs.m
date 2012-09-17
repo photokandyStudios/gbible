@@ -90,7 +90,7 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
                 }
                 
                 [searchPhrase appendString:@"TRIM(LOWER( key || ' ' || derivation || ' ' || lemma || ' ' || kjv_def || ' ' || strongs_def )) LIKE \"%"];
-                [searchPhrase appendFormat:theWord];
+                [searchPhrase appendString:theWord];
                 [searchPhrase appendString:@"%\" ) "];
             }
         }
@@ -99,7 +99,7 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
             NSString *theWord = searchPhrase;
             searchPhrase = [@"" mutableCopy];
             [searchPhrase appendString:@"( TRIM(LOWER(key || ' ' || derivation || ' ' || lemma || ' ' || kjv_def || ' ' || strongs_def)) LIKE \"%"];
-            [searchPhrase appendFormat:theWord];
+            [searchPhrase appendString:theWord];
             [searchPhrase appendString:@"%\" ) "];
         }
 
