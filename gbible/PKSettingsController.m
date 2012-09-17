@@ -177,6 +177,8 @@
                                               [NSArray arrayWithObjects: @"Transliterate Greek?", [NSNumber numberWithInt:2], PK_SETTING_TRANSLITERATE, nil],
                                               [NSArray arrayWithObjects: @"Show Inline Notes?", [NSNumber numberWithInt:2], PK_SETTING_INLINENOTES, nil],
                                               [NSArray arrayWithObjects: @"Show Morphology?", [NSNumber numberWithInt:2], PK_SETTING_SHOWMORPHOLOGY, nil],
+                                              [NSArray arrayWithObjects: @"Show Strongs?", [NSNumber numberWithInt:2], @"show-strongs", nil],
+                                              [NSArray arrayWithObjects: @"Show Translation?", [NSNumber numberWithInt:2], @"show-interlinear", nil],
                                               nil];
    // iCloudSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Enable iCloud?", [NSNumber numberWithInt:2], PK_SETTING_USEICLOUD, nil],
     //                                            nil];

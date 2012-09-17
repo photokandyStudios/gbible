@@ -445,6 +445,10 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             theLabel.text = theWord; //#573920 87, 57, 32
             theLabel.textColor = PKTextColor;
             //theLabel.backgroundColor = self.tableView.backgroundColor;
+            if (theWordType == 5)
+            {
+                theLabel.textColor = PKInterlinearColor;
+            }
             if (theWordType == 10) 
             {   //#204057
                 theLabel.textColor = PKStrongsColor; 
@@ -644,6 +648,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     {
         changeHighlight.title = ((PKSettings *)[PKSettings instance]).highlightTextColor;
     }
+    //TODO: Add buttons that disable G#, Morph, and Interlinear
     if ([self.navigationItem respondsToSelector:@selector(setLeftBarButtonItems:)])
     {
         self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, 

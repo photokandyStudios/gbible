@@ -24,6 +24,8 @@
     @synthesize useICloud;
     @synthesize textFontSize;
     @synthesize showMorphology;
+    @synthesize showStrongs;
+    @synthesize showInterlinear;
     
     @synthesize currentBook;
     @synthesize currentChapter;
@@ -83,6 +85,8 @@
         transliterateText=[[self loadSetting: PK_SETTING_TRANSLITERATE] boolValue];
         showNotesInline = [[self loadSetting: PK_SETTING_INLINENOTES] boolValue];
         showMorphology  = [[self loadSetting: PK_SETTING_SHOWMORPHOLOGY] boolValue];
+        showStrongs     = [[self loadSetting: @"show-strongs"] boolValue];
+        showInterlinear = [[self loadSetting: @"show-interlinear"] boolValue];
         useICloud       = [[self loadSetting: PK_SETTING_USEICLOUD] boolValue];
         
         currentBook     = [[self loadSetting: @"current-book"] intValue];
@@ -197,6 +201,8 @@
         [self saveSetting: PK_SETTING_TRANSLITERATE valueForSetting: (transliterateText ? @"YES" : @"NO") ];
         [self saveSetting: PK_SETTING_INLINENOTES valueForSetting: (showNotesInline ? @"YES" : @"NO") ];
         [self saveSetting: PK_SETTING_SHOWMORPHOLOGY valueForSetting: (showMorphology ? @"YES" : @"NO") ];
+        [self saveSetting: @"show-strongs" valueForSetting:(showStrongs ? @"YES" : @"NO") ];
+        [self saveSetting: @"show-interlinear" valueForSetting:(showInterlinear ? @"YES" : @"NO") ];
         [self saveSetting: PK_SETTING_USEICLOUD valueForSetting: (useICloud ? @"YES" : @"NO") ];
         
         [self saveCurrentReference];
@@ -278,6 +284,8 @@
             transliterateText = NO;
             showNotesInline = NO;
             showMorphology = YES;
+            showStrongs = YES;
+            showInterlinear = YES;
             useICloud = NO;
             textFontFace = @"Helvetica";
             textGreekFontFace = @"Helvetica-Bold";//RE: ISSUE #6

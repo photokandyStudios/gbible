@@ -478,9 +478,14 @@
     {
         // should we include the morphology?
         BOOL showMorphology = [[PKSettings instance] showMorphology];
+        BOOL showStrongs = [[PKSettings instance] showStrongs];
+        BOOL showInterlinear = [[PKSettings instance] showInterlinear];
         
         // should we transliterate?
         BOOL transliterate = [[PKSettings instance] transliterateText];
+      
+        // what greek text are we?
+        BOOL whichGreekText = [[PKSettings instance] greekText];
     
         // this array will contain the word elements
         NSMutableArray *theWordArray = [[NSMutableArray alloc]init];
@@ -537,10 +542,12 @@
         {
             endX = endX - theMargin;
         }
-                                                  
+      
+        NSMutableString *theFixedText = [theText mutableCopy];
+        [theFixedText replaceOccurrencesOfString:@" ) " withString:@") " options:0 range:NSMakeRange(0,  [theFixedText length])];
         // split by spaces
-        NSArray *matches = [theText componentsSeparatedByString:@" "];
-        
+        NSArray *matches = [theFixedText componentsSeparatedByString:@" "];
+      
         // we need to know the width of a space
         CGFloat spaceWidth = [@" " sizeWithFont:theFont].width;
         // we need to know the height of an M (* the setting...)
@@ -556,8 +563,16 @@
             {
                 columnHeight += lineHeight;
             }
-            columnHeight += lineHeight; // for G#s
+            if (showStrongs)
+            {
+                columnHeight += lineHeight; // for G#s
+            }
+            if (whichGreekText == 7 && showInterlinear)
+            {
+                columnHeight += lineHeight;
+            }
         }
+      
         CGFloat yOffset = 0.0;
         
         // give us some margin at the top
@@ -610,24 +625,52 @@
                     // we're a G#
                     theWordType = 10;
                     yOffset = lineHeight;
+                    if (!showStrongs) { theWord = @""; }
                 }
-                else 
+                else
                 {
-                    // are we a VARiant? (regex: VAR[0-9]
-                    if ( [[theWord substringToIndex:2] isEqualToString:@"VAR"] )
+                    // are we a (interlinear word)?
+                    if ( [[theWord substringToIndex:1] isEqualToString:@"("] ||
+                         [[theWord substringFromIndex:[theWord length]-1] isEqualToString:@")"] )
                     {
-                        theWordType = 0; // we're really just a regular word.
-                        yOffset = 0.0;
+                        theWordType = 5;
+                        yOffset = lineHeight*3;
+                        if (!showMorphology) { yOffset -= lineHeight; }
+                        if (!showStrongs) { yOffset -= lineHeight; }
+                        if ([[theWord substringToIndex:1] isEqualToString:@"("])
+                        {
+                          theWord = [theWord substringFromIndex:1];
+                        }
+                        if ([[theWord substringFromIndex:[theWord length]-1] isEqualToString:@")"])
+                        {
+                          theWord = [theWord substringToIndex:[theWord length]-1];
+                        }
+                      
+                        if (!showInterlinear) { theWord = @""; }
                     }
                     else
                     {
-                        // are we a morphology word? [A-Z]+[A-Z0-9\\-]+
-                        if ( [[theWord uppercaseString] isEqualToString:theWord] 
-                             && thePriorWordType >= 10)
+                        // are we a VARiant? (regex: VAR[0-9]
+                        if ( [[theWord substringToIndex:2] isEqualToString:@"VAR"] )
                         {
-                            // we are!
-                            theWordType = 20;
-                            yOffset = lineHeight *2;
+                            theWordType = 0; // we're really just a regular word.
+                            yOffset = 0.0;
+                        }
+                        else
+                        {
+                            // are we a morphology word? [A-Z]+[A-Z0-9\\-]+
+                            if ( //[[theWord uppercaseString] isEqualToString:theWord]
+                                 ([theWord characterAtIndex:0] >= 'A' &&
+                                   [theWord characterAtIndex:0] <= 'Z')
+                                 &&
+                                 thePriorWordType >= 10)
+                            {
+                                // we are!
+                                theWordType = 20;
+                                yOffset = lineHeight *2;
+                                if (!showStrongs) { yOffset -= lineHeight; }
+                                if (!showMorphology) { theWord = @""; }
+                            }
                         }
                     }
                 }
@@ -669,7 +712,9 @@
                                                                  [NSNumber numberWithFloat:theSize.width],
                                                                  [NSNumber numberWithFloat:theSize.height],
                                                                  nil];
-            if ( showMorphology || (theWordType < 20 && !showMorphology) )
+            if ( (showMorphology || (theWordType < 20  && !showMorphology)) &&
+                 (showStrongs    || (theWordType != 10 && !showStrongs))    &&
+                 (showInterlinear|| (theWordType != 5  && !showInterlinear))    )
             {
                 [theWordArray addObject:theWordElement]; 
             }
@@ -781,7 +826,7 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
                 }
                 
                 [searchPhrase appendString:@"TRIM(LOWER(bibleText)) LIKE \"%"];
-                [searchPhrase appendFormat:theWord];
+                [searchPhrase appendString:theWord];
                 [searchPhrase appendString:@"%\" ) "];
             }
         }
@@ -790,7 +835,7 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
             NSString *theWord = searchPhrase;
             searchPhrase = [@"" mutableCopy];
             [searchPhrase appendString:@"( TRIM(LOWER(bibleText)) LIKE \"%"];
-            [searchPhrase appendFormat:theWord];
+            [searchPhrase appendString:theWord];
             [searchPhrase appendString:@"%\" ) "];
         }
         //NSLog (@"Original: %@\nTransformed: %@", theTerm, searchPhrase);

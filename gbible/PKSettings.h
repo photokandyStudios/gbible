@@ -20,6 +20,8 @@
     @property BOOL transliterateText;
     @property BOOL showNotesInline;
     @property BOOL showMorphology;
+    @property BOOL showStrongs;
+    @property BOOL showInterlinear;
     @property BOOL useICloud;
     @property (strong, nonatomic) NSString *textFontFace;
     @property (strong, nonatomic) NSString *textGreekFontFace;//RE: ISSUE #6
