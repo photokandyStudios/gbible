@@ -33,7 +33,8 @@
                       @"Zephaniah", @"Haggai", @"Zechariah", @"Malachi",
                       // New Testament
                       @"Matthew", @"Mark", @"Luke", @"John", @"Acts", @"Romans", @"1 Corinthians",
-                      @"2 Corinthians", @"Galations", @"Ephesians", @"Philippians", @"Colossians",
+                      @"2 Corinthians", @"Galatians", // FIX ISSUE #44
+                      @"Ephesians", @"Philippians", @"Colossians",
                       @"1 Thessalonians", @"2 Thessalonians", @"1 Timothy", @"2 Timothy", @"Titus",
                       @"Philemon", @"Hebrews", @"James", @"1 Peter", @"2 Peter", @"1 John", @"2 John",
                       @"3 John", @"Jude", @"Revelation", nil];
