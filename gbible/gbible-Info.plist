@@ -55,11 +55,13 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.1.3953</string>
+	<string>1.1.3966</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>OpenDyslexic-Bold.otf</string>
+		<string>OpenDyslexic-Regular.otf</string>
 		<string>Pfennig.ttf</string>
 		<string>PfennigBold.ttf</string>
 		<string>NewsCycle-Regular.ttf</string>
