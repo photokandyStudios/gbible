@@ -1647,20 +1647,23 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 -(void) copySelection: (id)sender
 {
     NSMutableString *theText = [[NSMutableString alloc] init];
-    
-    for (NSString* key in selectedVerses)
+    // FIX ISSUE #43b
+    NSArray *allSelectedVerses = [[selectedVerses allKeys] sortedArrayUsingSelector:@selector(compare:)];
+    for (NSString* key in allSelectedVerses)
     {
         if ( [[selectedVerses objectForKey:key] boolValue])
         {
             int theVerse = [PKBible verseFromString:key];
             if (theVerse <= [currentEnglishChapter count] )
             {
-                [theText appendString:[currentEnglishChapter objectAtIndex:theVerse]];
+            // FIX ISSUE #43a
+                [theText appendString:[currentEnglishChapter objectAtIndex:theVerse-1]];
             }
             [theText appendString:@"\n"];
             if (theVerse <= [currentGreekChapter count])
             {
-                [theText appendString:[currentGreekChapter objectAtIndex:theVerse]];
+            // FIX ISSUE #43a
+                [theText appendString:[currentGreekChapter objectAtIndex:theVerse-1]];
             }
             
             int theBook = [[PKSettings instance] currentBook];
@@ -1720,6 +1723,8 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     UIReferenceLibraryViewController *dictionary = [[UIReferenceLibraryViewController alloc] initWithTerm:selectedWord];
     if (dictionary != nil)
     {
+        // FIX ISSUE #46
+        dictionary.modalPresentationStyle = UIModalPresentationFormSheet;
         [self presentModalViewController:dictionary animated:YES];
     }
     else
