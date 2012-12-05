@@ -88,6 +88,12 @@
         showStrongs     = [[self loadSetting: @"show-strongs"] boolValue];
         showInterlinear = [[self loadSetting: @"show-interlinear"] boolValue];
         useICloud       = [[self loadSetting: PK_SETTING_USEICLOUD] boolValue];
+      
+      //if the Bible selected is one we no longer support, change it to the new
+      //equivalent. Since these would all be non-parsed, turn strongs off.
+        if ( greekText == PK_BIBLETEXT_BYZ ) { greekText = PK_BIBLETEXT_BYZP; showStrongs = false; }
+        if ( greekText == PK_BIBLETEXT_TR  ) { greekText = PK_BIBLETEXT_TRP; showStrongs = false; }
+        if ( greekText == PK_BIBLETEXT_WH  ) { greekText = PK_BIBLETEXT_WHP; showStrongs = false; }
         
         currentBook     = [[self loadSetting: @"current-book"] intValue];
         currentChapter  = [[self loadSetting: @"current-chapter"] intValue];
