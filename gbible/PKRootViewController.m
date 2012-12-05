@@ -105,27 +105,27 @@
         UINavigationBar *navBar = [navBibleController navigationBar];
         if ([navBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
         {
-            [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
+            //[navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
             [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
             [UIColor whiteColor], UITextAttributeTextColor, nil]];
 
             navBar = [navSearchController navigationBar];
-            [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
+            //[navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
             [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
             [UIColor whiteColor], UITextAttributeTextColor, nil]];
 
             navBar = [navStrongsController navigationBar];
-            [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
+            //[navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
             [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
             [UIColor whiteColor], UITextAttributeTextColor, nil]];
 
             navBar = [navAboutController navigationBar];
-            [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
+            //[navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
             [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
             [UIColor whiteColor], UITextAttributeTextColor, nil]];
 
             navBar = [navSettingsController navigationBar];
-            [navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
+            //[navBar setBackgroundImage:[UIImage imageNamed:@"BlueNavigationBar.png"] forBarMetrics:UIBarMetricsDefault];
             [navBar setTitleTextAttributes:[[NSDictionary alloc] initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
             [UIColor whiteColor], UITextAttributeTextColor, nil]];
         }
@@ -136,10 +136,10 @@
         UITabBar *myTabBar = [self tabBar];
         if ([myTabBar respondsToSelector:@selector(setBackgroundImage:)])
         {
-            [myTabBar setBackgroundImage:[UIImage imageNamed:@"BlueTabBar.png"]];
+            //[myTabBar setBackgroundImage:[UIImage imageNamed:@"BlueTabBar.png"]];
             [myTabBar setSelectionIndicatorImage:[[UIImage alloc]init]];
             //[myTabBar setSelectionIndicatorImage:[UIImage imageNamed:@"BlueTabBarSelected.png"]];
-            myTabBar.tintColor = [UIColor colorWithWhite:0.85 alpha:1.0];
+            //myTabBar.tintColor = [UIColor colorWithWhite:0.85 alpha:1.0];
         }
         self.delegate = self;
                                                                 
