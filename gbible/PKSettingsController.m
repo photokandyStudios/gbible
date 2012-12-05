@@ -64,7 +64,7 @@
     [TestFlight passCheckpoint:@"SETTINGS"];
     [self.tableView setBackgroundView:nil];
     self.tableView.backgroundColor = PKPageColor;
-    NSArray * englishTypeface = [NSArray arrayWithObjects: @"AmericanTypewriter",
+    NSArray * englishTypeface = [NSArray arrayWithObjects: //@"AmericanTypewriter",
                                                          //@"Arial", 
                                                            @"Baskerville",
                                                            @"Georgia", 
@@ -72,9 +72,9 @@
                                                            @"HelveticaNeue",
                                                            @"Helvetica-Light",
                                                            @"HelveticaNeue-Light",
-                                                           @"HeoflerText",
+                                                           //@"HeoflerText",
                                                            @"Marion",
-                                                           @"NewsCycle",
+                                                           @"OpenDyslexic-Regular",
                                                            @"Optima",
                                                        //  @"Pfennig",
                                                            @"Verdana", nil];
@@ -88,7 +88,7 @@
                                                            @"HelveticaNeue-Bold",
                                                            @"Marion",
                                                            @"Marion-Bold",
-                                                           @"NewsCycle",
+                                                           @"OpenDyslexic-Bold",
                                                       //   @"Pfennig",
                                                       //   @"PfennigBold",
                                                            @"Verdana",
@@ -98,7 +98,7 @@
               englishTypeface = [NSArray arrayWithObjects: @"Baskerville",
                                                            @"Georgia", 
                                                            @"Helvetica",
-                                                           @"NewsCycle",
+                                                           @"OpenDyslexic-Regular",
                                                            @"Optima",
                                                            @"Verdana", nil];
             greekTypeface = [NSArray arrayWithObjects:     @"Baskerville",
@@ -106,7 +106,7 @@
                                                            @"Georgia-Bold",
                                                            @"Helvetica",
                                                            @"Helvetica-Bold",
-                                                           @"NewsCycle",
+                                                           @"OpenDyslexic-Bold",
                                                            @"Verdana",
                                                            @"Verdana-Bold", nil];                                                           
     
@@ -158,17 +158,20 @@
                                                                            [NSArray arrayWithObjects: @"Wide Greek Column", @"Wide English Column", @"Equal Columns", nil], nil ],
                                                 nil];
     textSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Greek Text", [NSNumber numberWithInt:3], PK_SETTING_GREEKTEXT, 
-                                                                           [NSArray arrayWithObjects: [NSNumber numberWithInt:PK_BIBLETEXT_BYZ],
+                                                                           [NSArray arrayWithObjects: //[NSNumber numberWithInt:PK_BIBLETEXT_BYZ],
                                                                                                       [NSNumber numberWithInt:PK_BIBLETEXT_BYZP],
                                                                                                       [NSNumber numberWithInt:PK_BIBLETEXT_TIS],
-                                                                                                      [NSNumber numberWithInt:PK_BIBLETEXT_TR],
+                                                                                                      //[NSNumber numberWithInt:PK_BIBLETEXT_TR],
                                                                                                       [NSNumber numberWithInt:PK_BIBLETEXT_TRP],
-                                                                                                      [NSNumber numberWithInt:PK_BIBLETEXT_WH],
+                                                                                                      //[NSNumber numberWithInt:PK_BIBLETEXT_WH],
                                                                                                       [NSNumber numberWithInt:PK_BIBLETEXT_WHP], nil],
-                                                                           [NSArray arrayWithObjects: @"Byzantine", @"Byzantine (Parsed)",
+                                                                           [NSArray arrayWithObjects: //@"Byzantine",
+                                                                           @"Byzantine (Parsed)",
                                                                                                       @"Tischendorf 8th ed.",
-                                                                                                      @"Textus Receptus", @"Textus Receptus (Parsed)",
-                                                                                                      @"Westcott-Hort", @"Westcott-Hort (Parsed)", nil], nil],
+                                                                                                      //@"Textus Receptus",
+                                                                                                      @"Textus Receptus (Parsed)",
+                                                                                                      //@"Westcott-Hort",
+                                                                                                      @"Westcott-Hort (Parsed)", nil], nil],
                                               [NSArray arrayWithObjects: @"English Text", [NSNumber numberWithInt:3], PK_SETTING_ENGLISHTEXT, 
                                                                            [NSArray arrayWithObjects: [NSNumber numberWithInt:PK_BIBLETEXT_KJV],
                                                                                                       [NSNumber numberWithInt:PK_BIBLETEXT_YLT], nil],
@@ -402,6 +405,8 @@
                 cell.detailTextLabel.text = [ (PKSettings *)[PKSettings instance] loadSetting:[cellData objectAtIndex:2] ];
                 break;
         case 2: // here we want to display a checkbox if YES; none if NO
+                // FIX ISSUE #48
+                cell.detailTextLabel.text = @"";
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 if ( [ [ (PKSettings *)[PKSettings instance] loadSetting:[cellData objectAtIndex:2] ] boolValue] )
                 {
