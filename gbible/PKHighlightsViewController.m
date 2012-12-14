@@ -12,6 +12,7 @@
 #import "ZUUIRevealController.h"
 #import "PKBibleViewController.h"
 #import "PKRootViewController.h"
+#import "PKSettings.h"
 
 @interface PKHighlightsViewController ()
 
@@ -50,12 +51,12 @@
 	// Do any additional setup after loading the view.
     [TestFlight passCheckpoint:@"HIGHLIGHTS"];
     self.tableView.backgroundView = nil; 
-    self.tableView.backgroundColor = PKSelectionColor;
+    self.tableView.backgroundColor = [PKSettings PKSelectionColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     CGRect theRect = CGRectMake(0, self.tableView.center.y + 20, 260, 60);
     noResults = [[UILabel alloc] initWithFrame:theRect];
-    noResults.textColor = PKTextColor;
+    noResults.textColor = [PKSettings PKTextColor];
     noResults.font = [UIFont fontWithName:@"Zapfino" size:15];
     noResults.textAlignment = UITextAlignmentCenter;
     noResults.backgroundColor = [UIColor clearColor];
@@ -85,6 +86,13 @@
         noResults.text = @"";
     }
 }
+-(void) updateAppearanceForTheme
+{
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [PKSettings PKSidebarPageColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView reloadData];
+}
 
 /**
  *
@@ -97,6 +105,7 @@
     newFrame.size.width = 260;
     self.navigationController.view.frame = newFrame;
     [self reloadHighlights];
+    [self updateAppearanceForTheme];
 }
 
 /**

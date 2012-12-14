@@ -42,6 +42,8 @@
     
     @property (readwrite, strong, nonatomic) UIColor *highlightColor;
     @property (readwrite, strong, nonatomic) NSString *highlightTextColor;
+
+    @property (readwrite) int textTheme;
     
     +(id) instance;
     -(NSString *) loadSetting: (NSString *)theSetting;
@@ -53,4 +55,24 @@
     -(BOOL) createDefaultSettings;
     -(void) dealloc;
 
+    +(UIColor *)PKSidebarSelectionColor;
+    +(UIColor *)PKSidebarPageColor;
+    +(UIColor *)PKSidebarTextColor;
+
+    +(UIColor *)PKSelectionColor;
+    +(UIColor *)PKWordSelectColor;
+    +(UIColor *)PKPageColor;
+    +(UIColor *)PKTextColor;
+    +(UIColor *)PKStrongsColor;
+    +(UIColor *)PKMorphologyColor;
+    +(UIColor *)PKInterlinearColor;
+    +(UIColor *)PKAnnotationColor;
+    +(UIColor *)PKLightShadowColor;
+    +(UIColor *)PKYellowHighlightColor;
+    +(UIColor *)PKGreenHighlightColor;
+    +(UIColor *)PKBlueHighlightColor;
+    +(UIColor *)PKPinkHighlightColor;
+    +(UIColor *)PKMagentaHighlightColor;
+    +(UIColor *)PKBaseUIColor;
 @end
+

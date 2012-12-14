@@ -12,6 +12,7 @@
 #import "PKSettingsController.h"
 #import "PKStrongsController.h"
 #import "PKSearchViewController.h"
+#import "PKSettings.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -171,7 +172,7 @@
     [self.view addSubview:topShadow];
     [self.view addSubview:bottomShadow];
     
-    self.view.backgroundColor = PKBaseUIColor;
+    self.view.backgroundColor = [PKSettings PKBaseUIColor];
     
     self.selectedIndex = 0;
 

@@ -9,6 +9,7 @@
 #import "PKAboutViewController.h"
 #import "ZUUIRevealController.h"
 #import "PKRootViewController.h"
+#import "PKSettings.h"
 
 @interface PKAboutViewController ()
 
@@ -65,7 +66,7 @@
 
     if ([changeReference respondsToSelector:@selector(setTintColor:)])
     {
-        changeReference.tintColor = PKBaseUIColor;
+        changeReference.tintColor = [PKSettings PKBaseUIColor];
     }
     changeReference.accessibilityLabel = @"Go to passage";
     self.navigationItem.leftBarButtonItem = changeReference;

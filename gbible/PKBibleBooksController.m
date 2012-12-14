@@ -9,6 +9,7 @@
 #import "PKBibleBooksController.h"
 #import "PKBibleBookChaptersViewController.h"
 #import "PKBible.h"
+#import "PKSettings.h"
 
 @interface PKBibleBooksController ()
 
@@ -47,8 +48,8 @@
     [TestFlight passCheckpoint:@"BIBLE_BOOKS"];
     
 
-    self.tableView.backgroundView = nil; 
-    self.tableView.backgroundColor = PKSelectionColor;
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [PKSettings PKSelectionColor];
     //PKBaseUIColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.title = @"Goto";
@@ -57,6 +58,15 @@
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 
 }
+
+-(void) updateAppearanceForTheme
+{
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [PKSettings PKSidebarPageColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView reloadData];
+}
+
 
 /**
  *
@@ -68,6 +78,7 @@
     CGRect newFrame = self.navigationController.view.frame;
     newFrame.size.width = 260;
     self.navigationController.view.frame = newFrame;
+  [self updateAppearanceForTheme];
 }
 
 - (void)viewDidUnload
@@ -141,6 +152,7 @@
     NSUInteger row = [indexPath row];
     
     cell.textLabel.text = [PKBible nameForBook: row + 40];  // get book name
+    cell.textLabel.textColor = [PKSettings PKSidebarTextColor];
 //    cell.textLabel.textColor = [UIColor whiteColor];
 //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     

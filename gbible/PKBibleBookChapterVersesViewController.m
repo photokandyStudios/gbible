@@ -11,6 +11,7 @@
 #import "PKBibleViewController.h"
 #import "PKRootViewController.h"
 #import "ZUUIRevealController.h"
+#import "PKSettings.h"
 
 @interface PKBibleBookChapterVersesViewController ()
 
@@ -51,11 +52,22 @@
 	// Do any additional setup after loading the view.
     [TestFlight passCheckpoint:@"BIBLE_BOOK_CHAPTER_VERSES"];
     [self.tableView setBackgroundView:nil];
-    self.tableView.backgroundColor = PKSelectionColor;
+    self.tableView.backgroundColor = [PKSettings PKSelectionColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.title = @"Select Verse";
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+}
+-(void) updateAppearanceForTheme
+{
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [PKSettings PKSidebarPageColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView reloadData];
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+  [self updateAppearanceForTheme];
 }
 
 - (void)viewDidUnload
@@ -111,7 +123,7 @@
     NSUInteger row = [indexPath row];
     
     cell.textLabel.text = [[PKBible nameForBook: selectedBook] stringByAppendingFormat:@" %i:%i",selectedChapter, row + 1];  // get book + chapter
-    //cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.textColor = [PKSettings PKSidebarTextColor];
     
     return cell;
 }

@@ -89,7 +89,7 @@
     theSearchBar.delegate = self;
     theSearchBar.placeholder = @"Search Term";
     theSearchBar.showsCancelButton = NO;
-    theSearchBar.tintColor = PKBaseUIColor;
+    theSearchBar.tintColor = [PKSettings PKBaseUIColor];
 
     
     self.tableView.tableHeaderView = theSearchBar;
@@ -114,14 +114,14 @@
 
     if ([changeReference respondsToSelector:@selector(setTintColor:)])
     {
-        changeReference.tintColor = PKBaseUIColor;
+        changeReference.tintColor = [PKSettings PKBaseUIColor];
     }
     changeReference.accessibilityLabel = @"Go to passage";
     self.navigationItem.leftBarButtonItem = changeReference;
 
     CGRect theRect = CGRectMake(0, self.tableView.center.y + 40, self.tableView.bounds.size.width, 60);
     noResults = [[UILabel alloc] initWithFrame:theRect];
-    noResults.textColor = PKTextColor;
+    noResults.textColor = [PKSettings PKTextColor];
     noResults.font = [UIFont fontWithName:@"Zapfino" size:15];
     noResults.textAlignment = UITextAlignmentCenter;
     noResults.backgroundColor = [UIColor clearColor];
@@ -130,16 +130,25 @@
     noResults.numberOfLines = 0;
     [self.view addSubview:noResults];
 
-    self.tableView.backgroundColor = PKPageColor;
+    self.tableView.backgroundColor = [PKSettings PKPageColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     [self doSearchForTerm:self.theSearchTerm];
 }
 
+-(void) updateAppearanceForTheme
+{
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [PKSettings PKPageColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.rowHeight = 100;
+    [self.tableView reloadData];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     // reload the search? TODO
-    [self.tableView reloadData];
+    [self updateAppearanceForTheme ];
 }
 
 - (void)viewDidUnload
@@ -227,25 +236,42 @@
     if (!cell)
     {
         cell = [[UITableViewCell alloc]
-                initWithStyle:UITableViewCellStyleSubtitle
+                initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:searchCellID];
     }
-    
+
+    // need to remove the cell's subviews, if they exist...
+    for (UIView *view in cell.subviews)
+    {
+        [view removeFromSuperview];
+    }
+  
     NSUInteger row = [indexPath row];
     
     NSString *thePassage = [theSearchResults objectAtIndex:row];
     int theBook = [PKBible bookFromString:thePassage];
     int theChapter = [PKBible chapterFromString:thePassage];
     int theVerse = [PKBible verseFromString:thePassage];
+  
+    CGFloat theCellWidth = (self.tableView.bounds.size.width);
+    CGFloat theColumnWidth = (theCellWidth) / 2;
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ %i:%@", 
+    // now create the new subviews
+    UILabel *theLeftSide = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, theColumnWidth-40, 80)];
+    theLeftSide.text = [NSString stringWithFormat:@"%@ %i:%@", 
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
                                                     [PKBible getTextForBook:theBook 
                                                                  forChapter:theChapter 
                                                                    forVerse:theVerse 
                                                                     forSide:2]];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %i:%i - %@", 
+    theLeftSide.textColor = [PKSettings PKTextColor];
+    theLeftSide.numberOfLines=4;
+    theLeftSide.backgroundColor = [UIColor clearColor];
+    [theLeftSide sizeToFit];
+
+    UILabel *theRightSide = [[UILabel alloc] initWithFrame:CGRectMake(theColumnWidth+20, 10, theColumnWidth-40, 80)];
+    theRightSide.text = [NSString stringWithFormat:@"%@ %i:%i - %@",
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
                                                     theVerse,
@@ -254,6 +280,13 @@
                                                                    forVerse:theVerse 
                                                                     forSide:1]];
     
+    theRightSide.textColor = [PKSettings PKTextColor];
+    theRightSide.numberOfLines=4;
+    theRightSide.backgroundColor = [UIColor clearColor];
+    [theRightSide sizeToFit];
+  
+    [cell addSubview:theLeftSide];
+    [cell addSubview:theRightSide];
     return cell;
 }
 

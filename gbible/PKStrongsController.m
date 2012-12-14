@@ -90,7 +90,7 @@
     theSearchBar.delegate = self;
     theSearchBar.placeholder = @"Strong's # or search term";
     theSearchBar.showsCancelButton = NO;
-    theSearchBar.tintColor = PKBaseUIColor;
+    theSearchBar.tintColor = [PKSettings PKBaseUIColor];
 
     UISwipeGestureRecognizer *swipeRight=[[UISwipeGestureRecognizer alloc]
                                           initWithTarget:self action:@selector(didReceiveRightSwipe:)];
@@ -114,14 +114,14 @@
 
     if ([changeReference respondsToSelector:@selector(setTintColor:)])
     {
-        changeReference.tintColor = PKBaseUIColor;
+        changeReference.tintColor = [PKSettings PKBaseUIColor];
     }
     changeReference.accessibilityLabel = @"Go to passage";
     self.navigationItem.leftBarButtonItem = changeReference;
 
     CGRect theRect = CGRectMake(0, self.tableView.center.y + 40, self.tableView.bounds.size.width, 60);
     noResults = [[UILabel alloc] initWithFrame:theRect];
-    noResults.textColor = PKTextColor;
+    noResults.textColor = [PKSettings PKTextColor];
     noResults.font = [UIFont fontWithName:@"Zapfino" size:15];
     noResults.textAlignment = UITextAlignmentCenter;
     noResults.backgroundColor = [UIColor clearColor];
@@ -131,16 +131,23 @@
     [self.view addSubview:noResults];
         
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.backgroundColor = PKPageColor;
+    self.tableView.backgroundColor = [PKSettings PKPageColor];
 
 //    [self doSearchForTerm:self.theSearchTerm];
     theSearchBar.text = self.theSearchTerm;
+}
+-(void) updateAppearanceForTheme
+{
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [PKSettings PKPageColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     // reload the search? TODO
-    [self.tableView reloadData];
+    [self updateAppearanceForTheme];
 }
 
 - (void)viewDidUnload
@@ -272,7 +279,7 @@
     // now create the new subviews
     UILabel *theStrongsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, theColumnWidth, 20)];
     theStrongsLabel.text = [theSearchResults objectAtIndex:row];
-    theStrongsLabel.textColor = PKStrongsColor;
+    theStrongsLabel.textColor = [PKSettings PKStrongsColor];
     theStrongsLabel.font = [UIFont fontWithName:@"Helvetica" size:22];
     theStrongsLabel.backgroundColor = [UIColor clearColor];
     
@@ -281,7 +288,7 @@
     UILabel *theLemmaLabel = [[UILabel alloc] initWithFrame:CGRectMake(theColumnWidth+20, 10, theColumnWidth, 20)];
     theLemmaLabel.text = [theResult objectAtIndex:2];
     theLemmaLabel.textAlignment = UITextAlignmentRight;
-    theLemmaLabel.textColor = [UIColor blackColor];
+    theLemmaLabel.textColor = [PKSettings PKTextColor];
     theLemmaLabel.font = [UIFont fontWithName:@"Helvetica" size:22];
     theLemmaLabel.backgroundColor = [UIColor clearColor];
     
@@ -290,7 +297,7 @@
     CGSize theSize = [[theResult objectAtIndex:1] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:16] constrainedToSize:maxSize];
     UILabel *theDerivationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, theCellWidth, theSize.height)];
     theDerivationLabel.text = [theResult objectAtIndex:1];
-    theDerivationLabel.textColor = PKTextColor;
+    theDerivationLabel.textColor = [PKSettings PKTextColor];
     theDerivationLabel.font = [UIFont fontWithName:@"Helvetica" size:16];
     theDerivationLabel.lineBreakMode = UILineBreakModeWordWrap;
     theDerivationLabel.numberOfLines = 0;
@@ -300,7 +307,7 @@
     UILabel *theKJVLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 50 + theSize.height, 
                                                                      theCellWidth, theKJVSize.height)];
     theKJVLabel.text = [theResult objectAtIndex:3];
-    theKJVLabel.textColor = PKTextColor;
+    theKJVLabel.textColor = [PKSettings PKTextColor];
     theKJVLabel.font = [UIFont fontWithName:@"Helvetica" size:16];
     theKJVLabel.lineBreakMode = UILineBreakModeWordWrap;
     theKJVLabel.numberOfLines  = 0;
@@ -310,7 +317,7 @@
     UILabel *theStrongsDefLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 50 + theSize.height + 10 + theKJVSize.height,
                                                                      theCellWidth, theStrongsSize.height)];
     theStrongsDefLabel.text = [theResult objectAtIndex:4];
-    theStrongsDefLabel.textColor = PKTextColor;
+    theStrongsDefLabel.textColor = [PKSettings PKTextColor];
     theStrongsDefLabel.font = [UIFont fontWithName:@"Helvetica" size:16];
     theStrongsDefLabel.lineBreakMode = UILineBreakModeWordWrap;
     theStrongsDefLabel.numberOfLines =0 ;

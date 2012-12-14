@@ -56,3 +56,8 @@ NSString * const PK_SETTING_FONTSIZE     = @"font-size";
 NSString * const PK_SETTING_FONTFACE     = @"font-face";
 NSString * const PK_SETTING_USEICLOUD    = @"icloud-enabled";
 
+// color themes
+int const PK_TT_ORIGINAL = 0;
+int const PK_TT_BLACK_ON_WHITE = 1;
+int const PK_TT_WHITE_ON_BLACK = 2;
+int const PK_TT_AMBER_ON_BLACK = 3;

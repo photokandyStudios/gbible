@@ -16,6 +16,7 @@
 #import "PKNotesViewController.h"
 #import "PKRootViewController.h"
 #import "PKBibleViewController.h"
+#import "PKBibleBooksController.h"
 
 
 @interface PKSettingsController ()
@@ -51,6 +52,16 @@
     return self;
 }
 
+- (void) updateAppearanceForTheme
+{
+  [self.tableView setBackgroundView:nil];
+  self.tableView.backgroundColor = [PKSettings PKPageColor];
+  self.tableView.sectionIndexColor = [PKSettings PKTextColor];
+  self.tableView.separatorColor = [PKSettings PKTextColor];
+  self.tableView.sectionHeaderHeight = 60;
+  self.tableView.sectionFooterHeight = 60;
+  [self.tableView reloadData];
+}
 /**
  *
  * Called when the view has finished loading. Here we create our 
@@ -63,7 +74,7 @@
 	// Do any additional setup after loading the view.
     [TestFlight passCheckpoint:@"SETTINGS"];
     [self.tableView setBackgroundView:nil];
-    self.tableView.backgroundColor = PKPageColor;
+    self.tableView.backgroundColor = [PKSettings PKPageColor];
     NSArray * englishTypeface = [NSArray arrayWithObjects: //@"AmericanTypewriter",
                                                          //@"Arial", 
                                                            @"Baskerville",
@@ -111,7 +122,12 @@
                                                            @"Verdana-Bold", nil];                                                           
     
     }
-    layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"English Typeface", [NSNumber numberWithInt:1], PK_SETTING_FONTFACE, 
+    layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Theme", @3, @"text-theme",
+                                                                           @[@0,@1,@2,@3],
+                                                                           @[@"Original", @"Black on White",
+                                                                             @"White on Black", @"Amber on Black"]
+                                                                           ,nil],
+                                                [NSArray arrayWithObjects: @"English Typeface", [NSNumber numberWithInt:1], PK_SETTING_FONTFACE,
                                                                            englishTypeface, nil],
                                                 [NSArray arrayWithObjects: @"Greek Typeface", [NSNumber numberWithInt:1], @"greek-typeface", //RE: ISSUE #6
                                                                            greekTypeface, nil],
@@ -219,7 +235,7 @@
 
     if ([changeReference respondsToSelector:@selector(setTintColor:)])
     {
-        changeReference.tintColor = PKBaseUIColor;
+        changeReference.tintColor = [PKSettings PKBaseUIColor];
     }
     changeReference.accessibilityLabel = @"Go to passage";
     self.navigationItem.leftBarButtonItem = changeReference;
@@ -275,6 +291,8 @@
     PKBibleViewController *bvc = [[[pvc.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];
     bvc.dirty = YES;
     [self calculateShadows];
+    [super viewDidAppear:animated];
+    [self updateAppearanceForTheme];
 }
 -(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
@@ -373,6 +391,44 @@
     return [[self.settingsGroup objectAtIndex:section] count];
 }
 
+
+// from http://www.randycrafton.com/2010/09/changing-the-text-color-of-a-grouped-uitableviews-section-header/
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section 
+{
+	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 60)];
+	//tableView.sectionHeaderHeight = headerView.frame.size.height;
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(40, 00, headerView.frame.size.width - 80, 20)];
+	label.text = [self tableView:tableView titleForHeaderInSection:section];
+	label.font = [UIFont boldSystemFontOfSize:16.0];
+  label.textAlignment = NSTextAlignmentLeft;
+	//label.shadowOffset = CGSizeMake(0, 1);
+	//label.shadowColor = [UIColor whiteColor];
+	label.backgroundColor = [UIColor clearColor];
+ 
+	label.textColor = [PKSettings PKTextColor];
+ 
+	[headerView addSubview:label];
+	return headerView;
+}
+
+- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 60)];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(40, 10, footerView.frame.size.width - 80, 40)];
+	label.text = [self tableView:tableView titleForFooterInSection:section];
+   label.numberOfLines =2;
+  label.textAlignment = NSTextAlignmentCenter;
+	label.font = [UIFont systemFontOfSize:14.0];
+	//label.shadowOffset = CGSizeMake(0, 1);
+	//label.shadowColor = [UIColor whiteColor];
+	label.backgroundColor = [UIColor clearColor];
+ 
+	label.textColor = [PKSettings PKTextColor];
+ 
+	[footerView addSubview:label];
+	return footerView;
+}
+
 /**
  *
  * Generate the cell for a given index path. This cell will be based on our settings array defined
@@ -389,11 +445,17 @@
                 initWithStyle:UITableViewCellStyleValue1
                 reuseIdentifier:settingsCellID];
     }
+  
+    cell.backgroundColor = [PKSettings PKPageColor];
+    cell.detailTextLabel.textColor = [PKSettings PKTextColor];
+  
     NSUInteger section = [indexPath section];
     NSUInteger row = [indexPath row];
     NSArray *cellData = [[settingsGroup objectAtIndex:section] objectAtIndex:row];
     
     cell.textLabel.text = [cellData objectAtIndex:0];
+    cell.textLabel.textColor = [PKSettings PKTextColor];
+  
     cell.accessoryType = UITableViewCellAccessoryNone;
     switch ( [[cellData objectAtIndex:1] intValue] )
     {
@@ -572,6 +634,21 @@
                 [[PKSettings instance] reloadSettings];
                 theTableCell.detailTextLabel.text = selectedValue;
                 break;
+    }
+    if ([cellData objectAtIndex:2] == @"text-theme")
+    {
+      [self updateAppearanceForTheme];
+//      SegmentsController *asg = [[PKAppDelegate instance] segmentController];
+ //     ZUUIRevealController *rvc = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
+     
+//      [[[[[rvc.rearViewController.view subviews] objectAtIndex:0] subviews] objectAtIndex:0]   performSelector:@selector(updateAppearanceForTheme)];
+//      [[[[[[[[[[[[PKAppDelegate instance] rootViewController] rearViewController] subviews] objectAtIndex:0] subviews] objectAtIndex:0] subviews] objectAtIndex:0] subviews] objectAtIndex:0] updateAppearanceForTheme];
+//      [((PKBibleBooksController *)[asg.viewControllers objectAtIndex:0]).presentedViewController performSelector:@selector(updateAppearanceForTheme)];
+      [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:0] updateAppearanceForTheme];
+      [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:1] updateAppearanceForTheme];
+      [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:2] updateAppearanceForTheme];
+      [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:3] updateAppearanceForTheme];
+
     }
     
 

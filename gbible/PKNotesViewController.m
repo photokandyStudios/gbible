@@ -12,6 +12,7 @@
 #import "ZUUIRevealController.h"
 #import "PKBibleViewController.h"
 #import "PKRootViewController.h"
+#import "PKSettings.h"
 
 @interface PKNotesViewController ()
 
@@ -45,6 +46,14 @@
     }
     return self;
 }
+-(void) updateAppearanceForTheme
+{
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [PKSettings PKSidebarPageColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.rowHeight = 100;
+    [self.tableView reloadData];
+}
 
 - (void)viewDidLoad
 {
@@ -52,12 +61,12 @@
 	// Do any additional setup after loading the view.
     [TestFlight passCheckpoint:@"ANNOTATIONS"];
     self.tableView.backgroundView = nil; 
-    self.tableView.backgroundColor = PKSelectionColor;
+    self.tableView.backgroundColor = [PKSettings PKSelectionColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     CGRect theRect = CGRectMake(0, self.tableView.center.y + 20, 260, 60);
     noResults = [[UILabel alloc] initWithFrame:theRect];
-    noResults.textColor = PKTextColor; //[UIColor whiteColor];
+    noResults.textColor = [PKSettings PKTextColor]; //[UIColor whiteColor];
     noResults.font = [UIFont fontWithName:@"Zapfino" size:15];
     noResults.textAlignment = UITextAlignmentCenter;
     noResults.backgroundColor = [UIColor clearColor];
@@ -80,6 +89,7 @@
     newFrame.size.width = 260;
     self.navigationController.view.frame = newFrame;
     [self reloadNotes];
+    [self updateAppearanceForTheme];
 }
 
 
@@ -166,9 +176,11 @@
     NSString *theNote = [theNoteArray objectAtIndex:1];
                                            
     cell.textLabel.text = theTitle;
-    //cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.textColor = [PKSettings PKSidebarTextColor];
     cell.detailTextLabel.text = theNote;
-    //cell.detailTextLabel.textColor = [UIColor whiteColor];
+    cell.detailTextLabel.textColor = [PKSettings PKSidebarTextColor];
+    cell.detailTextLabel.numberOfLines=4;
+    [cell.detailTextLabel sizeToFit];
 
     return cell;
 }

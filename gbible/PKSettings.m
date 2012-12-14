@@ -42,6 +42,8 @@
     
     @synthesize highlightColor;
     @synthesize highlightTextColor;
+
+    @synthesize textTheme;
     
     static id _instance;
 
@@ -61,7 +63,16 @@
         }
         return _instance;
     }
-    
+
+-(id) init
+{
+    self = [super init];
+    if (self)
+    {
+      self.textTheme = 0; // ensure that we've got a 0 here if no settings have been loaded
+    }
+    return self;
+}
 /**
  *
  * Reloads all the settings from the database. If the settings don't exist (this might be
@@ -122,6 +133,9 @@
         highlightColor = [UIColor colorWithRed:[[theColorArray objectAtIndex:0] floatValue]
                                    green:[[theColorArray objectAtIndex:1] floatValue] 
                                     blue:[[theColorArray objectAtIndex:2] floatValue] alpha:1.0];
+      
+        textTheme = [self loadSetting:@"text-theme"] == @"" ? 0 :
+                    [[self loadSetting:@"text-theme"] intValue];
         
     }
     
@@ -309,8 +323,10 @@
             oldNote = @"";
             currentNote = @"";
             
-            highlightColor = PKYellowHighlightColor;
+            highlightColor = [PKSettings PKYellowHighlightColor];
             highlightTextColor = @"Yellow";
+          
+            textTheme = 0;
             
             [self saveSettings];
             // done, return success or failure
@@ -335,4 +351,181 @@
         highlightTextColor = nil;
         textGreekFontFace = nil;
     }
+
+/**
+ *
+ * Class colors; specific to the theme
+ *
+ */
+
++(UIColor *)PKSidebarSelectionColor
+{
+    NSArray *theColors = @[ [UIColor colorWithRed:0.8125 green:0.800781 blue:0.773437 alpha:1.0],
+                            [UIColor colorWithRed:0.350 green:0.600 blue:0.850 alpha:1.0],
+                            [UIColor colorWithRed:0.875 green:0.9325 blue:1.0 alpha:1.0],
+                            [UIColor colorWithRed:0.875 green:0.9325 blue:1.0 alpha:1.0]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
++(UIColor *)PKSidebarPageColor
+{
+    NSArray *theColors = @[ [UIColor colorWithRed:0.8125 green:0.800781 blue:0.773437 alpha:1.0],
+                            [UIColor colorWithWhite:0.90 alpha:1],
+                            [UIColor colorWithWhite:0.11 alpha:1],
+                            [UIColor colorWithWhite:0.11 alpha:1]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
++(UIColor *)PKSidebarTextColor
+{
+    NSArray *theColors = @[ [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0],
+                            [UIColor colorWithWhite:0.10 alpha:1],
+                            [UIColor colorWithWhite:0.65 alpha:1.0],
+                            [UIColor colorWithRed:0.65 green:0.50 blue:0.00 alpha:1.0]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
+
++(UIColor *)PKSelectionColor
+{
+    NSArray *theColors = @[ [UIColor colorWithRed:0.8125 green:0.800781 blue:0.773437 alpha:1.0],
+                            [UIColor colorWithRed:0.350 green:0.600 blue:0.850 alpha:1.0],
+                            [UIColor colorWithRed:0.05 green:0.05 blue:0.125 alpha:1.0],
+                            [UIColor colorWithRed:0.05 green:0.05 blue:0.125 alpha:1.0]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
++(UIColor *)PKWordSelectColor
+{
+    NSArray *theColors = @[ [UIColor whiteColor],
+                            [UIColor whiteColor],
+                            [UIColor whiteColor],
+                            [UIColor whiteColor]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
++(UIColor *)PKPageColor
+{
+    NSArray *theColors = @[ [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1],
+                            [UIColor colorWithWhite:0.90 alpha:1],
+                            [UIColor colorWithWhite:0.10 alpha:1],
+                            [UIColor colorWithWhite:0.10 alpha:1]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
++(UIColor *)PKTextColor
+{
+    NSArray *theColors = @[ [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0],
+                            [UIColor colorWithWhite:0.10 alpha:1],
+                            [UIColor colorWithWhite:0.65 alpha:1.0],
+                            [UIColor colorWithRed:0.65 green:0.50 blue:0.00 alpha:1.0]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
++(UIColor *)PKStrongsColor
+{
+    NSArray *theColors = @[ [UIColor colorWithRed:0.125490 green:0.250980 blue:0.341176 alpha:1.0],
+                            [UIColor colorWithRed:0.10 green:0.10 blue:0.4 alpha:1.0],
+                            [UIColor colorWithRed:0.4 green:0.4 blue:0.65 alpha:1.0],
+                            [UIColor colorWithRed:0.56 green:0.43 blue:0.0 alpha:1.0]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
++(UIColor *)PKMorphologyColor
+{
+    NSArray *theColors = @[ [UIColor colorWithRed:0.188235 green:0.341176 blue:0.125490 alpha:1.0],
+                            [UIColor colorWithRed:0.10 green:0.4 blue:0.10 alpha:1.0],
+                            [UIColor colorWithRed:0.4 green:0.65 blue:0.4 alpha:1.0],
+                            [UIColor colorWithRed:0.56 green:0.43 blue:0.0 alpha:1.0]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
++(UIColor *)PKInterlinearColor
+{
+    NSArray *theColors = @[ [UIColor colorWithRed:0.333333 green:0.333333 blue:0.333333 alpha:1.0],
+                            [UIColor colorWithRed:0.40 green:0.10 blue:0.10 alpha:1.0],
+                            [UIColor colorWithRed:0.65 green:0.4 blue:0.4 alpha:1.0],
+                            [UIColor colorWithRed:0.56 green:0.43 blue:0.0 alpha:1.0]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
++(UIColor *)PKAnnotationColor
+{
+    NSArray *theColors = @[ [UIColor colorWithRed:0.313725 green:0.125490 blue:0.380392 alpha:1.0],
+                            [UIColor colorWithRed:0.25 green:0.25 blue:0.25 alpha:1.0],
+                            [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:1.0],
+                            [UIColor colorWithRed:0.56 green:0.43 blue:0.0 alpha:1.0]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
++(UIColor *)PKLightShadowColor
+{
+    NSArray *theColors = @[ [UIColor colorWithWhite:1.0 alpha:0.5],
+                            [UIColor colorWithWhite:1.0 alpha:0.5],
+                            [UIColor colorWithWhite:0.0 alpha:0.75],
+                            [UIColor colorWithWhite:0.0 alpha:0.75]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+    return [UIColor colorWithWhite:1.0 alpha:0.25];
+}
+
++(UIColor *)PKYellowHighlightColor
+{
+    return [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:0.5];
+}
+
++(UIColor *)PKGreenHighlightColor
+{
+    return [UIColor colorWithRed:0.5 green:1.0 blue:0.5 alpha:0.5];
+}
+
++(UIColor *)PKBlueHighlightColor
+{
+    return [UIColor colorWithRed:0.5 green:0.75 blue:1.0 alpha:0.5];
+}
+
++(UIColor *)PKPinkHighlightColor
+{
+    return [UIColor colorWithRed:1.0 green:0.75 blue:0.75 alpha:0.5];
+}
+
++(UIColor *)PKMagentaHighlightColor
+{
+    return [UIColor colorWithRed:1.0 green:0.5 blue:1.0 alpha:0.5];
+}
+
++(UIColor *)PKBaseUIColor
+{
+    NSArray *theColors = @[ [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0],
+                            [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0],
+                            [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0],
+                            [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
 @end
