@@ -33,11 +33,15 @@
 		6A12F6DD151E979D00B49B6E /* Listb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A12F6DB151E979D00B49B6E /* Listb@2x.png */; };
 		6A12F6EE151ED75B00B49B6E /* ZUUIRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A12F6ED151ED75B00B49B6E /* ZUUIRevealController.m */; };
 		6A12F6F2151EDF0800B49B6E /* SegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A12F6F1151EDA9100B49B6E /* SegmentsController.m */; };
+		6A136911167B176E001A1C7C /* libiOSHierarchyViewer_fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A136910167B176E001A1C7C /* libiOSHierarchyViewer_fat.a */; };
 		6A21635F1530EE3600D41447 /* PKHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A21635E1530EE3600D41447 /* PKHistory.m */; };
 		6A2163701530F7E700D41447 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21636F1530F7E700D41447 /* about.html */; };
 		6A21637215338DDE00D41447 /* parsings.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21637115338DDE00D41447 /* parsings.html */; };
 		6A2163741533A21F00D41447 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A2163731533A21F00D41447 /* Default-Landscape@2x~ipad.png */; };
 		6A2163761533A22700D41447 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A2163751533A22600D41447 /* Default-Portrait@2x~ipad.png */; };
+		6A3172B4167B15BF00C94DD1 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A3172B0167B15BF00C94DD1 /* libTestFlight.a */; };
+		6A3172B5167B15BF00C94DD1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 6A3172B1167B15BF00C94DD1 /* README.md */; };
+		6A3172B6167B15BF00C94DD1 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 6A3172B2167B15BF00C94DD1 /* release_notes.md */; };
 		6A3DCDD7154A5DF3009CE7C9 /* ArrowLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3DCDD3154A5DF3009CE7C9 /* ArrowLeft.png */; };
 		6A3DCDD8154A5DF3009CE7C9 /* ArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3DCDD4154A5DF3009CE7C9 /* ArrowLeft@2x.png */; };
 		6A3DCDD9154A5DF3009CE7C9 /* ArrowRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3DCDD5154A5DF3009CE7C9 /* ArrowRight.png */; };
@@ -102,9 +106,6 @@
 		6A9B86C21543A5CD00E4ABC0 /* Swipe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */; };
 		6A9B86C31543A5CD00E4ABC0 /* Wait.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BF1543A5CD00E4ABC0 /* Wait.png */; };
 		6A9B86C41543A5CD00E4ABC0 /* Wait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */; };
-		6AABABC5153FC8B200FCBAB9 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AABABC1153FC8B200FCBAB9 /* libTestFlight.a */; };
-		6AABABC6153FC8B300FCBAB9 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6AABABC2153FC8B200FCBAB9 /* README.txt */; };
-		6AABABC7153FC8B300FCBAB9 /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6AABABC3153FC8B200FCBAB9 /* release_notes.txt */; };
 		6AABABCB153FC90100FCBAB9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AABABC9153FC8E800FCBAB9 /* libz.dylib */; };
 		6AD4A0A7166F19E70005F519 /* OpenDyslexic-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AD4A0A5166F19E70005F519 /* OpenDyslexic-Bold.otf */; };
 		6AD4A0A8166F19E70005F519 /* OpenDyslexic-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AD4A0A6166F19E70005F519 /* OpenDyslexic-Regular.otf */; };
@@ -169,12 +170,18 @@
 		6A12F6ED151ED75B00B49B6E /* ZUUIRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZUUIRevealController.m; sourceTree = "<group>"; };
 		6A12F6F0151EDA9100B49B6E /* SegmentsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SegmentsController.h; sourceTree = "<group>"; };
 		6A12F6F1151EDA9100B49B6E /* SegmentsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SegmentsController.m; sourceTree = "<group>"; };
+		6A13690F167B176E001A1C7C /* iOSHierarchyViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSHierarchyViewer.h; sourceTree = "<group>"; };
+		6A136910167B176E001A1C7C /* libiOSHierarchyViewer_fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiOSHierarchyViewer_fat.a; sourceTree = "<group>"; };
 		6A21635D1530EE3600D41447 /* PKHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHistory.h; sourceTree = "<group>"; };
 		6A21635E1530EE3600D41447 /* PKHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKHistory.m; sourceTree = "<group>"; };
 		6A21636F1530F7E700D41447 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		6A21637115338DDE00D41447 /* parsings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = parsings.html; sourceTree = "<group>"; };
 		6A2163731533A21F00D41447 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "../Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		6A2163751533A22600D41447 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait@2x~ipad.png"; path = "../Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		6A3172B0167B15BF00C94DD1 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		6A3172B1167B15BF00C94DD1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		6A3172B2167B15BF00C94DD1 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		6A3172B3167B15BF00C94DD1 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		6A3DCDD3154A5DF3009CE7C9 /* ArrowLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ArrowLeft.png; sourceTree = "<group>"; };
 		6A3DCDD4154A5DF3009CE7C9 /* ArrowLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ArrowLeft@2x.png"; sourceTree = "<group>"; };
 		6A3DCDD5154A5DF3009CE7C9 /* ArrowRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ArrowRight.png; sourceTree = "<group>"; };
@@ -256,10 +263,6 @@
 		6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Swipe@2x.png"; sourceTree = "<group>"; };
 		6A9B86BF1543A5CD00E4ABC0 /* Wait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wait.png; sourceTree = "<group>"; };
 		6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wait@2x.png"; sourceTree = "<group>"; };
-		6AABABC1153FC8B200FCBAB9 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		6AABABC2153FC8B200FCBAB9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
-		6AABABC3153FC8B200FCBAB9 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
-		6AABABC4153FC8B200FCBAB9 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		6AABABC9153FC8E800FCBAB9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6AD4A0A5166F19E70005F519 /* OpenDyslexic-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic-Bold.otf"; sourceTree = "<group>"; };
 		6AD4A0A6166F19E70005F519 /* OpenDyslexic-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic-Regular.otf"; sourceTree = "<group>"; };
@@ -322,7 +325,8 @@
 				6AF0C0A6150EE8BB00BFAE03 /* UIKit.framework in Frameworks */,
 				6AF0C0A8150EE8BB00BFAE03 /* Foundation.framework in Frameworks */,
 				6AF0C0AA150EE8BB00BFAE03 /* CoreGraphics.framework in Frameworks */,
-				6AABABC5153FC8B200FCBAB9 /* libTestFlight.a in Frameworks */,
+				6A3172B4167B15BF00C94DD1 /* libTestFlight.a in Frameworks */,
+				6A136911167B176E001A1C7C /* libiOSHierarchyViewer_fat.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +497,17 @@
 			name = "History Controller";
 			sourceTree = "<group>";
 		};
+		6A3172AF167B15BF00C94DD1 /* TestFlightSDK1.2 */ = {
+			isa = PBXGroup;
+			children = (
+				6A3172B0167B15BF00C94DD1 /* libTestFlight.a */,
+				6A3172B1167B15BF00C94DD1 /* README.md */,
+				6A3172B2167B15BF00C94DD1 /* release_notes.md */,
+				6A3172B3167B15BF00C94DD1 /* TestFlight.h */,
+			);
+			path = TestFlightSDK1.2;
+			sourceTree = "<group>";
+		};
 		6A3E43401515918E00D8745D /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
@@ -547,7 +562,7 @@
 		6A92CCC81516F0CC00F8AE15 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
-				6AABABC0153FC8B200FCBAB9 /* TestFlightSDK1.0 */,
+				6A3172AF167B15BF00C94DD1 /* TestFlightSDK1.2 */,
 				6AD7E2C8152976BA0072483E /* TPKeyboardAvoidingScrollView.h */,
 				6AD7E2C9152976BA0072483E /* TPKeyboardAvoidingScrollView.m */,
 				6A12F6EF151EDA7A00B49B6E /* SegmentedControllerRevisited */,
@@ -668,17 +683,6 @@
 			name = Fonts;
 			sourceTree = "<group>";
 		};
-		6AABABC0153FC8B200FCBAB9 /* TestFlightSDK1.0 */ = {
-			isa = PBXGroup;
-			children = (
-				6AABABC1153FC8B200FCBAB9 /* libTestFlight.a */,
-				6AABABC2153FC8B200FCBAB9 /* README.txt */,
-				6AABABC3153FC8B200FCBAB9 /* release_notes.txt */,
-				6AABABC4153FC8B200FCBAB9 /* TestFlight.h */,
-			);
-			path = TestFlightSDK1.0;
-			sourceTree = "<group>";
-		};
 		6AD7E2DA152BAC240072483E /* strongs */ = {
 			isa = PBXGroup;
 			children = (
@@ -691,6 +695,8 @@
 		6AF0C096150EE8BB00BFAE03 = {
 			isa = PBXGroup;
 			children = (
+				6A13690F167B176E001A1C7C /* iOSHierarchyViewer.h */,
+				6A136910167B176E001A1C7C /* libiOSHierarchyViewer_fat.a */,
 				6A9B86AF1542792400E4ABC0 /* SystemConfiguration.framework */,
 				6AF0C0A4150EE8BB00BFAE03 /* Frameworks */,
 				6AF0C0AB150EE8BB00BFAE03 /* gbible */,
@@ -892,7 +898,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PK;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "photoKandy Studios LLC";
 			};
 			buildConfigurationList = 6AF0C09B150EE8BB00BFAE03 /* Build configuration list for PBXProject "gbible" */;
@@ -981,8 +987,6 @@
 				6A21637215338DDE00D41447 /* parsings.html in Resources */,
 				6A2163741533A21F00D41447 /* Default-Landscape@2x~ipad.png in Resources */,
 				6A2163761533A22700D41447 /* Default-Portrait@2x~ipad.png in Resources */,
-				6AABABC6153FC8B300FCBAB9 /* README.txt in Resources */,
-				6AABABC7153FC8B300FCBAB9 /* release_notes.txt in Resources */,
 				6A9B86AA15422E6100E4ABC0 /* bottomShadow.png in Resources */,
 				6A9B86AB15422E6100E4ABC0 /* bottomShadow@2x.png in Resources */,
 				6A9B86AC15422E6100E4ABC0 /* topShadow.png in Resources */,
@@ -1003,6 +1007,8 @@
 				6A3DCDDA154A5DF3009CE7C9 /* ArrowRight@2x.png in Resources */,
 				6AD4A0A7166F19E70005F519 /* OpenDyslexic-Bold.otf in Resources */,
 				6AD4A0A8166F19E70005F519 /* OpenDyslexic-Regular.otf in Resources */,
+				6A3172B5167B15BF00C94DD1 /* README.md in Resources */,
+				6A3172B6167B15BF00C94DD1 /* release_notes.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1132,17 +1138,21 @@
 		6AF0C0BA150EE8BB00BFAE03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv6,
-					armv7,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "gbible/gbible-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "gbible/gbible-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/gbible/TestFlightSDK1.0\"",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/gbible/TestFlightSDK1.2\"",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1152,17 +1162,21 @@
 		6AF0C0BB150EE8BB00BFAE03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv6,
-					armv7,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "gbible/gbible-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "gbible/gbible-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/gbible/TestFlightSDK1.0\"",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/gbible/TestFlightSDK1.2\"",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
