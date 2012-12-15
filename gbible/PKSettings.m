@@ -414,6 +414,19 @@
     return theColor;
 }
 
++(UIColor *)PKSecondaryPageColor
+{
+    NSArray *theColors = @[ [UIColor colorWithWhite:1.0 alpha:1],
+                            [UIColor colorWithWhite:1.0 alpha:1],
+                            [UIColor colorWithWhite:0.0 alpha:1],
+                            [UIColor colorWithWhite:0.0 alpha:1]
+                          ];
+    UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
+    return theColor;
+}
+
+
+
 +(UIColor *)PKPageColor
 {
     NSArray *theColors = @[ [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1],
