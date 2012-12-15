@@ -17,6 +17,7 @@
 #import "PKRootViewController.h"
 #import "PKBibleViewController.h"
 #import "PKBibleBooksController.h"
+#import "TestFlight.h"
 
 
 @interface PKSettingsController ()
@@ -58,6 +59,7 @@
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   self.tableView.sectionIndexColor = [PKSettings PKTextColor];
   self.tableView.separatorColor = [PKSettings PKTextColor];
+  self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
   self.tableView.sectionHeaderHeight = 60;
   self.tableView.sectionFooterHeight = 60;
   [self.tableView reloadData];
@@ -446,7 +448,7 @@
                 reuseIdentifier:settingsCellID];
     }
   
-    cell.backgroundColor = [PKSettings PKPageColor];
+    cell.backgroundColor = [PKSettings PKSecondaryPageColor];
     cell.detailTextLabel.textColor = [PKSettings PKTextColor];
   
     NSUInteger section = [indexPath section];
@@ -463,21 +465,21 @@
                 cell.detailTextLabel.text = @"";
                 break;
         case 1: // here we want a disclosure arrow and the current setting
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.detailTextLabel.text = [ (PKSettings *)[PKSettings instance] loadSetting:[cellData objectAtIndex:2] ];
                 break;
         case 2: // here we want to display a checkbox if YES; none if NO
                 // FIX ISSUE #48
-                cell.detailTextLabel.text = @"";
-                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.detailTextLabel.text = @"No";
+                //cell.accessoryType = UITableViewCellAccessoryNone;
                 if ( [ [ (PKSettings *)[PKSettings instance] loadSetting:[cellData objectAtIndex:2] ] boolValue] )
                 {
-                    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                    cell.detailTextLabel.text = @"Yes";
+                    //cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 }
                 break;
         case 3: // here we want a disclosure arrow, current settings, and lookup
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                
+                ; // cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 // first, get the setting
                 NSString *theSetting = [ (PKSettings *)[PKSettings instance] loadSetting:[cellData objectAtIndex:2] ];
                 // now, convert it to an NSNumber
@@ -570,7 +572,7 @@
                 curValue = [ [ (PKSettings *)[PKSettings instance] loadSetting:[cellData objectAtIndex:2] ] boolValue];
                 [[PKSettings instance] saveSetting:[cellData objectAtIndex:2] valueForSetting: (!curValue?@"YES":@"NO")];
                 [[PKSettings instance] reloadSettings];
-                newCell.accessoryType = (!curValue)?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
+                newCell.detailTextLabel.text = (!curValue)?@"Yes":@"No";
                 
                 break;
         case 3: // we're on a cell that we need to display a popover for, with lookup
