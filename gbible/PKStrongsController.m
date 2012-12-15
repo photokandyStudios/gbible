@@ -14,6 +14,8 @@
 #import "PKSearchViewController.h"
 #import "PKRootViewController.h"
 
+#import "GLTapLabel.h"
+
 @interface PKStrongsController ()
 
 @end
@@ -102,7 +104,15 @@
     [swipeLeft  setNumberOfTouchesRequired:1];
     [self.tableView addGestureRecognizer:swipeRight];
     [self.tableView addGestureRecognizer:swipeLeft];
-    
+
+    UILongPressGestureRecognizer *longPress=[[UILongPressGestureRecognizer alloc]
+                                             initWithTarget:self action:@selector(didReceiveLongPress:)];
+    longPress.minimumPressDuration = 0.5;
+    longPress.numberOfTapsRequired = 0;
+    longPress.numberOfTouchesRequired = 1;
+    [self.tableView addGestureRecognizer:longPress];
+
+  
     self.tableView.tableHeaderView = theSearchBar;
     
     // add navbar items
@@ -141,6 +151,7 @@
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [PKSettings PKPageColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+  
     [self.tableView reloadData];
 }
 
@@ -295,16 +306,19 @@
     CGSize maxSize = CGSizeMake (theCellWidth, 300);
     
     CGSize theSize = [[theResult objectAtIndex:1] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:16] constrainedToSize:maxSize];
-    UILabel *theDerivationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, theCellWidth, theSize.height)];
+    GLTapLabel *theDerivationLabel = [[GLTapLabel alloc] initWithFrame:CGRectMake(10, 40, theCellWidth, theSize.height)];
     theDerivationLabel.text = [theResult objectAtIndex:1];
     theDerivationLabel.textColor = [PKSettings PKTextColor];
     theDerivationLabel.font = [UIFont fontWithName:@"Helvetica" size:16];
     theDerivationLabel.lineBreakMode = UILineBreakModeWordWrap;
     theDerivationLabel.numberOfLines = 0;
     theDerivationLabel.backgroundColor = [UIColor clearColor];
+    theDerivationLabel.delegate = self;
+    theDerivationLabel.userInteractionEnabled = YES;
+  
     
     CGSize theKJVSize = [[theResult objectAtIndex:3] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:16] constrainedToSize:maxSize];
-    UILabel *theKJVLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 50 + theSize.height, 
+    GLTapLabel *theKJVLabel = [[GLTapLabel alloc] initWithFrame:CGRectMake(10, 50 + theSize.height,
                                                                      theCellWidth, theKJVSize.height)];
     theKJVLabel.text = [theResult objectAtIndex:3];
     theKJVLabel.textColor = [PKSettings PKTextColor];
@@ -312,9 +326,11 @@
     theKJVLabel.lineBreakMode = UILineBreakModeWordWrap;
     theKJVLabel.numberOfLines  = 0;
     theKJVLabel.backgroundColor = [UIColor clearColor];
-    
+    theKJVLabel.delegate = self;
+    theKJVLabel.userInteractionEnabled = YES;
+  
     CGSize theStrongsSize = [[theResult objectAtIndex:4] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:16] constrainedToSize:maxSize];
-    UILabel *theStrongsDefLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 50 + theSize.height + 10 + theKJVSize.height,
+    GLTapLabel *theStrongsDefLabel = [[GLTapLabel alloc] initWithFrame:CGRectMake(10, 50 + theSize.height + 10 + theKJVSize.height,
                                                                      theCellWidth, theStrongsSize.height)];
     theStrongsDefLabel.text = [theResult objectAtIndex:4];
     theStrongsDefLabel.textColor = [PKSettings PKTextColor];
@@ -322,6 +338,8 @@
     theStrongsDefLabel.lineBreakMode = UILineBreakModeWordWrap;
     theStrongsDefLabel.numberOfLines =0 ;
     theStrongsDefLabel.backgroundColor = [UIColor clearColor];
+    theStrongsDefLabel.delegate = self;
+    theStrongsDefLabel.userInteractionEnabled = YES;
 
     [cell addSubview:theStrongsLabel];
     [cell addSubview:theLemmaLabel];
@@ -335,6 +353,7 @@
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//return;
     NSUInteger row = [indexPath row];
 
 
@@ -369,6 +388,15 @@
     self.tableView.scrollEnabled = NO;
     [self.view addSubview:clickToDismiss];
 }
+
+//FIX ISSUE #50
+-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    [clickToDismiss removeFromSuperview];
+    clickToDismiss = nil;
+    self.tableView.scrollEnabled = YES;
+}
+
 -(void) hideKeyboard
 {
     [clickToDismiss removeFromSuperview];
@@ -405,6 +433,49 @@
             return;
         }
 //    }
+}
+
+-(void) didReceiveLongPress:(UILongPressGestureRecognizer*)gestureRecognizer
+{
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
+    {
+        CGPoint p = [gestureRecognizer locationInView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p]; // nil if no row
+      
+        if (indexPath != nil)
+        {
+            NSUInteger row = [indexPath row];
+          
+            NSMutableString *theText = [[theSearchResults objectAtIndex:row] mutableCopy];
+            NSArray *theResult = [PKStrongs entryForKey:[theSearchResults objectAtIndex:row]];
+          
+            [theText appendFormat:@"\nLemma: %@\nDerivation: %@\nKJV Usage: %@\nDefinition: %@",
+                [theResult objectAtIndex:2],
+                [theResult objectAtIndex:1],
+                [theResult objectAtIndex:3],
+                [theResult objectAtIndex:4]
+            ];
+
+            UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+            pasteBoard.string = theText;
+          
+            UIAlertView *anAlert = [[UIAlertView alloc]
+                initWithTitle:@"Notice" message:@"Row copied to clipboard" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil ];
+            [anAlert show];
+
+        }
+    }
+}
+
+
+#pragma mark -
+#pragma mark GLTapLabel Delegate
+
+-(void) label:(GLTapLabel *)label didSelectedHotWord:(NSString *)word
+{
+  // search for the selected word
+  NSLog(@"Received word: %@", word);
+  [self doSearchForTerm:word byKeyOnly:true];
 }
 
 @end

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GLTapLabelDelegate.h"
 
-@interface PKStrongsController : UITableViewController <UISearchBarDelegate>
+@interface PKStrongsController : UITableViewController <UISearchBarDelegate, GLTapLabelDelegate>
 
     @property (strong, nonatomic) NSString * theSearchTerm;
     
