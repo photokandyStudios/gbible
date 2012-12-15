@@ -75,7 +75,9 @@
         }
         
         [words enumerateObjectsUsingBlock:^(NSString *word, NSUInteger idx, BOOL *stop) {
-            BOOL hot = [word hasPrefix:@"#"] || [word hasPrefix:@"@"];
+            BOOL hot = ([word length]>0 && ( [[word substringToIndex:1] isEqualToString:@"G"] &&
+                        [[word substringFromIndex:1] intValue] > 0 ));
+                     //[word hasPrefix:@"#"] || [word hasPrefix:@"@"];
             UIFont *f= hot ? hotFont : self.font;
             CGSize s = [word sizeWithFont:f];
             if(drawPoint.x + s.width > rect.size.width) {
@@ -93,9 +95,9 @@
         }];
         
         while ([s scanCharactersFromSet:[NSCharacterSet symbolCharacterSet] intoString:&read]) {
-            for(int idx=0;idx<read.length;idx=idx+2)
+            for(int idx=0;idx<read.length;idx=idx+1)
             {
-                NSString *word=[read substringWithRange:NSMakeRange(idx, 2)];
+                NSString *word=[read substringWithRange:NSMakeRange(idx, 1)];
                 CGSize s = [word sizeWithFont:self.font];
                 if(drawPoint.x + s.width > rect.size.width) {
                     drawPoint = CGPointMake(0, drawPoint.y + s.height);
@@ -118,6 +120,7 @@
                 [delegate label:self didSelectedHotWord:[hotWords objectAtIndex:idx]];
             }
             *stop = YES;
+            [self touchesCancelled:touches withEvent:event];
         }
     }];
 }
