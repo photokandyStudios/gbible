@@ -330,6 +330,15 @@
     self.tableView.scrollEnabled = NO;
     [self.view addSubview:clickToDismiss];
 }
+
+//FIX ISSUE #50
+-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    [clickToDismiss removeFromSuperview];
+    clickToDismiss = nil;
+    self.tableView.scrollEnabled = YES;
+}
+
 -(void) hideKeyboard
 {
     [clickToDismiss removeFromSuperview];
