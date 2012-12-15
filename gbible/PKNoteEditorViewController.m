@@ -14,6 +14,7 @@
 #import "PKBibleViewController.h"
 #import "ZUUIRevealController.h"
 #import "PKRootViewController.h"
+#import "TestFlight.h"
 
 @interface PKNoteEditorViewController ()
 

@@ -26,6 +26,7 @@
 #import "TSMiniWebBrowser.h"
 #import "PKTableViewCell.h"
 #import "PKLabel.h"
+#import "TestFlight.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -580,10 +581,13 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             {
               if ( [self.tableView numberOfRowsInSection:0] >  1 )
               {
-                  [self.tableView scrollToRowAtIndexPath:
-                  [NSIndexPath indexPathForRow:
-                      [[PKSettings instance] topVerse]-1 inSection:0]
-                      atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                  if ( [[PKSettings instance] topVerse]-1 < [self.tableView numberOfRowsInSection:0] )
+                  {
+                      [self.tableView scrollToRowAtIndexPath:
+                      [NSIndexPath indexPathForRow:
+                          [[PKSettings instance] topVerse]-1 inSection:0]
+                          atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                  }
               }
             }
             else
