@@ -61,6 +61,7 @@
 
     +(UIColor *)PKSelectionColor;
     +(UIColor *)PKWordSelectColor;
+    +(UIColor *)PKSecondaryPageColor;
     +(UIColor *)PKPageColor;
     +(UIColor *)PKTextColor;
     +(UIColor *)PKStrongsColor;
