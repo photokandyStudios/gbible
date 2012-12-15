@@ -33,7 +33,8 @@
 		6A12F6DD151E979D00B49B6E /* Listb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A12F6DB151E979D00B49B6E /* Listb@2x.png */; };
 		6A12F6EE151ED75B00B49B6E /* ZUUIRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A12F6ED151ED75B00B49B6E /* ZUUIRevealController.m */; };
 		6A12F6F2151EDF0800B49B6E /* SegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A12F6F1151EDA9100B49B6E /* SegmentsController.m */; };
-		6A136911167B176E001A1C7C /* libiOSHierarchyViewer_fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A136910167B176E001A1C7C /* libiOSHierarchyViewer_fat.a */; };
+		6A136916167C24BF001A1C7C /* PKLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A136915167C24BF001A1C7C /* PKLayoutController.m */; };
+		6A13691A167C3F5F001A1C7C /* GLTapLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A136918167C3F5F001A1C7C /* GLTapLabel.m */; };
 		6A21635F1530EE3600D41447 /* PKHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A21635E1530EE3600D41447 /* PKHistory.m */; };
 		6A2163701530F7E700D41447 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21636F1530F7E700D41447 /* about.html */; };
 		6A21637215338DDE00D41447 /* parsings.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21637115338DDE00D41447 /* parsings.html */; };
@@ -170,8 +171,11 @@
 		6A12F6ED151ED75B00B49B6E /* ZUUIRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZUUIRevealController.m; sourceTree = "<group>"; };
 		6A12F6F0151EDA9100B49B6E /* SegmentsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SegmentsController.h; sourceTree = "<group>"; };
 		6A12F6F1151EDA9100B49B6E /* SegmentsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SegmentsController.m; sourceTree = "<group>"; };
-		6A13690F167B176E001A1C7C /* iOSHierarchyViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSHierarchyViewer.h; sourceTree = "<group>"; };
-		6A136910167B176E001A1C7C /* libiOSHierarchyViewer_fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiOSHierarchyViewer_fat.a; sourceTree = "<group>"; };
+		6A136914167C24BF001A1C7C /* PKLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLayoutController.h; sourceTree = "<group>"; };
+		6A136915167C24BF001A1C7C /* PKLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLayoutController.m; sourceTree = "<group>"; };
+		6A136917167C3F5F001A1C7C /* GLTapLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTapLabel.h; sourceTree = "<group>"; };
+		6A136918167C3F5F001A1C7C /* GLTapLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLTapLabel.m; sourceTree = "<group>"; };
+		6A136919167C3F5F001A1C7C /* GLTapLabelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTapLabelDelegate.h; sourceTree = "<group>"; };
 		6A21635D1530EE3600D41447 /* PKHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHistory.h; sourceTree = "<group>"; };
 		6A21635E1530EE3600D41447 /* PKHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKHistory.m; sourceTree = "<group>"; };
 		6A21636F1530F7E700D41447 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
@@ -326,7 +330,6 @@
 				6AF0C0A8150EE8BB00BFAE03 /* Foundation.framework in Frameworks */,
 				6AF0C0AA150EE8BB00BFAE03 /* CoreGraphics.framework in Frameworks */,
 				6A3172B4167B15BF00C94DD1 /* libTestFlight.a in Frameworks */,
-				6A136911167B176E001A1C7C /* libiOSHierarchyViewer_fat.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,6 +361,16 @@
 				6A12F6F1151EDA9100B49B6E /* SegmentsController.m */,
 			);
 			name = SegmentedControllerRevisited;
+			sourceTree = "<group>";
+		};
+		6A13691B167C3F6A001A1C7C /* GLTapLabel */ = {
+			isa = PBXGroup;
+			children = (
+				6A136917167C3F5F001A1C7C /* GLTapLabel.h */,
+				6A136918167C3F5F001A1C7C /* GLTapLabel.m */,
+				6A136919167C3F5F001A1C7C /* GLTapLabelDelegate.h */,
+			);
+			name = GLTapLabel;
 			sourceTree = "<group>";
 		};
 		6A2163611530F1D100D41447 /* Navigation Controllers */ = {
@@ -562,6 +575,7 @@
 		6A92CCC81516F0CC00F8AE15 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				6A13691B167C3F6A001A1C7C /* GLTapLabel */,
 				6A3172AF167B15BF00C94DD1 /* TestFlightSDK1.2 */,
 				6AD7E2C8152976BA0072483E /* TPKeyboardAvoidingScrollView.h */,
 				6AD7E2C9152976BA0072483E /* TPKeyboardAvoidingScrollView.m */,
@@ -604,6 +618,8 @@
 				6A2163621530F1F000D41447 /* Content Controllers */,
 				6A2163631530F20400D41447 /* Editing Controllers */,
 				6A2163611530F1D100D41447 /* Navigation Controllers */,
+				6A136914167C24BF001A1C7C /* PKLayoutController.h */,
+				6A136915167C24BF001A1C7C /* PKLayoutController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -695,8 +711,6 @@
 		6AF0C096150EE8BB00BFAE03 = {
 			isa = PBXGroup;
 			children = (
-				6A13690F167B176E001A1C7C /* iOSHierarchyViewer.h */,
-				6A136910167B176E001A1C7C /* libiOSHierarchyViewer_fat.a */,
 				6A9B86AF1542792400E4ABC0 /* SystemConfiguration.framework */,
 				6AF0C0A4150EE8BB00BFAE03 /* Frameworks */,
 				6AF0C0AB150EE8BB00BFAE03 /* gbible */,
@@ -1071,6 +1085,8 @@
 				6A21635F1530EE3600D41447 /* PKHistory.m in Sources */,
 				6A0FDF3715485157004E70A7 /* PKLabel.m in Sources */,
 				6A0FDF3A15485840004E70A7 /* PKTableViewCell.m in Sources */,
+				6A136916167C24BF001A1C7C /* PKLayoutController.m in Sources */,
+				6A13691A167C3F5F001A1C7C /* GLTapLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1146,7 +1162,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/gbible/TestFlightSDK1.0\"",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/gbible/TestFlightSDK1.2\"",
 				);
@@ -1170,7 +1185,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/gbible/TestFlightSDK1.0\"",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/gbible/TestFlightSDK1.2\"",
 				);
