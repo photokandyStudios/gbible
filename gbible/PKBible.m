@@ -439,32 +439,65 @@
     +(NSString *)transliterate: (NSString*)theWord
     {
         NSMutableString *theNewWord = [theWord mutableCopy];
-       
-        [theNewWord replaceOccurrencesOfString:@"α" withString:@"a" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"β" withString:@"b" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"γ" withString:@"g" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"δ" withString:@"d" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"ε" withString:@"e" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"ζ" withString:@"z" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"η" withString:@"e" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"θ" withString:@"th" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"ι" withString:@"i" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"κ" withString:@"k" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"λ" withString:@"l" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"μ" withString:@"m" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"ν" withString:@"n" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"ξ" withString:@"c" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"ο" withString:@"o" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"π" withString:@"p" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"ρ" withString:@"r" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"σ" withString:@"s" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"ς" withString:@"s" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"τ" withString:@"t" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"υ" withString:@"u" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"φ" withString:@"ph" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"χ" withString:@"ch" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"ψ" withString:@"ps" options:0 range:NSMakeRange(0,  [theNewWord length])];
-        [theNewWord replaceOccurrencesOfString:@"ω" withString:@"o" options:0 range:NSMakeRange(0,  [theNewWord length])];
+      
+       theNewWord = [[theWord stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]] mutableCopy];
+        //theNewWord = [[theWord decomposedStringWithCanonicalMapping] mutableCopy];
+      
+        //theNewWord=[[[NSString alloc] initWithData:[theWord dataUsingEncoding:NSISOLatin1StringEncoding allowLossyConversion:YES] encoding:NSASCIIStringEncoding] mutableCopy];
+
+      //  return [[theNewWord componentsSeparatedByCharactersInSet:[[NSCharacterSet letterCharacterSet] invertedSet]] componentsJoinedByString:@""];
+      
+        NSDictionary *ccMatrix = @{
+                                    @"γγ": @"ng",
+                                    @"γξ": @"nx",
+                                    @"γκ": @"nk",
+                                    @"γχ": @"nch"
+                                  };
+        NSDictionary *scMatrix = @{
+                                 @"῾":@"h",
+                                 @"ῥ":@"rh",
+                                 @"α":@"a", @"Α":@"A",
+                                 @"β":@"b", @"Β":@"B",
+                                 @"γ":@"g", @"Γ":@"G",
+                                 @"δ":@"d", @"Δ":@"D",
+                                 @"ε":@"e", @"Ε":@"E",
+                                 @"ζ":@"z", @"Ζ":@"Z",
+                                 @"η":@"e", @"Η":@"E",
+                                 @"θ":@"th",@"Θ":@"Th",
+                                 @"ι":@"i", @"Ι":@"I",
+                                 @"κ":@"k", @"Κ":@"K",
+                                 @"λ":@"l", @"Λ":@"L",
+                                 @"μ":@"m", @"Μ":@"M",
+                                 @"ν":@"n", @"Ν":@"N",
+                                 @"ξ":@"c", @"Ξ":@"C",
+                                 @"ο":@"o", @"Ο":@"O",
+                                 @"π":@"p", @"Π":@"P",
+                                 @"ρ":@"r", @"Ρ":@"R",
+                                 @"σ":@"s", @"Σ":@"S",
+                                 @"ς":@"s",
+                                 @"τ":@"t", @"Τ":@"T",
+                                 @"υ":@"u", @"Υ":@"U",
+                                 @"φ":@"ph",@"Φ":@"Ph",
+                                 @"χ":@"ch",@"Χ":@"Ch",
+                                 @"ψ":@"ps",@"Ψ":@"Ps",
+                                 @"ω":@"o", @"Ω":@"O"
+                                 };
+        NSArray *theCCKeys = [ccMatrix allKeys];
+        NSArray *theSCKeys = [scMatrix allKeys];
+      
+        for ( int i=0; i<[theCCKeys count]; i++)
+        {
+            [theNewWord replaceOccurrencesOfString:theCCKeys[i]
+                        withString:ccMatrix[theCCKeys[i]]
+                        options:0 range:NSMakeRange(0,[theNewWord length])];
+        }
+        for ( int i=0; i<[theSCKeys count]; i++)
+        {
+            [theNewWord replaceOccurrencesOfString:theSCKeys[i]
+                        withString:scMatrix[theSCKeys[i]]
+                        options:0 range:NSMakeRange(0,[theNewWord length])];
+        }
+
         
         return theNewWord;
     }
@@ -598,6 +631,7 @@
             thePriorWord = theWord;
             
             // got the current word
+            NSString *theOriginalWord = [matches objectAtIndex:i];
             theWord = [matches objectAtIndex:i];
             
             // transliterate?
@@ -615,13 +649,13 @@
             yOffset = 0.0;
             
             
-            if (theColumn == 1 && [theWord length]>1) // we only do this for greek text
+            if (theColumn == 1 && [theOriginalWord length]>1) // we only do this for greek text
             {
                 // originally we used regular expressions, but they are SLOW
                 // G#s are of the form G[0-9]+
                 
-                if ( [[theWord substringToIndex:1] isEqualToString:@"G"] &&
-                     [[theWord substringFromIndex:1] intValue] > 0 )
+                if ( [[theOriginalWord substringToIndex:1] isEqualToString:@"G"] &&
+                     [[theOriginalWord substringFromIndex:1] intValue] > 0 )
                 {
                     // we're a G#
                     theWordType = 10;
@@ -631,8 +665,8 @@
                 else
                 {
                     // are we a (interlinear word)?
-                    if ( [[theWord substringToIndex:1] isEqualToString:@"("] ||
-                         [[theWord substringFromIndex:[theWord length]-1] isEqualToString:@")"] )
+                    if ( [[theOriginalWord substringToIndex:1] isEqualToString:@"("] ||
+                         [[theOriginalWord substringFromIndex:[theOriginalWord length]-1] isEqualToString:@")"] )
                     {
                         theWordType = 5;
                         yOffset = lineHeight*3;
@@ -652,7 +686,7 @@
                     else
                     {
                         // are we a VARiant? (regex: VAR[0-9]
-                        if ( [[theWord substringToIndex:2] isEqualToString:@"VAR"] )
+                        if ( [[theOriginalWord substringToIndex:2] isEqualToString:@"VAR"] )
                         {
                             theWordType = 0; // we're really just a regular word.
                             yOffset = 0.0;
@@ -661,8 +695,8 @@
                         {
                             // are we a morphology word? [A-Z]+[A-Z0-9\\-]+
                             if ( //[[theWord uppercaseString] isEqualToString:theWord]
-                                 ([theWord characterAtIndex:0] >= 'A' &&
-                                   [theWord characterAtIndex:0] <= 'Z')
+                                 ([theOriginalWord characterAtIndex:0] >= 'A' &&
+                                   [theOriginalWord characterAtIndex:0] <= 'Z')
                                  &&
                                  thePriorWordType >= 10)
                             {
