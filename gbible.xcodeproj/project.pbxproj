@@ -35,6 +35,7 @@
 		6A12F6F2151EDF0800B49B6E /* SegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A12F6F1151EDA9100B49B6E /* SegmentsController.m */; };
 		6A136916167C24BF001A1C7C /* PKLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A136915167C24BF001A1C7C /* PKLayoutController.m */; };
 		6A13691A167C3F5F001A1C7C /* GLTapLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A136918167C3F5F001A1C7C /* GLTapLabel.m */; };
+		6A13691F16818014001A1C7C /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6A13691E16818014001A1C7C /* bibleContent */; };
 		6A21635F1530EE3600D41447 /* PKHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A21635E1530EE3600D41447 /* PKHistory.m */; };
 		6A2163701530F7E700D41447 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21636F1530F7E700D41447 /* about.html */; };
 		6A21637215338DDE00D41447 /* parsings.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21637115338DDE00D41447 /* parsings.html */; };
@@ -114,7 +115,6 @@
 		6AD7E2D2152AA3A60072483E /* PKHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D1152AA3A60072483E /* PKHistoryViewController.m */; };
 		6AD7E2D5152AA4130072483E /* PKSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D4152AA4130072483E /* PKSearchViewController.m */; };
 		6AD7E2D7152AB51C0072483E /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D6152AB51C0072483E /* readme.md */; };
-		6AD7E2D9152BAB8B0072483E /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D8152BAB700072483E /* bibleContent */; };
 		6AD7E2DD152BAC540072483E /* PKStrongs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2DC152BAC540072483E /* PKStrongs.m */; };
 		6AF0C0A6150EE8BB00BFAE03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */; };
 		6AF0C0A8150EE8BB00BFAE03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */; };
@@ -176,6 +176,7 @@
 		6A136917167C3F5F001A1C7C /* GLTapLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTapLabel.h; sourceTree = "<group>"; };
 		6A136918167C3F5F001A1C7C /* GLTapLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLTapLabel.m; sourceTree = "<group>"; };
 		6A136919167C3F5F001A1C7C /* GLTapLabelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTapLabelDelegate.h; sourceTree = "<group>"; };
+		6A13691E16818014001A1C7C /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
 		6A21635D1530EE3600D41447 /* PKHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHistory.h; sourceTree = "<group>"; };
 		6A21635E1530EE3600D41447 /* PKHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKHistory.m; sourceTree = "<group>"; };
 		6A21636F1530F7E700D41447 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
@@ -277,7 +278,6 @@
 		6AD7E2D3152AA4130072483E /* PKSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSearchViewController.h; sourceTree = "<group>"; };
 		6AD7E2D4152AA4130072483E /* PKSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSearchViewController.m; sourceTree = "<group>"; };
 		6AD7E2D6152AB51C0072483E /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
-		6AD7E2D8152BAB700072483E /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
 		6AD7E2DB152BAC540072483E /* PKStrongs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKStrongs.h; sourceTree = "<group>"; };
 		6AD7E2DC152BAC540072483E /* PKStrongs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKStrongs.m; sourceTree = "<group>"; };
 		6AF0C0A1150EE8BB00BFAE03 /* gbible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gbible.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -567,7 +567,7 @@
 		6A92CCC71516F0B000F8AE15 /* Databases */ = {
 			isa = PBXGroup;
 			children = (
-				6AD7E2D8152BAB700072483E /* bibleContent */,
+				6A13691E16818014001A1C7C /* bibleContent */,
 			);
 			name = Databases;
 			sourceTree = "<group>";
@@ -940,7 +940,6 @@
 				6A9B86B5154283C900E4ABC0 /* Pfennig.ttf in Resources */,
 				6A9B86B6154283C900E4ABC0 /* PfennigBold.ttf in Resources */,
 				6A9B86B7154283C900E4ABC0 /* NewsCycle-Regular.ttf in Resources */,
-				6AD7E2D9152BAB8B0072483E /* bibleContent in Resources */,
 				6AF0C0B0150EE8BB00BFAE03 /* InfoPlist.strings in Resources */,
 				6AF9D03C1512939E00514499 /* back_icon@2x.png in Resources */,
 				6AF9D03B1512939E00514499 /* back_icon.png in Resources */,
@@ -1023,6 +1022,7 @@
 				6AD4A0A8166F19E70005F519 /* OpenDyslexic-Regular.otf in Resources */,
 				6A3172B5167B15BF00C94DD1 /* README.md in Resources */,
 				6A3172B6167B15BF00C94DD1 /* release_notes.md in Resources */,
+				6A13691F16818014001A1C7C /* bibleContent in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
