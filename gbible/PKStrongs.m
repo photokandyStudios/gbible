@@ -16,11 +16,11 @@
     +(NSArray *)entryForKey:(NSString *)theKey
     {
         FMDatabase *db = [(PKDatabase *)[PKDatabase instance] bible];
-        FMResultSet *s = [db executeQuery:@"SELECT * FROM strongs WHERE key = ?", theKey];
+        FMResultSet *s = [db executeQuery:@"SELECT * FROM strongsgr WHERE key = ?", theKey];
         NSMutableArray *theResult = [[NSMutableArray alloc]init ];
         if ([s next])
         {
-            for (int i=0; i<5; i++)
+            for (int i=0; i<4; i++)
             {
                 // Fixes issue #30
                 NSMutableString *theItem = [[s stringForColumnIndex:i] mutableCopy];
@@ -89,7 +89,7 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
                     break;
                 }
                 
-                [searchPhrase appendString:@"TRIM(LOWER( key || ' ' || derivation || ' ' || lemma || ' ' || kjv_def || ' ' || strongs_def )) LIKE \"%"];
+                [searchPhrase appendString:@"TRIM(LOWER( key || ' ' || definition || ' ' || lemma || ' ' || pronunciation )) LIKE \"%"];
                 [searchPhrase appendString:theWord];
                 [searchPhrase appendString:@"%\" ) "];
             }
@@ -98,7 +98,7 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
         {
             NSString *theWord = searchPhrase;
             searchPhrase = [@"" mutableCopy];
-            [searchPhrase appendString:@"( TRIM(LOWER(key || ' ' || derivation || ' ' || lemma || ' ' || kjv_def || ' ' || strongs_def)) LIKE \"%"];
+            [searchPhrase appendString:@"( TRIM(LOWER(key || ' ' || definition || ' ' || lemma || ' ' || pronunciation )) LIKE \"%"];
             [searchPhrase appendString:theWord];
             [searchPhrase appendString:@"%\" ) "];
         }
@@ -106,7 +106,7 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
         //NSLog (@"SQL: %@", searchPhrase);
         NSString *theNewTerm = [NSString stringWithFormat:@"%%%@%%", [[theTerm lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 
-        FMResultSet *s = [db executeQuery: [NSString stringWithFormat:@"SELECT * FROM strongs WHERE %@ ORDER BY 1", searchPhrase], theNewTerm];
+        FMResultSet *s = [db executeQuery: [NSString stringWithFormat:@"SELECT * FROM strongsgr WHERE %@ ORDER BY 1", searchPhrase], theNewTerm];
         NSMutableArray *theResult = [[NSMutableArray alloc] init ];
         while ([s next]) {
             [theResult addObject:[s stringForColumnIndex:0]];
@@ -124,7 +124,7 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
 
         NSString *theNewTerm = [NSString stringWithFormat:@"%@", [[theTerm uppercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 
-        FMResultSet *s = [db executeQuery:@"SELECT * FROM strongs WHERE UPPER(key) = ? ORDER BY 1 LIMIT 100", theNewTerm, theNewTerm, theNewTerm, theNewTerm, theNewTerm];
+        FMResultSet *s = [db executeQuery:@"SELECT * FROM strongsgr WHERE UPPER(key) = ? ORDER BY 1 LIMIT 100", theNewTerm, theNewTerm, theNewTerm, theNewTerm, theNewTerm];
         NSMutableArray *theResult = [[NSMutableArray alloc] init ];
         while ([s next]) {
             [theResult addObject:[s stringForColumnIndex:0]];
