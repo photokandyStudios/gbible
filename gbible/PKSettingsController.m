@@ -60,8 +60,8 @@
   self.tableView.sectionIndexColor = [PKSettings PKTextColor];
   self.tableView.separatorColor = [PKSettings PKTextColor];
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-  self.tableView.sectionHeaderHeight = 60;
-  self.tableView.sectionFooterHeight = 60;
+  //self.tableView.sectionHeaderHeight = 60;
+  //self.tableView.sectionFooterHeight = 60;
   [self.tableView reloadData];
 }
 /**
@@ -154,7 +154,7 @@
                                                                                                       @"14pt", @"16pt", @"18pt", @"20pt", @"22pt", 
                                                                                                       @"26pt", @"32pt", @"48pt",
                                                                                                       nil] ,nil],
-                                                [NSArray arrayWithObjects: @"Inter-line Spacing", [NSNumber numberWithInt:3], PK_SETTING_LINESPACING, 
+                                                [NSArray arrayWithObjects: @"Line Spacing", [NSNumber numberWithInt:3], PK_SETTING_LINESPACING, 
                                                                            [NSArray arrayWithObjects: //[NSNumber numberWithInt:PK_LS_CRAMPED],
                                                                                                       //[NSNumber numberWithInt:PK_LS_TIGHT],
                                                                                                       [NSNumber numberWithInt:PK_LS_NORMAL],
@@ -164,11 +164,11 @@
                                                                            [NSArray arrayWithObjects: //@"Cramped", @"Tight", 
                                                                                                       @"Normal", @"One-Quarter",
                                                                                                       @"One-Half", @"Double", nil], nil ],
-                                                [NSArray arrayWithObjects: @"Line Spacing", [NSNumber numberWithInt:3], PK_SETTING_VERSESPACING, 
+                                                [NSArray arrayWithObjects: @"Row Spacing", [NSNumber numberWithInt:3], PK_SETTING_VERSESPACING, 
                                                                            [NSArray arrayWithObjects: [NSNumber numberWithInt:PK_VS_NONE],
                                                                                                       [NSNumber numberWithInt:PK_VS_SINGLE],
                                                                                                       [NSNumber numberWithInt:PK_VS_DOUBLE], nil],
-                                                                           [NSArray arrayWithObjects: @"No Spacing", @"Single Spacing", @"Double Spacing", nil], nil ],
+                                                                           [NSArray arrayWithObjects: @"Normal", @"Single Space", @"Double Space", nil], nil ],
                                                 [NSArray arrayWithObjects: @"Column Widths", [NSNumber numberWithInt:3], PK_SETTING_COLUMNWIDTHS, 
                                                                            [NSArray arrayWithObjects: [NSNumber numberWithInt:PK_CW_WIDEGREEK],
                                                                                                       [NSNumber numberWithInt:PK_CW_WIDEENGLISH],
@@ -300,6 +300,7 @@
 {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self calculateShadows];
+    [self.tableView reloadData];
 }
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -314,6 +315,7 @@
 {
 	return YES;
 }
+
 #pragma mark -
 #pragma mark Table View Data Source Methods
 
@@ -346,26 +348,25 @@
 
 /**
  *
- * Return the footer for each group of cells. Note that as currently written (with \ 
- * linebreaks in strings), iOS renders some of the text strangely. TODO: fix.
+ * Return the footer for each group of cells. 
  *
  */
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
     switch (section)
     {
-        case 0: return @"";
+        case 0: return @"Note: When transliterating Greek, the app may be slower when navigating to new passages. Transliteration only applies to visual renderings; search results, Strong's results, and search keywords are not modified.";
                 break;
-        case 1: return @"";
+        case 1: return @"Note: Not all fonts can render Greek diacritics correctly. If using a text with these letterforms, you may wish to revert to the Helvetica or Helvetica-Neue font, as it can properly display all Greek letterforms.";
                 break;
 //        case 2: return @"Enable iCloud to synchronize your data across multiple devices. It is suggested \
 //                         that you export your data prior to enabling iCloud synchronization.";
 //                break;
-        case 2: return @"Export will create a file named 'export' and the current date and time that you can download when your device is connected to iTunes. You can then save this file in a safe place, or use it to import data to another device.";
+        case 2: return @"Export will create a file of the form 'export_date_time.dat' that you can download when your device is connected to iTunes. You can then save this file in a safe place, or use it to import data to another device.";
                 break;
         case 3: return @"Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.";
                 break;
-        case 4: return @"This application is Copyright 2012 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information.";
+        case 4: return @"This application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information.";
                 break;
         default:return @"Undefined";
                 break;
@@ -393,20 +394,28 @@
     return [[self.settingsGroup objectAtIndex:section] count];
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+   return 20.0 +
+          [[self tableView:tableView titleForHeaderInSection:section] sizeWithFont:[UIFont boldSystemFontOfSize:16] constrainedToSize:CGSizeMake( tableView.bounds.size.width-(([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 1000)].height;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+   return 40.0 +
+          [[self tableView:tableView titleForFooterInSection:section] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake( tableView.bounds.size.width-(([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 1000)].height;
+}
+
 
 // from http://www.randycrafton.com/2010/09/changing-the-text-color-of-a-grouped-uitableviews-section-header/
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section 
 {
 	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 60)];
-	//tableView.sectionHeaderHeight = headerView.frame.size.height;
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(40, 00, headerView.frame.size.width - 80, 20)];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 44 : 10, 10, headerView.frame.size.width - (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 20)];
 	label.text = [self tableView:tableView titleForHeaderInSection:section];
 	label.font = [UIFont boldSystemFontOfSize:16.0];
   label.textAlignment = NSTextAlignmentLeft;
-	//label.shadowOffset = CGSizeMake(0, 1);
-	//label.shadowColor = [UIColor whiteColor];
 	label.backgroundColor = [UIColor clearColor];
- 
 	label.textColor = [PKSettings PKTextColor];
  
 	[headerView addSubview:label];
@@ -415,17 +424,15 @@
 
 - (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 60)];
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(40, 10, footerView.frame.size.width - 80, 40)];
+	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 600)];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 44 : 10, 10, footerView.frame.size.width - (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 400)];
 	label.text = [self tableView:tableView titleForFooterInSection:section];
-   label.numberOfLines =2;
-  label.textAlignment = NSTextAlignmentCenter;
-	label.font = [UIFont systemFontOfSize:14.0];
-	//label.shadowOffset = CGSizeMake(0, 1);
-	//label.shadowColor = [UIColor whiteColor];
+  label.numberOfLines =0;
+  label.textAlignment = NSTextAlignmentLeft;
+	label.font = [UIFont systemFontOfSize:16.0];
 	label.backgroundColor = [UIColor clearColor];
- 
 	label.textColor = [PKSettings PKTextColor];
+  [label sizeToFit];
  
 	[footerView addSubview:label];
 	return footerView;
