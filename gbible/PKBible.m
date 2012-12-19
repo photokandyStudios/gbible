@@ -874,7 +874,7 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
             [searchPhrase appendString:@"%\" ) "];
         }
         //NSLog (@"Original: %@\nTransformed: %@", theTerm, searchPhrase);
-        FMResultSet *s = [db executeQuery:[NSString stringWithFormat: @"SELECT bibleBook, bibleChapter, bibleVerse FROM content WHERE bibleID in (?,?) AND (%@) ORDER BY 1,2,3", searchPhrase],
+        FMResultSet *s = [db executeQuery:[NSString stringWithFormat: @"SELECT DISTINCT bibleBook, bibleChapter, bibleVerse FROM content WHERE bibleID in (?,?) AND (%@) ORDER BY 1,2,3", searchPhrase],
                                            [NSNumber numberWithInt:theGreekBible],
                                            [NSNumber numberWithInt:theEnglishBible]];
         while ([s next])
