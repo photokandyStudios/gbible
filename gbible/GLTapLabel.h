@@ -29,10 +29,12 @@
     NSMutableArray *hotZones;
     NSMutableArray *hotWords;
     UIFont *hotFont;
-    UIColor *linkColor;
+    //UIColor *linkColor;
 }
 
 @property(nonatomic,assign) id<GLTapLabelDelegate> delegate;
-@property(nonatomic,retain) UIColor *linkColor;
+@property(nonatomic,strong) UIColor *linkColor;
+@property(nonatomic,strong) UIColor *linkBackgroundColor;
+@property(nonatomic,strong) NSString *hotTerm;
 
 @end

@@ -26,6 +26,8 @@
 
 @synthesize delegate;
 @synthesize linkColor;
+@synthesize linkBackgroundColor;
+@synthesize hotTerm;
 
 -(void)drawTextInRect:(CGRect)rect
 {
@@ -33,6 +35,10 @@
     [origColor set];
     if(!hotFont){
         hotFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Bold",self.font.fontName] size:self.font.pointSize];
+    }
+    if (!hotFont)
+    {
+        hotFont = self.font;
     }
     
     if(!hotZones){
@@ -75,8 +81,20 @@
         }
         
         [words enumerateObjectsUsingBlock:^(NSString *word, NSUInteger idx, BOOL *stop) {
-            BOOL hot = ([word length]>0 && ( [[word substringToIndex:1] isEqualToString:@"G"] &&
+            BOOL hot = NO;
+          
+            if (hotTerm)
+            {
+              if ([[word lowercaseString] rangeOfString:[hotTerm lowercaseString]].location != NSNotFound)
+              {
+                hot = YES;
+              }
+            }
+            else
+            {
+              hot = ([word length]>0 && ( [[word substringToIndex:1] isEqualToString:@"G"] &&
                         [[word substringFromIndex:1] intValue] > 0 ));
+            }
                      //[word hasPrefix:@"#"] || [word hasPrefix:@"@"];
             UIFont *f= hot ? hotFont : self.font;
             CGSize s = [word sizeWithFont:f];
@@ -86,7 +104,14 @@
             if(hot){
                 [hotZones addObject:[NSValue valueWithCGRect:CGRectMake(drawPoint.x, drawPoint.y, s.width, s.height)]];
                 [hotWords addObject:word];
-                [linkColor set];
+                if (linkBackgroundColor)
+                {
+                  [linkBackgroundColor setFill];
+                  CGContextRef context = UIGraphicsGetCurrentContext();
+                  CGContextFillRect( context, CGRectMake(drawPoint.x, drawPoint.y, s.width, s.height) );
+                }
+                [linkColor setFill];
+  
             }
             [word drawAtPoint:drawPoint withFont:f];
             [origColor set];
