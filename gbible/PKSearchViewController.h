@@ -15,6 +15,10 @@
     @property (strong, nonatomic) UISearchBar *theSearchBar;
     @property (strong, nonatomic) UIButton *clickToDismiss;
     @property (strong, nonatomic) UILabel *noResults;
+    @property int fontSize;
+    @property (strong, nonatomic) UIFont *leftFont;
+    @property (strong, nonatomic) UIFont *rightFont;
+
     -(void)doSearchForTerm: (NSString *)theTerm;
     -(void)doSearchForTerm: (NSString *)theTerm requireParsings: (BOOL) parsings;
 

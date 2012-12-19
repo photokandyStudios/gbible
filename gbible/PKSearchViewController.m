@@ -13,6 +13,7 @@
 #import "ZUUIRevealController.h"
 #import "PKRootViewController.h"
 #import "PKBibleViewController.h"
+#import "GLTapLabel.h"
 
 @interface PKSearchViewController ()
 
@@ -25,6 +26,9 @@
     @synthesize theSearchResults;
     @synthesize clickToDismiss;
     @synthesize noResults;
+    @synthesize fontSize;
+    @synthesize leftFont;
+    @synthesize rightFont;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -138,6 +142,35 @@
 
 -(void) updateAppearanceForTheme
 {
+    self.fontSize = [[PKSettings instance] textFontSize];
+    // get the font
+    UIFont *theFont = [UIFont fontWithName:[[PKSettings instance] textFontFace]
+                                      size:[[PKSettings instance] textFontSize]];
+    if (theFont == nil)
+    {
+        theFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", [[PKSettings instance] textFontFace]]
+                                              size:[[PKSettings instance] textFontSize]];
+    }
+    if (theFont == nil)
+    {
+        theFont = [UIFont fontWithName:@"Helvetica"
+                                              size:[[PKSettings instance] textFontSize]];
+    }
+    UIFont *theBoldFont = [UIFont fontWithName:[[PKSettings instance] textGreekFontFace]
+                                          size:[[PKSettings instance] textFontSize]];
+    
+    if (theBoldFont == nil)
+    {
+        theBoldFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", [[PKSettings instance] textGreekFontFace]]
+                                      size:[[PKSettings instance] textFontSize]];
+    }
+    if (theBoldFont == nil)     // just in case there's no alternate
+    {
+        theBoldFont = theFont;
+    }
+    self.leftFont = theFont;
+    self.rightFont = theBoldFont;
+
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [PKSettings PKPageColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -229,6 +262,49 @@
     }
 }
 
+-(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSUInteger row = [indexPath row];
+
+    NSString *thePassage = [theSearchResults objectAtIndex:row];
+    int theBook = [PKBible bookFromString:thePassage];
+    int theChapter = [PKBible chapterFromString:thePassage];
+    int theVerse = [PKBible verseFromString:thePassage];
+  
+    CGFloat theCellWidth = (self.tableView.bounds.size.width);
+    CGFloat theColumnWidth = (theCellWidth) / 2;
+    CGSize maxSize = CGSizeMake ( theColumnWidth - 40, 100000 );
+  
+    CGSize theLeftSize;
+    CGSize theRightSize;
+    CGFloat theHeight = 0;
+
+    theHeight += 10; // the top margin
+
+    theLeftSize = [[NSString stringWithFormat:@"%@ %i:%@",
+                                                    [PKBible nameForBook:theBook],
+                                                    theChapter,
+                                                    [PKBible getTextForBook:theBook 
+                                                                 forChapter:theChapter 
+                                                                   forVerse:theVerse 
+                                                                    forSide:2]] sizeWithFont:self.leftFont
+                                                                    constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
+
+    theRightSize = [[NSString stringWithFormat:@"%@ %i:%i %@",
+                                                    [PKBible nameForBook:theBook],
+                                                    theChapter,
+                                                    theVerse,
+                                                    [PKBible getTextForBook:theBook 
+                                                                 forChapter:theChapter 
+                                                                   forVerse:theVerse 
+                                                                    forSide:1]] sizeWithFont:self.rightFont
+                                                                    constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
+
+    theHeight += MAX(theLeftSize.height,theRightSize.height) + 10;
+
+    return theHeight;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *searchCellID = @"PKSearchCellID";
@@ -255,9 +331,12 @@
   
     CGFloat theCellWidth = (self.tableView.bounds.size.width);
     CGFloat theColumnWidth = (theCellWidth) / 2;
-    
+
+  
     // now create the new subviews
-    UILabel *theLeftSide = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, theColumnWidth-40, 80)];
+    GLTapLabel *theLeftSide = [[GLTapLabel alloc] initWithFrame:CGRectMake(20, 10, theColumnWidth-40, 80)];
+    theLeftSide.linkColor = [PKSettings PKStrongsColor];
+    theLeftSide.hotTerm = self.theSearchTerm;
     theLeftSide.text = [NSString stringWithFormat:@"%@ %i:%@", 
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
@@ -266,12 +345,17 @@
                                                                    forVerse:theVerse 
                                                                     forSide:2]];
     theLeftSide.textColor = [PKSettings PKTextColor];
-    theLeftSide.numberOfLines=4;
+    theLeftSide.linkBackgroundColor = [PKSettings PKYellowHighlightColor];
+    theLeftSide.numberOfLines=0;
     theLeftSide.backgroundColor = [UIColor clearColor];
+    theLeftSide.font = self.leftFont;
     [theLeftSide sizeToFit];
 
-    UILabel *theRightSide = [[UILabel alloc] initWithFrame:CGRectMake(theColumnWidth+20, 10, theColumnWidth-40, 80)];
-    theRightSide.text = [NSString stringWithFormat:@"%@ %i:%i - %@",
+    GLTapLabel *theRightSide = [[GLTapLabel alloc] initWithFrame:CGRectMake(theColumnWidth+20, 10, theColumnWidth-40, 80)];
+    theRightSide.linkColor = [PKSettings PKStrongsColor];
+    theRightSide.linkBackgroundColor = [PKSettings PKYellowHighlightColor];
+    theRightSide.hotTerm = self.theSearchTerm;
+    theRightSide.text = [NSString stringWithFormat:@"%@ %i:%i %@",
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
                                                     theVerse,
@@ -281,8 +365,9 @@
                                                                     forSide:1]];
     
     theRightSide.textColor = [PKSettings PKTextColor];
-    theRightSide.numberOfLines=4;
+    theRightSide.numberOfLines=0;
     theRightSide.backgroundColor = [UIColor clearColor];
+    theRightSide.font = self.rightFont;
     [theRightSide sizeToFit];
   
     [cell addSubview:theLeftSide];
