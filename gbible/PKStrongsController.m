@@ -13,6 +13,7 @@
 #import "ZUUIRevealController.h"
 #import "PKSearchViewController.h"
 #import "PKRootViewController.h"
+#import "TestFlight.h"
 
 #import "GLTapLabel.h"
 
@@ -27,6 +28,8 @@
     @synthesize byKeyOnly;
     @synthesize clickToDismiss;
     @synthesize noResults;
+    @synthesize theFont;
+    @synthesize theBigFont;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -148,6 +151,21 @@
 }
 -(void) updateAppearanceForTheme
 {
+    // get the font
+    self.theFont = [UIFont fontWithName:[[PKSettings instance] textFontFace]
+                                      size:[[PKSettings instance] textFontSize]];
+    if (self.theFont == nil)
+    {
+        self.theFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", [[PKSettings instance] textFontFace]]
+                                              size:[[PKSettings instance] textFontSize]];
+    }
+    if (self.theFont == nil)
+    {
+        self.theFont = [UIFont fontWithName:@"Helvetica"
+                                              size:[[PKSettings instance] textFontSize]];
+    }
+    self.theBigFont = [UIFont fontWithName:[self.theFont fontName] size: [[PKSettings instance] textFontSize] + 6 ];
+
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [PKSettings PKPageColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -250,15 +268,12 @@
     CGSize maxSize = CGSizeMake(theCellWidth, 300);
 
     theHeight += 10; // the top margin
-    theHeight += 20; // the top labels
+    theHeight += self.theBigFont.lineHeight; // the top labels
 
-    theSize = [[theResult objectAtIndex:1] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:16] constrainedToSize:maxSize];
+    theSize = [[theResult objectAtIndex:1] sizeWithFont:self.theFont constrainedToSize:maxSize];
     theHeight += theSize.height + 10;
 
-    theSize = [[theResult objectAtIndex:3] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:16] constrainedToSize:maxSize];
-    theHeight += theSize.height + 10;
-
-    theSize = [[theResult objectAtIndex:4] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:16] constrainedToSize:maxSize];
+    theSize = [[[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "]] sizeWithFont:self.theFont constrainedToSize:maxSize];
     theHeight += theSize.height + 10;
 
     theHeight += 10;
@@ -288,65 +303,46 @@
     CGFloat theColumnWidth = (theCellWidth) / 2;
     
     // now create the new subviews
-    UILabel *theStrongsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, theColumnWidth, 20)];
+    UILabel *theStrongsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, theColumnWidth, theBigFont.lineHeight)];
     theStrongsLabel.text = [theSearchResults objectAtIndex:row];
     theStrongsLabel.textColor = [PKSettings PKStrongsColor];
-    theStrongsLabel.font = [UIFont fontWithName:@"Helvetica" size:22];
+    theStrongsLabel.font = theBigFont;
     theStrongsLabel.backgroundColor = [UIColor clearColor];
+//    theStrongsLabel.numberOfLines =1;
+//    [theStrongsLabel sizeToFit];
     
     NSArray *theResult = [PKStrongs entryForKey:[theSearchResults objectAtIndex:row]];
     
-    UILabel *theLemmaLabel = [[UILabel alloc] initWithFrame:CGRectMake(theColumnWidth+20, 10, theColumnWidth, 20)];
-    theLemmaLabel.text = [theResult objectAtIndex:2];
+    UILabel *theLemmaLabel = [[UILabel alloc] initWithFrame:CGRectMake(theColumnWidth+20, 10, theColumnWidth, theBigFont.lineHeight)];
+    theLemmaLabel.text = [[theResult objectAtIndex:1] stringByAppendingFormat:@" (%@)", [theResult objectAtIndex:2]];
     theLemmaLabel.textAlignment = UITextAlignmentRight;
     theLemmaLabel.textColor = [PKSettings PKTextColor];
-    theLemmaLabel.font = [UIFont fontWithName:@"Helvetica" size:22];
+    theLemmaLabel.font = theBigFont;
     theLemmaLabel.backgroundColor = [UIColor clearColor];
+//    theLemmaLabel.numberOfLines=1;
+//    [theLemmaLabel sizeToFit];
     
     CGSize maxSize = CGSizeMake (theCellWidth, 300);
     
-    CGSize theSize = [[theResult objectAtIndex:1] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:16] constrainedToSize:maxSize];
-    GLTapLabel *theDerivationLabel = [[GLTapLabel alloc] initWithFrame:CGRectMake(10, 40, theCellWidth, theSize.height)];
-    theDerivationLabel.text = [theResult objectAtIndex:1];
-    theDerivationLabel.textColor = [PKSettings PKTextColor];
-    theDerivationLabel.font = [UIFont fontWithName:@"Helvetica" size:16];
-    theDerivationLabel.lineBreakMode = UILineBreakModeWordWrap;
-    theDerivationLabel.numberOfLines = 0;
-    theDerivationLabel.backgroundColor = [UIColor clearColor];
-    theDerivationLabel.delegate = self;
-    theDerivationLabel.userInteractionEnabled = YES;
-  
-    
-    CGSize theKJVSize = [[theResult objectAtIndex:3] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:16] constrainedToSize:maxSize];
-    GLTapLabel *theKJVLabel = [[GLTapLabel alloc] initWithFrame:CGRectMake(10, 50 + theSize.height,
-                                                                     theCellWidth, theKJVSize.height)];
-    theKJVLabel.text = [theResult objectAtIndex:3];
-    theKJVLabel.textColor = [PKSettings PKTextColor];
-    theKJVLabel.font = [UIFont fontWithName:@"Helvetica" size:16];
-    theKJVLabel.lineBreakMode = UILineBreakModeWordWrap;
-    theKJVLabel.numberOfLines  = 0;
-    theKJVLabel.backgroundColor = [UIColor clearColor];
-    theKJVLabel.delegate = self;
-    theKJVLabel.userInteractionEnabled = YES;
-  
-    CGSize theStrongsSize = [[theResult objectAtIndex:4] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:16] constrainedToSize:maxSize];
-    GLTapLabel *theStrongsDefLabel = [[GLTapLabel alloc] initWithFrame:CGRectMake(10, 50 + theSize.height + 10 + theKJVSize.height,
-                                                                     theCellWidth, theStrongsSize.height)];
-    theStrongsDefLabel.text = [theResult objectAtIndex:4];
-    theStrongsDefLabel.textColor = [PKSettings PKTextColor];
-    theStrongsDefLabel.font = [UIFont fontWithName:@"Helvetica" size:16];
-    theStrongsDefLabel.lineBreakMode = UILineBreakModeWordWrap;
-    theStrongsDefLabel.numberOfLines =0 ;
-    theStrongsDefLabel.backgroundColor = [UIColor clearColor];
-    theStrongsDefLabel.delegate = self;
-    theStrongsDefLabel.userInteractionEnabled = YES;
+    CGSize theSize = [[[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "]] sizeWithFont:theFont constrainedToSize:maxSize];
+    GLTapLabel *theDefinitionLabel = [[GLTapLabel alloc] initWithFrame:CGRectMake(10, 20 + theBigFont.lineHeight, theCellWidth, theSize.height)];
+    theDefinitionLabel.text = [[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "]];
+    theDefinitionLabel.textColor = [PKSettings PKTextColor];
+    theDefinitionLabel.font = theFont;
+    theDefinitionLabel.lineBreakMode = UILineBreakModeWordWrap;
+    theDefinitionLabel.numberOfLines = 0;
+    theDefinitionLabel.backgroundColor = [UIColor clearColor];
+    theDefinitionLabel.linkColor = [PKSettings PKStrongsColor];
+    theDefinitionLabel.delegate = self;
+    theDefinitionLabel.userInteractionEnabled = YES;
 
     [cell addSubview:theStrongsLabel];
-    [cell addSubview:theLemmaLabel];
-    [cell addSubview:theDerivationLabel];
-    [cell addSubview:theKJVLabel];
-    [cell addSubview:theStrongsDefLabel];
-    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+      [cell addSubview:theLemmaLabel];
+    }
+    [cell addSubview:theDefinitionLabel];
+  
 
     return cell;
 }
@@ -360,10 +356,10 @@
     ZUUIRevealController *rc = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
     PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
     PKSearchViewController *svc = [[[rvc.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     [svc doSearchForTerm:[theSearchResults objectAtIndex:row] requireParsings:YES];
 
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
@@ -449,11 +445,10 @@
             NSMutableString *theText = [[theSearchResults objectAtIndex:row] mutableCopy];
             NSArray *theResult = [PKStrongs entryForKey:[theSearchResults objectAtIndex:row]];
           
-            [theText appendFormat:@"\nLemma: %@\nDerivation: %@\nKJV Usage: %@\nDefinition: %@",
-                [theResult objectAtIndex:2],
+            [theText appendFormat:@"\nLemma: %@\nPronunciation: %@\nDefinition: %@",
                 [theResult objectAtIndex:1],
-                [theResult objectAtIndex:3],
-                [theResult objectAtIndex:4]
+                [theResult objectAtIndex:2],
+                [theResult objectAtIndex:3]
             ];
 
             UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];

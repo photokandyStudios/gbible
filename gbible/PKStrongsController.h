@@ -20,6 +20,9 @@
     @property (strong, nonatomic) UIButton *clickToDismiss;
     
     @property (strong, nonatomic) UILabel *noResults;
+
+    @property (strong, nonatomic) UIFont *theFont;
+    @property (strong, nonatomic) UIFont *theBigFont;
     
     @property BOOL byKeyOnly;
     
