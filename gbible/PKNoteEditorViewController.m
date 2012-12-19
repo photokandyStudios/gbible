@@ -119,10 +119,24 @@ default:
         // Do any additional setup after loading the view.
     [TestFlight passCheckpoint:@"ANNOTATION"];
         
+    // get the font
+    UIFont *theFont = [UIFont fontWithName:[[PKSettings instance] textFontFace]
+                                      size:[[PKSettings instance] textFontSize]];
+    if (theFont == nil)
+    {
+        theFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", [[PKSettings instance] textFontFace]]
+                                              size:[[PKSettings instance] textFontSize]];
+    }
+    if (theFont == nil)
+    {
+        theFont = [UIFont fontWithName:@"Helvetica"
+                                              size:[[PKSettings instance] textFontSize]];
+    }
+
         scroller = [[TPKeyboardAvoidingScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 
-        txtTitle = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, self.view.bounds.size.width-20, 32)];
-        txtNote  = [[UITextView alloc] initWithFrame:CGRectMake(10, 42, self.view.bounds.size.width-20, self.view.bounds.size.height-52)];
+        txtTitle = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, self.view.bounds.size.width-20, theFont.lineHeight+10)];
+        txtNote  = [[UITextView alloc] initWithFrame:CGRectMake(10, 20+theFont.lineHeight, self.view.bounds.size.width-20, self.view.bounds.size.height-52)];
 
         txtTitle.placeholder = @"Title for note";
         
@@ -138,9 +152,10 @@ default:
 
         [scroller adjustWidth:YES andHeight:YES withHorizontalPadding:0 andVerticalPadding:0];
         
-        txtTitle.borderStyle = UITextBorderStyleRoundedRect;
+        //txtTitle.borderStyle = UITextBorderStyleRoundedRect;
 
-        txtNote.font = [UIFont fontWithName:@"Helvetica" size:16];
+        txtNote.font = theFont;
+        txtTitle.font = theFont;
         
         txtTitle.returnKeyType = UIReturnKeyNext;
         txtNote.returnKeyType = UIReturnKeyDefault;
@@ -164,10 +179,21 @@ default:
         [self.view addSubview:scroller];
 
     }
-    
+
+- (void) updateAppearanceForTheme
+{
+  self.view.backgroundColor = [PKSettings PKPageColor];
+  self.txtNote.backgroundColor = [PKSettings PKSecondaryPageColor];
+  self.txtTitle.backgroundColor = [PKSettings PKSecondaryPageColor];
+  self.txtNote.textColor = [PKSettings PKTextColor];
+  self.txtTitle.textColor = [PKSettings PKTextColor];
+  self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+}
+
     - (void)viewWillAppear:(BOOL)animated
     {
         [self loadData];
+        [self updateAppearanceForTheme];
         [self.view setNeedsLayout];
     }
 
