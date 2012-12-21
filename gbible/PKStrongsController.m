@@ -273,7 +273,8 @@
     theSize = [[theResult objectAtIndex:1] sizeWithFont:self.theFont constrainedToSize:maxSize];
     theHeight += theSize.height + 10;
 
-    theSize = [[[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "]] sizeWithFont:self.theFont constrainedToSize:maxSize];
+//    theSize = [[[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "]] sizeWithFont:self.theFont constrainedToSize:maxSize];
+    theSize = [[[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "] sizeWithFont:self.theFont constrainedToSize:maxSize];
     theHeight += theSize.height + 10;
 
     theHeight += 10;
@@ -324,9 +325,11 @@
     
     CGSize maxSize = CGSizeMake (theCellWidth, 300);
     
-    CGSize theSize = [[[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "]] sizeWithFont:theFont constrainedToSize:maxSize];
+//    CGSize theSize = [[[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "]] sizeWithFont:theFont constrainedToSize:maxSize];
+    CGSize theSize = [[[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "] sizeWithFont:theFont constrainedToSize:maxSize];
     GLTapLabel *theDefinitionLabel = [[GLTapLabel alloc] initWithFrame:CGRectMake(10, 20 + theBigFont.lineHeight, theCellWidth, theSize.height)];
-    theDefinitionLabel.text = [[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "]];
+//    theDefinitionLabel.text = [[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "]];
+    theDefinitionLabel.text = [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "];
     theDefinitionLabel.textColor = [PKSettings PKTextColor];
     theDefinitionLabel.font = theFont;
     theDefinitionLabel.lineBreakMode = UILineBreakModeWordWrap;
@@ -357,8 +360,11 @@
     PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
     PKSearchViewController *svc = [[[rvc.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    [svc doSearchForTerm:[theSearchResults objectAtIndex:row] requireParsings:YES];
+  
+    NSString *theSVCTerm = [NSString stringWithFormat:@"\"%@ \"",[theSearchResults objectAtIndex:row]];
+  
+    [svc doSearchForTerm:theSVCTerm
+         requireParsings:YES];
 
 }
 
