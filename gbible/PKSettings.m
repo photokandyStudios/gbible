@@ -44,6 +44,8 @@
     @synthesize highlightTextColor;
 
     @synthesize textTheme;
+
+    @synthesize usageStats;
     
     static id _instance;
 
@@ -136,6 +138,16 @@
       
         textTheme = [self loadSetting:@"text-theme"] == @"" ? 0 :
                     [[self loadSetting:@"text-theme"] intValue];
+      
+        if ([self loadSetting:@"usage-stats"])
+        {
+          usageStats = [[self loadSetting: @"usage-stats"] boolValue];
+        }
+        else
+        {
+          usageStats = YES; // default;
+          [self saveSettings]; // save it so the Settings page knows about it
+        }
         
     }
     
@@ -239,6 +251,9 @@
         [self saveSetting: @"current-note" valueForSetting:currentNote];
         
         [self saveCurrentHighlight];
+      
+        [self saveSetting: @"text-theme" valueForSetting: [NSString stringWithFormat:@"%i", textTheme]];
+        [self saveSetting: @"usage-stats" valueForSetting:(usageStats ? @"YES" : @"NO") ];
     }
     
 /**
@@ -327,6 +342,8 @@
             highlightTextColor = @"Yellow";
           
             textTheme = 0;
+          
+            usageStats = YES;
             
             [self saveSettings];
             // done, return success or failure

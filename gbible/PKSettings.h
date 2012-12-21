@@ -44,6 +44,8 @@
     @property (readwrite, strong, nonatomic) NSString *highlightTextColor;
 
     @property (readwrite) int textTheme;
+
+    @property (readwrite) BOOL usageStats;
     
     +(id) instance;
     -(NSString *) loadSetting: (NSString *)theSetting;
