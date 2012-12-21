@@ -57,7 +57,8 @@
 {
   [self.tableView setBackgroundView:nil];
   self.tableView.backgroundColor = [PKSettings PKPageColor];
-  self.tableView.sectionIndexColor = [PKSettings PKTextColor];
+  // Fix issue #55
+  // self.tableView.sectionIndexColor = [PKSettings PKTextColor];
   self.tableView.separatorColor = [PKSettings PKTextColor];
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
   //self.tableView.sectionHeaderHeight = 60;
@@ -78,34 +79,34 @@
     [self.tableView setBackgroundView:nil];
     self.tableView.backgroundColor = [PKSettings PKPageColor];
     NSArray * englishTypeface = [NSArray arrayWithObjects: //@"AmericanTypewriter",
-                                                         //@"Arial", 
-                                                           @"Baskerville",
-                                                           @"Georgia", 
+                                                           @"CourierNewPSMT", 
+                                                           @"CourierNewPS-BoldMT",
+                                                           @"EuphemiaUCAS",
+                                                           @"EuphemiaUCAS-Bold",
                                                            @"Helvetica",
                                                            @"HelveticaNeue",
                                                            @"Helvetica-Light",
                                                            @"HelveticaNeue-Light",
                                                            //@"HeoflerText",
-                                                           @"Marion",
+                                                           //@"Marion",
                                                            @"OpenDyslexic-Regular",
-                                                           @"Optima",
+                                                           //@"Optima",
                                                        //  @"Pfennig",
-                                                           @"Verdana", nil];
-    NSArray * greekTypeface = [NSArray arrayWithObjects: //@"Arial",
-                                                           @"Baskerville",
-                                                           @"Georgia", 
-                                                           @"Georgia-Bold",
+                                                           @"Palatino-Roman",
+                                                           @"Palatino-Bold", nil];
+    NSArray * greekTypeface = [NSArray arrayWithObjects:   @"CourierNewPSMT",
+                                                           @"CourierNewPS-BoldMT",
+                                                           @"EuphemiaUCAS", 
+                                                           @"EuphemiaUCAS-Bold",
                                                            @"Helvetica",
                                                            @"Helvetica-Bold",
                                                            @"HelveticaNeue",
                                                            @"HelveticaNeue-Bold",
-                                                           @"Marion",
-                                                           @"Marion-Bold",
                                                            @"OpenDyslexic-Bold",
                                                       //   @"Pfennig",
                                                       //   @"PfennigBold",
-                                                           @"Verdana",
-                                                           @"Verdana-Bold", nil];                                                           
+                                                           @"Palatino-Roman",
+                                                           @"Palatino-Bold", nil];                                                           
     if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
     {
               englishTypeface = [NSArray arrayWithObjects: @"Baskerville",
@@ -355,9 +356,9 @@
 {
     switch (section)
     {
-        case 0: return @"Note: When transliterating Greek, the app may be slower when navigating to new passages. Transliteration only applies to visual renderings; search results, Strong's results, and search keywords are not modified.";
+        case 0: return @"Note: When transliterating Greek, the app may be slower when navigating to new passages. Searching while transliterating is very slow; be patient, or consider disabling transliteration while searching.";
                 break;
-        case 1: return @"Note: Not all fonts can render Greek diacritics correctly. If using a text with these letterforms, you may wish to revert to the Helvetica or Helvetica-Neue font, as it can properly display all Greek letterforms.";
+        case 1: return @"Note: The OpenDyslexic font does not support polytonic Greek. It is suggested to use the OpenDyslexic font only if transliterating the Greek or when using a text without diacritics.";
                 break;
 //        case 2: return @"Enable iCloud to synchronize your data across multiple devices. It is suggested \
 //                         that you export your data prior to enabling iCloud synchronization.";
