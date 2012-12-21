@@ -51,8 +51,8 @@
     
     @property BOOL dirty;
 
-    @property (strong, nonatomic) UIButton *previousChapter;
-    @property (strong, nonatomic) UIButton *nextChapter;
+    @property (strong, nonatomic) UIButton *previousChapterButton;
+    @property (strong, nonatomic) UIButton *nextChapterButton;
     
     -(void)notifyNoteChanged;
     

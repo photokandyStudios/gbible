@@ -81,8 +81,8 @@
     
     @synthesize tableTitle;
 
-    @synthesize previousChapter;
-    @synthesize nextChapter;
+    @synthesize previousChapterButton;
+    @synthesize nextChapterButton;
 
 #pragma mark -
 #pragma mark Network Connectivity
@@ -560,17 +560,25 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     self.tableView.backgroundColor = [PKSettings PKPageColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableTitle.textColor = [PKSettings PKTextColor];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] size:44];
+    }
+    else
+    {
+        tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] size:28];
+    }
 
     // set the button titles
-    [previousChapter setImage:[PKSettings PKImageLeftArrow] forState:UIControlStateNormal];
-    [previousChapter setImage:[PKSettings PKImageLeftArrow] forState:UIControlStateHighlighted];
-    [previousChapter setImage:[PKSettings PKImageLeftArrow] forState:UIControlStateDisabled];
-    [previousChapter setImage:[PKSettings PKImageLeftArrow] forState:UIControlStateSelected];
+    [previousChapterButton setImage:[PKSettings PKImageLeftArrow] forState:UIControlStateNormal];
+    [previousChapterButton setImage:[PKSettings PKImageLeftArrow] forState:UIControlStateHighlighted];
+    [previousChapterButton setImage:[PKSettings PKImageLeftArrow] forState:UIControlStateDisabled];
+    [previousChapterButton setImage:[PKSettings PKImageLeftArrow] forState:UIControlStateSelected];
     
-    [nextChapter setImage:[PKSettings PKImageRightArrow] forState:UIControlStateNormal];
-    [nextChapter setImage:[PKSettings PKImageRightArrow] forState:UIControlStateHighlighted];
-    [nextChapter setImage:[PKSettings PKImageRightArrow] forState:UIControlStateDisabled];
-    [nextChapter setImage:[PKSettings PKImageRightArrow] forState:UIControlStateSelected];
+    [nextChapterButton setImage:[PKSettings PKImageRightArrow] forState:UIControlStateNormal];
+    [nextChapterButton setImage:[PKSettings PKImageRightArrow] forState:UIControlStateHighlighted];
+    [nextChapterButton setImage:[PKSettings PKImageRightArrow] forState:UIControlStateDisabled];
+    [nextChapterButton setImage:[PKSettings PKImageRightArrow] forState:UIControlStateSelected];
 
 
     [self reloadTableCache];
@@ -746,36 +754,36 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     // create the header and footer views
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
     tableTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
-    previousChapter = [UIButton buttonWithType:UIButtonTypeCustom];
-    [previousChapter setFrame:CGRectMake(10, 22, 44, 44)];
+    previousChapterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [previousChapterButton setFrame:CGRectMake(10, 22, 44, 44)];
     
     UIView * footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 64)];
-    nextChapter = [UIButton buttonWithType:UIButtonTypeCustom];
-    [nextChapter setFrame:CGRectMake(self.tableView.frame.size.width - 54, 10, 44, 44)];
+    nextChapterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [nextChapterButton setFrame:CGRectMake(self.tableView.frame.size.width - 54, 10, 44, 44)];
     
     // set the button titles
-    [previousChapter setImage:[UIImage imageNamed:@"ArrowLeft.png"] forState:UIControlStateNormal];
-    [previousChapter setImage:[UIImage imageNamed:@"ArrowLeft.png"] forState:UIControlStateHighlighted];
-    [previousChapter setImage:[UIImage imageNamed:@"ArrowLeft.png"] forState:UIControlStateDisabled];
-    [previousChapter setImage:[UIImage imageNamed:@"ArrowLeft.png"] forState:UIControlStateSelected];
+    [previousChapterButton setImage:[UIImage imageNamed:@"ArrowLeft.png"] forState:UIControlStateNormal];
+    [previousChapterButton setImage:[UIImage imageNamed:@"ArrowLeft.png"] forState:UIControlStateHighlighted];
+    [previousChapterButton setImage:[UIImage imageNamed:@"ArrowLeft.png"] forState:UIControlStateDisabled];
+    [previousChapterButton setImage:[UIImage imageNamed:@"ArrowLeft.png"] forState:UIControlStateSelected];
     
-    [nextChapter setImage:[UIImage imageNamed:@"ArrowRight.png"] forState:UIControlStateNormal];
-    [nextChapter setImage:[UIImage imageNamed:@"ArrowRight.png"] forState:UIControlStateHighlighted];
-    [nextChapter setImage:[UIImage imageNamed:@"ArrowRight.png"] forState:UIControlStateDisabled];
-    [nextChapter setImage:[UIImage imageNamed:@"ArrowRight.png"] forState:UIControlStateSelected];
+    [nextChapterButton setImage:[UIImage imageNamed:@"ArrowRight.png"] forState:UIControlStateNormal];
+    [nextChapterButton setImage:[UIImage imageNamed:@"ArrowRight.png"] forState:UIControlStateHighlighted];
+    [nextChapterButton setImage:[UIImage imageNamed:@"ArrowRight.png"] forState:UIControlStateDisabled];
+    [nextChapterButton setImage:[UIImage imageNamed:@"ArrowRight.png"] forState:UIControlStateSelected];
     
     // set the targets
-    [previousChapter addTarget:self action:@selector(previousChapter) forControlEvents:UIControlEventTouchUpInside];
-    [nextChapter addTarget:self action:@selector(nextChapter) forControlEvents:UIControlEventTouchUpInside];
+    [previousChapterButton addTarget:self action:@selector(previousChapter) forControlEvents:UIControlEventTouchUpInside];
+    [nextChapterButton addTarget:self action:@selector(nextChapter) forControlEvents:UIControlEventTouchUpInside];
                                                                                        
 
-    nextChapter.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    nextChapterButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     
-    previousChapter.alpha = 0.5f;
-    nextChapter.alpha = 0.5f; 
+    previousChapterButton.alpha = 0.5f;
+    nextChapterButton.alpha = 0.5f; 
     
-    previousChapter.accessibilityLabel = @"Previous Chapter";
-    nextChapter.accessibilityLabel = @"Next Chapter";
+    previousChapterButton.accessibilityLabel = @"Previous Chapter";
+    nextChapterButton.accessibilityLabel = @"Next Chapter";
     
     // set the table title up
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
@@ -793,9 +801,9 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     
     // add the items to our views
     [headerView addSubview:tableTitle];
-    [headerView addSubview:previousChapter];
+    [headerView addSubview:previousChapterButton];
     
-    [footerView addSubview:nextChapter];
+    [footerView addSubview:nextChapterButton];
     
     // add the views to the table
     self.tableView.tableHeaderView = headerView;
