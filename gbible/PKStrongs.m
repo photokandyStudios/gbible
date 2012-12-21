@@ -10,6 +10,8 @@
 #import "FMDatabase.h"
 #import "FMResultSet.h"
 #import "PKDatabase.h"
+#import "PKSettings.h"
+#import "PKBible.h"
 
 @implementation PKStrongs
 
@@ -25,6 +27,10 @@
                 // Fixes issue #30
                 NSMutableString *theItem = [[s stringForColumnIndex:i] mutableCopy];
                 [theItem replaceOccurrencesOfString:@"[DQ]" withString:@"\"" options:0 range:NSMakeRange(0, [theItem length])];
+                if ([[PKSettings instance] transliterateText])
+                {
+                  theItem = [[PKBible transliterate:theItem] mutableCopy];
+                }
                 [theResult addObject:theItem];
             }
             
@@ -89,18 +95,22 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
                     break;
                 }
                 
-                [searchPhrase appendString:@"TRIM(LOWER( key || ' ' || definition || ' ' || lemma || ' ' || pronunciation )) LIKE \"%"];
+               // [searchPhrase appendString:@"TRIM(LOWER( key || ' ' || definition || ' ' || lemma || ' ' || pronunciation )) LIKE \"%"];
+                [searchPhrase appendString:@"doesContain (TRIM(key||' '|| definition||' '||lemma||' '||pronunciation),\""];
                 [searchPhrase appendString:theWord];
-                [searchPhrase appendString:@"%\" ) "];
+               // [searchPhrase appendString:@"%\" ) "];
+                [searchPhrase appendString:@"\"))"];
             }
         }
         else
         {
             NSString *theWord = searchPhrase;
             searchPhrase = [@"" mutableCopy];
-            [searchPhrase appendString:@"( TRIM(LOWER(key || ' ' || definition || ' ' || lemma || ' ' || pronunciation )) LIKE \"%"];
+//            [searchPhrase appendString:@"( TRIM(LOWER(key || ' ' || definition || ' ' || lemma || ' ' || pronunciation )) LIKE \"%"];
+                [searchPhrase appendString:@"doesContain (TRIM(key||' '|| definition||' '||lemma||' '||pronunciation),\""];
             [searchPhrase appendString:theWord];
-            [searchPhrase appendString:@"%\" ) "];
+//            [searchPhrase appendString:@"%\" ) "];
+                [searchPhrase appendString:@"\")"];
         }
 
         //NSLog (@"SQL: %@", searchPhrase);
