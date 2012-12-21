@@ -14,6 +14,8 @@
 #import "PKRootViewController.h"
 #import "PKBibleViewController.h"
 #import "GLTapLabel.h"
+#import "PKHistory.h"
+#import "PKHistoryViewController.h"
 
 @interface PKSearchViewController ()
 
@@ -49,6 +51,8 @@
 -(void)doSearchForTerm:(NSString *)theTerm requireParsings:(BOOL)parsings
 {
     [((PKRootViewController *)self.parentViewController.parentViewController ) showWaitingIndicator];
+    [[PKHistory instance] addBibleSearch:theTerm];
+    [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:3] reloadHistory];
     PKWait(
         theSearchResults = nil;
         theSearchTerm = theTerm;

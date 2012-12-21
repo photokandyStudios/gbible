@@ -17,4 +17,12 @@
     -(void) addPassagewithBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse;
     -(void) createSchema;
 
+//v1.1 additions
+
+    -(NSMutableArray *)mostRecentHistory;
+    -(NSMutableArray *)mostRecentHistoryWithLimit: (int) theLimit;
+    -(void) addBibleSearch: (NSString *)theSearchTerm;
+    -(void) addStrongsSearch: (NSString *)theStrongsTerm;
+
+
 @end

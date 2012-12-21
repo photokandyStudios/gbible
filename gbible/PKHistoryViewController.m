@@ -12,6 +12,8 @@
 #import "ZUUIRevealController.h"
 #import "PKRootViewController.h"
 #import "PKBibleViewController.h"
+#import "PKSearchViewController.h"
+#import "PKStrongsController.h"
 #import "PKSettings.h"
 #import "TestFlight.h"
 
@@ -26,7 +28,7 @@
   
 - (void)reloadHistory
 {
-    history = [(PKHistory *)[PKHistory instance] mostRecentPassages];
+    history = [(PKHistory *)[PKHistory instance] mostRecentHistory];
     [self.tableView reloadData];
     if ([history count] == 0)
     {
@@ -137,16 +139,34 @@
     }
     
     NSUInteger row = [indexPath row];
-    
-    NSString *thePassage = [history objectAtIndex:row];
-    int theBook = [PKBible bookFromString:thePassage];
-    int theChapter = [PKBible chapterFromString:thePassage];
-    int theVerse = [PKBible verseFromString:thePassage];
-    NSString *thePrettyPassage = [NSString stringWithFormat:@"%@ %i:%i",
-                                           [PKBible nameForBook:theBook], theChapter, theVerse];
-                                           
-    cell.textLabel.text = thePrettyPassage;
     cell.textLabel.textColor = [PKSettings PKSidebarTextColor];
+  
+    NSString *theHistoryItem = [history objectAtIndex:row];
+    if ( [theHistoryItem characterAtIndex:0] == 'P')
+    {
+      // passage
+      NSString *thePassage = [theHistoryItem substringFromIndex:1];
+      int theBook = [PKBible bookFromString:thePassage];
+      int theChapter = [PKBible chapterFromString:thePassage];
+      int theVerse = [PKBible verseFromString:thePassage];
+      NSString *thePrettyPassage = [NSString stringWithFormat:@"%@ %i:%i",
+                                             [PKBible nameForBook:theBook], theChapter, theVerse];
+                                             
+      cell.textLabel.text = thePrettyPassage;
+    }
+    else if ( [theHistoryItem characterAtIndex:0] == 'B')
+    {
+      // Bible search
+      NSString *theSearchTerm = [theHistoryItem substringFromIndex:1];
+      cell.textLabel.text = [NSString stringWithFormat:@"Bible: %@", theSearchTerm];
+    }
+    else if ( [theHistoryItem characterAtIndex:0] == 'S')
+    {
+      // Strongs search
+      NSString *theStrongsTerm = [theHistoryItem substringFromIndex:1];
+      cell.textLabel.text = [NSString stringWithFormat:@"Strong's: %@", theStrongsTerm];
+    }
+  
 
     return cell;
 
@@ -155,24 +175,39 @@
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger row = [indexPath row];
-    NSString *thePassage = [history objectAtIndex:row];
-    int theBook = [PKBible bookFromString:thePassage];
-    int theChapter = [PKBible chapterFromString:thePassage];
-    int theVerse = [PKBible verseFromString:thePassage];
-    
+    NSString *theHistoryItem = [history objectAtIndex:row];
     ZUUIRevealController  *rc = (ZUUIRevealController *)self.parentViewController
                                                             .parentViewController;
     PKRootViewController *rvc = (PKRootViewController *)rc.frontViewController;
         
-    PKBibleViewController *bvc = [[[rvc.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];     
+    PKBibleViewController *bvc = [[[rvc.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];
+    PKSearchViewController *sbvc = [[[rvc.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0];
+    PKStrongsController *ssvc = [[[rvc.viewControllers objectAtIndex:2] viewControllers] objectAtIndex:0];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     [rc revealToggle:self];
-
-    [bvc displayBook:theBook andChapter:theChapter andVerse:theVerse];
-    
-  
+    if ( [theHistoryItem characterAtIndex:0] == 'P')
+    {
+      // passage
+      NSString *thePassage = [theHistoryItem substringFromIndex:1];
+      int theBook = [PKBible bookFromString:thePassage];
+      int theChapter = [PKBible chapterFromString:thePassage];
+      int theVerse = [PKBible verseFromString:thePassage];
+      [bvc displayBook:theBook andChapter:theChapter andVerse:theVerse];
+    }
+    else if ( [theHistoryItem characterAtIndex:0] == 'B')
+    {
+      // Bible search
+      NSString *theSearchTerm = [theHistoryItem substringFromIndex:1];
+      [sbvc doSearchForTerm:theSearchTerm];
+    }
+    else if ( [theHistoryItem characterAtIndex:0] == 'S')
+    {
+      // Strongs search
+      NSString *theStrongsTerm = [theHistoryItem substringFromIndex:1];
+      [ssvc doSearchForTerm:theStrongsTerm];
+    }
 }
 
 @end
