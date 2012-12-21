@@ -38,5 +38,5 @@
     +(CGFloat)formattedTextHeight: (NSArray *)theWordArray withParsings:(BOOL)parsed;
     +(NSArray *)formatText: (NSString *)theText forColumn: (int)theColumn withBounds: (CGRect)theRect withParsings: (BOOL)parsed;
     +(CGFloat) columnWidth: (int) theColumn forBounds: (CGRect)theRect;
-    
+    +(NSString *)transliterate: (NSString*)theWord;
 @end

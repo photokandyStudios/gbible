@@ -239,6 +239,10 @@
             }
         }
         theText = [theText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        if ([[PKSettings instance] transliterateText])
+            {
+              theText = [self transliterate:theText];
+            }
         return theText;
     }
 
@@ -271,6 +275,10 @@
                 theText = [theRef stringByAppendingString:theText];
             }
             theText = [theText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            if ([[PKSettings instance] transliterateText])
+            {
+              theText = [self transliterate:theText];
+            }
             [theArray addObject:theText];
             i++;
         }
@@ -411,6 +419,13 @@
  */
     +(CGFloat) columnWidth: (int) theColumn forBounds: (CGRect)theRect
     {
+        // set Margin
+        CGFloat theMargin = 5;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            // iPad gets wider margins
+            theMargin = 44;
+        }
         // define our column (based on incoming rect)
         float columnMultiplier = 1;
         int columnSetting = [[PKSettings instance] layoutColumnWidths];
@@ -431,7 +446,7 @@
         if (theColumn == 3) { columnMultiplier = 0.25; }
         columnMultiplier = columnMultiplier / 3;
         
-        CGFloat columnWidth = (theRect.size.width) * columnMultiplier;
+        CGFloat columnWidth = ((theRect.size.width) - (theMargin)) * columnMultiplier;
         
         return columnWidth;
     }
@@ -550,13 +565,13 @@
         {
             theBoldFont = theFont;
         }
-        
+      
         // set Margin
         CGFloat theMargin = 5;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             // iPad gets wider margins
-            theMargin = 50;
+            theMargin = 44;
         }
         // set starting points
         CGFloat startX = theRect.origin.x + theMargin; // some margin
@@ -575,6 +590,10 @@
         if (theColumn == 2)
         {
             endX = endX - theMargin;
+        }
+        else
+        {
+            endX = endX - (theMargin/2);
         }
       
         NSMutableString *theFixedText = [theText mutableCopy];
@@ -860,20 +879,26 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
                     break;
                 }
                 
-                [searchPhrase appendString:@"TRIM(LOWER(bibleText)) LIKE \"%"];
-                [searchPhrase appendString:theWord];
-                [searchPhrase appendString:@"%\" ) "];
+                //[searchPhrase appendString:@"TRIM(stripDiacritics(lowercase(bibleText))) LIKE \"%"];
+                //[searchPhrase appendString:theWord];
+                [searchPhrase appendString:@"doesContain(TRIM(bibleText),\""];
+                [searchPhrase appendString:[[theWord lowercaseString] stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]]];
+                //[searchPhrase appendString:@"%\" ) "];
+                [searchPhrase appendString:@"\"))"];
             }
         }
         else
         {
             NSString *theWord = searchPhrase;
             searchPhrase = [@"" mutableCopy];
-            [searchPhrase appendString:@"( TRIM(LOWER(bibleText)) LIKE \"%"];
-            [searchPhrase appendString:theWord];
-            [searchPhrase appendString:@"%\" ) "];
+//            [searchPhrase appendString:@"( TRIM(lowercase(bibleText)) LIKE \"%"];
+            [searchPhrase appendString:@"doesContain(TRIM(bibleText),\""];
+            [searchPhrase appendString:[[theWord lowercaseString] stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]]];
+            //[searchPhrase appendString:@"%\" ) "];
+            [searchPhrase appendString:@"\")"];
         }
-        //NSLog (@"Original: %@\nTransformed: %@", theTerm, searchPhrase);
+        NSLog (@"Original: %@\nTransformed: %@", theTerm, searchPhrase);
+        
         FMResultSet *s = [db executeQuery:[NSString stringWithFormat: @"SELECT DISTINCT bibleBook, bibleChapter, bibleVerse FROM content WHERE bibleID in (?,?) AND (%@) ORDER BY 1,2,3", searchPhrase],
                                            [NSNumber numberWithInt:theGreekBible],
                                            [NSNumber numberWithInt:theEnglishBible]];
