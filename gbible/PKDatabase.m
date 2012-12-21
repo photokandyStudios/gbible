@@ -80,6 +80,99 @@
                 NSLog(@"[CRITICAL] Could not open User Content Database!");
                 return nil;
             }
+          
+            // add a case and diacritic-insensitive comparator to the sqlite instances
+            [bible makeFunctionNamed:@"doesContain" maximumArguments:2 withBlock:^(sqlite3_context *context, int aargc, sqlite3_value **aargv)
+              {
+                if (aargc < 2)
+                {
+                    NSLog(@"doesContain doesn't have enough parameters (%d) %s:%d", aargc, __FUNCTION__, __LINE__);
+                    sqlite3_result_null(context);
+                    return;
+                }
+                
+                if (sqlite3_value_type(aargv[0]) == SQLITE_TEXT
+                 && sqlite3_value_type(aargv[1]) == SQLITE_TEXT) {
+                    @autoreleasepool {
+                        const char *x = (const char *)sqlite3_value_text(aargv[0]);
+                        NSString *sx = [NSString stringWithUTF8String:x];
+                      
+                        const char *y = (const char*)sqlite3_value_text(aargv[1]);
+                        NSString *sy = [NSString stringWithUTF8String:y];
+                      
+                        int lx = [sx length];
+                        int ly = [sy length];
+                        if (lx > 0 && ly>0)
+                        {
+                            sx = [[sx lowercaseString] stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
+                            sy = [[sy lowercaseString] stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
+                            if ([[PKSettings instance] transliterateText])
+                            {
+                              sx = [PKBible transliterate: sx];
+                              //sy = [PKBible transliterate: sy];
+                            }
+                            sqlite3_result_int(context, [sx rangeOfString:sy].location != NSNotFound);
+                        }
+                        else
+                        {
+                            sqlite3_result_int(context, 0);
+                        }
+                    }
+                }
+                else {
+                    NSLog(@"Unknown format for doesContain (%d, %d) %s:%d", sqlite3_value_type(aargv[0]),
+                    sqlite3_value_type(aargv[1]), __FUNCTION__, __LINE__);
+                    sqlite3_result_null(context);
+                }
+              }
+            ];
+          /*
+            [bible makeFunctionNamed:@"stripDiacritics" maximumArguments:1
+                 withBlock:^(sqlite3_context *context, int aargc, sqlite3_value **aargv)
+              {
+                if (sqlite3_value_type(aargv[0]) == SQLITE_TEXT) {
+                    @autoreleasepool {
+                        const char *c = (const char *)sqlite3_value_text(aargv[0]);                        
+                        NSString *s = [NSString stringWithUTF8String:c];
+                        int l = [s length];
+                        if (l > 0)
+                        {
+                          s = [s stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
+                          s = [s lowercaseString];
+                        }
+                        const char *dc = (const char*)[s UTF8String];
+                        sqlite3_result_text(context, dc, [s length]+1, NULL);
+                    }
+                }
+                else {
+                    NSLog(@"Unknown format for stripDiacritics (%d) %s:%d", sqlite3_value_type(aargv[0]), __FUNCTION__, __LINE__);
+                    sqlite3_result_null(context);
+                }
+              }
+            ];
+
+            [bible makeFunctionNamed:@"lowercase" maximumArguments:1
+                 withBlock:^(sqlite3_context *context, int aargc, sqlite3_value **aargv)
+              {
+                if (sqlite3_value_type(aargv[0]) == SQLITE_TEXT) {
+                    @autoreleasepool {
+                        const char *c = (const char *)sqlite3_value_text(aargv[0]);                        
+                        NSString *s = [NSString stringWithUTF8String:c];
+                        int l = [s length];
+                        if (l > 0)
+                        {
+                          s = [s lowercaseString];
+                        }
+                        sqlite3_result_text(context, [s UTF8String], [s length] +1, NULL);
+                    }
+                }
+                else {
+                    NSLog(@"Unknown format for lowercase (%d) %s:%d", sqlite3_value_type(aargv[0]), __FUNCTION__, __LINE__);
+                    sqlite3_result_null(context);
+                }
+              }
+            ];*/
+          
         }
         return self;
     }
