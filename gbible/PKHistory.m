@@ -38,7 +38,7 @@
     -(NSMutableArray *)mostRecentPassagesWithLimit: (int) theLimit
     {
         FMDatabase *content = ((PKDatabase*) [PKDatabase instance]).content;
-        FMResultSet *s = [content executeQuery:@"SELECT book,chapter,verse FROM history ORDER BY seq DESC LIMIT ?",
+        FMResultSet *s = [content executeQuery:@"SELECT DISTINCT book,chapter,verse FROM history ORDER BY seq DESC LIMIT ?",
                                                 [NSNumber numberWithInt:theLimit] ];
         NSMutableArray *theArray = [[NSMutableArray alloc] init];
         while ([s next])
