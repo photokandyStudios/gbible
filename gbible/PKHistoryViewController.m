@@ -13,6 +13,7 @@
 #import "PKRootViewController.h"
 #import "PKBibleViewController.h"
 #import "PKSettings.h"
+#import "TestFlight.h"
 
 @interface PKHistoryViewController ()
 

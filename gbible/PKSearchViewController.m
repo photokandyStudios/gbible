@@ -337,7 +337,7 @@
     GLTapLabel *theLeftSide = [[GLTapLabel alloc] initWithFrame:CGRectMake(20, 10, theColumnWidth-40, 80)];
     theLeftSide.linkColor = [PKSettings PKStrongsColor];
     theLeftSide.hotTerm = self.theSearchTerm;
-    theLeftSide.text = [NSString stringWithFormat:@"%@ %i:%@", 
+    theLeftSide.text = [NSString stringWithFormat:@"%@ %i:%@ ", 
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
                                                     [PKBible getTextForBook:theBook 
@@ -345,7 +345,7 @@
                                                                    forVerse:theVerse 
                                                                     forSide:2]];
     theLeftSide.textColor = [PKSettings PKTextColor];
-    theLeftSide.linkBackgroundColor = [PKSettings PKYellowHighlightColor];
+    theLeftSide.linkBackgroundColor = [PKSettings PKSelectionColor];
     theLeftSide.numberOfLines=0;
     theLeftSide.backgroundColor = [UIColor clearColor];
     theLeftSide.font = self.leftFont;
@@ -353,9 +353,9 @@
 
     GLTapLabel *theRightSide = [[GLTapLabel alloc] initWithFrame:CGRectMake(theColumnWidth+20, 10, theColumnWidth-40, 80)];
     theRightSide.linkColor = [PKSettings PKStrongsColor];
-    theRightSide.linkBackgroundColor = [PKSettings PKYellowHighlightColor];
+    theRightSide.linkBackgroundColor = [PKSettings PKSelectionColor];
     theRightSide.hotTerm = self.theSearchTerm;
-    theRightSide.text = [NSString stringWithFormat:@"%@ %i:%i %@",
+    theRightSide.text = [NSString stringWithFormat:@"%@ %i:%i %@ ",
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
                                                     theVerse,
