@@ -85,7 +85,8 @@
           
             if (hotTerm)
             {
-              if ([[word lowercaseString] rangeOfString:[hotTerm lowercaseString]].location != NSNotFound)
+              if ( ([[word lowercaseString] rangeOfString:[hotTerm lowercaseString]].location != NSNotFound) ||
+                   ([[[word lowercaseString] stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]] rangeOfString:[hotTerm lowercaseString]].location != NSNotFound) )
               {
                 hot = YES;
               }
