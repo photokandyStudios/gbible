@@ -50,6 +50,9 @@
     @property (strong, nonatomic) UITableViewCell *theCachedCell;
     
     @property BOOL dirty;
+
+    @property (strong, nonatomic) UIButton *previousChapter;
+    @property (strong, nonatomic) UIButton *nextChapter;
     
     -(void)notifyNoteChanged;
     

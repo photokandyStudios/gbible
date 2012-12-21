@@ -81,6 +81,9 @@
     
     @synthesize tableTitle;
 
+    @synthesize previousChapter;
+    @synthesize nextChapter;
+
 #pragma mark -
 #pragma mark Network Connectivity
 /* 
@@ -557,6 +560,19 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     self.tableView.backgroundColor = [PKSettings PKPageColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableTitle.textColor = [PKSettings PKTextColor];
+
+    // set the button titles
+    [previousChapter setImage:[PKSettings PKImageLeftArrow] forState:UIControlStateNormal];
+    [previousChapter setImage:[PKSettings PKImageLeftArrow] forState:UIControlStateHighlighted];
+    [previousChapter setImage:[PKSettings PKImageLeftArrow] forState:UIControlStateDisabled];
+    [previousChapter setImage:[PKSettings PKImageLeftArrow] forState:UIControlStateSelected];
+    
+    [nextChapter setImage:[PKSettings PKImageRightArrow] forState:UIControlStateNormal];
+    [nextChapter setImage:[PKSettings PKImageRightArrow] forState:UIControlStateHighlighted];
+    [nextChapter setImage:[PKSettings PKImageRightArrow] forState:UIControlStateDisabled];
+    [nextChapter setImage:[PKSettings PKImageRightArrow] forState:UIControlStateSelected];
+
+
     [self reloadTableCache];
 }
 
@@ -730,11 +746,11 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     // create the header and footer views
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
     tableTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
-    UIButton * previousChapter = [UIButton buttonWithType:UIButtonTypeCustom];
+    previousChapter = [UIButton buttonWithType:UIButtonTypeCustom];
     [previousChapter setFrame:CGRectMake(10, 22, 44, 44)];
     
     UIView * footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 64)];
-    UIButton * nextChapter = [UIButton buttonWithType:UIButtonTypeCustom];
+    nextChapter = [UIButton buttonWithType:UIButtonTypeCustom];
     [nextChapter setFrame:CGRectMake(self.tableView.frame.size.width - 54, 10, 44, 44)];
     
     // set the button titles
