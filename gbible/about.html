@@ -17,7 +17,7 @@
             }
             h1, h2, h3, h4, h5, p, ul, ol, pre
             {
-                max-width: 650px;
+                max-width: 700px;
                 margin: 0 auto;
                 text-align: justify;
             }
@@ -95,8 +95,8 @@
         </style>
     </head>
     <body>
-    <h1>Greek Interlinear Bible</h1>
-    <p>&copy; Copyright 2012 by Kerri Shotts and photoKandy Studios LLC. Released under a CC-BY-NC-SA license.</p>
+    <h1>Greek Interlinear Bible 1.1</h1>
+    <p>&copy; Copyright 2013 by Kerri Shotts and photoKandy Studios LLC. Released under a CC-BY-NC-SA license.</p>
     <a name="top">
     <h2>Table of Contents</h2>
     <ul>
@@ -108,7 +108,8 @@
       <li><a href="#Highlights">Create and Manage Highlights</a></li>
       <li><a href="#Search">Searching the Bible and the Strong's Dictionary</a></li>      
       <li><a href="#Define">Defining a Word</a></li>      
-      <li><a href="#Explain">Explaining a Verse with a Commentary</a></li>      
+      <li><a href="#Explain">Explaining a Verse with a Commentary</a></li>
+      <li><a href="#Settings">Settings</a></li>
      </ul>
      <li><a href="#Morphology">Morphology</a><br><br></li>
      <li><a href="#DataSources">Data Sources and Acknowledgements</a></li>
@@ -160,8 +161,8 @@
     <p>If you want to go to a place you've been recently, press <button>History</button>. You'll see a list of all
        the references you've been to lately (up to 200). Tap a reference and you'll be taken to that spot in the Bible.
     <p>While you are reading and come to the end of a particular chapter, you don't want to have to open up the left-
-       hand navigation bar and select a new reference just to continue reading. To help that, you can just swipe left
-       or right with your finger to change pages, just like a real book. Swipe to the <b>left</b> to go forward one
+       hand navigation bar and select a new reference just to continue reading. Therefore, you can just swipe left
+       or right with your finger to change pages, just like typical book reader. Swipe to the <b>left</b> to go forward one
        chapter, and swipe to the <b>right</b> to go back one chapter.
     <blockquote>
        <b>Note:</b> You can display the left-hand navigation bar by swiping right from the left edge of the screen. To
@@ -185,7 +186,7 @@
        that you've attached to the verse(s) will also be included.
     </blockquote>
     <blockquote>
-       <b>Note:</b> You can only copy verses within a single chapter &emdash; that is, you can't select some verses,
+       <b>Note:</b> You can only copy verses within a single chapter &mdash; that is, you can't select some verses,
        move to the next chapter, and select some more and have the entire selection be copied. Only the verses within
        the visible chapter will be copied.
     </blockquote>
@@ -197,7 +198,7 @@
        text you are reading. Doing that is really easy. To create a note (or view/edit a previously created note), just 
        tap-and-hold anywhere within the verse you want to annotate, and a menu will appear. Tap <button>Annotate</button>
        and a note-entry screen will be displayed.
-    <p>The first text field is the <i>title</i> of the annotation, and is set to the passage by default. This allows
+    <p>The first text field is the <i>title</i> of the annotation, and is set to the passage reference by default. This allows
        notes to act as good bookmarks if you don't want to change the title. If, however, you want the title to reflect
        something about the note, you can tap in the text field and change the title to whatever you wish.
     <p>The rest of the note-entry screen is for your note. Just tap anywhere inside it to start editing it. By default
@@ -229,7 +230,7 @@
        chose.
     <p>You can have as many highlights as you'd like. There is no enforced limit.</p>
     <blockquote>
-       <b>Note:</b> If your device is running on iOS 4, you will instead see a button with the <i>name</i> of a color.
+       <b>Note:</b> If your device is running on iOS 4.3, you will instead see a button with the <i>name</i> of a color.
        When you tap it, the same list of colors will appear, but when you select a color, the button will change to 
        the name of the color you chose.
     </blockquote>
@@ -244,10 +245,14 @@
        moment. The menu will also appear with a <button>Search</button> item. Tap it and you'll be presented with
        another menu containing <button>Search Bible</button> and <button>Search Strong's</button>.
     <p>If you select <button>Search Bible</button>, you'll be taken to the <b>Search</b> tab, and the search will
-       be initiated. If it is a long search, you may see an indicator on-screen &emdash; this is normal and will go
+       be initiated. If it is a long search, you may see an indicator on-screen &mdash; this is normal and will go
        away when the search is finished.
     <p>The same thing will occur when you select <button>Search Strong's</button>, only you'll be taken to the 
        <b>Strong's Lookup</b> tab.
+    <blockquote>
+      <b>Note:</b> If you have turned Greek transliteration, searching may take several moments. For faster
+      searches, disable transliteration.
+    </blockquote>
     <p>Once the search is complete, a list of results will appear. You can then tap on that result. If you are
        searching the Bible, you'll go to that particular verse. If you are searching the Strong's Dictionary, you'll
        be presented with a new search containing all the verses where that particular Strong's Number was found.
@@ -256,25 +261,17 @@
        start the search.
     <p>When searching using this method, you can get pretty complicated with your search terms. Here's a quick rundown
        of how you can use various operators to change the search meaning:
-    
-    <pre>
- Search Term        Result     
- "Jesus Christ"     All verses containing the phrase
-                    "Jesus Christ"
- Jesus Christ       All verses containing either the
-                    word "Jesus" or the word "Christ"
- Jesus +Christ      All verses containing both the
-                    words "Jesus" and "Christ"
- Jesus -Christ      All verses containing the word
-                    "Jesus", but NOT the word "Christ"
- Jesus%Christ       All verses containing both the
-                    words "Jesus" and "Christ" but 
-                    the word "Christ" most follow the
-                    first.</pre>
+    <ul>
+     <li>"Jesus Christ" &mdash; All verses containing the phrase "Jesus Christ" (Can't be used with any other search method.)</li>
+     <li>Jesus Christ &mdash; All verses containing either the word "Jesus" or the word "Christ"</li>
+     <li>Jesus +Christ &mdash; All verses containing both the words "Jesus" and "Christ"</li>
+     <li>Jesus -Christ &mdash; All verses containing the word "Jesus", but NOT the word "Christ"</li>
+    </ul>
     <blockquote>
        <b>Tip:</b> If you find typing the <b>+</b> or <b>-</b> too difficult, you can substitute a period (<b>.</b>)
        for the <b>+</b>, and an exclamation point (<b>!</b>) for the <b>-</b>.
     </blockquote>
+    <p>When searching Greek and English, case is disregarded. Therefore you can search for "abraham" and the result will return verses with "Abraham". Also, when searching for Greek words, you aren't required to type in all the diacritical marks.
         <p><a href="#top">Back to Table of Contents</a></p>
 
     <a name="Define">
@@ -301,6 +298,56 @@
        Parallel Comentaries. These often provide valuable insight to the verse you are studying.
     <p>When you are finished reading, just tap <button>Done</button>.
         <p><a href="#top">Back to Table of Contents</a></p>
+      
+    <a name="Settings">
+    <h3>Settings</h3>
+    <p>You can change the text layout, Greek and English text, import and export, and more by navigationg to the
+       Settings area. Just tap "Settings" in the tab bar.
+    <ul><li>Text Settings</li>
+        <ul><li>Greek Text &mdash; Select from four Greek texts. The Westcott-Hort text provides diacritical markings
+                along with in-line English translations of the words as well as morphology and Strong's numbers in-line.
+                The Byzantine and Textus-Receptus texts provide
+                only in-line morphology and Strong's numbers; the Greek is unaccented. Finally, the Tischendorf text does
+                not include any morphology or Strong's numbers; it is unparsed and unaccented.</li>
+            <li>English Text &mdash; Select either the Young's Literal Translation or the Authorized (King James)
+                version. (Keep in mind that the Strong's numbers are indexed to the Authorized Version.)</li>
+            <li>Transliterate Greek? &mdash; If Yes, the Greek letterforms will be transliterated. Note that this can
+                considerably slow the app down, especially when searching. Also note that transliterations do not reflect
+                any diacritics in the text.</li>
+            <li>Show Morphology? &mdash; If Yes, the morphology is indicated below the Greek word.</li>
+            <li>Show Strongs? &mdash; If Yes, the Strong's # is indicated below the Greek word.</li>
+            <li>Show Translation? &mdash; If Yes and the text supports it, the English translation is indicated below the
+                Greek word. (Only supported on Westcott-Hort.)</li>
+            </ul>
+        <li>Layout</li>
+        <ul><li>Theme &mdash; Select from one of several color themes. Takes effect immediately.</li>
+            <li>English/Greek Typeface &mdash; Select one of several typefaces. The typefaces are all polytonic, with the
+                exception of the OpenDyslexic font. The OpenDyslexic font should probably be reserved for use as the
+                Greek Typeface when transliterating the Greek.</li>
+            <li>Font Size &mdash; Select the size of the displayed text. Smaller values will allow more text to be
+                displayed at the cost of legibility. For vision-impaired individuals, larger values may help.</li>
+            <li>Line Spacing &mdash; Select the distance between lines. Only visible when displaying Morphology,
+                Strongs, and/or the Translation.</li>
+            <li>Row Spacing &mdash; Select the distance between rows.</li>
+            <li>Column Widths &mdash; Select from three colum widths. You can choose to have the Greek take up the
+                majority of the screen, the English take up the majority of the screen, or have both take up equal
+                screen estate.</li>
+            </ul>
+        <li>Export</li>
+        <ul><li>Export &mdash; Tap to export all your annotations and highlights to iTunes so that you can connect your
+                device to your computer and copy the exported file to a safe place. This file can be used as a backup or
+                as an import source for another device.</li>
+            </ul>
+        <li>Import</li>
+        <ul><li>Import Annotations &mdash; Tap to import the annotations from the import file. This file must have been
+                copied from your computer to your device using iTunes, and have been previously exported from the app.</li>
+            <li>Import Highlights &mdash; Tap to import the highlights from the import file.</li>
+            <li>Import Everything &mdash; Tap to import everything in the import file. This is used most often to
+                restore all your settings, annotations, and highlights from a previous export.</li>
+        </ul>
+      </ul>
+        <p><a href="#top">Back to Table of Contents</a></p>
+    
 
     <a name="Morphology">
     <h2>Morphology</h2>
