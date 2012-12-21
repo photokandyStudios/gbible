@@ -372,7 +372,7 @@
 +(UIColor *)PKSidebarPageColor
 {
     NSArray *theColors = @[ [UIColor colorWithRed:0.8125 green:0.800781 blue:0.773437 alpha:1.0],
-                            [UIColor colorWithWhite:0.90 alpha:1],
+                            [UIColor colorWithWhite:0.80 alpha:1],
                             [UIColor colorWithWhite:0.11 alpha:1],
                             [UIColor colorWithWhite:0.11 alpha:1]
                           ];
@@ -395,9 +395,9 @@
 +(UIColor *)PKSelectionColor
 {
     NSArray *theColors = @[ [UIColor colorWithRed:0.8125 green:0.800781 blue:0.773437 alpha:1.0],
-                            [UIColor colorWithRed:0.350 green:0.600 blue:0.850 alpha:1.0],
-                            [UIColor colorWithRed:0.05 green:0.05 blue:0.125 alpha:1.0],
-                            [UIColor colorWithRed:0.05 green:0.05 blue:0.125 alpha:1.0]
+                            [UIColor colorWithRed:0.70 green:0.80 blue:0.900 alpha:1.0],
+                            [UIColor colorWithRed:0.20 green:0.20 blue:0.20 alpha:1.0],
+                            [UIColor colorWithRed:0.25 green:0.20 blue:0.10 alpha:1.0]
                           ];
     UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
     return theColor;
@@ -539,6 +539,28 @@
                           ];
     UIColor *theColor = theColors[ [((PKSettings *)[PKSettings instance]) textTheme] ];
     return theColor;
+}
+
++(UIImage *)PKImageLeftArrow
+{
+  int theTheme =  [((PKSettings *)[PKSettings instance]) textTheme];
+
+  // dark themes need a white arrow
+  if (theTheme > 1) return [UIImage imageNamed:@"ArrowLeftWhite"];
+  
+  // otherwise the normal arrow
+  return [UIImage imageNamed:@"ArrowLeft"];
+}
+
++(UIImage *)PKImageRightArrow
+{
+  int theTheme =  [((PKSettings *)[PKSettings instance]) textTheme];
+
+  // dark themes need a white arrow
+  if (theTheme > 1) return [UIImage imageNamed:@"ArrowRightWhite"];
+  
+  // otherwise the normal arrow
+  return [UIImage imageNamed:@"ArrowRight"];
 }
 
 @end

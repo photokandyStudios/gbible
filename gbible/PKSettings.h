@@ -75,5 +75,7 @@
     +(UIColor *)PKPinkHighlightColor;
     +(UIColor *)PKMagentaHighlightColor;
     +(UIColor *)PKBaseUIColor;
+    +(UIImage *)PKImageLeftArrow;
+    +(UIImage *)PKImageRightArrow;
 @end
 
