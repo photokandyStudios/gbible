@@ -132,7 +132,7 @@
                                                                            ,nil],
                                                 [NSArray arrayWithObjects: @"English Typeface", [NSNumber numberWithInt:1], PK_SETTING_FONTFACE,
                                                                            englishTypeface, nil],
-                                                [NSArray arrayWithObjects: @"Greek Typeface", [NSNumber numberWithInt:1], @"greek-typeface", //RE: ISSUE #6
+                                                [NSArray arrayWithObjects: @"Greek Typeface﹡", [NSNumber numberWithInt:1], @"greek-typeface", //RE: ISSUE #6
                                                                            greekTypeface, nil],
                                                 [NSArray arrayWithObjects: @"Font Size", [NSNumber numberWithInt:3], PK_SETTING_FONTSIZE, 
                                                                            [NSArray arrayWithObjects: //[NSNumber numberWithInt:6],
@@ -196,11 +196,11 @@
                                                                                                       [NSNumber numberWithInt:PK_BIBLETEXT_YLT], nil],
                                                                            [NSArray arrayWithObjects: @"King James/Authorized Version",
                                                                                                       @"Young's Literal Translation", nil], nil],
-                                              [NSArray arrayWithObjects: @"Transliterate Greek?", [NSNumber numberWithInt:2], PK_SETTING_TRANSLITERATE, nil],
+                                              [NSArray arrayWithObjects: @"Transliterate Greek﹡?", [NSNumber numberWithInt:2], PK_SETTING_TRANSLITERATE, nil],
                                               [NSArray arrayWithObjects: @"Show Inline Notes?", [NSNumber numberWithInt:2], PK_SETTING_INLINENOTES, nil],
                                               [NSArray arrayWithObjects: @"Show Morphology?", [NSNumber numberWithInt:2], PK_SETTING_SHOWMORPHOLOGY, nil],
                                               [NSArray arrayWithObjects: @"Show Strongs?", [NSNumber numberWithInt:2], @"show-strongs", nil],
-                                              [NSArray arrayWithObjects: @"Show Translation?", [NSNumber numberWithInt:2], @"show-interlinear", nil],
+                                              [NSArray arrayWithObjects: @"Show Translation✝?", [NSNumber numberWithInt:2], @"show-interlinear", nil],
                                               nil];
    // iCloudSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Enable iCloud?", [NSNumber numberWithInt:2], PK_SETTING_USEICLOUD, nil],
     //                                            nil];
@@ -213,6 +213,7 @@
                                                 nil];
                                                 
     versionSettings = [NSArray arrayWithObjects:  [NSArray arrayWithObjects: [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"], [NSNumber numberWithInt:0], nil, nil ],
+                                                [NSArray arrayWithObjects: @"Anonymous Usage Statistics?", [NSNumber numberWithInt:2], @"usage-stats", nil],
                                                 nil];
     
     settingsGroup = [NSArray arrayWithObjects: textSettings, layoutSettings, // iCloudSettings,
@@ -356,9 +357,9 @@
 {
     switch (section)
     {
-        case 0: return @"Note: When transliterating Greek, the app may be slower when navigating to new passages. Searching while transliterating is very slow; be patient, or consider disabling transliteration while searching.";
+        case 0: return @"﹡ When transliterating Greek, the app may be slower when navigating to new passages. Searching while transliterating is very slow; be patient, or consider disabling transliteration while searching.\n\n✝ Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.";
                 break;
-        case 1: return @"Note: The OpenDyslexic font does not support polytonic Greek. It is suggested to use the OpenDyslexic font only if transliterating the Greek or when using a text without diacritics.";
+        case 1: return @"﹡ The OpenDyslexic font does not support polytonic Greek. It is suggested to use the OpenDyslexic font only if transliterating the Greek or when using a text without diacritics.";
                 break;
 //        case 2: return @"Enable iCloud to synchronize your data across multiple devices. It is suggested \
 //                         that you export your data prior to enabling iCloud synchronization.";
@@ -367,7 +368,7 @@
                 break;
         case 3: return @"Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.";
                 break;
-        case 4: return @"This application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information.";
+        case 4: return @"Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information.";
                 break;
         default:return @"Undefined";
                 break;

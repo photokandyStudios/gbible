@@ -9,11 +9,13 @@
 #import "PKStrongsController.h"
 #import "PKStrongs.h"
 #import "PKSettings.h"
+#import "PKHistory.h"
 #import "PKAppDelegate.h"
 #import "ZUUIRevealController.h"
 #import "PKSearchViewController.h"
 #import "PKRootViewController.h"
 #import "TestFlight.h"
+#import "PKHistoryViewController.h"
 
 #import "GLTapLabel.h"
 
@@ -52,6 +54,9 @@
 {
     self.byKeyOnly = byKeyOnly;
     [((PKRootViewController *)self.parentViewController.parentViewController ) showWaitingIndicator];
+    [[PKHistory instance] addStrongsSearch:theTerm];
+    [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:3] reloadHistory];
+
     PKWait(
         theSearchResults = nil;
         theSearchTerm = theTerm;

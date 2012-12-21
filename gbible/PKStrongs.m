@@ -114,9 +114,10 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
         }
 
         //NSLog (@"SQL: %@", searchPhrase);
-        NSString *theNewTerm = [NSString stringWithFormat:@"%%%@%%", [[theTerm lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+//        NSString *theNewTerm = [NSString stringWithFormat:@"%%%@%%", [[theTerm lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 
-        FMResultSet *s = [db executeQuery: [NSString stringWithFormat:@"SELECT * FROM strongsgr WHERE %@ ORDER BY 1", searchPhrase], theNewTerm];
+        FMResultSet *s = [db executeQuery: [NSString stringWithFormat:@"SELECT * FROM strongsgr WHERE %@ \
+                          ORDER BY (CASE WHEN key=? THEN 0 ELSE 1 END), 1", searchPhrase], [theTerm uppercaseString]];
         NSMutableArray *theResult = [[NSMutableArray alloc] init ];
         while ([s next]) {
             [theResult addObject:[s stringForColumnIndex:0]];
