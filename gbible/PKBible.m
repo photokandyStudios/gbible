@@ -453,16 +453,84 @@
     
     +(NSString *)transliterate: (NSString*)theWord
     {
-        NSMutableString *theNewWord = [theWord mutableCopy];
+        NSString *theWordND = [theWord stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
       
-       theNewWord = [[theWord stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]] mutableCopy];
-        //theNewWord = [[theWord decomposedStringWithCanonicalMapping] mutableCopy];
+        if ([theWordND isEqualToString:@""])
+        {
+          return [theWordND mutableCopy];
+        }
       
-        //theNewWord=[[[NSString alloc] initWithData:[theWord dataUsingEncoding:NSISOLatin1StringEncoding allowLossyConversion:YES] encoding:NSASCIIStringEncoding] mutableCopy];
+        NSMutableString *theNewWord = [[NSMutableString alloc] initWithCapacity:[theWordND length]];
+      
+        NSString *ccSource = @"γγ/γξ/γκ/γχ/";
+        NSString *ccTarget = @"ng nx nk nch";
+      
+        NSString *scSource = @"' α Α β Β γ Γ δ Δ ε Ε ζ Ζ η Η θ Θ ι Ι κ Κ λ Λ μ Μ ν Ν ξ Ξ ο Ο π Π ρ Ρ σ Σ ς τ Τ υ Υ φ Φ χ Χ ψ Ψ ω Ω ";
+        NSString *scTarget = @"h a A b B g G d D e E z Z e E thThi I k K l L m M n N c C o O p P r R s S s t T u U phPhchChpsPso O ";
+      
+        BOOL ignoreNext = NO;
+        int l = [theWordND length];
+        for (int i=0; i<l; i++)
+        {
+          if (!ignoreNext)
+          {
+          
+            //@try
+            {
+              NSString *ccChar;
+              
+              if (i<(l-1))
+              {
+                ccChar = [theWordND substringWithRange:NSMakeRange(i, 2)] ;
+              }
+              else
+              {
+                ccChar = @"zzz";
+              }
+              
+              NSString *scChar = [theWordND substringWithRange:NSMakeRange(i, 1)];
 
-      //  return [[theNewWord componentsSeparatedByCharactersInSet:[[NSCharacterSet letterCharacterSet] invertedSet]] componentsJoinedByString:@""];
+              if (![scChar isEqualToString:@" "])
+              {
+                NSRange ccRange = [ccSource rangeOfString:ccChar];
+                NSRange scRange = [scSource rangeOfString:scChar];
+                
+                if ( ccRange.location != NSNotFound )
+                {
+                  ignoreNext = YES;
+                  ccRange.length = 3;
+                  [theNewWord appendString: [[ccTarget substringWithRange:ccRange] stringByReplacingOccurrencesOfString:@" " withString:@"" ]];
+                }
+                else if ( scRange.location != NSNotFound )
+                {
+                  ignoreNext = NO;
+                  scRange.length = 2;
+                  [theNewWord appendString: [[scTarget substringWithRange:scRange] stringByReplacingOccurrencesOfString:@" " withString:@"" ]];
+                }
+                else
+                {
+                  ignoreNext = NO;
+                  [theNewWord appendString:scChar];
+                }
+              }
+              else
+              {
+                  ignoreNext = NO;
+                  [theNewWord appendString:scChar];
+              }
+            }
+          //  @catch (NSException *e)
+          //  {
+          //    NSLog (@"Exception.");
+          //  }
+          }
+          else
+          {
+            ignoreNext = NO;
+          }
+        }
       
-        NSDictionary *ccMatrix = @{
+/*        NSDictionary *ccMatrix = @{
                                     @"γγ": @"ng",
                                     @"γξ": @"nx",
                                     @"γκ": @"nk",
@@ -512,7 +580,7 @@
                         withString:scMatrix[theSCKeys[i]]
                         options:0 range:NSMakeRange(0,[theNewWord length])];
         }
-
+*/
         
         return theNewWord;
     }
@@ -531,7 +599,7 @@
         BOOL showInterlinear = [[PKSettings instance] showInterlinear];
         
         // should we transliterate?
-        BOOL transliterate = [[PKSettings instance] transliterateText];
+        //BOOL transliterate = [[PKSettings instance] transliterateText];
       
         // what greek text are we?
         BOOL whichGreekText = [[PKSettings instance] greekText];
@@ -654,10 +722,10 @@
             theWord = [matches objectAtIndex:i];
             
             // transliterate?
-            if (transliterate)
-            {
-                theWord = [self transliterate:theWord];
-            }
+            //if (transliterate)
+            //{
+            //    theWord = [self transliterate:theWord];
+            //}
             
             // and its size
             CGSize theSize;
