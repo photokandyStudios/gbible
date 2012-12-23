@@ -81,8 +81,6 @@
     NSArray * englishTypeface = [NSArray arrayWithObjects: //@"AmericanTypewriter",
                                                            @"CourierNewPSMT", 
                                                            @"CourierNewPS-BoldMT",
-                                                           @"EuphemiaUCAS",
-                                                           @"EuphemiaUCAS-Bold",
                                                            @"Helvetica",
                                                            @"HelveticaNeue",
                                                            @"Helvetica-Light",
@@ -96,8 +94,6 @@
                                                            @"Palatino-Bold", nil];
     NSArray * greekTypeface = [NSArray arrayWithObjects:   @"CourierNewPSMT",
                                                            @"CourierNewPS-BoldMT",
-                                                           @"EuphemiaUCAS", 
-                                                           @"EuphemiaUCAS-Bold",
                                                            @"Helvetica",
                                                            @"Helvetica-Bold",
                                                            @"HelveticaNeue",
@@ -109,20 +105,19 @@
                                                            @"Palatino-Bold", nil];                                                           
     if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
     {
-              englishTypeface = [NSArray arrayWithObjects: @"Baskerville",
-                                                           @"Georgia", 
+              englishTypeface = [NSArray arrayWithObjects: @"CourierNewPSMT",
+                                                           @"CourierNewPS-BoldMT", 
                                                            @"Helvetica",
                                                            @"OpenDyslexic-Regular",
-                                                           @"Optima",
-                                                           @"Verdana", nil];
-            greekTypeface = [NSArray arrayWithObjects:     @"Baskerville",
-                                                           @"Georgia", 
-                                                           @"Georgia-Bold",
+                                                           @"Palatino-Roman",
+                                                           @"Palatino-Bold", nil];
+            greekTypeface = [NSArray arrayWithObjects:     @"CourierNewPSMT",
+                                                           @"CourierNewPS-BoldMT",
                                                            @"Helvetica",
                                                            @"Helvetica-Bold",
                                                            @"OpenDyslexic-Bold",
-                                                           @"Verdana",
-                                                           @"Verdana-Bold", nil];                                                           
+                                                           @"Palatino-Roman",
+                                                           @"Palatino-Bold", nil];                                                           
     
     }
     layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Theme", @3, @"text-theme",
@@ -368,7 +363,7 @@
                 break;
         case 3: return @"Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.";
                 break;
-        case 4: return @"Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information.";
+        case 4: return @"Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information. \n\n\n\n ";
                 break;
         default:return @"Undefined";
                 break;
@@ -537,26 +532,43 @@
                 if (section == 2) 
                 { 
                     title = @"Export Operation";
-                    [(PKDatabase *)[PKDatabase instance] exportAll]; 
+                    if ( [(PKDatabase *)[PKDatabase instance] exportAll] )
+                    {
+                      UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:@"Done!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                      [theAlertView show];
+                    }
                 }
                 if (section == 3)
                 {
                     title = @"Import Operation";
-                    if (row==0) { [(PKDatabase *)[PKDatabase instance] importNotes]; }
-                    if (row==1) { [(PKDatabase *)[PKDatabase instance] importHighlights]; }
+                    if (row==0) { if ( [(PKDatabase *)[PKDatabase instance] importNotes] )
+                                  {
+                                    UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:@"Done!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                                    [theAlertView show];
+                                  }
+                                }
+                    if (row==1) { if ( [(PKDatabase *)[PKDatabase instance] importHighlights] )
+                                  {
+                                    UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:@"Done!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                                    [theAlertView show];
+                                  }
+                                }
                     if (row==2) { 
-                                  [(PKDatabase *)[PKDatabase instance] importNotes]; 
-                                  [(PKDatabase *)[PKDatabase instance] importHighlights]; 
-                                  [(PKDatabase *)[PKDatabase instance] importSettings]; 
+                                  if ([(PKDatabase *)[PKDatabase instance] importNotes])
+                                  {
+                                  if ([(PKDatabase *)[PKDatabase instance] importHighlights])
+                                    {
+                                  if ([(PKDatabase *)[PKDatabase instance] importSettings])
+                                      {
+                                        UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:@"Done!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                                        [theAlertView show];
+                                      }
+                                    }
+                                  }                                  
                                 }
                     [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:1] reloadHighlights];
                     [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex:2] reloadNotes];
                     [self.tableView reloadData]; // settings may be different.
-                }
-                if (section < 4)
-                {
-                    UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:@"Done!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                    [theAlertView show];
                 }
                 break;}
         case 1: // we're on a cell that wants to display a popover/actionsheet (no lookup)
