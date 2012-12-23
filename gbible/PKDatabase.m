@@ -178,14 +178,24 @@
     }
 
 
-    -(void) importNotes    {
+    -(BOOL) importNotes    {
         // locate our import database
         NSString *importDatabaseName = [ [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"import.dat" ];
+
+        NSFileManager * fm = [NSFileManager defaultManager];
+        if (! [fm fileExistsAtPath:importDatabaseName] )
+        {
+            UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:@"Import Error"
+                 message:@"Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [theAlertView show];
+          return NO;
+        }
+      
         FMDatabase *imdb = [FMDatabase databaseWithPath:importDatabaseName];
         if (![imdb open])
         {
             NSLog (@"[CRITICAL] Could not open the import.dat database!");
-            return;
+            return NO;
         }
         
         // make sure that we have the notes schema created
@@ -207,15 +217,26 @@
         }
 
         [imdb close];
+      return YES;
     }
-    -(void) importHighlights    {
+    -(BOOL) importHighlights    {
         // locate our import database
         NSString *importDatabaseName = [ [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"import.dat" ];
+
+        NSFileManager * fm = [NSFileManager defaultManager];
+        if (! [fm fileExistsAtPath:importDatabaseName] )
+        {
+            UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:@"Import Error"
+                 message:@"Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [theAlertView show];
+          return NO;
+        }
+
         FMDatabase *imdb = [FMDatabase databaseWithPath:importDatabaseName];
         if (![imdb open])
         {
             NSLog (@"[CRITICAL] Could not open the import.dat database!");
-            return;
+            return NO;
         }
 
         // make sure that we have the notes schema created
@@ -243,16 +264,27 @@
         }
 
         [imdb close];
+      return YES;
     }
-    -(void) importSettings
+    -(BOOL) importSettings
     {
         // locate our import database
         NSString *importDatabaseName = [ [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"import.dat" ];
+
+        NSFileManager * fm = [NSFileManager defaultManager];
+        if (! [fm fileExistsAtPath:importDatabaseName] )
+        {
+            UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:@"Import Error"
+                 message:@"Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [theAlertView show];
+            return NO;
+        }
+      
         FMDatabase *imdb = [FMDatabase databaseWithPath:importDatabaseName];
         if (![imdb open])
         {
             NSLog (@"[CRITICAL] Could not open the import.dat database!");
-            return;
+            return NO;
         }
 
         // make sure that we have the notes schema created
@@ -271,8 +303,9 @@
         }
         [settingsModel reloadSettings];
         [imdb close];
+      return YES;
     }
-    -(void) exportAll    {
+    -(BOOL) exportAll    {
         [content close];    // close the database first...
         
         // our export will be of the form: exportMMDDYYY_HHMISS.dat
@@ -295,13 +328,16 @@
         if ( [fileManager copyItemAtPath:userContentDatabase toPath:exportDatabaseName error:nil] == YES)
         {
             NSLog(@"Export successful.");
+          
         }
         else
         {
             NSLog(@"Export unsuccessful.");
+          return NO;
         }
         
         [content open];
+      return YES;
     }
 
 

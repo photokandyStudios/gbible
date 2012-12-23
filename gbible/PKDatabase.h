@@ -18,9 +18,9 @@
     -(id) init;
     -(void) dealloc;
     
-    -(void) importNotes;
-    -(void) importHighlights;
-    -(void) importSettings;
-    -(void) exportAll; 
+    -(BOOL) importNotes;
+    -(BOOL) importHighlights;
+    -(BOOL) importSettings;
+    -(BOOL) exportAll; 
 
 @end
