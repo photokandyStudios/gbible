@@ -113,6 +113,7 @@
 		6A9B86C31543A5CD00E4ABC0 /* Wait.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BF1543A5CD00E4ABC0 /* Wait.png */; };
 		6A9B86C41543A5CD00E4ABC0 /* Wait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */; };
 		6AABABCB153FC90100FCBAB9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AABABC9153FC8E800FCBAB9 /* libz.dylib */; };
+		6ABA5C5B168FAD2F00070134 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ABA5C5A168FAD2F00070134 /* Default-568h@2x.png */; };
 		6AD4A0A7166F19E70005F519 /* OpenDyslexic-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AD4A0A5166F19E70005F519 /* OpenDyslexic-Bold.otf */; };
 		6AD4A0A8166F19E70005F519 /* OpenDyslexic-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AD4A0A6166F19E70005F519 /* OpenDyslexic-Regular.otf */; };
 		6AD7E2CB152977F50072483E /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2C9152976BA0072483E /* TPKeyboardAvoidingScrollView.m */; };
@@ -277,6 +278,7 @@
 		6A9B86BF1543A5CD00E4ABC0 /* Wait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wait.png; sourceTree = "<group>"; };
 		6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wait@2x.png"; sourceTree = "<group>"; };
 		6AABABC9153FC8E800FCBAB9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		6ABA5C5A168FAD2F00070134 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6AD4A0A5166F19E70005F519 /* OpenDyslexic-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic-Bold.otf"; sourceTree = "<group>"; };
 		6AD4A0A6166F19E70005F519 /* OpenDyslexic-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic-Regular.otf"; sourceTree = "<group>"; };
 		6AD7E2C8152976BA0072483E /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
@@ -719,6 +721,7 @@
 		6AF0C096150EE8BB00BFAE03 = {
 			isa = PBXGroup;
 			children = (
+				6ABA5C5A168FAD2F00070134 /* Default-568h@2x.png */,
 				6A9B86AF1542792400E4ABC0 /* SystemConfiguration.framework */,
 				6AF0C0A4150EE8BB00BFAE03 /* Frameworks */,
 				6AF0C0AB150EE8BB00BFAE03 /* gbible */,
@@ -1039,6 +1042,7 @@
 				6A907A911684446F006E6716 /* ArrowRightWhite.png in Resources */,
 				6A907A921684446F006E6716 /* ArrowLeftWhite@2x.png in Resources */,
 				6A907A931684446F006E6716 /* ArrowLeftWhite.png in Resources */,
+				6ABA5C5B168FAD2F00070134 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
