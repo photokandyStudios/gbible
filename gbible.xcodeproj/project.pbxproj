@@ -51,6 +51,7 @@
 		6A3E433E1515918900D8745D /* BlueNavigationBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E433C1515918900D8745D /* BlueNavigationBar@2x.png */; };
 		6A3E43431515981800D8745D /* BlueTabBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43411515981800D8745D /* BlueTabBar.png */; };
 		6A3E43441515981800D8745D /* BlueTabBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43421515981800D8745D /* BlueTabBar@2x.png */; };
+		6A3E90541693E8F10062A4FA /* PKHotLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3E90531693E8F10062A4FA /* PKHotLabel.m */; };
 		6A58AE101529567D00EAF960 /* PKNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE0F1529567D00EAF960 /* PKNotes.m */; };
 		6A58AE1415295BBD00EAF960 /* PKNoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */; };
 		6A820DDA1517EA3B006523EE /* PKBible.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A820DD91517EA3B006523EE /* PKBible.m */; };
@@ -199,6 +200,9 @@
 		6A3E433C1515918900D8745D /* BlueNavigationBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueNavigationBar@2x.png"; sourceTree = "<group>"; };
 		6A3E43411515981800D8745D /* BlueTabBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueTabBar.png; sourceTree = "<group>"; };
 		6A3E43421515981800D8745D /* BlueTabBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueTabBar@2x.png"; sourceTree = "<group>"; };
+		6A3E90521693E8F10062A4FA /* PKHotLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHotLabel.h; sourceTree = "<group>"; };
+		6A3E90531693E8F10062A4FA /* PKHotLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKHotLabel.m; sourceTree = "<group>"; };
+		6A3E90551693E9910062A4FA /* PKHotLabelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHotLabelDelegate.h; sourceTree = "<group>"; };
 		6A58AE0E1529567D00EAF960 /* PKNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKNotes.h; sourceTree = "<group>"; };
 		6A58AE0F1529567D00EAF960 /* PKNotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKNotes.m; sourceTree = "<group>"; };
 		6A58AE1215295BBD00EAF960 /* PKNoteEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKNoteEditorViewController.h; sourceTree = "<group>"; };
@@ -278,7 +282,7 @@
 		6A9B86BF1543A5CD00E4ABC0 /* Wait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wait.png; sourceTree = "<group>"; };
 		6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wait@2x.png"; sourceTree = "<group>"; };
 		6AABABC9153FC8E800FCBAB9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		6ABA5C5A168FAD2F00070134 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		6ABA5C5A168FAD2F00070134 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		6AD4A0A5166F19E70005F519 /* OpenDyslexic-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic-Bold.otf"; sourceTree = "<group>"; };
 		6AD4A0A6166F19E70005F519 /* OpenDyslexic-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic-Regular.otf"; sourceTree = "<group>"; };
 		6AD7E2C8152976BA0072483E /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
@@ -351,6 +355,9 @@
 			children = (
 				6A0FDF3515485157004E70A7 /* PKLabel.h */,
 				6A0FDF3615485157004E70A7 /* PKLabel.m */,
+				6A3E90521693E8F10062A4FA /* PKHotLabel.h */,
+				6A3E90531693E8F10062A4FA /* PKHotLabel.m */,
+				6A3E90551693E9910062A4FA /* PKHotLabelDelegate.h */,
 			);
 			name = "Base Objects";
 			sourceTree = "<group>";
@@ -555,6 +562,7 @@
 		6A92CCBC1516F02500F8AE15 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
+				6ABA5C5A168FAD2F00070134 /* Default-568h@2x.png */,
 				6A2163731533A21F00D41447 /* Default-Landscape@2x~ipad.png */,
 				6A2163751533A22600D41447 /* Default-Portrait@2x~ipad.png */,
 				6A92CCB01516EFAF00F8AE15 /* Default-Landscape~ipad.png */,
@@ -721,8 +729,6 @@
 		6AF0C096150EE8BB00BFAE03 = {
 			isa = PBXGroup;
 			children = (
-				6ABA5C5A168FAD2F00070134 /* Default-568h@2x.png */,
-				6A9B86AF1542792400E4ABC0 /* SystemConfiguration.framework */,
 				6AF0C0A4150EE8BB00BFAE03 /* Frameworks */,
 				6AF0C0AB150EE8BB00BFAE03 /* gbible */,
 				6AF9D05415129B9D00514499 /* libsqlite3.0.dylib */,
@@ -742,6 +748,7 @@
 		6AF0C0A4150EE8BB00BFAE03 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6A9B86AF1542792400E4ABC0 /* SystemConfiguration.framework */,
 				6AF9D046151294E100514499 /* QuartzCore.framework */,
 				6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */,
 				6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */,
@@ -1107,6 +1114,7 @@
 				6A0FDF3A15485840004E70A7 /* PKTableViewCell.m in Sources */,
 				6A136916167C24BF001A1C7C /* PKLayoutController.m in Sources */,
 				6A13691A167C3F5F001A1C7C /* GLTapLabel.m in Sources */,
+				6A3E90541693E8F10062A4FA /* PKHotLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
