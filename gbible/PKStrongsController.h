@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GLTapLabelDelegate.h"
+#import "PKHotLabelDelegate.h"
 
-@interface PKStrongsController : UITableViewController <UISearchBarDelegate, GLTapLabelDelegate>
+@interface PKStrongsController : UITableViewController <UISearchBarDelegate, PKHotLabelDelegate>
 
     @property (strong, nonatomic) NSString * theSearchTerm;
     
@@ -26,6 +26,10 @@
     
     @property BOOL byKeyOnly;
     
+    @property (strong, nonatomic) UIMenuController *ourMenu;
+    @property (strong, nonatomic) NSString *selectedWord;
+    @property NSUInteger selectedRow;
+
     -(void)doSearchForTerm: (NSString *)theTerm;
     -(void)doSearchForTerm:(NSString *)theTerm byKeyOnly:(BOOL)keyOnly;
     

@@ -17,7 +17,7 @@
 #import "TestFlight.h"
 #import "PKHistoryViewController.h"
 
-#import "GLTapLabel.h"
+#import "PKHotLabel.h"
 
 @interface PKStrongsController ()
 
@@ -32,6 +32,9 @@
     @synthesize noResults;
     @synthesize theFont;
     @synthesize theBigFont;
+    @synthesize ourMenu;
+    @synthesize selectedWord;
+    @synthesize selectedRow;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -153,6 +156,16 @@
 
 //    [self doSearchForTerm:self.theSearchTerm];
     theSearchBar.text = self.theSearchTerm;
+
+    ourMenu = [UIMenuController sharedMenuController];
+    ourMenu.menuItems = [NSArray arrayWithObjects:
+                            [[UIMenuItem alloc] initWithTitle:@"Copy"      action:@selector(copyStrongs:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Define"    action:@selector(defineStrongs:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Search Bible" action:@selector(searchBible:)]
+//                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)]
+                         , nil ];
+
+
 }
 -(void) updateAppearanceForTheme
 {
@@ -332,7 +345,7 @@
     
 //    CGSize theSize = [[[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "]] sizeWithFont:theFont constrainedToSize:maxSize];
     CGSize theSize = [[[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "] sizeWithFont:theFont constrainedToSize:maxSize];
-    GLTapLabel *theDefinitionLabel = [[GLTapLabel alloc] initWithFrame:CGRectMake(10, 20 + theBigFont.lineHeight, theCellWidth, theSize.height)];
+    PKHotLabel *theDefinitionLabel = [[PKHotLabel alloc] initWithFrame:CGRectMake(10, 20 + theBigFont.lineHeight, theCellWidth, theSize.height)];
 //    theDefinitionLabel.text = [[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "]];
     theDefinitionLabel.text = [[theResult objectAtIndex:3] stringByReplacingOccurrencesOfString:@"  " withString:@" "];
     theDefinitionLabel.textColor = [PKSettings PKTextColor];
@@ -340,7 +353,19 @@
     theDefinitionLabel.lineBreakMode = UILineBreakModeWordWrap;
     theDefinitionLabel.numberOfLines = 0;
     theDefinitionLabel.backgroundColor = [UIColor clearColor];
-    theDefinitionLabel.linkColor = [PKSettings PKStrongsColor];
+    theDefinitionLabel.hotColor = [PKSettings PKStrongsColor];
+    theDefinitionLabel.hotBackgroundColor = [PKSettings PKSelectionColor];
+    theDefinitionLabel.hotWord = theSearchTerm;
+    theDefinitionLabel.hotComparator = ^(NSString *theWord) {
+      if ([theWord length]>1)
+      {
+        return (BOOL)([[theWord substringToIndex:1] isEqualToString:@"G"] && [[theWord substringFromIndex:1] intValue] > 0);
+      }
+      else
+      {
+        return NO;
+      }
+    };
     theDefinitionLabel.delegate = self;
     theDefinitionLabel.userInteractionEnabled = YES;
 
@@ -357,19 +382,22 @@
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//return;
+    if (ourMenu.isMenuVisible)
+    {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+  //return;
+
     NSUInteger row = [indexPath row];
+    selectedWord = nil;
+    selectedRow = row;
+    UITableViewCell *theCell = [self.tableView cellForRowAtIndexPath:indexPath];
 
-
-    ZUUIRevealController *rc = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
-    PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
-    PKSearchViewController *svc = [[[rvc.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-  
-    NSString *theSVCTerm = [NSString stringWithFormat:@"\"%@ \"",[theSearchResults objectAtIndex:row]];
-  
-    [svc doSearchForTerm:theSVCTerm
-         requireParsings:YES];
+    [self becomeFirstResponder];
+    [ourMenu update]; // just in case
+    [ourMenu setTargetRect:theCell.frame inView:self.tableView ];
+    [ourMenu setMenuVisible:YES animated:YES];
 
 }
 
@@ -442,6 +470,62 @@
 //    }
 }
 
+/**
+ *
+ * Determine what actions can occur when a menu is displayed.
+ *
+ */
+-(BOOL) canPerformAction:(SEL)action withSender:(id)sender
+{
+    if (action == @selector(copyStrongs:))        { return YES; }
+    if (action == @selector(searchBible:))         { return YES; }
+    if (action == @selector(defineStrongs:))      { return selectedWord != nil; }
+    return NO;
+}
+
+-(void) copyStrongs: (id)sender
+{
+  NSMutableString *theText = [[theSearchResults objectAtIndex:selectedRow] mutableCopy];
+  NSArray *theResult = [PKStrongs entryForKey:[theSearchResults objectAtIndex:selectedRow]];
+
+  [theText appendFormat:@"\nLemma: %@\nPronunciation: %@\nDefinition: %@",
+      [theResult objectAtIndex:1],
+      [theResult objectAtIndex:2],
+      [theResult objectAtIndex:3]
+  ];
+
+  UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+  pasteBoard.string = theText;
+
+  UIAlertView *anAlert = [[UIAlertView alloc]
+      initWithTitle:@"Notice" message:@"Row copied to clipboard" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil ];
+  [anAlert show];
+}
+
+-(void) defineStrongs: (id)sender
+{
+  [self doSearchForTerm:selectedWord byKeyOnly:true];
+}
+
+-(void) searchBible: (id)sender
+{
+    ZUUIRevealController *rc = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
+    PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
+    PKSearchViewController *svc = [[[rvc.viewControllers objectAtIndex:1] viewControllers] objectAtIndex:0];
+  
+  if (!selectedWord)
+  {
+    NSString *theSVCTerm = [NSString stringWithFormat:@"\"%@ \"",[theSearchResults objectAtIndex:selectedRow]];
+    [svc doSearchForTerm:theSVCTerm
+         requireParsings:YES];
+  }
+  else
+  {
+    [svc doSearchForTerm: [NSString stringWithFormat:@"\"%@ \"", selectedWord] requireParsings:YES];
+  }
+
+}
+
 -(void) didReceiveLongPress:(UILongPressGestureRecognizer*)gestureRecognizer
 {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
@@ -453,21 +537,28 @@
         {
             NSUInteger row = [indexPath row];
           
-            NSMutableString *theText = [[theSearchResults objectAtIndex:row] mutableCopy];
-            NSArray *theResult = [PKStrongs entryForKey:[theSearchResults objectAtIndex:row]];
+            UITableViewCell *theCell = [self.tableView cellForRowAtIndexPath:indexPath];
+            NSArray *theSubViews = [theCell subviews];
+            PKHotLabel *ourLabel = (PKHotLabel *)[theSubViews lastObject];
           
-            [theText appendFormat:@"\nLemma: %@\nPronunciation: %@\nDefinition: %@",
-                [theResult objectAtIndex:1],
-                [theResult objectAtIndex:2],
-                [theResult objectAtIndex:3]
-            ];
+            CGPoint wp = [gestureRecognizer locationInView: ourLabel ];
+            NSString *hotWord = [ourLabel wordFromPoint:wp];
 
-            UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
-            pasteBoard.string = theText;
-          
-            UIAlertView *anAlert = [[UIAlertView alloc]
-                initWithTitle:@"Notice" message:@"Row copied to clipboard" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil ];
-            [anAlert show];
+            if (hotWord)
+            {
+              // we have a hot word in the cell...
+              selectedWord = hotWord;
+              selectedRow = row;
+            }
+            else
+            {
+              selectedWord = nil;
+              selectedRow = row;
+            }
+            [self becomeFirstResponder];
+            [ourMenu update]; // just in case
+            [ourMenu setTargetRect:CGRectMake(p.x, p.y, 1, 1) inView:self.tableView ];
+            [ourMenu setMenuVisible:YES animated:YES];
 
         }
     }
@@ -475,13 +566,14 @@
 
 
 #pragma mark -
-#pragma mark GLTapLabel Delegate
+#pragma mark Hot Label Delegate; this is essentially dead code
 
--(void) label:(GLTapLabel *)label didSelectedHotWord:(NSString *)word
+-(void) label:(PKHotLabel *)label didTapWord:(NSString *)theWord
 {
   // search for the selected word
-  NSLog(@"Received word: %@", word);
-  [self doSearchForTerm:word byKeyOnly:true];
+  NSLog(@"Received word: %@", theWord);
+  [self doSearchForTerm:theWord byKeyOnly:true];
 }
+
 
 @end
