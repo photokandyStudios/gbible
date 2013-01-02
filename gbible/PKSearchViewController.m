@@ -13,9 +13,10 @@
 #import "ZUUIRevealController.h"
 #import "PKRootViewController.h"
 #import "PKBibleViewController.h"
-#import "GLTapLabel.h"
+#import "PKHotLabel.h"
 #import "PKHistory.h"
 #import "PKHistoryViewController.h"
+#import "TestFlight.h"
 
 @interface PKSearchViewController ()
 
@@ -335,12 +336,32 @@
   
     CGFloat theCellWidth = (self.tableView.bounds.size.width);
     CGFloat theColumnWidth = (theCellWidth) / 2;
+    CGSize maxSize = CGSizeMake ( theColumnWidth - 40, 100000 );
+
+    CGSize theLeftSize = [[NSString stringWithFormat:@"%@ %i:%@",
+                                                    [PKBible nameForBook:theBook],
+                                                    theChapter,
+                                                    [PKBible getTextForBook:theBook 
+                                                                 forChapter:theChapter 
+                                                                   forVerse:theVerse 
+                                                                    forSide:2]] sizeWithFont:self.leftFont
+                                                                    constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
+
+    CGSize theRightSize = [[NSString stringWithFormat:@"%@ %i:%i %@",
+                                                    [PKBible nameForBook:theBook],
+                                                    theChapter,
+                                                    theVerse,
+                                                    [PKBible getTextForBook:theBook 
+                                                                 forChapter:theChapter 
+                                                                   forVerse:theVerse 
+                                                                    forSide:1]] sizeWithFont:self.rightFont
+                                                                    constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
 
   
     // now create the new subviews
-    GLTapLabel *theLeftSide = [[GLTapLabel alloc] initWithFrame:CGRectMake(20, 10, theColumnWidth-40, 80)];
-    theLeftSide.linkColor = [PKSettings PKStrongsColor];
-    theLeftSide.hotTerm = self.theSearchTerm;
+    PKHotLabel *theLeftSide = [[PKHotLabel alloc] initWithFrame:CGRectMake(20, 10, theColumnWidth-40, theLeftSize.height)];
+    theLeftSide.hotColor = [PKSettings PKStrongsColor];
+    theLeftSide.hotWord = self.theSearchTerm;
     theLeftSide.text = [NSString stringWithFormat:@"%@ %i:%@ ", 
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
@@ -349,16 +370,15 @@
                                                                    forVerse:theVerse 
                                                                     forSide:2]];
     theLeftSide.textColor = [PKSettings PKTextColor];
-    theLeftSide.linkBackgroundColor = [PKSettings PKSelectionColor];
+    theLeftSide.hotBackgroundColor = [PKSettings PKSelectionColor];
     theLeftSide.numberOfLines=0;
     theLeftSide.backgroundColor = [UIColor clearColor];
     theLeftSide.font = self.leftFont;
-    [theLeftSide sizeToFit];
 
-    GLTapLabel *theRightSide = [[GLTapLabel alloc] initWithFrame:CGRectMake(theColumnWidth+20, 10, theColumnWidth-40, 80)];
-    theRightSide.linkColor = [PKSettings PKStrongsColor];
-    theRightSide.linkBackgroundColor = [PKSettings PKSelectionColor];
-    theRightSide.hotTerm = self.theSearchTerm;
+    PKHotLabel *theRightSide = [[PKHotLabel alloc] initWithFrame:CGRectMake(theColumnWidth+20, 10, theColumnWidth-40, theRightSize.height)];
+    theRightSide.hotColor = [PKSettings PKStrongsColor];
+    theRightSide.hotBackgroundColor = [PKSettings PKSelectionColor];
+    theRightSide.hotWord = self.theSearchTerm;
     theRightSide.text = [NSString stringWithFormat:@"%@ %i:%i %@ ",
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
@@ -372,7 +392,6 @@
     theRightSide.numberOfLines=0;
     theRightSide.backgroundColor = [UIColor clearColor];
     theRightSide.font = self.rightFont;
-    [theRightSide sizeToFit];
   
     [cell addSubview:theLeftSide];
     [cell addSubview:theRightSide];
