@@ -352,7 +352,7 @@
 {
     switch (section)
     {
-        case 0: return @"﹡ When transliterating Greek, the app may be slower when navigating to new passages. Searching while transliterating is very slow; be patient, or consider disabling transliteration while searching.\n\n✝ Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.";
+        case 0: return @"﹡ When transliterating Greek, the app may be slower when navigating to new passages.\n\n✝ Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.";
                 break;
         case 1: return @"﹡ The OpenDyslexic font does not support polytonic Greek. It is suggested to use the OpenDyslexic font only if transliterating the Greek or when using a text without diacritics.";
                 break;
