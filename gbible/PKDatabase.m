@@ -106,11 +106,11 @@
                         {
                             sx = [[sx lowercaseString] stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
                             sy = [[sy lowercaseString] stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
-                            if ([[PKSettings instance] transliterateText])
-                            {
-                              sx = [PKBible transliterate: sx];
+                            //if ([[PKSettings instance] transliterateText])
+                            //{
+                            //  sx = [PKBible transliterate: sx];
                               //sy = [PKBible transliterate: sy];
-                            }
+                            //}
                             sqlite3_result_int(context, [sx rangeOfString:sy].location != NSNotFound);
                         }
                         else
