@@ -52,16 +52,16 @@
     CGSize space = [@" " sizeWithFont:self.font constrainedToSize:rect.size lineBreakMode:self.lineBreakMode];
     __block CGPoint drawPoint = CGPointMake(0,0);
     NSString *read;
-    NSScanner *s = [NSScanner scannerWithString:self.text];
-    while ([s scanUpToCharactersFromSet:[NSCharacterSet symbolCharacterSet] intoString:&read]) {
-        NSArray *origWords = [read componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    //NSScanner *s = [NSScanner scannerWithString:self.text];
+    //while ([s scanUpToCharactersFromSet:[NSCharacterSet symbolCharacterSet] intoString:&read]) {
+        NSArray *origWords = [self.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSMutableArray *words = [NSMutableArray array];
         for (NSString* word in origWords)
         {
-            // this is just to avoid ARC complications. We could just as easily make it __strong but then it won't work with non-ARC builds.
             NSString* origWord = word;
             NSString* newWord = word;
             CGSize s = [newWord sizeWithFont:self.font];
+/*
             NSString *cutWord = @"";
             int c = [word length]-1;
             while (s.width > rect.size.width) {
@@ -77,6 +77,7 @@
                     c = [origWord length]-1;
                 }
             }
+ */
             [words addObject:origWord];
         }
         
@@ -119,7 +120,7 @@
             
             drawPoint = CGPointMake(drawPoint.x + s.width + space.width, drawPoint.y);
         }];
-        
+        /*
         while ([s scanCharactersFromSet:[NSCharacterSet symbolCharacterSet] intoString:&read]) {
             for(int idx=0;idx<read.length;idx=idx+1)
             {
@@ -132,7 +133,8 @@
                 drawPoint = CGPointMake(drawPoint.x + s.width, drawPoint.y);
             }
         }
-    }
+         */
+    //}
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
