@@ -4,12 +4,12 @@ Greek Interlinear Bible for iOS
 *NOTE*: We're on the App Store now: http://itunes.apple.com/us/app/greek-interlinear-bible/id520000138?mt=8
 
 Project code for the Greek Interlinear Bible for iOS. This code is COPYRIGHT (C) 2012 photoKandy Studios LLC.
-Portions of the code are under different licenses, see the THIRD PARTY COMPONENTS Wiki page.
+Portions of the code are under different licenses, see https://github.com/photokandyStudios/gbible/wiki/Third-Party-Components.
 
 For screenshots of current (and previous) builds, see https://plus.google.com/photos/110429856422449500918/albums/5734725845327381729
 
-*Why are the assets and Bible Database missing/not updated?* 
-It is unfortunate that people would take the code and re-release it on the app store while replacing the attribution required. As such, I've told Git to ignore the graphical assets, as they are not covered under the license. While easy to circumvent, hopefully it will convince such unscrupulous developers to look elswhere. Furthermore, removing the Bible Database further complicates matters -- it is trivial to reconstruct, but difficult enough to dissuade unscrupulous developers. If you want the database for your own non-commercial use, please see the BIBLE DATABASE wiki page for information on how to reconstruct it.
+*Why are the assets and Bible Database missing?*
+It is unfortunate that people would take the code and re-release it on the app store while replacing the attribution required. As such, I've told Git to ignore the graphical assets, as they are not covered under the license. While easy to circumvent, hopefully it will convince such unscrupulous developers to look elswhere. Furthermore, removing the Bible Database further complicates matters -- it is trivial to reconstruct, but difficult enough to dissuade unscrupulous developers. For legitimate development information, see: https://github.com/photokandyStudios/gbible/wiki/Bible-Database and https://github.com/photokandyStudios/gbible/wiki/Missing-Assets.
 
 Attributions
 ------------
