@@ -14,6 +14,7 @@
 @synthesize hotColor;
 @synthesize hotFont;
 @synthesize hotWord;
+@synthesize boldFontWhenhot;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -41,8 +42,11 @@
   if (!theHotFont)
   {
     // no font; find one -- assume self.font's bolded equivalent.
-    theHotFont = [UIFont fontWithName: [[theRegularFont fontName] stringByAppendingString:@"-Bold"]
-                                 size: [theRegularFont pointSize]];
+    if (boldFontWhenhot)
+    {
+        theHotFont = [UIFont fontWithName: [[theRegularFont fontName] stringByAppendingString:@"-Bold"]
+                                     size: [theRegularFont pointSize]];
+    }
     if (!theHotFont)
     {
       // still no font?

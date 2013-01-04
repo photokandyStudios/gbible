@@ -25,6 +25,7 @@ typedef BOOL (^PKCompareBlock) (NSString *theWord);
 @property ( nonatomic, strong) NSString *hotWord;
 
 @property ( nonatomic, strong) UIFont *hotFont;
+@property BOOL boldFontWhenhot;
 
 @property ( nonatomic, strong) PKCompareBlock hotComparator;
 
