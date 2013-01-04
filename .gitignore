@@ -5,3 +5,9 @@ bibleContent
 *.ttf
 
 *.otf
+
+gbible/PKBibleViewController~.m
+
+gbible/PKBibleViewController.oldm
+
+*.oldm
