@@ -125,7 +125,7 @@
     // TODO: Figure out how to use an axial gradient to accomplish this effect
     [inner_layer setBorderWidth:0.7];
     [inner_layer setBorderColor:[[UIColor colorWithWhite:0.0 alpha:0.3] CGColor]];
-    [inner_layer setCornerRadius:5.0];
+   // [inner_layer setCornerRadius:5.0];
     [inner_layer setMasksToBounds:YES];
     
     // add a drop shadow to the layer
@@ -133,7 +133,7 @@
     [self_layer setShadowColor:[[UIColor whiteColor] CGColor]];
     [self_layer setShadowOpacity:0.5];
     [self_layer setShadowRadius:0.5];
-    [self_layer setCornerRadius:5.0];
+    //[self_layer setCornerRadius:5.0];
     
     // add subtle shadow to text to make the eltters look punched in like Bar Buttons.
     self.titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.25];
