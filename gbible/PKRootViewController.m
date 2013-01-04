@@ -13,6 +13,7 @@
 #import "PKStrongsController.h"
 #import "PKSearchViewController.h"
 #import "PKSettings.h"
+#import "TestFlight.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -49,7 +50,7 @@
         // Titles
         bibleViewController.title = @"Read Bible";
         searchViewController.title = @"Search";
-        strongsViewController.title = @"Strong's Lookup";
+        strongsViewController.title = @"Strong's";
         aboutViewController.title = @"About";
         settingsViewController.title = @"Settings";
         

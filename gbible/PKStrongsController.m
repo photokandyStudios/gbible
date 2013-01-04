@@ -41,7 +41,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // set our title
-        [self.navigationItem setTitle:@"Strong's Lookup"];
+        [self.navigationItem setTitle:@"Strong's"];
         self.theSearchTerm = [[PKSettings instance] lastStrongsLookup];
         self.byKeyOnly = NO;
     }
@@ -388,6 +388,8 @@
         return;
     }
   //return;
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     NSUInteger row = [indexPath row];
     selectedWord = nil;
