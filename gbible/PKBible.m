@@ -450,9 +450,61 @@
         
         return columnWidth;
     }
+
+    +(BOOL) isMorphology: (NSString*)theWord
+    {
+      // there's no easy way to determine if a word is a morphology word. Instead, let's encode
+      // the various options
+      if ( [theWord hasPrefix:@"A-"]) return YES;
+      if ( [theWord hasPrefix:@"D-"]) return YES;
+      if ( [theWord hasPrefix:@"F-"]) return YES;
+      if ( [theWord hasPrefix:@"I-"]) return YES;
+      if ( [theWord hasPrefix:@"K-"]) return YES;
+      if ( [theWord hasPrefix:@"N-"]) return YES;
+      if ( [theWord hasPrefix:@"P-"]) return YES;
+      if ( [theWord hasPrefix:@"Q-"]) return YES;
+      if ( [theWord hasPrefix:@"R-"]) return YES;
+      if ( [theWord hasPrefix:@"S-"]) return YES;
+      if ( [theWord hasPrefix:@"T-"]) return YES;
+      if ( [theWord hasPrefix:@"V-"]) return YES;
+      if ( [theWord hasPrefix:@"X-"]) return YES;
+      if ( [theWord hasPrefix:@"Noun-"]) return YES;
+      if ( [theWord hasPrefix:@"Art-"]) return YES;
+      if ( [theWord hasPrefix:@"Adj-"]) return YES;
+      if ( [theWord hasPrefix:@"RefPro-"]) return YES;
+      if ( [theWord hasPrefix:@"RelPro-"]) return YES;
+      if ( [theWord hasPrefix:@"IPro-"]) return YES;
+      if ( [theWord hasPrefix:@"DPro-"]) return YES;
+      if ( [theWord hasPrefix:@"PPro-"]) return YES;
+      if ( [theWord hasPrefix:@"Ppro-"]) return YES;
+      if ( [theWord hasPrefix:@"Prtcl-"]) return YES;
+      if ( [theWord hasPrefix:@"PRT-"]) return YES;
+      if ( [theWord hasPrefix:@"ADV-"]) return YES;
+      
+      /*if ([theWord isEqualToString:@"N"])
+      {
+        NSLog (@"Here");
+      }*/
+      
+      NSString *morphWords = @" Adv Adj N V Heb Conj Prep Prtcl Prt Cond Inj ADV ADJ HEB CONJ PREP PRTCL PRT COND ARAM INJ ";
+      if ( [morphWords rangeOfString:[NSString stringWithFormat:@" %@ ", theWord]].location != NSNotFound)
+      {
+        return YES;
+      }
+      return NO;
+    }
     
     +(NSString *)transliterate: (NSString*)theWord
     {
+        // See what we can do about using CFStringTransform...
+        //NSString *theWordND = [theWord stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
+        NSMutableString *myMString = [theWord mutableCopy];
+        CFMutableStringRef myCFString = (__bridge CFMutableStringRef)myMString;
+        CFStringTransform( myCFString, NULL, kCFStringTransformToLatin, false);
+      
+        return myMString;
+    
+    /*
         NSString *theWordND = [theWord stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
       
         if ([theWordND isEqualToString:@""])
@@ -529,7 +581,7 @@
             ignoreNext = NO;
           }
         }
-      
+      */
 /*        NSDictionary *ccMatrix = @{
                                     @"γγ": @"ng",
                                     @"γξ": @"nx",
@@ -582,7 +634,7 @@
         }
 */
         
-        return theNewWord;
+      //  return theNewWord;
     }
     
 /**
@@ -592,7 +644,11 @@
  *
  */
     +(NSArray *)formatText: (NSString *)theText forColumn: (int)theColumn withBounds: (CGRect)theRect withParsings: (BOOL)parsed
+    {/*
+    if ( [theText rangeOfString:@"Abraam"].location != NSNotFound)
     {
+      NSLog (@"Here");
+    }*/
         // should we include the morphology?
         BOOL showMorphology = [[PKSettings instance] showMorphology];
         BOOL showStrongs = [[PKSettings instance] showStrongs];
@@ -720,7 +776,12 @@
             // got the current word
             NSString *theOriginalWord = [matches objectAtIndex:i];
             theWord = [matches objectAtIndex:i];
-            
+          
+         /* if ([theWord isEqualToString:@"Abraam"])
+          {
+            NSLog (@"Here");
+          }*/
+          
             // transliterate?
             //if (transliterate)
             //{
@@ -734,14 +795,19 @@
             // determine the type of the word
             theWordType = 0;    // by default, we're a regular word
             yOffset = 0.0;
-            
-            
-            if (theColumn == 1 && [theOriginalWord length]>1) // we only do this for greek text
+          
+/*          if ([theWord isEqualToString:@"N"])
+          {
+            NSLog (@"Here");
+          }
+*/            
+            if (theColumn == 1 ) // we only do this for greek text
             {
                 // originally we used regular expressions, but they are SLOW
                 // G#s are of the form G[0-9]+
-                
-                if ( [[theOriginalWord substringToIndex:1] isEqualToString:@"G"] &&
+              
+                if ( [theOriginalWord length]>1 &&
+                     [[theOriginalWord substringToIndex:1] isEqualToString:@"G"] &&
                      [[theOriginalWord substringFromIndex:1] intValue] > 0 )
                 {
                     // we're a G#
@@ -752,8 +818,9 @@
                 else
                 {
                     // are we a (interlinear word)?
-                    if ( [[theOriginalWord substringToIndex:1] isEqualToString:@"("] ||
-                         [[theOriginalWord substringFromIndex:[theOriginalWord length]-1] isEqualToString:@")"] )
+                    if ( [theOriginalWord length]>1 && (
+                         [[theOriginalWord substringToIndex:1] isEqualToString:@"("] ||
+                         [[theOriginalWord substringFromIndex:[theOriginalWord length]-1] isEqualToString:@")"]) )
                     {
                         theWordType = 5;
                         yOffset = lineHeight*3;
@@ -773,7 +840,8 @@
                     else
                     {
                         // are we a VARiant? (regex: VAR[0-9]
-                        if ( [[theOriginalWord substringToIndex:2] isEqualToString:@"VAR"] )
+                        if ( [theOriginalWord length]>1 &&
+                             [[theOriginalWord substringToIndex:2] isEqualToString:@"VAR"] )
                         {
                             theWordType = 0; // we're really just a regular word.
                             yOffset = 0.0;
@@ -781,11 +849,11 @@
                         else
                         {
                             // are we a morphology word? [A-Z]+[A-Z0-9\\-]+
-                            if ( //[[theWord uppercaseString] isEqualToString:theWord]
-                                 ([theOriginalWord characterAtIndex:0] >= 'A' &&
+                            if ( [PKBible isMorphology:theWord] ) //[[theWord uppercaseString] isEqualToString:theWord]
+                                 /*([theOriginalWord characterAtIndex:0] >= 'A' &&
                                    [theOriginalWord characterAtIndex:0] <= 'Z')
                                  &&
-                                 thePriorWordType >= 10)
+                                 thePriorWordType >= 10 && thePriorWordType <20) */
                             {
                                 // we are!
                                 theWordType = 20;
