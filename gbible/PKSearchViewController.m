@@ -295,7 +295,7 @@
                                                                     forSide:1]] sizeWithFont:self.leftFont
                                                                     constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
 
-    theRightSize = [[NSString stringWithFormat:@"%@ %i %@\n\n",
+    theRightSize = [[NSString stringWithFormat:@"%@ %i:%@\n\n",
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
                                                //     theVerse,
@@ -348,7 +348,7 @@
                                                                     forSide:1]] sizeWithFont:self.leftFont
                                                                     constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
 
-    CGSize theRightSize = [[NSString stringWithFormat:@"%@ %i %@\n\n",
+    CGSize theRightSize = [[NSString stringWithFormat:@"%@ %i:%@\n\n",
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
 //                                                    theVerse,
@@ -380,7 +380,7 @@
     theRightSide.hotColor = [PKSettings PKStrongsColor];
     theRightSide.hotBackgroundColor = [PKSettings PKSelectionColor];
     theRightSide.hotWord = self.theSearchTerm;
-    theRightSide.text = [NSString stringWithFormat:@"%@ %i %@ ",
+    theRightSide.text = [NSString stringWithFormat:@"%@ %i:%@ ",
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
                                                     //theVerse,
