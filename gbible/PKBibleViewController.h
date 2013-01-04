@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PKLayoutControllerDelegate.h"
 
-@interface PKBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UIActionSheetDelegate>
+@interface PKBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UIActionSheetDelegate, PKLayoutControllerDelegate>
 
 - (void)displayBook: (int)theBook andChapter: (int)theChapter andVerse: (int)theVerse;
    
@@ -53,6 +54,8 @@
 
     @property (strong, nonatomic) UIButton *previousChapterButton;
     @property (strong, nonatomic) UIButton *nextChapterButton;
+
+    @property (strong, nonatomic) UIPopoverController *PO;
     
     -(void)notifyNoteChanged;
     

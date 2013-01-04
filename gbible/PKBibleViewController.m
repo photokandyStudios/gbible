@@ -27,12 +27,13 @@
 #import "PKTableViewCell.h"
 #import "PKLabel.h"
 #import "TestFlight.h"
-
+#import "NSString+FontAwesome.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import "PKLayoutController.h"
 #import <sys/socket.h>
 #import <netinet/in.h>
 #import <SystemConfiguration/SystemConfiguration.h>
+#import "PKPortraitNavigationController.h"
 
 
 @interface PKBibleViewController ()
@@ -83,6 +84,8 @@
 
     @synthesize previousChapterButton;
     @synthesize nextChapterButton;
+
+    @synthesize PO;
 
 #pragma mark -
 #pragma mark Network Connectivity
@@ -678,8 +681,8 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     
     // add navbar items
     UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
-                                        initWithImage:[UIImage imageNamed:@"Listb.png"] 
-                                        style:UIBarButtonItemStylePlain 
+                                        initWithImage:[UIImage imageNamed:@"Listb.png"]
+                                        style:UIBarButtonItemStylePlain
                                         target:self //self.parentViewController.parentViewController.parentViewController
                                         action:@selector(revealToggle:)];
 
@@ -693,16 +696,35 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                         initWithTitle:@""
                                 style:UIBarButtonItemStylePlain 
                                target:self action:@selector(changeHighlightColor:)];
+        [changeHighlight setTitleTextAttributes:[[NSDictionary alloc]
+            initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
+                                   [UIColor whiteColor], UITextAttributeTextColor,
+                                   [UIFont fontWithName:kFontAwesomeFamilyName size:22], UITextAttributeFont,
+                                   nil] forState:UIControlStateNormal ];
+
+
     changeHighlight.accessibilityLabel = @"Highlight Color";
     if (![changeHighlight respondsToSelector:@selector(setTintColor:)])
     {
         changeHighlight.title = ((PKSettings *)[PKSettings instance]).highlightTextColor;
     }
     //TODO: Add buttons that disable G#, Morph, and Interlinear
+  
+    UIBarButtonItem *fontSelect = [[UIBarButtonItem alloc]
+                                    initWithTitle:[NSString fontAwesomeIconStringForIconIdentifier:@"icon-font"]
+                                            style:UIBarButtonItemStylePlain target:self action:@selector(fontSelect:)];
+        [fontSelect setTitleTextAttributes:[[NSDictionary alloc]
+            initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
+                                   [UIColor whiteColor], UITextAttributeTextColor,
+                                   [UIFont fontWithName:kFontAwesomeFamilyName size:22], UITextAttributeFont,
+                                   nil] forState:UIControlStateNormal ];
+  
+  
     if ([self.navigationItem respondsToSelector:@selector(setLeftBarButtonItems:)])
     {
         self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, 
-                                                                           changeHighlight, nil];
+                                                                           changeHighlight,
+                                                                           fontSelect, nil];
     }
     else 
     {
@@ -719,10 +741,20 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tb];
     }
     
-    UIBarButtonItem *goFullScreen = [[UIBarButtonItem alloc]  initWithImage:[UIImage imageNamed:@"Resize.png"]
-                                                                     style:UIBarButtonItemStyleBordered 
-                                                                    target:self 
-                                                                    action:@selector(goFullScreen:)];
+    UIBarButtonItem *goFullScreen = //[[UIBarButtonItem alloc]  initWithImage:[UIImage imageNamed:@"Resize.png"]
+                                    //                                 style:UIBarButtonItemStyleBordered
+                                    //                                target:self
+                                    //                                action:@selector(goFullScreen:)];
+                                    [[UIBarButtonItem alloc]
+                                      initWithTitle:[NSString fontAwesomeIconStringForIconIdentifier:@"icon-resize-full"]
+                                              style:UIBarButtonItemStylePlain
+                                             target:self action:@selector(goFullScreen:)];
+        [goFullScreen setTitleTextAttributes:[[NSDictionary alloc]
+            initWithObjectsAndKeys:[UIColor blackColor], UITextAttributeTextShadowColor,
+                                   [UIColor whiteColor], UITextAttributeTextColor,
+                                   [UIFont fontWithName:kFontAwesomeFamilyName size:22], UITextAttributeFont,
+                                   nil] forState:UIControlStateNormal ];
+
     if ([goFullScreen respondsToSelector:@selector(setTintColor:)])
     {
         goFullScreen.tintColor = [PKSettings PKBaseUIColor];
@@ -1048,7 +1080,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         theMax += 10 + theSize.height + 10;
     }
     
-    return theMax;
+    return round(theMax);
 }
 
 /**
@@ -1497,6 +1529,10 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 
 -(void) goFullScreen: (id)sender
 {
+  if (PO)
+  {
+    [PO dismissPopoverAnimated:NO];
+  }
     ((PKRootViewController *)self.parentViewController.parentViewController).aViewHasFullScreen = YES;
     //[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
@@ -1521,17 +1557,19 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     theRect.size.height = 32;
 
     btnRegularScreen = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+  
     [btnRegularScreen setFrame:theRect];
-/*
-    [btnRegularScreen setTitle:@"Back" forState:UIControlStateNormal];
-    [btnRegularScreen setTitle:@"Back" forState:UIControlStateHighlighted];
-    [btnRegularScreen setTitle:@"Back" forState:UIControlStateDisabled];
-    [btnRegularScreen setTitle:@"Back" forState:UIControlStateSelected];
- */
-    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateNormal];
-    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateHighlighted];
-    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateDisabled];
-    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateSelected];
+    [btnRegularScreen setTitle:[NSString fontAwesomeIconStringForIconIdentifier:@"icon-resize-small"] forState:UIControlStateNormal];
+    [btnRegularScreen setTitle:[NSString fontAwesomeIconStringForIconIdentifier:@"icon-resize-small"] forState:UIControlStateHighlighted];
+    [btnRegularScreen setTitle:[NSString fontAwesomeIconStringForIconIdentifier:@"icon-resize-small"] forState:UIControlStateDisabled];
+    [btnRegularScreen setTitle:[NSString fontAwesomeIconStringForIconIdentifier:@"icon-resize-small"] forState:UIControlStateSelected];
+
+    btnRegularScreen.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:22];
+
+//    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateNormal];
+//    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateHighlighted];
+//    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateDisabled];
+//    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateSelected];
     btnRegularScreen.accessibilityLabel = @"Leave Full Screen";
     
     btnRegularScreen.titleLabel.textColor = [PKSettings PKBaseUIColor];
@@ -1600,6 +1638,10 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 -(void) changeHighlightColor:(id)sender
 {
+  if (PO)
+  {
+    [PO dismissPopoverAnimated:NO];
+  }
     [ourPopover dismissWithClickedButtonIndex:-1 animated:YES];
 
     UIActionSheet *theActionSheet = [[UIActionSheet alloc]
@@ -1633,6 +1675,10 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 -(void) revealToggle: (id) sender
 {
+  if (PO)
+  {
+    [PO dismissPopoverAnimated:NO];
+  }
     [ourPopover dismissWithClickedButtonIndex:-1 animated:YES];
     [(ZUUIRevealController *)[[PKAppDelegate instance] rootViewController] revealToggle: sender];
 }
@@ -1867,6 +1913,38 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 
 
     [self presentModalViewController:mvnc animated:YES];
+}
+
+-(void)fontSelect: (id)sender
+{
+  PKLayoutController *LC = [[PKLayoutController alloc] init];
+  LC.delegate = self;
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+  {
+    if (PO)
+    {
+      [PO dismissPopoverAnimated:NO];
+    }
+    PO = [[UIPopoverController alloc] initWithContentViewController:LC];
+    [PO setPopoverContentSize:CGSizeMake(320, 420) animated:NO];
+    [PO presentPopoverFromBarButtonItem:(UIBarButtonItem*)sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+  }
+  else
+  {
+    PKPortraitNavigationController *mvnc = [[PKPortraitNavigationController alloc] initWithRootViewController:LC];
+    mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentModalViewController:mvnc animated:YES];
+  }
+}
+
+#pragma mark -
+#pragma mark layout responder
+-(void) didChangeLayout:(PKLayoutController *)sender
+{
+  // the settings have changed, update ourselves...
+  [self updateAppearanceForTheme];
+  [self loadChapter];
+  [self reloadTableCache];
 }
 
 #pragma mark -
