@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PKLayoutControllerDelegate.h"
 
-@interface PKLayoutController : UIViewController
+@interface PKLayoutController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+
+  @property (nonatomic, assign) id<PKLayoutControllerDelegate> delegate;
 
 @end
