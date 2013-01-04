@@ -1179,11 +1179,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "378977721.269876"
+         timestampString = "378979669.78369"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1944"
-         endingLineNumber = "1944"
+         startingLineNumber = "1945"
+         endingLineNumber = "1945"
          landmarkName = "-didChangeLayout:"
          landmarkType = "5">
       </FileBreakpoint>
