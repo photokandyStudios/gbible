@@ -173,8 +173,8 @@
     {
         theBoldFont = theFont;
     }
-    self.leftFont = theFont;
-    self.rightFont = theBoldFont;
+    self.rightFont = theFont;
+    self.leftFont = theBoldFont;
 
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [PKSettings PKPageColor];
@@ -286,23 +286,23 @@
 
     theHeight += 10; // the top margin
 
-    theLeftSize = [[NSString stringWithFormat:@"%@ %i:%@",
+    theLeftSize = [[NSString stringWithFormat:@"%@ %i:%i %@\n\n",
                                                     [PKBible nameForBook:theBook],
-                                                    theChapter,
+                                                    theChapter, theVerse,
                                                     [PKBible getTextForBook:theBook 
                                                                  forChapter:theChapter 
                                                                    forVerse:theVerse 
-                                                                    forSide:2]] sizeWithFont:self.leftFont
+                                                                    forSide:1]] sizeWithFont:self.leftFont
                                                                     constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
 
-    theRightSize = [[NSString stringWithFormat:@"%@ %i:%i %@",
+    theRightSize = [[NSString stringWithFormat:@"%@ %i %@\n\n",
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
-                                                    theVerse,
+                                               //     theVerse,
                                                     [PKBible getTextForBook:theBook 
                                                                  forChapter:theChapter 
                                                                    forVerse:theVerse 
-                                                                    forSide:1]] sizeWithFont:self.rightFont
+                                                                    forSide:2]] sizeWithFont:self.rightFont
                                                                     constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
 
     theHeight += MAX(theLeftSize.height,theRightSize.height) + 10;
@@ -338,23 +338,24 @@
     CGFloat theColumnWidth = (theCellWidth) / 2;
     CGSize maxSize = CGSizeMake ( theColumnWidth - 40, 100000 );
 
-    CGSize theLeftSize = [[NSString stringWithFormat:@"%@ %i:%@",
-                                                    [PKBible nameForBook:theBook],
-                                                    theChapter,
-                                                    [PKBible getTextForBook:theBook 
-                                                                 forChapter:theChapter 
-                                                                   forVerse:theVerse 
-                                                                    forSide:2]] sizeWithFont:self.leftFont
-                                                                    constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
-
-    CGSize theRightSize = [[NSString stringWithFormat:@"%@ %i:%i %@",
+    CGSize theLeftSize = [[NSString stringWithFormat:@"%@ %i:%i %@\n\n",
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
                                                     theVerse,
                                                     [PKBible getTextForBook:theBook 
                                                                  forChapter:theChapter 
                                                                    forVerse:theVerse 
-                                                                    forSide:1]] sizeWithFont:self.rightFont
+                                                                    forSide:1]] sizeWithFont:self.leftFont
+                                                                    constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
+
+    CGSize theRightSize = [[NSString stringWithFormat:@"%@ %i %@\n\n",
+                                                    [PKBible nameForBook:theBook],
+                                                    theChapter,
+//                                                    theVerse,
+                                                    [PKBible getTextForBook:theBook 
+                                                                 forChapter:theChapter 
+                                                                   forVerse:theVerse 
+                                                                    forSide:2]] sizeWithFont:self.rightFont
                                                                     constrainedToSize:maxSize lineBreakMode:NSLineBreakByWordWrapping];
 
   
@@ -362,13 +363,13 @@
     PKHotLabel *theLeftSide = [[PKHotLabel alloc] initWithFrame:CGRectMake(20, 10, theColumnWidth-40, theLeftSize.height)];
     theLeftSide.hotColor = [PKSettings PKStrongsColor];
     theLeftSide.hotWord = self.theSearchTerm;
-    theLeftSide.text = [NSString stringWithFormat:@"%@ %i:%@ ", 
+    theLeftSide.text = [NSString stringWithFormat:@"%@ %i:%i %@ ",
                                                     [PKBible nameForBook:theBook],
-                                                    theChapter,
+                                                    theChapter, theVerse,
                                                     [PKBible getTextForBook:theBook 
                                                                  forChapter:theChapter 
                                                                    forVerse:theVerse 
-                                                                    forSide:2]];
+                                                                    forSide:1]];
     theLeftSide.textColor = [PKSettings PKTextColor];
     theLeftSide.hotBackgroundColor = [PKSettings PKSelectionColor];
     theLeftSide.numberOfLines=0;
@@ -379,14 +380,14 @@
     theRightSide.hotColor = [PKSettings PKStrongsColor];
     theRightSide.hotBackgroundColor = [PKSettings PKSelectionColor];
     theRightSide.hotWord = self.theSearchTerm;
-    theRightSide.text = [NSString stringWithFormat:@"%@ %i:%i %@ ",
+    theRightSide.text = [NSString stringWithFormat:@"%@ %i %@ ",
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
-                                                    theVerse,
+                                                    //theVerse,
                                                     [PKBible getTextForBook:theBook 
                                                                  forChapter:theChapter 
                                                                    forVerse:theVerse 
-                                                                    forSide:1]];
+                                                                    forSide:2]];
     
     theRightSide.textColor = [PKSettings PKTextColor];
     theRightSide.numberOfLines=0;
