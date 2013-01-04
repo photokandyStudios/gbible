@@ -1917,6 +1917,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 
 -(void)fontSelect: (id)sender
 {
+    [ourPopover dismissWithClickedButtonIndex:-1 animated:YES];
   PKLayoutController *LC = [[PKLayoutController alloc] init];
   LC.delegate = self;
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
