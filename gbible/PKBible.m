@@ -456,6 +456,7 @@
       // there's no easy way to determine if a word is a morphology word. Instead, let's encode
       // the various options
       if ( [theWord hasPrefix:@"A-"]) return YES;
+      if ( [theWord hasPrefix:@"C-"]) return YES;
       if ( [theWord hasPrefix:@"D-"]) return YES;
       if ( [theWord hasPrefix:@"F-"]) return YES;
       if ( [theWord hasPrefix:@"I-"]) return YES;
@@ -471,6 +472,7 @@
       if ( [theWord hasPrefix:@"Noun-"]) return YES;
       if ( [theWord hasPrefix:@"Art-"]) return YES;
       if ( [theWord hasPrefix:@"Adj-"]) return YES;
+      if ( [theWord hasPrefix:@"Adv-"]) return YES;
       if ( [theWord hasPrefix:@"RefPro-"]) return YES;
       if ( [theWord hasPrefix:@"RelPro-"]) return YES;
       if ( [theWord hasPrefix:@"IPro-"]) return YES;
@@ -480,6 +482,7 @@
       if ( [theWord hasPrefix:@"Prtcl-"]) return YES;
       if ( [theWord hasPrefix:@"PRT-"]) return YES;
       if ( [theWord hasPrefix:@"ADV-"]) return YES;
+      if ( [theWord hasPrefix:@"COND-"]) return YES;
       
       /*if ([theWord isEqualToString:@"N"])
       {
