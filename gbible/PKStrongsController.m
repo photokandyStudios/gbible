@@ -186,13 +186,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 
-    ourMenu = [UIMenuController sharedMenuController];
-    ourMenu.menuItems = [NSArray arrayWithObjects:
-                            [[UIMenuItem alloc] initWithTitle:@"Copy"      action:@selector(copyStrongs:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Define"    action:@selector(defineStrongs:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Search Bible" action:@selector(searchBible:)]
-//                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)]
-                         , nil ];
     // reload the search? TODO
     [self updateAppearanceForTheme];
 }
@@ -391,6 +384,15 @@
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
+    ourMenu = [UIMenuController sharedMenuController];
+    ourMenu.menuItems = [NSArray arrayWithObjects:
+                            [[UIMenuItem alloc] initWithTitle:@"Copy"      action:@selector(copyStrongs:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Define"    action:@selector(defineStrongs:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Search Bible" action:@selector(searchBible:)]
+//                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)]
+                         , nil ];
+
+
     NSUInteger row = [indexPath row];
     selectedWord = nil;
     selectedRow = row;
@@ -545,6 +547,13 @@
           
             CGPoint wp = [gestureRecognizer locationInView: ourLabel ];
             NSString *hotWord = [ourLabel wordFromPoint:wp];
+    ourMenu = [UIMenuController sharedMenuController];
+    ourMenu.menuItems = [NSArray arrayWithObjects:
+                            [[UIMenuItem alloc] initWithTitle:@"Copy"      action:@selector(copyStrongs:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Define"    action:@selector(defineStrongs:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Search Bible" action:@selector(searchBible:)]
+//                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)]
+                         , nil ];
 
             if (hotWord)
             {
