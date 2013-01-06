@@ -766,6 +766,7 @@
         int theWordType = -1;
         NSString *theWord;
         NSString *thePriorWord;
+        NSArray *thePriorWordArray = @[];
         
         CGFloat maxX = 0.0;
         
@@ -779,6 +780,12 @@
             // got the current word
             NSString *theOriginalWord = [matches objectAtIndex:i];
             theWord = [matches objectAtIndex:i];
+          
+            // obtain the prior word array
+            if (thePriorWordType == 0)
+            {
+              thePriorWordArray = [theWordArray lastObject];
+            }
           
          /* if ([theWord isEqualToString:@"Abraam"])
           {
@@ -817,6 +824,18 @@
                     theWordType = 10;
                     yOffset = lineHeight;
                     if (!showStrongs) { theWord = @""; }
+                    // add the G# to the previous word if it was a greek word --
+                    // this lets us get to the Strong's # from the greek word too.
+                    if (thePriorWordArray != nil && thePriorWordArray.count>0 )
+                    {
+                      int theIndex = [theWordArray indexOfObject:thePriorWordArray];
+                      if (theIndex>-1 && theIndex<theWordArray.count)
+                      {
+                        NSMutableArray *theNewPriorWordArray = [thePriorWordArray mutableCopy];
+                        theNewPriorWordArray[6] = @([[theOriginalWord substringFromIndex:1] intValue]);
+                        [theWordArray replaceObjectAtIndex:theIndex withObject:[theNewPriorWordArray copy]];
+                      }
+                    }
                 }
                 else
                 {
@@ -904,6 +923,7 @@
                                                                  [NSNumber numberWithFloat:(curY + yOffset)], 
                                                                  [NSNumber numberWithFloat:theSize.width],
                                                                  [NSNumber numberWithFloat:theSize.height],
+                                                                 @-1, // G# placeholder
                                                                  nil];
             if ( (showMorphology || (theWordType < 20  && !showMorphology)) &&
                  (showStrongs    || (theWordType != 10 && !showStrongs))    &&
