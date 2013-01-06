@@ -34,7 +34,9 @@
 #import <netinet/in.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "PKPortraitNavigationController.h"
-
+#import "PopoverView/PopoverView.h"
+//#import "FWTPopoverView.h"
+#import "PKStrongs.h"
 
 @interface PKBibleViewController ()
 
@@ -86,6 +88,10 @@
     @synthesize nextChapterButton;
 
     @synthesize PO;
+
+    @synthesize theWordIndex;
+
+//@synthesize popoverView;
 
 #pragma mark -
 #pragma mark Network Connectivity
@@ -446,6 +452,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             CGFloat wordY = [[theWordElement objectAtIndex:3] floatValue];
             CGFloat wordW = [[theWordElement objectAtIndex:4] floatValue];
             CGFloat wordH = [[theWordElement objectAtIndex:5] floatValue];
+            int theStrongsValue = [theWordElement[6] intValue];
             
             PKLabel *theLabel = [self deQueueReusableLabel]; //[[UILabel alloc] init];
             [theLabel setFrame:CGRectMake(wordX, wordY, wordW, wordH)];
@@ -471,6 +478,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             //theLabel.shadowOffset = CGSizeMake(1, 1);
             theLabel.font = theFont;
             theLabel.tag = theWordType; // so we can avoid certain words later
+            theLabel.secondTag = theStrongsValue; // so we can always get the strong's #
             if (theWordType == 0)
             {
                 theLabel.font = theBoldFont;
@@ -497,6 +505,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             //theLabel.backgroundColor = self.tableView.backgroundColor;
             theLabel.font = theFont;
             theLabel.tag = -1;
+            theLabel.secondTag = -1;
             //theLabel.shadowColor = PKLightShadowColor;
             //theLabel.shadowOffset = CGSizeMake(1, 1);
             [theLabelArray addObject:theLabel];
@@ -595,6 +604,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 - (void)viewWillAppear:(BOOL)animated
 {
+
     if (dirty || lastKnownOrientation != [[UIDevice currentDevice] orientation])
     {
         lastKnownOrientation = [[UIDevice currentDevice] orientation];
@@ -767,21 +777,6 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     changeHighlight.tintColor = [[PKSettings instance] highlightColor];
     }
    
-    ourMenu = [UIMenuController sharedMenuController];
-    ourMenu.menuItems = [NSArray arrayWithObjects:
-                            [[UIMenuItem alloc] initWithTitle:@"Copy"      action:@selector(copySelection:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Highlight" action:@selector(askHighlight:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Search"    action:@selector(askSearch:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Define"    action:@selector(defineWord:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Explain"   action:@selector(explainVerse:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Clear"     action:@selector(clearSelection:)],
-                            // handle second-tier items
-                            [[UIMenuItem alloc] initWithTitle:@"Add Highlight" action:@selector(highlightSelection:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Remove"        action:@selector(removeHighlights:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Search Bible"  action:@selector(searchBible:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Search Strong's" action:@selector(searchStrongs:)]
-                         , nil ];
 
     // create the header and footer views
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
@@ -853,9 +848,14 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 {
     if (ourMenuState == 0)
     {
+        //if (action == @selector(_accessibilitySpeak:)) { return NO; }
         if (action == @selector(copySelection:))    { return YES; }
         if (action == @selector(doAnnotate:))      { return YES; }
-        if (action == @selector(defineWord:))       { return selectedWord!=nil && theWordTag != 0; } 
+        if (action == @selector(defineWord:))       { //return selectedWord!=nil && theWordTag != 0;
+                                                      if (!selectedWord) { return NO; } // word must not be nil
+                                                      if (theWordTag == 0) { return theWordIndex>-1; } // if greek, must have a strongs#
+                                                      return (theWordTag<20); // otherwise, we must not be a morphological word
+                                                    }
         if (action == @selector(explainVerse:))     { return [PKBibleViewController hasConnectivity]; }
         if (action == @selector(clearSelection:))   { return YES; }
 
@@ -1373,6 +1373,26 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
     {
+
+    // restore our menu items after a strongs view shows
+    ourMenu = [UIMenuController sharedMenuController];
+    ourMenu.menuItems = [NSArray arrayWithObjects:
+                            [[UIMenuItem alloc] initWithTitle:@"Copy"      action:@selector(copySelection:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Highlight" action:@selector(askHighlight:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Search"    action:@selector(askSearch:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Define"    action:@selector(defineWord:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Explain"   action:@selector(explainVerse:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Clear"     action:@selector(clearSelection:)],
+                            // handle second-tier items
+                            [[UIMenuItem alloc] initWithTitle:@"Add Highlight" action:@selector(highlightSelection:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Remove"        action:@selector(removeHighlights:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Search Bible"  action:@selector(searchBible:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Search Strong's" action:@selector(searchStrongs:)]
+                         , nil ];
+
+
+
         CGPoint p = [gestureRecognizer locationInView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p]; // nil if no row
         UILabel *theWordLabel = nil;
@@ -1412,6 +1432,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                         if (theDistance < minDistance)
                         {
                                 theWordTag = theView.tag;
+                                theWordIndex = theView.secondTag;
                                 theWord = ((UILabel *)theView).text;
                                 theWordLabel = (UILabel *)theView;
                                 minDistance = theDistance;
@@ -1427,6 +1448,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                 if ([theWord isEqualToString:@""])
                 {
                     theWordTag = -1;
+                    theWordIndex = -1;
                     theWord = nil;
                     theWordLabel = nil;
                 }
@@ -1511,6 +1533,25 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                      }
                 ];
             }
+          
+/*
+        // build up our popover
+        if (theWordIndex>-1)
+        {
+          NSArray *theSearchResults = [PKStrongs keysThatMatch:[@"G" stringByAppendingString:[[NSNumber numberWithInt:theWordIndex] stringValue]] byKeyOnly:YES];
+          if (theSearchResults.count>0)
+          {
+            NSArray *theEntry = [PKStrongs entryForKey:theSearchResults[0]];
+            // we have a Strong's # -- let's display it
+            
+            NSArray *theStrings = @[
+                                     @"Copy", @"Highlight", @"Annotate", @"Search", @"Define", @"Explain", @"Clear" ];
+            
+            [PopoverView showPopoverAtPoint:p inView:self.tableView withTitle:[NSString stringWithFormat:@"%@", theEntry[3]]
+             withStringArray:theStrings delegate:nil];
+          }
+        }
+        */
         
         
         ourMenuState = 0; // show entire menu (not second-tier)
@@ -1808,6 +1849,15 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 -(void)defineWord: (id)sender
 {
+    // if the word is a greek word with a strong's #, we'll look it up first.
+    if ( theWordTag == 0 && theWordIndex>-1)
+    {
+      ZUUIRevealController *rc = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
+      PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
+      PKStrongsController *svc = [[[rvc.viewControllers objectAtIndex:2] viewControllers] objectAtIndex:0];
+      [svc doSearchForTerm:[@"G" stringByAppendingString: [[NSNumber numberWithInt:theWordIndex] stringValue]] byKeyOnly:YES ];
+      return;
+    }
     // if the word is a strong's #, we'll do that lookup instead.
     if ( [[selectedWord substringToIndex:1] isEqualToString:@"G"] &&
          [[selectedWord substringFromIndex:1] intValue] > 0 )

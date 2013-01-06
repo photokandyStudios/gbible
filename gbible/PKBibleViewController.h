@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PKLayoutControllerDelegate.h"
+//#import "FWTPopoverView.h"
 
 @interface PKBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UIActionSheetDelegate, PKLayoutControllerDelegate>
 
@@ -45,6 +46,7 @@
     @property (strong, nonatomic) UILabel *tableTitle;
     
     @property int theWordTag;
+    @property int theWordIndex;
     
     @property BOOL fullScreen;
     
@@ -56,7 +58,7 @@
     @property (strong, nonatomic) UIButton *nextChapterButton;
 
     @property (strong, nonatomic) UIPopoverController *PO;
-    
+    //@property (strong, nonatomic) FWTPopoverView *popoverView;
     -(void)notifyNoteChanged;
     
 @end
