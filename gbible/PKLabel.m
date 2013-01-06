@@ -13,6 +13,7 @@
     @synthesize frame;
     @synthesize shadowOffset;
     @synthesize tag;
+    @synthesize secondTag;
     @synthesize text;
     @synthesize textColor;
     @synthesize backgroundColor;

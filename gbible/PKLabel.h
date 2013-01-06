@@ -13,6 +13,7 @@
     @property CGRect frame;
     @property CGSize shadowOffset;
     @property int tag;
+    @property int secondTag;
     @property (nonatomic, strong) NSString * text;
     @property (nonatomic, strong) UIColor * textColor;
     @property (nonatomic, strong) UIColor * backgroundColor;
