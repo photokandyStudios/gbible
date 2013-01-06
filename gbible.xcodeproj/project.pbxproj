@@ -171,6 +171,11 @@
 		6AF9D05B15129C7400514499 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9D02A151292D800514499 /* FMDatabasePool.m */; };
 		6AF9D05C15129C7400514499 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9D02C151292D800514499 /* FMDatabaseQueue.m */; };
 		6AF9D05D15129C7400514499 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9D02F151292D800514499 /* FMResultSet.m */; };
+		6AFD867D169928FB000B564D /* PopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD867B169928FB000B564D /* PopoverView.m */; };
+		6AFD868E1699479A000B564D /* FWTPopoverAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD86861699479A000B564D /* FWTPopoverAnimationHelper.m */; };
+		6AFD868F1699479A000B564D /* FWTPopoverArrow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD86881699479A000B564D /* FWTPopoverArrow.m */; };
+		6AFD86901699479A000B564D /* FWTPopoverBackgroundHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD868A1699479A000B564D /* FWTPopoverBackgroundHelper.m */; };
+		6AFD86911699479A000B564D /* FWTPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD868D1699479A000B564D /* FWTPopoverView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -386,6 +391,18 @@
 		6AF9D0511512978600514499 /* CoolButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoolButton.h; sourceTree = "<group>"; };
 		6AF9D0521512978600514499 /* CoolButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CoolButton.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6AF9D05415129B9D00514499 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		6AFD867A169928FB000B564D /* PopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverView.h; sourceTree = "<group>"; };
+		6AFD867B169928FB000B564D /* PopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverView.m; sourceTree = "<group>"; };
+		6AFD867C169928FB000B564D /* PopoverView_Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverView_Configuration.h; sourceTree = "<group>"; };
+		6AFD86851699479A000B564D /* FWTPopoverAnimationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWTPopoverAnimationHelper.h; sourceTree = "<group>"; };
+		6AFD86861699479A000B564D /* FWTPopoverAnimationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWTPopoverAnimationHelper.m; sourceTree = "<group>"; };
+		6AFD86871699479A000B564D /* FWTPopoverArrow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWTPopoverArrow.h; sourceTree = "<group>"; };
+		6AFD86881699479A000B564D /* FWTPopoverArrow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWTPopoverArrow.m; sourceTree = "<group>"; };
+		6AFD86891699479A000B564D /* FWTPopoverBackgroundHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWTPopoverBackgroundHelper.h; sourceTree = "<group>"; };
+		6AFD868A1699479A000B564D /* FWTPopoverBackgroundHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWTPopoverBackgroundHelper.m; sourceTree = "<group>"; };
+		6AFD868B1699479A000B564D /* FWTPopoverView-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FWTPopoverView-Prefix.pch"; sourceTree = "<group>"; };
+		6AFD868C1699479A000B564D /* FWTPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWTPopoverView.h; sourceTree = "<group>"; };
+		6AFD868D1699479A000B564D /* FWTPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWTPopoverView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -454,8 +471,7 @@
 				6A21636C1530F28000D41447 /* Highlights Controller */,
 				6A21636D1530F28700D41447 /* Notes (List) Controller */,
 				6A21636E1530F29000D41447 /* History Controller */,
-				6A542A541696BD0B001AD586 /* PKPortraitNavigationController.h */,
-				6A542A551696BD0B001AD586 /* PKPortraitNavigationController.m */,
+				6AFD868216992B06000B564D /* Portrait Navigation Controller */,
 			);
 			name = "Navigation Controllers";
 			sourceTree = "<group>";
@@ -463,8 +479,7 @@
 		6A2163621530F1F000D41447 /* Content Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				6A9793DA15143B7A00A5C9F1 /* PKRootViewController.h */,
-				6A9793DB15143B7A00A5C9F1 /* PKRootViewController.m */,
+				6AFD868316992B24000B564D /* Root View Controller */,
 				6A2163641530F21900D41447 /* About Controller */,
 				6A2163651530F22200D41447 /* Bible Controller */,
 				6A2163661530F22D00D41447 /* Settings Controller */,
@@ -652,12 +667,12 @@
 		6A92CCC81516F0CC00F8AE15 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
-				6AD4881B169652060051453D /* NSString+FontAwesome.h */,
-				6AD4881C169652060051453D /* NSString+FontAwesome.m */,
+				6AFD86841699479A000B564D /* FWTPopoverView */,
+				6AFD8679169928FB000B564D /* PopoverView */,
+				6AFD868016992916000B564D /* NSString+FontAwesome */,
 				6A13691B167C3F6A001A1C7C /* GLTapLabel */,
 				6A3172AF167B15BF00C94DD1 /* TestFlightSDK1.2 */,
-				6AD7E2C8152976BA0072483E /* TPKeyboardAvoidingScrollView.h */,
-				6AD7E2C9152976BA0072483E /* TPKeyboardAvoidingScrollView.m */,
+				6AFD867F16992909000B564D /* TPKeyboardAvoidingScrollView */,
 				6A12F6EF151EDA7A00B49B6E /* SegmentedControllerRevisited */,
 				6A12F6EB151ED75B00B49B6E /* ZUUIRevealController */,
 				6AF9D0431512943A00514499 /* BAMSettings */,
@@ -697,9 +712,7 @@
 				6A2163621530F1F000D41447 /* Content Controllers */,
 				6A2163631530F20400D41447 /* Editing Controllers */,
 				6A2163611530F1D100D41447 /* Navigation Controllers */,
-				6A136914167C24BF001A1C7C /* PKLayoutController.h */,
-				6A116B231696864800E5C2D9 /* PKLayoutControllerDelegate.h */,
-				6A136915167C24BF001A1C7C /* PKLayoutController.m */,
+				6AFD868116992AF5000B564D /* PKLayoutController */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -993,6 +1006,78 @@
 			name = icons;
 			sourceTree = "<group>";
 		};
+		6AFD8679169928FB000B564D /* PopoverView */ = {
+			isa = PBXGroup;
+			children = (
+				6AFD867A169928FB000B564D /* PopoverView.h */,
+				6AFD867B169928FB000B564D /* PopoverView.m */,
+				6AFD867C169928FB000B564D /* PopoverView_Configuration.h */,
+			);
+			path = PopoverView;
+			sourceTree = "<group>";
+		};
+		6AFD867F16992909000B564D /* TPKeyboardAvoidingScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				6AD7E2C8152976BA0072483E /* TPKeyboardAvoidingScrollView.h */,
+				6AD7E2C9152976BA0072483E /* TPKeyboardAvoidingScrollView.m */,
+			);
+			name = TPKeyboardAvoidingScrollView;
+			sourceTree = "<group>";
+		};
+		6AFD868016992916000B564D /* NSString+FontAwesome */ = {
+			isa = PBXGroup;
+			children = (
+				6AD4881B169652060051453D /* NSString+FontAwesome.h */,
+				6AD4881C169652060051453D /* NSString+FontAwesome.m */,
+			);
+			name = "NSString+FontAwesome";
+			sourceTree = "<group>";
+		};
+		6AFD868116992AF5000B564D /* PKLayoutController */ = {
+			isa = PBXGroup;
+			children = (
+				6A136914167C24BF001A1C7C /* PKLayoutController.h */,
+				6A116B231696864800E5C2D9 /* PKLayoutControllerDelegate.h */,
+				6A136915167C24BF001A1C7C /* PKLayoutController.m */,
+			);
+			name = PKLayoutController;
+			sourceTree = "<group>";
+		};
+		6AFD868216992B06000B564D /* Portrait Navigation Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6A542A541696BD0B001AD586 /* PKPortraitNavigationController.h */,
+				6A542A551696BD0B001AD586 /* PKPortraitNavigationController.m */,
+			);
+			name = "Portrait Navigation Controller";
+			sourceTree = "<group>";
+		};
+		6AFD868316992B24000B564D /* Root View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6A9793DA15143B7A00A5C9F1 /* PKRootViewController.h */,
+				6A9793DB15143B7A00A5C9F1 /* PKRootViewController.m */,
+			);
+			name = "Root View Controller";
+			sourceTree = "<group>";
+		};
+		6AFD86841699479A000B564D /* FWTPopoverView */ = {
+			isa = PBXGroup;
+			children = (
+				6AFD86851699479A000B564D /* FWTPopoverAnimationHelper.h */,
+				6AFD86861699479A000B564D /* FWTPopoverAnimationHelper.m */,
+				6AFD86871699479A000B564D /* FWTPopoverArrow.h */,
+				6AFD86881699479A000B564D /* FWTPopoverArrow.m */,
+				6AFD86891699479A000B564D /* FWTPopoverBackgroundHelper.h */,
+				6AFD868A1699479A000B564D /* FWTPopoverBackgroundHelper.m */,
+				6AFD868B1699479A000B564D /* FWTPopoverView-Prefix.pch */,
+				6AFD868C1699479A000B564D /* FWTPopoverView.h */,
+				6AFD868D1699479A000B564D /* FWTPopoverView.m */,
+			);
+			path = FWTPopoverView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1229,6 +1314,11 @@
 				6A3E90541693E8F10062A4FA /* PKHotLabel.m in Sources */,
 				6AD4881D169652060051453D /* NSString+FontAwesome.m in Sources */,
 				6A542A561696BD0B001AD586 /* PKPortraitNavigationController.m in Sources */,
+				6AFD867D169928FB000B564D /* PopoverView.m in Sources */,
+				6AFD868E1699479A000B564D /* FWTPopoverAnimationHelper.m in Sources */,
+				6AFD868F1699479A000B564D /* FWTPopoverArrow.m in Sources */,
+				6AFD86901699479A000B564D /* FWTPopoverBackgroundHelper.m in Sources */,
+				6AFD86911699479A000B564D /* FWTPopoverView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
