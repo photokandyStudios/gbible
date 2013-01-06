@@ -157,14 +157,6 @@
 //    [self doSearchForTerm:self.theSearchTerm];
     theSearchBar.text = self.theSearchTerm;
 
-    ourMenu = [UIMenuController sharedMenuController];
-    ourMenu.menuItems = [NSArray arrayWithObjects:
-                            [[UIMenuItem alloc] initWithTitle:@"Copy"      action:@selector(copyStrongs:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Define"    action:@selector(defineStrongs:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Search Bible" action:@selector(searchBible:)]
-//                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)]
-                         , nil ];
-
 
 }
 -(void) updateAppearanceForTheme
@@ -193,6 +185,14 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+
+    ourMenu = [UIMenuController sharedMenuController];
+    ourMenu.menuItems = [NSArray arrayWithObjects:
+                            [[UIMenuItem alloc] initWithTitle:@"Copy"      action:@selector(copyStrongs:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Define"    action:@selector(defineStrongs:)],
+                            [[UIMenuItem alloc] initWithTitle:@"Search Bible" action:@selector(searchBible:)]
+//                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)]
+                         , nil ];
     // reload the search? TODO
     [self updateAppearanceForTheme];
 }
