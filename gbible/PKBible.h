@@ -10,6 +10,9 @@
 
 @interface PKBible : NSObject
 
+    +(NSArray *) availableOriginalTexts: (int)column;
+    +(NSArray *) availableHostTexts: (int)column;
+
     +(NSString *) nameForBook: (int)theBook;
     +(NSString *) numericalThreeLetterCodeForBook: (int)theBook;
     +(NSString *) abbreviationForBook: (int)theBook;

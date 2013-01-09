@@ -11,8 +11,44 @@
 #import "PKDatabase.h"
 #import "FMDatabase.h"
 #import "FMResultSet.h"
+#import "PKConstants.h"
 
 @implementation PKBible
+
+  +(NSArray *) availableTextsForSide: (NSString *)side andColumn: (int)column
+  {
+    // http://stackoverflow.com/questions/3940615/find-current-country-from-iphone-device
+    NSLocale *currentLocale = [NSLocale currentLocale];  // get the current locale.
+    NSString *countryCode = [currentLocale objectForKey:NSLocaleCountryCode];
+    
+    FMDatabase *db = [[PKDatabase instance] bible];
+    FMResultSet *s = [db executeQuery:@"select bibleAbbreviation, bibleAttribution, bibleSide, bibleID, bibleName, bibleParsedID from bibles where bibleSide=? order by bibleAbbreviation", side];
+
+    NSMutableArray *texts = [[NSMutableArray alloc] initWithCapacity:4];
+    while ([s next])
+    {
+      // make sure we don't add the KJV version if we're in the UK, or in the Euro-zone (since they
+      // must respect the UK copyright) Adding Canada and Australia, just to be safe.
+      if ( !(([@" GB AT BE BG CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE CA AU "
+            rangeOfString:[NSString stringWithFormat:@" %@ ", countryCode]].location != NSNotFound)
+          && [[s stringForColumnIndex:PK_TBL_BIBLES_ABBREVIATION] isEqualToString:@"KJV"]) )
+      {
+        [texts addObject: [s objectForColumnIndex:column] ];
+      }
+    }
+    return texts;
+  }
+  +(NSArray *) availableOriginalTexts: (int)column
+  {
+    return [PKBible availableTextsForSide:@"greek" andColumn:column];
+  }
+
+  +(NSArray *) availableHostTexts: (int)column
+  {
+    return [PKBible availableTextsForSide:@"english" andColumn:column];
+    // really a misnomer; we should allow the reader to choose any language edition of their choosing.
+  }
+
 
 /**
  *
@@ -25,19 +61,26 @@
     // Books of the bible and chapter count obtained from http://www.deafmissions.com/tally/bkchptrvrs.html
     //
         NSArray *bookList = [NSArray arrayWithObjects: 
-                      @"Genesis", @"Exodus", @"Leviticus", @"Numbers", @"Deuteronomy", @"Joshua", @"Judges", @"Ruth",
-                      @"1 Samuel", @"2 Samuel", @"1 Kings", @"2 Kings", @"1 Chronicles", @"2 Chronicles",
-                      @"Ezra", @"Nehemia", @"Esther", @"Job", @"Psalms", @"Proverbs", @"Ecclesiastes",
-                      @"Song of Solomon", @"Isaiah", @"Jeremiah", @"Lamentations", @"Ezekial", @"Daniel",
-                      @"Hosea", @"Joel", @"Amos", @"Obadiah", @"Jonah", @"Micah", @"Nahum", @"Habakkuk",
-                      @"Zephaniah", @"Haggai", @"Zechariah", @"Malachi",
+                      __T(@"Genesis"),         __T(@"Exodus"),   __T(@"Leviticus"), __T(@"Numbers"),
+                      __T(@"Deuteronomy"),     __T(@"Joshua"),   __T(@"Judges"),    __T(@"Ruth"),
+                      __T(@"1 Samuel"),        __T(@"2 Samuel"), __T(@"1 Kings"),   __T(@"2 Kings"),
+                      __T(@"1 Chronicles"),    __T(@"2 Chronicles"),
+                      __T(@"Ezra"),            __T(@"Nehemia"),  __T(@"Esther"),    __T(@"Job"),
+                      __T(@"Psalms"),          __T(@"Proverbs"), __T(@"Ecclesiastes"),
+                      __T(@"Song of Solomon"), __T(@"Isaiah"),   __T(@"Jeremiah"),  __T(@"Lamentations"),
+                      __T(@"Ezekial"),         __T(@"Daniel"),
+                      __T(@"Hosea"),           __T(@"Joel"),     __T(@"Amos"),      __T(@"Obadiah"),
+                      __T(@"Jonah"),           __T(@"Micah"),    __T(@"Nahum"),     __T(@"Habakkuk"),
+                      __T(@"Zephaniah"),       __T(@"Haggai"),   __T(@"Zechariah"), __T(@"Malachi"),
                       // New Testament
-                      @"Matthew", @"Mark", @"Luke", @"John", @"Acts", @"Romans", @"1 Corinthians",
-                      @"2 Corinthians", @"Galatians", // FIX ISSUE #44
-                      @"Ephesians", @"Philippians", @"Colossians",
-                      @"1 Thessalonians", @"2 Thessalonians", @"1 Timothy", @"2 Timothy", @"Titus",
-                      @"Philemon", @"Hebrews", @"James", @"1 Peter", @"2 Peter", @"1 John", @"2 John",
-                      @"3 John", @"Jude", @"Revelation", nil];
+                      __T(@"Matthew"),         __T(@"Mark"),            __T(@"Luke"),          __T(@"John"),
+                      __T(@"Acts"),            __T(@"Romans"),          __T(@"1 Corinthians"),
+                      __T(@"2 Corinthians"),   __T(@"Galatians"), // FIX ISSUE #44
+                      __T(@"Ephesians"),       __T(@"Philippians"),     __T(@"Colossians"),
+                      __T(@"1 Thessalonians"), __T(@"2 Thessalonians"), __T(@"1 Timothy"),     __T(@"2 Timothy"), __T(@"Titus"),
+                      __T(@"Philemon"),        __T(@"Hebrews"),         __T(@"James"),         __T(@"1 Peter"),   __T(@"2 Peter"),
+                      __T(@"1 John"),          __T(@"2 John"),
+                      __T(@"3 John"),          __T(@"Jude"),            __T(@"Revelation"), nil];
         return [bookList objectAtIndex:theBook-1];
     }
     
@@ -1056,7 +1099,7 @@ default:            [searchPhrase appendString: (i!=0 ? @"OR ( " : @"( ") ];
             //[searchPhrase appendString:@"%\" ) "];
             [searchPhrase appendString:@"\")"];
         }
-        NSLog (@"Original: %@\nTransformed: %@", theTerm, searchPhrase);
+        //NSLog (@"Original: %@\nTransformed: %@", theTerm, searchPhrase);
         
         FMResultSet *s = [db executeQuery:[NSString stringWithFormat: @"SELECT DISTINCT bibleBook, bibleChapter, bibleVerse FROM content WHERE bibleID in (?,?) AND (%@) ORDER BY 1,2,3", searchPhrase],
                                            [NSNumber numberWithInt:theGreekBible],
