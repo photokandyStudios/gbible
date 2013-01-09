@@ -32,7 +32,7 @@
     [self.tableView reloadData];
     if ([history count] == 0)
     {
-        noResults.text = @"You've no history.";
+        noResults.text = __Tv(@"no-history", @"You've no history.");
     }
     else 
     {
@@ -158,13 +158,13 @@
     {
       // Bible search
       NSString *theSearchTerm = [theHistoryItem substringFromIndex:1];
-      cell.textLabel.text = [NSString stringWithFormat:@"Bible: %@", theSearchTerm];
+      cell.textLabel.text = [NSString stringWithFormat:@"%@: %@", __T(@"Bible"), theSearchTerm];
     }
     else if ( [theHistoryItem characterAtIndex:0] == 'S')
     {
       // Strongs search
       NSString *theStrongsTerm = [theHistoryItem substringFromIndex:1];
-      cell.textLabel.text = [NSString stringWithFormat:@"Strong's: %@", theStrongsTerm];
+      cell.textLabel.text = [NSString stringWithFormat:@"%@: %@", __T(@"Strong's"), theStrongsTerm];
     }
   
 

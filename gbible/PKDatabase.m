@@ -185,8 +185,8 @@
         NSFileManager * fm = [NSFileManager defaultManager];
         if (! [fm fileExistsAtPath:importDatabaseName] )
         {
-            UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:@"Import Error"
-                 message:@"Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:__T(@"Import Error")
+                 message:__Tv(@"error-import-message", @"Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?") delegate:self cancelButtonTitle:nil otherButtonTitles:__T(@"OK"), nil];
             [theAlertView show];
           return NO;
         }
@@ -226,8 +226,8 @@
         NSFileManager * fm = [NSFileManager defaultManager];
         if (! [fm fileExistsAtPath:importDatabaseName] )
         {
-            UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:@"Import Error"
-                 message:@"Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:__T(@"Import Error")
+                 message:__Tv(@"error-import-message", @"Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?") delegate:self cancelButtonTitle:nil otherButtonTitles:__T(@"OK"), nil];
             [theAlertView show];
           return NO;
         }
@@ -274,8 +274,8 @@
         NSFileManager * fm = [NSFileManager defaultManager];
         if (! [fm fileExistsAtPath:importDatabaseName] )
         {
-            UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:@"Import Error"
-                 message:@"Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:__T(@"Import Error")
+                 message:__Tv(@"error-import-message", @"Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?") delegate:self cancelButtonTitle:nil otherButtonTitles:__T(@"OK"), nil];
             [theAlertView show];
             return NO;
         }
@@ -312,7 +312,7 @@
         NSDate *theDate = [NSDate date];
         NSDateFormatter* theFormatter = [[NSDateFormatter alloc] init];
         [theFormatter setDateFormat:@"yyyyMMddHHmmss"];
-        
+      
         NSString *theExportName = [NSString stringWithFormat:@"export%@.dat",
                                         [theFormatter stringFromDate:theDate ]];
         // get the export name

@@ -79,7 +79,7 @@
     [self.tableView reloadData];
     if ([highlights count] == 0)
     {
-        noResults.text = @"You've no highlights.";
+        noResults.text = __Tv(@"no-highlights", @"You've no highlights.");
     }
     else 
     {

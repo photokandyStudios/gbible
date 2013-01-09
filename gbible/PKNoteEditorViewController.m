@@ -82,12 +82,12 @@
 case 0:
             self.navigationItem.leftBarButtonItem = btnDelete;
             self.navigationItem.rightBarButtonItem= btnDone;
-            self.navigationItem.title = @"Viewing Note";
+            self.navigationItem.title = __T(@"Viewing Note");
             break;
 case 1:
             self.navigationItem.leftBarButtonItem = btnCancel;
             self.navigationItem.rightBarButtonItem= btnDone;
-            self.navigationItem.title = @"Editing Note";
+            self.navigationItem.title = __T(@"Editing Note");
             break;
 default:
             break;
@@ -138,7 +138,7 @@ default:
         txtTitle = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, self.view.bounds.size.width-20, theFont.lineHeight+10)];
         txtNote  = [[UITextView alloc] initWithFrame:CGRectMake(10, 20+theFont.lineHeight, self.view.bounds.size.width-20, self.view.bounds.size.height-52)];
 
-        txtTitle.placeholder = @"Title for note";
+        txtTitle.placeholder = __T(@"Title for note");
         
         self.view.autoresizesSubviews = YES;
         txtTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -163,13 +163,13 @@ default:
         txtTitle.delegate =self;
         txtNote.delegate = self;
                                    
-        btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone 
+        btnDone = [[UIBarButtonItem alloc] initWithTitle:__T(@"Done") style:UIBarButtonItemStyleDone
                                                   target:self 
                                                   action:@selector(donePressed:)];
-        btnDelete = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain
+        btnDelete = [[UIBarButtonItem alloc] initWithTitle:__T(@"Delete") style:UIBarButtonItemStylePlain
                                                   target:self 
                                                   action:@selector(deletePressed:)];
-        btnCancel = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain
+        btnCancel = [[UIBarButtonItem alloc] initWithTitle:__T(@"Cancel") style:UIBarButtonItemStylePlain
                                                   target:self 
                                                   action:@selector(cancelPressed:)];
 

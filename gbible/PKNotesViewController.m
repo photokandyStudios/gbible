@@ -30,7 +30,7 @@
     
     if ([notes count] == 0)
     {
-        noResults.text = @"You don't have any notes.";
+        noResults.text = __Tv(@"no-notes", @"You don't have any notes.");
     }
     else 
     {

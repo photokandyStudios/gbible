@@ -112,9 +112,9 @@
 	// Do any additional setup after loading the view.
   if (self.navigationItem)
   {
-    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(closeMe:)];
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:__T(@"Done") style:UIBarButtonItemStylePlain target:self action:@selector(closeMe:)];
     self.navigationItem.rightBarButtonItem = closeButton;
-    self.navigationItem.title = @"Appearance";
+    self.navigationItem.title = __T(@"Text Settings");
   }
 /*
   TPKeyboardAvoidingScrollView * scroller = [[TPKeyboardAvoidingScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 40 )];
@@ -144,7 +144,7 @@
   //[self.view addSubview:previewLabel];
   
   label1 = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 160, 30)];
-  label1.text = [NSString stringWithFormat:@"Theme %i", [[PKSettings instance] textTheme]+1 ];
+  label1.text = [NSString stringWithFormat:@"%@ %i", __T(@"Theme"), [[PKSettings instance] textTheme]+1 ];
   label1.textAlignment = UITextAlignmentLeft;
   label1.backgroundColor = [UIColor clearColor];
   [self.view addSubview:label1];
@@ -153,7 +153,7 @@
   [theme1 addTarget:self action:@selector(themeChanged:) forControlEvents:UIControlEventTouchUpInside];
   theme1.buttonColor = themeBgColors[0];
   [theme1 setTag:0];
-  [theme1 setTitle:@"1" forState:UIControlStateNormal];
+  [theme1 setTitle:__T(@"1") forState:UIControlStateNormal];
   [theme1 setTitleColor:themeTextColors[0] forState:UIControlStateNormal];
   [self.view addSubview:theme1];
 
@@ -161,7 +161,7 @@
   [theme2 addTarget:self action:@selector(themeChanged:) forControlEvents:UIControlEventTouchUpInside];
   theme2.buttonColor = themeBgColors[1];
   [theme2 setTag:1];
-  [theme2 setTitle:@"2" forState:UIControlStateNormal];
+  [theme2 setTitle:__T(@"2") forState:UIControlStateNormal];
   [theme2 setTitleColor:themeTextColors[1] forState:UIControlStateNormal];
   [self.view addSubview:theme2];
 
@@ -169,7 +169,7 @@
   [theme3 addTarget:self action:@selector(themeChanged:) forControlEvents:UIControlEventTouchUpInside];
   theme3.buttonColor = themeBgColors[2];
   [theme3 setTag:2];
-  [theme3 setTitle:@"3" forState:UIControlStateNormal];
+  [theme3 setTitle:__T(@"3") forState:UIControlStateNormal];
   [theme3 setTitleColor:themeTextColors[2] forState:UIControlStateNormal];
   [self.view addSubview:theme3];
 
@@ -177,7 +177,7 @@
   [theme4 addTarget:self action:@selector(themeChanged:) forControlEvents:UIControlEventTouchUpInside];
   theme4.buttonColor = themeBgColors[3];
   [theme4 setTag:3];
-  [theme4 setTitle:@"4" forState:UIControlStateNormal];
+  [theme4 setTitle:__T(@"4") forState:UIControlStateNormal];
   [theme4 setTitleColor:themeTextColors[3] forState:UIControlStateNormal];
   [self.view addSubview:theme4];
   
@@ -207,13 +207,13 @@
   [self.view addSubview:fontStepper];
   
   greekFontLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 80, 140, 20)];
-  greekFontLabel.text = @"Greek Typeface";
+  greekFontLabel.text = __T(@"Greek Typeface");
   greekFontLabel.backgroundColor = [UIColor clearColor];
   greekFontLabel.textAlignment = UITextAlignmentCenter;
   [self.view addSubview:greekFontLabel];
   
   englishFontLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 80, 140, 20)];
-  englishFontLabel.text = @"English Typeface";
+  englishFontLabel.text = __T(@"English Typeface");
   englishFontLabel.backgroundColor = [UIColor clearColor];
   englishFontLabel.textAlignment = UITextAlignmentCenter;
   [self.view addSubview:englishFontLabel];
@@ -279,7 +279,7 @@
   
   rowSpacingLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 340, 96, 30)];
   rowSpacingLabel.backgroundColor = [UIColor clearColor];
-  rowSpacingLabel.text = @"Line Spacing";
+  rowSpacingLabel.text = __T(@"Line Spacing");
   rowSpacingLabel.font = [UIFont systemFontOfSize:15];
   rowSpacingLabel.textAlignment = UITextAlignmentLeft;
   [self.view addSubview:rowSpacingLabel];
@@ -308,9 +308,9 @@
   
   //[self.view addSubview:scroller];
   
-  fontNames = @[ @"Courier New", @"Courier New Bold", @"Helvetica Light", @"Helvetica",
-                 @"Helvetica Bold", @"Helvetica Neue Light", @"Helvetica Neue", @"Helvetica Neue Bold",
-                 @"OpenDyslexic", @"OpenDyslexic Bold", @"Palatino", @"Palatino Bold" ];
+  fontNames = @[ __T(@"Courier New"),    __T(@"Courier New Bold"),     __T(@"Helvetica Light"), __T(@"Helvetica"),
+                 __T(@"Helvetica Bold"), __T(@"Helvetica Neue Light"), __T(@"Helvetica Neue"),  __T(@"Helvetica Neue Bold"),
+                 __T(@"OpenDyslexic"),   __T(@"OpenDyslexic Bold"),    __T(@"Palatino"),        __T(@"Palatino Bold") ];
 
   fontFaces = @[ @"CourierNewPSMT", @"CourierNewPS-BoldMT", @"Helvetica-Light", @"Helvetica",
                  @"Helvetica-Bold", @"HelveticaNeue-Light", @"HelveticaNeue", @"HelveticaNeue-Bold",
@@ -452,7 +452,7 @@
 -(void) themeChanged: (id)sender
 {
     ((PKSettings *)[PKSettings instance]).textTheme = ((CoolButton *)sender).tag;
-  label1.text = [NSString stringWithFormat:@"Theme %i", [[PKSettings instance] textTheme]+1 ];
+  label1.text = [NSString stringWithFormat:@"%@ %i", __T(@"Theme"), [[PKSettings instance] textTheme]+1 ];
 
   [self notifyDelegate];
 //  [self updateThemeColors:themeSelector];

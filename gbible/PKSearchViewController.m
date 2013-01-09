@@ -38,7 +38,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        [self.navigationItem setTitle:@"Search"];
+        [self.navigationItem setTitle:__T(@"Search")];
         self.theSearchTerm = [[PKSettings instance] lastSearch];
     }
     return self;
@@ -76,7 +76,7 @@
         tbc.selectedIndex = 1;
          if ([theSearchResults count] == 0)
             {
-                noResults.text = @"No results. Please try again.";
+                noResults.text = __Tv(@"no-results", @"No results. Please try again.");
             }
             else 
             {
@@ -96,7 +96,7 @@
     // add search bar
     theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
     theSearchBar.delegate = self;
-    theSearchBar.placeholder = @"Search Term";
+    theSearchBar.placeholder = __T(@"Search Term");
     theSearchBar.showsCancelButton = NO;
     theSearchBar.tintColor = [PKSettings PKBaseUIColor];
 
@@ -125,7 +125,7 @@
     {
         changeReference.tintColor = [PKSettings PKBaseUIColor];
     }
-    changeReference.accessibilityLabel = @"Go to passage";
+    changeReference.accessibilityLabel = __T(@"Go to passage");
     self.navigationItem.leftBarButtonItem = changeReference;
 
     CGRect theRect = CGRectMake(0, self.tableView.center.y + 40, self.tableView.bounds.size.width, 60);

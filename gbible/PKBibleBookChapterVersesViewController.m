@@ -55,7 +55,7 @@
     self.tableView.backgroundColor = [PKSettings PKSelectionColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    self.title = @"Select Verse";
+    self.title = __T(@"Select Verse");
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 -(void) updateAppearanceForTheme

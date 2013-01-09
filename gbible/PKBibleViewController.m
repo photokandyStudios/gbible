@@ -559,7 +559,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     self = [super initWithStyle:style];
     if (self) {
         // set our title
-        [self.navigationItem setTitle:@"Read Bible"];
+        [self.navigationItem setTitle:__T(@"Read Bible")];
         reusableLabelQueuePosition = -1;
         reusableLabels = [[NSMutableArray alloc] init ];
     }
@@ -700,7 +700,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     {
         changeReference.tintColor = [PKSettings PKBaseUIColor];
     }
-    changeReference.accessibilityLabel = @"Go to passage";
+    changeReference.accessibilityLabel = __T(@"Go to passage");
     // need a highlight item
     changeHighlight = [[UIBarButtonItem alloc]
                         initWithTitle:@""
@@ -713,7 +713,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                                    nil] forState:UIControlStateNormal ];
 
 
-    changeHighlight.accessibilityLabel = @"Highlight Color";
+    changeHighlight.accessibilityLabel = __T(@"Highlight Color");
     if (![changeHighlight respondsToSelector:@selector(setTintColor:)])
     {
         changeHighlight.title = ((PKSettings *)[PKSettings instance]).highlightTextColor;
@@ -769,7 +769,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     {
         goFullScreen.tintColor = [PKSettings PKBaseUIColor];
     }
-    goFullScreen.accessibilityLabel = @"Enter Full Screen";
+    goFullScreen.accessibilityLabel = __T(@"Enter Full Screen");
     self.navigationItem.rightBarButtonItem = goFullScreen;
 
     if ([changeHighlight respondsToSelector:@selector(setTintColor:)])
@@ -809,8 +809,8 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     previousChapterButton.alpha = 0.5f;
     nextChapterButton.alpha = 0.5f; 
     
-    previousChapterButton.accessibilityLabel = @"Previous Chapter";
-    nextChapterButton.accessibilityLabel = @"Next Chapter";
+    previousChapterButton.accessibilityLabel = __T(@"Previous Chapter");
+    nextChapterButton.accessibilityLabel = __T(@"Next Chapter");
     
     // set the table title up
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
@@ -1377,18 +1377,18 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     // restore our menu items after a strongs view shows
     ourMenu = [UIMenuController sharedMenuController];
     ourMenu.menuItems = [NSArray arrayWithObjects:
-                            [[UIMenuItem alloc] initWithTitle:@"Copy"      action:@selector(copySelection:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Highlight" action:@selector(askHighlight:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Search"    action:@selector(askSearch:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Define"    action:@selector(defineWord:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Explain"   action:@selector(explainVerse:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Clear"     action:@selector(clearSelection:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")      action:@selector(copySelection:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Highlight") action:@selector(askHighlight:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Annotate")  action:@selector(doAnnotate:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Search")    action:@selector(askSearch:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Define")    action:@selector(defineWord:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Explain")   action:@selector(explainVerse:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Clear")     action:@selector(clearSelection:)],
                             // handle second-tier items
-                            [[UIMenuItem alloc] initWithTitle:@"Add Highlight" action:@selector(highlightSelection:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Remove"        action:@selector(removeHighlights:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Search Bible"  action:@selector(searchBible:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Search Strong's" action:@selector(searchStrongs:)]
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Add Highlight") action:@selector(highlightSelection:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Remove")        action:@selector(removeHighlights:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Search Bible")  action:@selector(searchBible:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Search Strong's") action:@selector(searchStrongs:)]
                          , nil ];
 
 
@@ -1611,7 +1611,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 //    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateHighlighted];
 //    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateDisabled];
 //    [btnRegularScreen setImage:[UIImage imageNamed:@"ResizeBlack.png"] forState:UIControlStateSelected];
-    btnRegularScreen.accessibilityLabel = @"Leave Full Screen";
+    btnRegularScreen.accessibilityLabel = __T(@"Leave Full Screen");
     
     btnRegularScreen.titleLabel.textColor = [PKSettings PKBaseUIColor];
     btnRegularScreen.layer.opacity = 0.5;
@@ -1686,12 +1686,12 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     [ourPopover dismissWithClickedButtonIndex:-1 animated:YES];
 
     UIActionSheet *theActionSheet = [[UIActionSheet alloc]
-                                     initWithTitle:@"Choose Color" 
+                                     initWithTitle:__T(@"Choose Color" )
                                           delegate:self 
-                                 cancelButtonTitle:@"Cancel"
+                                 cancelButtonTitle:__T(@"Cancel")
                             destructiveButtonTitle:nil 
-                                 otherButtonTitles:@"Yellow", @"Green", @"Magenta", 
-                                                   @"Pink",   @"Blue",    nil ];
+                                 otherButtonTitles:__T(@"Yellow"), __T(@"Green"), __T(@"Magenta"),
+                                                   __T(@"Pink"),   __T(@"Blue"),    nil ];
     theActionSheet.tag = 1999; // color chooser
     ourPopover = theActionSheet;
     [theActionSheet showFromBarButtonItem:sender animated:YES];
@@ -1938,7 +1938,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     wb.showReloadButton = YES;
     wb.mode = TSMiniWebBrowserModeModal;
     wb.barStyle = UIBarStyleBlack;
-    wb.modalDismissButtonTitle = @"Done";
+    wb.modalDismissButtonTitle = __T(@"Done");
     [self presentModalViewController:wb animated:YES];
 }
 
@@ -2016,23 +2016,23 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         {
 case 0:
             newColor = [PKSettings PKYellowHighlightColor];
-            textColor = @"Yellow";
+            textColor = __T(@"Yellow");
             break;
 case 1:
             newColor = [PKSettings PKGreenHighlightColor];
-            textColor = @"Green";
+            textColor = __T(@"Green");
             break;
 case 2:
             newColor = [PKSettings PKMagentaHighlightColor];
-            textColor = @"Magenta";
+            textColor = __T(@"Magenta");
             break;
 case 3:
             newColor = [PKSettings PKPinkHighlightColor];
-            textColor = @"Pink";
+            textColor = __T(@"Pink");
             break;
 case 4:
             newColor = [PKSettings PKBlueHighlightColor];
-            textColor = @"Blue";
+            textColor = __T(@"Blue");
             break;
 default:
             return; // either cancelling, or out of range. we don't care.

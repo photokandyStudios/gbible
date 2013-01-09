@@ -48,22 +48,22 @@
         PKSettingsController  *settingsViewController=[[PKSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
 
         // Titles
-        bibleViewController.title = @"Read Bible";
-        searchViewController.title = @"Search";
-        strongsViewController.title = @"Strong's";
-        aboutViewController.title = @"About";
-        settingsViewController.title = @"Settings";
+        bibleViewController.title =   __T(@"Read Bible");
+        searchViewController.title =  __T(@"Search");
+        strongsViewController.title = __T(@"Strong's");
+        aboutViewController.title =   __T(@"About");
+        settingsViewController.title= __T(@"Settings");
         
         // icons
         bibleViewController.tabBarItem = [[UITabBarItem alloc] 
-                                          initWithTitle:@"Read Bible" image:[UIImage imageNamed:@"Home.png"] tag:1];
+                                          initWithTitle:__T(@"Read Bible") image:[UIImage imageNamed:@"Home.png"] tag:1];
         strongsViewController.tabBarItem = [[UITabBarItem alloc]
-                                            initWithTitle:@"Strong's Lookup"
+                                            initWithTitle:__T(@"Strong's")
                                             image:[UIImage imageNamed:@"Magic.png"] tag:2];
         aboutViewController.tabBarItem = [[UITabBarItem alloc]
-                                          initWithTitle:@"About" image:[UIImage imageNamed:@"Info.png"] tag:3];
+                                          initWithTitle:__T(@"About") image:[UIImage imageNamed:@"Info.png"] tag:3];
         settingsViewController.tabBarItem = [[UITabBarItem alloc]
-                                             initWithTitle:@"Settings"
+                                             initWithTitle:__T(@"Settings")
                                              image:[UIImage imageNamed:@"Gear.png"] tag:4];
         searchViewController.tabBarItem = [[UITabBarItem alloc]
                                            initWithTabBarSystemItem:UITabBarSystemItemSearch tag:5];

@@ -339,7 +339,7 @@
             currentNote = @"";
             
             highlightColor = [PKSettings PKYellowHighlightColor];
-            highlightTextColor = @"Yellow";
+            highlightTextColor = __T(@"Yellow");
           
             textTheme = 0;
           

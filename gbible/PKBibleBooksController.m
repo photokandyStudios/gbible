@@ -52,7 +52,7 @@
     self.tableView.backgroundColor = [PKSettings PKSelectionColor];
     //PKBaseUIColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.title = @"Goto";
+    self.title = __T(@"Goto");
     
     [self.view bringSubviewToFront:self.tableView];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;

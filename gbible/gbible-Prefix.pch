@@ -36,6 +36,11 @@
     
 #endif
 
+//for localization:
+#define __T(k)        [[NSBundle mainBundle] localizedStringForKey:k value:k table:nil]
+#define __Tv(k,v)      [[NSBundle mainBundle] localizedStringForKey:k value:v table:nil]
+#define __Tvt(k,v,t)    [[NSBundle mainBundle] localizedStringForKey:k value:v table:t]
+
 
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)

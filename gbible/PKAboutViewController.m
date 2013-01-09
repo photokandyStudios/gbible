@@ -24,7 +24,7 @@
     self = [super init];
     if (self) {
         // Custom initialization
-        [self.navigationItem setTitle:@"About"];
+        [self.navigationItem setTitle:__T(@"About")];
     }
     return self;
 }
@@ -37,8 +37,23 @@
     CGRect theRect = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     self.aboutWebView = [[UIWebView alloc] initWithFrame:theRect];
     [self.view addSubview:self.aboutWebView];
-    
-    [self.aboutWebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"]isDirectory:NO]]];
+
+    // LOCALIZATION SUPPORT FOR ABOUT
+    // First, obtain the language
+    // Second, try to load "about-language.html"; for English, this would be about-en.html.
+    // Third, if that particular file doesn't exist, fall back to about.html
+    NSURL *theURL;
+    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"about-%@",language] ofType:@"html"];
+    if (path)
+    {
+      theURL = [NSURL fileURLWithPath:path isDirectory:NO];
+    }
+    else
+    {
+      theURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"] isDirectory:NO];
+    }
+    [self.aboutWebView loadRequest:[NSURLRequest requestWithURL:theURL]];
     
     self.aboutWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     if ([self.aboutWebView respondsToSelector:@selector(scrollView)])
@@ -68,7 +83,7 @@
     {
         changeReference.tintColor = [PKSettings PKBaseUIColor];
     }
-    changeReference.accessibilityLabel = @"Go to passage";
+    changeReference.accessibilityLabel = __T(@"Go to passage");
     self.navigationItem.leftBarButtonItem = changeReference;
 }
 

@@ -51,7 +51,7 @@
     self.tableView.backgroundColor = [PKSettings PKSelectionColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    self.title = @"Select Chapter";
+    self.title = __T(@"Select Chapter");
     self.navigationItem.leftBarButtonItem.tintColor = [PKSettings PKBaseUIColor];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
