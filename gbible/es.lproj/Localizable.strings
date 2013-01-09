@@ -3,6 +3,21 @@
   gbible
 
   Created by Kerri Shotts on 1/8/13.
+  
+  Spanish Translations. Also the base for new translations.
+  
+  NOTE TO TRANSLATORS:
+   - If you can, I'd love to hear about the well-received Bibles in your language that
+     are freely available for our use.
+   - If you find misspelled or missing keys, please let me know by adding an issue
+     to the GitHub repository for this project.
+   - If you are unsure of the context of an object, please ask. I've placed comments
+     to help, but they may not be sufficient.
+   - It is possible that where the same word is used in English, the translation may be
+     different based on context. I very likely haven't planned for that -- so feel free
+     to add an issue. I'll make a fix and send you the revised key.
+   - Oh, and thanks for being willing to help!
+ 
 */
 
 /* Tab Controller */
@@ -33,10 +48,10 @@
 /* Messages */
 "Import Error" = "Import Error";
 "error-import-message" = "Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?";
-"no-highlights" = "You've no highlights";
-"no-history" = "You've no history";
+"no-highlights" = "You've no highlights.";
+"no-history" = "You've no history.";
 "no-notes" = "You don't have any notes.";
-"no-resuts" = "No results. Please try again.";
+"no-results" = "No results. Please try again.";
 "Bible" = "Bible";
 "definition-copied" = "Definition copied to clipboard";
 "note-when-transliterating-greek" = "﹡ When transliterating Greek, the app may be slower when navigating to new passages and approximately twice as slow when searching.\n\n✝ Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.\n\n";
