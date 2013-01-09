@@ -30,10 +30,10 @@
   NSString *theText = self.text;      // the text of the label that we need to draw
   NSArray *theWords = [theText componentsSeparatedByString:@" "]; // each word in the text
   
-  if ( [theText hasPrefix:@"Matthew 20:30 and"])
+  /*if ( [theText hasPrefix:@"Matthew 20:30 and"])
   {
     NSLog (@"here!");
-  }
+  }*/
   
   UIColor *theRegularColor = self.textColor;
     
