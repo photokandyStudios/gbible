@@ -41,7 +41,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // set our title
-        [self.navigationItem setTitle:@"Strong's"];
+        [self.navigationItem setTitle:__T(@"Strong's")];
         self.theSearchTerm = [[PKSettings instance] lastStrongsLookup];
         self.byKeyOnly = NO;
     }
@@ -83,7 +83,7 @@
         self.byKeyOnly = NO;
          if ([theSearchResults count] == 0)
             {
-                noResults.text = @"No results. Please try again.";
+                noResults.text = __Tv(@"no-results",@"No results. Please try again.");
             }
             else 
             {
@@ -101,7 +101,7 @@
     // add search bar
     theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
     theSearchBar.delegate = self;
-    theSearchBar.placeholder = @"Strong's # or search term";
+    theSearchBar.placeholder = __T(@"Strong's # or search term");
     theSearchBar.showsCancelButton = NO;
     theSearchBar.tintColor = [PKSettings PKBaseUIColor];
 
@@ -137,7 +137,7 @@
     {
         changeReference.tintColor = [PKSettings PKBaseUIColor];
     }
-    changeReference.accessibilityLabel = @"Go to passage";
+    changeReference.accessibilityLabel = __T(@"Go to passage");
     self.navigationItem.leftBarButtonItem = changeReference;
 
     CGRect theRect = CGRectMake(0, self.tableView.center.y + 40, self.tableView.bounds.size.width, 60);
@@ -386,9 +386,9 @@
 
     ourMenu = [UIMenuController sharedMenuController];
     ourMenu.menuItems = [NSArray arrayWithObjects:
-                            [[UIMenuItem alloc] initWithTitle:@"Copy"      action:@selector(copyStrongs:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Define"    action:@selector(defineStrongs:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Search Bible" action:@selector(searchBible:)]
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")         action:@selector(copyStrongs:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Define")       action:@selector(defineStrongs:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Search Bible") action:@selector(searchBible:)]
 //                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)]
                          , nil ];
 
@@ -492,17 +492,17 @@
   NSMutableString *theText = [[theSearchResults objectAtIndex:selectedRow] mutableCopy];
   NSArray *theResult = [PKStrongs entryForKey:[theSearchResults objectAtIndex:selectedRow]];
 
-  [theText appendFormat:@"\nLemma: %@\nPronunciation: %@\nDefinition: %@",
-      [theResult objectAtIndex:1],
-      [theResult objectAtIndex:2],
-      [theResult objectAtIndex:3]
+  [theText appendFormat:@"\n%@: %@\n%@: %@\n%@: %@",
+      __T(@"Lemma"),         [theResult objectAtIndex:1],
+      __T(@"Pronunciation"), [theResult objectAtIndex:2],
+      __T(@"Definition"),    [theResult objectAtIndex:3]
   ];
 
   UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
   pasteBoard.string = theText;
 
   UIAlertView *anAlert = [[UIAlertView alloc]
-      initWithTitle:@"Notice" message:@"Row copied to clipboard" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil ];
+      initWithTitle:__T(@"Notice") message:__Tv(@"definition-copied", @"Definition copied to clipboard") delegate:nil cancelButtonTitle:__T(@"Ok") otherButtonTitles: nil ];
   [anAlert show];
 }
 
@@ -549,9 +549,9 @@
             NSString *hotWord = [ourLabel wordFromPoint:wp];
     ourMenu = [UIMenuController sharedMenuController];
     ourMenu.menuItems = [NSArray arrayWithObjects:
-                            [[UIMenuItem alloc] initWithTitle:@"Copy"      action:@selector(copyStrongs:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Define"    action:@selector(defineStrongs:)],
-                            [[UIMenuItem alloc] initWithTitle:@"Search Bible" action:@selector(searchBible:)]
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")         action:@selector(copyStrongs:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Define")       action:@selector(defineStrongs:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Search Bible") action:@selector(searchBible:)]
 //                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)]
                          , nil ];
 
@@ -582,7 +582,7 @@
 -(void) label:(PKHotLabel *)label didTapWord:(NSString *)theWord
 {
   // search for the selected word
-  NSLog(@"Received word: %@", theWord);
+  //NSLog(@"Received word: %@", theWord);
   [self doSearchForTerm:theWord byKeyOnly:true];
 }
 

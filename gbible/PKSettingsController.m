@@ -18,6 +18,7 @@
 #import "PKBibleViewController.h"
 #import "PKBibleBooksController.h"
 #import "TestFlight.h"
+#import "PKBible.h"
 
 
 @interface PKSettingsController ()
@@ -48,7 +49,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // set our title
-        [self.navigationItem setTitle:@"Settings"];
+        [self.navigationItem setTitle:__T(@"Settings")];
     }
     return self;
 }
@@ -120,16 +121,16 @@
                                                            @"Palatino-Bold", nil];                                                           
     
     }
-    layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Theme", @3, @"text-theme",
+    layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Theme"), @3, @"text-theme",
                                                                            @[@0,@1,@2,@3],
-                                                                           @[@"Original", @"Black on White",
-                                                                             @"White on Black", @"Amber on Black"]
+                                                                           @[__T(@"Original"),       __T(@"Black on White"),
+                                                                             __T(@"White on Black"), __T(@"Amber on Black")]
                                                                            ,nil],
-                                                [NSArray arrayWithObjects: @"English Typeface", [NSNumber numberWithInt:1], PK_SETTING_FONTFACE,
+                                                [NSArray arrayWithObjects: __T(@"English Typeface"), [NSNumber numberWithInt:1], PK_SETTING_FONTFACE,
                                                                            englishTypeface, nil],
-                                                [NSArray arrayWithObjects: @"Greek Typeface﹡", [NSNumber numberWithInt:1], @"greek-typeface", //RE: ISSUE #6
+                                                [NSArray arrayWithObjects: __T(@"Greek Typeface﹡"), [NSNumber numberWithInt:1], @"greek-typeface", //RE: ISSUE #6
                                                                            greekTypeface, nil],
-                                                [NSArray arrayWithObjects: @"Font Size", [NSNumber numberWithInt:3], PK_SETTING_FONTSIZE, 
+                                                [NSArray arrayWithObjects: __T(@"Font Size"), [NSNumber numberWithInt:3], PK_SETTING_FONTSIZE, 
                                                                            [NSArray arrayWithObjects: //[NSNumber numberWithInt:6],
                                                                                                       //[NSNumber numberWithInt:7],
                                                                                                       //[NSNumber numberWithInt:8],
@@ -150,7 +151,7 @@
                                                                                                       @"14pt", @"16pt", @"18pt", @"20pt", @"22pt", 
                                                                                                       @"26pt", @"32pt", @"48pt",
                                                                                                       nil] ,nil],
-                                                [NSArray arrayWithObjects: @"Line Spacing", [NSNumber numberWithInt:3], PK_SETTING_LINESPACING, 
+                                                [NSArray arrayWithObjects: __T(@"Line Spacing"), [NSNumber numberWithInt:3], PK_SETTING_LINESPACING, 
                                                                            [NSArray arrayWithObjects: //[NSNumber numberWithInt:PK_LS_CRAMPED],
                                                                                                       //[NSNumber numberWithInt:PK_LS_TIGHT],
                                                                                                       [NSNumber numberWithInt:PK_LS_NORMAL],
@@ -158,57 +159,70 @@
                                                                                                       [NSNumber numberWithInt:PK_LS_ONEHALF],
                                                                                                       [NSNumber numberWithInt:PK_LS_DOUBLE], nil],
                                                                            [NSArray arrayWithObjects: //@"Cramped", @"Tight", 
-                                                                                                      @"Normal", @"One-Quarter",
-                                                                                                      @"One-Half", @"Double", nil], nil ],
-                                                [NSArray arrayWithObjects: @"Row Spacing", [NSNumber numberWithInt:3], PK_SETTING_VERSESPACING, 
+                                                                                                      __T(@"Normal"),   __T(@"One-Quarter"),
+                                                                                                      __T(@"One-Half"), __T(@"Double"), nil], nil ],
+                                                [NSArray arrayWithObjects: __T(@"Row Spacing"), [NSNumber numberWithInt:3], PK_SETTING_VERSESPACING, 
                                                                            [NSArray arrayWithObjects: [NSNumber numberWithInt:PK_VS_NONE],
                                                                                                       [NSNumber numberWithInt:PK_VS_SINGLE],
                                                                                                       [NSNumber numberWithInt:PK_VS_DOUBLE], nil],
-                                                                           [NSArray arrayWithObjects: @"Normal", @"Single Space", @"Double Space", nil], nil ],
-                                                [NSArray arrayWithObjects: @"Column Widths", [NSNumber numberWithInt:3], PK_SETTING_COLUMNWIDTHS, 
+                                                                           [NSArray arrayWithObjects: __T(@"Normal"), __T(@"Single Space"),
+                                                                                                      __T(@"Double Space"), nil], nil ],
+                                                [NSArray arrayWithObjects: __T(@"Column Widths"), [NSNumber numberWithInt:3], PK_SETTING_COLUMNWIDTHS, 
                                                                            [NSArray arrayWithObjects: [NSNumber numberWithInt:PK_CW_WIDEGREEK],
                                                                                                       [NSNumber numberWithInt:PK_CW_WIDEENGLISH],
                                                                                                       [NSNumber numberWithInt:PK_CW_EQUAL], nil],
-                                                                           [NSArray arrayWithObjects: @"Wide Greek Column", @"Wide English Column", @"Equal Columns", nil], nil ],
+                                                                           [NSArray arrayWithObjects: __T(@"Wide Greek Column"),
+                                                                                                      __T(@"Wide English Column"),
+                                                                                                      __T(@"Equal Columns"), nil], nil ],
                                                 nil];
-    textSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Greek Text", [NSNumber numberWithInt:3], PK_SETTING_GREEKTEXT, 
-                                                                           [NSArray arrayWithObjects: //[NSNumber numberWithInt:PK_BIBLETEXT_BYZ],
-                                                                                                      [NSNumber numberWithInt:PK_BIBLETEXT_BYZP],
-                                                                                                      [NSNumber numberWithInt:PK_BIBLETEXT_TIS],
-                                                                                                      //[NSNumber numberWithInt:PK_BIBLETEXT_TR],
-                                                                                                      [NSNumber numberWithInt:PK_BIBLETEXT_TRP],
-                                                                                                      //[NSNumber numberWithInt:PK_BIBLETEXT_WH],
-                                                                                                      [NSNumber numberWithInt:PK_BIBLETEXT_WHP], nil],
-                                                                           [NSArray arrayWithObjects: //@"Byzantine",
-                                                                           @"Byzantine (Parsed)",
-                                                                                                      @"Tischendorf 8th ed.",
-                                                                                                      //@"Textus Receptus",
-                                                                                                      @"Textus Receptus (Parsed)",
-                                                                                                      //@"Westcott-Hort",
-                                                                                                      @"Westcott-Hort (Parsed)", nil], nil],
-                                              [NSArray arrayWithObjects: @"English Text", [NSNumber numberWithInt:3], PK_SETTING_ENGLISHTEXT, 
-                                                                           [NSArray arrayWithObjects: [NSNumber numberWithInt:PK_BIBLETEXT_KJV],
-                                                                                                      [NSNumber numberWithInt:PK_BIBLETEXT_YLT], nil],
-                                                                           [NSArray arrayWithObjects: @"King James/Authorized Version",
-                                                                                                      @"Young's Literal Translation", nil], nil],
-                                              [NSArray arrayWithObjects: @"Transliterate Greek﹡?", [NSNumber numberWithInt:2], PK_SETTING_TRANSLITERATE, nil],
-                                              [NSArray arrayWithObjects: @"Show Inline Notes?", [NSNumber numberWithInt:2], PK_SETTING_INLINENOTES, nil],
-                                              [NSArray arrayWithObjects: @"Show Morphology?", [NSNumber numberWithInt:2], PK_SETTING_SHOWMORPHOLOGY, nil],
-                                              [NSArray arrayWithObjects: @"Show Strongs?", [NSNumber numberWithInt:2], @"show-strongs", nil],
-                                              [NSArray arrayWithObjects: @"Show Translation✝?", [NSNumber numberWithInt:2], @"show-interlinear", nil],
+  
+    // get the left and right-side Bibles
+    
+  
+    textSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Greek Text"), [NSNumber numberWithInt:3], PK_SETTING_GREEKTEXT,
+                                                                           [PKBible availableOriginalTexts:PK_TBL_BIBLES_ID],
+//                                                                           [NSArray arrayWithObjects: //[NSNumber numberWithInt:PK_BIBLETEXT_BYZ],
+//                                                                                                      [NSNumber numberWithInt:PK_BIBLETEXT_BYZP],
+//                                                                                                      [NSNumber numberWithInt:PK_BIBLETEXT_TIS],
+//                                                                                                      //[NSNumber numberWithInt:PK_BIBLETEXT_TR],
+//                                                                                                      [NSNumber numberWithInt:PK_BIBLETEXT_TRP],
+//                                                                                                      //[NSNumber numberWithInt:PK_BIBLETEXT_WH],
+//                                                                                                      [NSNumber numberWithInt:PK_BIBLETEXT_WHP], nil]
+                                                                          [PKBible availableOriginalTexts:PK_TBL_BIBLES_NAME],
+//                                                                           [NSArray arrayWithObjects: //@"Byzantine",
+//                                                                                                      @"Byzantine (Parsed)",
+//                                                                                                      @"Tischendorf 8th ed.",
+//                                                                                                      //@"Textus Receptus",
+//                                                                                                      @"Textus Receptus (Parsed)",
+//                                                                                                      //@"Westcott-Hort",
+//                                                                                                      @"Westcott-Hort (Parsed)", nil],
+                                                                          nil],
+                                              [NSArray arrayWithObjects: __T(@"English Text"), [NSNumber numberWithInt:3], PK_SETTING_ENGLISHTEXT,
+                                                                          [PKBible availableHostTexts:PK_TBL_BIBLES_ID],
+//                                                                           [NSArray arrayWithObjects: [NSNumber numberWithInt:PK_BIBLETEXT_KJV],
+//                                                                                                      [NSNumber numberWithInt:PK_BIBLETEXT_YLT], nil],
+                                                                          [PKBible availableHostTexts:PK_TBL_BIBLES_NAME],
+//                                                                           [NSArray arrayWithObjects: @"King James/Authorized Version",
+//                                                                                                      @"Young's Literal Translation", nil],
+                                                                          nil],
+                                              [NSArray arrayWithObjects: __Tv(@"Transliterate Greek", @"Transliterate Greek﹡?"), [NSNumber numberWithInt:2], PK_SETTING_TRANSLITERATE, nil],
+                                              [NSArray arrayWithObjects: __Tv(@"Show Inline Notes",@"Show Inline Notes?"), [NSNumber numberWithInt:2], PK_SETTING_INLINENOTES, nil],
+                                              [NSArray arrayWithObjects: __Tv(@"Show Morphology",@"Show Morphology?"), [NSNumber numberWithInt:2], PK_SETTING_SHOWMORPHOLOGY, nil],
+                                              [NSArray arrayWithObjects: __Tv(@"Show Strong's", @"Show Strong's?"), [NSNumber numberWithInt:2], @"show-strongs", nil],
+                                              [NSArray arrayWithObjects: __Tv(@"Show Translation", @"Show Translation✝?"), [NSNumber numberWithInt:2], @"show-interlinear", nil],
                                               nil];
    // iCloudSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Enable iCloud?", [NSNumber numberWithInt:2], PK_SETTING_USEICLOUD, nil],
     //                                            nil];
-    importSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Import Annotations", [NSNumber numberWithInt:0], nil, nil ],
+    importSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Import Annotations"), [NSNumber numberWithInt:0], nil, nil ],
 //                                                [NSArray arrayWithObjects: @"Import Bookmarks", [NSNumber numberWithInt:0],nil, nil ],
-                                                [NSArray arrayWithObjects: @"Import Highlights", [NSNumber numberWithInt:0],nil, nil ],
-                                                [NSArray arrayWithObjects: @"Import Everything", [NSNumber numberWithInt:0], nil, nil ],
+                                                [NSArray arrayWithObjects: __T(@"Import Highlights"), [NSNumber numberWithInt:0],nil, nil ],
+                                                [NSArray arrayWithObjects: __T(@"Import Everything"), [NSNumber numberWithInt:0], nil, nil ],
                                                 nil];
-    exportSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Export", [NSNumber numberWithInt:0], nil, nil ],
+    exportSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Export"), [NSNumber numberWithInt:0], nil, nil ],
                                                 nil];
                                                 
     versionSettings = [NSArray arrayWithObjects:  [NSArray arrayWithObjects: [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"], [NSNumber numberWithInt:0], nil, nil ],
-                                                [NSArray arrayWithObjects: @"Anonymous Usage Statistics?", [NSNumber numberWithInt:2], @"usage-stats", nil],
+                                                [NSArray arrayWithObjects: __Tv(@"Anonymous Usage Statistics", @"Anonymous Usage Statistics?"), [NSNumber numberWithInt:2], @"usage-stats", nil],
                                                 nil];
     
     settingsGroup = [NSArray arrayWithObjects: textSettings, layoutSettings, // iCloudSettings,
@@ -236,7 +250,7 @@
     {
         changeReference.tintColor = [PKSettings PKBaseUIColor];
     }
-    changeReference.accessibilityLabel = @"Go to passage";
+    changeReference.accessibilityLabel = __T(@"Go to passage");
     self.navigationItem.leftBarButtonItem = changeReference;
 
 }
@@ -325,17 +339,17 @@
 {
     switch (section)
     {
-        case 0: return @"Text";
+        case 0: return __T(@"Text");
                 break;
-        case 1: return @"Layout";
+        case 1: return __T(@"Layout");
                 break;
       //  case 2: return @"Synchronization";
       //          break;
-        case 2: return @"Export";
+        case 2: return __T(@"Export");
                 break;
-        case 3: return @"Import";
+        case 3: return __T(@"Import");
                 break;
-        case 4: return @"Version";
+        case 4: return __T(@"Version");
                 break;
         default:return @"Undefined";
                 break;
@@ -352,18 +366,18 @@
 {
     switch (section)
     {
-        case 0: return @"﹡ When transliterating Greek, the app may be slower when navigating to new passages.\n\n✝ Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.";
+        case 0: return __Tv(@"note-when-transliterating-greek", @"﹡ When transliterating Greek, the app may be slower when navigating to new passages.\n\n✝ Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.");
                 break;
-        case 1: return @"﹡ The OpenDyslexic font does not support polytonic Greek. It is suggested to use the OpenDyslexic font only if transliterating the Greek or when using a text without diacritics.";
+        case 1: return __Tv(@"note-opendyslexic", @"﹡ The OpenDyslexic font does not support polytonic Greek. It is suggested to use the OpenDyslexic font only if transliterating the Greek or when using a text without diacritics.");
                 break;
 //        case 2: return @"Enable iCloud to synchronize your data across multiple devices. It is suggested \
 //                         that you export your data prior to enabling iCloud synchronization.";
 //                break;
-        case 2: return @"Export will create a file of the form 'export_date_time.dat' that you can download when your device is connected to iTunes. You can then save this file in a safe place, or use it to import data to another device.";
+        case 2: return __Tv(@"note-export", @"Export will create a file of the form 'export_date_time.dat' that you can download when your device is connected to iTunes. You can then save this file in a safe place, or use it to import data to another device.");
                 break;
-        case 3: return @"Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.";
+        case 3: return __Tv(@"note-import", @"Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.");
                 break;
-        case 4: return @"Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information. \n\n\n\n ";
+        case 4: return __Tv(@"note-anonymous-with-copyright",@"Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information. \n\n\n\n ");
                 break;
         default:return @"Undefined";
                 break;
@@ -474,11 +488,11 @@
                 break;
         case 2: // here we want to display a checkbox if YES; none if NO
                 // FIX ISSUE #48
-                cell.detailTextLabel.text = @"No";
+                cell.detailTextLabel.text = __T(@"No");
                 //cell.accessoryType = UITableViewCellAccessoryNone;
                 if ( [ [ (PKSettings *)[PKSettings instance] loadSetting:[cellData objectAtIndex:2] ] boolValue] )
                 {
-                    cell.detailTextLabel.text = @"Yes";
+                    cell.detailTextLabel.text = __T(@"Yes");
                     //cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 }
                 break;
@@ -524,32 +538,32 @@
     BOOL curValue;
     UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
     
-    NSString *title = @"Operation";
+    NSString *title = __T(@"Operation");
 
     switch ( [[cellData objectAtIndex:1] intValue] )
     {
         case 0: {// we're on a "nothing cell", but these will do actions...
                 if (section == 2) 
                 { 
-                    title = @"Export Operation";
+                    title = __T(@"Export Operation");
                     if ( [(PKDatabase *)[PKDatabase instance] exportAll] )
                     {
-                      UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:@"Done!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                      UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:__T(@"Done!") delegate:self cancelButtonTitle:nil otherButtonTitles:__T(@"OK"), nil];
                       [theAlertView show];
                     }
                 }
                 if (section == 3)
                 {
-                    title = @"Import Operation";
+                    title = __T(@"Import Operation");
                     if (row==0) { if ( [(PKDatabase *)[PKDatabase instance] importNotes] )
                                   {
-                                    UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:@"Done!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                                    UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:__T(@"Done!") delegate:self cancelButtonTitle:nil otherButtonTitles:__T(@"OK"), nil];
                                     [theAlertView show];
                                   }
                                 }
                     if (row==1) { if ( [(PKDatabase *)[PKDatabase instance] importHighlights] )
                                   {
-                                    UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:@"Done!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                                    UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:__T(@"Done!") delegate:self cancelButtonTitle:nil otherButtonTitles:__T(@"OK"), nil];
                                     [theAlertView show];
                                   }
                                 }
@@ -560,7 +574,7 @@
                                     {
                                   if ([(PKDatabase *)[PKDatabase instance] importSettings])
                                       {
-                                        UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:@"Done!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                                        UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:title message:__T(@"Done!") delegate:self cancelButtonTitle:nil otherButtonTitles:__T(@"OK"), nil];
                                         [theAlertView show];
                                       }
                                     }
@@ -581,7 +595,7 @@
                 {
                     [popover addButtonWithTitle:[[cellData objectAtIndex:3] objectAtIndex:i]];
                 }
-                [popover addButtonWithTitle:@"Cancel"];
+                [popover addButtonWithTitle:__T(@"Cancel")];
                 popover.cancelButtonIndex = popover.numberOfButtons - 1;
                 currentPathForPopover = indexPath;
                 theTableCell = newCell;
@@ -593,7 +607,7 @@
                 curValue = [ [ (PKSettings *)[PKSettings instance] loadSetting:[cellData objectAtIndex:2] ] boolValue];
                 [[PKSettings instance] saveSetting:[cellData objectAtIndex:2] valueForSetting: (!curValue?@"YES":@"NO")];
                 [[PKSettings instance] reloadSettings];
-                newCell.detailTextLabel.text = (!curValue)?@"Yes":@"No";
+                newCell.detailTextLabel.text = (!curValue)?__T(@"Yes"):__T(@"No");
                 
                 break;
         case 3: // we're on a cell that we need to display a popover for, with lookup
@@ -606,7 +620,7 @@
                 {
                     [popover addButtonWithTitle:[[cellData objectAtIndex:4] objectAtIndex:i]];
                 }
-                [popover addButtonWithTitle:@"Cancel"];
+                [popover addButtonWithTitle:__T(@"Cancel")];
                 popover.cancelButtonIndex = popover.numberOfButtons - 1;
                 currentPathForPopover = indexPath;
                 theTableCell = newCell;
