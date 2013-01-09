@@ -61,3 +61,13 @@ int const PK_TT_ORIGINAL = 0;
 int const PK_TT_BLACK_ON_WHITE = 1;
 int const PK_TT_WHITE_ON_BLACK = 2;
 int const PK_TT_AMBER_ON_BLACK = 3;
+
+// bibles table column indexes
+int const PK_TBL_BIBLES_ABBREVIATION  = 0;
+int const PK_TBL_BIBLES_ATTRIBUTION   = 1;
+int const PK_TBL_BIBLES_SIDE          = 2;
+int const PK_TBL_BIBLES_ID            = 3;
+int const PK_TBL_BIBLES_NAME          = 4;
+int const PK_TBL_BIBLES_PARSED_ID     = 5;
+
+

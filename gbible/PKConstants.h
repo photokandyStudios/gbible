@@ -58,7 +58,12 @@ extern NSString * const PK_SETTING_FONTSIZE;
 extern NSString * const PK_SETTING_FONTFACE;
 extern NSString * const PK_SETTING_USEICLOUD;
 
-
+extern int const PK_TBL_BIBLES_ABBREVIATION;
+extern int const PK_TBL_BIBLES_ATTRIBUTION;
+extern int const PK_TBL_BIBLES_SIDE;
+extern int const PK_TBL_BIBLES_ID;
+extern int const PK_TBL_BIBLES_NAME;
+extern int const PK_TBL_BIBLES_PARSED_ID;
 
 
 
