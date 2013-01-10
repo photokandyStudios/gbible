@@ -1785,7 +1785,18 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 {
     NSMutableString *theText = [[NSMutableString alloc] init];
     // FIX ISSUE #43b
-    NSArray *allSelectedVerses = [[selectedVerses allKeys] sortedArrayUsingSelector:@selector(compare:)];
+    NSArray *allSelectedVerses = [[selectedVerses allKeys]
+    // FIX ISSUE #60
+                                    sortedArrayUsingComparator:
+                                      ^NSComparisonResult(id obj1, id obj2)
+                                      {
+                                        int verse1 = [PKBible verseFromString:obj1];
+                                        int verse2 = [PKBible verseFromString:obj2];
+                                        if (verse1>verse2) { return NSOrderedDescending; }
+                                        if (verse1<verse2) { return NSOrderedAscending; }
+                                        return NSOrderedSame;
+                                      }
+                                      ];
     for (NSString* key in allSelectedVerses)
     {
         if ( [[selectedVerses objectForKey:key] boolValue])
