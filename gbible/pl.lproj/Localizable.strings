@@ -3,148 +3,138 @@
   gbible
 
   Created by Kerri Shotts on 1/8/13.
+  Translated by JerryEvo on 1/9/13.
   
-  Polish Translations. Also the base for new translations.
-  
-  NOTE TO TRANSLATORS:
-   - If you can, I'd love to hear about the well-received Bibles in your language that
-     are freely available for our use.
-   - If you find misspelled or missing keys, please let me know by adding an issue
-     to the GitHub repository for this project.
-   - If you are unsure of the context of an object, please ask. I've placed comments
-     to help, but they may not be sufficient.
-   - It is possible that where the same word is used in English, the translation may be
-     different based on context. I very likely haven't planned for that -- so feel free
-     to add an issue. I'll make a fix and send you the revised key.
-   - Oh, and thanks for being willing to help!
- 
+  Polish Translations. 
 */
 
 /* Tab Controller */
-"About" = "About";
-"Read Bible" = "Read Bible";
-"Search" = "Search";
-"Strong's" = "Strong's";
-"Settings" = "Settings";
+"About" = "O programie";
+"Read Bible" = "Czytaj Biblię";
+"Search" = "Szukaj";
+"Strong's" = "Strong";
+"Settings" = "Ustawienia";
 
 /* Menus */
-"Copy" = "Copy";
-"Highlight" = "Highlight";
-"Annotate" = "Annotate";
-"Define" = "Define";
-"Explain" = "Explain";
-"Clear" = "Clear";
-"Add Highlight" = "Add Highlight";
-"Remove" = "Remove";
-"Search Bible" = "Search Bible";
-"Search Strong's" = "Search Strong's";
+"Copy" = "Kopiuj";
+"Highlight" = "Zaznacz";
+"Annotate" = "Notatka";
+"Define" = "Definicja";
+"Explain" = "Wyjaśnienie";
+"Clear" = "Kasuj";
+"Add Highlight" = "Dodaj zaznaczenie";
+"Remove" = "Usuń";
+"Search Bible" = "Szukaj w Biblii";
+"Search Strong's" = "Szukaj w Strongu";
 
 /* Strong's-specific */
-"Lemma" = "Lemma";
-"Pronunciation" = "Pronunciation";
-"Definition" = "Definition";
-"Notice" = "Notice";
+"Lemma" = "Lemat";
+"Pronunciation" = "Wymowa";
+"Definition" = "Definicja";
+"Notice" = "Notatka";
+"Strong's # or search term" = "Stronga #/Wyszukiwana fraza"; // note: KS's guess, not JE's //
+
 
 /* Messages */
-"Import Error" = "Import Error";
-"error-import-message" = "Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?";
-"no-highlights" = "You've no highlights.";
-"no-history" = "You've no history.";
-"no-notes" = "You don't have any notes.";
-"no-results" = "No results. Please try again.";
-"Bible" = "Bible";
-"definition-copied" = "Definition copied to clipboard";
-"note-when-transliterating-greek" = "﹡ When transliterating Greek, the app may be slower when navigating to new passages and approximately twice as slow when searching.\n\n✝ Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.\n\n";
-"note-opendyslexic" = "﹡ The OpenDyslexic font does not support polytonic Greek. It is suggested to use the OpenDyslexic font only if transliterating the Greek or when using a text without diacritics.";
-"note-export" = "Export will create a file of the form 'export_date_time.dat' that you can download when your device is connected to iTunes. You can then save this file in a safe place, or use it to import data to another device.";
-"note-import" = "Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.";
-"note-anonymous-with-copyright" = "Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information. \n\n\n\n ";
+"Import Error" = "Błąd przy imporcie";
+"error-import-message" = "Nie mogę znaleźć pliku bazy 'import.dat'; czy skopiowano wyeksportowany plik za pomocąiTunes i zmieniono mu nazwę?";
+"no-highlights" = "Brak zaznaczeń.";
+"no-history" = "Brak historii.";
+"no-notes" = "Brak notatek.";
+"no-results" = "Brak wyników. Proszę spróbować ponownie.";
+"Bible" = "Biblia";
+"definition-copied" = "Skopiowano definicję do schowka";
+"note-when-transliterating-greek" = "﹡ Przy transliteracji Greki aplikacja może działać wolniej podczas nawigacji i wyszukiwania.\n\n✝ UStawienia pokazywania tłumaczenie dotyczą tylko tekstów, które posiadają wbudowane tłumaczenie. Aktualnie jedynym tekstem, który je posiada jest Westcott-Hort.\n\n";
+"note-opendyslexic" = "﹡ Czcionka OpenDyslexic nie obsługuje politonicznej Greki. Użycie tej czcionki jest polecane tylko dla transliteracji i tekstu bez znaków diakrytycznych.";
+"note-export" = "Funkcja eksportu utworzy plik o nazwie 'export_data_czas.dat', który można pobrać gdy urządzenie jest podłączone do iTunes. Pliku można użyć jako kopii bezpieczeństwa lub w celu zaimportowania do innego urządzenia.";
+"note-import" = "Przed uruchomieniem importu podłącz urządzenie do iTunes i skopiuj plik, który chcesz zaimportować. Upewnij się, że plik ma nazwę 'import.dat'. Można importować wielokrotnie ten sam plik.";
+"note-anonymous-with-copyright" = "Jeśli nie chcesz by anonimowa informacja o użyciu i płędach była przesyłana wyłącz jej przesyłanie. Pozostawienie tej opcji włączonej pomaga nam w ulepszaniu aplikacji. Tak zebrana informacjia nie zostanie nigdy udostępniona firmom trzecim. Informacje są zbierane za pomocą TestFlight. \n\nUwaga: Jeśli znajdujesz się w kraju, w którym korzystanie z Biblii jest ryzykowne-wyłącz tę opcję. \n\nAplikacja jest chrona prawami autorskimi. Copyright 2013 photoKandy Studios LLC. Jest ona udostępniona na licencji Creative Commons BY-SA-NC. Więcej informacji na http://www.photokandy.com/apps/gib. \n\n\n\n ";
 
 /* Buttons, Segmented Controls */
 "OK" = "OK";
-"Cancel" = "Cancel";
-"Done" = "Done";
-"Delete" = "Delete";
-"Go to passage" = "Go to passage";
-"Highlight Color" = "Highlight Color";
-"Choose Color" = "Choose Color";
-"Enter Full Screen" = "Enter Full Screen";
-"Leave Full Screen" = "Leave Full Screen";
-"Previous Chapter" = "Previous Chapter";
-"Next Chapter" = "Next Chapter";
-"Highlights" = "Highlights";
-"Notes" = "Notes";
-"History" = "History";
+"Cancel" = "Anuluj";
+"Done" = "Zrobione";
+"Delete" = "Skasuj";
+"Go to passage" = "Idź do fragmentu";
+"Highlight Color" = "Kolor zaznaczenia";
+"Choose Color" = "Wybierz kolor";
+"Enter Full Screen" = "Tryb pełnoekranowy";
+"Leave Full Screen" = "Wyłącz tryb pełnoekranowy";
+"Previous Chapter" = "Poprzedni rozdział";
+"Next Chapter" = "Następny rozdział";
+"Highlights" = "Zaznaczenia";
+"Notes" = "Notatki";
+"History" = "Historia";
 
 /* Highlight Colors */
-"Yellow" = "Yellow";
-"Green" = "Green";
-"Magenta" = "Magenta";
-"Pink" = "Pink";
-"Blue" = "Blue";
+"Yellow" = "Żółty";
+"Green" = "Zielony";
+"Magenta" = "Fuksja";
+"Pink" = "Różowy";
+"Blue" = "Niebieski";
 
 /* Navigation Controllers */
-"Select Chapter" = "Select Chapter";
-"Select Verse" = "Select Verse";
-"Goto" = "Goto";
-"Text Settings" = "Text Settings";
-"Viewing Note" = "Viewing Note";
-"Editing Note" = "Editing Note";
+"Select Chapter" = "Wybierz rozdział";
+"Select Verse" = "Wybierz werset";
+"Goto" = "Idź do";
+"Text Settings" = "Ustawienia tekstu";
+"Viewing Note" = "Treść notatkę";
+"Editing Note" = "Edycja notatki";
 
 /* Color Themes */
-"Theme" = "Theme";
+"Theme" = "Motyw";
 "1" = "1";
 "2" = "2";
 "3" = "3";
 "4" = "4";
-"Original" = "Original";
-"Black on White" = "Black on White";
-"White on Black" = "White on Black";
-"Amber on Black" = "Amber on Black";
+"Original" = "Originalny";
+"Black on White" = "Czarny na białym";
+"White on Black" = "Biały na czarnym";
+"Amber on Black" = "Bursztynowy na czarnym";
 
 /* Settings */
-"Yes" = "Yes";
-"No" = "No";
-"Normal" = "Normal";
-"One-Quarter" = "One-Quarter";
-"One-Half" = "One-Half";
-"Double" = "Double";
-"Single Space" = "Single Space";
-"Double Space" = "Double Space";
-"Wide Greek Column" = "Wide Greek Column";
-"Wide English Column" = "Wide English Column";
-"Equal Columns" = "Equal Columns";
-"Greek Text" = "Greek Text";
-"English Text" = "English Text";
-"Transliterate Greek" = "Transliterate Greek﹡?";
-"Show Inline Notes" = "Show Inline Notes?";
-"Show Morphology" = "Show Morphology?";
-"Show Strong's" = "Show Strong's?";
-"Show Translation" = "Show Translation✝?";
-"Anonymous Usage Statistics" = "Anonymous Usage Statistics?";
-"Text" = "Text";
-"Layout" = "Layout";
-"Version" = "Version";
+"Yes" = "Tak";
+"No" = "Nie";
+"Normal" = "Zwykły";
+"One-Quarter" = "Ćwiartka";
+"One-Half" = "Połowa";
+"Double" = "Podwójny";
+"Single Space" = "Pojedynczy odstęp";
+"Double Space" = "Podwójny odstęp";
+"Wide Greek Column" = "Szeroka kolumna grecka";
+"Wide English Column" = "Szeroka kolumna angielska";
+"Equal Columns" = "Równe kolumny";
+"Greek Text" = "Tekst grecki";
+"English Text" = "Tekst angielski";
+"Transliterate Greek" = "Transliteracja grecka﹡?";
+"Show Inline Notes" = "Pokazywać uwagi w tekście?";
+"Show Morphology" = "Pokazywać morfologię?";
+"Show Strong's" = "Pokazywać Stronga?";
+"Show Translation" = "Pokazywać tłumaczenie✝?";
+"Anonymous Usage Statistics" = "Przesyłać informacje o użyciu?";
+"Text" = "Tekst";
+"Layout" = "Układ";
+"Version" = "Wersja";
 
 /* Import/Export */
-"Operation" = "Operation";
-"Import Operation" = "Import Operation";
-"Export Operation" = "Export Operation";
-"Import Annotations" = "Import Annotations";
-"Import Highlights" = "Import Highlights";
-"Import Everything" = "Import Everything";
-"Export" = "Export";
+"Operation" = "Operacja";
+"Import Operation" = "Operacja importu";
+"Export Operation" = "Operacja eksportu";
+"Import Annotations" = "Importuj notatki";
+"Import Highlights" = "Importuj zaznaczenia";
+"Import Everything" = "Importuj wszystko";
+"Export" = "Eksport";
 "Import" = "Import";
 
 /* Labels */
-"Greek Typeface" = "Greek Typeface";
-"English Typeface" = "English Typeface";
-"Line Spacing" = "Line Spacing";
-"Title for note" = "Title for note";
-"Search Term" = "Search Term";
-"Font Size" = "Font Size";
-"Row Spacing" = "Row Spacing";
-"Column Widths" = "Column Widths";
+"Greek Typeface" = "Czcionka grecka";
+"English Typeface" = "Czcionka angielska";
+"Line Spacing" = "Odstęp międzyliniowy";
+"Title for note" = "Tytuł notatki";
+"Search Term" = "Wyszukiwana fraza";
+"Font Size" = "Wielkośc czcionki";
+"Row Spacing" = "Odstęp międzwierszowy";
+"Column Widths" = "Szerokość kolumn";
 
 /* Font Names */
 "Courier New" = "Courier New";
@@ -162,68 +152,70 @@
 
 /* Bible Books */
 /* OT */
-"Genesis" = "Genesis";
-"Exodus" = "Exodus";
-"Leviticus" = "Leviticus";
-"Deuteronomy" = "Deuteronomy";
-"Joshua" = "Joshua";
-"Judges" = "Judges";
-"Ruth" = "Ruth";
-"1 Samuel" = "1 Samuel";
-"2 Samuel" = "2 Samuel";
-"1 Kings" = "1 Kings";
-"2 Kings" = "2 Kings";
-"1 Chronicles" = "1 Chronicles";
-"2 Chronicles" = "2 Chronicles";
-"Ezra" = "Ezra";
-"Nehemia" = "Nehemia";
-"Esther" = "Esther";
-"Job" = "Job";
-"Psalms" = "Psalms";
-"Proverbs" = "Proverbs";
-"Song of Solomon" = "Song of Solomon";
-"Isaiah" = "Isaiah";
-"Jeremiah" = "Jeremiah";
-"Lamentations" = "Lamentations";
-"Ezekial" = "Ezekial";
-"Daniel" = "Daniel";
-"Hosea" = "Hosea";
-"Joel" = "Joel";
-"Amos" = "Amos";
-"Obadiah" = "Obadiah";
-"Jonah" = "Jonah";
-"Micah" = "Micah";
-"Nahum" = "Nahum";
-"Habakkuk" = "Habakkuk";
-"Zephaniah" = "Zephaniah";
-"Haggai" = "Haggai";
-"Zechariah" = "Zechariah";
-"Malachi" = "Malachi";
+"Genesis" = "Rodzaju";
+"Exodus" = "Wyjścia";
+"Leviticus" = "Kapłańska";
+"Numbers" = "Liczb";
+"Deuteronomy" = "Powtórzonego Prawa";
+"Joshua" = "Jozuego";
+"Judges" = "Sędziów";
+"Ruth" = "Rut";
+"1 Samuel" = "1 Samuela";
+"2 Samuel" = "2 Samuela";
+"1 Kings" = "1 Królów";
+"2 Kings" = "2 Królów";
+"1 Chronicles" = "1 Kronik";
+"2 Chronicles" = "2 Kronik";
+"Ezra" = "Ezdrasza";
+"Nehemia" = "Nehemiasza";
+"Esther" = "Estery";
+"Job" = "Hioba";
+"Psalms" = "Psalmy";
+"Proverbs" = "Przysłów";
+"Ecclesiastes" = "Koheleta";
+"Song of Solomon" = "Pieśń nad Pieśniami";
+"Isaiah" = "Izajasza";
+"Jeremiah" = "Jeremiasza";
+"Lamentations" = "Lamentacje";
+"Ezekial" = "Ezechiela";
+"Daniel" = "Daniela";
+"Hosea" = "Ozeasza";
+"Joel" = "Joela";
+"Amos" = "Amosa";
+"Obadiah" = "Abdiasza";
+"Jonah" = "Jonasza";
+"Micah" = "Micheasza";
+"Nahum" = "Nahuma";
+"Habakkuk" = "Habakuka";
+"Zephaniah" = "Sofoniasza";
+"Haggai" = "Aggeusza";
+"Zechariah" = "Zachariasza";
+"Malachi" = "Malachiasza";
 /* NT */
-"Matthew" = "Matthew";
-"Mark" = "Mark";
-"Luke" = "Luke";
-"John" = "John";
-"Acts" = "Acts";
-"Romans" = "Romans";
-"1 Corinthians" = "1 Corinthians";
-"2 Corinthians" = "2 Corinthians";
-"Galatians" = "Galatians";
-"Ephesians" = "Ephesians";
-"Philippians" = "Phillipians";
-"Colossians" = "Colossians";
-"1 Thessalonians" = "1 Thessalonians";
-"2 Thessalonians" = "2 Thessalonians";
-"1 Timothy" = "1 Timothy";
-"2 Timothy" = "2 Timothy";
-"Titus" = "Titus";
-"Philemon" = "Philemon";
-"Hebrews" = "Hebrews";
-"James" = "James";
-"1 Peter" = "1 Peter";
-"2 Peter" = "2 Peter";
-"1 John" = "1 John";
-"2 John" = "2 John";
-"3 John" = "3 John";
-"Jude" = "Jude";
-"Revelation" = "Revelation";
+"Matthew" = "Mateusza";
+"Mark" = "Marka";
+"Luke" = "Łukasza";
+"John" = "Jana";
+"Acts" = "Dzieje";
+"Romans" = "Rrzymian";
+"1 Corinthians" = "1 Koryntian";
+"2 Corinthians" = "2 Koryntian";
+"Galatians" = "Galatów";
+"Ephesians" = "Efezjan";
+"Philippians" = "Pilipian";
+"Colossians" = "Kolosan";
+"1 Thessalonians" = "1 Tesaloniczan";
+"2 Thessalonians" = "2 Tesaloniczan";
+"1 Timothy" = "1 Timoteusza";
+"2 Timothy" = "2 Timoteusza";
+"Titus" = "Tytusa";
+"Philemon" = "Filemona";
+"Hebrews" = "Hebrajczyków";
+"James" = "Jakuba";
+"1 Peter" = "1 Piotra";
+"2 Peter" = "2 Piotra";
+"1 John" = "1 Jana";
+"2 John" = "2 Jana";
+"3 John" = "3 Jana";
+"Jude" = "Judy";
+"Revelation" = "Objawienie";
