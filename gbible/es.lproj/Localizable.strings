@@ -44,6 +44,7 @@
 "Pronunciation" = "Pronunciation";
 "Definition" = "Definition";
 "Notice" = "Notice";
+"Strong's # or search term" = "Strong's # or search term";
 
 /* Messages */
 "Import Error" = "Import Error";
@@ -165,6 +166,7 @@
 "Genesis" = "Genesis";
 "Exodus" = "Exodus";
 "Leviticus" = "Leviticus";
+"Numbers" = "Numbers";
 "Deuteronomy" = "Deuteronomy";
 "Joshua" = "Joshua";
 "Judges" = "Judges";
@@ -181,6 +183,7 @@
 "Job" = "Job";
 "Psalms" = "Psalms";
 "Proverbs" = "Proverbs";
+"Ecclesiastes" = "Ecclesiastes";
 "Song of Solomon" = "Song of Solomon";
 "Isaiah" = "Isaiah";
 "Jeremiah" = "Jeremiah";
