@@ -28,8 +28,8 @@
     while ([s next])
     {
       // make sure we don't add the KJV version if we're in the UK, or in the Euro-zone (since they
-      // must respect the UK copyright) Adding Canada and Australia, just to be safe.
-      if ( !(([@" GB AT BE BG CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE CA AU "
+      // must respect the UK copyright)
+      if ( !(([@" GB AT BE BG CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE "
             rangeOfString:[NSString stringWithFormat:@" %@ ", countryCode]].location != NSNotFound)
           && [[s stringForColumnIndex:PK_TBL_BIBLES_ABBREVIATION] isEqualToString:@"KJV"]) )
       {
