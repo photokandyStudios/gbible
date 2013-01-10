@@ -210,12 +210,18 @@
   greekFontLabel.text = __T(@"Greek Typeface");
   greekFontLabel.backgroundColor = [UIColor clearColor];
   greekFontLabel.textAlignment = UITextAlignmentCenter;
+  greekFontLabel.adjustsFontSizeToFitWidth = YES;
+  greekFontLabel.minimumFontSize = 0;
+  greekFontLabel.numberOfLines = 1;
   [self.view addSubview:greekFontLabel];
   
   englishFontLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 80, 140, 20)];
   englishFontLabel.text = __T(@"English Typeface");
   englishFontLabel.backgroundColor = [UIColor clearColor];
   englishFontLabel.textAlignment = UITextAlignmentCenter;
+  englishFontLabel.adjustsFontSizeToFitWidth = YES;
+  englishFontLabel.minimumFontSize = 0;
+  englishFontLabel.numberOfLines = 1;
   [self.view addSubview:englishFontLabel];
   
   greekFontPicker = [[UITableView alloc] initWithFrame:CGRectMake(00, 100, 165, 190) style:UITableViewStyleGrouped];
@@ -277,11 +283,14 @@
   
   [self.view addSubview:rowSpacingSelector];
   
-  rowSpacingLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 340, 96, 30)];
+  rowSpacingLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 335, 96, 40)];
   rowSpacingLabel.backgroundColor = [UIColor clearColor];
   rowSpacingLabel.text = __T(@"Line Spacing");
   rowSpacingLabel.font = [UIFont systemFontOfSize:15];
   rowSpacingLabel.textAlignment = UITextAlignmentLeft;
+  rowSpacingLabel.adjustsFontSizeToFitWidth = YES;
+  rowSpacingLabel.minimumFontSize = 0;
+  rowSpacingLabel.numberOfLines = 2;
   [self.view addSubview:rowSpacingLabel];
   
   decreaseBrightnessLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 380, 30, 30)];
