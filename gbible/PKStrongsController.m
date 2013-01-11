@@ -243,6 +243,8 @@
 {
     [super viewDidAppear:animated];
     [self calculateShadows];
+// ISSUE #61
+  [self becomeFirstResponder];
 }
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -386,7 +388,8 @@
 
     ourMenu = [UIMenuController sharedMenuController];
     ourMenu.menuItems = [NSArray arrayWithObjects:
-                            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")         action:@selector(copyStrongs:)],
+//Issue #61
+//                            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")         action:@selector(copyStrongs:)],
                             [[UIMenuItem alloc] initWithTitle:__T(@"Define")       action:@selector(defineStrongs:)],
                             [[UIMenuItem alloc] initWithTitle:__T(@"Search Bible") action:@selector(searchBible:)]
 //                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)]
@@ -481,12 +484,18 @@
  */
 -(BOOL) canPerformAction:(SEL)action withSender:(id)sender
 {
-    if (action == @selector(copyStrongs:))        { return YES; }
+//    if (action == @selector(copyStrongs:))        { return YES; }
+// ISSUE #61
+    if (action == @selector(copy:))        { return YES; }
     if (action == @selector(searchBible:))         { return YES; }
     if (action == @selector(defineStrongs:))      { return selectedWord != nil; }
     return NO;
 }
-
+// ISSUE #61
+-(void) copy: (id)sender
+{
+  [self copyStrongs:nil];
+}
 -(void) copyStrongs: (id)sender
 {
   NSMutableString *theText = [[theSearchResults objectAtIndex:selectedRow] mutableCopy];
@@ -549,7 +558,8 @@
             NSString *hotWord = [ourLabel wordFromPoint:wp];
     ourMenu = [UIMenuController sharedMenuController];
     ourMenu.menuItems = [NSArray arrayWithObjects:
-                            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")         action:@selector(copyStrongs:)],
+// ISSUE #61
+//                            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")         action:@selector(copyStrongs:)],
                             [[UIMenuItem alloc] initWithTitle:__T(@"Define")       action:@selector(defineStrongs:)],
                             [[UIMenuItem alloc] initWithTitle:__T(@"Search Bible") action:@selector(searchBible:)]
 //                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)]
