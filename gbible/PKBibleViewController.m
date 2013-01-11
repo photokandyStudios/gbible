@@ -546,6 +546,63 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     [self calculateShadows];
 }
 
+- (void) saveTopVerse
+{
+    NSArray *indexPaths = [self.tableView indexPathsForVisibleRows];
+    if ([indexPaths count] > 0)
+    {
+        ((PKSettings *)[PKSettings instance]).topVerse = [[indexPaths objectAtIndex:0] row]+1;
+    }
+}
+
+- (void) scrollToTopVerseWithAnimation
+{
+        // attempt to fix issue #37
+        PKWaitDelay(0.05,{
+            if ([[PKSettings instance] topVerse] > 1)
+            {
+              if ( [self.tableView numberOfRowsInSection:0] >  1 )
+              {
+                  if ( [[PKSettings instance] topVerse]-1 < [self.tableView numberOfRowsInSection:0] )
+                  {
+                      [self.tableView scrollToRowAtIndexPath:
+                      [NSIndexPath indexPathForRow:
+                          [[PKSettings instance] topVerse]-1 inSection:0]
+                          atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                  }
+              }
+            }
+            else
+            {
+                [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+            }
+        });
+}
+
+- (void) scrollToTopVerse
+{
+        // attempt to fix issue #37
+        PKWaitDelay(0.05,{
+            if ([[PKSettings instance] topVerse] > 1)
+            {
+              if ( [self.tableView numberOfRowsInSection:0] >  1 )
+              {
+                  if ( [[PKSettings instance] topVerse]-1 < [self.tableView numberOfRowsInSection:0] )
+                  {
+                      [self.tableView scrollToRowAtIndexPath:
+                      [NSIndexPath indexPathForRow:
+                          [[PKSettings instance] topVerse]-1 inSection:0]
+                          atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                  }
+              }
+            }
+            else
+            {
+                [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+            }
+        });
+}
+
 #pragma mark -
 #pragma mark View Lifecycle
 
@@ -596,6 +653,11 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     [self reloadTableCache];
 }
 
+// ISSUE #61
+- (void)viewDidAppear:(BOOL)animated
+{
+  [self becomeFirstResponder]; // respond to copy command from keyboard?
+}
 
 /**
  *
@@ -612,26 +674,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         [self reloadTableCache];
         [(PKHistory *)[PKHistory instance] addPassagewithBook:[[PKSettings instance] currentBook] andChapter:[[PKSettings instance] currentChapter] andVerse:[[PKSettings instance] topVerse]];
         [self notifyChangedHistory];
-        // attempt to fix issue #37
-        PKWaitDelay(0.05,{
-            if ([[PKSettings instance] topVerse] > 1)
-            {
-              if ( [self.tableView numberOfRowsInSection:0] >  1 )
-              {
-                  if ( [[PKSettings instance] topVerse]-1 < [self.tableView numberOfRowsInSection:0] )
-                  {
-                      [self.tableView scrollToRowAtIndexPath:
-                      [NSIndexPath indexPathForRow:
-                          [[PKSettings instance] topVerse]-1 inSection:0]
-                          atScrollPosition:UITableViewScrollPositionTop animated:NO];
-                  }
-              }
-            }
-            else
-            {
-                [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
-            }
-        });
+      [self scrollToTopVerse];
        [self calculateShadows];
        dirty = NO;
     }
@@ -732,9 +775,18 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
   
     if ([self.navigationItem respondsToSelector:@selector(setLeftBarButtonItems:)])
     {
+      if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+      {
         self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, 
                                                                            changeHighlight,
                                                                            fontSelect, nil];
+      }
+      else
+      {
+        self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, 
+                                                                           changeHighlight,
+                                                                           nil];
+      }
     }
     else 
     {
@@ -769,9 +821,36 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     {
         goFullScreen.tintColor = [PKSettings PKBaseUIColor];
     }
-    goFullScreen.accessibilityLabel = __T(@"Enter Full Screen");
-    self.navigationItem.rightBarButtonItem = goFullScreen;
+  
+    // build the toggle items
+    UIBarButtonItem *toggleStrongs = [[UIBarButtonItem alloc]
+                                      initWithTitle:@"#"
+                                              style:UIBarButtonItemStylePlain
+                                             target:self  action:@selector(toggleStrongs:)];
 
+    UIBarButtonItem *toggleMorphology = [[UIBarButtonItem alloc]
+                                      initWithTitle:@"M"
+                                              style:UIBarButtonItemStylePlain
+                                             target:self  action:@selector(toggleMorphology:)];
+
+    UIBarButtonItem *toggleTranslation = [[UIBarButtonItem alloc]
+                                      initWithTitle:@"T"
+                                              style:UIBarButtonItemStylePlain
+                                             target:self  action:@selector(toggleTranslation:)];
+  
+    goFullScreen.accessibilityLabel = __T(@"Enter Full Screen");
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+      self.navigationItem.rightBarButtonItems = @[ goFullScreen,
+                                                   toggleStrongs, toggleMorphology, toggleTranslation,
+                                                    ];
+    }
+    else
+    {
+      self.navigationItem.rightBarButtonItem = goFullScreen;
+    }
+  
     if ([changeHighlight respondsToSelector:@selector(setTintColor:)])
     {
     changeHighlight.tintColor = [[PKSettings instance] highlightColor];
@@ -849,7 +928,9 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     if (ourMenuState == 0)
     {
         //if (action == @selector(_accessibilitySpeak:)) { return NO; }
-        if (action == @selector(copySelection:))    { return YES; }
+// ISSUE #61
+        if (action == @selector(copy:))    { return YES; }
+//        if (action == @selector(copySelection:))    { return YES; }
         if (action == @selector(doAnnotate:))      { return YES; }
         if (action == @selector(defineWord:))       { //return selectedWord!=nil && theWordTag != 0;
                                                       if (!selectedWord) { return NO; } // word must not be nil
@@ -858,6 +939,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                                                     }
         if (action == @selector(explainVerse:))     { return [PKBibleViewController hasConnectivity]; }
         if (action == @selector(clearSelection:))   { return YES; }
+        if (action == @selector(textSettings:)) { return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone; }
 
         if (SYSTEM_VERSION_LESS_THAN(@"5.0")) // < ios 5
         {
@@ -1377,12 +1459,14 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     // restore our menu items after a strongs view shows
     ourMenu = [UIMenuController sharedMenuController];
     ourMenu.menuItems = [NSArray arrayWithObjects:
-                            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")      action:@selector(copySelection:)],
+// ISSUE #61
+                //            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")      action:@selector(copySelection:)],
                             [[UIMenuItem alloc] initWithTitle:__T(@"Highlight") action:@selector(askHighlight:)],
                             [[UIMenuItem alloc] initWithTitle:__T(@"Annotate")  action:@selector(doAnnotate:)],
                             [[UIMenuItem alloc] initWithTitle:__T(@"Search")    action:@selector(askSearch:)],
                             [[UIMenuItem alloc] initWithTitle:__T(@"Define")    action:@selector(defineWord:)],
                             [[UIMenuItem alloc] initWithTitle:__T(@"Explain")   action:@selector(explainVerse:)],
+                            [[UIMenuItem alloc] initWithTitle:__T(@"Layout")   action:@selector(textSettings:)],
                             [[UIMenuItem alloc] initWithTitle:__T(@"Clear")     action:@selector(clearSelection:)],
                             // handle second-tier items
                             [[UIMenuItem alloc] initWithTitle:__T(@"Add Highlight") action:@selector(highlightSelection:)],
@@ -1567,6 +1651,40 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 
 #pragma mark -
 #pragma mark miscellaneous selectors (called from popovers, buttons, etc.)
+
+-(void) textSettings: (id)sender
+{
+  [self fontSelect:nil];
+}
+-(void) toggleStrongs: (id)sender
+{
+  [self saveTopVerse];
+  ((PKSettings *)[PKSettings instance]).showStrongs = !((PKSettings *)[PKSettings instance]).showStrongs;
+  [[PKSettings instance] saveSettings];
+  [self loadChapter];
+  [self reloadTableCache];
+  [self scrollToTopVerseWithAnimation];
+}
+
+-(void) toggleMorphology: (id)sender
+{
+  [self saveTopVerse];
+  ((PKSettings *)[PKSettings instance]).showMorphology = !((PKSettings *)[PKSettings instance]).showMorphology;
+  [[PKSettings instance] saveSettings];
+  [self loadChapter];
+  [self reloadTableCache];
+  [self scrollToTopVerseWithAnimation];
+}
+
+-(void) toggleTranslation: (id)sender
+{
+  [self saveTopVerse];
+  ((PKSettings *)[PKSettings instance]).showInterlinear = !((PKSettings *)[PKSettings instance]).showInterlinear;
+  [[PKSettings instance] saveSettings];
+  [self loadChapter];
+  [self reloadTableCache];
+  [self scrollToTopVerseWithAnimation];
+}
 
 -(void) goFullScreen: (id)sender
 {
@@ -1781,6 +1899,12 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  * Copy the selection to the pasteboard
  *
  */
+// ISSUE #61
+-(void) copy: (id)sender
+{
+  [self copySelection:nil];
+}
+
 -(void) copySelection: (id)sender
 {
     NSMutableString *theText = [[NSMutableString alloc] init];
@@ -1931,7 +2055,6 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 -(void)explainVerse: (id)sender
 {
-    // TODO: check for internet
     int theBook = [PKBible bookFromString:selectedPassage];
     int theChapter=[PKBible chapterFromString:selectedPassage];
     int theVerse=[PKBible verseFromString:selectedPassage];
@@ -2004,9 +2127,11 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 -(void) didChangeLayout:(PKLayoutController *)sender
 {
   // the settings have changed, update ourselves...
+  [self saveTopVerse];
   [self updateAppearanceForTheme];
   [self loadChapter];
   [self reloadTableCache];
+  [self scrollToTopVerseWithAnimation];
 }
 
 #pragma mark -
