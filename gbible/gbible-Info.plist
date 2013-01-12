@@ -9,18 +9,15 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>GreekInterlinearBibleIcon-57.png</string>
+	<string>Icon.png</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>GreekInterlinearBibleIcon-29.png</string>
-		<string>GreekInterlinearBibleIcon-48.png</string>
-		<string>GreekInterlinearBibleIcon-57.png</string>
-		<string>GreekInterlinearBibleIcon-58.png</string>
-		<string>GreekInterlinearBibleIcon-64.png</string>
-		<string>GreekInterlinearBibleIcon-iPad72.png</string>
-		<string>GreekInterlinearBibleIcon-114.png</string>
-		<string>GreekInterlinearBibleIcon-144.png</string>
-		<string>GreekInterlinearBibleIcon-320.png</string>
+		<string>Icon-72@2x.png</string>
+		<string>Icon-72.png</string>
+		<string>Icon.png</string>
+		<string>icon-Small.png</string>
+		<string>icon-Small@2x.png</string>
+		<string>Icon@2x.png</string>
 	</array>
 	<key>CFBundleIcons</key>
 	<dict>
@@ -28,15 +25,12 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>GreekInterlinearBibleIcon-144.png</string>
-				<string>GreekInterlinearBibleIcon-iPad72.png</string>
-				<string>GreekInterlinearBibleIcon-57.png</string>
-				<string>GreekInterlinearBibleIcon-29.png</string>
-				<string>GreekInterlinearBibleIcon-48.png</string>
-				<string>GreekInterlinearBibleIcon-58.png</string>
-				<string>GreekInterlinearBibleIcon-64.png</string>
-				<string>GreekInterlinearBibleIcon-iPad72.png</string>
-				<string>GreekInterlinearBibleIcon-114.png</string>
+				<string>Icon-72@2x.png</string>
+				<string>Icon-72.png</string>
+				<string>Icon.png</string>
+				<string>icon-Small.png</string>
+				<string>icon-Small@2x.png</string>
+				<string>Icon@2x.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<true/>
@@ -55,7 +49,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.1.4802</string>
+	<string>1.1.4819</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
