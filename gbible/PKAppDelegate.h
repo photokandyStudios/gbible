@@ -22,6 +22,8 @@
 @property (strong, nonatomic) SegmentsController *segmentController;
 @property (strong, nonatomic) UISegmentedControl *segmentedControl;
 
+@property CGFloat brightness;
+
 +(id) instance;
 
 @end
