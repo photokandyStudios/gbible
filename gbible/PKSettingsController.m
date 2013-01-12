@@ -19,6 +19,7 @@
 #import "PKBibleBooksController.h"
 #import "TestFlight.h"
 #import "PKBible.h"
+#import "TSMiniWebBrowser.h"
 
 
 @interface PKSettingsController ()
@@ -210,6 +211,7 @@
                                               [NSArray arrayWithObjects: __Tv(@"Show Morphology",@"Show Morphology?"), [NSNumber numberWithInt:2], PK_SETTING_SHOWMORPHOLOGY, nil],
                                               [NSArray arrayWithObjects: __Tv(@"Show Strong's", @"Show Strong's?"), [NSNumber numberWithInt:2], @"show-strongs", nil],
                                               [NSArray arrayWithObjects: __Tv(@"Show Translation", @"Show Translation✝?"), [NSNumber numberWithInt:2], @"show-interlinear", nil],
+                                              [NSArray arrayWithObjects: __T(@"Manage Bibles..."), [NSNumber numberWithInt:0], nil, nil ],
                                               nil];
    // iCloudSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Enable iCloud?", [NSNumber numberWithInt:2], PK_SETTING_USEICLOUD, nil],
     //                                            nil];
@@ -543,6 +545,20 @@
     switch ( [[cellData objectAtIndex:1] intValue] )
     {
         case 0: {// we're on a "nothing cell", but these will do actions...
+                if (section == 0)
+                {
+                  // manage Bibles
+                  NSURL *theURL = [[NSURL alloc] initWithString:@"http://unbound.biola.edu/index.cfm?method=downloads.showDownloadMain"];
+                  TSMiniWebBrowser *wb = [[TSMiniWebBrowser alloc] initWithUrl:theURL];
+                  wb.showURLStringOnActionSheetTitle = YES;
+                  wb.showPageTitleOnTitleBar = YES;
+                  wb.showActionButton = YES;
+                  wb.showReloadButton = YES;
+                  wb.mode = TSMiniWebBrowserModeModal;
+                  wb.barStyle = UIBarStyleBlack;
+                  wb.modalDismissButtonTitle = __T(@"Done");
+                  [self presentModalViewController:wb animated:YES];                  
+                }
                 if (section == 2) 
                 { 
                     title = __T(@"Export Operation");

@@ -40,7 +40,7 @@ typedef enum {
     TSMiniWebBrowserModeTabBar,
 } TSMiniWebBrowserMode;
 
-@interface TSMiniWebBrowser : UIViewController <UIWebViewDelegate, UIActionSheetDelegate> {
+@interface TSMiniWebBrowser : UIViewController <UIWebViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate> {
     // URL
     NSURL *urlToLoad;
     
@@ -77,6 +77,8 @@ typedef enum {
 @property (nonatomic, assign) BOOL showActionButton;
 @property (nonatomic, assign) UIBarStyle barStyle;
 @property (nonatomic, strong) NSString *modalDismissButtonTitle;
+
+@property (nonatomic, strong) NSString *downloadFile;
 
 // Public Methods
 - (id)initWithUrl:(NSURL*)url;

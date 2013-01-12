@@ -25,6 +25,7 @@
 //
 
 #import "TSMiniWebBrowser.h"
+#import "SSZipArchive.h"
 
 @implementation TSMiniWebBrowser
 
@@ -36,7 +37,7 @@
 @synthesize showActionButton;
 @synthesize barStyle;
 @synthesize modalDismissButtonTitle;
-
+@synthesize downloadFile;
 #pragma mark - Private Methods
 
 -(void)setTitleBarText:(NSString*)pageTitle {
@@ -370,7 +371,100 @@
 
 #pragma mark - UIWebViewDelegate
 
+/*
+// inspired by http://stackoverflow.com/questions/7377565/how-to-download-files-from-uiwebview-and-open-again
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+  if (buttonIndex == 1)
+  {
+    // user agreed to download the file
+//    NSArray *directoryPaths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
+    NSString *directoryPath = NSTemporaryDirectory();
+    NSLog (@"%@", directoryPath);
+    NSURL *theURL = [NSURL URLWithString:downloadFile];
+    NSString *downloadFileTo = [NSString stringWithFormat:@"%@/%@", directoryPath, [theURL lastPathComponent]];
+    
+    __block UIAlertView *anAlert = [[UIAlertView alloc] init];
+    [anAlert setTitle:__T(@"Downloading")];
+//    [anAlert addButtonWithTitle:__T(@"OK")];
+    [anAlert setMessage:__T(@"Please Wait")];
+    [anAlert setDelegate:nil];
+    [anAlert show];
+    PKWait(
+      {
+        
+        NSError *error = nil;
+        NSData *tmp = [[NSData alloc] initWithContentsOfURL:theURL options:0 error:&error];
+        
+        if (error)
+        {
+          [anAlert dismissWithClickedButtonIndex:0 animated:NO];
+          anAlert = [[UIAlertView alloc] init];
+          [anAlert setTitle:__T(@"Download Error")];
+          [anAlert addButtonWithTitle:__T(@"OK")];
+          [anAlert setMessage:[error description]];
+          [anAlert setDelegate:nil];
+          [anAlert show];
+        }
+        else
+        {
+          [tmp writeToFile:downloadFileTo options:NSDataWritingAtomic error:&error];
+          if (error)
+          {
+            [anAlert dismissWithClickedButtonIndex:0 animated:NO];
+            anAlert = [[UIAlertView alloc] init];
+            [anAlert setTitle:__T(@"Failed to Save File")];
+            [anAlert addButtonWithTitle:__T(@"OK")];
+            [anAlert setMessage:[error description]];
+            [anAlert setDelegate:nil];
+            [anAlert show];
+          }
+          else
+          {
+            [anAlert dismissWithClickedButtonIndex:0 animated:NO];
+            anAlert = [[UIAlertView alloc] init];
+            [anAlert setTitle:__T(@"Unzipping File")];
+            [anAlert setDelegate:nil];
+            [anAlert show];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,100000),dispatch_get_current_queue(),
+              ^{
+                // import the file?
+                NSString *zipPath = downloadFileTo;
+                NSString *destinationPath = directoryPath;
+                [SSZipArchive unzipFileAtPath:zipPath toDestination:destinationPath];
+                [anAlert dismissWithClickedButtonIndex:0 animated:NO];
+                // now that we're done unzipping, the file we want is in
+                // bible_name_utf8.txt
+              }
+            );
+          }
+        }
+      }
+    );
+  }
+}
+ */
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+
+/*      // PK ADDITION
+      NSString *extension = [request.URL pathExtension];
+      if ( [extension isEqualToString:@"zip"] )
+      {
+        // we have a zip file; ask user if they want to download it
+        downloadFile = [request.URL absoluteString];
+        UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Download File?")
+                                message: [NSString stringWithFormat:__Tv(@"download-file", @"Do you want to download %@?"),
+                                          downloadFile]
+                                delegate:self
+                                cancelButtonTitle:__T(@"Cancel")
+                                otherButtonTitles:__T(@"Download") , nil];
+        [anAlert show];
+        
+        return NO;
+      }
+ */
     if ([[request.URL absoluteString] hasPrefix:@"sms:"]) {
         [[UIApplication sharedApplication] openURL:request.URL];
         return NO;
