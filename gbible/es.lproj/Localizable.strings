@@ -59,7 +59,7 @@
 "note-opendyslexic" = "﹡ The OpenDyslexic font does not support polytonic Greek. It is suggested to use the OpenDyslexic font only if transliterating the Greek or when using a text without diacritics.";
 "note-export" = "Export will create a file of the form 'export_date_time.dat' that you can download when your device is connected to iTunes. You can then save this file in a safe place, or use it to import data to another device.";
 "note-import" = "Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.";
-"note-anonymous-with-copyright" = "Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information. \n\n\n\n ";
+"note-anonymous-with-copyright" = "Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information. \n\n\n\n\n\n ";
 
 /* Buttons, Segmented Controls */
 "OK" = "OK";
@@ -76,6 +76,9 @@
 "Highlights" = "Highlights";
 "Notes" = "Notes";
 "History" = "History";
+"Toggle Strong's Numbers" = "Toggle Strong's Numbers";
+"Toggle Translation" = "Toggle Translation";
+"Toggle Morphology" = "Toggle Morphology";
 
 /* Highlight Colors */
 "Yellow" = "Yellow";

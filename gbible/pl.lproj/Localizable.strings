@@ -48,7 +48,7 @@
 "note-opendyslexic" = "﹡ Czcionka OpenDyslexic nie obsługuje politonicznej Greki. Użycie tej czcionki jest polecane tylko dla transliteracji i tekstu bez znaków diakrytycznych.";
 "note-export" = "Funkcja eksportu utworzy plik o nazwie 'export_data_czas.dat', który można pobrać gdy urządzenie jest podłączone do iTunes. Pliku można użyć jako kopii bezpieczeństwa lub w celu zaimportowania do innego urządzenia.";
 "note-import" = "Przed uruchomieniem importu podłącz urządzenie do iTunes i skopiuj plik, który chcesz zaimportować. Upewnij się, że plik ma nazwę 'import.dat'. Można importować wielokrotnie ten sam plik.";
-"note-anonymous-with-copyright" = "Jeśli nie chcesz by anonimowa informacja o użyciu i płędach była przesyłana wyłącz jej przesyłanie. Pozostawienie tej opcji włączonej pomaga nam w ulepszaniu aplikacji. Tak zebrana informacjia nie zostanie nigdy udostępniona firmom trzecim. Informacje są zbierane za pomocą TestFlight. \n\nUwaga: Jeśli znajdujesz się w kraju, w którym korzystanie z Biblii jest ryzykowne-wyłącz tę opcję. \n\nAplikacja jest chrona prawami autorskimi. Copyright 2013 photoKandy Studios LLC. Jest ona udostępniona na licencji Creative Commons BY-SA-NC. Więcej informacji na http://www.photokandy.com/apps/gib. \n\n\n\n ";
+"note-anonymous-with-copyright" = "Jeśli nie chcesz by anonimowa informacja o użyciu i płędach była przesyłana wyłącz jej przesyłanie. Pozostawienie tej opcji włączonej pomaga nam w ulepszaniu aplikacji. Tak zebrana informacjia nie zostanie nigdy udostępniona firmom trzecim. Informacje są zbierane za pomocą TestFlight. \n\nUwaga: Jeśli znajdujesz się w kraju, w którym korzystanie z Biblii jest ryzykowne-wyłącz tę opcję. \n\nAplikacja jest chrona prawami autorskimi. Copyright 2013 photoKandy Studios LLC. Jest ona udostępniona na licencji Creative Commons BY-SA-NC. Więcej informacji na http://www.photokandy.com/apps/gib. \n\n\n\n\n\n ";
 
 /* Buttons, Segmented Controls */
 "OK" = "OK";
@@ -65,6 +65,9 @@
 "Highlights" = "Zaznaczenia";
 "Notes" = "Notatki";
 "History" = "Historia";
+"Toggle Strong's Numbers" = "Toggle Strong's Numbers";
+"Toggle Translation" = "Toggle Translation";
+"Toggle Morphology" = "Toggle Morphology";
 
 /* Highlight Colors */
 "Yellow" = "Żółty";
