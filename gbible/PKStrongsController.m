@@ -103,7 +103,7 @@
     theSearchBar.delegate = self;
     theSearchBar.placeholder = __T(@"Strong's # or search term");
     theSearchBar.showsCancelButton = NO;
-    theSearchBar.tintColor = [PKSettings PKBaseUIColor];
+    //theSearchBar.tintColor = [PKSettings PKBaseUIColor];
 
     UISwipeGestureRecognizer *swipeRight=[[UISwipeGestureRecognizer alloc]
                                           initWithTarget:self action:@selector(didReceiveRightSwipe:)];
@@ -133,14 +133,14 @@
                                         target:self.parentViewController.parentViewController.parentViewController
                                         action:@selector(revealToggle:)];
 
-    if ([changeReference respondsToSelector:@selector(setTintColor:)])
-    {
-        changeReference.tintColor = [PKSettings PKBaseUIColor];
-    }
+    //if ([changeReference respondsToSelector:@selector(setTintColor:)])
+    //{
+    //    changeReference.tintColor = [PKSettings PKBaseUIColor];
+    //}
     changeReference.accessibilityLabel = __T(@"Go to passage");
     self.navigationItem.leftBarButtonItem = changeReference;
 
-    CGRect theRect = CGRectMake(0, self.tableView.center.y + 40, self.tableView.bounds.size.width, 60);
+    CGRect theRect = CGRectMake(0, self.tableView.center.y + 60, self.tableView.bounds.size.width, 60);
     noResults = [[UILabel alloc] initWithFrame:theRect];
     noResults.textColor = [PKSettings PKTextColor];
     noResults.font = [UIFont fontWithName:@"Zapfino" size:15];
