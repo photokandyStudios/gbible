@@ -34,12 +34,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925154.96685"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "901"
-         endingLineNumber = "901"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
+         startingLineNumber = "771"
+         endingLineNumber = "771"
+         landmarkName = "+formatText:forColumn:withBounds:withParsings:startingAt:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -47,12 +47,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925154.96685"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "822"
-         endingLineNumber = "822"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
+         startingLineNumber = "708"
+         endingLineNumber = "708"
+         landmarkName = "+formatText:forColumn:withBounds:withParsings:startingAt:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -60,11 +60,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379144719.538119"
+         timestampString = "379923912.693332"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "361"
-         endingLineNumber = "361"
+         startingLineNumber = "371"
+         endingLineNumber = "371"
          landmarkName = "-loadChapter"
          landmarkType = "5">
       </FileBreakpoint>
@@ -73,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379144719.538119"
+         timestampString = "379920495.099079"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "337"
-         endingLineNumber = "337"
+         startingLineNumber = "345"
+         endingLineNumber = "345"
          landmarkName = "-loadChapter"
          landmarkType = "5">
       </FileBreakpoint>
@@ -86,11 +86,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379919565.265313"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "418"
-         endingLineNumber = "418"
+         startingLineNumber = "430"
+         endingLineNumber = "430"
          landmarkName = "+formattedTextHeight:withParsings:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -99,11 +99,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379919565.265313"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "436"
-         endingLineNumber = "436"
+         startingLineNumber = "448"
+         endingLineNumber = "448"
          landmarkName = "+formattedTextHeight:withParsings:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -112,11 +112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379919565.265313"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "451"
-         endingLineNumber = "451"
+         startingLineNumber = "463"
+         endingLineNumber = "463"
          landmarkName = "+formattedTextHeight:withParsings:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -125,12 +125,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925010.237508"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "705"
-         endingLineNumber = "705"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
+         startingLineNumber = "586"
+         endingLineNumber = "586"
+         landmarkName = "+formatText:forColumn:withBounds:withParsings:startingAt:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -138,12 +138,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925154.96685"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "798"
-         endingLineNumber = "798"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
+         startingLineNumber = "683"
+         endingLineNumber = "683"
+         landmarkName = "+formatText:forColumn:withBounds:withParsings:startingAt:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -151,12 +151,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925154.96685"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "935"
-         endingLineNumber = "935"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
+         startingLineNumber = "805"
+         endingLineNumber = "805"
+         landmarkName = "+formatText:forColumn:withBounds:withParsings:startingAt:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -164,12 +164,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925154.96685"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "843"
-         endingLineNumber = "843"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
+         startingLineNumber = "718"
+         endingLineNumber = "718"
+         landmarkName = "+formatText:forColumn:withBounds:withParsings:startingAt:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -177,12 +177,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925154.96685"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "866"
-         endingLineNumber = "866"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
+         startingLineNumber = "736"
+         endingLineNumber = "736"
+         landmarkName = "+formatText:forColumn:withBounds:withParsings:startingAt:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -190,11 +190,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379571506.947319"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "732"
-         endingLineNumber = "732"
+         startingLineNumber = "780"
+         endingLineNumber = "780"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -203,11 +203,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "379661920.04268"
+         timestampString = "379921587.131304"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "258"
-         endingLineNumber = "258"
+         startingLineNumber = "261"
+         endingLineNumber = "261"
          landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -242,11 +242,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379144719.538119"
+         timestampString = "379920495.099079"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "191"
-         endingLineNumber = "191"
+         startingLineNumber = "199"
+         endingLineNumber = "199"
          landmarkName = "-loadChapter:forBook:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -268,11 +268,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379572908.753051"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1962"
-         endingLineNumber = "1962"
+         startingLineNumber = "2064"
+         endingLineNumber = "2064"
          landmarkName = "@implementation PKBibleViewController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -281,11 +281,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379919565.265313"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "407"
-         endingLineNumber = "407"
+         startingLineNumber = "419"
+         endingLineNumber = "419"
          landmarkName = "+verseFromString:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -294,11 +294,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379919565.265313"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "386"
-         endingLineNumber = "386"
+         startingLineNumber = "398"
+         endingLineNumber = "398"
          landmarkName = "+chapterFromString:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -307,11 +307,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379919565.265313"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "387"
-         endingLineNumber = "387"
+         startingLineNumber = "399"
+         endingLineNumber = "399"
          landmarkName = "+chapterFromString:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -372,11 +372,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379572908.753051"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "925"
-         endingLineNumber = "925"
+         startingLineNumber = "988"
+         endingLineNumber = "988"
          landmarkName = "@implementation PKBibleViewController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -424,11 +424,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379572908.753051"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "957"
-         endingLineNumber = "957"
+         startingLineNumber = "1020"
+         endingLineNumber = "1020"
          landmarkName = "-canPerformAction:withSender:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -437,11 +437,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379144719.538119"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "538"
-         endingLineNumber = "538"
+         startingLineNumber = "573"
+         endingLineNumber = "573"
          landmarkName = "-reloadTableCache"
          landmarkType = "5">
       </FileBreakpoint>
@@ -450,11 +450,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379144719.538119"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "541"
-         endingLineNumber = "541"
+         startingLineNumber = "576"
+         endingLineNumber = "576"
          landmarkName = "-reloadTableCache"
          landmarkType = "5">
       </FileBreakpoint>
@@ -463,11 +463,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379572908.753051"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1200"
-         endingLineNumber = "1200"
+         startingLineNumber = "1263"
+         endingLineNumber = "1263"
          landmarkName = "-tableView:willDisplayCell:forRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -487,11 +487,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "379661920.04268"
+         timestampString = "379921587.131304"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "254"
-         endingLineNumber = "254"
+         startingLineNumber = "257"
+         endingLineNumber = "257"
          landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -513,11 +513,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925154.96685"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "983"
-         endingLineNumber = "983"
+         startingLineNumber = "853"
+         endingLineNumber = "853"
          landmarkName = "@implementation PKBible"
          landmarkType = "3">
       </FileBreakpoint>
@@ -526,11 +526,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379144719.538119"
+         timestampString = "379920495.099079"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "163"
-         endingLineNumber = "163"
+         startingLineNumber = "171"
+         endingLineNumber = "171"
          landmarkName = "-displayBook:andChapter:andVerse:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -539,11 +539,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379144719.538119"
+         timestampString = "379920495.099079"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "165"
-         endingLineNumber = "165"
+         startingLineNumber = "173"
+         endingLineNumber = "173"
          landmarkName = "-displayBook:andChapter:andVerse:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -552,11 +552,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379144719.538119"
+         timestampString = "379920495.099079"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "166"
-         endingLineNumber = "166"
+         startingLineNumber = "174"
+         endingLineNumber = "174"
          landmarkName = "-displayBook:andChapter:andVerse:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -578,11 +578,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379144719.538119"
+         timestampString = "379920495.099079"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "288"
-         endingLineNumber = "288"
+         startingLineNumber = "296"
+         endingLineNumber = "296"
          landmarkName = "-deQueueReusableLabel"
          landmarkType = "5">
       </FileBreakpoint>
@@ -591,11 +591,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379144719.538119"
+         timestampString = "379920495.099079"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "310"
-         endingLineNumber = "310"
+         startingLineNumber = "318"
+         endingLineNumber = "318"
          landmarkName = "-loadChapter"
          landmarkType = "5">
       </FileBreakpoint>
@@ -669,11 +669,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379572908.753051"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1642"
-         endingLineNumber = "1642"
+         startingLineNumber = "1705"
+         endingLineNumber = "1705"
          landmarkName = "-didReceiveLongPress:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -928,99 +928,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "573"
-         endingLineNumber = "573"
-         landmarkName = "+transliterate:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "574"
-         endingLineNumber = "574"
-         landmarkName = "+transliterate:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         condition = "i=(l-1)"
-         continueAfterRunningActions = "No"
-         filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "577"
-         endingLineNumber = "577"
-         landmarkName = "+transliterate:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "6"
-         continueAfterRunningActions = "No"
-         filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "683"
-         endingLineNumber = "683"
-         landmarkName = "+transliterate:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "6"
-         continueAfterRunningActions = "No"
-         filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "561"
-         endingLineNumber = "561"
-         landmarkName = "+transliterate:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "622"
-         endingLineNumber = "622"
-         landmarkName = "+transliterate:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         condition = "(i==245)"
-         continueAfterRunningActions = "No"
-         filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "578"
-         endingLineNumber = "578"
-         landmarkName = "+transliterate:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "gbible/PKDatabase.m"
          timestampString = "377916378.146726"
          startingColumnNumber = "9223372036854775807"
@@ -1035,11 +942,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "379661920.04268"
+         timestampString = "379921587.131304"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "198"
-         endingLineNumber = "198"
+         startingLineNumber = "201"
+         endingLineNumber = "201"
          landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1048,11 +955,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "379661920.04268"
+         timestampString = "379921587.131304"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "251"
-         endingLineNumber = "251"
+         startingLineNumber = "254"
+         endingLineNumber = "254"
          landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1061,11 +968,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "379661920.04268"
+         timestampString = "379921587.131304"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "196"
-         endingLineNumber = "196"
+         startingLineNumber = "199"
+         endingLineNumber = "199"
          landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1074,11 +981,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "379661920.04268"
+         timestampString = "379921587.131304"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "206"
-         endingLineNumber = "206"
+         startingLineNumber = "209"
+         endingLineNumber = "209"
          landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1087,11 +994,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "379661920.04268"
+         timestampString = "379921587.131304"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "207"
-         endingLineNumber = "207"
+         startingLineNumber = "210"
+         endingLineNumber = "210"
          landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1100,11 +1007,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "379661920.04268"
+         timestampString = "379921587.131304"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "205"
-         endingLineNumber = "205"
+         startingLineNumber = "208"
+         endingLineNumber = "208"
          landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1166,11 +1073,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379572908.753051"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "2128"
-         endingLineNumber = "2128"
+         startingLineNumber = "2230"
+         endingLineNumber = "2230"
          landmarkName = "-didChangeLayout:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1192,11 +1099,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925010.237508"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "547"
-         endingLineNumber = "547"
+         startingLineNumber = "562"
+         endingLineNumber = "562"
          landmarkName = "+transliterate:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1205,11 +1112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925010.237508"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "547"
-         endingLineNumber = "547"
+         startingLineNumber = "562"
+         endingLineNumber = "562"
          landmarkName = "+transliterate:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1218,12 +1125,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925154.96685"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "696"
-         endingLineNumber = "696"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
+         startingLineNumber = "714"
+         endingLineNumber = "714"
+         landmarkName = "+formatText:forColumn:withBounds:withParsings:startingAt:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1231,64 +1138,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925154.96685"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "828"
-         endingLineNumber = "828"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "835"
-         endingLineNumber = "835"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "532"
-         endingLineNumber = "532"
-         landmarkName = "+isMorphology:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "854"
-         endingLineNumber = "854"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "878"
-         endingLineNumber = "878"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
+         startingLineNumber = "748"
+         endingLineNumber = "748"
+         landmarkName = "+formatText:forColumn:withBounds:withParsings:startingAt:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1296,11 +1151,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379572908.753051"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "928"
-         endingLineNumber = "928"
+         startingLineNumber = "991"
+         endingLineNumber = "991"
          landmarkName = "-canPerformAction:withSender:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1309,12 +1164,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925154.96685"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "903"
-         endingLineNumber = "903"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
+         startingLineNumber = "773"
+         endingLineNumber = "773"
+         landmarkName = "+formatText:forColumn:withBounds:withParsings:startingAt:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1322,11 +1177,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379144719.538119"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "455"
-         endingLineNumber = "455"
+         startingLineNumber = "484"
+         endingLineNumber = "484"
          landmarkName = "-loadChapter"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1335,12 +1190,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925154.96685"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "875"
-         endingLineNumber = "875"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
+         startingLineNumber = "745"
+         endingLineNumber = "745"
+         landmarkName = "+formatText:forColumn:withBounds:withParsings:startingAt:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1348,12 +1203,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBible.m"
-         timestampString = "379398422.446951"
+         timestampString = "379925154.96685"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "874"
-         endingLineNumber = "874"
-         landmarkName = "+formatText:forColumn:withBounds:withParsings:"
+         startingLineNumber = "744"
+         endingLineNumber = "744"
+         landmarkName = "+formatText:forColumn:withBounds:withParsings:startingAt:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1361,11 +1216,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379572908.753051"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1625"
-         endingLineNumber = "1625"
+         startingLineNumber = "1688"
+         endingLineNumber = "1688"
          landmarkName = "-didReceiveLongPress:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1478,11 +1333,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleViewController.m"
-         timestampString = "379572908.753051"
+         timestampString = "379925096.993393"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1919"
-         endingLineNumber = "1919"
+         startingLineNumber = "2021"
+         endingLineNumber = "2021"
          landmarkName = "-copySelection:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1517,11 +1372,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "379662185.416513"
+         timestampString = "379921587.131304"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "339"
-         endingLineNumber = "339"
+         startingLineNumber = "342"
+         endingLineNumber = "342"
          landmarkName = "-applicationWillTerminate:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1530,11 +1385,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "379662190.888042"
+         timestampString = "379921587.131304"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "288"
-         endingLineNumber = "288"
+         startingLineNumber = "291"
+         endingLineNumber = "291"
          landmarkName = "-applicationDidEnterBackground:"
          landmarkType = "5">
       </FileBreakpoint>
