@@ -211,7 +211,7 @@
                                               [NSArray arrayWithObjects: __Tv(@"Show Morphology",@"Show Morphology?"), [NSNumber numberWithInt:2], PK_SETTING_SHOWMORPHOLOGY, nil],
                                               [NSArray arrayWithObjects: __Tv(@"Show Strong's", @"Show Strong's?"), [NSNumber numberWithInt:2], @"show-strongs", nil],
                                               [NSArray arrayWithObjects: __Tv(@"Show Translation", @"Show Translation✝?"), [NSNumber numberWithInt:2], @"show-interlinear", nil],
-                                              [NSArray arrayWithObjects: __T(@"Manage Bibles..."), [NSNumber numberWithInt:0], nil, nil ],
+                                         //     [NSArray arrayWithObjects: __T(@"Manage Bibles..."), [NSNumber numberWithInt:0], nil, nil ],
                                               nil];
    // iCloudSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Enable iCloud?", [NSNumber numberWithInt:2], PK_SETTING_USEICLOUD, nil],
     //                                            nil];
@@ -248,10 +248,10 @@
                                         target:self.parentViewController.parentViewController.parentViewController
                                         action:@selector(revealToggle:)];
 
-    if ([changeReference respondsToSelector:@selector(setTintColor:)])
-    {
-        changeReference.tintColor = [PKSettings PKBaseUIColor];
-    }
+    //if ([changeReference respondsToSelector:@selector(setTintColor:)])
+    //{
+    //    changeReference.tintColor = [PKSettings PKBaseUIColor];
+    //}
     changeReference.accessibilityLabel = __T(@"Go to passage");
     self.navigationItem.leftBarButtonItem = changeReference;
 
@@ -379,7 +379,7 @@
                 break;
         case 3: return __Tv(@"note-import", @"Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.");
                 break;
-        case 4: return __Tv(@"note-anonymous-with-copyright",@"Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information. \n\n\n\n ");
+        case 4: return __Tv(@"note-anonymous-with-copyright",@"Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information. \n\n\n\n\n\n ");
                 break;
         default:return @"Undefined";
                 break;

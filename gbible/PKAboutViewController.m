@@ -79,10 +79,10 @@
                                         target:self.parentViewController.parentViewController.parentViewController
                                         action:@selector(revealToggle:)];
 
-    if ([changeReference respondsToSelector:@selector(setTintColor:)])
-    {
-        changeReference.tintColor = [PKSettings PKBaseUIColor];
-    }
+    //if ([changeReference respondsToSelector:@selector(setTintColor:)])
+    //{
+    //    changeReference.tintColor = [PKSettings PKBaseUIColor];
+    //}
     changeReference.accessibilityLabel = __T(@"Go to passage");
     self.navigationItem.leftBarButtonItem = changeReference;
 }
