@@ -91,6 +91,14 @@
 
     @synthesize theWordIndex;
 
+    @synthesize toggleStrongsBtn;
+    @synthesize toggleMorphologyBtn;
+    @synthesize toggleTranslationBtn;
+
+    @synthesize leftTextSelect;
+    @synthesize rightTextSelect;
+    @synthesize bibleTextIDs;
+
 //@synthesize popoverView;
 
 #pragma mark -
@@ -337,11 +345,13 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     startTime = [NSDate date];
     formattedGreekChapter = [[NSMutableArray alloc]init];
     formattedGreekVerseHeights = [[NSMutableArray alloc]init];
+    CGFloat greekHeightIPhone;
     for (int i=0; i<[currentGreekChapter count]; i++)
     {
         //NSLog (@"Greek side(%i): Formatting text...", i);
         NSArray *formattedText = [PKBible formatText:[currentGreekChapter objectAtIndex:i] 
-                                           forColumn:1 withBounds:self.view.bounds withParsings:parsed];
+                                           forColumn:1 withBounds:self.view.bounds withParsings:parsed
+                                           startingAt:0.0];
         
         [formattedGreekChapter addObject: 
             formattedText
@@ -364,13 +374,32 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     for (int i=0; i<[currentEnglishChapter count]; i++)
     {
         //NSLog (@"English side(%i): Formatting text...", i);
-        NSArray *formattedText = [PKBible formatText:[currentEnglishChapter objectAtIndex:i] 
-                                           forColumn:2 withBounds:self.view.bounds withParsings:parsed];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
+         || UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
+        {
+          greekHeightIPhone = 0.0;
+        }
+        else
+        {
+          if ( i < formattedGreekVerseHeights.count)
+          {
+            greekHeightIPhone = [formattedGreekVerseHeights[i] floatValue];
+          }
+          else
+          {
+            greekHeightIPhone = 0.0;
+          }
+        }
+
+        NSArray *formattedText = [PKBible formatText:[currentEnglishChapter objectAtIndex:i]
+                                           forColumn:2 withBounds:self.view.bounds withParsings:parsed
+                                           startingAt:greekHeightIPhone];
 
         [formattedEnglishChapter addObject: 
             formattedText
         ];
-        
+
+      
         //NSLog (@"English side(%i): End Format", i);
         [formattedEnglishVerseHeights addObject:
             [NSNumber numberWithFloat: [PKBible formattedTextHeight:formattedText withParsings:parsed]]
@@ -486,6 +515,12 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             [theLabelArray addObject:theLabel];
         }
         // insert English labels
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
+           && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]))
+        {
+          greekColumnWidth = 0;
+        }
+        
         for (int i=0; i<[formattedEnglishVerse count]; i++)
         {
 
@@ -653,6 +688,18 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     [self reloadTableCache];
 }
 
+- (void) bibleTextChanged
+{
+  leftTextSelect.title = [[PKBible titleForTextID:[[PKSettings instance] greekText]]  stringByAppendingString:@" ▾" ];
+  rightTextSelect.title = [[PKBible titleForTextID:[[PKSettings instance] englishText]]  stringByAppendingString:@" ▾" ];
+  
+  // this will have to change, but for now it will do.
+  toggleStrongsBtn.enabled = [[PKSettings instance] greekText] != PK_BIBLETEXT_TIS;
+  toggleMorphologyBtn.enabled = [[PKSettings instance] greekText] != PK_BIBLETEXT_TIS;
+  toggleTranslationBtn.enabled = [[PKSettings instance] greekText] == PK_BIBLETEXT_WHP;
+  
+}
+
 // ISSUE #61
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -678,6 +725,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
        [self calculateShadows];
        dirty = NO;
     }
+    [self bibleTextChanged];
     [self updateAppearanceForTheme];
 }
 
@@ -739,10 +787,10 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                                         target:self //self.parentViewController.parentViewController.parentViewController
                                         action:@selector(revealToggle:)];
 
-    if ([changeReference respondsToSelector:@selector(setTintColor:)])
-    {
-        changeReference.tintColor = [PKSettings PKBaseUIColor];
-    }
+    //if ([changeReference respondsToSelector:@selector(setTintColor:)])
+    //{
+    //    changeReference.tintColor = [PKSettings PKBaseUIColor];
+    //}
     changeReference.accessibilityLabel = __T(@"Go to passage");
     // need a highlight item
     changeHighlight = [[UIBarButtonItem alloc]
@@ -761,7 +809,6 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     {
         changeHighlight.title = ((PKSettings *)[PKSettings instance]).highlightTextColor;
     }
-    //TODO: Add buttons that disable G#, Morph, and Interlinear
   
     UIBarButtonItem *fontSelect = [[UIBarButtonItem alloc]
                                     initWithTitle:[NSString fontAwesomeIconStringForIconIdentifier:@"icon-font"]
@@ -771,6 +818,11 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                                    [UIColor whiteColor], UITextAttributeTextColor,
                                    [UIFont fontWithName:kFontAwesomeFamilyName size:22], UITextAttributeFont,
                                    nil] forState:UIControlStateNormal ];
+    fontSelect.accessibilityLabel = __T(@"Layout");
+  
+    leftTextSelect = [[UIBarButtonItem alloc]
+                                    initWithTitle:[[PKBible titleForTextID:[[PKSettings instance] greekText]]  stringByAppendingString:@" ▾" ]
+                                    style:UIBarButtonItemStylePlain target:self action:@selector(textSelect:)];
   
   
     if ([self.navigationItem respondsToSelector:@selector(setLeftBarButtonItems:)])
@@ -778,8 +830,9 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
       if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
       {
         self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:changeReference, 
+                                                                           fontSelect,
                                                                            changeHighlight,
-                                                                           fontSelect, nil];
+                                                                           leftTextSelect, nil];
       }
       else
       {
@@ -816,34 +869,43 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
                                    [UIColor whiteColor], UITextAttributeTextColor,
                                    [UIFont fontWithName:kFontAwesomeFamilyName size:22], UITextAttributeFont,
                                    nil] forState:UIControlStateNormal ];
-
-    if ([goFullScreen respondsToSelector:@selector(setTintColor:)])
-    {
-        goFullScreen.tintColor = [PKSettings PKBaseUIColor];
-    }
+    goFullScreen.accessibilityLabel = __T(@"Enter Full Screen");
+    //if ([goFullScreen respondsToSelector:@selector(setTintColor:)])
+    //{
+    //    goFullScreen.tintColor = [PKSettings PKBaseUIColor];
+    //}
   
     // build the toggle items
-    UIBarButtonItem *toggleStrongs = [[UIBarButtonItem alloc]
+    toggleStrongsBtn = [[UIBarButtonItem alloc]
                                       initWithTitle:@"#"
                                               style:UIBarButtonItemStylePlain
                                              target:self  action:@selector(toggleStrongs:)];
-
-    UIBarButtonItem *toggleMorphology = [[UIBarButtonItem alloc]
+    toggleStrongsBtn.accessibilityLabel = __T(@"Toggle Strong's Numbers");
+  
+    toggleMorphologyBtn = [[UIBarButtonItem alloc]
                                       initWithTitle:@"M"
                                               style:UIBarButtonItemStylePlain
                                              target:self  action:@selector(toggleMorphology:)];
+    toggleMorphologyBtn.accessibilityLabel = __T(@"Toggle Morphology");
 
-    UIBarButtonItem *toggleTranslation = [[UIBarButtonItem alloc]
+    toggleTranslationBtn = [[UIBarButtonItem alloc]
                                       initWithTitle:@"T"
                                               style:UIBarButtonItemStylePlain
                                              target:self  action:@selector(toggleTranslation:)];
+    toggleTranslationBtn.accessibilityLabel = __T(@"Toggle Translation");
   
     goFullScreen.accessibilityLabel = __T(@"Enter Full Screen");
+
+    rightTextSelect = [[UIBarButtonItem alloc]
+                                    initWithTitle:[[PKBible titleForTextID:[[PKSettings instance] englishText]]  stringByAppendingString:@" ▾" ]
+                                    style:UIBarButtonItemStylePlain target:self action:@selector(textSelect:)];
+
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
       self.navigationItem.rightBarButtonItems = @[ goFullScreen,
-                                                   toggleStrongs, toggleMorphology, toggleTranslation,
+                                                   toggleStrongsBtn, toggleMorphologyBtn, toggleTranslationBtn,
+                                                    rightTextSelect
                                                     ];
     }
     else
@@ -853,7 +915,8 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
   
     if ([changeHighlight respondsToSelector:@selector(setTintColor:)])
     {
-    changeHighlight.tintColor = [[PKSettings instance] highlightColor];
+      changeHighlight.tintColor = [[PKSettings instance] highlightColor];
+      changeHighlight.accessibilityLabel = __T(@"Highlight Color");
     }
    
 
@@ -1652,6 +1715,45 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 #pragma mark -
 #pragma mark miscellaneous selectors (called from popovers, buttons, etc.)
 
+-(void) textSelect: (id)sender
+{
+  NSArray *bibleTextNames;
+  NSString *title;
+  int theTag;
+  if (sender == leftTextSelect)
+  {
+    bibleTextIDs = [PKBible availableOriginalTexts:PK_TBL_BIBLES_ID];
+    bibleTextNames = [PKBible availableOriginalTexts:PK_TBL_BIBLES_NAME];
+    title = __T(@"Greek Text");
+    theTag = 1898;
+  }
+  else
+  {
+    bibleTextIDs = [PKBible availableHostTexts:PK_TBL_BIBLES_ID];
+    bibleTextNames = [PKBible availableHostTexts:PK_TBL_BIBLES_NAME];
+    title = __T(@"English Text");
+    theTag = 1899;
+  }
+
+  // dismiss our popover if we've got one
+  [ourPopover dismissWithClickedButtonIndex:-1 animated:YES];
+
+    UIActionSheet *theActionSheet = [[UIActionSheet alloc] init];
+    theActionSheet.title = title;
+    theActionSheet.delegate = self;
+  
+    for (int i=0; i<bibleTextIDs.count; i++)
+    {
+      [theActionSheet addButtonWithTitle:bibleTextNames[i]];
+    }
+  
+    [theActionSheet addButtonWithTitle:__T(@"Cancel")];
+    theActionSheet.cancelButtonIndex = bibleTextIDs.count;
+    theActionSheet.tag = theTag; // text chooser
+    ourPopover = theActionSheet;
+  
+    [theActionSheet showFromBarButtonItem:sender animated:YES];
+}
 -(void) textSettings: (id)sender
 {
   [self fontSelect:nil];
@@ -2143,6 +2245,34 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if (actionSheet.tag == 1899 || actionSheet.tag == 1898 )
+    {
+      // handle text changes
+      if (buttonIndex <0 || buttonIndex == bibleTextIDs.count)
+      {
+        // cancel; do nothing.
+        return;
+      }
+      
+      int theNewId = [bibleTextIDs[buttonIndex] intValue];
+      if (actionSheet.tag == 1898)
+      {
+        ((PKSettings *)[PKSettings instance]).greekText = theNewId;
+        leftTextSelect.title =  [[PKBible titleForTextID:theNewId] stringByAppendingString:@" ▾"];
+      }
+      else
+      {
+        ((PKSettings *)[PKSettings instance]).englishText = theNewId;
+        rightTextSelect.title = [[PKBible titleForTextID:theNewId]  stringByAppendingString:@" ▾"];
+      }
+      [[PKSettings instance] saveSettings];
+      [self bibleTextChanged];
+    
+      [self saveTopVerse];
+      [self loadChapter];
+      [self reloadTableCache];
+      [self scrollToTopVerseWithAnimation];
+    }
     if (actionSheet.tag == 1999)
     {
         // handle color change options
@@ -2177,6 +2307,7 @@ default:
         if ([changeHighlight respondsToSelector:@selector(setTintColor:)])
         {
             self.changeHighlight.tintColor = newColor;
+            changeHighlight.accessibilityLabel = [[__T(@"Highlight Color") stringByAppendingString:@" "] stringByAppendingString:textColor];
         }
         else
         { 

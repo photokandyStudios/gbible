@@ -60,6 +60,14 @@
 
     @property (strong, nonatomic) UIPopoverController *PO;
     //@property (strong, nonatomic) FWTPopoverView *popoverView;
+
+    @property (strong, nonatomic) UIBarButtonItem *toggleStrongsBtn;
+    @property (strong, nonatomic) UIBarButtonItem *toggleMorphologyBtn;
+    @property (strong, nonatomic) UIBarButtonItem *toggleTranslationBtn;
+
+    @property (strong, nonatomic) UIBarButtonItem *leftTextSelect;
+    @property (strong, nonatomic) UIBarButtonItem *rightTextSelect;
+    @property (strong, nonatomic) NSArray *bibleTextIDs;
     -(void)notifyNoteChanged;
     
 @end
