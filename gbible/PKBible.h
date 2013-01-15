@@ -12,7 +12,7 @@
 
     +(NSArray *) availableOriginalTexts: (int)column;
     +(NSArray *) availableHostTexts: (int)column;
-
+  +(NSString *) titleForTextID: (int)theText;
     +(NSString *) nameForBook: (int)theBook;
     +(NSString *) numericalThreeLetterCodeForBook: (int)theBook;
     +(NSString *) abbreviationForBook: (int)theBook;
@@ -39,7 +39,8 @@
 
     // formatting routines
     +(CGFloat)formattedTextHeight: (NSArray *)theWordArray withParsings:(BOOL)parsed;
-    +(NSArray *)formatText: (NSString *)theText forColumn: (int)theColumn withBounds: (CGRect)theRect withParsings: (BOOL)parsed;
+    +(NSArray *)formatText: (NSString *)theText forColumn: (int)theColumn withBounds: (CGRect)theRect withParsings: (BOOL)parsed
+                startingAt: (CGFloat)initialY;
     +(CGFloat) columnWidth: (int) theColumn forBounds: (CGRect)theRect;
     +(NSString *)transliterate: (NSString*)theWord;
 @end

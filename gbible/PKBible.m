@@ -49,6 +49,18 @@
     // really a misnomer; we should allow the reader to choose any language edition of their choosing.
   }
 
+  +(NSString *) titleForTextID: (int)theText
+  {
+    FMDatabase *db = [[PKDatabase instance] bible];
+    FMResultSet *s = [db executeQuery:@"select bibleName from bibles where bibleID=?", @(theText)];
+    
+    if ([s next])
+    {
+      return [s stringForColumnIndex:0];
+    }
+    return @"";
+  }
+
 
 /**
  *
@@ -270,8 +282,8 @@
             theText = [s stringForColumnIndex:0];
         }
         
-        if (theSide == 2)
-        {
+        //if (theSide == 2)
+        //{
             if (theText != nil)
             {
                 theText = [theRef stringByAppendingString:theText];
@@ -280,7 +292,7 @@
             {
                 theText = theRef;
             }
-        }
+        //}
         theText = [theText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([[PKSettings instance] transliterateText])
             {
@@ -313,10 +325,10 @@
         {
             NSString *theText = [s stringForColumnIndex:0];
             NSString *theRef = [NSString stringWithFormat:@"%i ", i];
-            if (theSide == 2)
-            {
+           // if (theSide == 2)
+           // {
                 theText = [theRef stringByAppendingString:theText];
-            }
+           // }
             theText = [theText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
             if ([[PKSettings instance] transliterateText])
             {
@@ -462,6 +474,7 @@
  */
     +(CGFloat) columnWidth: (int) theColumn forBounds: (CGRect)theRect
     {
+    
         // set Margin
         CGFloat theMargin = 5;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
@@ -469,6 +482,14 @@
             // iPad gets wider margins
             theMargin = 44;
         }
+
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
+         && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]))
+        {
+          return (theRect.size.width);
+//          return ((theRect.size.width) - (theMargin));
+        }
+
         // define our column (based on incoming rect)
         float columnMultiplier = 1;
         int columnSetting = [[PKSettings instance] layoutColumnWidths];
@@ -526,12 +547,7 @@
       if ( [theWord hasPrefix:@"PRT-"]) return YES;
       if ( [theWord hasPrefix:@"ADV-"]) return YES;
       if ( [theWord hasPrefix:@"COND-"]) return YES;
-      
-      /*if ([theWord isEqualToString:@"N"])
-      {
-        NSLog (@"Here");
-      }*/
-      
+            
       NSString *morphWords = @" Adv Adj N V Heb Conj Prep Prtcl Prt Cond Inj ADV ADJ HEB CONJ PREP PRTCL PRT COND ARAM INJ ";
       if ( [morphWords rangeOfString:[NSString stringWithFormat:@" %@ ", theWord]].location != NSNotFound)
       {
@@ -543,144 +559,12 @@
     +(NSString *)transliterate: (NSString*)theWord
     {
         // See what we can do about using CFStringTransform...
-        //NSString *theWordND = [theWord stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
         NSMutableString *myMString = [theWord mutableCopy];
         CFMutableStringRef myCFString = (__bridge CFMutableStringRef)myMString;
         CFStringTransform( myCFString, NULL, kCFStringTransformToLatin, false);
       
         return myMString;
     
-    /*
-        NSString *theWordND = [theWord stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
-      
-        if ([theWordND isEqualToString:@""])
-        {
-          return [theWordND mutableCopy];
-        }
-      
-        NSMutableString *theNewWord = [[NSMutableString alloc] initWithCapacity:[theWordND length]];
-      
-        NSString *ccSource = @"γγ/γξ/γκ/γχ/";
-        NSString *ccTarget = @"ng nx nk nch";
-      
-        NSString *scSource = @"' α Α β Β γ Γ δ Δ ε Ε ζ Ζ η Η θ Θ ι Ι κ Κ λ Λ μ Μ ν Ν ξ Ξ ο Ο π Π ρ Ρ σ Σ ς τ Τ υ Υ φ Φ χ Χ ψ Ψ ω Ω ";
-        NSString *scTarget = @"h a A b B g G d D e E z Z e E thThi I k K l L m M n N c C o O p P r R s S s t T u U phPhchChpsPso O ";
-      
-        BOOL ignoreNext = NO;
-        int l = [theWordND length];
-        for (int i=0; i<l; i++)
-        {
-          if (!ignoreNext)
-          {
-          
-            //@try
-            {
-              NSString *ccChar;
-              
-              if (i<(l-1))
-              {
-                ccChar = [theWordND substringWithRange:NSMakeRange(i, 2)] ;
-              }
-              else
-              {
-                ccChar = @"zzz";
-              }
-              
-              NSString *scChar = [theWordND substringWithRange:NSMakeRange(i, 1)];
-
-              if (![scChar isEqualToString:@" "])
-              {
-                NSRange ccRange = [ccSource rangeOfString:ccChar];
-                NSRange scRange = [scSource rangeOfString:scChar];
-                
-                if ( ccRange.location != NSNotFound )
-                {
-                  ignoreNext = YES;
-                  ccRange.length = 3;
-                  [theNewWord appendString: [[ccTarget substringWithRange:ccRange] stringByReplacingOccurrencesOfString:@" " withString:@"" ]];
-                }
-                else if ( scRange.location != NSNotFound )
-                {
-                  ignoreNext = NO;
-                  scRange.length = 2;
-                  [theNewWord appendString: [[scTarget substringWithRange:scRange] stringByReplacingOccurrencesOfString:@" " withString:@"" ]];
-                }
-                else
-                {
-                  ignoreNext = NO;
-                  [theNewWord appendString:scChar];
-                }
-              }
-              else
-              {
-                  ignoreNext = NO;
-                  [theNewWord appendString:scChar];
-              }
-            }
-          //  @catch (NSException *e)
-          //  {
-          //    NSLog (@"Exception.");
-          //  }
-          }
-          else
-          {
-            ignoreNext = NO;
-          }
-        }
-      */
-/*        NSDictionary *ccMatrix = @{
-                                    @"γγ": @"ng",
-                                    @"γξ": @"nx",
-                                    @"γκ": @"nk",
-                                    @"γχ": @"nch"
-                                  };
-        NSDictionary *scMatrix = @{
-                                 @"῾":@"h",
-                                 @"ῥ":@"rh",
-                                 @"α":@"a", @"Α":@"A",
-                                 @"β":@"b", @"Β":@"B",
-                                 @"γ":@"g", @"Γ":@"G",
-                                 @"δ":@"d", @"Δ":@"D",
-                                 @"ε":@"e", @"Ε":@"E",
-                                 @"ζ":@"z", @"Ζ":@"Z",
-                                 @"η":@"e", @"Η":@"E",
-                                 @"θ":@"th",@"Θ":@"Th",
-                                 @"ι":@"i", @"Ι":@"I",
-                                 @"κ":@"k", @"Κ":@"K",
-                                 @"λ":@"l", @"Λ":@"L",
-                                 @"μ":@"m", @"Μ":@"M",
-                                 @"ν":@"n", @"Ν":@"N",
-                                 @"ξ":@"c", @"Ξ":@"C",
-                                 @"ο":@"o", @"Ο":@"O",
-                                 @"π":@"p", @"Π":@"P",
-                                 @"ρ":@"r", @"Ρ":@"R",
-                                 @"σ":@"s", @"Σ":@"S",
-                                 @"ς":@"s",
-                                 @"τ":@"t", @"Τ":@"T",
-                                 @"υ":@"u", @"Υ":@"U",
-                                 @"φ":@"ph",@"Φ":@"Ph",
-                                 @"χ":@"ch",@"Χ":@"Ch",
-                                 @"ψ":@"ps",@"Ψ":@"Ps",
-                                 @"ω":@"o", @"Ω":@"O"
-                                 };
-        NSArray *theCCKeys = [ccMatrix allKeys];
-        NSArray *theSCKeys = [scMatrix allKeys];
-      
-        for ( int i=0; i<[theCCKeys count]; i++)
-        {
-            [theNewWord replaceOccurrencesOfString:theCCKeys[i]
-                        withString:ccMatrix[theCCKeys[i]]
-                        options:0 range:NSMakeRange(0,[theNewWord length])];
-        }
-        for ( int i=0; i<[theSCKeys count]; i++)
-        {
-            [theNewWord replaceOccurrencesOfString:theSCKeys[i]
-                        withString:scMatrix[theSCKeys[i]]
-                        options:0 range:NSMakeRange(0,[theNewWord length])];
-        }
-*/
-        
-      //  return theNewWord;
     }
     
 /**
@@ -690,11 +574,8 @@
  *
  */
     +(NSArray *)formatText: (NSString *)theText forColumn: (int)theColumn withBounds: (CGRect)theRect withParsings: (BOOL)parsed
-    {/*
-    if ( [theText rangeOfString:@"Abraam"].location != NSNotFound)
+                startingAt: (CGFloat)initialY
     {
-      NSLog (@"Here");
-    }*/
         // should we include the morphology?
         BOOL showMorphology = [[PKSettings instance] showMorphology];
         BOOL showStrongs = [[PKSettings instance] showStrongs];
@@ -779,6 +660,9 @@
         // determine the maximum size of the column (1 line, 2 lines, 3 lines?)
         CGFloat columnHeight = lineHeight;
         columnHeight += (lineHeight * [[PKSettings instance] textVerseSpacing]);
+        if (theColumn == 1 || UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ||
+         UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
+        {
         if (parsed)
         {
             // are we going to show morphology?
@@ -795,11 +679,13 @@
                 columnHeight += lineHeight;
             }
         }
+        }
       
         CGFloat yOffset = 0.0;
         
         // give us some margin at the top
         startY = lineHeight / 2; //RE: ISSUE # 5
+        startY += initialY; // new formatting for iPhone;
         curY = startY; //RE: ISSUE # 5
         
         // iterate through each word and wrap where necessary, building an
@@ -830,17 +716,6 @@
               thePriorWordArray = [theWordArray lastObject];
             }
           
-         /* if ([theWord isEqualToString:@"Abraam"])
-          {
-            NSLog (@"Here");
-          }*/
-          
-            // transliterate?
-            //if (transliterate)
-            //{
-            //    theWord = [self transliterate:theWord];
-            //}
-            
             // and its size
             CGSize theSize;
             
@@ -849,11 +724,6 @@
             theWordType = 0;    // by default, we're a regular word
             yOffset = 0.0;
           
-/*          if ([theWord isEqualToString:@"N"])
-          {
-            NSLog (@"Here");
-          }
-*/            
             if (theColumn == 1 ) // we only do this for greek text
             {
                 // originally we used regular expressions, but they are SLOW
