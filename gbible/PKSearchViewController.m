@@ -98,7 +98,7 @@
     theSearchBar.delegate = self;
     theSearchBar.placeholder = __T(@"Search Term");
     theSearchBar.showsCancelButton = NO;
-    theSearchBar.tintColor = [PKSettings PKBaseUIColor];
+    //theSearchBar.tintColor = [PKSettings PKBaseUIColor];
 
     
     self.tableView.tableHeaderView = theSearchBar;
@@ -121,14 +121,14 @@
                                         target:self.parentViewController.parentViewController.parentViewController
                                         action:@selector(revealToggle:)];
 
-    if ([changeReference respondsToSelector:@selector(setTintColor:)])
-    {
-        changeReference.tintColor = [PKSettings PKBaseUIColor];
-    }
+    //if ([changeReference respondsToSelector:@selector(setTintColor:)])
+    //{
+    //    changeReference.tintColor = [PKSettings PKBaseUIColor];
+    //}
     changeReference.accessibilityLabel = __T(@"Go to passage");
     self.navigationItem.leftBarButtonItem = changeReference;
 
-    CGRect theRect = CGRectMake(0, self.tableView.center.y + 40, self.tableView.bounds.size.width, 60);
+    CGRect theRect = CGRectMake(0, self.tableView.center.y + 60, self.tableView.bounds.size.width, 60);
     noResults = [[UILabel alloc] initWithFrame:theRect];
     noResults.textColor = [PKSettings PKTextColor];
     noResults.font = [UIFont fontWithName:@"Zapfino" size:15];
@@ -286,9 +286,9 @@
 
     theHeight += 10; // the top margin
 
-    theLeftSize = [[NSString stringWithFormat:@"%@ %i:%i %@\n\n",
+    theLeftSize = [[NSString stringWithFormat:@"%@ %i:%@\n\n",
                                                     [PKBible nameForBook:theBook],
-                                                    theChapter, theVerse,
+                                                    theChapter, //theVerse,
                                                     [PKBible getTextForBook:theBook 
                                                                  forChapter:theChapter 
                                                                    forVerse:theVerse 
@@ -338,10 +338,10 @@
     CGFloat theColumnWidth = (theCellWidth) / 2;
     CGSize maxSize = CGSizeMake ( theColumnWidth - 40, 100000 );
 
-    CGSize theLeftSize = [[NSString stringWithFormat:@"%@ %i:%i %@\n\n",
+    CGSize theLeftSize = [[NSString stringWithFormat:@"%@ %i:%@\n\n",
                                                     [PKBible nameForBook:theBook],
                                                     theChapter,
-                                                    theVerse,
+                                                    //theVerse,
                                                     [PKBible getTextForBook:theBook 
                                                                  forChapter:theChapter 
                                                                    forVerse:theVerse 
@@ -363,9 +363,9 @@
     PKHotLabel *theLeftSide = [[PKHotLabel alloc] initWithFrame:CGRectMake(20, 10, theColumnWidth-40, theLeftSize.height)];
     theLeftSide.hotColor = [PKSettings PKStrongsColor];
     theLeftSide.hotWord = self.theSearchTerm;
-    theLeftSide.text = [NSString stringWithFormat:@"%@ %i:%i %@ ",
+    theLeftSide.text = [NSString stringWithFormat:@"%@ %i:%@ ",
                                                     [PKBible nameForBook:theBook],
-                                                    theChapter, theVerse,
+                                                    theChapter, //theVerse,
                                                     [PKBible getTextForBook:theBook 
                                                                  forChapter:theChapter 
                                                                    forVerse:theVerse 
