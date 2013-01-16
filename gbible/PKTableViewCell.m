@@ -12,6 +12,8 @@
 @implementation PKTableViewCell
 
 @synthesize labels;
+@synthesize highlightColor;
+@synthesize selectedColor;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -19,6 +21,8 @@
     if (self) {
         // Initialization code
         labels = nil;
+        highlightColor = nil;
+        selectedColor = nil;
     }
     return self;
 }
@@ -32,11 +36,47 @@
 
 - (void)drawRect:(CGRect)rect
 {
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(ctx);
+      // draw our highlight/select colors
+      if (selectedColor)
+      {
+        [selectedColor set];
+        CGContextFillRect(ctx, rect);
+      }
+  
+      if (highlightColor)
+      {
+        CGContextSetLineWidth(ctx, 1.0);
+        [highlightColor set];
+        CGRect newRect;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+          newRect = CGRectMake(rect.origin.x+5, rect.origin.y+5, 30, rect.size.height-10);
+        }
+        else
+        {
+          newRect = CGRectMake(rect.origin.x + rect.size.width - 40, rect.origin.y + 10, 30, 30);
+        }
+        UIBezierPath *roundRect = [UIBezierPath bezierPathWithRoundedRect:newRect cornerRadius:6];
+        [roundRect fill];
+        
+        [[UIColor colorWithWhite:0.0 alpha:0.33] set];
+        CGRect insetRect = CGRectInset(newRect, -0.5, -0.5);
+        
+        roundRect = [UIBezierPath bezierPathWithRoundedRect:insetRect cornerRadius:6];
+        [roundRect stroke];
+        
+      
+      }
+  
+    CGContextRestoreGState(ctx);
+
     // do our regular drawing (for subviews and such)
     [super drawRect:rect];
     
     // now do our quick label drawing
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    ctx = UIGraphicsGetCurrentContext();
     CGContextSaveGState(ctx);
     {
         if (labels)
