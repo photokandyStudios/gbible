@@ -11,3 +11,21 @@ gbible/PKBibleViewController~.m
 gbible/PKBibleViewController.oldm
 
 *.oldm
+
+.idea/.name
+
+.idea/encodings.xml
+
+.idea/gbible.iml
+
+.idea/misc.xml
+
+.idea/modules.xml
+
+.idea/scopes/scope_settings.xml
+
+.idea/vcs.xml
+
+.idea/workspace.xml
+
+.idea/xcode.xml
