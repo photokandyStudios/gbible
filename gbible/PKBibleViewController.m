@@ -993,6 +993,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
         //if (action == @selector(_accessibilitySpeak:)) { return NO; }
 // ISSUE #61
         if (action == @selector(copy:))    { return YES; }
+        if (action == @selector(selectAll:)){ return YES; }
 //        if (action == @selector(copySelection:))    { return YES; }
         if (action == @selector(doAnnotate:))      { return YES; }
         if (action == @selector(defineWord:))       { //return selectedWord!=nil && theWordTag != 0;
@@ -1235,6 +1236,8 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
  */
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    PKTableViewCell *pkCell = (PKTableViewCell *)cell;
+
     // determine if the cell is selected
     NSUInteger row = [indexPath row];
     BOOL curValue;
@@ -1247,22 +1250,22 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 
     if (curValue)
     {
-        cell.backgroundColor = [PKSettings PKSelectionColor];
+        pkCell.selectedColor = [PKSettings PKSelectionColor];
     }
-    else 
+    else
     {
-        // are we highlighted?
-        
-        if ([highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1] ]!=nil)
-        {
-            cell.backgroundColor = [highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1]];
-        }
-        else // not highlighted, be transparent.
-        {
-            cell.backgroundColor = self.tableView.backgroundColor;
-        }
+        pkCell.selectedColor = nil;
     }
-    
+    // are we highlighted?
+    if ([highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1] ]!=nil)
+    {
+        pkCell.highlightColor = [highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1]];
+    }
+    else // not highlighted, be transparent.
+    {
+        pkCell.highlightColor = nil;
+    }
+  
     /*
     // all our subviews need to change to the background color
     for (UIView *view in cell.subviews)
@@ -1417,7 +1420,7 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     NSUInteger currentBook = [[PKSettings instance] currentBook];
     NSUInteger currentChapter = [[PKSettings instance] currentChapter];
     NSString *passage = [PKBible stringFromBook:currentBook forChapter:currentChapter forVerse:row+1];
-    UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
+    PKTableViewCell *newCell = (PKTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     
     // toggle the selection state
 
@@ -1427,29 +1430,23 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 
     if (curValue)
     {
-        newCell.backgroundColor = [PKSettings PKSelectionColor];
+        newCell.selectedColor = [PKSettings PKSelectionColor];
     }
-    else 
+    else
     {
-        // are we highlighted?
-        
-        if ([highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1] ]!=nil)
-        {
-            newCell.backgroundColor = [highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1]];
-        }
-        else // not highlighted, be transparent.
-        {
-            newCell.backgroundColor = self.tableView.backgroundColor;
-        }
-
+        newCell.selectedColor = nil;
     }
-    /*
-    for (UIView *view in newCell.subviews)
+    // are we highlighted?
+    if ([highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1] ]!=nil)
     {
-        view.backgroundColor = newCell.backgroundColor;
-
+        newCell.highlightColor = [highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1]];
     }
-    */
+    else // not highlighted, be transparent.
+    {
+        newCell.highlightColor = nil;
+    }
+    [newCell setNeedsDisplay];
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -1611,21 +1608,29 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
             
             selectedPassage = passage;
             
-            UITableViewCell *newCell = [self.tableView cellForRowAtIndexPath:indexPath];
+            PKTableViewCell *newCell = (PKTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
             [selectedVerses setObject:[NSNumber numberWithBool:YES] forKey:passage];
             curValue = [[selectedVerses objectForKey:passage] boolValue];
+          
             if (curValue)
             {
-                newCell.backgroundColor = [PKSettings PKSelectionColor];
+                newCell.selectedColor = [PKSettings PKSelectionColor];
             }
-            else 
+            else
             {
-                newCell.backgroundColor = self.tableView.backgroundColor;
+                newCell.selectedColor = nil;
             }
-            for (UIView *view in newCell.subviews)
+            // are we highlighted?
+            if ([highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1] ]!=nil)
             {
-                view.backgroundColor = [UIColor clearColor]; //newCell.backgroundColor;
+                newCell.highlightColor = [highlightedVerses objectForKey:[NSString stringWithFormat:@"%i",row+1]];
             }
+            else // not highlighted, be transparent.
+            {
+                newCell.highlightColor = nil;
+            }
+            [newCell setNeedsDisplay];
+
             if (selectedWord != nil)
             {
                 // highlight the word we got
@@ -1717,6 +1722,10 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
 
 -(void) textSelect: (id)sender
 {
+  if (PO)
+  {
+    [PO dismissPopoverAnimated:NO];
+  }
   NSArray *bibleTextNames;
   NSString *title;
   int theTag;
@@ -1868,6 +1877,28 @@ Connectivity testing code pulled from Apple's Reachability Example: http://devel
     
 }
 
+
+-(void) selectAll: (id)sender
+{
+  selectedVerses = [[NSMutableDictionary alloc] init]; // clear selection
+
+  int currentGreekVerseCount = [currentGreekChapter count];
+  int currentEnglishVerseCount = [currentEnglishChapter count];
+  int currentVerseCount = MAX(currentGreekVerseCount, currentEnglishVerseCount);
+  
+  // add all the verses to the selection
+  for (int i=0; i<currentVerseCount; i++)
+  {
+    NSUInteger currentBook = [[PKSettings instance] currentBook];
+    NSUInteger currentChapter = [[PKSettings instance] currentChapter];
+    NSString *passage = [PKBible stringFromBook:currentBook forChapter:currentChapter forVerse:i+1];
+  
+    [selectedVerses setObject:[NSNumber numberWithBool:YES] forKey:passage];
+  }
+
+  [self reloadTableCache];
+
+}
 /**
  *
  * When "Highlight" is pressed on the menu, we need to present new options.
