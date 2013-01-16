@@ -9,26 +9,25 @@
 #import <UIKit/UIKit.h>
 #import "PKHotLabelDelegate.h"
 
-typedef BOOL (^PKCompareBlock) (NSString *theWord);
+typedef BOOL (^PKCompareBlock)(NSString * theWord);
 
 @interface PKHotLabel : UILabel
 {
-  @private
+@private
   NSMutableArray *hotWords;
   NSMutableArray *hotWordsRect;
 }
 
+@property (nonatomic, assign) id <PKHotLabelDelegate> delegate;
+@property (nonatomic, strong) UIColor *hotColor;
+@property (nonatomic, strong) UIColor *hotBackgroundColor;
+@property (nonatomic, strong) NSString *hotWord;
 
-@property ( nonatomic, assign) id<PKHotLabelDelegate> delegate;
-@property ( nonatomic, strong) UIColor *hotColor;
-@property ( nonatomic, strong) UIColor *hotBackgroundColor;
-@property ( nonatomic, strong) NSString *hotWord;
-
-@property ( nonatomic, strong) UIFont *hotFont;
+@property (nonatomic, strong) UIFont *hotFont;
 @property BOOL boldFontWhenhot;
 
-@property ( nonatomic, strong) PKCompareBlock hotComparator;
+@property (nonatomic, strong) PKCompareBlock hotComparator;
 
-- (NSString *)wordFromPoint: (CGPoint)thePoint;
+-(NSString *)wordFromPoint: (CGPoint) thePoint;
 
 @end

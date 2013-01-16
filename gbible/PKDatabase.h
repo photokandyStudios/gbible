@@ -11,16 +11,16 @@
 
 @interface PKDatabase : NSObject
 
-    @property (readonly, strong, nonatomic) FMDatabase *bible;
-    @property (readonly, strong, nonatomic) FMDatabase *content;
-    
-    +(id) instance;
-    -(id) init;
-    -(void) dealloc;
-    
-    -(BOOL) importNotes;
-    -(BOOL) importHighlights;
-    -(BOOL) importSettings;
-    -(BOOL) exportAll; 
+@property (readonly, strong, nonatomic) FMDatabase *bible;
+@property (readonly, strong, nonatomic) FMDatabase *content;
+
++(id)   instance;
+-(id)   init;
+-(void) dealloc;
+
+-(BOOL) importNotes;
+-(BOOL) importHighlights;
+-(BOOL) importSettings;
+-(BOOL) exportAll;
 
 @end

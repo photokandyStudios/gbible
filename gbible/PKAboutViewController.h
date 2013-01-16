@@ -10,6 +10,6 @@
 
 @interface PKAboutViewController : UIViewController <UIWebViewDelegate, UIScrollViewDelegate>
 
-    @property (nonatomic, strong) UIWebView *aboutWebView;
-    
+@property (nonatomic, strong) UIWebView *aboutWebView;
+
 @end

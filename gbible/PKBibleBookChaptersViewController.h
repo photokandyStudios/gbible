@@ -10,8 +10,8 @@
 
 @interface PKBibleBookChaptersViewController : UITableViewController
 
-    - (id)initWithBook: (int) theBook;
-    
-    @property int selectedBook;
+-(id)initWithBook: (int) theBook;
+
+@property int selectedBook;
 
 @end

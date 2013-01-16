@@ -10,9 +10,9 @@
 
 @interface PKBibleBookChapterVersesViewController : UITableViewController
 
-    @property int selectedBook;
-    @property int selectedChapter;
-    
-    -(id)initWithBook: (int)theBook withChapter: (int)theChapter;
+@property int selectedBook;
+@property int selectedChapter;
+
+-(id)initWithBook: (int) theBook withChapter: (int) theChapter;
 
 @end

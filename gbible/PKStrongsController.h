@@ -11,26 +11,26 @@
 
 @interface PKStrongsController : UITableViewController <UISearchBarDelegate, PKHotLabelDelegate>
 
-    @property (strong, nonatomic) NSString * theSearchTerm;
-    
-    @property (strong, nonatomic) NSArray * theSearchResults;
-    
-    @property (strong, nonatomic) UISearchBar *theSearchBar;
-    
-    @property (strong, nonatomic) UIButton *clickToDismiss;
-    
-    @property (strong, nonatomic) UILabel *noResults;
+@property (strong, nonatomic) NSString *theSearchTerm;
 
-    @property (strong, nonatomic) UIFont *theFont;
-    @property (strong, nonatomic) UIFont *theBigFont;
-    
-    @property BOOL byKeyOnly;
-    
-    @property (strong, nonatomic) UIMenuController *ourMenu;
-    @property (strong, nonatomic) NSString *selectedWord;
-    @property NSUInteger selectedRow;
+@property (strong, nonatomic) NSArray *theSearchResults;
 
-    -(void)doSearchForTerm: (NSString *)theTerm;
-    -(void)doSearchForTerm:(NSString *)theTerm byKeyOnly:(BOOL)keyOnly;
-    
+@property (strong, nonatomic) UISearchBar *theSearchBar;
+
+@property (strong, nonatomic) UIButton *clickToDismiss;
+
+@property (strong, nonatomic) UILabel *noResults;
+
+@property (strong, nonatomic) UIFont *theFont;
+@property (strong, nonatomic) UIFont *theBigFont;
+
+@property BOOL byKeyOnly;
+
+@property (strong, nonatomic) UIMenuController *ourMenu;
+@property (strong, nonatomic) NSString *selectedWord;
+@property NSUInteger selectedRow;
+
+-(void)doSearchForTerm: (NSString *) theTerm;
+-(void)doSearchForTerm: (NSString *) theTerm byKeyOnly: (BOOL) keyOnly;
+
 @end

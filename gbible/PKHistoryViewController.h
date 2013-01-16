@@ -10,9 +10,9 @@
 
 @interface PKHistoryViewController : UITableViewController
 
-    @property (strong, nonatomic) NSArray *history;
-    @property (strong, nonatomic) UILabel *noResults;
-    
-    -(void)reloadHistory;
+@property (strong, nonatomic) NSArray *history;
+@property (strong, nonatomic) UILabel *noResults;
+
+-(void)reloadHistory;
 
 @end

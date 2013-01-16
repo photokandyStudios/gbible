@@ -12,7 +12,7 @@
 
 @protocol PKHotLabelDelegate <NSObject>
 
-  @required
--(void)label: (PKHotLabel *)label didTapWord: (NSString *)theWord;
+@required
+-(void)label: (PKHotLabel *) label didTapWord: (NSString *) theWord;
 
 @end

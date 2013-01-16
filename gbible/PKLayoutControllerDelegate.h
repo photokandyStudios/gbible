@@ -12,7 +12,7 @@
 
 @protocol PKLayoutControllerDelegate <NSObject>
 
-  @required
-  -(void) didChangeLayout: (PKLayoutController *)sender;
+@required
+-(void) didChangeLayout: (PKLayoutController *) sender;
 
 @end

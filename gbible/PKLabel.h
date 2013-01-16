@@ -10,19 +10,19 @@
 
 @interface PKLabel : NSObject
 
-    @property CGRect frame;
-    @property CGSize shadowOffset;
-    @property int tag;
-    @property int secondTag;
-    @property (nonatomic, strong) NSString * text;
-    @property (nonatomic, strong) UIColor * textColor;
-    @property (nonatomic, strong) UIColor * backgroundColor;
-    @property (nonatomic, strong) UIColor * shadowColor;
-    @property (nonatomic, strong) UIFont * font;
-    
-    -(id) init;
-    -(id) initWithFrame:(CGRect) theFrame;
-    -(void) draw:(CGContextRef) theCtx;
-    -(void) dealloc;
+@property CGRect frame;
+@property CGSize shadowOffset;
+@property int tag;
+@property int secondTag;
+@property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) UIColor *textColor;
+@property (nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, strong) UIColor *shadowColor;
+@property (nonatomic, strong) UIFont *font;
+
+-(id)   init;
+-(id)   initWithFrame: (CGRect) theFrame;
+-(void) draw: (CGContextRef) theCtx;
+-(void) dealloc;
 
 @end

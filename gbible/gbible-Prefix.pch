@@ -11,40 +11,29 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
-    
+
     #import "TestFlight.h"
 
-    #define PKWait(block)     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,100000),dispatch_get_current_queue(), ^{ block })
-    #define PKWaitDelay(dly, block)     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,dly*100000),dispatch_get_current_queue(), ^{ block })
+    #define PKWait(block)     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 100000), dispatch_get_current_queue(), ^{ block } \
+                                             )
+    #define PKWaitDelay(dly, block)     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, dly * 100000), \
+                                                       dispatch_get_current_queue(), ^{ block } \
+                                                       )
 
-//    #define PKSelectionColor        [UIColor colorWithRed:0.875 green:0.9325 blue:1.0 alpha:1.0]
-//    #define PKSelectionColor        [UIColor colorWithRed:0.8125 green:0.800781 blue:0.773437 alpha:1.0]
-//    #define PKWordSelectColor       [UIColor whiteColor]
-//    #define PKPageColor             [UIColor colorWithRed:0.945098 green:0.933333 blue:0.898039 alpha:1]
-//    #define PKTextColor             [UIColor colorWithRed:0.341176 green:0.223529 blue:0.125490 alpha:1.0]
-//    #define PKStrongsColor          [UIColor colorWithRed:0.125490 green:0.250980 blue:0.341176 alpha:1.0]
-//    #define PKMorphologyColor       [UIColor colorWithRed:0.188235 green:0.341176 blue:0.125490 alpha:1.0]
-//    #define PKInterlinearColor      [UIColor colorWithRed:0.333333 green:0.333333 blue:0.333333 alpha:1.0]
-//    #define PKAnnotationColor       [UIColor colorWithRed:.313725 green:0.125490 blue:0.380392 alpha:1.0]
-//    #define PKBaseUIColor           [UIColor colorWithRed:0.250980 green:0.282352 blue:0.313725 alpha:1.0]
-//    #define PKYellowHighlightColor  [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:0.5]
-//    #define PKGreenHighlightColor   [UIColor colorWithRed:0.5 green:1.0 blue:0.5 alpha:0.5]
-//    #define PKBlueHighlightColor    [UIColor colorWithRed:0.5 green:0.75 blue:1.0 alpha:0.5]
-//    #define PKPinkHighlightColor    [UIColor colorWithRed:1.0 green:0.75 blue:0.75 alpha:0.5]
-//    #define PKMagentaHighlightColor [UIColor colorWithRed:1.0 green:0.5 blue:1.0 alpha:0.5]
-//    #define PKLightShadowColor      [UIColor colorWithWhite:1.0 alpha:0.25]
-    
 #endif
 
 //for localization:
-#define __T(k)        [[NSBundle mainBundle] localizedStringForKey:k value:k table:nil]
-#define __Tv(k,v)      [[NSBundle mainBundle] localizedStringForKey:k value:v table:nil]
-#define __Tvt(k,v,t)    [[NSBundle mainBundle] localizedStringForKey:k value:v table:t]
+#define __T(k)        [[NSBundle mainBundle] localizedStringForKey : k value : k table : nil]
+#define __Tv(k, v)      [[NSBundle mainBundle] localizedStringForKey : k value : v table : nil]
+#define __Tvt(k, v, t)    [[NSBundle mainBundle] localizedStringForKey : k value : v table : t]
 
-
-
-#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
-#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
-#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
-#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare: v options: NSNumericSearch] \
+                                                     == NSOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare: v options: NSNumericSearch] \
+                                                     == NSOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare: v options: NSNumericSearch] \
+                                                     != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare: v options: NSNumericSearch] \
+                                                     == NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare: v options: NSNumericSearch] \
+                                                     != NSOrderedDescending)

@@ -46,17 +46,17 @@ extern int const PK_CW_WIDEENGLISH;
 extern int const PK_CW_EQUAL;
 
 // setting constants
-extern NSString * const PK_SETTING_LINESPACING;
-extern NSString * const PK_SETTING_VERSESPACING;
-extern NSString * const PK_SETTING_COLUMNWIDTHS;
-extern NSString * const PK_SETTING_GREEKTEXT;
-extern NSString * const PK_SETTING_ENGLISHTEXT;
-extern NSString * const PK_SETTING_TRANSLITERATE;
-extern NSString * const PK_SETTING_SHOWMORPHOLOGY;
-extern NSString * const PK_SETTING_INLINENOTES;
-extern NSString * const PK_SETTING_FONTSIZE;
-extern NSString * const PK_SETTING_FONTFACE;
-extern NSString * const PK_SETTING_USEICLOUD;
+extern NSString *const PK_SETTING_LINESPACING;
+extern NSString *const PK_SETTING_VERSESPACING;
+extern NSString *const PK_SETTING_COLUMNWIDTHS;
+extern NSString *const PK_SETTING_GREEKTEXT;
+extern NSString *const PK_SETTING_ENGLISHTEXT;
+extern NSString *const PK_SETTING_TRANSLITERATE;
+extern NSString *const PK_SETTING_SHOWMORPHOLOGY;
+extern NSString *const PK_SETTING_INLINENOTES;
+extern NSString *const PK_SETTING_FONTSIZE;
+extern NSString *const PK_SETTING_FONTFACE;
+extern NSString *const PK_SETTING_USEICLOUD;
 
 extern int const PK_TBL_BIBLES_ABBREVIATION;
 extern int const PK_TBL_BIBLES_ATTRIBUTION;
@@ -64,7 +64,5 @@ extern int const PK_TBL_BIBLES_SIDE;
 extern int const PK_TBL_BIBLES_ID;
 extern int const PK_TBL_BIBLES_NAME;
 extern int const PK_TBL_BIBLES_PARSED_ID;
-
-
 
 #endif

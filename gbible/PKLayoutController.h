@@ -11,6 +11,6 @@
 
 @interface PKLayoutController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-  @property (nonatomic, assign) id<PKLayoutControllerDelegate> delegate;
+@property (nonatomic, assign) id <PKLayoutControllerDelegate> delegate;
 
 @end

@@ -10,22 +10,22 @@
 
 @interface PKRootViewController : UITabBarController <UITabBarControllerDelegate>
 
-    @property (strong, nonatomic) UIImageView  *topShadow;
-    @property (strong, nonatomic) UIImageView *bottomShadow;
-    @property BOOL aViewHasFullScreen;
-    
-    @property (strong, nonatomic) UIImageView *ourIndicator;
+@property (strong, nonatomic) UIImageView  *topShadow;
+@property (strong, nonatomic) UIImageView *bottomShadow;
+@property BOOL aViewHasFullScreen;
 
-    -(id) init;
-    
-    -(void) showTopShadowWithOpacity: (CGFloat) opacity;
-    -(void) showBottomShadowWithOpacity: (CGFloat) opacity;
-    -(void)calcShadowPosition:(UIInterfaceOrientation)toInterfaceOrientation;
-    
-    -(void) showWaitingIndicator;
-    -(void) showRightSwipeIndicator;
-    -(void) showLeftSwipeIndicator;
-    
-    -(void) hideIndicator;
+@property (strong, nonatomic) UIImageView *ourIndicator;
+
+-(id)   init;
+
+-(void) showTopShadowWithOpacity: (CGFloat) opacity;
+-(void) showBottomShadowWithOpacity: (CGFloat) opacity;
+-(void) calcShadowPosition: (UIInterfaceOrientation) toInterfaceOrientation;
+
+-(void) showWaitingIndicator;
+-(void) showRightSwipeIndicator;
+-(void) showLeftSwipeIndicator;
+
+-(void) hideIndicator;
 
 @end

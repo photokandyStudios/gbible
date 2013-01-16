@@ -10,8 +10,8 @@
 
 @interface PKTableViewCell : UITableViewCell
 
-    @property (strong, nonatomic) NSArray * labels;
-    @property (strong, nonatomic) UIColor * highlightColor;
-    @property (strong, nonatomic) UIColor * selectedColor;
-    
+@property (strong, nonatomic) NSArray *labels;
+@property (strong, nonatomic) UIColor *highlightColor;
+@property (strong, nonatomic) UIColor *selectedColor;
+
 @end
