@@ -14,7 +14,7 @@ It is unfortunate that people would take the code and re-release it on the app s
 Attributions
 ------------
 
-For attributions regarding the texts utilized, see the DATA SOURCES Wiki page.
+For attributions regarding the texts utilized, see https://github.com/photokandyStudios/gbible/wiki/Data-Sources.
 
 License
 -------
