@@ -2,6 +2,7 @@ Greek Interlinear Bible for iOS
 ===============================
 
 *NOTE*: We're on the App Store now: http://itunes.apple.com/us/app/greek-interlinear-bible/id520000138?mt=8
+*NOTE*: Version 1.1 has been submitted to Apple for review. If all goes well, it should hit the store sometime around 1/23/2013.
 
 Project code for the Greek Interlinear Bible for iOS. This code is COPYRIGHT (C) 2012 photoKandy Studios LLC.
 Portions of the code are under different licenses, see https://github.com/photokandyStudios/gbible/wiki/Third-Party-Components.
