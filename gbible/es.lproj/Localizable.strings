@@ -5,6 +5,7 @@
   Created by Kerri Shotts on 1/8/13.
   
   Spanish Translations. Also the base for new translations.
+  Translation by Julio Cesar
   
   NOTE TO TRANSLATORS:
    - If you can, I'd love to hear about the well-received Bibles in your language that
@@ -21,134 +22,136 @@
 */
 
 /* Tab Controller */
-"About" = "About";
-"Read Bible" = "Read Bible";
-"Search" = "Search";
-"Strong's" = "Strong's";
-"Settings" = "Settings";
+"About" = "Acerca de";
+"Read Bible" = "Leer Biblia";
+"Search" = "Buscar";
+"Strong's" = "Strong";
+"Settings" = "Ajustes";
 
 /* Menus */
-"Copy" = "Copy";
-"Highlight" = "Highlight";
-"Annotate" = "Annotate";
-"Define" = "Define";
-"Explain" = "Explain";
-"Clear" = "Clear";
-"Add Highlight" = "Add Highlight";
-"Remove" = "Remove";
-"Search Bible" = "Search Bible";
-"Search Strong's" = "Search Strong's";
+"Copy" = "Copiar";
+"Highlight" = "Subrayar";
+"Annotate" = "Anotar";
+"Define" = "Definir";
+"Explain" = "Explicar";
+"Clear" = "Borrar";
+"Add Highlight" = "Añadir subrayado";
+"Remove" = "Eliminar";
+"Search Bible" = "Buscar Biblia";
+"Search Strong's" = "Buscar Strong";
 
 /* Strong's-specific */
 "Lemma" = "Lemma";
-"Pronunciation" = "Pronunciation";
-"Definition" = "Definition";
-"Notice" = "Notice";
-"Strong's # or search term" = "Strong's # or search term";
+"Pronunciation" = "Pronunciación";
+"Definition" = "Definición";
+"Notice" = "Nota";
+"Strong's # or search term" = "# Strong/Término de Búsqueda"; //KS
 
 /* Messages */
-"Import Error" = "Import Error";
-"error-import-message" = "Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?";
-"no-highlights" = "You've no highlights.";
-"no-history" = "You've no history.";
-"no-notes" = "You don't have any notes.";
-"no-results" = "No results. Please try again.";
-"Bible" = "Bible";
-"definition-copied" = "Definition copied to clipboard";
-"note-when-transliterating-greek" = "﹡ When transliterating Greek, the app may be slower when navigating to new passages and approximately twice as slow when searching.\n\n✝ Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.\n\n";
-"note-opendyslexic" = "﹡ The OpenDyslexic font does not support polytonic Greek. It is suggested to use the OpenDyslexic font only if transliterating the Greek or when using a text without diacritics.";
-"note-export" = "Export will create a file of the form 'export_date_time.dat' that you can download when your device is connected to iTunes. You can then save this file in a safe place, or use it to import data to another device.";
-"note-import" = "Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.";
-"note-anonymous-with-copyright" = "Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information. \n\n\n\n\n\n ";
+"Import Error" = "Error de Importación";
+"error-import-message" = "No se pudo encontrar una base de datos 'import.dat'; ¿Has copiado y renombrado una exportación con iTunes?";
+"no-highlights" = "No tienes subrayados.";
+"no-history" = "No tienes historial.";
+"no-notes" = "No tienes ninguna nota.";
+"no-results" = "No hay resultados. Por favor, intentelo de nuevo.";
+"Bible" = "Biblia";
+"definition-copied" = "Definición copiada al portapapeles";
+"note-when-transliterating-greek" = "﹡ Cuando use la transliteración griega, la aplicación podría ser más lenta cuando se navega a nuevos pasajes y aproximadamente el doble de lento en las búsquedas. \n\n✝ El ajuste Mostrar traducción se aplica sólo a los textos que soportan traducción en línea. En la actualidad el único texto que admite esta configuración es el de Westcott-Hort.\n\n";
+"note-opendyslexic" = "﹡ La fuente OpenDyslexic no es compatible con politónico griego. Se sugiere utilizar el tipo de letra OpenDyslexic sólo en la transliteración del griego o cuando se utiliza un texto sin signos diacríticos.";
+"note-export" = "Exportar creará un archivo de 'export_date_time.dat' que podrá descargar cuando el dispositivo esté conectado a iTunes. A continuación, puede guardar este archivo en un lugar seguro, o utilizarlo para importar datos en otro dispositivo.";
+"note-import" = "Antes de importar, conecte el dispositivo a iTunes y copie el archivo que desea importar. Asegúrese de que se llama 'import.dat '. A continuación, seleccione la opción deseada. Puede importar más de una vez desde el mismo archivo.";
+"note-anonymous-with-copyright" = "Desactive estadísticas de uso anónimas si no desea enviar el uso anónimo y la información de depuración. Por favor, considere dejar esta opción habilitada, ya que la información nos ayuda a crear una aplicación mejor para todos. Nunca venderemos esta información a ninguna otra empresa. Utilizamos TestFlight para recopilar la información anónima. \n\nNota: Si se encuentra en un país donde el uso de la Biblia pueda causar daños personales, debe deshabilitar las estadísticas de uso anónimas. \n\nEsta aplicación tiene Copyright 2013 photoKandy Studios LLC. Se distribuye bajo la licencia Creative Commons BY-NC-SA. Ver http://www.photokandy.com/apps/gib para más información. \n\n\n\n\n\n";
 
 /* Buttons, Segmented Controls */
 "OK" = "OK";
-"Cancel" = "Cancel";
-"Done" = "Done";
-"Delete" = "Delete";
-"Go to passage" = "Go to passage";
-"Highlight Color" = "Highlight Color";
-"Choose Color" = "Choose Color";
-"Enter Full Screen" = "Enter Full Screen";
-"Leave Full Screen" = "Leave Full Screen";
-"Previous Chapter" = "Previous Chapter";
-"Next Chapter" = "Next Chapter";
-"Highlights" = "Highlights";
-"Notes" = "Notes";
-"History" = "History";
-"Toggle Strong's Numbers" = "Toggle Strong's Numbers";
-"Toggle Translation" = "Toggle Translation";
-"Toggle Morphology" = "Toggle Morphology";
+"Cancel" = "Cancelar";
+"Done" = "Hecho";
+"Done!" = "¡Agotado!"; //KS
+"Delete" = "Borrar";
+"Go to passage" = "Ir a pasaje";
+"Highlight Color" = "Color de subrayado";
+"Choose Color" = "Elige Color";
+"Enter Full Screen" = "Entrar en Pantalla Completa";
+"Leave Full Screen" = "Abandonar Pantalla Completa";
+"Previous Chapter" = "Capitulo Anterior";
+"Next Chapter" = "Capitulo Siguiente";
+"Highlights" = "Subrayados";
+"Notes" = "Notas";
+"History" = "Historial";
+"Toggle Strong's Numbers" = "Alternar # Strong"; //KS
+"Toggle Translation" = "Alternar Traducción"; //KS
+"Toggle Morphology" = "Alternar Morfología"; //KS
 
 /* Highlight Colors */
-"Yellow" = "Yellow";
-"Green" = "Green";
+"Yellow" = "Amarillo";
+"Green" = "Verde";
 "Magenta" = "Magenta";
-"Pink" = "Pink";
-"Blue" = "Blue";
+"Pink" = "Rosa";
+"Blue" = "Azul";
 
 /* Navigation Controllers */
-"Select Chapter" = "Select Chapter";
-"Select Verse" = "Select Verse";
-"Goto" = "Goto";
-"Text Settings" = "Text Settings";
-"Viewing Note" = "Viewing Note";
-"Editing Note" = "Editing Note";
+"Select Chapter" = "Seleccione Capitulo";
+"Select Verse" = "Seleccione Verso";
+"Goto" = "Ir a";
+"Text Settings" = "Ajustes de Texto";
+"Viewing Note" = "Viendo Nota";
+"Editing Note" = "Editando Nota";
 
 /* Color Themes */
-"Theme" = "Theme";
+"Theme" = "Tema";
 "1" = "1";
 "2" = "2";
 "3" = "3";
 "4" = "4";
 "Original" = "Original";
-"Black on White" = "Black on White";
-"White on Black" = "White on Black";
-"Amber on Black" = "Amber on Black";
+"Black on White" = "Negro sobre Blanco";
+"White on Black" = "Blanco sobre Negro";
+"Amber on Black" = "Ambar sobre Negro";
 
 /* Settings */
-"Yes" = "Yes";
+"Yes" = "Si";
 "No" = "No";
 "Normal" = "Normal";
-"One-Quarter" = "One-Quarter";
-"One-Half" = "One-Half";
-"Double" = "Double";
-"Single Space" = "Single Space";
-"Double Space" = "Double Space";
-"Wide Greek Column" = "Wide Greek Column";
-"Wide English Column" = "Wide English Column";
-"Equal Columns" = "Equal Columns";
-"Greek Text" = "Greek Text";
-"English Text" = "English Text";
-"Transliterate Greek" = "Transliterate Greek﹡?";
-"Show Inline Notes" = "Show Inline Notes?";
-"Show Morphology" = "Show Morphology?";
-"Show Strong's" = "Show Strong's?";
-"Show Translation" = "Show Translation✝?";
-"Anonymous Usage Statistics" = "Anonymous Usage Statistics?";
-"Text" = "Text";
-"Layout" = "Layout";
-"Version" = "Version";
+"One-Quarter" = "Un Cuarto";
+"One-Half" = "Mitad";
+"Double" = "Doble";
+"Single Space" = "Interlineado Sencillo";
+"Double Space" = "Interlineado Doble";
+"Wide Greek Column" = "Columna Ancha Griego";
+"Wide English Column" = "Columna Ancha Inglés";
+"Equal Columns" = "Columnas Iguales";
+"Greek Text" = "Texto Griego";
+"English Text" = "Texto Inglés";
+"Transliterate Greek" = "¿Transcribir Griego﹡?";
+"Show Inline Notes" = "¿Mostrar Notas en línea?";
+"Show Morphology" = "¿Mostrar Morfología?";
+"Show Strong's" = "¿Mostrar Strong?";
+"Show Translation" = "¿Mostrar Traducción✝?";
+"Anonymous Usage Statistics" = "¿Estadísticas Anónimas de Uso?";
+"Text" = "Texto";
+"Layout" = "Disposición";
+"Version" = "Versión";
 
 /* Import/Export */
-"Operation" = "Operation";
-"Import Operation" = "Import Operation";
-"Export Operation" = "Export Operation";
-"Import Annotations" = "Import Annotations";
-"Import Highlights" = "Import Highlights";
-"Import Everything" = "Import Everything";
-"Export" = "Export";
-"Import" = "Import";
+"Operation" = "Operación";
+"Import Operation" = "Operación de Importación";
+"Export Operation" = "Operación de Exportación";
+"Import Annotations" = "Importar Anotaciones";
+"Import Highlights" = "Importar Subrayados";
+"Import Everything" = "Importar Todo";
+"Export" = "Exportar";
+"Import" = "Importar";
 
 /* Labels */
-"Greek Typeface" = "Greek Typeface";
-"English Typeface" = "English Typeface";
-"Line Spacing" = "Line Spacing";
-"Title for note" = "Title for note";
-"Search Term" = "Search Term";
-"Font Size" = "Font Size";
-"Row Spacing" = "Row Spacing";
-"Column Widths" = "Column Widths";
+"Greek Typeface" = "Tipo de letra Griego";
+"Greek Typeface﹡" = "Tipo de letra Griego﹡";
+"English Typeface" = "Tipo de letra Inglés";
+"Line Spacing" = "Interlineado";
+"Title for note" = "Título para nota";
+"Search Term" = "Término de Búsqueda";
+"Font Size" = "Tamaño de fuente";
+"Row Spacing" = "Espacio entre filas";
+"Column Widths" = "Ancho de Columnas";
 
 /* Font Names */
 "Courier New" = "Courier New";
@@ -166,70 +169,70 @@
 
 /* Bible Books */
 /* OT */
-"Genesis" = "Genesis";
-"Exodus" = "Exodus";
-"Leviticus" = "Leviticus";
-"Numbers" = "Numbers";
-"Deuteronomy" = "Deuteronomy";
+"Genesis" = "Génesis";
+"Exodus" = "Exodo";
+"Leviticus" = "Levítico";
+"Numbers" = "Números"; //KS
+"Deuteronomy" = "Deuteronomio";
 "Joshua" = "Joshua";
-"Judges" = "Judges";
+"Judges" = "Jueces";
 "Ruth" = "Ruth";
 "1 Samuel" = "1 Samuel";
 "2 Samuel" = "2 Samuel";
-"1 Kings" = "1 Kings";
-"2 Kings" = "2 Kings";
-"1 Chronicles" = "1 Chronicles";
-"2 Chronicles" = "2 Chronicles";
+"1 Kings" = "1 Reyes";
+"2 Kings" = "2 Reyes";
+"1 Chronicles" = "1 Crónicas";
+"2 Chronicles" = "2 Crónicas";
 "Ezra" = "Ezra";
 "Nehemia" = "Nehemia";
 "Esther" = "Esther";
 "Job" = "Job";
-"Psalms" = "Psalms";
-"Proverbs" = "Proverbs";
-"Ecclesiastes" = "Ecclesiastes";
-"Song of Solomon" = "Song of Solomon";
-"Isaiah" = "Isaiah";
+"Psalms" = "Salmos";
+"Proverbs" = "Proverbios";
+"Ecclesiastes" = "Eclesiastés"; //KS
+"Song of Solomon" = "Cantar de los Cantares";
+"Isaiah" = "Isaías";
 "Jeremiah" = "Jeremiah";
-"Lamentations" = "Lamentations";
-"Ezekial" = "Ezekial";
+"Lamentations" = "Lamentaciones";
+"Ezekial" = "Ezequiel";
 "Daniel" = "Daniel";
-"Hosea" = "Hosea";
+"Hosea" = "Oseas";
 "Joel" = "Joel";
 "Amos" = "Amos";
-"Obadiah" = "Obadiah";
-"Jonah" = "Jonah";
+"Obadiah" = "Abdías";
+"Jonah" = "Jonás";
 "Micah" = "Micah";
 "Nahum" = "Nahum";
-"Habakkuk" = "Habakkuk";
-"Zephaniah" = "Zephaniah";
-"Haggai" = "Haggai";
-"Zechariah" = "Zechariah";
-"Malachi" = "Malachi";
+"Habakkuk" = "Habacuc";
+"Zephaniah" = "Sofonías";
+"Haggai" = "Hageo";
+"Zechariah" = "Zecarías";
+"Malachi" = "Malaquías";
 /* NT */
-"Matthew" = "Matthew";
-"Mark" = "Mark";
-"Luke" = "Luke";
-"John" = "John";
-"Acts" = "Acts";
-"Romans" = "Romans";
-"1 Corinthians" = "1 Corinthians";
-"2 Corinthians" = "2 Corinthians";
-"Galatians" = "Galatians";
-"Ephesians" = "Ephesians";
-"Philippians" = "Phillipians";
-"Colossians" = "Colossians";
-"1 Thessalonians" = "1 Thessalonians";
-"2 Thessalonians" = "2 Thessalonians";
-"1 Timothy" = "1 Timothy";
-"2 Timothy" = "2 Timothy";
-"Titus" = "Titus";
-"Philemon" = "Philemon";
-"Hebrews" = "Hebrews";
+"Matthew" = "Mateo";
+"Mark" = "Marcos";
+"Luke" = "Lucas";
+"John" = "Juan";
+"Acts" = "Hechos";
+"Romans" = "Romanos";
+"1 Corinthians" = "1 Corintios";
+"2 Corinthians" = "2 Corintios";
+"Galatians" = "Gálatas";
+"Ephesians" = "Efesios";
+"Philippians" = "Pilipenses";
+"Colossians" = "Colosenses";
+"1 Thessalonians" = "1 Tesalonicenses";
+"2 Thessalonians" = "2 Tesalonicenses";
+"1 Timothy" = "1 Timoteo";
+"2 Timothy" = "2 Timoteo";
+"Titus" = "Tito";
+"Philemon" = "Filemón";
+"Hebrews" = "Hebreos";
 "James" = "James";
-"1 Peter" = "1 Peter";
-"2 Peter" = "2 Peter";
-"1 John" = "1 John";
-"2 John" = "2 John";
-"3 John" = "3 John";
-"Jude" = "Jude";
-"Revelation" = "Revelation";
+"1 Peter" = "1 Pedro";
+"2 Peter" = "2 Pedro";
+"1 John" = "1 Juan";
+"2 John" = "2 Juan";
+"3 John" = "3 Juan";
+"Jude" = "Judas";
+"Revelation" = "Revelaciones";
