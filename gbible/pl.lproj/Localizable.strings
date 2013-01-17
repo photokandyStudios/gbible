@@ -54,6 +54,7 @@
 "OK" = "OK";
 "Cancel" = "Anuluj";
 "Done" = "Zrobione";
+"Done!" = "Ukończony!"; //KS
 "Delete" = "Skasuj";
 "Go to passage" = "Idź do fragmentu";
 "Highlight Color" = "Kolor zaznaczenia";
@@ -131,6 +132,7 @@
 
 /* Labels */
 "Greek Typeface" = "Czcionka grecka";
+"Greek Typeface﹡" = "Czcionka grecka﹡";
 "English Typeface" = "Czcionka angielska";
 "Line Spacing" = "Odstęp międzyliniowy";
 "Title for note" = "Tytuł notatki";
