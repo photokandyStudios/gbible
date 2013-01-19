@@ -12,6 +12,7 @@
 #import "PKRootViewController.h"
 #import "ZUUIRevealController.h"
 #import "PKSettings.h"
+#import "PKSimpleCollectionViewCell.h"
 
 @interface PKBibleBookChapterVersesViewController ()
 
@@ -32,7 +33,7 @@
  */
 -(id)initWithBook: (int) theBook withChapter: (int) theChapter
 {
-  self = [super init];
+  self = [super initWithCollectionViewLayout:[PSUICollectionViewFlowLayout new]];
   
   if (self)
   {
@@ -53,20 +54,22 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   [TestFlight passCheckpoint: @"BIBLE_BOOK_CHAPTER_VERSES"];
-  [self.tableView setBackgroundView: nil];
-  self.tableView.backgroundColor                   = [PKSettings PKSelectionColor];
-  self.tableView.separatorStyle                    = UITableViewCellSeparatorStyleNone;
   
-  self.title                                       = __T(@"Select Verse");
+  self.view.backgroundColor           = [PKSettings PKSidebarPageColor];
+  self.collectionView.backgroundColor = [PKSettings PKSidebarPageColor];
+  //self.title                                       = __T(@"Select Verse");
+  self.title = [__T(@"Chapter") stringByAppendingFormat:@" %i", selectedChapter];
   self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+
+  [self.collectionView registerClass:[PKSimpleCollectionViewCell class] forCellWithReuseIdentifier:@"simple-cell"];
+  
 }
 
 -(void) updateAppearanceForTheme
 {
-  self.tableView.backgroundView  = nil;
-  self.tableView.backgroundColor = [PKSettings PKSidebarPageColor];
-  self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
-  [self.tableView reloadData];
+  self.view.backgroundColor = [PKSettings PKSidebarPageColor];
+  self.collectionView.backgroundColor = [PKSettings PKSidebarPageColor];
+  [self.collectionView reloadData];
 }
 
 -(void)viewWillAppear: (BOOL) animated
@@ -85,15 +88,10 @@
   return YES;
 }
 
-#pragma mark -
-#pragma mark tableview
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - PSTCollectionViewDataSource
 
-/**
- *
- * 1 section
- *
- */
--(NSInteger) numberOfSectionsInTableView: (UITableView *) tableView
+-(NSInteger) numberOfSectionsInCollectionView:(PSUICollectionView *)collectionView
 {
   return 1;
 }
@@ -103,36 +101,28 @@
  * Return # of verses for the book & chapter
  *
  */
--(NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
+- (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
   return [PKBible countOfVersesForBook: selectedBook forChapter: selectedChapter];
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - PSTCollectionViewDelegate
 
 /**
  *
  * Return the cell with a typical reference, like Matthew 1:1
  *
  */
--(UITableViewCell *) tableView: (UITableView *) tableView cellForRowAtIndexPath: (NSIndexPath *) indexPath
+- (PSUICollectionViewCell *)collectionView:(PSUICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  static NSString *bibleBookChapterVerseCellID = @"PKBibleBookChapterVerseCellID";
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: bibleBookChapterVerseCellID];
-  
-  if (!cell)
-  {
-    cell = [[UITableViewCell alloc]
-            initWithStyle: UITableViewCellStyleDefault
-            reuseIdentifier: bibleBookChapterVerseCellID];
-  }
+  PKSimpleCollectionViewCell *cell = (PKSimpleCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"simple-cell" forIndexPath:indexPath];
   
   NSUInteger row = [indexPath row];
   
-  cell.textLabel.text      = [[PKBible nameForBook: selectedBook] stringByAppendingFormat: @" %i:%i", selectedChapter, row + 1]; //
-  // get
-  // book
-  // +
-  // chapter
-  cell.textLabel.textColor = [PKSettings PKSidebarTextColor];
+  cell.label.text      = [NSString stringWithFormat: @"%i:%i", selectedChapter, row + 1];
+  cell.backgroundColor = [PKSettings PKSidebarPageColor];
+  cell.label.textColor = [PKSettings PKSidebarTextColor];
   
   return cell;
 }
@@ -142,7 +132,7 @@
  * If we press a row, we need to tell the BibleView controller to go there
  *
  */
--(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath
+-(void) collectionView:(PSUICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
   NSUInteger row = [indexPath row];
   
@@ -154,7 +144,7 @@
   
   PKBibleViewController *bvc = [[[rvc.viewControllers objectAtIndex: 0] viewControllers] objectAtIndex: 0];
   
-  [tableView deselectRowAtIndexPath: indexPath animated: YES];
+  [collectionView deselectItemAtIndexPath: indexPath animated: YES];
   
   [self.navigationController popToRootViewControllerAnimated: YES];
   
@@ -162,5 +152,26 @@
   
   [bvc displayBook: selectedBook andChapter: selectedChapter andVerse: row + 1];
 }
+-(CGSize) collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+  return CGSizeMake((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 86 : 65),
+                    (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 50 : 44) );
+}
+
+-(CGFloat) collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+  return 0;
+}
+
+-(CGFloat) collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+  return 0;
+}
+
+- (UIEdgeInsets)collectionView:
+(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(0,0,0,0);
+}
+
 
 @end

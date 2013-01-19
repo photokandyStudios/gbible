@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PSTCollectionView.h"
 
-@interface PKBibleBooksController : UITableViewController
+@interface PKBibleBooksController : PSUICollectionViewController
 
 @end

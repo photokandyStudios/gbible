@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PSTCollectionView.h"
 
-@interface PKBibleBookChaptersViewController : UITableViewController
+@interface PKBibleBookChaptersViewController : PSUICollectionViewController
 
 -(id)initWithBook: (int) theBook;
 
