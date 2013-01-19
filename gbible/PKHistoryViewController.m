@@ -86,6 +86,8 @@
   self.tableView.backgroundView  = nil;
   self.tableView.backgroundColor = [PKSettings PKSidebarPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
+
+  self.tableView.rowHeight = 36;
   [self.tableView reloadData];
 }
 
