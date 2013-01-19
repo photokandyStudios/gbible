@@ -536,7 +536,7 @@
   NSMutableString *theText = [[theSearchResults objectAtIndex: selectedRow] mutableCopy];
   NSArray *theResult       = [PKStrongs entryForKey: [theSearchResults objectAtIndex: selectedRow]];
   
-  [theText appendFormat: @"%@: %@\n%@: %@\n%@: %@",
+  [theText appendFormat: @"\n%@: %@\n%@: %@\n%@: %@", // ISSUE #62
    __T(@"Lemma"),         [theResult objectAtIndex: 1],
    __T(@"Pronunciation"), [theResult objectAtIndex: 2],
    __T(@"Definition"),    [theResult objectAtIndex: 3]
