@@ -295,19 +295,18 @@
   
   theHeight  += 10;  // the top margin
   
-  theLeftSize = [[NSString stringWithFormat: @"%@ %i:%@",
+  theLeftSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
                   [PKBible nameForBook: theBook],
-                  theChapter,                                   //theVerse,
+                  theChapter,
                   [PKBible getTextForBook: theBook
                                forChapter: theChapter
                                  forVerse: theVerse
                                   forSide: 1]] sizeWithFont: self.leftFont
                  constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
   
-  theRightSize = [[NSString stringWithFormat: @"%@ %i:%@",
+  theRightSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
                    [PKBible nameForBook: theBook],
                    theChapter,
-                   //     theVerse,
                    [PKBible getTextForBook: theBook
                                 forChapter: theChapter
                                   forVerse: theVerse
@@ -348,20 +347,18 @@
   CGFloat theColumnWidth = (theCellWidth) / 2;
   CGSize maxSize         = CGSizeMake(theColumnWidth - 40, 100000);
   
-  CGSize theLeftSize     = [[NSString stringWithFormat: @"%@ %i:%@",
+  CGSize theLeftSize     = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
                              [PKBible nameForBook: theBook],
                              theChapter,
-                             //theVerse,
                              [PKBible getTextForBook: theBook
                                           forChapter: theChapter
                                             forVerse: theVerse
                                              forSide: 1]] sizeWithFont: self.leftFont
                             constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
   
-  CGSize theRightSize = [[NSString stringWithFormat: @"%@ %i:%@",
+  CGSize theRightSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
                           [PKBible nameForBook: theBook],
                           theChapter,
-                          //                                                    theVerse,
                           [PKBible getTextForBook: theBook
                                        forChapter: theChapter
                                          forVerse: theVerse
@@ -372,9 +369,9 @@
   PKHotLabel *theLeftSide = [[PKHotLabel alloc] initWithFrame: CGRectMake(20, 10, theColumnWidth - 40, theLeftSize.height)];
   theLeftSide.hotColor = [PKSettings PKStrongsColor];
   theLeftSide.hotWord  = self.theSearchTerm;
-  theLeftSide.text     = [NSString stringWithFormat: @"%@ %i:%@ ",
+  theLeftSide.text     = [NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
                           [PKBible nameForBook: theBook],
-                          theChapter,                           //theVerse,
+                          theChapter,
                           [PKBible getTextForBook: theBook
                                        forChapter: theChapter
                                          forVerse: theVerse
@@ -390,10 +387,9 @@
   theRightSide.hotColor           = [PKSettings PKStrongsColor];
   theRightSide.hotBackgroundColor = [PKSettings PKSelectionColor];
   theRightSide.hotWord            = self.theSearchTerm;
-  theRightSide.text               = [NSString stringWithFormat: @"%@ %i:%@ ",
+  theRightSide.text               = [NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
                                      [PKBible nameForBook: theBook],
                                      theChapter,
-                                     //theVerse,
                                      [PKBible getTextForBook: theBook
                                                   forChapter: theChapter
                                                     forVerse: theVerse
@@ -485,9 +481,6 @@
 
 -(void) didReceiveLeftSwipe: (UISwipeGestureRecognizer *) gestureRecognizer
 {
-  //    CGPoint p = [gestureRecognizer locationInView:self.tableView];
-  //    if (p.x < 75)
-  //    {
   // hide the sidebar, if visible
   ZUUIRevealController *rc = (ZUUIRevealController *)self.parentViewController.parentViewController.parentViewController;
   
@@ -496,7 +489,6 @@
     [rc revealToggle: nil];
     return;
   }
-  //    }
 }
 
 @end
