@@ -163,7 +163,7 @@
 		6A9B86C21543A5CD00E4ABC0 /* Swipe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */; };
 		6A9B86C31543A5CD00E4ABC0 /* Wait.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BF1543A5CD00E4ABC0 /* Wait.png */; };
 		6A9B86C41543A5CD00E4ABC0 /* Wait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */; };
-		6AA661DA16AA1EB800D2139A /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6AA661D916AA1EB800D2139A /* bibleContent */; };
+		6AA661DA16AA1EB800D2139A /* bibleContent2 in Resources */ = {isa = PBXBuildFile; fileRef = 6AA661D916AA1EB800D2139A /* bibleContent2 */; };
 		6AA6620316AA298A00D2139A /* PKSimpleCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6620216AA298A00D2139A /* PKSimpleCollectionViewCell.m */; };
 		6AA6620B16AA4A9600D2139A /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6620A16AA4A9600D2139A /* UIColor-Expanded.m */; };
 		6AA6622616AA5C9300D2139A /* PSTCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6620E16AA5C9300D2139A /* PSTCollectionView.m */; };
@@ -210,6 +210,7 @@
 		6AF9D05B15129C7400514499 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9D02A151292D800514499 /* FMDatabasePool.m */; };
 		6AF9D05C15129C7400514499 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9D02C151292D800514499 /* FMDatabaseQueue.m */; };
 		6AF9D05D15129C7400514499 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9D02F151292D800514499 /* FMResultSet.m */; };
+		6AFA40FA16ABBCD500AF676D /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6AFA40F916ABBCD500AF676D /* bibleContent */; };
 		6AFD867D169928FB000B564D /* PopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD867B169928FB000B564D /* PopoverView.m */; };
 		6AFD868E1699479A000B564D /* FWTPopoverAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD86861699479A000B564D /* FWTPopoverAnimationHelper.m */; };
 		6AFD868F1699479A000B564D /* FWTPopoverArrow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD86881699479A000B564D /* FWTPopoverArrow.m */; };
@@ -424,7 +425,7 @@
 		6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Swipe@2x.png"; sourceTree = "<group>"; };
 		6A9B86BF1543A5CD00E4ABC0 /* Wait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wait.png; sourceTree = "<group>"; };
 		6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wait@2x.png"; sourceTree = "<group>"; };
-		6AA661D916AA1EB800D2139A /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
+		6AA661D916AA1EB800D2139A /* bibleContent2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent2; sourceTree = "<group>"; };
 		6AA6620116AA298A00D2139A /* PKSimpleCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSimpleCollectionViewCell.h; sourceTree = "<group>"; };
 		6AA6620216AA298A00D2139A /* PKSimpleCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSimpleCollectionViewCell.m; sourceTree = "<group>"; };
 		6AA6620916AA4A9600D2139A /* UIColor-Expanded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor-Expanded.h"; sourceTree = "<group>"; };
@@ -502,6 +503,7 @@
 		6AF9D0511512978600514499 /* CoolButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoolButton.h; sourceTree = "<group>"; };
 		6AF9D0521512978600514499 /* CoolButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CoolButton.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6AF9D05415129B9D00514499 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		6AFA40F916ABBCD500AF676D /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
 		6AFD867A169928FB000B564D /* PopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverView.h; sourceTree = "<group>"; };
 		6AFD867B169928FB000B564D /* PopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverView.m; sourceTree = "<group>"; };
 		6AFD867C169928FB000B564D /* PopoverView_Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverView_Configuration.h; sourceTree = "<group>"; };
@@ -824,7 +826,8 @@
 		6A92CCC71516F0B000F8AE15 /* Databases */ = {
 			isa = PBXGroup;
 			children = (
-				6AA661D916AA1EB800D2139A /* bibleContent */,
+				6AFA40F916ABBCD500AF676D /* bibleContent */,
+				6AA661D916AA1EB800D2139A /* bibleContent2 */,
 			);
 			name = Databases;
 			sourceTree = "<group>";
@@ -1470,7 +1473,8 @@
 				6A6B59A216A0EF090027BD03 /* Icon-Small@2x.png in Resources */,
 				6A6B59A516A0F0720027BD03 /* iTunesArtwork.png in Resources */,
 				6A6B59A616A0F0720027BD03 /* iTunesArtwork@2x.png in Resources */,
-				6AA661DA16AA1EB800D2139A /* bibleContent in Resources */,
+				6AA661DA16AA1EB800D2139A /* bibleContent2 in Resources */,
+				6AFA40FA16ABBCD500AF676D /* bibleContent in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1651,6 +1655,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "gbible/gbible-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
@@ -1666,6 +1671,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1674,6 +1680,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "gbible/gbible-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
@@ -1689,6 +1696,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
