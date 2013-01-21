@@ -105,6 +105,7 @@
 		6A6B59D316A125610027BD03 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B59C816A125610027BD03 /* AFURLConnectionOperation.m */; };
 		6A6B59D416A125610027BD03 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B59CA16A125610027BD03 /* AFXMLRequestOperation.m */; };
 		6A6B59D516A125610027BD03 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B59CC16A125610027BD03 /* UIImageView+AFNetworking.m */; };
+		6A74306716ADDCEA00DC1320 /* searchutils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A74306616ADDCEA00DC1320 /* searchutils.m */; };
 		6A820DDA1517EA3B006523EE /* PKBible.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A820DD91517EA3B006523EE /* PKBible.m */; };
 		6A8D44B5152262F000746EA9 /* TableCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A8D44B1152262F000746EA9 /* TableCell.png */; };
 		6A8D44B6152262F000746EA9 /* TableCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A8D44B2152262F000746EA9 /* TableCell@2x.png */; };
@@ -352,6 +353,8 @@
 		6A6B59CA16A125610027BD03 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		6A6B59CB16A125610027BD03 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		6A6B59CC16A125610027BD03 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		6A74306516ADDCD900DC1320 /* searchutils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = searchutils.h; sourceTree = "<group>"; };
+		6A74306616ADDCEA00DC1320 /* searchutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchutils.m; sourceTree = "<group>"; };
 		6A820DD81517EA3B006523EE /* PKBible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBible.h; sourceTree = "<group>"; };
 		6A820DD91517EA3B006523EE /* PKBible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBible.m; sourceTree = "<group>"; };
 		6A8D44B1152262F000746EA9 /* TableCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TableCell.png; sourceTree = "<group>"; };
@@ -800,6 +803,15 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
+		6A74306316ADDC8E00DC1320 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				6A74306516ADDCD900DC1320 /* searchutils.h */,
+				6A74306616ADDCEA00DC1320 /* searchutils.m */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
 		6A92CCBC1516F02500F8AE15 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
@@ -1058,6 +1070,7 @@
 		6AF0C0AB150EE8BB00BFAE03 /* gbible */ = {
 			isa = PBXGroup;
 			children = (
+				6A74306316ADDC8E00DC1320 /* Utility */,
 				6A0FDF3415485129004E70A7 /* Base Objects */,
 				6A92CCC81516F0CC00F8AE15 /* Third Party */,
 				6A9793B5151413AE00A5C9F1 /* App */,
@@ -1575,6 +1588,7 @@
 				6AA6622F16AA5C9300D2139A /* PSTGridLayoutItem.m in Sources */,
 				6AA6623016AA5C9300D2139A /* PSTGridLayoutRow.m in Sources */,
 				6AA6623116AA5C9300D2139A /* PSTGridLayoutSection.m in Sources */,
+				6A74306716ADDCEA00DC1320 /* searchutils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
