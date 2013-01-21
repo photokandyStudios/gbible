@@ -36,6 +36,7 @@
 @synthesize currentTextHighlight;
 @synthesize lastStrongsLookup;
 @synthesize lastSearch;
+@synthesize lastNotesSearch;
 @synthesize oldNote;
 @synthesize currentNote;
 
@@ -135,6 +136,7 @@ static id _instance;
   currentTextHighlight = [self loadSetting: @"current-text-highlight"];
   lastStrongsLookup    = [self loadSetting: @"last-strongs-lookup"];
   lastSearch           = [self loadSetting: @"last-search"];
+  lastNotesSearch      = [self loadSetting: @"last-notes-search"];
 
   oldNote              = [self loadSetting: @"old-note"];
   currentNote          = [self loadSetting: @"current-note"];
@@ -263,6 +265,7 @@ static id _instance;
   [self saveSetting: @"current-text-highlight" valueForSetting: currentTextHighlight];
   [self saveSetting: @"last-strongs-lookup" valueForSetting: lastStrongsLookup];
   [self saveSetting: @"last-search" valueForSetting: lastSearch];
+  [self saveSetting: @"last-notes-search" valueForSetting: lastNotesSearch];
 
   [self saveSetting: @"old-note" valueForSetting: oldNote];
   [self saveSetting: @"current-note" valueForSetting: currentNote];
@@ -359,6 +362,7 @@ static id _instance;
     currentTextHighlight = @"";
     lastStrongsLookup    = @"";
     lastSearch           = @"";
+    lastNotesSearch      = @"";
     oldNote              = @"";
     currentNote          = @"";
 

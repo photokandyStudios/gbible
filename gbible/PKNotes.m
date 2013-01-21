@@ -11,6 +11,7 @@
 #import "FMResultSet.h"
 #import "PKBible.h"
 #import "PKDatabase.h"
+#import "searchutils.h"
 
 @implementation PKNotes
 
@@ -154,6 +155,26 @@ static id _instance;
 {
   FMDatabase *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
   FMResultSet *s           = [content executeQuery: @"SELECT book,chapter,verse FROM notes ORDER BY 1,2,3"];
+  NSMutableArray *theArray = [[NSMutableArray alloc] init];
+  
+  while ([s next])
+  {
+    int theBook          = [s intForColumnIndex: 0];
+    int theChapter       = [s intForColumnIndex: 1];
+    int theVerse         = [s intForColumnIndex: 2];
+    
+    NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
+    [theArray addObject: thePassage];
+  }
+  return theArray;
+}
+
+-(NSMutableArray *)notesMatching: (NSString *)theTerm
+{
+  NSString *searchPhrase = convertSearchToSQL(theTerm, @"title || ' ' || note");
+
+  FMDatabase *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMResultSet *s           = [content executeQuery: [NSString stringWithFormat:@"SELECT book,chapter,verse FROM notes where (%@) ORDER BY 1,2,3", searchPhrase]];
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
   
   while ([s next])

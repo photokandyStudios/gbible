@@ -47,6 +47,8 @@
 
 @property (readwrite) BOOL usageStats;
 
+@property (readwrite, strong, nonatomic) NSString *lastNotesSearch;
+
 +(id)         instance;
 -(NSString *) loadSetting: (NSString *) theSetting;
 -(void)       reloadSettings;

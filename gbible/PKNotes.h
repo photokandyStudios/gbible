@@ -19,4 +19,8 @@
     -(NSMutableArray *)allNotes;
     -(void) deleteNoteForPassage: (NSString*) thePassage;
 
+/* 1.2 */
+    -(NSMutableArray *)notesMatching: (NSString *)theTerm;
+
+
 @end
