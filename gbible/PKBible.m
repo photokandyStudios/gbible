@@ -835,15 +835,31 @@
         theWordType = 10;
         yOffset     = lineHeight;
 
-        if (!showStrongs)
+        if ([[theOriginalWord substringFromIndex: 1] intValue] > 5624)
+        {
+          theWord = [NSString stringWithFormat:@"M%i", [[theOriginalWord substringFromIndex: 1] intValue]];
+            theWord = @"";
+          theWordType =19;
+          yOffset     = lineHeight *2;
+          if (!showMorphology)
+          {
+            theWord = @"";
+            yOffset -= lineHeight;
+          }
+        }
+
+        if (!showStrongs) //  || [[theOriginalWord substringFromIndex: 1] intValue] > 5624)
         {
           theWord = @"";
+//          theWordType = -1;
         }
 
         // add the G# to the previous word if it was a greek word --
         // this lets us get to the Strong's # from the greek word too.
         if (thePriorWordArray != nil
-            && thePriorWordArray.count > 0)
+            && thePriorWordArray.count > 0
+            && [[theOriginalWord substringFromIndex: 1] intValue] <= 5624
+            )
         {
           int theIndex = [theWordArray indexOfObject: thePriorWordArray];
 
@@ -945,9 +961,9 @@
              && i > 0) )
     {
       // we're a new variation on the column. curX can move foward by maxX
-      curX += maxX + spaceWidth;
+      curX += maxX + ( ![theWord isEqualToString:@""] ?spaceWidth : 0 );
 
-      if (curX + theSize.width > endX - maxX - spaceWidth)
+      if (curX + theSize.width > endX - maxX ) //- spaceWidth)
       {
         curX  = startX;
         curY += columnHeight;
