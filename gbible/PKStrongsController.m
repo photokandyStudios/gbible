@@ -545,11 +545,11 @@
   UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
   pasteBoard.string = theText;
   
-  UIAlertView *anAlert     = [[UIAlertView alloc]
+ /* UIAlertView *anAlert     = [[UIAlertView alloc]
                               initWithTitle: __T(@"Notice") message: __Tv(@"definition-copied",
                                                                           @"Definition copied to clipboard") delegate: nil
                               cancelButtonTitle: __T(@"Ok") otherButtonTitles: nil];
-  [anAlert show];
+  [anAlert show];*/
 }
 
 -(void) defineStrongs: (id) sender
