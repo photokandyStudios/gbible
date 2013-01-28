@@ -43,25 +43,29 @@ static id _instance;
  */
 -(void) createSchema
 {
-  BOOL returnVal      = YES;
   // get local versions of our databases
-  FMDatabase *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
   
-  returnVal =
-  [content executeUpdate:
-   @"CREATE TABLE highlights ( \
-   book INT NOT NULL, \
-   chapter INT NOT NULL, \
-   verse INT NOT NULL, \
-   value VARCHAR(255), \
-   PRIMARY KEY (book, chapter, verse) \
-   )"
-   ];
-  
-  if (returnVal)
-  {
-    NSLog(@"Created schema for highlights.");
-  }
+  [content inDatabase:^(FMDatabase *db)
+    {
+      BOOL returnVal      = YES;
+      returnVal =
+      [db executeUpdate:
+       @"CREATE TABLE highlights ( \
+       book INT NOT NULL, \
+       chapter INT NOT NULL, \
+       verse INT NOT NULL, \
+       value VARCHAR(255), \
+       PRIMARY KEY (book, chapter, verse) \
+       )"
+       ];
+      
+      if (returnVal)
+      {
+        NSLog(@"Created schema for highlights.");
+      }
+    }
+  ];
 }
 
 /**
@@ -71,14 +75,21 @@ static id _instance;
  */
 -(int) countHighlights
 {
-  FMDatabase *content = ( (PKDatabase *)[PKDatabase instance] ).content;
-  FMResultSet *s      = [content executeQuery: @"SELECT COUNT(*) FROM highlights"];
-  int theCount        = 0;
+  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+
+  __block int theCount        = 0;
+  [content inDatabase:^(FMDatabase *db)
+    {
+      FMResultSet *s      = [db executeQuery: @"SELECT COUNT(*) FROM highlights"];
+      
+      if ([s next])
+      {
+        theCount = [s intForColumnIndex: 0];
+      }
+      [s close];
+    }
+  ];
   
-  if ([s next])
-  {
-    theCount = [s intForColumnIndex: 0];
-  }
   return theCount;
 }
 
@@ -90,19 +101,26 @@ static id _instance;
  */
 -(NSMutableArray *)allHighlightedPassages
 {
-  FMDatabase *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
-  FMResultSet *s           = [content executeQuery: @"SELECT book,chapter,verse FROM highlights ORDER BY 1,2,3"];
+  FMDatabaseQueue *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
-  
-  while ([s next])
-  {
-    int theBook          = [s intForColumnIndex: 0];
-    int theChapter       = [s intForColumnIndex: 1];
-    int theVerse         = [s intForColumnIndex: 2];
-    
-    NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
-    [theArray addObject: thePassage];
-  }
+
+  [content inDatabase:^(FMDatabase *db)
+    {
+      FMResultSet *s           = [db executeQuery: @"SELECT book,chapter,verse FROM highlights ORDER BY 1,2,3"];
+      
+      while ([s next])
+      {
+        int theBook          = [s intForColumnIndex: 0];
+        int theChapter       = [s intForColumnIndex: 1];
+        int theVerse         = [s intForColumnIndex: 2];
+        
+        NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
+        [theArray addObject: thePassage];
+      }
+      [s close];
+    }
+  ];
+
   return theArray;
 }
 
@@ -115,28 +133,35 @@ static id _instance;
  */
 -(NSMutableDictionary *)allHighlightedPassagesForBook: (int) theBook andChapter: (int) theChapter
 {
-  FMDatabase *content = ( (PKDatabase *)[PKDatabase instance] ).content;
-  FMResultSet *s      =
-  [content executeQuery:
-   @"SELECT book,chapter,verse, value FROM highlights \
-   WHERE book=? AND chapter=? ORDER BY 1,2,3"                                                          ,
-   [NSNumber numberWithInt: theBook],
-   [NSNumber numberWithInt: theChapter]];
+  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
   NSMutableDictionary *theArray = [[NSMutableDictionary alloc] init];
-  
-  while ([s next])
-  {
-    int theVerse           = [s intForColumnIndex: 2];
-    NSString *theResult    = [s stringForColumnIndex: 3];
-    // we need to split the results: the highlight will be RRR,GGG,BBB (from 0.0 to 1.0)
-    NSArray *theColorArray = [theResult componentsSeparatedByString: @","];
-    // there will always be 3 values; R=0, G=1, B=2
-    UIColor *theColor      = [UIColor colorWithRed: [[theColorArray objectAtIndex: 0] floatValue]
-                                             green: [[theColorArray objectAtIndex: 1] floatValue]
-                                              blue: [[theColorArray objectAtIndex: 2] floatValue] alpha: 0.33];
-    
-    [theArray setValue: theColor forKey: [NSString stringWithFormat: @"%i", theVerse]];
-  }
+
+  [content inDatabase:^(FMDatabase *db)
+    {
+      FMResultSet *s      =
+      [db executeQuery:
+       @"SELECT book,chapter,verse, value FROM highlights \
+       WHERE book=? AND chapter=? ORDER BY 1,2,3"                                                          ,
+       [NSNumber numberWithInt: theBook],
+       [NSNumber numberWithInt: theChapter]];
+      
+      while ([s next])
+      {
+        int theVerse           = [s intForColumnIndex: 2];
+        NSString *theResult    = [s stringForColumnIndex: 3];
+        // we need to split the results: the highlight will be RRR,GGG,BBB (from 0.0 to 1.0)
+        NSArray *theColorArray = [theResult componentsSeparatedByString: @","];
+        // there will always be 3 values; R=0, G=1, B=2
+        UIColor *theColor      = [UIColor colorWithRed: [[theColorArray objectAtIndex: 0] floatValue]
+                                                 green: [[theColorArray objectAtIndex: 1] floatValue]
+                                                  blue: [[theColorArray objectAtIndex: 2] floatValue] alpha: 0.33];
+        
+        [theArray setValue: theColor forKey: [NSString stringWithFormat: @"%i", theVerse]];
+      }
+      [s close];
+    }
+  ];
+
   return theArray;
 }
 
@@ -148,31 +173,37 @@ static id _instance;
  */
 -(UIColor *)highlightForPassage: (NSString *) thePassage
 {
+  // if there is no highlight, we return nil.
+  __block UIColor *theColor = nil;
+
   NSNumber *theBook    = [NSNumber numberWithInt: [PKBible bookFromString: thePassage]];
   NSNumber *theChapter = [NSNumber numberWithInt: [PKBible chapterFromString: thePassage]];
   NSNumber *theVerse   = [NSNumber numberWithInt: [PKBible verseFromString: thePassage]];
-  
-  NSString *theResult;
-  FMDatabase *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
-  FMResultSet *s       =
-  [content executeQuery:
-   @"SELECT value FROM highlights \
-   WHERE book=? AND chapter=? AND verse=?"                                      ,
-   theBook, theChapter, theVerse];
-  
-  // if there is no highlight, we return nil.
-  UIColor *theColor = nil;
-  
-  if ([s next])
-  {
-    theResult = [s stringForColumnIndex: 0];
-    // we need to split the results: the highlight will be RRR,GGG,BBB (from 0.0 to 1.0)
-    NSArray *theColorArray = [theResult componentsSeparatedByString: @","];
-    // there will always be 3 values; R=0, G=1, B=2
-    theColor = [UIColor colorWithRed: [[theColorArray objectAtIndex: 0] floatValue]
-                               green: [[theColorArray objectAtIndex: 1] floatValue]
-                                blue: [[theColorArray objectAtIndex: 2] floatValue] alpha: 0.33];
-  }
+
+  FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
+
+  [content inDatabase:^(FMDatabase *db)
+    {
+      NSString *theResult;
+      FMResultSet *s       =
+      [db executeQuery:
+       @"SELECT value FROM highlights \
+       WHERE book=? AND chapter=? AND verse=?"                                      ,
+       theBook, theChapter, theVerse];
+      
+      if ([s next])
+      {
+        theResult = [s stringForColumnIndex: 0];
+        // we need to split the results: the highlight will be RRR,GGG,BBB (from 0.0 to 1.0)
+        NSArray *theColorArray = [theResult componentsSeparatedByString: @","];
+        // there will always be 3 values; R=0, G=1, B=2
+        theColor = [UIColor colorWithRed: [[theColorArray objectAtIndex: 0] floatValue]
+                                   green: [[theColorArray objectAtIndex: 1] floatValue]
+                                    blue: [[theColorArray objectAtIndex: 2] floatValue] alpha: 0.33];
+      }
+      [s close];
+    }
+  ];
   
   return theColor;
 }
@@ -188,10 +219,7 @@ static id _instance;
   NSNumber *theChapter = [NSNumber numberWithInt: [PKBible chapterFromString: thePassage]];
   NSNumber *theVerse   = [NSNumber numberWithInt: [PKBible verseFromString: thePassage]];
   
-  FMDatabase *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
-  BOOL theResult       = YES;
-  FMResultSet *resultSet;
-  int rowCount         = 0;
+  FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
   
   float red            = 0.0;
   float green          = 0.0;
@@ -212,30 +240,41 @@ static id _instance;
   }
   
   NSString *theValue = [NSString stringWithFormat: @"%f,%f,%f", red, green, blue];
+
+  [content inDatabase:^(FMDatabase *db)
+    {
+      BOOL theResult       = YES;
+      FMResultSet *resultSet;
+      int rowCount         = 0;
+      
+      theResult = [db executeUpdate: @"UPDATE highlights SET value=? WHERE book=? AND chapter=? AND verse=?",
+                   theValue, theBook, theChapter, theVerse];
+      
+      // check to see if it really did just set the value
+      resultSet = [db executeQuery: @"SELECT * FROM highlights WHERE book=? AND chapter=? AND verse=?",
+                   theBook, theChapter, theVerse];
+      
+      if ([resultSet next])
+      {
+        rowCount++;
+      }
+      [resultSet close];
+      
+      if (rowCount < 1)
+      {
+        // nope; do an insert instead.
+        theResult = [db executeUpdate: @"INSERT INTO highlights VALUES (?,?,?,?)",
+                     theBook, theChapter, theVerse, theValue];
+      }
+      
+      if (!theResult)
+      {
+        NSLog(@"Couldn't save highlight for %@", thePassage);
+      }
+    }
+  ];
+
   
-  theResult = [content executeUpdate: @"UPDATE highlights SET value=? WHERE book=? AND chapter=? AND verse=?",
-               theValue, theBook, theChapter, theVerse];
-  
-  // check to see if it really did just set the value
-  resultSet = [content executeQuery: @"SELECT * FROM highlights WHERE book=? AND chapter=? AND verse=?",
-               theBook, theChapter, theVerse];
-  
-  if ([resultSet next])
-  {
-    rowCount++;
-  }
-  
-  if (rowCount < 1)
-  {
-    // nope; do an insert instead.
-    theResult = [content executeUpdate: @"INSERT INTO highlights VALUES (?,?,?,?)",
-                 theBook, theChapter, theVerse, theValue];
-  }
-  
-  if (!theResult)
-  {
-    NSLog(@"Couldn't save highlight for %@", thePassage);
-  }
 }
 
 /**
@@ -251,15 +290,21 @@ static id _instance;
   NSNumber *theChapter = [NSNumber numberWithInt: [PKBible chapterFromString: thePassage]];
   NSNumber *theVerse   = [NSNumber numberWithInt: [PKBible verseFromString: thePassage]];
   
-  FMDatabase *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
+
+  [content inDatabase:^(FMDatabase *db)
+    {
+      BOOL theResult       = [db executeUpdate: @"DELETE FROM highlights WHERE book=? AND chapter=? AND verse=?",
+                              theBook, theChapter, theVerse];
+      
+      if (!theResult)
+      {
+        NSLog(@"Could not remove highlight for %@", thePassage);
+      }
+    }
+  ];
+
   
-  BOOL theResult       = [content executeUpdate: @"DELETE FROM highlights WHERE book=? AND chapter=? AND verse=?",
-                          theBook, theChapter, theVerse];
-  
-  if (!theResult)
-  {
-    NSLog(@"Could not remove highlight for %@", thePassage);
-  }
 }
 
 @end

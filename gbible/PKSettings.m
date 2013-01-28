@@ -174,16 +174,22 @@ static id _instance;
  */
 -(NSString *) loadSetting: (NSString *) theSetting
 {
-  NSString *theResult;
-  FMDatabase *content = ( (PKDatabase *)[PKDatabase instance] ).content;
-  FMResultSet *s      =
-    [content executeQuery: @"SELECT value FROM settings \
+  __block NSString *theResult = @"";
+  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  
+  [content inDatabase:^(FMDatabase *db)
+    {
+      FMResultSet *s      =
+      [db executeQuery: @"SELECT value FROM settings \
                                                  WHERE setting=?", theSetting];
-
-  if ([s next])
-  {
-    theResult = [s stringForColumnIndex: 0];
-  }
+      if ([s next])
+      {
+        theResult = [s stringForColumnIndex: 0];
+      }
+      [s close];
+  
+    }
+  ];
 
   return theResult;
 }
@@ -284,33 +290,39 @@ static id _instance;
  */
 -(void) saveSetting: (NSString *) theSetting valueForSetting: (NSString *) theValue
 {
-  FMDatabase *content = ( (PKDatabase *)[PKDatabase instance] ).content;
-  BOOL theResult      = YES;
-  FMResultSet *resultSet;
-  int rowCount        = 0;
+  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  
+  [content inDatabase:^(FMDatabase *db)
+    {
+      BOOL theResult      = YES;
+      FMResultSet *resultSet;
+      int rowCount        = 0;
 
-  theResult = [content executeUpdate: @"UPDATE settings SET value=? WHERE setting=?",
-               theValue, theSetting];
+      theResult = [db executeUpdate: @"UPDATE settings SET value=? WHERE setting=?",
+                   theValue, theSetting];
 
-  // theResult is almost always TRUE -- so we need to query the db for the value we just set...
-  resultSet = [content executeQuery: @"SELECT * FROM settings WHERE setting=?", theSetting];
+      // theResult is almost always TRUE -- so we need to query the db for the value we just set...
+      resultSet = [db executeQuery: @"SELECT * FROM settings WHERE setting=?", theSetting];
 
-  if ([resultSet next])
-  {
-    rowCount++;
-  }
+      if ([resultSet next])
+      {
+        rowCount++;
+      }
+      [resultSet close];
 
-  if (rowCount < 1)
-  {
-    // updating didn't work -- insert the value instead.
-    theResult = [content executeUpdate: @"INSERT INTO settings VALUES (?,?)",
-                 theSetting, theValue];
-  }
+      if (rowCount < 1)
+      {
+        // updating didn't work -- insert the value instead.
+        theResult = [db executeUpdate: @"INSERT INTO settings VALUES (?,?)",
+                     theSetting, theValue];
+      }
 
-  if (!theResult)
-  {
-    NSLog(@"Couldn't save %@ into %@", theValue, theSetting);
-  }
+      if (!theResult)
+      {
+        NSLog(@"Couldn't save %@ into %@", theValue, theSetting);
+      }
+    }
+  ];
 }
 
 /**
@@ -321,19 +333,22 @@ static id _instance;
  */
 -(BOOL) createDefaultSettings
 {
-  BOOL returnVal      = YES;
+  __block BOOL returnVal      = YES;
   // get local versions of our databases
-  FMDatabase *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
 
-  // create our settings table
-  // it's really just a key-value store
-  returnVal =
-    [content executeUpdate:
-     @"CREATE TABLE settings ( \
-                                                 setting VARCHAR(255), \
-                                                 value   VARCHAR(4096) \
-                                             )"
-    ];
+  [content inDatabase:^(FMDatabase *db)
+    {
+      // create our settings table
+      // it's really just a key-value store
+      returnVal =
+        [db executeUpdate:
+         @"CREATE TABLE settings ( setting VARCHAR(255), \
+                                   value   VARCHAR(4096) \
+                                 )"
+        ];
+    }
+   ];
 
   if (returnVal)
   {

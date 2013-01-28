@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "FMDatabase.h"
+#import "FMDatabaseQueue.h"
 
 @interface PKDatabase : NSObject
 
-@property (readonly, strong, nonatomic) FMDatabase *bible;
-@property (readonly, strong, nonatomic) FMDatabase *content;
+@property (readonly, strong, nonatomic) FMDatabaseQueue *bible;
+@property (readonly, strong, nonatomic) FMDatabaseQueue *userBible;
+@property (readonly, strong, nonatomic) FMDatabaseQueue *content;
 
 +(id)   instance;
 -(id)   init;

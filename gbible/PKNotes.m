@@ -33,38 +33,49 @@ static id _instance;
 
 -(void) createSchema
 {
-  BOOL returnVal      = YES;
   // get local versions of our databases
-  FMDatabase *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+
+  [content inDatabase:^(FMDatabase *db)
+    {
+      BOOL returnVal =
+      [db executeUpdate:
+       @"CREATE TABLE notes ( \
+       book INT NOT NULL, \
+       chapter INT NOT NULL, \
+       verse INT NOT NULL, \
+       title VARCHAR(4096), \
+       note VARCHAR(4096), \
+       PRIMARY KEY (book, chapter, verse) \
+       )"
+       ];
+      
+      if (returnVal)
+      {
+        NSLog(@"Created schema for notes.");
+      }
+    }
+  ];
   
-  returnVal =
-  [content executeUpdate:
-   @"CREATE TABLE notes ( \
-   book INT NOT NULL, \
-   chapter INT NOT NULL, \
-   verse INT NOT NULL, \
-   title VARCHAR(4096), \
-   note VARCHAR(4096), \
-   PRIMARY KEY (book, chapter, verse) \
-   )"
-   ];
-  
-  if (returnVal)
-  {
-    NSLog(@"Created schema for notes.");
-  }
 }
 
 -(int)  countNotes;
 {
-  FMDatabase *content = ( (PKDatabase *)[PKDatabase instance] ).content;
-  FMResultSet *s      = [content executeQuery: @"SELECT COUNT(*) FROM notes"];
-  int theCount        = 0;
-  
-  if ([s next])
-  {
-    theCount = [s intForColumnIndex: 0];
-  }
+  __block int theCount        = 0;
+  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+
+  [content inDatabase:^(FMDatabase *db)
+    {
+      FMResultSet *s      = [db executeQuery: @"SELECT COUNT(*) FROM notes"];
+      
+      if ([s next])
+      {
+        theCount = [s intForColumnIndex: 0];
+      }
+      [s close];
+    }
+  ];
+
   return theCount;
 }
 
@@ -74,34 +85,41 @@ static id _instance;
   NSNumber *theChapter = [NSNumber numberWithInt: [PKBible chapterFromString: thePassage]];
   NSNumber *theVerse   = [NSNumber numberWithInt: [PKBible verseFromString: thePassage]];
   
-  FMDatabase *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
-  BOOL theResult       = YES;
-  FMResultSet *resultSet;
-  int rowCount         = 0;
-  
-  theResult = [content executeUpdate: @"UPDATE notes SET title=?,note=? WHERE book=? AND chapter=? AND verse=?",
-               theTitle, theNote, theBook, theChapter, theVerse];
-  
-  // check to see if it really did just set the value
-  resultSet = [content executeQuery: @"SELECT * FROM notes WHERE book=? AND chapter=? AND verse=?",
-               theBook, theChapter, theVerse];
-  
-  if ([resultSet next])
-  {
-    rowCount++;
-  }
-  
-  if (rowCount < 1)
-  {
-    // nope; do an insert instead.
-    theResult = [content executeUpdate: @"INSERT INTO notes VALUES (?,?,?,?,?)",
-                 theBook, theChapter, theVerse, theTitle, theNote];
-  }
-  
-  if (!theResult)
-  {
-    NSLog(@"Couldn't save note for %@", thePassage);
-  }
+  FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
+
+  [content inDatabase:^(FMDatabase *db)
+    {
+      BOOL theResult       = YES;
+      FMResultSet *resultSet;
+      int rowCount         = 0;
+      
+      theResult = [db executeUpdate: @"UPDATE notes SET title=?,note=? WHERE book=? AND chapter=? AND verse=?",
+                   theTitle, theNote, theBook, theChapter, theVerse];
+      
+      // check to see if it really did just set the value
+      resultSet = [db executeQuery: @"SELECT * FROM notes WHERE book=? AND chapter=? AND verse=?",
+                   theBook, theChapter, theVerse];
+      
+      if ([resultSet next])
+      {
+        rowCount++;
+      }
+      [resultSet close];
+      
+      if (rowCount < 1)
+      {
+        // nope; do an insert instead.
+        theResult = [db executeUpdate: @"INSERT INTO notes VALUES (?,?,?,?,?)",
+                     theBook, theChapter, theVerse, theTitle, theNote];
+      }
+      
+      if (!theResult)
+      {
+        NSLog(@"Couldn't save note for %@", thePassage);
+      }
+    }
+  ];
+
 }
 
 -(void) deleteNoteForPassage: (NSString *) thePassage
@@ -110,15 +128,20 @@ static id _instance;
   NSNumber *theChapter = [NSNumber numberWithInt: [PKBible chapterFromString: thePassage]];
   NSNumber *theVerse   = [NSNumber numberWithInt: [PKBible verseFromString: thePassage]];
   
-  FMDatabase *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
+
+  [content inDatabase:^(FMDatabase *db)
+    {
+      BOOL theResult       = [db executeUpdate: @"DELETE FROM notes WHERE book=? AND chapter=? AND verse=?",
+                              theBook, theChapter, theVerse];
+      
+      if (!theResult)
+      {
+        NSLog(@"Could not remove note for %@", thePassage);
+      }
+    }
+  ];
   
-  BOOL theResult       = [content executeUpdate: @"DELETE FROM notes WHERE book=? AND chapter=? AND verse=?",
-                          theBook, theChapter, theVerse];
-  
-  if (!theResult)
-  {
-    NSLog(@"Could not remove note for %@", thePassage);
-  }
 }
 
 -(NSArray *)getNoteForPassage: (NSString *) thePassage;
@@ -127,65 +150,83 @@ static id _instance;
   NSNumber *theChapter = [NSNumber numberWithInt: [PKBible chapterFromString: thePassage]];
   NSNumber *theVerse   = [NSNumber numberWithInt: [PKBible verseFromString: thePassage]];
   
-  NSArray *theResult;
-  NSString *theTitle;
-  NSString *theNote;
+  __block NSArray *theResult;
   
-  FMDatabase *content = ( (PKDatabase *)[PKDatabase instance] ).content;
-  FMResultSet *s      =
-  [content executeQuery:
-   @"SELECT title,note FROM notes \
-   WHERE book=? AND chapter=? AND verse=?"                                      ,
-   theBook, theChapter, theVerse];
-  
-  theResult = nil;
-  
-  if ([s next])
-  {
-    theTitle  = [s stringForColumnIndex: 0];
-    theNote   = [s stringForColumnIndex: 1];
-    
-    theResult = [NSArray arrayWithObjects: theTitle, theNote, nil];
-  }
-  
+  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+
+  [content inDatabase:^(FMDatabase *db)
+    {
+      FMResultSet *s      =
+      [db executeQuery:
+       @"SELECT title,note FROM notes \
+       WHERE book=? AND chapter=? AND verse=?"                                      ,
+       theBook, theChapter, theVerse];
+      
+      theResult = nil;
+      
+      if ([s next])
+      {
+        NSString *theTitle;
+        NSString *theNote;
+        theTitle  = [s stringForColumnIndex: 0];
+        theNote   = [s stringForColumnIndex: 1];
+        theResult = [NSArray arrayWithObjects: theTitle, theNote, nil];
+      }
+      [s close];
+    }
+  ];
   return theResult;
 }
 
 -(NSMutableArray *)allNotes;
 {
-  FMDatabase *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
-  FMResultSet *s           = [content executeQuery: @"SELECT book,chapter,verse FROM notes ORDER BY 1,2,3"];
+  FMDatabaseQueue *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
-  
-  while ([s next])
-  {
-    int theBook          = [s intForColumnIndex: 0];
-    int theChapter       = [s intForColumnIndex: 1];
-    int theVerse         = [s intForColumnIndex: 2];
-    
-    NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
-    [theArray addObject: thePassage];
-  }
+
+  [content inDatabase:^(FMDatabase *db)
+    {
+      FMResultSet *s           = [db executeQuery: @"SELECT book,chapter,verse FROM notes ORDER BY 1,2,3"];
+      
+      while ([s next])
+      {
+        int theBook          = [s intForColumnIndex: 0];
+        int theChapter       = [s intForColumnIndex: 1];
+        int theVerse         = [s intForColumnIndex: 2];
+        
+        NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
+        [theArray addObject: thePassage];
+      }
+      [s close];
+    }
+  ];
+
   return theArray;
 }
 
 -(NSMutableArray *)notesMatching: (NSString *)theTerm
 {
   NSString *searchPhrase = convertSearchToSQL(theTerm, @"title || ' ' || note");
-
-  FMDatabase *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
-  FMResultSet *s           = [content executeQuery: [NSString stringWithFormat:@"SELECT book,chapter,verse FROM notes where (%@) ORDER BY 1,2,3", searchPhrase]];
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
-  
-  while ([s next])
-  {
-    int theBook          = [s intForColumnIndex: 0];
-    int theChapter       = [s intForColumnIndex: 1];
-    int theVerse         = [s intForColumnIndex: 2];
-    
-    NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
-    [theArray addObject: thePassage];
-  }
+
+  FMDatabaseQueue *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
+
+  [content inDatabase:^(FMDatabase *db)
+    {
+      FMResultSet *s           = [db executeQuery: [NSString stringWithFormat:@"SELECT book,chapter,verse FROM notes where (%@) ORDER BY 1,2,3", searchPhrase]];
+      
+      while ([s next])
+      {
+        int theBook          = [s intForColumnIndex: 0];
+        int theChapter       = [s intForColumnIndex: 1];
+        int theVerse         = [s intForColumnIndex: 2];
+        
+        NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
+        [theArray addObject: thePassage];
+      }
+      [s close];
+    }
+  ];
+
   return theArray;
 }
 

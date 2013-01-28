@@ -18,45 +18,57 @@
 
 +(NSArray *)entryForKey: (NSString *) theKey
 {
-  FMDatabase *db            = [(PKDatabase *)[PKDatabase instance] bible];
-  FMResultSet *s            = [db executeQuery: @"SELECT * FROM strongsgr WHERE key = ?", theKey];
+  FMDatabaseQueue *db            = [(PKDatabase *)[PKDatabase instance] bible];
   NSMutableArray *theResult = [[NSMutableArray alloc] init];
 
-  if ([s next])
-  {
-    for (int i = 0; i < 4; i++)
+  [db inDatabase:^(FMDatabase *db)
     {
-      // Fixes issue #30
-      NSMutableString *theItem = [[s stringForColumnIndex: i] mutableCopy];
-      [theItem replaceOccurrencesOfString: @"[DQ]" withString: @"\"" options: 0 range: NSMakeRange(0, [theItem length])];
+      FMResultSet *s            = [db executeQuery: @"SELECT * FROM strongsgr WHERE key = ?", theKey];
 
-      if ([[PKSettings instance] transliterateText])
+      if ([s next])
       {
-        theItem = [[PKBible transliterate: theItem] mutableCopy];
+        for (int i = 0; i < 4; i++)
+        {
+          // Fixes issue #30
+          NSMutableString *theItem = [[s stringForColumnIndex: i] mutableCopy];
+          [theItem replaceOccurrencesOfString: @"[DQ]" withString: @"\"" options: 0 range: NSMakeRange(0, [theItem length])];
+
+          if ([[PKSettings instance] transliterateText])
+          {
+            theItem = [[PKBible transliterate: theItem] mutableCopy];
+          }
+          [theResult addObject: theItem];
+        }
       }
-      [theResult addObject: theItem];
+      [s close];
     }
-  }
+  ];
+
   return theResult;
 }
 
 +(NSArray *)keysThatMatch: (NSString *) theTerm
 {
-  FMDatabase *db = [(PKDatabase *)[PKDatabase instance] bible];
-
-  NSString *searchPhrase = convertSearchToSQL(theTerm, @"key||' '|| definition||' '||lemma||' '||pronunciation");
-
-  FMResultSet *s            =
-    [db executeQuery: [NSString stringWithFormat:
-                       @"SELECT * FROM strongsgr WHERE %@ \
-                          ORDER BY (CASE WHEN key=? THEN 0 ELSE 1 END), 1"                                                            ,
-                       searchPhrase], [theTerm uppercaseString]];
   NSMutableArray *theResult = [[NSMutableArray alloc] init];
+  FMDatabaseQueue *db = [(PKDatabase *)[PKDatabase instance] bible];
+  [db inDatabase:^(FMDatabase *db)
+    {
+      NSString *searchPhrase = convertSearchToSQL(theTerm, @"key||' '|| definition||' '||lemma||' '||pronunciation");
 
-  while ([s next])
-  {
-    [theResult addObject: [s stringForColumnIndex: 0]];
-  }
+      FMResultSet *s            =
+        [db executeQuery: [NSString stringWithFormat:
+                           @"SELECT * FROM strongsgr WHERE %@ \
+                              ORDER BY (CASE WHEN key=? THEN 0 ELSE 1 END), 1"                                                            ,
+                           searchPhrase], [theTerm uppercaseString]];
+
+      while ([s next])
+      {
+        [theResult addObject: [s stringForColumnIndex: 0]];
+      }
+      [s close];
+    }
+  ];
+
   return [theResult copy];
 }
 
@@ -66,21 +78,26 @@
   {
     return [self keysThatMatch: theTerm];
   }
-  FMDatabase *db            = [(PKDatabase *)[PKDatabase instance] bible];
-
-  NSString *theNewTerm      =
-    [NSString stringWithFormat: @"%@",
-     [[theTerm uppercaseString] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
-
-  FMResultSet *s            =
-    [db executeQuery: @"SELECT * FROM strongsgr WHERE UPPER(key) = ? ORDER BY 1", theNewTerm, theNewTerm, theNewTerm,
-     theNewTerm, theNewTerm];
+  FMDatabaseQueue *db            = [(PKDatabase *)[PKDatabase instance] bible];
   NSMutableArray *theResult = [[NSMutableArray alloc] init];
+  [db inDatabase:^(FMDatabase *db)
+    {
+      NSString *theNewTerm      =
+        [NSString stringWithFormat: @"%@",
+         [[theTerm uppercaseString] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
 
-  while ([s next])
-  {
-    [theResult addObject: [s stringForColumnIndex: 0]];
-  }
+      FMResultSet *s            =
+        [db executeQuery: @"SELECT * FROM strongsgr WHERE UPPER(key) = ? ORDER BY 1", theNewTerm, theNewTerm, theNewTerm,
+         theNewTerm, theNewTerm];
+
+      while ([s next])
+      {
+        [theResult addObject: [s stringForColumnIndex: 0]];
+      }
+      [s close];
+    }
+  ];
+
   return [theResult copy];
 }
 

@@ -16,6 +16,7 @@
 
 @synthesize bible;
 @synthesize content;
+@synthesize userBible;
 
 static id _instance;
 
@@ -51,11 +52,17 @@ static id _instance;
     // locate our database within the application bundle
     NSString *bibleDatabase       = [NSHomeDirectory () stringByAppendingPathComponent: @"gbible.app/bibleContent"];
     
+    
     // locate our user content database
     NSString *userContentDatabase =
     [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
                                            YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userContent"];
     
+    // locate our user Bible database
+    NSString *userBibleDatabase =
+    [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userBible"];
+
     // does the bible database exist? If not, we have a problem...
     if (![[NSFileManager defaultManager] fileExistsAtPath: bibleDatabase])
     {
@@ -64,126 +71,92 @@ static id _instance;
     }
     else
     {
-      bible = [FMDatabase databaseWithPath: bibleDatabase];
+      bible = [FMDatabaseQueue databaseQueueWithPath: bibleDatabase];
     }
     
-    content = [FMDatabase databaseWithPath: userContentDatabase];
+    content = [FMDatabaseQueue databaseQueueWithPath: userContentDatabase];
+    userBible = [FMDatabaseQueue databaseQueueWithPath: userBibleDatabase];
+  
+    NSArray *allDBs = @[ bible, content, userBible ];
+    NSArray *allDBNames = @[ @"Bible", @"User Content", @"User Bible"];
     
-    if (![bible open])
+    for (int i=0; i<allDBs.count; i++)
     {
-      NSLog(@"[CRITICAL] Could not open Bible Database!");
-      return nil;
-    }
-    
-    if (![content open])
-    {
-      NSLog(@"[CRITICAL] Could not open User Content Database!");
-      return nil;
-    }
-    
-    // add a case and diacritic-insensitive comparator to the sqlite instances
-    [bible makeFunctionNamed: @"doesContain" maximumArguments: 2 withBlock:^(sqlite3_context * context, int aargc,
-                                                                             sqlite3_value **aargv)
-     {
-       if (aargc < 2)
+      FMDatabaseQueue *theDB = allDBs[i];
+      NSString *theDBName = allDBNames[i];
+      [theDB inDatabase:^(FMDatabase *db)
        {
-         NSLog (@"doesContain doesn't have enough parameters (%d) %s:%d", aargc, __FUNCTION__, __LINE__);
-         sqlite3_result_null (context);
-         return;
-       }
-       
-       if (sqlite3_value_type (aargv[0]) == SQLITE_TEXT
-           && sqlite3_value_type (aargv[1]) == SQLITE_TEXT)
-       {
-         @autoreleasepool {
-           const char *x = (const char *)sqlite3_value_text (aargv[0]);
-           NSString *sx = [NSString stringWithUTF8String: x];
-           
-           const char *y = (const char *)sqlite3_value_text (aargv[1]);
-           NSString *sy = [NSString stringWithUTF8String: y];
-           
-           int lx = [sx length];
-           int ly = [sy length];
-           
-           if (lx > 0
-               && ly > 0)
+        if (![db open])
+        {
+          NSLog(@"[CRITICAL] Could not open %@ Database!", theDBName);
+        }
+
+        // add a case and diacritic-insensitive comparator to the sqlite instances
+        [db makeFunctionNamed: @"doesContain" maximumArguments: 2 withBlock:^(sqlite3_context * context, int aargc,
+                                                                                 sqlite3_value **aargv)
+         {
+           if (aargc < 2)
            {
-             sx = [[sx lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
-             sy = [[sy lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
-             
-             if ([[PKSettings instance] transliterateText])
-             {
-               sx = [PKBible transliterate: sx];
-               sy = [PKBible transliterate: sy];
+             NSLog (@"doesContain doesn't have enough parameters (%d) %s:%d", aargc, __FUNCTION__, __LINE__);
+             sqlite3_result_null (context);
+             return;
+           }
+           
+           if (sqlite3_value_type (aargv[0]) == SQLITE_TEXT
+               && sqlite3_value_type (aargv[1]) == SQLITE_TEXT)
+           {
+             @autoreleasepool {
+               const char *x = (const char *)sqlite3_value_text (aargv[0]);
+               NSString *sx = [NSString stringWithUTF8String: x];
+               
+               const char *y = (const char *)sqlite3_value_text (aargv[1]);
+               NSString *sy = [NSString stringWithUTF8String: y];
+               
+               int lx = [sx length];
+               int ly = [sy length];
+               
+               if (lx > 0
+                   && ly > 0)
+               {
+                 sx = [[sx lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
+                 sy = [[sy lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
+                 
+                 if ([[PKSettings instance] transliterateText])
+                 {
+                   sx = [PKBible transliterate: sx];
+                   sy = [PKBible transliterate: sy];
+                 }
+                 sqlite3_result_int (context, [sx rangeOfString: sy].location != NSNotFound);
+               }
+               else
+               {
+                 sqlite3_result_int (context, 0);
+               }
              }
-             sqlite3_result_int (context, [sx rangeOfString: sy].location != NSNotFound);
            }
            else
            {
-             sqlite3_result_int (context, 0);
+             NSLog (@"Unknown format for doesContain (%d, %d) %s:%d", sqlite3_value_type (aargv[0]),
+                    sqlite3_value_type (aargv[1]), __FUNCTION__, __LINE__);
+             sqlite3_result_null (context);
            }
          }
+         ];
+        
+        
        }
-       else
-       {
-         NSLog (@"Unknown format for doesContain (%d, %d) %s:%d", sqlite3_value_type (aargv[0]),
-                sqlite3_value_type (aargv[1]), __FUNCTION__, __LINE__);
-         sqlite3_result_null (context);
-       }
-     }
-     ];
-
-    [content makeFunctionNamed: @"doesContain" maximumArguments: 2 withBlock:^(sqlite3_context * context, int aargc,
-                                                                             sqlite3_value **aargv)
-     {
-       if (aargc < 2)
-       {
-         NSLog (@"doesContain doesn't have enough parameters (%d) %s:%d", aargc, __FUNCTION__, __LINE__);
-         sqlite3_result_null (context);
-         return;
-       }
-       
-       if (sqlite3_value_type (aargv[0]) == SQLITE_TEXT
-           && sqlite3_value_type (aargv[1]) == SQLITE_TEXT)
-       {
-         @autoreleasepool {
-           const char *x = (const char *)sqlite3_value_text (aargv[0]);
-           NSString *sx = [NSString stringWithUTF8String: x];
-           
-           const char *y = (const char *)sqlite3_value_text (aargv[1]);
-           NSString *sy = [NSString stringWithUTF8String: y];
-           
-           int lx = [sx length];
-           int ly = [sy length];
-           
-           if (lx > 0
-               && ly > 0)
-           {
-             sx = [[sx lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
-             sy = [[sy lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
-             
-             if ([[PKSettings instance] transliterateText])
-             {
-               sx = [PKBible transliterate: sx];
-               sy = [PKBible transliterate: sy];
-             }
-             sqlite3_result_int (context, [sx rangeOfString: sy].location != NSNotFound);
-           }
-           else
-           {
-             sqlite3_result_int (context, 0);
-           }
-         }
-       }
-       else
-       {
-         NSLog (@"Unknown format for doesContain (%d, %d) %s:%d", sqlite3_value_type (aargv[0]),
-                sqlite3_value_type (aargv[1]), __FUNCTION__, __LINE__);
-         sqlite3_result_null (context);
-       }
-     }
-     ];
-
+      ];
+    }
+    
+    // make sure that the userBible table has all the proper schemas
+    [userBible inDatabase:^(FMDatabase *db)
+      {
+        [db executeUpdate: @"CREATE TABLE bibles (bibleAbbreviation TEXT, bibleAttribution TEXT, bibleSide TEXT, bibleID INTEGER PRIMARY KEY, bibleName TEXT, bibleParsedID NUMERIC)"];
+        [db executeUpdate: @"CREATE TABLE [content] ([bibleID] NUMERIC, [bibleReference] TEXT, [bibleText] TEXT, [bibleBook] INT, [bibleChapter] INT, [bibleVerse] INT, PRIMARY KEY ([bibleID] ASC, [bibleBook] ASC, [bibleChapter] ASC, [bibleVerse] ASC))"];
+        [db executeUpdate: @"CREATE UNIQUE INDEX [idx_content] ON [content] ([bibleChapter] ASC, [bibleBook] ASC, [bibleVerse] ASC, [bibleID] ASC)"];
+      }
+    ];
+    
   }
   return self;
 }
@@ -343,7 +316,7 @@ static id _instance;
 
 -(BOOL) exportAll
 {
-  [content close];          // close the database first...
+  //[content close];          // close the database first...
   
   // our export will be of the form: exportMMDDYYY_HHMISS.dat
   NSDate *theDate               = [NSDate date];
@@ -376,7 +349,7 @@ static id _instance;
     return NO;
   }
   
-  [content open];
+  //[content open];
   return YES;
 }
 
@@ -388,6 +361,7 @@ static id _instance;
 -(void) dealloc
 {
   // close our databases
+  [userBible close];
   [content close];
   [bible close];
   content = nil;

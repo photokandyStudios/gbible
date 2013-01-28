@@ -10,36 +10,58 @@
 #import "PKSettings.h"
 #import "PKDatabase.h"
 #import "FMDatabase.h"
+#import "FMDatabaseQueue.h"
 #import "FMResultSet.h"
 #import "PKConstants.h"
 #import "searchutils.h"
 
 @implementation PKBible
 
++(FMDatabaseQueue *) bibleDatabaseForText: (int) theText
+{
+  if (theText <= 100) return [[PKDatabase instance] bible];
+  return [[PKDatabase instance] userBible];
+}
+
++(NSArray *) bibleArray
+{
+  return @[ [[PKDatabase instance] bible],
+            [[PKDatabase instance] userBible] ];
+}
+
 +(NSArray *) availableTextsForSide: (NSString *) side andColumn: (int) column
 {
   // http://stackoverflow.com/questions/3940615/find-current-country-from-iphone-device
   NSLocale *currentLocale = [NSLocale currentLocale];    // get the current locale.
   NSString *countryCode   = [currentLocale objectForKey: NSLocaleCountryCode];
-
-  FMDatabase *db          = [[PKDatabase instance] bible];
-  FMResultSet *s          =
-    [db executeQuery:
-     @"select bibleAbbreviation, bibleAttribution, bibleSide, bibleID, bibleName, bibleParsedID from bibles where bibleSide=? order by bibleAbbreviation",
-     side];
-
+  
   NSMutableArray *texts   = [[NSMutableArray alloc] initWithCapacity: 4];
-
-  while ([s next])
+  NSArray *theBibles = [self bibleArray];
+  
+  for (int i=0; i<theBibles.count; i++)
   {
-    // make sure we don't add the KJV version if we're in the UK, or in the Euro-zone (since they
-    // must respect the UK copyright)
-    if ( !( ([@" GB AT BE BG CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE "
-              rangeOfString: [NSString stringWithFormat: @" %@ ", countryCode]].location != NSNotFound)
-            && [[s stringForColumnIndex: PK_TBL_BIBLES_ABBREVIATION] isEqualToString: @"KJV"] ) )
-    {
-      [texts addObject: [s objectForColumnIndex: column]];
-    }
+    FMDatabaseQueue *db = theBibles[i];
+    [db inDatabase:^(FMDatabase *db)
+      {
+        FMResultSet *s          =
+          [db executeQuery:
+           @"select bibleAbbreviation, bibleAttribution, bibleSide, bibleID, bibleName, bibleParsedID from bibles where bibleSide=? order by bibleAbbreviation",
+           side];
+
+        while ([s next])
+        {
+          // make sure we don't add the KJV version if we're in the UK, or in the Euro-zone (since they
+          // must respect the UK copyright)
+          if ( !( ([@" GB AT BE BG CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE "
+                    rangeOfString: [NSString stringWithFormat: @" %@ ", countryCode]].location != NSNotFound)
+                  && [[s stringForColumnIndex: PK_TBL_BIBLES_ABBREVIATION] isEqualToString: @"KJV"] ) )
+          {
+            [texts addObject: [s objectForColumnIndex: column]];
+          }
+        }
+        [s close];
+      }
+    ];
   }
   return texts;
 }
@@ -57,14 +79,23 @@
 
 +(NSString *) titleForTextID: (int) theText
 {
-  FMDatabase *db = [[PKDatabase instance] bible];
-  FMResultSet *s = [db executeQuery: @"select bibleName from bibles where bibleID=?", @ (theText)];
+  FMDatabaseQueue *db = [self bibleDatabaseForText:theText];
+  
+  __block NSString *retValue = @"";
+  
+  [db inDatabase:^(FMDatabase *db)
+    {
+      FMResultSet *s = [db executeQuery: @"select bibleName from bibles where bibleID=?", @ (theText)];
 
-  if ([s next])
-  {
-    return [s stringForColumnIndex: 0];
-  }
-  return @"";
+      if ([s next])
+      {
+        retValue = [s stringForColumnIndex: 0];
+      }
+      [s close];
+    }
+  ];
+  
+  return retValue;
 }
 
 /**
@@ -233,34 +264,34 @@
  */
 +(int) countOfVersesForBook: (int) theBook forChapter: (int) theChapter
 {
-  int totalGreekCount     = 0;
-  int totalEnglishCount   = 0;
   int totalCount;
   NSString *theSQL        = @"SELECT count(*) FROM content WHERE bibleID=? AND bibleBook = ? AND bibleChapter = ?";
 
   int currentGreekBible   = [[PKSettings instance] greekText];
   int currentEnglishBible = [[PKSettings instance] englishText];
-  FMDatabase *db          = [[PKDatabase instance] bible];
 
-  FMResultSet *s          = [db executeQuery: theSQL, [NSNumber numberWithInt: currentGreekBible],
-                             [NSNumber numberWithInt: theBook],
-                             [NSNumber numberWithInt: theChapter]];
-
-  while ([s next])
+  NSArray *theDBs = @[ [self bibleDatabaseForText:currentGreekBible], [self bibleDatabaseForText:currentEnglishBible] ];
+  NSMutableArray* theCounts = [ @[ @0, @0 ] mutableCopy];
+  
+  for (int i=0; i<2; i++)
   {
-    totalGreekCount = [s intForColumnIndex: 0];
+    FMDatabaseQueue *db = theDBs[i];
+    [db inDatabase:^(FMDatabase *db)
+      {
+        FMResultSet *s          = [db executeQuery: theSQL, [NSNumber numberWithInt: (i==0?currentGreekBible:currentEnglishBible)],
+                                   [NSNumber numberWithInt: theBook],
+                                   [NSNumber numberWithInt: theChapter]];
+
+        while ([s next])
+        {
+          theCounts[i] = @([s intForColumnIndex: 0]);
+        }
+        [s close];
+      }
+    ];
   }
 
-  s = [db executeQuery: theSQL, [NSNumber numberWithInt: currentEnglishBible],
-       [NSNumber numberWithInt: theBook],
-       [NSNumber numberWithInt: theChapter]];
-
-  while ([s next])
-  {
-    totalEnglishCount = [s intForColumnIndex: 0];
-  }
-
-  totalCount = MAX(totalGreekCount, totalEnglishCount);
+  totalCount = MAX([theCounts[0] intValue], [theCounts[1] intValue]);
 
   return totalCount;
 }
@@ -275,23 +306,26 @@
 +(NSString *) getTextForBook: (int) theBook forChapter: (int) theChapter forVerse: (int) theVerse forSide: (int) theSide
 {
   int currentBible = (theSide == 1 ? [[PKSettings instance] greekText] : [[PKSettings instance] englishText]);
-  FMDatabase *db   = [[PKDatabase instance] bible];
+  FMDatabaseQueue *db   = [self bibleDatabaseForText:currentBible];
   NSString *theSQL = @"SELECT bibleText FROM content WHERE bibleID=? AND bibleBook=? AND bibleChapter=? AND bibleVerse=?";
-  NSString *theText;
+  __block NSString *theText;
   NSString *theRef = [NSString stringWithFormat: @"%i ", theVerse];
+  
+  [db inDatabase:^(FMDatabase *db)
+    {
+      FMResultSet *s   = [db executeQuery: theSQL, [NSNumber numberWithInt: currentBible],
+                          [NSNumber numberWithInt: theBook],
+                          [NSNumber numberWithInt: theChapter],
+                          [NSNumber numberWithInt: theVerse]];
 
-  FMResultSet *s   = [db executeQuery: theSQL, [NSNumber numberWithInt: currentBible],
-                      [NSNumber numberWithInt: theBook],
-                      [NSNumber numberWithInt: theChapter],
-                      [NSNumber numberWithInt: theVerse]];
+      while ([s next])
+      {
+        theText = [s stringForColumnIndex: 0];
+      }
+      [s close];
+    }
+  ];
 
-  while ([s next])
-  {
-    theText = [s stringForColumnIndex: 0];
-  }
-
-  //if (theSide == 2)
-  //{
   if (theText != nil)
   {
     theText = [theRef stringByAppendingString: theText];
@@ -300,13 +334,13 @@
   {
     theText = theRef;
   }
-  //}
   theText = [theText stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
 
   if ([[PKSettings instance] transliterateText])
   {
     theText = [self transliterate: theText];
   }
+
   return theText;
 }
 
@@ -320,34 +354,38 @@
 +(NSArray *) getTextForBook: (int) theBook forChapter: (int) theChapter forSide: (int) theSide
 {
   int currentBible         = (theSide == 1 ? [[PKSettings instance] greekText] : [[PKSettings instance] englishText]);
-  FMDatabase *db           = [[PKDatabase instance] bible];
+  FMDatabaseQueue *db   = [self bibleDatabaseForText:currentBible];
 
   NSString *theSQL         = @"SELECT bibleText FROM content WHERE bibleID=? AND bibleBook = ? AND bibleChapter = ?";
-  //NSArray *theArray = [[NSArray alloc] init];
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
 
-  FMResultSet *s           = [db executeQuery: theSQL, [NSNumber numberWithInt: currentBible],
-                              [NSNumber numberWithInt: theBook],
-                              [NSNumber numberWithInt: theChapter]];
-  int i                    = 1;
-
-  while ([s next])
-  {
-    NSString *theText = [s stringForColumnIndex: 0];
-    NSString *theRef  = [NSString stringWithFormat: @"%i ", i];
-    // if (theSide == 2)
-    // {
-    theText = [theRef stringByAppendingString: theText];
-    // }
-    theText = [theText stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
-
-    if ([[PKSettings instance] transliterateText])
+  [db inDatabase:^(FMDatabase *db)
     {
-      theText = [self transliterate: theText];
+      FMResultSet *s           = [db executeQuery: theSQL, [NSNumber numberWithInt: currentBible],
+                                  [NSNumber numberWithInt: theBook],
+                                  [NSNumber numberWithInt: theChapter]];
+      int i                    = 1;
+
+      while ([s next])
+      {
+        NSString *theText = [s stringForColumnIndex: 0];
+        NSString *theRef  = [NSString stringWithFormat: @"%i ", i];
+        // if (theSide == 2)
+        // {
+        theText = [theRef stringByAppendingString: theText];
+        // }
+        theText = [theText stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+
+        if ([[PKSettings instance] transliterateText])
+        {
+          theText = [self transliterate: theText];
+        }
+        [theArray addObject: theText];
+        i++;
+      }
+      [s close];
     }
-    [theArray addObject: theText];
-    i++;
-  }
+  ];
 
   return theArray;
 }
@@ -1014,15 +1052,21 @@
 
 +(int) parsedVariant: (int) theBook
 {
-  int theParsedBook = -1;       // return this if nothing matches
-  FMDatabase *db    = [[PKDatabase instance] bible];
-  FMResultSet *s    =
-    [db executeQuery: @"SELECT IFNULL(bibleParsedID,-1) FROM bibles WHERE bibleID=?", [NSNumber numberWithInt: theBook]];
+  __block int theParsedBook = -1;       // return this if nothing matches
+  FMDatabaseQueue *db    = [self bibleDatabaseForText:theBook];
+  
+  [db inDatabase:^(FMDatabase *db)
+    {
+      FMResultSet *s    =
+        [db executeQuery: @"SELECT IFNULL(bibleParsedID,-1) FROM bibles WHERE bibleID=?", [NSNumber numberWithInt: theBook]];
 
-  if ([s next])
-  {
-    theParsedBook = [s intForColumnIndex: 0];
-  }
+      if ([s next])
+      {
+        theParsedBook = [s intForColumnIndex: 0];
+      }
+      [s close];
+    }
+  ];
   return theParsedBook;
 }
 
@@ -1051,24 +1095,33 @@
 +(NSArray *) passagesMatching: (NSString *) theTerm withGreekBible: (int) theGreekBible andEnglishBible: (int) theEnglishBible
 {
   NSMutableArray *theMatches = [[NSMutableArray alloc] init];
-  FMDatabase *db             = [[PKDatabase instance] bible];
 
   NSString *searchPhrase = convertSearchToSQL(theTerm, @"bibleText");
 
-  FMResultSet *s =
-    [db executeQuery: [NSString stringWithFormat:
-                       @"SELECT DISTINCT bibleBook, bibleChapter, bibleVerse FROM content WHERE bibleID in (?,?) AND (%@) ORDER BY 1,2,3",
-                       searchPhrase],
-     [NSNumber numberWithInt: theGreekBible],
-     [NSNumber numberWithInt: theEnglishBible]];
-
-  while ([s next])
+  NSArray *theDBs = @[ [self bibleDatabaseForText:theGreekBible], [self bibleDatabaseForText:theEnglishBible] ];
+  
+  for (int i=0; i<2; i++)
   {
-    int theBook          = [s intForColumnIndex: 0];
-    int theChapter       = [s intForColumnIndex: 1];
-    int theVerse         = [s intForColumnIndex: 2];
-    NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
-    [theMatches addObject: thePassage];
+    FMDatabaseQueue *db = theDBs[i];
+    [db inDatabase:^(FMDatabase *db)
+      {
+        FMResultSet *s =
+          [db executeQuery: [NSString stringWithFormat:
+                             @"SELECT DISTINCT bibleBook, bibleChapter, bibleVerse FROM content WHERE bibleID = ? AND (%@) ORDER BY 1,2,3",
+                             searchPhrase],
+           [NSNumber numberWithInt: (i==0?theGreekBible:theEnglishBible)]];
+
+        while ([s next])
+        {
+          int theBook          = [s intForColumnIndex: 0];
+          int theChapter       = [s intForColumnIndex: 1];
+          int theVerse         = [s intForColumnIndex: 2];
+          NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
+          [theMatches addObject: thePassage];
+        }
+        [s close];
+      }
+    ];
   }
 
   return [theMatches copy];
