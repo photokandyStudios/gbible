@@ -108,28 +108,39 @@
   //
   // Books of the bible and chapter count obtained from http://www.deafmissions.com/tally/bkchptrvrs.html
   //
-  NSArray *bookList = [NSArray arrayWithObjects:
-                       __T(@"Genesis"),         __T(@"Exodus"),   __T(@"Leviticus"), __T(@"Numbers"),
-                       __T(@"Deuteronomy"),     __T(@"Joshua"),   __T(@"Judges"),    __T(@"Ruth"),
-                       __T(@"1 Samuel"),        __T(@"2 Samuel"), __T(@"1 Kings"),   __T(@"2 Kings"),
-                       __T(@"1 Chronicles"),    __T(@"2 Chronicles"),
-                       __T(@"Ezra"),            __T(@"Nehemia"),  __T(@"Esther"),    __T(@"Job"),
-                       __T(@"Psalms"),          __T(@"Proverbs"), __T(@"Ecclesiastes"),
-                       __T(@"Song of Solomon"), __T(@"Isaiah"),   __T(@"Jeremiah"),  __T(@"Lamentations"),
-                       __T(@"Ezekial"),         __T(@"Daniel"),
-                       __T(@"Hosea"),           __T(@"Joel"),     __T(@"Amos"),      __T(@"Obadiah"),
-                       __T(@"Jonah"),           __T(@"Micah"),    __T(@"Nahum"),     __T(@"Habakkuk"),
-                       __T(@"Zephaniah"),       __T(@"Haggai"),   __T(@"Zechariah"), __T(@"Malachi"),
-                       // New Testament
-                       __T(@"Matthew"),         __T(@"Mark"),            __T(@"Luke"),          __T(@"John"),
-                       __T(@"Acts"),            __T(@"Romans"),          __T(@"1 Corinthians"),
-                       __T(@"2 Corinthians"),   __T(@"Galatians"), // FIX ISSUE #44
-                       __T(@"Ephesians"),       __T(@"Philippians"),     __T(@"Colossians"),
-                       __T(@"1 Thessalonians"), __T(@"2 Thessalonians"), __T(@"1 Timothy"),     __T(@"2 Timothy"), __T(@"Titus"),
-                       __T(@"Philemon"),        __T(@"Hebrews"),         __T(@"James"),         __T(@"1 Peter"),   __T(@"2 Peter"),
-                       __T(@"1 John"),          __T(@"2 John"),
-                       __T(@"3 John"),          __T(@"Jude"),            __T(@"Revelation"), nil];
-  return [bookList objectAtIndex: theBook - 1];
+  static NSArray *bookList;
+  @synchronized(bookList)
+  {
+    if (!bookList)
+    {
+      bookList = @[
+                         __T(@"Genesis"),         __T(@"Exodus"),   __T(@"Leviticus"), __T(@"Numbers"),
+                         __T(@"Deuteronomy"),     __T(@"Joshua"),   __T(@"Judges"),    __T(@"Ruth"),
+                         __T(@"1 Samuel"),        __T(@"2 Samuel"), __T(@"1 Kings"),   __T(@"2 Kings"),
+                         __T(@"1 Chronicles"),    __T(@"2 Chronicles"),
+                         __T(@"Ezra"),            __T(@"Nehemia"),  __T(@"Esther"),    __T(@"Job"),
+                         __T(@"Psalms"),          __T(@"Proverbs"), __T(@"Ecclesiastes"),
+                         __T(@"Song of Solomon"), __T(@"Isaiah"),   __T(@"Jeremiah"),  __T(@"Lamentations"),
+                         __T(@"Ezekial"),         __T(@"Daniel"),
+                         __T(@"Hosea"),           __T(@"Joel"),     __T(@"Amos"),      __T(@"Obadiah"),
+                         __T(@"Jonah"),           __T(@"Micah"),    __T(@"Nahum"),     __T(@"Habakkuk"),
+                         __T(@"Zephaniah"),       __T(@"Haggai"),   __T(@"Zechariah"), __T(@"Malachi"),
+                         // New Testament
+                         __T(@"Matthew"),         __T(@"Mark"),            __T(@"Luke"),          __T(@"John"),
+                         __T(@"Acts"),            __T(@"Romans"),          __T(@"1 Corinthians"),
+                         __T(@"2 Corinthians"),   __T(@"Galatians"), // FIX ISSUE #44
+                         __T(@"Ephesians"),       __T(@"Philippians"),     __T(@"Colossians"),
+                         __T(@"1 Thessalonians"), __T(@"2 Thessalonians"), __T(@"1 Timothy"),     __T(@"2 Timothy"), __T(@"Titus"),
+                         __T(@"Philemon"),        __T(@"Hebrews"),         __T(@"James"),         __T(@"1 Peter"),   __T(@"2 Peter"),
+                         __T(@"1 John"),          __T(@"2 John"),
+                         __T(@"3 John"),          __T(@"Jude"),            __T(@"Revelation") ];
+    }
+    if (theBook<1)
+    {
+      return @"";
+    }
+    return [bookList objectAtIndex: theBook - 1];
+  }
 }
 
 /**
@@ -139,7 +150,12 @@
  */
 +(NSString *) numericalThreeLetterCodeForBook: (int) theBook
 {
-  NSArray *bookList = [NSArray arrayWithObjects:
+  static NSArray *bookList;
+  @synchronized(bookList)
+  {
+    if (!bookList)
+    {
+      bookList = @[
                        @"01O", @"02O", @"03O", @"04O", @"05O", @"06O", @"07O", @"08O",
                        @"09O", @"10O", @"11O", @"12O", @"13O", @"14O",
                        @"15O", @"16O", @"17O", @"18O", @"19O", @"20O", @"21O",
@@ -151,8 +167,10 @@
                        @"47N", @"48N", @"49N", @"50N", @"51N",
                        @"52N", @"53N", @"54N", @"55N", @"56N",
                        @"57N", @"58N", @"59N", @"60N", @"61N", @"62N", @"63N",
-                       @"64N", @"65N", @"66N", nil];
-  return [bookList objectAtIndex: theBook - 1];
+                       @"64N", @"65N", @"66N"];
+    }
+    return [bookList objectAtIndex: theBook - 1];
+  }
 }
 
 /**
@@ -162,7 +180,12 @@
  */
 +(NSString *) abbreviationForBook: (int) theBook
 {
-  NSArray *bookList = [NSArray arrayWithObjects:
+  static NSArray *bookList;
+  @synchronized(bookList)
+  {
+    if (!bookList)
+    {
+       bookList = @[
                        @"Gen", @"Exo", @"Lev", @"Num", @"Deu", @"Jos", @"Jdg", @"Rut",
                        @"1Sa", @"2Sa", @"1Ki", @"2Ki", @"1Ch", @"2Ch",
                        @"Ezr", @"Neh", @"Est", @"Job", @"Psa", @"Pro", @"Ecc",
@@ -174,8 +197,10 @@
                        @"2Co", @"Gal", @"Eph", @"Phi", @"Col",
                        @"1Th", @"2Th", @"1Ti", @"2Ti", @"Tit",
                        @"Phl", @"Heb", @"Jas", @"1Pe", @"2Pe", @"1Jo", @"2Jo",
-                       @"3Jo", @"Jud", @"Rev", nil];
-  return [bookList objectAtIndex: theBook - 1];
+                       @"3Jo", @"Jud", @"Rev"];
+    }
+    return [bookList objectAtIndex: theBook - 1];
+  }
 }
 
 /**
@@ -185,76 +210,14 @@
  */
 +(int) countOfChaptersForBook: (int) theBook
 {
-  NSArray *chapterCountList = [NSArray arrayWithObjects:
-                               [NSNumber numberWithInt: 50],
-                               [NSNumber numberWithInt: 40],
-                               [NSNumber numberWithInt: 27],
-                               [NSNumber numberWithInt: 36],
-                               [NSNumber numberWithInt: 34],
-                               [NSNumber numberWithInt: 24],
-                               [NSNumber numberWithInt: 21],
-                               [NSNumber numberWithInt: 4],
-                               [NSNumber numberWithInt: 31],
-                               [NSNumber numberWithInt: 24],
-                               [NSNumber numberWithInt: 22],
-                               [NSNumber numberWithInt: 25],
-                               [NSNumber numberWithInt: 29],
-                               [NSNumber numberWithInt: 36],
-                               [NSNumber numberWithInt: 10],
-                               [NSNumber numberWithInt: 13],
-                               [NSNumber numberWithInt: 10],
-                               [NSNumber numberWithInt: 42],
-                               [NSNumber numberWithInt: 150],
-                               [NSNumber numberWithInt: 31],
-                               [NSNumber numberWithInt: 12],
-                               [NSNumber numberWithInt: 8],
-                               [NSNumber numberWithInt: 66],
-                               [NSNumber numberWithInt: 52],
-                               [NSNumber numberWithInt: 5],
-                               [NSNumber numberWithInt: 48],
-                               [NSNumber numberWithInt: 12],
-                               [NSNumber numberWithInt: 14],
-                               [NSNumber numberWithInt: 3],
-                               [NSNumber numberWithInt: 9],
-                               [NSNumber numberWithInt: 1],
-                               [NSNumber numberWithInt: 4],
-                               [NSNumber numberWithInt: 7],
-                               [NSNumber numberWithInt: 3],
-                               [NSNumber numberWithInt: 3],
-                               [NSNumber numberWithInt: 3],
-                               [NSNumber numberWithInt: 2],
-                               [NSNumber numberWithInt: 14],
-                               [NSNumber numberWithInt: 4],
-                               // New Testament
-                               [NSNumber numberWithInt: 28],
-                               [NSNumber numberWithInt: 16],
-                               [NSNumber numberWithInt: 24],
-                               [NSNumber numberWithInt: 21],
-                               [NSNumber numberWithInt: 28],
-                               [NSNumber numberWithInt: 16],
-                               [NSNumber numberWithInt: 16],
-                               [NSNumber numberWithInt: 13], // re: issue #29
-                               [NSNumber numberWithInt: 6],
-                               [NSNumber numberWithInt: 6],
-                               [NSNumber numberWithInt: 4],
-                               [NSNumber numberWithInt: 4],
-                               [NSNumber numberWithInt: 5],
-                               [NSNumber numberWithInt: 3],
-                               [NSNumber numberWithInt: 6],
-                               [NSNumber numberWithInt: 4],
-                               [NSNumber numberWithInt: 3],
-                               [NSNumber numberWithInt: 1],
-                               [NSNumber numberWithInt: 13],
-                               [NSNumber numberWithInt: 5],
-                               [NSNumber numberWithInt: 5],
-                               [NSNumber numberWithInt: 3],
-                               [NSNumber numberWithInt: 5],
-                               [NSNumber numberWithInt: 1],
-                               [NSNumber numberWithInt: 1],
-                               [NSNumber numberWithInt: 1],
-                               [NSNumber numberWithInt: 22]
-                               , nil];
-  return [[chapterCountList objectAtIndex: theBook - 1] intValue];
+  static int chapterCountList[]   = {50,40,27,36,34,24,21,4,31,24,22,25,
+                                     29,36,10,13,10,42,150,31,12,8,66,52,
+                                     5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,
+                                     // New Testament
+                                     28,16,24,21,28,16,16,13, // re: issue #29
+                                     6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,
+                                     1,22};
+  return chapterCountList[theBook -1];
 }
 
 /**
@@ -593,7 +556,15 @@
 {
   // there's no easy way to determine if a word is a morphology word. Instead, let's encode
   // the various options
-  if ([theWord hasPrefix: @"A-"])
+  
+  CFStringRef strDash = CFSTR ("-");
+  
+  CFStringRef theCFString = (__bridge CFStringRef)(theWord);
+
+  if (CFStringFind(theCFString, strDash, 0).location != kCFNotFound)
+    return YES;
+  
+/*  if ([theWord hasPrefix: @"A-"])
     return YES;
 
   if ([theWord hasPrefix: @"C-"])
@@ -675,14 +646,19 @@
     return YES;
 
   if ([theWord hasPrefix: @"COND-"])
-    return YES;
+    return YES;*/
 
-  NSString *morphWords = @" Adv Adj N V Heb Conj Prep Prtcl Prt Cond Inj ADV ADJ HEB CONJ PREP PRTCL PRT COND ARAM INJ ";
+  CFStringRef morphWords = CFSTR(" Adv Adj N V Heb Conj Prep Prtcl Prt Cond Inj ADV ADJ HEB CONJ PREP PRTCL PRT COND ARAM INJ ");
 
-  if ([morphWords rangeOfString: [NSString stringWithFormat: @" %@ ", theWord]].location != NSNotFound)
+  NSString *theSpacedWord = [[@" " stringByAppendingString: theWord] stringByAppendingString: @" "];
+  if ( CFStringFind(morphWords, (__bridge CFStringRef)(theSpacedWord), 0).location != kCFNotFound )
   {
     return YES;
   }
+//  if ([morphWords rangeOfString: [NSString stringWithFormat: @" %@ ", theWord]].location != NSNotFound)
+//  {
+//    return YES;
+//  }
   return NO;
 }
 
@@ -835,6 +811,7 @@
   NSString *theWord;
   NSString *thePriorWord;
   NSArray *thePriorWordArray = @[];
+  int thePriorWordArrayIndex = -1;
 
   CGFloat maxX               = 0.0;
 
@@ -852,6 +829,7 @@
     if (thePriorWordType == 0)
     {
       thePriorWordArray = [theWordArray lastObject];
+      thePriorWordArrayIndex = theWordArray.count-1;
     }
 
     // and its size
@@ -866,8 +844,8 @@
       // originally we used regular expressions, but they are SLOW
       // G#s are of the form G[0-9]+
 
-      if ([theOriginalWord length] > 1
-          && [[theOriginalWord substringToIndex: 1] isEqualToString: @"G"]
+      if (theOriginalWord.length > 1
+          && [theOriginalWord hasPrefix: @"G"]
           && [[theOriginalWord substringFromIndex: 1] intValue] > 0)
       {
         // we're a G#
@@ -900,7 +878,7 @@
             && [[theOriginalWord substringFromIndex: 1] intValue] <= 5624
             )
         {
-          int theIndex = [theWordArray indexOfObject: thePriorWordArray];
+          int theIndex = thePriorWordArrayIndex; //[theWordArray indexOfObject: thePriorWordArray];
 
           if (theIndex > -1
               && theIndex < theWordArray.count)
@@ -914,10 +892,10 @@
       else
       {
         // are we a (interlinear word)?
-        if ( [theOriginalWord length] > 1
+        if ( theOriginalWord.length > 1
              && (
-               [[theOriginalWord substringToIndex: 1] isEqualToString: @"("]
-               || [[theOriginalWord substringFromIndex: [theOriginalWord length] - 1] isEqualToString: @")"]) )
+               [theOriginalWord hasPrefix: @"("]
+               || [theOriginalWord hasSuffix: @")"]) )
         {
           theWordType = 5;
           yOffset     = lineHeight * 3;
@@ -950,8 +928,8 @@
         else
         {
           // are we a VARiant? (regex: VAR[0-9]
-          if ([theOriginalWord length] > 1
-              && [[theOriginalWord substringToIndex: 2] isEqualToString: @"VAR"])
+          if ( theOriginalWord.length > 1
+              && [theOriginalWord hasPrefix: @"VAR"])
           {
             theWordType = 0;                 // we're really just a regular word.
             yOffset     = 0.0;
