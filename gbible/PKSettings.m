@@ -420,7 +420,8 @@ static id _instance;
 
 +(UIColor *)PKSidebarSelectionColor
 {
-  NSArray *theColors = @[[UIColor colorWithRed: 0.8125 green: 0.800781 blue: 0.773437 alpha: 1.0],
+  static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithRed: 0.8125 green: 0.800781 blue: 0.773437 alpha: 1.0],
                          [UIColor colorWithRed: 0.350 green: 0.600 blue: 0.850 alpha: 1.0],
                          [UIColor colorWithRed: 0.875 green: 0.9325 blue: 1.0 alpha: 1.0],
                          [UIColor colorWithRed: 0.875 green: 0.9325 blue: 1.0 alpha: 1.0]
@@ -431,7 +432,8 @@ static id _instance;
 
 +(UIColor *)PKSidebarPageColor
 {
-  NSArray *theColors = @[[UIColor colorWithRed: 0.8125 green: 0.800781 blue: 0.773437 alpha: 1.0],
+  static NSArray *theColors;
+  if (!theColors) theColors =  @[[UIColor colorWithRed: 0.8125 green: 0.800781 blue: 0.773437 alpha: 1.0],
                          [UIColor colorWithWhite: 0.80 alpha: 1],
                          [UIColor colorWithWhite: 0.11 alpha: 1],
                          [UIColor colorWithWhite: 0.11 alpha: 1]
@@ -442,7 +444,8 @@ static id _instance;
 
 +(UIColor *)PKSidebarTextColor
 {
-  NSArray *theColors = @[[UIColor colorWithRed: 0.341176 green: 0.223529 blue: 0.125490 alpha: 1.0],
+  static NSArray *theColors;
+  if (!theColors) theColors =  @[[UIColor colorWithRed: 0.341176 green: 0.223529 blue: 0.125490 alpha: 1.0],
                          [UIColor colorWithWhite: 0.10 alpha: 1],
                          [UIColor colorWithWhite: 0.65 alpha: 1.0],
                          [UIColor colorWithRed: 0.65 green: 0.50 blue: 0.00 alpha: 1.0]
@@ -453,7 +456,8 @@ static id _instance;
 
 +(UIColor *)PKSelectionColor
 {
-  NSArray *theColors = @[[UIColor colorWithRed: 0.8125 green: 0.800781 blue: 0.773437 alpha: 1.0],
+  static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithRed: 0.8125 green: 0.800781 blue: 0.773437 alpha: 1.0],
                          [UIColor colorWithRed: 0.70 green: 0.80 blue: 0.900 alpha: 1.0],
                          [UIColor colorWithRed: 0.20 green: 0.20 blue: 0.20 alpha: 1.0],
                          [UIColor colorWithRed: 0.25 green: 0.20 blue: 0.10 alpha: 1.0]
@@ -464,7 +468,8 @@ static id _instance;
 
 +(UIColor *)PKWordSelectColor
 {
-  NSArray *theColors = @[[UIColor whiteColor],
+  static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor whiteColor],
                          [UIColor whiteColor],
                          [UIColor whiteColor],
                          [UIColor whiteColor]
@@ -475,7 +480,8 @@ static id _instance;
 
 +(UIColor *)PKSecondaryPageColor
 {
-  NSArray *theColors = @[[UIColor colorWithWhite: 1.0 alpha: 1],
+    static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithWhite: 1.0 alpha: 1],
                          [UIColor colorWithWhite: 1.0 alpha: 1],
                          [UIColor colorWithWhite: 0.0 alpha: 1],
                          [UIColor colorWithWhite: 0.0 alpha: 1]
@@ -486,7 +492,8 @@ static id _instance;
 
 +(UIColor *)PKPageColor
 {
-  NSArray *theColors = @[[UIColor colorWithRed: 0.945098 green: 0.933333 blue: 0.898039 alpha: 1],
+    static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithRed: 0.945098 green: 0.933333 blue: 0.898039 alpha: 1],
                          [UIColor colorWithWhite: 0.90 alpha: 1],
                          [UIColor colorWithWhite: 0.10 alpha: 1],
                          [UIColor colorWithWhite: 0.10 alpha: 1]
@@ -497,7 +504,8 @@ static id _instance;
 
 +(UIColor *)PKTextColor
 {
-  NSArray *theColors = @[[UIColor colorWithRed: 0.341176 green: 0.223529 blue: 0.125490 alpha: 1.0],
+    static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithRed: 0.341176 green: 0.223529 blue: 0.125490 alpha: 1.0],
                          [UIColor colorWithWhite: 0.10 alpha: 1],
                          [UIColor colorWithWhite: 0.65 alpha: 1.0],
                          [UIColor colorWithRed: 0.65 green: 0.50 blue: 0.00 alpha: 1.0]
@@ -508,7 +516,8 @@ static id _instance;
 
 +(UIColor *)PKStrongsColor
 {
-  NSArray *theColors = @[[UIColor colorWithRed: 0.125490 green: 0.250980 blue: 0.341176 alpha: 1.0],
+    static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithRed: 0.125490 green: 0.250980 blue: 0.341176 alpha: 1.0],
                          [UIColor colorWithRed: 0.10 green: 0.10 blue: 0.4 alpha: 1.0],
                          [UIColor colorWithRed: 0.4 green: 0.4 blue: 0.65 alpha: 1.0],
                          [UIColor colorWithRed: 0.56 green: 0.43 blue: 0.0 alpha: 1.0]
@@ -519,7 +528,8 @@ static id _instance;
 
 +(UIColor *)PKMorphologyColor
 {
-  NSArray *theColors = @[[UIColor colorWithRed: 0.188235 green: 0.341176 blue: 0.125490 alpha: 1.0],
+    static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithRed: 0.188235 green: 0.341176 blue: 0.125490 alpha: 1.0],
                          [UIColor colorWithRed: 0.10 green: 0.4 blue: 0.10 alpha: 1.0],
                          [UIColor colorWithRed: 0.4 green: 0.65 blue: 0.4 alpha: 1.0],
                          [UIColor colorWithRed: 0.56 green: 0.43 blue: 0.0 alpha: 1.0]
@@ -530,7 +540,8 @@ static id _instance;
 
 +(UIColor *)PKInterlinearColor
 {
-  NSArray *theColors = @[[UIColor colorWithRed: 0.333333 green: 0.333333 blue: 0.333333 alpha: 1.0],
+    static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithRed: 0.333333 green: 0.333333 blue: 0.333333 alpha: 1.0],
                          [UIColor colorWithRed: 0.40 green: 0.10 blue: 0.10 alpha: 1.0],
                          [UIColor colorWithRed: 0.65 green: 0.4 blue: 0.4 alpha: 1.0],
                          [UIColor colorWithRed: 0.56 green: 0.43 blue: 0.0 alpha: 1.0]
@@ -541,7 +552,8 @@ static id _instance;
 
 +(UIColor *)PKAnnotationColor
 {
-  NSArray *theColors = @[[UIColor colorWithRed: 0.313725 green: 0.125490 blue: 0.380392 alpha: 1.0],
+    static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithRed: 0.313725 green: 0.125490 blue: 0.380392 alpha: 1.0],
                          [UIColor colorWithRed: 0.25 green: 0.25 blue: 0.25 alpha: 1.0],
                          [UIColor colorWithRed: 0.4 green: 0.4 blue: 0.4 alpha: 1.0],
                          [UIColor colorWithRed: 0.56 green: 0.43 blue: 0.0 alpha: 1.0]
@@ -552,7 +564,8 @@ static id _instance;
 
 +(UIColor *)PKLightShadowColor
 {
-  NSArray *theColors = @[[UIColor colorWithWhite: 1.0 alpha: 0.5],
+    static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithWhite: 1.0 alpha: 0.5],
                          [UIColor colorWithWhite: 1.0 alpha: 0.5],
                          [UIColor colorWithWhite: 0.0 alpha: 0.75],
                          [UIColor colorWithWhite: 0.0 alpha: 0.75]
@@ -589,7 +602,8 @@ static id _instance;
 
 +(UIColor *)PKBaseUIColor
 {
-  NSArray *theColors = @[[UIColor colorWithRed: 0.250980 green: 0.282352 blue: 0.313725 alpha: 1.0],
+    static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithRed: 0.250980 green: 0.282352 blue: 0.313725 alpha: 1.0],
                          [UIColor colorWithRed: 0.250980 green: 0.282352 blue: 0.313725 alpha: 1.0],
                          [UIColor colorWithRed: 0.250980 green: 0.282352 blue: 0.313725 alpha: 1.0],
                          [UIColor colorWithRed: 0.250980 green: 0.282352 blue: 0.313725 alpha: 1.0]
