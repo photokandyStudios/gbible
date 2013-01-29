@@ -16,7 +16,7 @@
 #import "PKRootViewController.h"
 #import "TestFlight.h"
 #import "PKHistoryViewController.h"
-
+#import "SVProgressHUD.h"
 #import "PKHotLabel.h"
 
 @interface PKStrongsController ()
@@ -58,11 +58,14 @@
 -(void)doSearchForTerm: (NSString *) theTerm byKeyOnly: (BOOL) keyOnly
 {
   self.byKeyOnly = byKeyOnly;
-  [( (PKRootViewController *)self.parentViewController.parentViewController )showWaitingIndicator];
+//  [( (PKRootViewController *)self.parentViewController.parentViewController )showWaitingIndicator];
+  [SVProgressHUD showWithStatus:__T(@"Searching...") maskType:SVProgressHUDMaskTypeClear];
   [[PKHistory instance] addStrongsSearch: theTerm];
   [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 3] reloadHistory];
   
-  PKWait(
+//  PKWait(
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
+    ^{
          theSearchResults = nil;
          theSearchTerm = theTerm;
          
@@ -74,25 +77,31 @@
          {
            theSearchResults = [PKStrongs keysThatMatch: theTerm byKeyOnly: keyOnly];
          }
-         [self.tableView reloadData];
-         
-         theSearchBar.text = theTerm;
-         
-         ( (PKSettings *)[PKSettings instance] ).lastStrongsLookup = theTerm;
-         
-         UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
-         tbc.selectedIndex = 2;
-         self.byKeyOnly = NO;
-         
-         if ([theSearchResults count] == 0)
-         {
-           noResults.text = __Tv(@"no-results", @"No results. Please try again.");
-         }
-         else
-         {
-           noResults.text = @"";
-         }
+         dispatch_async(dispatch_get_main_queue(),
+          ^{
+             [SVProgressHUD dismiss];
+             [self.tableView reloadData];
+             
+             theSearchBar.text = theTerm;
+             
+             ( (PKSettings *)[PKSettings instance] ).lastStrongsLookup = theTerm;
+             
+             UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
+             tbc.selectedIndex = 2;
+             self.byKeyOnly = NO;
+             
+             if ([theSearchResults count] == 0)
+             {
+               noResults.text = __Tv(@"no-results", @"No results. Please try again.");
+             }
+             else
+             {
+               noResults.text = @"";
+             }
+           }
          );
+      }
+    );
 }
 
 -(void)viewDidLoad

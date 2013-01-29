@@ -36,6 +36,7 @@
 #import "PopoverView/PopoverView.h"
 //#import "FWTPopoverView.h"
 #import "PKStrongs.h"
+#import "SVProgressHUD.h"
 
 @interface PKBibleViewController ()
 
@@ -172,7 +173,9 @@
  */
 -(void)displayBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse
 {
-  [( (PKRootViewController *)self.parentViewController.parentViewController )showWaitingIndicator];
+  //[( (PKRootViewController *)self.parentViewController.parentViewController )showWaitingIndicator];
+  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+
   PKWait(
     [self loadChapter: theChapter forBook: theBook];
     [self reloadTableCache];
@@ -218,6 +221,7 @@
 -(void)nextChapter
 {
   [( (PKRootViewController *)self.parentViewController.parentViewController )showLeftSwipeIndicator];
+  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
   PKWait(
     int currentBook = [[PKSettings instance] currentBook];
     int currentChapter = [[PKSettings instance] currentChapter];
@@ -232,6 +236,7 @@
 
       if (currentBook > 66)
       {
+        [SVProgressHUD dismiss];
         return;     // can't go past the end of the Bible
       }
     }
@@ -254,6 +259,7 @@
 -(void)previousChapter
 {
   [( (PKRootViewController *)self.parentViewController.parentViewController )showRightSwipeIndicator];
+  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
   PKWait(
 
     int currentBook = [[PKSettings instance] currentBook];
@@ -268,6 +274,7 @@
 
       if (currentBook < 40)
       {
+        [SVProgressHUD dismiss];
         return;     // can't go before the start of the NT (currently)
       }
       currentChapter = [PKBible countOfChaptersForBook: currentBook];
@@ -546,6 +553,7 @@
   }
 
   [self loadHighlights];
+  [SVProgressHUD dismiss];
 }
 
 /**
@@ -1800,32 +1808,41 @@
 
 -(void) toggleStrongs: (id) sender
 {
+  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+  PKWait(
   [self saveTopVerse];
   ( (PKSettings *)[PKSettings instance] ).showStrongs = !( (PKSettings *)[PKSettings instance] ).showStrongs;
   [[PKSettings instance] saveSettings];
   [self loadChapter];
   [self reloadTableCache];
   [self scrollToTopVerseWithAnimation];
+  );
 }
 
 -(void) toggleMorphology: (id) sender
 {
+  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+  PKWait(
   [self saveTopVerse];
   ( (PKSettings *)[PKSettings instance] ).showMorphology = !( (PKSettings *)[PKSettings instance] ).showMorphology;
   [[PKSettings instance] saveSettings];
   [self loadChapter];
   [self reloadTableCache];
   [self scrollToTopVerseWithAnimation];
+  );
 }
 
 -(void) toggleTranslation: (id) sender
 {
+  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+  PKWait(
   [self saveTopVerse];
   ( (PKSettings *)[PKSettings instance] ).showInterlinear = !( (PKSettings *)[PKSettings instance] ).showInterlinear;
   [[PKSettings instance] saveSettings];
   [self loadChapter];
   [self reloadTableCache];
   [self scrollToTopVerseWithAnimation];
+  );
 }
 
 -(void) goFullScreen: (id) sender
@@ -2304,11 +2321,14 @@
 -(void) didChangeLayout: (PKLayoutController *) sender
 {
   // the settings have changed, update ourselves...
+  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+  PKWait(
   [self saveTopVerse];
   [self updateAppearanceForTheme];
   [self loadChapter];
   [self reloadTableCache];
   [self scrollToTopVerseWithAnimation];
+  );
 }
 
 #pragma mark -
@@ -2345,11 +2365,13 @@
     }
     [[PKSettings instance] saveSettings];
     [self bibleTextChanged];
-
+  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+  PKWait(
     [self saveTopVerse];
     [self loadChapter];
     [self reloadTableCache];
     [self scrollToTopVerseWithAnimation];
+    );
   }
 
   if (actionSheet.tag == 1999)

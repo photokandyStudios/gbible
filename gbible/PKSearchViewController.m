@@ -17,6 +17,7 @@
 #import "PKHistory.h"
 #import "PKHistoryViewController.h"
 #import "TestFlight.h"
+#import "SVProgressHUD.h"
 
 @interface PKSearchViewController ()
 
@@ -53,39 +54,54 @@
 
 -(void)doSearchForTerm: (NSString *) theTerm requireParsings: (BOOL) parsings
 {
-  [( (PKRootViewController *)self.parentViewController.parentViewController )showWaitingIndicator];
+//  [( (PKRootViewController *)self.parentViewController.parentViewController )showWaitingIndicator];
+  [SVProgressHUD showWithStatus:__T(@"Searching...") maskType:SVProgressHUDMaskTypeClear];
   [[PKHistory instance] addBibleSearch: theTerm];
   [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 3] reloadHistory];
-  PKWait(
-         theSearchResults = nil;
-         theSearchTerm = theTerm;
-         
-         if ([theTerm isEqualToString: @""])
-         {
+  //PKWait(
+      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
+        ^{
+
            theSearchResults = nil;
+           theSearchTerm = theTerm;
+           
+           if ([theTerm isEqualToString: @""])
+           {
+             theSearchResults = nil;
+           }
+           else
+           {
+             theSearchResults = [PKBible passagesMatching: theTerm requireParsings: parsings];
+           }
+          
+           dispatch_async(dispatch_get_main_queue(),
+            ^{
+               [SVProgressHUD dismiss];
+               [self.tableView reloadData];
+               
+               theSearchBar.text = theTerm;
+               
+               ( (PKSettings *)[PKSettings instance] ).lastSearch = theTerm;
+               
+               UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
+               tbc.selectedIndex = 1;
+               
+               if ([theSearchResults count] == 0)
+               {
+                 noResults.text = __Tv(@"no-results", @"No results. Please try again.");
+               }
+               else
+               {
+                 noResults.text = @"";
+               }
+             }
+           );
+
+
          }
-         else
-         {
-           theSearchResults = [PKBible passagesMatching: theTerm requireParsings: parsings];
-         }
-         [self.tableView reloadData];
-         
-         theSearchBar.text = theTerm;
-         
-         ( (PKSettings *)[PKSettings instance] ).lastSearch = theTerm;
-         
-         UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
-         tbc.selectedIndex = 1;
-         
-         if ([theSearchResults count] == 0)
-         {
-           noResults.text = __Tv(@"no-results", @"No results. Please try again.");
-         }
-         else
-         {
-           noResults.text = @"";
-         }
-         );
+      );
+  
+        // );
 }
 
 -(void)viewDidLoad
