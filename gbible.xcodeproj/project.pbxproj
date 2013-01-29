@@ -199,6 +199,8 @@
 		6AD7E2D5152AA4130072483E /* PKSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D4152AA4130072483E /* PKSearchViewController.m */; };
 		6AD7E2D7152AB51C0072483E /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D6152AB51C0072483E /* readme.md */; };
 		6AD7E2DD152BAC540072483E /* PKStrongs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2DC152BAC540072483E /* PKStrongs.m */; };
+		6AE6138716B756B700C2E03C /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6AE6138416B756B700C2E03C /* SVProgressHUD.bundle */; };
+		6AE6138816B756B700C2E03C /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AE6138616B756B700C2E03C /* SVProgressHUD.m */; };
 		6AF0C0A6150EE8BB00BFAE03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */; };
 		6AF0C0A8150EE8BB00BFAE03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */; };
 		6AF0C0AA150EE8BB00BFAE03 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A9150EE8BB00BFAE03 /* CoreGraphics.framework */; };
@@ -493,6 +495,9 @@
 		6AD7E2D6152AB51C0072483E /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		6AD7E2DB152BAC540072483E /* PKStrongs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKStrongs.h; sourceTree = "<group>"; };
 		6AD7E2DC152BAC540072483E /* PKStrongs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKStrongs.m; sourceTree = "<group>"; };
+		6AE6138416B756B700C2E03C /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		6AE6138516B756B700C2E03C /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		6AE6138616B756B700C2E03C /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		6AF0C0A1150EE8BB00BFAE03 /* gbible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gbible.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -875,6 +880,7 @@
 		6A92CCC81516F0CC00F8AE15 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				6AE6138316B756B700C2E03C /* SVProgressHUD */,
 				6AA6620C16AA5C9300D2139A /* PSTCollectionView */,
 				6AA6620816AA4A9600D2139A /* UIColor-Expanded */,
 				6A6B59B916A125610027BD03 /* AFNetworking */,
@@ -1052,6 +1058,16 @@
 				6AD7E2DC152BAC540072483E /* PKStrongs.m */,
 			);
 			name = strongs;
+			sourceTree = "<group>";
+		};
+		6AE6138316B756B700C2E03C /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				6AE6138416B756B700C2E03C /* SVProgressHUD.bundle */,
+				6AE6138516B756B700C2E03C /* SVProgressHUD.h */,
+				6AE6138616B756B700C2E03C /* SVProgressHUD.m */,
+			);
+			path = SVProgressHUD;
 			sourceTree = "<group>";
 		};
 		6AF0C096150EE8BB00BFAE03 = {
@@ -1526,6 +1542,7 @@
 				6A6B59A516A0F0720027BD03 /* iTunesArtwork.png in Resources */,
 				6A6B59A616A0F0720027BD03 /* iTunesArtwork@2x.png in Resources */,
 				6A9C80BE16B600B6006D1AF7 /* bibleContent in Resources */,
+				6AE6138716B756B700C2E03C /* SVProgressHUD.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1627,6 +1644,7 @@
 				6AA6623016AA5C9300D2139A /* PSTGridLayoutRow.m in Sources */,
 				6AA6623116AA5C9300D2139A /* PSTGridLayoutSection.m in Sources */,
 				6A74306716ADDCEA00DC1320 /* searchutils.m in Sources */,
+				6AE6138816B756B700C2E03C /* SVProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
