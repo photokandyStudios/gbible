@@ -63,7 +63,7 @@
   if (self)
   {
     // Custom initialization
-    self.theSearchTerm = [[PKSettings instance] lastNotesSearch];
+    //self.theSearchTerm = [[PKSettings instance] lastNotesSearch];
 
   }
   return self;
@@ -256,7 +256,7 @@
   [self hideKeyboard];
   theSearchTerm = searchBar.text;
   ((PKSettings *)[PKSettings instance]).lastNotesSearch = theSearchTerm;
-  [[PKSettings instance] saveSettings];
+  //[[PKSettings instance] saveSettings];
   if ([theSearchTerm isEqualToString:@""])
   {
     [self reloadNotes];
@@ -291,7 +291,7 @@
   self.tableView.scrollEnabled = YES;
   theSearchTerm = searchBar.text;
   ((PKSettings *)[PKSettings instance]).lastNotesSearch = theSearchTerm;
-  [[PKSettings instance] saveSettings];
+  //[[PKSettings instance] saveSettings];
   if ([theSearchTerm isEqualToString:@""])
   {
     [self reloadNotes];
