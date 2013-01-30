@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A0F1A4F16B86E4F003DF396 /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6A0F1A4E16B86E4F003DF396 /* bibleContent */; };
 		6A0FDF041545195F004E70A7 /* Resize.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0FDF001545195F004E70A7 /* Resize.png */; };
 		6A0FDF051545195F004E70A7 /* Resize@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0FDF011545195F004E70A7 /* Resize@2x.png */; };
 		6A0FDF061545195F004E70A7 /* SlantedPencil.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0FDF021545195F004E70A7 /* SlantedPencil.png */; };
@@ -164,7 +165,6 @@
 		6A9B86C21543A5CD00E4ABC0 /* Swipe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */; };
 		6A9B86C31543A5CD00E4ABC0 /* Wait.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BF1543A5CD00E4ABC0 /* Wait.png */; };
 		6A9B86C41543A5CD00E4ABC0 /* Wait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */; };
-		6A9C80BE16B600B6006D1AF7 /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6A9C80BD16B600B6006D1AF7 /* bibleContent */; };
 		6A9C80C016B61079006D1AF7 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9C80BF16B61079006D1AF7 /* Parse.framework */; };
 		6A9C80C216B610A1006D1AF7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9C80C116B610A1006D1AF7 /* AudioToolbox.framework */; };
 		6A9C80C416B610AA006D1AF7 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9C80C316B610AA006D1AF7 /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -191,6 +191,7 @@
 		6AA6623016AA5C9300D2139A /* PSTGridLayoutRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6622316AA5C9300D2139A /* PSTGridLayoutRow.m */; };
 		6AA6623116AA5C9300D2139A /* PSTGridLayoutSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6622516AA5C9300D2139A /* PSTGridLayoutSection.m */; };
 		6ABA5C5B168FAD2F00070134 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ABA5C5A168FAD2F00070134 /* Default-568h@2x.png */; };
+		6ABD995916B8D6D9008EB8E0 /* PKBibleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ABD995816B8D6D9008EB8E0 /* PKBibleListViewController.m */; };
 		6AD4881D169652060051453D /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD4881C169652060051453D /* NSString+FontAwesome.m */; };
 		6AD4A0A7166F19E70005F519 /* OpenDyslexic-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AD4A0A5166F19E70005F519 /* OpenDyslexic-Bold.otf */; };
 		6AD4A0A8166F19E70005F519 /* OpenDyslexic-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AD4A0A6166F19E70005F519 /* OpenDyslexic-Regular.otf */; };
@@ -231,6 +232,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A0F1A4E16B86E4F003DF396 /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
 		6A0FDF001545195F004E70A7 /* Resize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Resize.png; sourceTree = "<group>"; };
 		6A0FDF011545195F004E70A7 /* Resize@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Resize@2x.png"; sourceTree = "<group>"; };
 		6A0FDF021545195F004E70A7 /* SlantedPencil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlantedPencil.png; sourceTree = "<group>"; };
@@ -439,7 +441,6 @@
 		6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Swipe@2x.png"; sourceTree = "<group>"; };
 		6A9B86BF1543A5CD00E4ABC0 /* Wait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wait.png; sourceTree = "<group>"; };
 		6A9B86C01543A5CD00E4ABC0 /* Wait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wait@2x.png"; sourceTree = "<group>"; };
-		6A9C80BD16B600B6006D1AF7 /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
 		6A9C80BF16B61079006D1AF7 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		6A9C80C116B610A1006D1AF7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		6A9C80C316B610AA006D1AF7 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -482,6 +483,8 @@
 		6AA6622516AA5C9300D2139A /* PSTGridLayoutSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSTGridLayoutSection.m; sourceTree = "<group>"; };
 		6AABABC9153FC8E800FCBAB9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6ABA5C5A168FAD2F00070134 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		6ABD995716B8D6D9008EB8E0 /* PKBibleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBibleListViewController.h; sourceTree = "<group>"; };
+		6ABD995816B8D6D9008EB8E0 /* PKBibleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBibleListViewController.m; sourceTree = "<group>"; };
 		6AD4881B169652060051453D /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
 		6AD4881C169652060051453D /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FontAwesome.m"; sourceTree = "<group>"; };
 		6AD4A0A5166F19E70005F519 /* OpenDyslexic-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic-Bold.otf"; sourceTree = "<group>"; };
@@ -551,10 +554,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A9B86B01542792400E4ABC0 /* SystemConfiguration.framework in Frameworks */,
+				6A9C80CE16B610F0006D1AF7 /* MobileCoreServices.framework in Frameworks */,
 				6A9C80D416B6110D006D1AF7 /* StoreKit.framework in Frameworks */,
 				6A9C80D216B61108006D1AF7 /* Social.framework in Frameworks */,
 				6A9C80D016B61101006D1AF7 /* Security.framework in Frameworks */,
-				6A9C80CE16B610F0006D1AF7 /* MobileCoreServices.framework in Frameworks */,
 				6A9C80CC16B610E0006D1AF7 /* libz.1.1.3.dylib in Frameworks */,
 				6A9C80CA16B610C3006D1AF7 /* CoreLocation.framework in Frameworks */,
 				6A9C80C816B610B8006D1AF7 /* CFNetwork.framework in Frameworks */,
@@ -872,7 +875,7 @@
 		6A92CCC71516F0B000F8AE15 /* Databases */ = {
 			isa = PBXGroup;
 			children = (
-				6A9C80BD16B600B6006D1AF7 /* bibleContent */,
+				6A0F1A4E16B86E4F003DF396 /* bibleContent */,
 			);
 			name = Databases;
 			sourceTree = "<group>";
@@ -926,6 +929,7 @@
 		6A9793AB1513F2F500A5C9F1 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6ABD995616B8D699008EB8E0 /* Bible Management */,
 				6A2163621530F1F000D41447 /* Content Controllers */,
 				6A2163631530F20400D41447 /* Editing Controllers */,
 				6A2163611530F1D100D41447 /* Navigation Controllers */,
@@ -1049,6 +1053,15 @@
 				6AA6622516AA5C9300D2139A /* PSTGridLayoutSection.m */,
 			);
 			path = PSTCollectionView;
+			sourceTree = "<group>";
+		};
+		6ABD995616B8D699008EB8E0 /* Bible Management */ = {
+			isa = PBXGroup;
+			children = (
+				6ABD995716B8D6D9008EB8E0 /* PKBibleListViewController.h */,
+				6ABD995816B8D6D9008EB8E0 /* PKBibleListViewController.m */,
+			);
+			name = "Bible Management";
 			sourceTree = "<group>";
 		};
 		6AD7E2DA152BAC240072483E /* strongs */ = {
@@ -1388,7 +1401,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PK;
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "photoKandy Studios LLC";
 			};
 			buildConfigurationList = 6AF0C09B150EE8BB00BFAE03 /* Build configuration list for PBXProject "gbible" */;
@@ -1541,8 +1554,8 @@
 				6A6B59A216A0EF090027BD03 /* Icon-Small@2x.png in Resources */,
 				6A6B59A516A0F0720027BD03 /* iTunesArtwork.png in Resources */,
 				6A6B59A616A0F0720027BD03 /* iTunesArtwork@2x.png in Resources */,
-				6A9C80BE16B600B6006D1AF7 /* bibleContent in Resources */,
 				6AE6138716B756B700C2E03C /* SVProgressHUD.bundle in Resources */,
+				6A0F1A4F16B86E4F003DF396 /* bibleContent in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1645,6 +1658,7 @@
 				6AA6623116AA5C9300D2139A /* PSTGridLayoutSection.m in Sources */,
 				6A74306716ADDCEA00DC1320 /* searchutils.m in Sources */,
 				6AE6138816B756B700C2E03C /* SVProgressHUD.m in Sources */,
+				6ABD995916B8D6D9008EB8E0 /* PKBibleListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1680,6 +1694,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1706,6 +1724,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
