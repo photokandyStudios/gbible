@@ -14,6 +14,7 @@
 #import "FMResultSet.h"
 #import "PKConstants.h"
 #import "searchutils.h"
+#import <Parse/Parse.h>
 
 @implementation PKBible
 
@@ -27,6 +28,48 @@
 {
   return @[ [[PKDatabase instance] bible],
             [[PKDatabase instance] userBible] ];
+}
+
++(NSArray *) availableTextsInDB: (FMDatabaseQueue *)db withColumn: (int) column
+{
+  // http://stackoverflow.com/questions/3940615/find-current-country-from-iphone-device
+  NSLocale *currentLocale = [NSLocale currentLocale];    // get the current locale.
+  NSString *countryCode   = [currentLocale objectForKey: NSLocaleCountryCode];
+  
+  NSMutableArray *texts   = [[NSMutableArray alloc] initWithCapacity: 4];
+
+    [db inDatabase:^(FMDatabase *db)
+      {
+        FMResultSet *s          =
+          [db executeQuery:
+           @"select bibleAbbreviation, bibleAttribution, bibleSide, bibleID, bibleName, bibleParsedID from bibles order by bibleAbbreviation"];
+
+        while ([s next])
+        {
+          // make sure we don't add the KJV version if we're in the UK, or in the Euro-zone (since they
+          // must respect the UK copyright)
+          if ( !( ([@" GB AT BE BG CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE "
+                    rangeOfString: [NSString stringWithFormat: @" %@ ", countryCode]].location != NSNotFound)
+                  && [[s stringForColumnIndex: PK_TBL_BIBLES_ABBREVIATION] isEqualToString: @"KJV"] ) )
+          {
+            [texts addObject: [s objectForColumnIndex: column]];
+          }
+        }
+        [s close];
+      }
+    ];
+
+  return texts;
+}
+
++(NSArray *) builtInTextsWithColumn: (int) column
+{
+  return [self availableTextsInDB:[[PKDatabase instance]bible] withColumn:column];
+}
+
++(NSArray *) installedTextsWithColumn: (int) column
+{
+  return [self availableTextsInDB:[[PKDatabase instance]userBible] withColumn:column];
 }
 
 +(NSArray *) availableTextsForSide: (NSString *) side andColumn: (int) column

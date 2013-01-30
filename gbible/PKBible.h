@@ -7,8 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PKDatabase.h"
+#import "FMDatabaseQueue.h"
 
 @interface PKBible : NSObject
+
++(NSArray *) availableTextsInDB: (FMDatabaseQueue *)db withColumn: (int) column;
++(NSArray *) builtInTextsWithColumn: (int) column;
++(NSArray *) installedTextsWithColumn: (int) column;
++(NSArray *) bibleArray;
 
 +(NSArray *)  availableOriginalTexts: (int) column;
 +(NSArray *)  availableHostTexts: (int) column;
