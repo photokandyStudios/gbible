@@ -20,6 +20,7 @@
 #import "TestFlight.h"
 #import "PKBible.h"
 #import "TSMiniWebBrowser.h"
+#import "PKBibleListViewController.h"
 
 @interface PKSettingsController ()
 
@@ -193,7 +194,7 @@
                                      @"Show Strong's?"), [NSNumber numberWithInt: 2], @"show-strongs", nil],
      [NSArray arrayWithObjects: __Tv(@"Show Translation",
                                      @"Show Translation✝?"), [NSNumber numberWithInt: 2], @"show-interlinear", nil],
-     //     [NSArray arrayWithObjects: __T(@"Manage Bibles..."), [NSNumber numberWithInt:0], nil, nil ],
+          [NSArray arrayWithObjects: __T(@"Manage Bibles..."), [NSNumber numberWithInt:0], nil, nil ],
      nil];
   // iCloudSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Enable iCloud?", [NSNumber numberWithInt:2],
   // PK_SETTING_USEICLOUD, nil],
@@ -575,17 +576,12 @@
       if (section == 0)
       {
         // manage Bibles
-        NSURL *theURL        =
-          [[NSURL alloc] initWithString: @"http://unbound.biola.edu/index.cfm?method=downloads.showDownloadMain"];
-        TSMiniWebBrowser *wb = [[TSMiniWebBrowser alloc] initWithUrl: theURL];
-        wb.showURLStringOnActionSheetTitle = YES;
-        wb.showPageTitleOnTitleBar         = YES;
-        wb.showActionButton                = YES;
-        wb.showReloadButton                = YES;
-        wb.mode = TSMiniWebBrowserModeModal;
-        wb.barStyle = UIBarStyleBlack;
-        wb.modalDismissButtonTitle         = __T(@"Done");
-        [self presentModalViewController: wb animated: YES];
+        PKBibleListViewController *blvc = [[PKBibleListViewController alloc] initWithStyle:UITableViewStylePlain];
+
+        UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: blvc];
+        mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
+        mvnc.navigationBar.barStyle = UIBarStyleBlack;
+        [self presentModalViewController: mvnc animated: YES];
       }
 
       if (section == 2)
@@ -744,7 +740,7 @@
     break;
   }
 
-  if ([cellData objectAtIndex: 2] == @"text-theme")
+  if ([[cellData objectAtIndex: 2] isEqual: @"text-theme"])
   {
     [self updateAppearanceForTheme];
     [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 0] updateAppearanceForTheme];
