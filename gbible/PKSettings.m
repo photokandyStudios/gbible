@@ -152,7 +152,7 @@ static id _instance;
                                    green: [[theColorArray objectAtIndex: 1] floatValue]
                                     blue: [[theColorArray objectAtIndex: 2] floatValue] alpha: 1.0];
 
-  textTheme = [self loadSetting: @"text-theme"] == @"" ? 0 :
+  textTheme = [[self loadSetting: @"text-theme"] isEqual: @""] ? 0 :
               [[self loadSetting: @"text-theme"] intValue];
 
   if ([self loadSetting: @"usage-stats"])
