@@ -192,6 +192,11 @@
 		6AA6623116AA5C9300D2139A /* PSTGridLayoutSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6622516AA5C9300D2139A /* PSTGridLayoutSection.m */; };
 		6ABA5C5B168FAD2F00070134 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ABA5C5A168FAD2F00070134 /* Default-568h@2x.png */; };
 		6ABD995916B8D6D9008EB8E0 /* PKBibleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ABD995816B8D6D9008EB8E0 /* PKBibleListViewController.m */; };
+		6ABD995C16B9D65C008EB8E0 /* PKBibleInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ABD995B16B9D65C008EB8E0 /* PKBibleInfoViewController.m */; };
+		6ABD996016B9DBDC008EB8E0 /* MAConfirmButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ABD995F16B9DBDC008EB8E0 /* MAConfirmButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6ABD996316B9E382008EB8E0 /* UIColor-Expanded2.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ABD996216B9E382008EB8E0 /* UIColor-Expanded2.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6ABD996616BA1A86008EB8E0 /* leather-book.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ABD996416BA1A85008EB8E0 /* leather-book.png */; };
+		6ABD996716BA1A86008EB8E0 /* leather-book@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ABD996516BA1A86008EB8E0 /* leather-book@2x.png */; };
 		6AD4881D169652060051453D /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD4881C169652060051453D /* NSString+FontAwesome.m */; };
 		6AD4A0A7166F19E70005F519 /* OpenDyslexic-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AD4A0A5166F19E70005F519 /* OpenDyslexic-Bold.otf */; };
 		6AD4A0A8166F19E70005F519 /* OpenDyslexic-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AD4A0A6166F19E70005F519 /* OpenDyslexic-Regular.otf */; };
@@ -485,6 +490,15 @@
 		6ABA5C5A168FAD2F00070134 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		6ABD995716B8D6D9008EB8E0 /* PKBibleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBibleListViewController.h; sourceTree = "<group>"; };
 		6ABD995816B8D6D9008EB8E0 /* PKBibleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBibleListViewController.m; sourceTree = "<group>"; };
+		6ABD995A16B9D65C008EB8E0 /* PKBibleInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBibleInfoViewController.h; sourceTree = "<group>"; };
+		6ABD995B16B9D65C008EB8E0 /* PKBibleInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBibleInfoViewController.m; sourceTree = "<group>"; };
+		6ABD995E16B9DBDC008EB8E0 /* MAConfirmButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAConfirmButton.h; sourceTree = "<group>"; };
+		6ABD995F16B9DBDC008EB8E0 /* MAConfirmButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAConfirmButton.m; sourceTree = "<group>"; };
+		6ABD996116B9E382008EB8E0 /* UIColor-Expanded2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor-Expanded2.h"; sourceTree = "<group>"; };
+		6ABD996216B9E382008EB8E0 /* UIColor-Expanded2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor-Expanded2.m"; sourceTree = "<group>"; };
+		6ABD996416BA1A85008EB8E0 /* leather-book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leather-book.png"; sourceTree = "<group>"; };
+		6ABD996516BA1A86008EB8E0 /* leather-book@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leather-book@2x.png"; sourceTree = "<group>"; };
+		6ABD996816BA2F13008EB8E0 /* PKBibleDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKBibleDelegate.h; sourceTree = "<group>"; };
 		6AD4881B169652060051453D /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
 		6AD4881C169652060051453D /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FontAwesome.m"; sourceTree = "<group>"; };
 		6AD4A0A5166F19E70005F519 /* OpenDyslexic-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic-Bold.otf"; sourceTree = "<group>"; };
@@ -883,6 +897,7 @@
 		6A92CCC81516F0CC00F8AE15 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				6ABD995D16B9DBD2008EB8E0 /* MAConfirmButton */,
 				6AE6138316B756B700C2E03C /* SVProgressHUD */,
 				6AA6620C16AA5C9300D2139A /* PSTCollectionView */,
 				6AA6620816AA4A9600D2139A /* UIColor-Expanded */,
@@ -1060,8 +1075,22 @@
 			children = (
 				6ABD995716B8D6D9008EB8E0 /* PKBibleListViewController.h */,
 				6ABD995816B8D6D9008EB8E0 /* PKBibleListViewController.m */,
+				6ABD995A16B9D65C008EB8E0 /* PKBibleInfoViewController.h */,
+				6ABD995B16B9D65C008EB8E0 /* PKBibleInfoViewController.m */,
+				6ABD996816BA2F13008EB8E0 /* PKBibleDelegate.h */,
 			);
 			name = "Bible Management";
+			sourceTree = "<group>";
+		};
+		6ABD995D16B9DBD2008EB8E0 /* MAConfirmButton */ = {
+			isa = PBXGroup;
+			children = (
+				6ABD996116B9E382008EB8E0 /* UIColor-Expanded2.h */,
+				6ABD996216B9E382008EB8E0 /* UIColor-Expanded2.m */,
+				6ABD995E16B9DBDC008EB8E0 /* MAConfirmButton.h */,
+				6ABD995F16B9DBDC008EB8E0 /* MAConfirmButton.m */,
+			);
+			name = MAConfirmButton;
 			sourceTree = "<group>";
 		};
 		6AD7E2DA152BAC240072483E /* strongs */ = {
@@ -1231,6 +1260,8 @@
 		6AF9D0621512A5C300514499 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				6ABD996416BA1A85008EB8E0 /* leather-book.png */,
+				6ABD996516BA1A86008EB8E0 /* leather-book@2x.png */,
 				6A116AF3169675CB00E5C2D9 /* Aa.png */,
 				6A116AF4169675CB00E5C2D9 /* Aa@2x.png */,
 				6A116AF5169675CB00E5C2D9 /* DoubleSpacing.png */,
@@ -1556,6 +1587,8 @@
 				6A6B59A616A0F0720027BD03 /* iTunesArtwork@2x.png in Resources */,
 				6AE6138716B756B700C2E03C /* SVProgressHUD.bundle in Resources */,
 				6A0F1A4F16B86E4F003DF396 /* bibleContent in Resources */,
+				6ABD996616BA1A86008EB8E0 /* leather-book.png in Resources */,
+				6ABD996716BA1A86008EB8E0 /* leather-book@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1659,6 +1692,9 @@
 				6A74306716ADDCEA00DC1320 /* searchutils.m in Sources */,
 				6AE6138816B756B700C2E03C /* SVProgressHUD.m in Sources */,
 				6ABD995916B8D6D9008EB8E0 /* PKBibleListViewController.m in Sources */,
+				6ABD995C16B9D65C008EB8E0 /* PKBibleInfoViewController.m in Sources */,
+				6ABD996016B9DBDC008EB8E0 /* MAConfirmButton.m in Sources */,
+				6ABD996316B9E382008EB8E0 /* UIColor-Expanded2.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
