@@ -12,6 +12,11 @@
 
 @interface PKBible : NSObject
 
++(NSString *) text: (int) theText inDB: (FMDatabaseQueue *)db withColumn: (int) column;
++(BOOL) isTextBuiltIn: (int) theText;
++(BOOL) isTextInstalled: (int) theText;
+
+
 +(NSArray *) availableTextsInDB: (FMDatabaseQueue *)db withColumn: (int) column;
 +(NSArray *) builtInTextsWithColumn: (int) column;
 +(NSArray *) installedTextsWithColumn: (int) column;

@@ -30,6 +30,48 @@
             [[PKDatabase instance] userBible] ];
 }
 
++(NSString *) text: (int) theText inDB: (FMDatabaseQueue *)db withColumn: (int) column
+{
+  // http://stackoverflow.com/questions/3940615/find-current-country-from-iphone-device
+  NSLocale *currentLocale = [NSLocale currentLocale];    // get the current locale.
+  NSString *countryCode   = [currentLocale objectForKey: NSLocaleCountryCode];
+  
+  __block NSString *theReturnValue = nil;
+
+    [db inDatabase:^(FMDatabase *db)
+      {
+        FMResultSet *s          =
+          [db executeQuery:
+           @"select bibleAbbreviation, bibleAttribution, bibleSide, bibleID, bibleName, bibleParsedID from bibles where bibleID=? order by bibleAbbreviation", @(theText) ];
+
+        if ([s next])
+        {
+          // make sure we don't add the KJV version if we're in the UK, or in the Euro-zone (since they
+          // must respect the UK copyright)
+          if ( !( ([@" GB AT BE BG CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE "
+                    rangeOfString: [NSString stringWithFormat: @" %@ ", countryCode]].location != NSNotFound)
+                  && [[s stringForColumnIndex: PK_TBL_BIBLES_ABBREVIATION] isEqualToString: @"KJV"] ) )
+          {
+            theReturnValue = [s objectForColumnIndex: column];
+          }
+        }
+        [s close];
+      }
+    ];
+
+  return theReturnValue;
+}
+
++(BOOL) isTextBuiltIn: (int) theText
+{
+  return [self text: theText inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ID] != nil ? YES : NO;
+}
+
++(BOOL) isTextInstalled: (int) theText
+{
+  return [self text: theText inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ID] != nil ? YES : NO;
+}
+
 +(NSArray *) availableTextsInDB: (FMDatabaseQueue *)db withColumn: (int) column
 {
   // http://stackoverflow.com/questions/3940615/find-current-country-from-iphone-device
@@ -86,10 +128,14 @@
     FMDatabaseQueue *db = theBibles[i];
     [db inDatabase:^(FMDatabase *db)
       {
+        NSString *lside = @"";
+        if ([side isEqualToString:@"greek"])  lside = @"leftSide";
+        if ([side isEqualToString:@"english"])  lside = @"rightSide";
+        
         FMResultSet *s          =
           [db executeQuery:
-           @"select bibleAbbreviation, bibleAttribution, bibleSide, bibleID, bibleName, bibleParsedID from bibles where bibleSide=? order by bibleAbbreviation",
-           side];
+           @"select bibleAbbreviation, bibleAttribution, bibleSide, bibleID, bibleName, bibleParsedID from bibles where bibleSide in (?,?) order by bibleAbbreviation",
+           side, lside];
 
         while ([s next])
         {
