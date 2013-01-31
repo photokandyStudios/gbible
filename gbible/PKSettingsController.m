@@ -22,6 +22,7 @@
 #import "TSMiniWebBrowser.h"
 #import "PKBibleListViewController.h"
 
+
 @interface PKSettingsController ()
 
 @end
@@ -70,19 +71,8 @@
   [self.tableView reloadData];
 }
 
-/**
- *
- * Called when the view has finished loading. Here we create our
- * settings arrays.
- *
- */
--(void)viewDidLoad
+-(void)reloadSettingsArray
 {
-  [super viewDidLoad];
-  // Do any additional setup after loading the view.
-  [TestFlight passCheckpoint: @"SETTINGS"];
-  [self.tableView setBackgroundView: nil];
-  self.tableView.backgroundColor = [PKSettings PKPageColor];
   NSArray *englishTypeface = [NSArray arrayWithObjects:
                               @"CourierNewPSMT",
                               @"CourierNewPS-BoldMT",
@@ -217,6 +207,22 @@
 
   settingsGroup = [NSArray arrayWithObjects: textSettings, layoutSettings,   // iCloudSettings,
                    exportSettings, importSettings, versionSettings, nil];
+}
+
+/**
+ *
+ * Called when the view has finished loading. Here we create our
+ * settings arrays.
+ *
+ */
+-(void)viewDidLoad
+{
+  [super viewDidLoad];
+  // Do any additional setup after loading the view.
+  [TestFlight passCheckpoint: @"SETTINGS"];
+  [self.tableView setBackgroundView: nil];
+  self.tableView.backgroundColor = [PKSettings PKPageColor];
+  [self reloadSettingsArray];
 
   UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
                                           initWithTarget: self action: @selector(didReceiveRightSwipe:)];
@@ -577,7 +583,7 @@
       {
         // manage Bibles
         PKBibleListViewController *blvc = [[PKBibleListViewController alloc] initWithStyle:UITableViewStylePlain];
-
+        blvc.delegate = self;
         UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: blvc];
         mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
         mvnc.navigationBar.barStyle = UIBarStyleBlack;
@@ -780,6 +786,12 @@
     [rc revealToggle: nil];
     return;
   }
+}
+
+-(void) installedBiblesChanged
+{
+  [self reloadSettingsArray];
+  [self.tableView reloadData];
 }
 
 @end
