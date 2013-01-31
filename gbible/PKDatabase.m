@@ -62,6 +62,14 @@ static id _instance;
     NSString *userBibleDatabase =
     [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
                                            YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userBible"];
+    
+    if (SYSTEM_VERSION_LESS_THAN(@"5.0.1"))
+    {
+      // per apple reqs, we have to put this in the cache directory.
+      userBibleDatabase =
+      [[NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask,
+                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userBible"];
+    }
 
     // does the bible database exist? If not, we have a problem...
     if (![[NSFileManager defaultManager] fileExistsAtPath: bibleDatabase])
@@ -157,6 +165,28 @@ static id _instance;
       }
     ];
     
+    
+    // and make sure the userBible is excluded from user backup
+    NSURL *URL = [[NSURL alloc] initWithString:userBibleDatabase];
+    if ( SYSTEM_VERSION_GREATER_THAN(@"5.0.1") )
+    {
+      NSError *error = nil;
+      BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
+                                    forKey: NSURLIsExcludedFromBackupKey error: &error];
+      if(!success){
+          NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
+      }
+    }
+    else if (SYSTEM_VERSION_EQUAL_TO(@"5.0.1"))
+    {
+      const char* filePath = [[URL path] fileSystemRepresentation];
+      const char* attrName = "com.apple.MobileBackup";
+      u_int8_t attrValue = 1;
+      int result = setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0);
+      if(!result==0){
+          NSLog(@"Error excluding %@ from backup", [URL lastPathComponent]);
+      }
+    }
   }
   return self;
 }
