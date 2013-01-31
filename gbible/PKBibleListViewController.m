@@ -11,12 +11,16 @@
 #import "PKConstants.h"
 #import "PKSettings.h"
 #import <Parse/Parse.h>
+#import "PKBibleInfoViewController.h"
+
 
 @interface PKBibleListViewController ()
 
 @end
 
 @implementation PKBibleListViewController
+
+@synthesize delegate;
 
 @synthesize builtInBibleIDs;
 @synthesize builtInBibleAbbreviations;
@@ -59,6 +63,7 @@
   
   // send off a request to parse
   PFQuery *query = [PFQuery queryWithClassName:@"Bibles"];
+  [query whereKey:@"ID" notContainedIn:installedBibleIDs];
   [query orderByAscending:@"Abbreviation"];
   [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
     if (!error) {
@@ -98,9 +103,12 @@
      ];
     self.navigationItem.rightBarButtonItem = closeButton;
   }
-  
-  
-  [self loadBibles];
+    [self loadBibles];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
 }
 
 -(void) closeMe: (id) sender
@@ -109,6 +117,14 @@
   [[PKSettings instance] saveSettings];
 }
 
+-(void) installedBiblesChanged
+{
+  [self loadBibles];
+  if (delegate)
+  {
+    [delegate installedBiblesChanged];
+  }
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -249,8 +265,27 @@
    // Pass the selected object to the new view controller.
    [self.navigationController pushViewController:detailViewController animated:YES];
    */
+  
+  int theBibleID;
+  switch (indexPath.section)
+  {
+    case 0:
+      theBibleID = [builtInBibleIDs[indexPath.row] intValue];
+      break;
+    case 1:
+      theBibleID = [installedBibleIDs[indexPath.row] intValue];
+      break;
+    case 2:
+      theBibleID = [availableBibleIDs[indexPath.row] intValue];
+      break;
+  }
+  
+  PKBibleInfoViewController *bivc = [[PKBibleInfoViewController alloc] initWithBibleID:theBibleID];
+  bivc.delegate = self;
+  [self.navigationController pushViewController:bivc animated:YES];
+  
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
-  [self loadBibles];
+//  [self loadBibles];
 
 }
 

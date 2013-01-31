@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PKBibleDelegate.h"
 
-@interface PKBibleListViewController : UITableViewController
+@interface PKBibleListViewController : UITableViewController <PKBibleDelegate>
 
 @property (strong, nonatomic) NSArray *builtInBibleIDs;
 @property (strong, nonatomic) NSArray *builtInBibleAbbreviations;
@@ -22,5 +23,6 @@
 @property (strong, nonatomic) NSArray *availableBibleAbbreviations;
 @property (strong, nonatomic) NSArray *availableBibleTitles;
 
+@property (nonatomic, assign) id <PKBibleDelegate> delegate;
 
 @end
