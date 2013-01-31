@@ -202,10 +202,13 @@ static id _instance;
  */
 -(void) saveCurrentReference
 {
-  [self saveSetting: @"current-book" valueForSetting: [NSString stringWithFormat: @"%i", currentBook]];
-  [self saveSetting: @"current-chapter" valueForSetting: [NSString stringWithFormat: @"%i", currentChapter]];
-  [self saveSetting: @"current-verse" valueForSetting: [NSString stringWithFormat: @"%i", currentVerse]];
-  [self saveSetting: @"top-verse" valueForSetting: [NSString stringWithFormat: @"%i", topVerse]];
+  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  [content inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self saveSetting: @"current-book" valueForSetting: [NSString stringWithFormat: @"%i", currentBook]];
+    [self saveSetting: @"current-chapter" valueForSetting: [NSString stringWithFormat: @"%i", currentChapter]];
+    [self saveSetting: @"current-verse" valueForSetting: [NSString stringWithFormat: @"%i", currentVerse]];
+    [self saveSetting: @"top-verse" valueForSetting: [NSString stringWithFormat: @"%i", topVerse]];
+  }];
 }
 
 /**
@@ -234,10 +237,13 @@ static id _instance;
     alpha = CGColorGetAlpha([highlightColor CGColor]);
   }
 
-  [self saveSetting: @"highlight-color" valueForSetting: [NSString stringWithFormat: @"%f,%f,%f",
-                                                          red, green, blue]];
+  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  [content inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self saveSetting: @"highlight-color" valueForSetting: [NSString stringWithFormat: @"%f,%f,%f",
+                                                            red, green, blue]];
 
-  [self saveSetting: @"highlight-text-color" valueForSetting: highlightTextColor];
+    [self saveSetting: @"highlight-text-color" valueForSetting: highlightTextColor];
+  }];
 }
 
 /**
@@ -247,39 +253,45 @@ static id _instance;
  */
 -(void) saveSettings
 {
-  [self saveSetting: PK_SETTING_FONTFACE valueForSetting: textFontFace];
-  [self saveSetting: @"greek-typeface" valueForSetting: textGreekFontFace];     //RE: ISSUE #6
-  [self saveSetting: PK_SETTING_FONTSIZE valueForSetting: [NSString stringWithFormat: @"%i", textFontSize]];
-  [self saveSetting: PK_SETTING_LINESPACING valueForSetting: [NSString stringWithFormat: @"%i", textLineSpacing]];
-  [self saveSetting: PK_SETTING_VERSESPACING valueForSetting: [NSString stringWithFormat: @"%i", textVerseSpacing]];
-  [self saveSetting: PK_SETTING_COLUMNWIDTHS valueForSetting: [NSString stringWithFormat: @"%i", layoutColumnWidths]];
-  [self saveSetting: PK_SETTING_GREEKTEXT valueForSetting: [NSString stringWithFormat: @"%i", greekText]];
-  [self saveSetting: PK_SETTING_ENGLISHTEXT valueForSetting: [NSString stringWithFormat: @"%i", englishText]];
-  [self saveSetting: PK_SETTING_TRANSLITERATE valueForSetting: (transliterateText ? @"YES": @"NO")];
-  [self saveSetting: PK_SETTING_INLINENOTES valueForSetting: (showNotesInline ? @"YES": @"NO")];
-  [self saveSetting: PK_SETTING_SHOWMORPHOLOGY valueForSetting: (showMorphology ? @"YES": @"NO")];
-  [self saveSetting: @"show-strongs" valueForSetting: (showStrongs ? @"YES": @"NO")];
-  [self saveSetting: @"show-interlinear" valueForSetting: (showInterlinear ? @"YES": @"NO")];
-  [self saveSetting: PK_SETTING_USEICLOUD valueForSetting: (useICloud ? @"YES": @"NO")];
+
+  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  [content inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self saveSetting: PK_SETTING_FONTFACE valueForSetting: textFontFace];
+    [self saveSetting: @"greek-typeface" valueForSetting: textGreekFontFace];     //RE: ISSUE #6
+    [self saveSetting: PK_SETTING_FONTSIZE valueForSetting: [NSString stringWithFormat: @"%i", textFontSize]];
+    [self saveSetting: PK_SETTING_LINESPACING valueForSetting: [NSString stringWithFormat: @"%i", textLineSpacing]];
+    [self saveSetting: PK_SETTING_VERSESPACING valueForSetting: [NSString stringWithFormat: @"%i", textVerseSpacing]];
+    [self saveSetting: PK_SETTING_COLUMNWIDTHS valueForSetting: [NSString stringWithFormat: @"%i", layoutColumnWidths]];
+    [self saveSetting: PK_SETTING_GREEKTEXT valueForSetting: [NSString stringWithFormat: @"%i", greekText]];
+    [self saveSetting: PK_SETTING_ENGLISHTEXT valueForSetting: [NSString stringWithFormat: @"%i", englishText]];
+    [self saveSetting: PK_SETTING_TRANSLITERATE valueForSetting: (transliterateText ? @"YES": @"NO")];
+    [self saveSetting: PK_SETTING_INLINENOTES valueForSetting: (showNotesInline ? @"YES": @"NO")];
+    [self saveSetting: PK_SETTING_SHOWMORPHOLOGY valueForSetting: (showMorphology ? @"YES": @"NO")];
+    [self saveSetting: @"show-strongs" valueForSetting: (showStrongs ? @"YES": @"NO")];
+    [self saveSetting: @"show-interlinear" valueForSetting: (showInterlinear ? @"YES": @"NO")];
+    [self saveSetting: PK_SETTING_USEICLOUD valueForSetting: (useICloud ? @"YES": @"NO")];
+
+
+    [self saveSetting: @"note-book" valueForSetting: [NSString stringWithFormat: @"%i", noteBook]];
+    [self saveSetting: @"note-chapter" valueForSetting: [NSString stringWithFormat: @"%i", noteChapter]];
+    [self saveSetting: @"note-verse" valueForSetting: [NSString stringWithFormat: @"%i", noteVerse]];
+
+    [self saveSetting: @"current-text-highlight" valueForSetting: currentTextHighlight];
+    [self saveSetting: @"last-strongs-lookup" valueForSetting: lastStrongsLookup];
+    [self saveSetting: @"last-search" valueForSetting: lastSearch];
+    [self saveSetting: @"last-notes-search" valueForSetting: lastNotesSearch];
+
+    [self saveSetting: @"old-note" valueForSetting: oldNote];
+    [self saveSetting: @"current-note" valueForSetting: currentNote];
+
+
+    [self saveSetting: @"text-theme" valueForSetting: [NSString stringWithFormat: @"%i", textTheme]];
+    [self saveSetting: @"usage-stats" valueForSetting: (usageStats ? @"YES": @"NO")];
+    
+  }];
 
   [self saveCurrentReference];
-
-  [self saveSetting: @"note-book" valueForSetting: [NSString stringWithFormat: @"%i", noteBook]];
-  [self saveSetting: @"note-chapter" valueForSetting: [NSString stringWithFormat: @"%i", noteChapter]];
-  [self saveSetting: @"note-verse" valueForSetting: [NSString stringWithFormat: @"%i", noteVerse]];
-
-  [self saveSetting: @"current-text-highlight" valueForSetting: currentTextHighlight];
-  [self saveSetting: @"last-strongs-lookup" valueForSetting: lastStrongsLookup];
-  [self saveSetting: @"last-search" valueForSetting: lastSearch];
-  [self saveSetting: @"last-notes-search" valueForSetting: lastNotesSearch];
-
-  [self saveSetting: @"old-note" valueForSetting: oldNote];
-  [self saveSetting: @"current-note" valueForSetting: currentNote];
-
   [self saveCurrentHighlight];
-
-  [self saveSetting: @"text-theme" valueForSetting: [NSString stringWithFormat: @"%i", textTheme]];
-  [self saveSetting: @"usage-stats" valueForSetting: (usageStats ? @"YES": @"NO")];
 }
 
 /**
@@ -291,9 +303,10 @@ static id _instance;
 -(void) saveSetting: (NSString *) theSetting valueForSetting: (NSString *) theValue
 {
   FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabase *db = [content database];
   
-  [content inDatabase:^(FMDatabase *db)
-    {
+//  [content inDatabase:^(FMDatabase *db)
+//    {
       BOOL theResult      = YES;
       FMResultSet *resultSet;
       int rowCount        = 0;
@@ -321,8 +334,8 @@ static id _instance;
       {
         NSLog(@"Couldn't save %@ into %@", theValue, theSetting);
       }
-    }
-  ];
+//    }
+//  ];
 }
 
 /**
