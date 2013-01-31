@@ -167,7 +167,7 @@ static id _instance;
     
     
     // and make sure the userBible is excluded from user backup
-    NSURL *URL = [[NSURL alloc] initWithString:userBibleDatabase];
+    NSURL *URL = [[NSURL alloc] initWithString:[@"file:///" stringByAppendingString:userBibleDatabase]];
     if ( SYSTEM_VERSION_GREATER_THAN(@"5.0.1") )
     {
       NSError *error = nil;
@@ -336,7 +336,7 @@ static id _instance;
     NSString *theSettingKey   = [s stringForColumnIndex: 0];
     NSString *theSettingValue = [s stringForColumnIndex: 1];
     
-    // use our model to add the note (we'll happily overwrite an existing note, of course)
+    // use our model to save the setting
     [settingsModel saveSetting: theSettingKey valueForSetting: theSettingValue];
   }
   [settingsModel reloadSettings];
