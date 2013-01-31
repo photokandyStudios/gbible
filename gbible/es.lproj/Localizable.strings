@@ -236,3 +236,25 @@
 "3 John" = "3 Juan";
 "Jude" = "Judas";
 "Revelation" = "Revelaciones";
+
+/*Version 1.2*/
+"Chapter" = "Chapter";
+"Manage Bible" = "Manage Bible";
+"Built-In" = "Built-In";
+"Installed" = "Installed";
+"Remove Bible" = "Remove Bible";
+"FREE" = "FREE";
+"Download" = "Download";
+"Removing" = "Removing";
+"Removing..." = "Removing...";
+"Removed!" = "Removed!";
+"Installing" = "Installing";
+"Installing..." = "Installing...";
+"Installed!" = "Installed!";
+"Downloading..." = "Downloading...";
+"Manage Bibles" = "Manage Bibles";
+"Built-In Bibles" = "Built-In Bibles";
+"Installed Bibles" = "Installed Bibles";
+"Downloadable Bibles" = "Downloadable Bibles";
+"Manage Bibes..." = "Manage Bibles...";
+
