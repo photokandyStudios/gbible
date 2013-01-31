@@ -28,6 +28,9 @@
 - (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block;
 - (void)inDeferredTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block;
 
+
+- (FMDatabase*)database;
+
 #if SQLITE_VERSION_NUMBER >= 3007000
 // NOTE: you can not nest these, since calling it will pull another database out of the pool and you'll get a deadlock.
 // If you need to nest, use FMDatabase's startSavePointWithName:error: instead.
