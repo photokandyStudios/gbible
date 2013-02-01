@@ -692,8 +692,8 @@
 
 -(void) bibleTextChanged
 {
-  leftTextSelect.title         = [[PKBible titleForTextID: [[PKSettings instance] greekText]] stringByAppendingString: @" ▾"];
-  rightTextSelect.title        = [[PKBible titleForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"];
+  leftTextSelect.title         = [[PKBible abbreviationForTextID: [[PKSettings instance] greekText]] stringByAppendingString: @" ▾"];
+  rightTextSelect.title        = [[PKBible abbreviationForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"];
 
   // this will have to change, but for now it will do.
   toggleStrongsBtn.enabled     = [[PKSettings instance] greekText] != PK_BIBLETEXT_TIS;
@@ -1763,6 +1763,7 @@
     [PO dismissPopoverAnimated: NO];
   }
   NSArray *bibleTextNames;
+  NSArray *bibleAbbreviations;
   NSString *title;
   int theTag;
 
@@ -1770,6 +1771,7 @@
   {
     bibleTextIDs   = [PKBible availableOriginalTexts: PK_TBL_BIBLES_ID];
     bibleTextNames = [PKBible availableOriginalTexts: PK_TBL_BIBLES_NAME];
+    bibleAbbreviations=[PKBible availableOriginalTexts:PK_TBL_BIBLES_ABBREVIATION];
     title          = __T(@"Greek Text");
     theTag         = 1898;
   }
@@ -1777,6 +1779,7 @@
   {
     bibleTextIDs   = [PKBible availableHostTexts: PK_TBL_BIBLES_ID];
     bibleTextNames = [PKBible availableHostTexts: PK_TBL_BIBLES_NAME];
+    bibleAbbreviations=[PKBible availableHostTexts:PK_TBL_BIBLES_ABBREVIATION];
     title          = __T(@"English Text");
     theTag         = 1899;
   }
@@ -1790,7 +1793,7 @@
 
   for (int i = 0; i < bibleTextIDs.count; i++)
   {
-    [theActionSheet addButtonWithTitle: bibleTextNames[i]];
+    [theActionSheet addButtonWithTitle: [bibleTextNames[i] stringByAppendingFormat:@" (%@)", bibleAbbreviations[i]]];
   }
 
   [theActionSheet addButtonWithTitle: __T(@"Cancel")];
