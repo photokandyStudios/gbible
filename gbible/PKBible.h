@@ -25,6 +25,7 @@
 +(NSArray *)  availableOriginalTexts: (int) column;
 +(NSArray *)  availableHostTexts: (int) column;
 +(NSString *) titleForTextID: (int) theText;
++(NSString *) abbreviationForTextID: (int) theText;
 +(NSString *) nameForBook: (int) theBook;
 +(NSString *) numericalThreeLetterCodeForBook: (int) theBook;
 +(NSString *) abbreviationForBook: (int) theBook;

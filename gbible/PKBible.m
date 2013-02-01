@@ -187,6 +187,27 @@
   return retValue;
 }
 
++(NSString *) abbreviationForTextID: (int) theText
+{
+  FMDatabaseQueue *db = [self bibleDatabaseForText:theText];
+  
+  __block NSString *retValue = @"";
+  
+  [db inDatabase:^(FMDatabase *db)
+    {
+      FMResultSet *s = [db executeQuery: @"select bibleAbbreviation from bibles where bibleID=?", @ (theText)];
+
+      if ([s next])
+      {
+        retValue = [s stringForColumnIndex: 0];
+      }
+      [s close];
+    }
+  ];
+  
+  return retValue;
+}
+
 /**
  *
  * Returns the canonical name for a Bible book, given the book number. For example, 40=Matthew
