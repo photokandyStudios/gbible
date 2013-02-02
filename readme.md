@@ -1,8 +1,7 @@
 Greek Interlinear Bible for iOS
 ===============================
 
-*NOTE*: We're on the App Store now: http://itunes.apple.com/us/app/greek-interlinear-bible/id520000138?mt=8
-*NOTE*: Version 1.1 has been submitted to Apple for review. If all goes well, it should hit the store sometime around 1/23/2013.
+*NOTE*: We're on the App Store now with version 1.1: http://itunes.apple.com/us/app/greek-interlinear-bible/id520000138?mt=8
 
 Project code for the Greek Interlinear Bible for iOS. This code is COPYRIGHT (C) 2012 photoKandy Studios LLC.
 Portions of the code are under different licenses, see https://github.com/photokandyStudios/gbible/wiki/Third-Party-Components.
@@ -24,10 +23,12 @@ The code that is not otherwise licensed and is owned by photoKandy Studios LLC i
 licensed under a CC BY-NC-SA 3.0 license. That is, you may copy the code and use it for 
 non-commercial uses under the same license. For the entire license, see http://creativecommons.org/licenses/by-nc-sa/3.0/.
 
+Furthermore, you may use the code in this app for your own personal or educational use. However you may **NOT** release a competing app on the App Store without prior authorization and significant code changes. If authorization is granted, attribution must be kept, but you must also add in your own attribution. You must also use your own API keys (TestFlight, Parse, etc.) and you much provide your own support. As the code is released for non-commercial purposes, any directly competing app based on this code must not require payment of any form (including ads).
+
 *NOTE*: The graphical assets are not covered under the above license. They are copyright their respective owners.
 
-The following developers are excluded from the above license, by virtue of previous infringement:
+The following developers are excluded from the above license, by virtue of previous infringement, and the exclusions are retroactive:
 
  * The developer named Wang Ting (and any other aliases) is hereby denied license to use any of this code without prior authorization. This is in response to the unauthorized release of a copy of this application on the App Store in December 2012 under the names "Bible : Greek Interlinear Bible Free" and "Bible : Greek Interlinear Bible". The first is ad-supported, which clearly goes against the non-commercial clause of the license. The second is not free, which also goes against the non-commercial license. In both cases, attribution has been changed to the developer, and so the license is again ingringed. Finally, the app uses the graphical assets as provided, again a clear infringment as these are not licensed under the code license.
- 
+ * The developer named duduBear (and any other aliases) is hereby denied license to use any of this code without prior authorization. This is in response to the unauthorized release of a copy of this application on the App Store in September 2012 under the names "bible [Greek and English]" and "bible HD [Greek and English]". Both are not free, which goes against the non-commercial license. Finally, the app uses the graphical assets as provided, again a clear infringment as these are not licensed under the code license.
 
