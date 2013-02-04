@@ -15,6 +15,8 @@
 #import "ZUUIRevealController.h"
 #import "PKRootViewController.h"
 #import "TestFlight.h"
+#import "KOKeyboardRow.h"
+#import "PKTextView.h"
 
 @interface PKNoteEditorViewController ()
 
@@ -149,9 +151,9 @@
                                                                   self.view.bounds.size.height)];
   
   txtTitle =
-  [[UITextField alloc] initWithFrame: CGRectMake(10, 10, self.view.bounds.size.width - 20, theFont.lineHeight + 10)];
+  [[UITextField alloc] initWithFrame: CGRectMake(20, 10, self.view.bounds.size.width - 40, (theFont.lineHeight*1.5) + 10)];
   txtNote  =
-  [[UITextView alloc] initWithFrame: CGRectMake(10, 20 + theFont.lineHeight, self.view.bounds.size.width - 20,
+  [[PKTextView alloc] initWithFrame: CGRectMake(10, 20 + theFont.lineHeight, self.view.bounds.size.width - 20,
                                                 self.view.bounds.size.height - 52)];
   
   txtTitle.placeholder            = __T(@"Title for note");
@@ -171,7 +173,9 @@
   //txtTitle.borderStyle = UITextBorderStyleRoundedRect;
   
   txtNote.font           = theFont;
-  txtTitle.font          = theFont;
+  txtTitle.font          = [UIFont fontWithName:[theFont fontName] size:[theFont pointSize]*1.5];
+  txtTitle.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+  
   
   txtTitle.returnKeyType = UIReturnKeyNext;
   txtNote.returnKeyType  = UIReturnKeyDefault;
@@ -192,14 +196,18 @@
   self.view.backgroundColor = [UIColor whiteColor];
   [scroller addSubview: txtTitle];
   [scroller addSubview: txtNote];
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+  {
+    [KOKeyboardRow applyToTextView:txtNote];
+  }
   [self.view addSubview: scroller];
 }
 
 -(void) updateAppearanceForTheme
 {
   self.view.backgroundColor = [PKSettings PKPageColor];
-  self.txtNote.backgroundColor                     = [PKSettings PKSecondaryPageColor];
-  self.txtTitle.backgroundColor                    = [PKSettings PKSecondaryPageColor];
+  self.txtNote.backgroundColor                     = [UIColor clearColor];
+  self.txtTitle.backgroundColor                    = [UIColor clearColor];
   self.txtNote.textColor                           = [PKSettings PKTextColor];
   self.txtTitle.textColor                          = [PKSettings PKTextColor];
   self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
@@ -235,6 +243,9 @@
   return YES;
 }
 
+#pragma mark -
+#pragma mark button events
+
 -(void)cancelPressed: (id) sender
 {
   [self dismissModalViewControllerAnimated: YES];
@@ -265,16 +276,43 @@
   [self dismissModalViewControllerAnimated: YES];
 }
 
+#pragma mark -
+#pragma mark text field delegate methods
+
+-(BOOL) textFieldShouldReturn:(UITextField *)textField
+{
+  if (textField == txtTitle)
+  {
+    [txtTitle resignFirstResponder];
+    [txtNote becomeFirstResponder];
+    
+    return NO;
+  }
+  return YES;
+}
+
 -(void) textFieldDidBeginEditing: (UITextField *) textField
 {
   state = 1;
   [self updateState];
 }
 
+#pragma mark -
+#pragma mark text view field delegate methods
+
 -(void) textViewDidBeginEditing: (UITextView *) textView
 {
   state = 1;
   [self updateState];
+}
+
+-(void) textViewDidEndEditing:(UITextView *)textView
+{
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+  {
+    [((KOKeyboardRow *)textView.inputAccessoryView) removeFromSuperview];
+    [KOKeyboardRow applyToTextView:txtNote];
+  }
 }
 
 @end

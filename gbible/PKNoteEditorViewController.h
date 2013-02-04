@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TPKeyboardAvoidingScrollView.h"
+#import "PKTextView.h"
 
 @interface PKNoteEditorViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate>
 
@@ -17,7 +18,7 @@
 @property int state;
 
 @property (strong, nonatomic) UITextField *txtTitle;
-@property (strong, nonatomic) UITextView *txtNote;
+@property (strong, nonatomic) PKTextView *txtNote;
 @property (strong, nonatomic) UIBarButtonItem *btnDelete;
 @property (strong, nonatomic) UIBarButtonItem *btnCancel;
 @property (strong, nonatomic) UIBarButtonItem *btnDone;
