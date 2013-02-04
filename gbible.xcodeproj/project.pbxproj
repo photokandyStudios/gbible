@@ -205,6 +205,21 @@
 		6AD7E2D5152AA4130072483E /* PKSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D4152AA4130072483E /* PKSearchViewController.m */; };
 		6AD7E2D7152AB51C0072483E /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D6152AB51C0072483E /* readme.md */; };
 		6AD7E2DD152BAC540072483E /* PKStrongs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2DC152BAC540072483E /* PKStrongs.m */; };
+		6AE5B93616BF71F6004256CC /* hal-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92616BF71F6004256CC /* hal-black.png */; };
+		6AE5B93716BF71F6004256CC /* hal-black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92716BF71F6004256CC /* hal-black@2x.png */; };
+		6AE5B93816BF71F6004256CC /* hal-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92816BF71F6004256CC /* hal-blue.png */; };
+		6AE5B93916BF71F6004256CC /* hal-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92916BF71F6004256CC /* hal-blue@2x.png */; };
+		6AE5B93A16BF71F6004256CC /* hal-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92A16BF71F6004256CC /* hal-white.png */; };
+		6AE5B93B16BF71F6004256CC /* hal-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92B16BF71F6004256CC /* hal-white@2x.png */; };
+		6AE5B93C16BF71F6004256CC /* key-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92C16BF71F6004256CC /* key-blue.png */; };
+		6AE5B93D16BF71F6004256CC /* key-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92D16BF71F6004256CC /* key-blue@2x.png */; };
+		6AE5B93E16BF71F6004256CC /* key-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92E16BF71F6004256CC /* key-pressed.png */; };
+		6AE5B93F16BF71F6004256CC /* key-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92F16BF71F6004256CC /* key-pressed@2x.png */; };
+		6AE5B94016BF71F6004256CC /* key.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B93016BF71F6004256CC /* key.png */; };
+		6AE5B94116BF71F6004256CC /* key@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B93116BF71F6004256CC /* key@2x.png */; };
+		6AE5B94216BF71F6004256CC /* KOKeyboardRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5B93316BF71F6004256CC /* KOKeyboardRow.m */; };
+		6AE5B94316BF71F6004256CC /* KOSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5B93516BF71F6004256CC /* KOSwipeButton.m */; };
+		6AE5B94616BF7E2D004256CC /* PKTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5B94516BF7E2D004256CC /* PKTextView.m */; };
 		6AE6138716B756B700C2E03C /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6AE6138416B756B700C2E03C /* SVProgressHUD.bundle */; };
 		6AE6138816B756B700C2E03C /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AE6138616B756B700C2E03C /* SVProgressHUD.m */; };
 		6AF0C0A6150EE8BB00BFAE03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */; };
@@ -512,6 +527,25 @@
 		6AD7E2D6152AB51C0072483E /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		6AD7E2DB152BAC540072483E /* PKStrongs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKStrongs.h; sourceTree = "<group>"; };
 		6AD7E2DC152BAC540072483E /* PKStrongs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKStrongs.m; sourceTree = "<group>"; };
+		6AE5B92616BF71F6004256CC /* hal-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-black.png"; sourceTree = "<group>"; };
+		6AE5B92716BF71F6004256CC /* hal-black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-black@2x.png"; sourceTree = "<group>"; };
+		6AE5B92816BF71F6004256CC /* hal-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-blue.png"; sourceTree = "<group>"; };
+		6AE5B92916BF71F6004256CC /* hal-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-blue@2x.png"; sourceTree = "<group>"; };
+		6AE5B92A16BF71F6004256CC /* hal-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-white.png"; sourceTree = "<group>"; };
+		6AE5B92B16BF71F6004256CC /* hal-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-white@2x.png"; sourceTree = "<group>"; };
+		6AE5B92C16BF71F6004256CC /* key-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "key-blue.png"; sourceTree = "<group>"; };
+		6AE5B92D16BF71F6004256CC /* key-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "key-blue@2x.png"; sourceTree = "<group>"; };
+		6AE5B92E16BF71F6004256CC /* key-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "key-pressed.png"; sourceTree = "<group>"; };
+		6AE5B92F16BF71F6004256CC /* key-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "key-pressed@2x.png"; sourceTree = "<group>"; };
+		6AE5B93016BF71F6004256CC /* key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = key.png; sourceTree = "<group>"; };
+		6AE5B93116BF71F6004256CC /* key@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "key@2x.png"; sourceTree = "<group>"; };
+		6AE5B93216BF71F6004256CC /* KOKeyboardRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOKeyboardRow.h; sourceTree = "<group>"; };
+		6AE5B93316BF71F6004256CC /* KOKeyboardRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOKeyboardRow.m; sourceTree = "<group>"; };
+		6AE5B93416BF71F6004256CC /* KOSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOSwipeButton.h; sourceTree = "<group>"; };
+		6AE5B93516BF71F6004256CC /* KOSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOSwipeButton.m; sourceTree = "<group>"; };
+		6AE5B94416BF7E2D004256CC /* PKTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKTextView.h; sourceTree = "<group>"; };
+		6AE5B94516BF7E2D004256CC /* PKTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKTextView.m; sourceTree = "<group>"; };
+		6AE5B94716BF7F84004256CC /* PKTextViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKTextViewDelegate.h; sourceTree = "<group>"; };
 		6AE6138416B756B700C2E03C /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		6AE6138516B756B700C2E03C /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		6AE6138616B756B700C2E03C /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -897,6 +931,7 @@
 		6A92CCC81516F0CC00F8AE15 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				6AE5B92516BF71F6004256CC /* KOKeyboard */,
 				6ABD995D16B9DBD2008EB8E0 /* MAConfirmButton */,
 				6AE6138316B756B700C2E03C /* SVProgressHUD */,
 				6AA6620C16AA5C9300D2139A /* PSTCollectionView */,
@@ -937,6 +972,9 @@
 			children = (
 				6A0FDF3815485840004E70A7 /* PKTableViewCell.h */,
 				6A0FDF3915485840004E70A7 /* PKTableViewCell.m */,
+				6AE5B94416BF7E2D004256CC /* PKTextView.h */,
+				6AE5B94716BF7F84004256CC /* PKTextViewDelegate.h */,
+				6AE5B94516BF7E2D004256CC /* PKTextView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1100,6 +1138,29 @@
 				6AD7E2DC152BAC540072483E /* PKStrongs.m */,
 			);
 			name = strongs;
+			sourceTree = "<group>";
+		};
+		6AE5B92516BF71F6004256CC /* KOKeyboard */ = {
+			isa = PBXGroup;
+			children = (
+				6AE5B92616BF71F6004256CC /* hal-black.png */,
+				6AE5B92716BF71F6004256CC /* hal-black@2x.png */,
+				6AE5B92816BF71F6004256CC /* hal-blue.png */,
+				6AE5B92916BF71F6004256CC /* hal-blue@2x.png */,
+				6AE5B92A16BF71F6004256CC /* hal-white.png */,
+				6AE5B92B16BF71F6004256CC /* hal-white@2x.png */,
+				6AE5B92C16BF71F6004256CC /* key-blue.png */,
+				6AE5B92D16BF71F6004256CC /* key-blue@2x.png */,
+				6AE5B92E16BF71F6004256CC /* key-pressed.png */,
+				6AE5B92F16BF71F6004256CC /* key-pressed@2x.png */,
+				6AE5B93016BF71F6004256CC /* key.png */,
+				6AE5B93116BF71F6004256CC /* key@2x.png */,
+				6AE5B93216BF71F6004256CC /* KOKeyboardRow.h */,
+				6AE5B93316BF71F6004256CC /* KOKeyboardRow.m */,
+				6AE5B93416BF71F6004256CC /* KOSwipeButton.h */,
+				6AE5B93516BF71F6004256CC /* KOSwipeButton.m */,
+			);
+			path = KOKeyboard;
 			sourceTree = "<group>";
 		};
 		6AE6138316B756B700C2E03C /* SVProgressHUD */ = {
@@ -1589,6 +1650,18 @@
 				6A0F1A4F16B86E4F003DF396 /* bibleContent in Resources */,
 				6ABD996616BA1A86008EB8E0 /* leather-book.png in Resources */,
 				6ABD996716BA1A86008EB8E0 /* leather-book@2x.png in Resources */,
+				6AE5B93616BF71F6004256CC /* hal-black.png in Resources */,
+				6AE5B93716BF71F6004256CC /* hal-black@2x.png in Resources */,
+				6AE5B93816BF71F6004256CC /* hal-blue.png in Resources */,
+				6AE5B93916BF71F6004256CC /* hal-blue@2x.png in Resources */,
+				6AE5B93A16BF71F6004256CC /* hal-white.png in Resources */,
+				6AE5B93B16BF71F6004256CC /* hal-white@2x.png in Resources */,
+				6AE5B93C16BF71F6004256CC /* key-blue.png in Resources */,
+				6AE5B93D16BF71F6004256CC /* key-blue@2x.png in Resources */,
+				6AE5B93E16BF71F6004256CC /* key-pressed.png in Resources */,
+				6AE5B93F16BF71F6004256CC /* key-pressed@2x.png in Resources */,
+				6AE5B94016BF71F6004256CC /* key.png in Resources */,
+				6AE5B94116BF71F6004256CC /* key@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1695,6 +1768,9 @@
 				6ABD995C16B9D65C008EB8E0 /* PKBibleInfoViewController.m in Sources */,
 				6ABD996016B9DBDC008EB8E0 /* MAConfirmButton.m in Sources */,
 				6ABD996316B9E382008EB8E0 /* UIColor-Expanded2.m in Sources */,
+				6AE5B94216BF71F6004256CC /* KOKeyboardRow.m in Sources */,
+				6AE5B94316BF71F6004256CC /* KOSwipeButton.m in Sources */,
+				6AE5B94616BF7E2D004256CC /* PKTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
