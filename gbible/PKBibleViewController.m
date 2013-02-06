@@ -99,6 +99,8 @@
 @synthesize rightTextSelect;
 @synthesize bibleTextIDs;
 
+@synthesize keyboardControl;
+
 //@synthesize popoverView;
 
 #pragma mark -
@@ -704,6 +706,7 @@
 // ISSUE #61
 -(void)viewDidAppear: (BOOL) animated
 {
+  [super viewDidAppear:animated];
   [self becomeFirstResponder]; // respond to copy command from keyboard?
 }
 
@@ -714,6 +717,7 @@
  */
 -(void)viewWillAppear: (BOOL) animated
 {
+  [super viewWillAppear:animated];
   if (dirty
       || lastKnownOrientation != [[UIDevice currentDevice] orientation])
   {
@@ -730,6 +734,7 @@
   }
   [self bibleTextChanged];
   [self updateAppearanceForTheme];
+
 }
 
 -(void)viewWillDisappear: (BOOL) animated
@@ -760,6 +765,9 @@
   [self.tableView setBackgroundView: nil];
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
+  
+  self.inputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+  
 
   // add our gestures
   UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
@@ -2429,5 +2437,82 @@
     [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
   }
 }
+
+#pragma mark -
+#pragma mark UIKeyText methods
+
+//
+// we're trying to be a little... sneaky here -- we're treating these
+// as keyboard short cuts.
+
+-(void) deleteBackward: (id)sender
+{
+  return; // we do nothing.
+}
+
+-(BOOL) hasText
+{
+  return YES;
+}
+
+-(void) insertText:(NSString *)text
+{
+
+  static NSDate *lastKeypress;
+  NSTimeInterval lastKeypressInterval = [lastKeypress timeIntervalSince1970];
+  
+  NSDate *thisKeypress = [NSDate date];
+  NSTimeInterval thisKeypressInterval = [thisKeypress timeIntervalSince1970];
+  
+
+  if (thisKeypressInterval > lastKeypressInterval + 0.5)
+  {
+    lastKeypress = thisKeypress;
+
+    NSIndexPath *currentPath = [self.tableView indexPathsForVisibleRows][0];
+    int theRow = currentPath.row;
+    if ([text isEqualToString:@"W"])
+    {
+      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+    if ([text isEqualToString:@"w"])
+    {
+      theRow--;
+      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+      
+    }
+    if ([text isEqualToString:@"s"])
+    {
+      theRow++;
+      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+      
+    }
+    if ([text isEqualToString:@"S"])
+    {
+      int currentGreekVerseCount   = [currentGreekChapter count];
+      int currentEnglishVerseCount = [currentEnglishChapter count];
+      int currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
+
+      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow: currentVerseCount-1 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+    
+    if ([text isEqualToString:@"a"] ||
+        [text isEqualToString:@"A"])
+    {
+      PKWaitDelay(5000, [self previousChapter];
+                );
+    }
+    if ([text isEqualToString:@"d"] ||
+        [text isEqualToString:@"D"])
+    {
+      PKWaitDelay(5000, [self nextChapter];
+                 );
+      
+    }
+
+  }
+
+}
+
 
 @end

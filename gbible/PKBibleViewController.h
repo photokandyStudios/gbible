@@ -12,7 +12,7 @@
 //#import "FWTPopoverView.h"
 
 @interface PKBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate,
-                                                          UIActionSheetDelegate, PKLayoutControllerDelegate>
+                                                          UIActionSheetDelegate, PKLayoutControllerDelegate , UIKeyInput>
 
 -(void)displayBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse;
 
@@ -69,6 +69,11 @@
 @property (strong, nonatomic) UIBarButtonItem *leftTextSelect;
 @property (strong, nonatomic) UIBarButtonItem *rightTextSelect;
 @property (strong, nonatomic) NSArray *bibleTextIDs;
+
+@property (strong, nonatomic) UITextField *keyboardControl;
+
+@property (strong, nonatomic, readwrite) UIView *inputView;
+
 -(void)notifyNoteChanged;
 
 @end
