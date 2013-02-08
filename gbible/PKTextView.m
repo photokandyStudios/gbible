@@ -16,8 +16,20 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+          [self setupMenu];
+
     }
     return self;
+}
+
+-(void) setupMenu
+{
+  //add to our menu
+  UIMenuController *menuCont = [UIMenuController sharedMenuController];
+  menuCont.menuItems = @[ [[UIMenuItem alloc] initWithTitle:__T(@"Insert Reference") action:@selector(insertVerseReference:)],
+                          [[UIMenuItem alloc] initWithTitle:__T(@"Insert Verse") action:@selector(insertVerse:)],
+                          [[UIMenuItem alloc] initWithTitle:__T(@"Show Verse") action:@selector(showVerse:)],
+                          [[UIMenuItem alloc] initWithTitle:__T(@"Define Strong's") action:@selector(defineStrongs:)] ];
 }
 
 - (BOOL) canPerformAction:(SEL)action withSender:(id)sender
@@ -27,7 +39,8 @@
   {
     theSelectedWord = [self.text substringWithRange:self.selectedRange];
   }
-  if (action == @selector(pickVerse:))
+  if (action == @selector(insertVerseReference:) ||
+     (action == @selector(insertVerse:)))
   {
     return YES;
   }
@@ -99,21 +112,23 @@
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+  [self setupMenu];
   [super touchesBegan:touches withEvent:event];
-  
-  //add to our menu
-  UIMenuController *menuCont = [UIMenuController sharedMenuController];
-  menuCont.menuItems = @[ [[UIMenuItem alloc] initWithTitle:__T(@"Pick Verse") action:@selector(pickVerse:)],
-                          [[UIMenuItem alloc] initWithTitle:__T(@"Show Verse") action:@selector(showVerse:)],
-                          [[UIMenuItem alloc] initWithTitle:__T(@"Define Strong's") action:@selector(defineStrongs:)] ];
-  
 }
 
-- (void) pickVerse: (id)sender
+- (void) insertVerseReference: (id)sender
 {
   if (self.actionDelegate)
   {
-    [self.actionDelegate pickVerse];
+    [self.actionDelegate insertVerseReference];
+  }
+}
+
+- (void) insertVerse: (id)sender
+{
+  if (self.actionDelegate)
+  {
+    [self.actionDelegate insertVerse];
   }
 }
 

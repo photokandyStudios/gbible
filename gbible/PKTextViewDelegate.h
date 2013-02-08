@@ -14,7 +14,8 @@
 
 @required
 
--(void)pickVerse;
+-(void)insertVerseReference;
+-(void)insertVerse;
 -(void)showVerse;
 -(void)defineStrongs;
 
