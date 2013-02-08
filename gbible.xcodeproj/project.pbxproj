@@ -61,6 +61,7 @@
 		6A12F6F2151EDF0800B49B6E /* SegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A12F6F1151EDA9100B49B6E /* SegmentsController.m */; };
 		6A136916167C24BF001A1C7C /* PKLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A136915167C24BF001A1C7C /* PKLayoutController.m */; };
 		6A13691A167C3F5F001A1C7C /* GLTapLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A136918167C3F5F001A1C7C /* GLTapLabel.m */; };
+		6A2039A516C49FDE00CA4749 /* PKSimpleBibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A2039A416C49FDE00CA4749 /* PKSimpleBibleViewController.m */; };
 		6A21635F1530EE3600D41447 /* PKHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A21635E1530EE3600D41447 /* PKHistory.m */; };
 		6A2163701530F7E700D41447 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21636F1530F7E700D41447 /* about.html */; };
 		6A21637215338DDE00D41447 /* parsings.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21637115338DDE00D41447 /* parsings.html */; };
@@ -314,6 +315,8 @@
 		6A136917167C3F5F001A1C7C /* GLTapLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTapLabel.h; sourceTree = "<group>"; };
 		6A136918167C3F5F001A1C7C /* GLTapLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLTapLabel.m; sourceTree = "<group>"; };
 		6A136919167C3F5F001A1C7C /* GLTapLabelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTapLabelDelegate.h; sourceTree = "<group>"; };
+		6A2039A316C49FDE00CA4749 /* PKSimpleBibleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSimpleBibleViewController.h; sourceTree = "<group>"; };
+		6A2039A416C49FDE00CA4749 /* PKSimpleBibleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSimpleBibleViewController.m; sourceTree = "<group>"; };
 		6A21635D1530EE3600D41447 /* PKHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHistory.h; sourceTree = "<group>"; };
 		6A21635E1530EE3600D41447 /* PKHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKHistory.m; sourceTree = "<group>"; };
 		6A21636F1530F7E700D41447 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
@@ -388,6 +391,7 @@
 		6A6B59CC16A125610027BD03 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		6A74306516ADDCD900DC1320 /* searchutils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = searchutils.h; sourceTree = "<group>"; };
 		6A74306616ADDCEA00DC1320 /* searchutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchutils.m; sourceTree = "<group>"; };
+		6A7CA3BE16C451B900BF0C48 /* PKBibleReferenceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKBibleReferenceDelegate.h; sourceTree = "<group>"; };
 		6A820DD81517EA3B006523EE /* PKBible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBible.h; sourceTree = "<group>"; };
 		6A820DD91517EA3B006523EE /* PKBible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKBible.m; sourceTree = "<group>"; };
 		6A8D44B1152262F000746EA9 /* TableCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TableCell.png; sourceTree = "<group>"; };
@@ -684,7 +688,7 @@
 			children = (
 				6AFD868316992B24000B564D /* Root View Controller */,
 				6A2163641530F21900D41447 /* About Controller */,
-				6A2163651530F22200D41447 /* Bible Controller */,
+				6A2163651530F22200D41447 /* Bible Controllers */,
 				6A2163661530F22D00D41447 /* Settings Controller */,
 				6A2163671530F23900D41447 /* Search Controllers */,
 			);
@@ -710,13 +714,15 @@
 			name = "About Controller";
 			sourceTree = "<group>";
 		};
-		6A2163651530F22200D41447 /* Bible Controller */ = {
+		6A2163651530F22200D41447 /* Bible Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				6A9793BC15143AA200A5C9F1 /* PKBibleViewController.h */,
 				6A9793BD15143AA200A5C9F1 /* PKBibleViewController.m */,
+				6A2039A316C49FDE00CA4749 /* PKSimpleBibleViewController.h */,
+				6A2039A416C49FDE00CA4749 /* PKSimpleBibleViewController.m */,
 			);
-			name = "Bible Controller";
+			name = "Bible Controllers";
 			sourceTree = "<group>";
 		};
 		6A2163661530F22D00D41447 /* Settings Controller */ = {
@@ -773,6 +779,7 @@
 				6A9793CF15143B0F00A5C9F1 /* PKBibleBookChapterVersesViewController.m */,
 				6A9793C815143AF200A5C9F1 /* PKBibleBooksController.h */,
 				6A9793C915143AF200A5C9F1 /* PKBibleBooksController.m */,
+				6A7CA3BE16C451B900BF0C48 /* PKBibleReferenceDelegate.h */,
 			);
 			name = "Passage Selection Controller";
 			sourceTree = "<group>";
@@ -1771,6 +1778,7 @@
 				6AE5B94216BF71F6004256CC /* KOKeyboardRow.m in Sources */,
 				6AE5B94316BF71F6004256CC /* KOSwipeButton.m in Sources */,
 				6AE5B94616BF7E2D004256CC /* PKTextView.m in Sources */,
+				6A2039A516C49FDE00CA4749 /* PKSimpleBibleViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
