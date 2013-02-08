@@ -337,6 +337,8 @@
 -(void)loadChapter
 {
   BOOL parsed               = NO;
+  BOOL compression = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
+         && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]);
   reusableLabelQueuePosition = -1;
   NSUInteger currentBook    = [[PKSettings instance] currentBook];
   NSUInteger currentChapter = [[PKSettings instance] currentChapter];
@@ -369,7 +371,7 @@
   {
     NSArray *formattedText = [PKBible formatText: [currentGreekChapter objectAtIndex: i]
                                        forColumn: 1 withBounds: self.view.bounds withParsings: parsed
-                                      startingAt: 0.0];
+                                      startingAt: 0.0 withCompression:compression];
 
     [formattedGreekChapter addObject:
      formattedText
@@ -407,7 +409,7 @@
 
     NSArray *formattedText = [PKBible formatText: [currentEnglishChapter objectAtIndex: i]
                                        forColumn: 2 withBounds: self.view.bounds withParsings: parsed
-                                      startingAt: greekHeightIPhone];
+                                      startingAt: greekHeightIPhone withCompression:compression];
 
     [formattedEnglishChapter addObject:
      formattedText
@@ -477,7 +479,7 @@
       formattedEnglishVerse = nil;
     }
 
-    CGFloat greekColumnWidth      = [PKBible columnWidth: 1 forBounds: self.view.bounds];
+    CGFloat greekColumnWidth      = [PKBible columnWidth: 1 forBounds: self.view.bounds withCompression:compression];
     NSMutableArray *theLabelArray = [[NSMutableArray alloc] init];
 
     // insert Greek labels
@@ -2287,7 +2289,7 @@
 {
   PKNoteEditorViewController *nevc = [[PKNoteEditorViewController alloc] initWithPassage: selectedPassage];
   UINavigationController *mvnc     = [[UINavigationController alloc] initWithRootViewController: nevc];
-  mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
+  //mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
 
   UINavigationBar *navBar          = [mvnc navigationBar];
 
@@ -2445,7 +2447,7 @@
 // we're trying to be a little... sneaky here -- we're treating these
 // as keyboard short cuts.
 
--(void) deleteBackward: (id)sender
+-(void) deleteBackward
 {
   return; // we do nothing.
 }

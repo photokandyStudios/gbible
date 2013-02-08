@@ -53,7 +53,7 @@
 // formatting routines
 +(CGFloat)    formattedTextHeight: (NSArray *) theWordArray withParsings: (BOOL) parsed;
 +(NSArray *)  formatText: (NSString *) theText forColumn: (int) theColumn withBounds: (CGRect) theRect withParsings: (BOOL) parsed
- startingAt             : (CGFloat) initialY;
-+(CGFloat)    columnWidth: (int) theColumn forBounds: (CGRect) theRect;
+ startingAt             : (CGFloat) initialY withCompression: (BOOL)compression;
++(CGFloat)    columnWidth: (int) theColumn forBounds: (CGRect) theRect withCompression: (BOOL)compression;
 +(NSString *) transliterate: (NSString *) theWord;
 @end

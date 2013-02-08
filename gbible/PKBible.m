@@ -598,19 +598,20 @@
  * column settings. TODO: Doesn't feel quite right on a smaller screen, though
  *
  */
-+(CGFloat) columnWidth: (int) theColumn forBounds: (CGRect) theRect
++(CGFloat) columnWidth: (int) theColumn forBounds: (CGRect) theRect withCompression: (BOOL)compression
 {
   // set Margin
   CGFloat theMargin = 5;
 
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && !compression)
   {
     // iPad gets wider margins
     theMargin = 44;
   }
 
-  if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
-       && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) )
+//  if (( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
+//       && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ) || (compression))
+  if (compression)
   {
     return (theRect.size.width);
 //          return ((theRect.size.width) - (theMargin));
@@ -789,7 +790,7 @@
  *
  */
 +(NSArray *)formatText: (NSString *) theText forColumn: (int) theColumn withBounds: (CGRect) theRect withParsings: (BOOL) parsed
-            startingAt: (CGFloat) initialY
+            startingAt: (CGFloat) initialY withCompression: (BOOL)compression
 {
   // should we include the morphology?
   BOOL showMorphology  = [[PKSettings instance] showMorphology];
@@ -838,7 +839,7 @@
   // set Margin
   CGFloat theMargin = 5;
 
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad  &&!compression)
   {
     // iPad gets wider margins
     theMargin = 44;
@@ -853,7 +854,7 @@
   // maximum point
   CGFloat endX        = startX + theRect.size.width;
 
-  CGFloat columnWidth = [self columnWidth: theColumn forBounds: theRect];     // (theRect.size.width) * columnMultiplier;
+  CGFloat columnWidth = [self columnWidth: theColumn forBounds: theRect withCompression:compression];     // (theRect.size.width) * columnMultiplier;
 
   // new maximum point
   endX = startX + columnWidth;
@@ -881,9 +882,14 @@
   CGFloat columnHeight          = lineHeight;
   columnHeight += (lineHeight * [[PKSettings instance] textVerseSpacing]);
 
-  if ( theColumn == 1
-       || UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
-       || UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]) )
+  if ( theColumn == 1 || !compression)
+//  if ((
+//      ( theColumn == 1
+//       || UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
+//       || UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]) )
+//     ) && (!compression)
+//     )
+    
   {
     if (parsed)
     {
