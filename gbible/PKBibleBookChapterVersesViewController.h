@@ -8,12 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "PSTCollectionView.h"
+#import "PKBibleReferenceDelegate.h"
 
 @interface PKBibleBookChapterVersesViewController : PSUICollectionViewController
 
 @property int selectedBook;
 @property int selectedChapter;
+@property BOOL notifyWithCopyOfVerse;
+@property (nonatomic, assign) id <PKBibleReferenceDelegate> delegate;
 
 -(id)initWithBook: (int) theBook withChapter: (int) theChapter;
+
+
 
 @end

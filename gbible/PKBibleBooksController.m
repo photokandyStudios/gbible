@@ -20,6 +20,7 @@
 @implementation PKBibleBooksController
 
 //@synthesize theCollectionView;
+@synthesize delegate;
 
 # pragma mark -
 # pragma mark view lifecycle
@@ -58,6 +59,17 @@
 
   [self.collectionView registerClass:[PKSimpleCollectionViewCell class] forCellWithReuseIdentifier:@"simple-cell"];
   //self.collectionView.bounds = CGRectMake (0,0, 260, 500);
+  
+  if (delegate)
+  {
+    UIBarButtonItem *closeButton =
+      [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
+      ];
+    self.navigationItem.rightBarButtonItem = closeButton;
+    self.navigationItem.title              = __T(@"Select Book");
+  }
+  
+  
 }
 
 -(void) updateAppearanceForTheme
@@ -74,9 +86,12 @@
  */
 -(void)viewDidAppear: (BOOL) animated
 {
-  CGRect newFrame = self.navigationController.view.frame;
-  newFrame.size.width                  = 260;
-  self.navigationController.view.frame = newFrame;
+  if (!delegate)
+  {
+    CGRect newFrame = self.navigationController.view.frame;
+    newFrame.size.width                  = 260;
+    self.navigationController.view.frame = newFrame;
+  }
   [self updateAppearanceForTheme];
 }
 
@@ -94,16 +109,22 @@
  */
 -(void)didAnimateFirstHalfOfRotationToInterfaceOrientation: (UIInterfaceOrientation) toInterfaceOrientation
 {
-  CGRect newFrame = self.navigationController.view.frame;
-  newFrame.size.width                  = 260;
-  self.navigationController.view.frame = newFrame;
+  if (!delegate)
+  {
+    CGRect newFrame = self.navigationController.view.frame;
+    newFrame.size.width                  = 260;
+    self.navigationController.view.frame = newFrame;
+  }
 }
 
 -(void)didRotateFromInterfaceOrientation: (UIInterfaceOrientation) fromInterfaceOrientation
 {
-  CGRect newFrame = self.navigationController.view.frame;
-  newFrame.size.width                  = 260;
-  self.navigationController.view.frame = newFrame;
+  if (!delegate)
+  {
+    CGRect newFrame = self.navigationController.view.frame;
+    newFrame.size.width                  = 260;
+    self.navigationController.view.frame = newFrame;
+  }
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation
@@ -153,6 +174,8 @@
   
   PKBibleBookChaptersViewController *bcvc = [[PKBibleBookChaptersViewController alloc]
                                              initWithBook: row + 40];
+  bcvc.delegate = self.delegate;
+  bcvc.notifyWithCopyOfVerse = self.notifyWithCopyOfVerse;
   
   [self.navigationController pushViewController: bcvc animated: YES];
   
@@ -178,5 +201,15 @@
 (PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(0,0,0,0);
 }
+#pragma mark -
+#pragma mark Button Actions
+
+
+-(void) closeMe: (id) sender
+{
+  [self dismissModalViewControllerAnimated: YES];
+  [[PKSettings instance] saveSettings];
+}
+
 
 @end

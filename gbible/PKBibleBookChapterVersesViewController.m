@@ -13,6 +13,7 @@
 #import "ZUUIRevealController.h"
 #import "PKSettings.h"
 #import "PKSimpleCollectionViewCell.h"
+#import "PKBibleReferenceDelegate.h"
 
 @interface PKBibleBookChapterVersesViewController ()
 
@@ -22,6 +23,7 @@
 
 @synthesize selectedBook;
 @synthesize selectedChapter;
+@synthesize delegate;
 
 #pragma mark -
 #pragma mark view lifecycle
@@ -63,6 +65,13 @@
 
   [self.collectionView registerClass:[PKSimpleCollectionViewCell class] forCellWithReuseIdentifier:@"simple-cell"];
   
+  if (delegate)
+  {
+    UIBarButtonItem *closeButton =
+      [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
+      ];
+    self.navigationItem.rightBarButtonItem = closeButton;
+  }
 }
 
 -(void) updateAppearanceForTheme
@@ -136,21 +145,36 @@
 {
   NSUInteger row = [indexPath row];
   
-  // we can now form a complete reference. Pass that back to the bible view
-  
-  ZUUIRevealController  *rc  = (ZUUIRevealController *)self.parentViewController
-  .parentViewController;
-  PKRootViewController *rvc  = (PKRootViewController *)rc.frontViewController;
-  
-  PKBibleViewController *bvc = [[[rvc.viewControllers objectAtIndex: 0] viewControllers] objectAtIndex: 0];
-  
   [collectionView deselectItemAtIndexPath: indexPath animated: YES];
   
-  [self.navigationController popToRootViewControllerAnimated: YES];
-  
-  [rc revealToggle: self];
-  
-  [bvc displayBook: selectedBook andChapter: selectedChapter andVerse: row + 1];
+  // we can now form a complete reference. Pass that back to the bible view
+  if (!self.delegate)
+  {
+    ZUUIRevealController  *rc  = (ZUUIRevealController *)self.parentViewController
+    .parentViewController;
+    PKRootViewController *rvc  = (PKRootViewController *)rc.frontViewController;
+    
+    PKBibleViewController *bvc = [[[rvc.viewControllers objectAtIndex: 0] viewControllers] objectAtIndex: 0];
+    
+    [self.navigationController popToRootViewControllerAnimated: YES];
+    
+    [rc revealToggle: self];
+    
+    [bvc displayBook: selectedBook andChapter: selectedChapter andVerse: row + 1];
+  }
+  else
+  {
+    if (self.notifyWithCopyOfVerse)
+    {
+      [self.delegate newVerseByBook:selectedBook andChapter:selectedChapter andVerse:row+1];
+    }
+    else
+    {
+      [self.delegate newReferenceByBook:selectedBook andChapter:selectedChapter andVerse:row+1];
+    }
+    [self dismissModalViewControllerAnimated: YES];
+  }
+ 
 }
 -(CGSize) collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -171,6 +195,15 @@
 - (UIEdgeInsets)collectionView:
 (PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(0,0,0,0);
+}
+
+#pragma mark -
+#pragma mark Button Actions
+
+-(void) closeMe: (id) sender
+{
+  [self dismissModalViewControllerAnimated: YES];
+  [[PKSettings instance] saveSettings];
 }
 
 

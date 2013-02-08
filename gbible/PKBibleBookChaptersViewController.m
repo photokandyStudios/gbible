@@ -11,6 +11,7 @@
 #import "PKBible.h"
 #import "PKSettings.h"
 #import "PKSimpleCollectionViewCell.h"
+#import "PKSimpleBibleViewController.h"
 
 @interface PKBibleBookChaptersViewController ()
 
@@ -19,6 +20,7 @@
 @implementation PKBibleBookChaptersViewController
 
 @synthesize selectedBook;
+@synthesize delegate;
 
 #pragma mark -
 #pragma mark view lifecycle
@@ -59,6 +61,15 @@
   self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 
   [self.collectionView registerClass:[PKSimpleCollectionViewCell class] forCellWithReuseIdentifier:@"simple-cell"];
+
+  if (delegate)
+  {
+    UIBarButtonItem *closeButton =
+      [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
+      ];
+    self.navigationItem.rightBarButtonItem = closeButton;
+  }
+
 }
 
 -(void) updateAppearanceForTheme
@@ -132,10 +143,23 @@
 {
   NSUInteger row = [indexPath row];
   
-  PKBibleBookChapterVersesViewController *bcvc = [[PKBibleBookChapterVersesViewController alloc]
-                                                  initWithBook: selectedBook withChapter: row + 1];
-  
-  [self.navigationController pushViewController: bcvc animated: YES];
+  if (!self.delegate)
+  {
+    PKBibleBookChapterVersesViewController *bcvc = [[PKBibleBookChapterVersesViewController alloc]
+                                                    initWithBook: selectedBook withChapter: row + 1];
+    bcvc.delegate = self.delegate;
+    bcvc.notifyWithCopyOfVerse = self.notifyWithCopyOfVerse;
+
+    [self.navigationController pushViewController: bcvc animated: YES];
+  }
+  else
+  {
+    PKSimpleBibleViewController *sbvc = [[PKSimpleBibleViewController alloc] initWithStyle:UITableViewStylePlain];
+    sbvc.delegate = self.delegate;
+    sbvc.notifyWithCopyOfVerse = self.notifyWithCopyOfVerse;
+    [sbvc loadChapter:row + 1 forBook:selectedBook];
+    [self.navigationController pushViewController:sbvc animated:YES];
+  }
   
   [collectionView deselectItemAtIndexPath: indexPath animated: YES];
 }
@@ -159,6 +183,15 @@
 - (UIEdgeInsets)collectionView:
 (PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(0,0,0,0);
+}
+#pragma mark -
+#pragma mark Button Actions
+
+
+-(void) closeMe: (id) sender
+{
+  [self dismissModalViewControllerAnimated: YES];
+  [[PKSettings instance] saveSettings];
 }
 
 
