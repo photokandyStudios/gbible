@@ -17,8 +17,11 @@
 #import "TestFlight.h"
 #import "KOKeyboardRow.h"
 #import "PKTextView.h"
+#import "PKBibleBooksController.h"
 
 @interface PKNoteEditorViewController ()
+
+@property (nonatomic, strong) UIPopoverController *PO;
 
 @end
 
@@ -36,6 +39,8 @@
 @synthesize btnDone;
 
 @synthesize scroller;
+
+@synthesize PO;
 
 -(id)init
 {
@@ -182,6 +187,7 @@
   
   txtTitle.delegate      = self;
   txtNote.delegate       = self;
+  txtNote.actionDelegate = self;
   
   btnDone                = [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStyleDone
                                                            target: self
@@ -313,6 +319,60 @@
     [((KOKeyboardRow *)textView.inputAccessoryView) removeFromSuperview];
     [KOKeyboardRow applyToTextView:txtNote];
   }
+}
+
+#pragma mark -
+#pragma mark custom action delegates from the text view
+- (void)insertVerseReference
+{
+
+  PKBibleBooksController *BBC = [[PKBibleBooksController alloc] initWithCollectionViewLayout:[PSUICollectionViewFlowLayout new]];
+  BBC.delegate = self;
+  
+  UINavigationController *NC = [[UINavigationController alloc] initWithRootViewController:BBC];
+  
+  NC.modalPresentationStyle = UIModalPresentationFormSheet;
+  [self presentModalViewController: NC animated: YES];
+
+}
+
+- (void)insertVerse
+{
+
+  PKBibleBooksController *BBC = [[PKBibleBooksController alloc] initWithCollectionViewLayout:[PSUICollectionViewFlowLayout new]];
+  BBC.delegate = self;
+  BBC.notifyWithCopyOfVerse = YES;
+  
+  UINavigationController *NC = [[UINavigationController alloc] initWithRootViewController:BBC];
+  
+  NC.modalPresentationStyle = UIModalPresentationFormSheet;
+  [self presentModalViewController: NC animated: YES];
+
+}
+
+- (void)showVerse
+{
+    [PO dismissPopoverAnimated: NO];
+}
+
+- (void)defineStrongs
+{
+    [PO dismissPopoverAnimated: NO];
+}
+
+
+#pragma mark -
+#pragma mark a Bible verse is trying to be inserted
+- (void)newReferenceByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
+{
+  NSString *theReference = [NSString stringWithFormat:@" %@ %i:%i ", [PKBible nameForBook:theBook],
+                                                                  theChapter, andVerse];
+  [txtNote insertText:theReference];
+  //[txtNote becomeFirstResponder];
+}
+
+- (void)newVerseByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
+{
 }
 
 @end

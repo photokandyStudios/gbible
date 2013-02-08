@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "TPKeyboardAvoidingScrollView.h"
 #import "PKTextView.h"
+#import "PKTextViewDelegate.h"
+#import "PKBibleReferenceDelegate.h"
 
-@interface PKNoteEditorViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate>
+@interface PKNoteEditorViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, PKTextViewDelegate, PKBibleReferenceDelegate>
 
 @property (strong, nonatomic) NSString *passage;
 @property (strong, nonatomic) NSString *noteTitle;
