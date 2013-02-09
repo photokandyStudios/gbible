@@ -11,15 +11,17 @@
 #import "PKTextView.h"
 #import "PKTextViewDelegate.h"
 #import "PKBibleReferenceDelegate.h"
+#import "KBKeyboardHandlerDelegate.h"
 
-@interface PKNoteEditorViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, PKTextViewDelegate, PKBibleReferenceDelegate>
+
+@interface PKNoteEditorViewController : UIViewController <UITextViewDelegate, PKTextViewDelegate, PKBibleReferenceDelegate, KBKeyboardHandlerDelegate>
 
 @property (strong, nonatomic) NSString *passage;
 @property (strong, nonatomic) NSString *noteTitle;
 @property (strong, nonatomic) NSString *note;
 @property int state;
 
-@property (strong, nonatomic) UITextField *txtTitle;
+@property (strong, nonatomic) UITextView *txtTitle;
 @property (strong, nonatomic) PKTextView *txtNote;
 @property (strong, nonatomic) UIBarButtonItem *btnDelete;
 @property (strong, nonatomic) UIBarButtonItem *btnCancel;
