@@ -202,6 +202,7 @@
   keyboard = [[KBKeyboardHandler alloc] init];
   keyboard.delegate = self;
   
+  [self loadData];
 
 }
 
@@ -217,7 +218,6 @@
 
 -(void)viewWillAppear: (BOOL) animated
 {
-  [self loadData];
   [self updateAppearanceForTheme];
   [self.view setNeedsLayout];
 }
