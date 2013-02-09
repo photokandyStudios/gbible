@@ -11,9 +11,11 @@
 
 @interface PKSimpleBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 
-@property (nonatomic, assign) id <PKBibleReferenceDelegate> delegate;
+@property (nonatomic, weak) id <PKBibleReferenceDelegate> delegate;
 @property BOOL notifyWithCopyOfVerse;
 
 -(void)loadChapter: (int) theChapter forBook: (int) theBook;
+-(void)selectVerse: (int)theVerse;
+-(void)scrollToVerse: (int)theVerse;
 
 @end
