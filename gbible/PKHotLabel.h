@@ -18,7 +18,7 @@ typedef BOOL (^PKCompareBlock)(NSString * theWord);
   NSMutableArray *hotWordsRect;
 }
 
-@property (nonatomic, assign) id <PKHotLabelDelegate> delegate;
+@property (nonatomic, weak) id <PKHotLabelDelegate> delegate;
 @property (nonatomic, strong) UIColor *hotColor;
 @property (nonatomic, strong) UIColor *hotBackgroundColor;
 @property (nonatomic, strong) NSString *hotWord;

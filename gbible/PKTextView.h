@@ -11,6 +11,6 @@
 
 @interface PKTextView : UITextView
 
-@property (nonatomic, assign) id <PKTextViewDelegate> actionDelegate;
+@property (nonatomic, weak) id <PKTextViewDelegate> actionDelegate;
 
 @end

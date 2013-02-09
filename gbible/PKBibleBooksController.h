@@ -12,7 +12,7 @@
 
 @interface PKBibleBooksController : PSUICollectionViewController
 
-@property (nonatomic, assign) id <PKBibleReferenceDelegate> delegate;
+@property (nonatomic, weak) id <PKBibleReferenceDelegate> delegate;
 @property BOOL notifyWithCopyOfVerse;
 
 @end

@@ -15,7 +15,7 @@
 @property int selectedBook;
 @property int selectedChapter;
 @property BOOL notifyWithCopyOfVerse;
-@property (nonatomic, assign) id <PKBibleReferenceDelegate> delegate;
+@property (nonatomic, weak) id <PKBibleReferenceDelegate> delegate;
 
 -(id)initWithBook: (int) theBook withChapter: (int) theChapter;
 
