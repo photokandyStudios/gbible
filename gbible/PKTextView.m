@@ -16,10 +16,18 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuWillShow:) name:UIMenuControllerWillShowMenuNotification object:nil];
+
           [self setupMenu];
 
     }
     return self;
+}
+
+
+-(void) menuWillShow: (id)sender
+{
+  [self setupMenu];
 }
 
 -(void) setupMenu
@@ -109,13 +117,13 @@
 
   return [super canPerformAction:action withSender:sender];
 }
-
+/*
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
   [self setupMenu];
   [super touchesBegan:touches withEvent:event];
 }
-
+*/
 - (void) insertVerseReference: (id)sender
 {
   if (self.actionDelegate)
