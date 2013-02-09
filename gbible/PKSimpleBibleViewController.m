@@ -45,6 +45,9 @@
 @end
 
 @implementation PKSimpleBibleViewController
+{
+  int globalVerse;
+}
 
 @synthesize currentGreekChapter, currentEnglishChapter, formattedGreekChapter, formattedEnglishChapter, formattedGreekVerseHeights, formattedEnglishVerseHeights, selectedVerses, highlightedVerses, cellHeights, cells, reusableLabels, formattedCells, theCachedCell, bibleTextIDs, currentBook, currentChapter, reusableLabelQueuePosition, dirty;
 @synthesize delegate, notifyWithCopyOfVerse;
@@ -60,9 +63,48 @@
 -(void)loadChapter: (int) theChapter forBook: (int) theBook
 {
   selectedVerses             = [[NSMutableDictionary alloc] init];
+  globalVerse = 0;
   currentBook    = theBook;
   currentChapter = theChapter;
-  [self loadChapter];
+  [self.tableView reloadData];
+}
+
+-(void)selectVerse: (int)theVerse
+{
+  NSUInteger row            = theVerse -1;
+  globalVerse = theVerse;
+  BOOL curValue;
+  NSString *passage         = [PKBible stringFromBook: currentBook forChapter: currentChapter forVerse: row + 1];
+
+  curValue = [[selectedVerses objectForKey: passage] boolValue];
+  [selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: passage];
+  
+  [self.tableView reloadData];
+
+}
+
+-(void)scrollToVerse: (int)theVerse
+{
+  PKWaitDelay(0.05, {
+                if (theVerse > 1)
+                {
+                  if ([self.tableView numberOfRowsInSection: 0] >  1)
+                  {
+                    if (theVerse - 1 < [self.tableView numberOfRowsInSection: 0])
+                    {
+                      [self.tableView scrollToRowAtIndexPath:
+                       [NSIndexPath                    indexPathForRow:
+                        theVerse - 1 inSection: 0]
+                                            atScrollPosition: UITableViewScrollPositionMiddle animated: YES];
+                    }
+                  }
+                }
+                else
+                {
+                  [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: YES];
+                }
+              }
+              );
 }
 
 -(void)loadHighlights
@@ -397,12 +439,21 @@
 
   if (self.navigationItem)
   {
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     UIBarButtonItem *closeButton =
       [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
       ];
     self.navigationItem.rightBarButtonItem = closeButton;
     self.navigationItem.title              = __T(@"Select Verse");
   }
+  
+  UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
+                                             initWithTarget: self action: @selector(didReceiveLongPress:)];
+  longPress.minimumPressDuration    = 0.5;
+  longPress.numberOfTapsRequired    = 0;
+  longPress.numberOfTouchesRequired = 1;
+  [self.tableView addGestureRecognizer: longPress];
+  
 
 }
 
@@ -682,6 +733,89 @@
 -(void) closeMe: (id) sender
 {
   [self dismissModalViewControllerAnimated: YES];
+}
+
+#pragma mark -
+#pragma mark gesture recognizer
+-(void) didReceiveLongPress: (UILongPressGestureRecognizer *) gestureRecognizer
+{
+  if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
+  {
+    // restore our menu items after a strongs view shows
+    UIMenuController *ourMenu           = [UIMenuController sharedMenuController];
+
+    CGPoint p              = [gestureRecognizer locationInView: self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: p];    // nil if no row
+    CGRect theRect;
+    theRect.origin.x    = p.x;
+    theRect.origin.y    = p.y;
+    theRect.size.width  = 1;
+    theRect.size.height = 1;
+
+    if (indexPath != nil)
+    {
+      NSUInteger row           = [indexPath row];
+      globalVerse = row + 1;
+
+      [self becomeFirstResponder];
+      [ourMenu update];   // just in case
+      [ourMenu setTargetRect: theRect inView: self.tableView];
+      [ourMenu setMenuVisible: YES animated: YES];
+    }
+  }
+}
+
+-(BOOL) canBecomeFirstResponder
+{
+  return YES;
+}
+
+-(BOOL) canPerformAction: (SEL) action withSender: (id) sender
+{
+  if ( action == @selector(copy:) )
+  {
+    return YES;
+  }
+  return NO;
+}
+
+-(void) copy: (id) sender
+{
+  [self copyVerse: nil];
+}
+
+-(void) copyVerse: (id) sender
+{
+  NSMutableString *theText   = [[NSMutableString alloc] init];
+
+  int theVerse = globalVerse;
+
+  if (theVerse <= [currentEnglishChapter count])
+  {
+    // FIX ISSUE #43a
+    [theText appendString: [currentEnglishChapter objectAtIndex: theVerse - 1]];
+  }
+  [theText appendString: @"\n"];
+
+  if (theVerse <= [currentGreekChapter count])
+  {
+    // FIX ISSUE #43a
+    [theText appendString: [currentGreekChapter objectAtIndex: theVerse - 1]];
+  }
+
+  int theBook      = currentBook;
+  int theChapter   = currentChapter;
+  NSArray *theNote =
+    [[PKNotes instance] getNoteForPassage: [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse]];
+
+  if (theNote != nil)
+  {
+    [theText appendFormat: @"\n%@ - %@", [theNote objectAtIndex: 0], [theNote objectAtIndex: 1]];
+  }
+  [theText appendString: @"\n\n"];
+
+  UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+  pasteBoard.string = theText;
 }
 
 
