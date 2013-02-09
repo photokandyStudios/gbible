@@ -57,8 +57,8 @@
   // Do any additional setup after loading the view.
   [TestFlight passCheckpoint: @"BIBLE_BOOK_CHAPTER_VERSES"];
   
-  self.view.backgroundColor           = [PKSettings PKSidebarPageColor];
-  self.collectionView.backgroundColor = [PKSettings PKSidebarPageColor];
+  self.view.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
+  self.collectionView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   //self.title                                       = __T(@"Select Verse");
   self.title = [__T(@"Chapter") stringByAppendingFormat:@" %i", selectedChapter];
   self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
@@ -76,8 +76,8 @@
 
 -(void) updateAppearanceForTheme
 {
-  self.view.backgroundColor = [PKSettings PKSidebarPageColor];
-  self.collectionView.backgroundColor = [PKSettings PKSidebarPageColor];
+  self.view.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
+  self.collectionView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   [self.collectionView reloadData];
 }
 
@@ -130,7 +130,7 @@
   NSUInteger row = [indexPath row];
   
   cell.label.text      = [NSString stringWithFormat: @"%i:%i", selectedChapter, row + 1];
-  cell.backgroundColor = [PKSettings PKSidebarPageColor];
+  cell.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   cell.label.textColor = [PKSettings PKSidebarTextColor];
   
   return cell;

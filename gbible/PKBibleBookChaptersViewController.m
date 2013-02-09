@@ -54,8 +54,8 @@
   [TestFlight passCheckpoint: @"BIBLE_BOOK_CHAPTERS"];
 
 
-  self.view.backgroundColor           = [PKSettings PKSidebarPageColor];
-  self.collectionView.backgroundColor = [PKSettings PKSidebarPageColor];
+  self.view.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
+  self.collectionView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
 //  self.title                                       = __T(@"Select Chapter");
   self.title = [PKBible nameForBook:selectedBook];
   self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
@@ -74,8 +74,8 @@
 
 -(void) updateAppearanceForTheme
 {
-  self.view.backgroundColor = [PKSettings PKSidebarPageColor];
-  self.collectionView.backgroundColor = [PKSettings PKSidebarPageColor];
+  self.view.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
+  self.collectionView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   [self.collectionView reloadData];
 }
 
@@ -128,7 +128,7 @@
   NSUInteger row = [indexPath row];
   
   cell.label.text      = [NSString stringWithFormat: @"%i", row + 1]; // get chapter
-  cell.backgroundColor = [PKSettings PKSidebarPageColor];
+  cell.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   cell.label.textColor = [PKSettings PKSidebarTextColor];
   
   return cell;

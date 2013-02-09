@@ -52,8 +52,8 @@
   // Do any additional setup after loading the view.
   [TestFlight passCheckpoint: @"BIBLE_BOOKS"];
   
-  self.view.backgroundColor                   = [PKSettings PKSelectionColor];
-  self.collectionView.backgroundColor = [PKSettings PKSidebarPageColor];
+  self.view.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
+  self.collectionView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   self.title                                       = __T(@"Goto");
   self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 
@@ -74,8 +74,8 @@
 
 -(void) updateAppearanceForTheme
 {
-  self.view.backgroundColor = [PKSettings PKSidebarPageColor];
-  self.collectionView.backgroundColor = [PKSettings PKSidebarPageColor];
+  self.view.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
+  self.collectionView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   [self.collectionView reloadData];
 }
 
@@ -153,7 +153,7 @@
 {
   PKSimpleCollectionViewCell *cell = (PKSimpleCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"simple-cell" forIndexPath:indexPath];
   NSUInteger row = [indexPath row];
-  cell.backgroundColor = [PKSettings PKSidebarPageColor];
+  cell.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   cell.label.text      = [PKBible nameForBook: row + 40]; // get book name
   cell.label.textColor = [PKSettings PKSidebarTextColor];
   cell.label.textAlignment = UITextAlignmentLeft;
