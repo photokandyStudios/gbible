@@ -80,6 +80,7 @@
 		6A3E43441515981800D8745D /* BlueTabBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43421515981800D8745D /* BlueTabBar@2x.png */; };
 		6A3E90541693E8F10062A4FA /* PKHotLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3E90531693E8F10062A4FA /* PKHotLabel.m */; };
 		6A495CD7169D371000F1A55C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A495CD9169D371000F1A55C /* Localizable.strings */; };
+		6A50FA1E16C5A5F600BE79BA /* KBKeyboardHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A50FA1D16C5A5F600BE79BA /* KBKeyboardHandler.m */; };
 		6A542A561696BD0B001AD586 /* PKPortraitNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A542A551696BD0B001AD586 /* PKPortraitNavigationController.m */; };
 		6A58AE101529567D00EAF960 /* PKNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE0F1529567D00EAF960 /* PKNotes.m */; };
 		6A58AE1415295BBD00EAF960 /* PKNoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */; };
@@ -343,6 +344,9 @@
 		6A495CDF169D37BC00F1A55C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A495CE1169D37D900F1A55C /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A495CE2169D37D900F1A55C /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6A50FA1C16C5A5F600BE79BA /* KBKeyboardHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBKeyboardHandler.h; sourceTree = "<group>"; };
+		6A50FA1D16C5A5F600BE79BA /* KBKeyboardHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBKeyboardHandler.m; sourceTree = "<group>"; };
+		6A50FA1F16C5A60C00BE79BA /* KBKeyboardHandlerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KBKeyboardHandlerDelegate.h; sourceTree = "<group>"; };
 		6A542A541696BD0B001AD586 /* PKPortraitNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKPortraitNavigationController.h; sourceTree = "<group>"; };
 		6A542A551696BD0B001AD586 /* PKPortraitNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKPortraitNavigationController.m; sourceTree = "<group>"; };
 		6A58AE0E1529567D00EAF960 /* PKNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKNotes.h; sourceTree = "<group>"; };
@@ -843,6 +847,16 @@
 			name = "User Interface";
 			sourceTree = "<group>";
 		};
+		6A50FA1B16C5A5CC00BE79BA /* KBKeyboardHandler */ = {
+			isa = PBXGroup;
+			children = (
+				6A50FA1C16C5A5F600BE79BA /* KBKeyboardHandler.h */,
+				6A50FA1D16C5A5F600BE79BA /* KBKeyboardHandler.m */,
+				6A50FA1F16C5A60C00BE79BA /* KBKeyboardHandlerDelegate.h */,
+			);
+			name = KBKeyboardHandler;
+			sourceTree = "<group>";
+		};
 		6A6B59A716A122610027BD03 /* minizip */ = {
 			isa = PBXGroup;
 			children = (
@@ -938,6 +952,7 @@
 		6A92CCC81516F0CC00F8AE15 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				6A50FA1B16C5A5CC00BE79BA /* KBKeyboardHandler */,
 				6AE5B92516BF71F6004256CC /* KOKeyboard */,
 				6ABD995D16B9DBD2008EB8E0 /* MAConfirmButton */,
 				6AE6138316B756B700C2E03C /* SVProgressHUD */,
@@ -1779,6 +1794,7 @@
 				6AE5B94316BF71F6004256CC /* KOSwipeButton.m in Sources */,
 				6AE5B94616BF7E2D004256CC /* PKTextView.m in Sources */,
 				6A2039A516C49FDE00CA4749 /* PKSimpleBibleViewController.m in Sources */,
+				6A50FA1E16C5A5F600BE79BA /* KBKeyboardHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
