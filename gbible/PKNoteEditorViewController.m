@@ -18,6 +18,8 @@
 #import "KOKeyboardRow.h"
 #import "PKTextView.h"
 #import "PKBibleBooksController.h"
+#import "PKSimpleBibleViewController.h"
+#import "KBKeyboardHandler.h"
 
 @interface PKNoteEditorViewController ()
 
@@ -26,6 +28,9 @@
 @end
 
 @implementation PKNoteEditorViewController
+{
+  KBKeyboardHandler* keyboard;
+}
 
 @synthesize state;
 @synthesize passage;
@@ -156,34 +161,20 @@
                                                                   self.view.bounds.size.height)];
   
   txtTitle =
-  [[UITextField alloc] initWithFrame: CGRectMake(20, 10, self.view.bounds.size.width - 40, (theFont.lineHeight*1.5) + 10)];
+  [[UITextView alloc] initWithFrame: CGRectMake(10, 10, self.view.bounds.size.width - 20, (theFont.lineHeight*1.5) + 10)];
   txtNote  =
   [[PKTextView alloc] initWithFrame: CGRectMake(10, 20 + theFont.lineHeight, self.view.bounds.size.width - 20,
                                                 self.view.bounds.size.height - 52)];
   
-  txtTitle.placeholder            = __T(@"Title for note");
-  
   self.view.autoresizesSubviews   = YES;
   txtTitle.autoresizingMask       = UIViewAutoresizingFlexibleWidth;
   txtNote.autoresizingMask        = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-  scroller.autoresizesSubviews    = YES;
-  scroller.autoresizingMask       = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-  
-  scroller.clipsToBounds          = YES;
-  scroller.delegate               = self;
-  scroller.directionalLockEnabled = YES;
-  
-  [scroller adjustWidth: YES andHeight: YES withHorizontalPadding: 0 andVerticalPadding: 0];
-  
-  //txtTitle.borderStyle = UITextBorderStyleRoundedRect;
-  
+
   txtNote.font           = theFont;
   txtTitle.font          = [UIFont fontWithName:[theFont fontName] size:[theFont pointSize]*1.5];
-  txtTitle.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
   
-  
-  txtTitle.returnKeyType = UIReturnKeyNext;
-  txtNote.returnKeyType  = UIReturnKeyDefault;
+  //txtTitle.returnKeyType = UIReturnKeyNext;
+  //txtNote.returnKeyType  = UIReturnKeyDefault;
   
   txtTitle.delegate      = self;
   txtNote.delegate       = self;
@@ -200,13 +191,18 @@
                                                            action: @selector(cancelPressed:)];
   
   self.view.backgroundColor = [UIColor whiteColor];
-  [scroller addSubview: txtTitle];
-  [scroller addSubview: txtNote];
+  [self.view addSubview: txtTitle];
+  [self.view addSubview: txtNote];
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
   {
     [KOKeyboardRow applyToTextView:txtNote];
+    [KOKeyboardRow applyToTextView:txtTitle];
   }
-  [self.view addSubview: scroller];
+  // register for keyboard events
+  keyboard = [[KBKeyboardHandler alloc] init];
+  keyboard.delegate = self;
+  
+
 }
 
 -(void) updateAppearanceForTheme
@@ -230,6 +226,8 @@
 {
   [super viewDidUnload];
   // Release any retained subviews of the main view.
+  keyboard.delegate = nil;
+  keyboard = nil;
   txtTitle  = nil;
   txtNote   = nil;
   btnDelete = nil;
@@ -285,7 +283,7 @@
 #pragma mark -
 #pragma mark text field delegate methods
 
--(BOOL) textFieldShouldReturn:(UITextField *)textField
+/*-(BOOL) textFieldShouldReturn:(UITextField *)textField
 {
   if (textField == txtTitle)
   {
@@ -301,7 +299,7 @@
 {
   state = 1;
   [self updateState];
-}
+}*/
 
 #pragma mark -
 #pragma mark text view field delegate methods
@@ -314,11 +312,11 @@
 
 -(void) textViewDidEndEditing:(UITextView *)textView
 {
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+ /* if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
   {
     [((KOKeyboardRow *)textView.inputAccessoryView) removeFromSuperview];
     [KOKeyboardRow applyToTextView:txtNote];
-  }
+  }*/
 }
 
 #pragma mark -
@@ -332,6 +330,7 @@
   UINavigationController *NC = [[UINavigationController alloc] initWithRootViewController:BBC];
   
   NC.modalPresentationStyle = UIModalPresentationFormSheet;
+  [self.view endEditing:YES];
   [self presentModalViewController: NC animated: YES];
 
 }
@@ -346,13 +345,80 @@
   UINavigationController *NC = [[UINavigationController alloc] initWithRootViewController:BBC];
   
   NC.modalPresentationStyle = UIModalPresentationFormSheet;
+  [self.view endEditing:YES];
   [self presentModalViewController: NC animated: YES];
 
 }
 
 - (void)showVerse
 {
-    [PO dismissPopoverAnimated: NO];
+  int theVerse = -1;
+  int theBook = -1;
+  int theChapter = -1;
+  NSString *theSelectedWord = @"";
+  if (txtNote.selectedTextRange)
+  {
+    theSelectedWord = [txtNote.text substringWithRange:txtNote.selectedRange];
+  }
+
+  if ([theSelectedWord rangeOfString:@":"].location != NSNotFound)
+  {
+    // might have a verse? Format should be of the form
+    // abcdef[space]number:number
+    int foundBook = -1;
+    int startIndex = -1;
+    // first, do we start with a book name?
+    for (int i=1; i<=66; i++)
+    {
+      NSString *theBookName = __T([PKBible nameForBook:i]);
+      NSString *theBookAbbr = __T([PKBible abbreviationForBook:i]);
+      if ([theSelectedWord hasPrefix:theBookAbbr])
+      {
+        foundBook = i;
+        startIndex = theBookAbbr.length;
+      }
+      if ([theSelectedWord hasPrefix:theBookName])
+      {
+        foundBook = i;
+        startIndex = theBookName.length;
+      }
+    }
+    if (foundBook>-1)
+    {
+      NSString *the3LC = [PKBible numericalThreeLetterCodeForBook:foundBook];
+      NSString *theRemainder = [theSelectedWord substringFromIndex:startIndex];
+      theRemainder = [theRemainder stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+      theRemainder = [theRemainder stringByReplacingOccurrencesOfString:@":" withString:@"."];
+      NSString *theReference = [NSString stringWithFormat:@"%@.%@", the3LC, theRemainder];
+      
+      int book = [PKBible bookFromString:theReference];
+      int chapter = [PKBible chapterFromString:theReference];
+      int verse = [PKBible verseFromString:theReference];
+      
+      if (book>39 && chapter>0 && verse>0)
+      {
+        theChapter = chapter;
+        theBook = book;
+        theVerse = verse;
+      }
+    }
+  }
+
+  if (theVerse>-1)
+  {
+    PKSimpleBibleViewController *sbvc = [[PKSimpleBibleViewController alloc] initWithStyle:UITableViewStylePlain];
+    [sbvc loadChapter:theChapter forBook:theBook];
+    [sbvc selectVerse:theVerse];
+    [sbvc scrollToVerse:theVerse];
+
+    UINavigationController *NC = [[UINavigationController alloc] initWithRootViewController:sbvc];
+    NC.navigationBar.barStyle = UIBarStyleBlack;
+    
+    NC.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self.view endEditing:YES];
+    [self presentModalViewController: NC animated: YES];
+  }
+
 }
 
 - (void)defineStrongs
@@ -373,6 +439,32 @@
 
 - (void)newVerseByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
 {
+  NSString *theText = [NSString stringWithFormat:@"%@\n%@",
+    [PKBible getTextForBook:theBook forChapter:theChapter forVerse:andVerse forSide:1],
+    [PKBible getTextForBook:theBook forChapter:theChapter forVerse:andVerse forSide:2]
+  ];
+  [txtNote insertText:theText];
+
+}
+
+#pragma mark -
+#pragma mark keyboard size changed
+//http://stackoverflow.com/a/12402817
+- (void)keyboardSizeChanged:(CGSize)delta
+{
+    // Resize / reposition your views here. All actions performed here 
+    // will appear animated.
+    // delta is the difference between the previous size of the keyboard 
+    // and the new one.
+    // For instance when the keyboard is shown, 
+    // delta may has width=768, height=264,
+    // when the keyboard is hidden: width=-768, height=-264.
+    // Use keyboard.frame.size to get the real keyboard size.
+
+    // Sample:
+    CGRect frame = self.view.frame;
+    frame.size.height -= delta.height;
+    self.view.frame = frame;
 }
 
 @end
