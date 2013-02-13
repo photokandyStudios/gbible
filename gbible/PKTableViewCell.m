@@ -8,6 +8,7 @@
 
 #import "PKTableViewCell.h"
 #import "PKLabel.h"
+#import "PKSettings.h"
 
 @implementation PKTableViewCell
 
@@ -50,26 +51,43 @@
   
   if (highlightColor)
   {
-    CGContextSetLineWidth(ctx, 1.0);
-    [highlightColor set];
-    CGRect newRect;
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if ( [[PKSettings instance] extendHighlights] )
     {
-      newRect = CGRectMake(rect.origin.x + 5, rect.origin.y + 5, 30, rect.size.height - 10);
+      CGRect newRect;
+      if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+      {
+        newRect = CGRectMake(rect.origin.x+30, rect.origin.y, rect.size.width-60, rect.size.height);
+      }
+      else
+      {
+        newRect = CGRectMake(rect.origin.x+5, rect.origin.y, rect.size.width-10, rect.size.height);
+      }
+      [highlightColor set];
+      CGContextFillRect(ctx, newRect);
     }
     else
     {
-      newRect = CGRectMake(rect.origin.x + rect.size.width - 40, rect.origin.y + 10, 30, 30);
+      CGContextSetLineWidth(ctx, 1.0);
+      [highlightColor set];
+      CGRect newRect;
+      
+      if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+      {
+        newRect = CGRectMake(rect.origin.x + 5, rect.origin.y + 5, 30, rect.size.height - 10);
+      }
+      else
+      {
+        newRect = CGRectMake(rect.origin.x + rect.size.width - 40, rect.origin.y + 10, 30, 30);
+      }
+      UIBezierPath *roundRect = [UIBezierPath bezierPathWithRoundedRect: newRect cornerRadius: 6];
+      [roundRect fill];
+      
+      [[UIColor colorWithWhite: 0.0 alpha: 0.33] set];
+      CGRect insetRect = CGRectInset(newRect, -0.5, -0.5);
+      
+      roundRect = [UIBezierPath bezierPathWithRoundedRect: insetRect cornerRadius: 6];
+      [roundRect stroke];
     }
-    UIBezierPath *roundRect = [UIBezierPath bezierPathWithRoundedRect: newRect cornerRadius: 6];
-    [roundRect fill];
-    
-    [[UIColor colorWithWhite: 0.0 alpha: 0.33] set];
-    CGRect insetRect = CGRectInset(newRect, -0.5, -0.5);
-    
-    roundRect = [UIBezierPath bezierPathWithRoundedRect: insetRect cornerRadius: 6];
-    [roundRect stroke];
   }
   
   CGContextRestoreGState(ctx);
