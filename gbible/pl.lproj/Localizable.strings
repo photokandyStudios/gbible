@@ -115,7 +115,7 @@
 "Show Morphology" = "Pokazywać morfologię?";
 "Show Strong's" = "Pokazywać Stronga?";
 "Show Translation" = "Pokazywać tłumaczenie✝?";
-"Anonymous Usage Statistics" = "Przesyłać informacje o użyciu?";
+"Anonymous Usage Statistics" = "Przesyłać informacje?"; // KS, shortened.
 "Text" = "Tekst";
 "Layout" = "Układ";
 "Version" = "Wersja";
@@ -244,5 +244,16 @@
 "Built-In Bibles" = "Built-In Bibles";
 "Installed Bibles" = "Installed Bibles";
 "Downloadable Bibles" = "Downloadable Bibles";
-"Manage Bibes..." = "Manage Bibles...";
+"Manage Bibles..." = "Manage Bibles...";
+"Left Text" = "Left Text";
+"Right Text" = "Right Text";
+"Rate this app..." = "Rate this app...";
+"Submit an issue..." = "Submit an issue...";
+"Layout..." = "Layout...";
+"Compress Right Side" = "Compress Right Side";
+"Extend Highlights" = "Extend Highlights";
+"Insert Reference" = "Insert Reference";
+"Insert Verse" = "Insert Verse";
+"Show Verse" = "Show Verse";
+"Define Strong's" = "Define Strong's";
 

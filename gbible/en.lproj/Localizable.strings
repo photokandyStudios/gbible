@@ -125,7 +125,7 @@
 "Show Morphology" = "Show Morphology?";
 "Show Strong's" = "Show Strong's?";
 "Show Translation" = "Show Translation✝?";
-"Anonymous Usage Statistics" = "Anonymous Usage Statistics?";
+"Anonymous Usage Statistics" = "Anonymous Usage Statistics";
 "Text" = "Text";
 "Layout" = "Layout";
 "Version" = "Version";
@@ -253,5 +253,18 @@
 "Built-In Bibles" = "Built-In Bibles";
 "Installed Bibles" = "Installed Bibles";
 "Downloadable Bibles" = "Downloadable Bibles";
-"Manage Bibes..." = "Manage Bibles...";
+"Manage Bibles..." = "Manage Bibles...";
+"Left Text" = "Left Text";
+"Right Text" = "Right Text";
+"Rate this app..." = "Rate this app...";
+"Submit an issue..." = "Submit an issue...";
+"Layout..." = "Layout...";
+"Compress Right Side" = "Compress Right Side";
+"Extend Highlights" = "Extend Highlights";
+"Insert Reference" = "Insert Reference";
+"Insert Verse" = "Insert Verse";
+"Show Verse" = "Show Verse";
+"Define Strong's" = "Define Strong's";
+
+
 
