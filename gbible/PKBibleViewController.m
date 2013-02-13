@@ -2457,8 +2457,133 @@
   return YES;
 }
 
+
+-(void)selectVerse: (int)theVerse
+{
+  NSUInteger row            = theVerse -1;
+  int currentBook = [[PKSettings instance] currentBook];
+  int currentChapter = [[PKSettings instance] currentChapter];
+  BOOL curValue;
+
+  NSString *passage         = [PKBible stringFromBook: currentBook forChapter: currentChapter forVerse: row + 1];
+
+  curValue = [[selectedVerses objectForKey: passage] boolValue];
+  [selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: passage];
+  
+  [self.tableView reloadData];
+}
+
+-(int)lowestSelectedVerse
+{
+  NSArray *allSelectedVerses = [[selectedVerses allKeys]
+                                // FIX ISSUE #60
+                                sortedArrayUsingComparator:
+                                ^NSComparisonResult (id obj1, id obj2)
+                                {
+                                  int verse1 = [PKBible verseFromString: obj1];
+                                  int verse2 = [PKBible verseFromString: obj2];
+
+                                  if (verse1 > verse2)
+                                  {
+                                    return NSOrderedDescending;
+                                  }
+
+                                  if (verse1 < verse2)
+                                  {
+                                    return NSOrderedAscending;
+                                  }
+                                  return NSOrderedSame;
+                                }
+                               ];
+  int lowestIndex = 999;
+  for (NSString *key in allSelectedVerses)
+  {
+    if ([[selectedVerses objectForKey: key] boolValue])
+    {
+      int index = [PKBible verseFromString:key];
+      if (index < lowestIndex)
+        lowestIndex = index;
+    }
+  }
+      
+  if (lowestIndex<999)
+    return lowestIndex;
+  else
+    return 0;
+}
+
+-(int)highestSelectedVerse
+{
+  NSArray *allSelectedVerses = [[selectedVerses allKeys]
+                                // FIX ISSUE #60
+                                sortedArrayUsingComparator:
+                                ^NSComparisonResult (id obj1, id obj2)
+                                {
+                                  int verse1 = [PKBible verseFromString: obj1];
+                                  int verse2 = [PKBible verseFromString: obj2];
+
+                                  if (verse1 > verse2)
+                                  {
+                                    return NSOrderedDescending;
+                                  }
+
+                                  if (verse1 < verse2)
+                                  {
+                                    return NSOrderedAscending;
+                                  }
+                                  return NSOrderedSame;
+                                }
+                               ];
+
+  int highestIndex = 0;
+  for (NSString *key in allSelectedVerses)
+  {
+    if ([[selectedVerses objectForKey: key] boolValue])
+    {
+      int index = [PKBible verseFromString:key];
+      if (index > highestIndex)
+        highestIndex = index;
+    }
+  }
+      
+  if (highestIndex>0)
+    return highestIndex;
+  else
+    return 0;
+}
+
 -(void) insertText:(NSString *)text
 {
+  //
+  // Key mappings:
+  //
+  // t = scroll to top
+  // q = scroll up by 3
+  // w = scroll up
+  // s = scroll down
+  // z = scroll down by 3
+  // b = scroll to bottom
+  //
+  // W = extend selection up by one; and scroll to top of selection
+  // S = extend selection down by one; and scroll to bottom of selection
+  //
+  // cC= clear selection
+  //
+  // h = add highlights to selected verses
+  // H = remove highlights from selected verse
+  //
+  // nN= add/view annotation (uses first verse in selection)
+  //
+  // eE= explain first verse in selection
+  //
+  // aA= previous chapter
+  // dD= next chapter
+  //
+  int currentBook = [[PKSettings instance] currentBook];
+  int currentChapter = [[PKSettings instance] currentChapter];
+  int currentGreekVerseCount   = [currentGreekChapter count];
+  int currentEnglishVerseCount = [currentEnglishChapter count];
+  int currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
 
   static NSDate *lastKeypress;
   NSTimeInterval lastKeypressInterval = [lastKeypress timeIntervalSince1970];
@@ -2473,13 +2598,34 @@
 
     NSIndexPath *currentPath = [self.tableView indexPathsForVisibleRows][0];
     int theRow = currentPath.row;
-    if ([text isEqualToString:@"W"])
+    if ([text isEqualToString:@"t"])
     {
       [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+    if ([text isEqualToString:@"W"])
+    {
+      int theLowestVerse = [self lowestSelectedVerse];
+      if (theLowestVerse<1)
+      {
+        theLowestVerse = theRow+1;
+      }
+      theLowestVerse--;
+      if (theLowestVerse>0)
+      {
+        [self selectVerse:theLowestVerse];
+        [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theLowestVerse-1 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+      }
     }
     if ([text isEqualToString:@"w"])
     {
       theRow--;
+      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+      
+    }
+    if ([text isEqualToString:@"q"])
+    {
+      theRow = theRow - 3;
+      if (theRow < 0) theRow = 0;
       [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
       
     }
@@ -2489,13 +2635,66 @@
       [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
       
     }
+    if ([text isEqualToString:@"z"])
+    {
+      theRow = theRow + 3;
+      if (theRow > currentVerseCount-1) theRow = currentVerseCount - 1;
+      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+      
+    }
     if ([text isEqualToString:@"S"])
     {
-      int currentGreekVerseCount   = [currentGreekChapter count];
-      int currentEnglishVerseCount = [currentEnglishChapter count];
-      int currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
-
+      int theHighestVerse = [self highestSelectedVerse];
+      if (theHighestVerse<1)
+      {
+        theHighestVerse = theRow;
+      }
+      theHighestVerse++;
+      if (theHighestVerse>0 && theHighestVerse <= currentVerseCount)
+      {
+        [self selectVerse:theHighestVerse];
+        [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theHighestVerse-1 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+      }
+    }
+    if ([text isEqualToString:@"b"])
+    {
       [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow: currentVerseCount-1 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+    if ([text isEqualToString:@"h"])
+    {
+      [self highlightSelection:nil];
+    }
+    if ([text isEqualToString:@"H"])
+    {
+      [self removeHighlights:nil];
+    }
+    if ([text isEqualToString:@"c"] ||
+        [text isEqualToString:@"C"])
+    {
+      [self clearSelection:nil];
+    }
+    if ([text isEqualToString:@"n"] ||
+        [text isEqualToString:@"N"])
+    {
+      int lowestVerse = 0;
+      lowestVerse = [self lowestSelectedVerse];
+      if (lowestVerse>0)
+      {
+        self.selectedPassage = [PKBible stringFromBook:currentBook forChapter:currentChapter forVerse:lowestVerse];
+        [self doAnnotate:nil];
+      }
+    }
+    
+    if ([text isEqualToString:@"e"] ||
+        [text isEqualToString:@"E"])
+    {
+      int lowestVerse = 0;
+      lowestVerse = [self lowestSelectedVerse];
+      if (lowestVerse>0)
+      {
+        self.selectedPassage = [PKBible stringFromBook:currentBook forChapter:currentChapter forVerse:lowestVerse];
+        [self explainVerse:nil];
+      }
     }
     
     if ([text isEqualToString:@"a"] ||
@@ -2509,8 +2708,8 @@
     {
       PKWaitDelay(5000, [self nextChapter];
                  );
-      
     }
+    
 
   }
 
