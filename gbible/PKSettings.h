@@ -39,15 +39,15 @@
 @property (readwrite) int noteBook;
 @property (readwrite) int noteChapter;
 @property (readwrite) int noteVerse;                                // the reference of the current note (mid-edit)
-
 @property (readwrite, strong, nonatomic) UIColor *highlightColor;
 @property (readwrite, strong, nonatomic) NSString *highlightTextColor;
-
 @property (readwrite) int textTheme;
-
 @property (readwrite) BOOL usageStats;
-
 @property (readwrite, strong, nonatomic) NSString *lastNotesSearch;
+
+//version 1.2
+@property BOOL compressRightSideText;       // if YES, compress the right side's text
+@property BOOL extendHighlights;            // if YES, extend the highlights across the screen
 
 +(id)         instance;
 -(NSString *) loadSetting: (NSString *) theSetting;

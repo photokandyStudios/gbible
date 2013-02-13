@@ -25,7 +25,6 @@
 @synthesize showMorphology;
 @synthesize showStrongs;
 @synthesize showInterlinear;
-
 @synthesize currentBook;
 @synthesize currentChapter;
 @synthesize currentVerse;
@@ -39,13 +38,12 @@
 @synthesize lastNotesSearch;
 @synthesize oldNote;
 @synthesize currentNote;
-
 @synthesize highlightColor;
 @synthesize highlightTextColor;
-
 @synthesize textTheme;
-
 @synthesize usageStats;
+@synthesize extendHighlights;
+@synthesize compressRightSideText;
 
 static id _instance;
 
@@ -102,6 +100,9 @@ static id _instance;
   showStrongs        = [[self loadSetting: @"show-strongs"] boolValue];
   showInterlinear    = [[self loadSetting: @"show-interlinear"] boolValue];
   useICloud          = [[self loadSetting: PK_SETTING_USEICLOUD] boolValue];
+  
+  compressRightSideText= [[self loadSetting: @"compress-right-side"] boolValue];
+  extendHighlights   = [[self loadSetting: @"extend-highlights"] boolValue];
 
   //if the Bible selected is one we no longer support, change it to the new
   //equivalent. Since these would all be non-parsed, turn strongs off.
@@ -271,6 +272,9 @@ static id _instance;
     [self saveSetting: @"show-interlinear" valueForSetting: (showInterlinear ? @"YES": @"NO")];
     [self saveSetting: PK_SETTING_USEICLOUD valueForSetting: (useICloud ? @"YES": @"NO")];
 
+    [self saveSetting: @"compress-right-side" valueForSetting: (compressRightSideText ? @"YES": @"NO")];
+    [self saveSetting: @"extend-highlights" valueForSetting: (extendHighlights ? @"YES": @"NO")];
+
 
     [self saveSetting: @"note-book" valueForSetting: [NSString stringWithFormat: @"%i", noteBook]];
     [self saveSetting: @"note-chapter" valueForSetting: [NSString stringWithFormat: @"%i", noteChapter]];
@@ -377,6 +381,10 @@ static id _instance;
     showStrongs          = YES;
     showInterlinear      = YES;
     useICloud            = NO;
+    
+    extendHighlights     = NO;
+    compressRightSideText= NO;
+    
     textFontFace         = @"Helvetica";
     textGreekFontFace    = @"Helvetica-Bold";     //RE: ISSUE #6
 
@@ -393,12 +401,9 @@ static id _instance;
     lastNotesSearch      = @"";
     oldNote              = @"";
     currentNote          = @"";
-
     highlightColor       = [PKSettings PKYellowHighlightColor];
     highlightTextColor   = __T(@"Yellow");
-
     textTheme            = 0;
-
     usageStats           = YES;
 
     [self saveSettings];
