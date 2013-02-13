@@ -674,90 +674,6 @@
 
   if (CFStringFind(theCFString, strDash, 0).location != kCFNotFound)
     return YES;
-  
-/*  if ([theWord hasPrefix: @"A-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"C-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"D-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"F-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"I-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"K-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"N-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"P-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"Q-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"R-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"S-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"T-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"V-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"X-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"Noun-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"Art-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"Adj-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"Adv-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"RefPro-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"RelPro-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"IPro-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"DPro-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"PPro-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"Ppro-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"Prtcl-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"PRT-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"ADV-"])
-    return YES;
-
-  if ([theWord hasPrefix: @"COND-"])
-    return YES;*/
 
   CFStringRef morphWords = CFSTR(" Adv Adj N V Heb Conj Prep Prtcl Prt Cond Inj ADV ADJ HEB CONJ PREP PRTCL PRT COND ARAM INJ ");
 
@@ -766,10 +682,6 @@
   {
     return YES;
   }
-//  if ([morphWords rangeOfString: [NSString stringWithFormat: @" %@ ", theWord]].location != NSNotFound)
-//  {
-//    return YES;
-//  }
   return NO;
 }
 
@@ -796,6 +708,7 @@
   BOOL showMorphology  = [[PKSettings instance] showMorphology];
   BOOL showStrongs     = [[PKSettings instance] showStrongs];
   BOOL showInterlinear = [[PKSettings instance] showInterlinear];
+  BOOL compressRightSide=[[PKSettings instance] compressRightSideText];
 
   // should we transliterate?
   //BOOL transliterate = [[PKSettings instance] transliterateText];
@@ -883,13 +796,6 @@
   columnHeight += (lineHeight * [[PKSettings instance] textVerseSpacing]);
 
   if ( theColumn == 1 || !compression)
-//  if ((
-//      ( theColumn == 1
-//       || UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
-//       || UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]) )
-//     ) && (!compression)
-//     )
-    
   {
     if (parsed)
     {
@@ -910,6 +816,12 @@
         columnHeight += lineHeight;
       }
     }
+  }
+  
+  if ( theColumn == 2 && compressRightSide )
+  {
+    columnHeight          = lineHeight;
+    columnHeight += (lineHeight * [[PKSettings instance] textVerseSpacing]);
   }
 
   CGFloat yOffset = 0.0;
