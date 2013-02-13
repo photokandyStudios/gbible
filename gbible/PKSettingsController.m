@@ -21,9 +21,21 @@
 #import "PKBible.h"
 #import "TSMiniWebBrowser.h"
 #import "PKBibleListViewController.h"
+#import "PKLayoutController.h"
+#import "PKPortraitNavigationController.h"
+#import "TSMiniWebBrowser.h"
+#import "iRate.h"
 
+const int SECTION_TEXT = 0;
+const int SECTION_LAYOUT = 1;
+const int SECTION_ICLOUD = -1;
+const int SECTION_EXPORT = 2;
+const int SECTION_IMPORT = 3;
+const int SECTION_VERSION = 4;
 
 @interface PKSettingsController ()
+
+@property (nonatomic, strong) UIPopoverController *PO;
 
 @end
 
@@ -40,6 +52,8 @@
 
 @synthesize currentPathForPopover;
 @synthesize theTableCell;
+
+@synthesize PO;
 
 /**
  *
@@ -68,57 +82,52 @@
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleSingleLine;
   //self.tableView.sectionHeaderHeight = 60;
   //self.tableView.sectionFooterHeight = 60;
+  
   [self.tableView reloadData];
 }
 
 -(void)reloadSettingsArray
 {
-  NSArray *englishTypeface = [NSArray arrayWithObjects:
-                              @"CourierNewPSMT",
-                              @"CourierNewPS-BoldMT",
-                              @"Helvetica",
-                              @"HelveticaNeue",
-                              @"Helvetica-Light",
-                              @"HelveticaNeue-Light",
+  NSArray *englishTypeface = @[@"CourierNewPSMT",@"CourierNewPS-BoldMT",
+                              @"Helvetica",@"HelveticaNeue",
+                              @"Helvetica-Light",@"HelveticaNeue-Light",
                               @"OpenDyslexic-Regular",
-                              @"Palatino-Roman",
-                              @"Palatino-Bold", nil];
-  NSArray *greekTypeface = [NSArray arrayWithObjects:   @"CourierNewPSMT",
-                            @"CourierNewPS-BoldMT",
-                            @"Helvetica",
-                            @"Helvetica-Bold",
-                            @"HelveticaNeue",
-                            @"HelveticaNeue-Bold",
+                              @"Palatino-Roman",@"Palatino-Bold"];
+  NSArray *greekTypeface = @[@"CourierNewPSMT",@"CourierNewPS-BoldMT",
+                            @"Helvetica",@"Helvetica-Bold",
+                            @"HelveticaNeue",@"HelveticaNeue-Bold",
                             @"OpenDyslexic-Bold",
-                            @"Palatino-Roman",
-                            @"Palatino-Bold", nil];
+                            @"Palatino-Roman",@"Palatino-Bold"];
 
   if ( SYSTEM_VERSION_LESS_THAN(@"5.0") )
   {
-    englishTypeface = [NSArray arrayWithObjects: @"CourierNewPSMT",
-                       @"CourierNewPS-BoldMT",
+    englishTypeface = @[@"CourierNewPSMT",@"CourierNewPS-BoldMT",
                        @"Helvetica",
                        @"OpenDyslexic-Regular",
-                       @"Palatino-Roman",
-                       @"Palatino-Bold", nil];
-    greekTypeface = [NSArray arrayWithObjects:     @"CourierNewPSMT",
-                     @"CourierNewPS-BoldMT",
-                     @"Helvetica",
-                     @"Helvetica-Bold",
+                       @"Palatino-Roman",@"Palatino-Bold"];
+    greekTypeface = @[@"CourierNewPSMT",@"CourierNewPS-BoldMT",
+                     @"Helvetica",@"Helvetica-Bold",
                      @"OpenDyslexic-Bold",
-                     @"Palatino-Roman",
-                     @"Palatino-Bold", nil];
+                     @"Palatino-Roman",@"Palatino-Bold"];
   }
-  layoutSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Theme"), @3, @"text-theme",
+  layoutSettings = @[
+                     @[ __T(@"Layout..."), @0 ],
+                     @[ __T(@"Compress Right Side"), @2, @"compress-right-side"],
+                     @[ __T(@"Extend Highlights"), @2, @"extend-highlights" ],
+                     @[ __Tv(@"Show Inline Notes", @"Show Inline Notes?"), @2, PK_SETTING_INLINENOTES ]
+                    ];
+  
+  /*
+     [NSArray arrayWithObjects: __Tv(@"Show Inline Notes",
+                                     @"Show Inline Notes?"), [NSNumber numberWithInt: 2], PK_SETTING_INLINENOTES, nil],
+  [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Theme"), @3, @"text-theme",
                                                @[@0, @1, @2, @3],
                                                @[__T(@"Original"),       __T(@"Black on White"),
                                                  __T(@"White on Black"), __T(@"Amber on Black")]
                                                , nil],
                     [NSArray arrayWithObjects: __T(@"English Typeface"), [NSNumber numberWithInt: 1], PK_SETTING_FONTFACE,
                      englishTypeface, nil],
-                    [NSArray arrayWithObjects: __T(@"Greek Typeface﹡"), [NSNumber numberWithInt: 1], @"greek-typeface",                            //RE:
-                                                                                                                                                   // ISSUE
-                                                                                                                                                   // #6
+                    [NSArray arrayWithObjects: __T(@"Greek Typeface﹡"), [NSNumber numberWithInt: 1], @"greek-typeface",                            //RE: ISSUE #6
                      greekTypeface, nil],
                     [NSArray arrayWithObjects: __T(@"Font Size"), [NSNumber numberWithInt: 3], PK_SETTING_FONTSIZE,
                      [NSArray arrayWithObjects:
@@ -162,10 +171,38 @@
                       __T(@"Wide English Column"),
                       __T(@"Equal Columns"), nil], nil],
                     nil];
-
+  */
   // get the left and right-side Bibles
 
-  textSettings =
+  if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+  {
+    textSettings = @[
+                      @[ __T(@"Left Text") , @3, PK_SETTING_GREEKTEXT, [PKBible availableOriginalTexts: PK_TBL_BIBLES_ID],
+                                                                       [PKBible availableOriginalTexts: PK_TBL_BIBLES_NAME] ],
+                      @[ __T(@"Right Text"), @3, PK_SETTING_ENGLISHTEXT, [PKBible availableHostTexts: PK_TBL_BIBLES_ID],
+                                                                         [PKBible availableHostTexts: PK_TBL_BIBLES_NAME] ],
+                      @[ __Tv(@"Transliterate Greek", @"Transliterate Greek﹡?"), @2, PK_SETTING_TRANSLITERATE ],
+                      @[ __T(@"Manage Bibles..."), @0 ]
+                    ];
+  }
+  else
+  {
+    textSettings = @[
+                      @[ __T(@"Left Text") , @3, PK_SETTING_GREEKTEXT, [PKBible availableOriginalTexts: PK_TBL_BIBLES_ID],
+                                                                       [PKBible availableOriginalTexts: PK_TBL_BIBLES_NAME] ],
+                      @[ __T(@"Right Text"), @3, PK_SETTING_ENGLISHTEXT, [PKBible availableHostTexts: PK_TBL_BIBLES_ID],
+                                                                         [PKBible availableHostTexts: PK_TBL_BIBLES_NAME] ],
+                      @[ __Tv(@"Transliterate Greek", @"Transliterate Greek﹡?"), @2, PK_SETTING_TRANSLITERATE ],
+                      @[ __Tv(@"Show Morphology", @"Show Morphology?"), @2, PK_SETTING_SHOWMORPHOLOGY ],
+                      @[ __Tv(@"Show Strong's", @"Show Strong's?"), @2, @"show-strongs" ],
+                      @[ __Tv(@"Show Translation", @"Show Translation✝?"), @2, @"show-interlinear" ],
+                      @[ __T(@"Manage Bibles..."), @0 ]
+                    ];
+  }
+  
+  
+  /*
+  
     [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Greek Text"), [NSNumber numberWithInt: 3], PK_SETTING_GREEKTEXT,
                                 [PKBible availableOriginalTexts: PK_TBL_BIBLES_ID],
                                 [PKBible availableOriginalTexts: PK_TBL_BIBLES_NAME],
@@ -186,27 +223,47 @@
                                      @"Show Translation✝?"), [NSNumber numberWithInt: 2], @"show-interlinear", nil],
           [NSArray arrayWithObjects: __T(@"Manage Bibles..."), [NSNumber numberWithInt:0], nil, nil ],
      nil];
+  
+  */
   // iCloudSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Enable iCloud?", [NSNumber numberWithInt:2],
   // PK_SETTING_USEICLOUD, nil],
   //                                            nil];
-  importSettings =
-    [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Import Annotations"), [NSNumber numberWithInt: 0], nil, nil],
+  
+  
+  importSettings = @[
+                      @[ __T(@"Import Annotations"), @0 ],
+                      @[ __T(@"Import Highlights"), @0 ],
+                      @[ __T(@"Import Everything"), @0 ]
+                    ];
+  
+/*    [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Import Annotations"), [NSNumber numberWithInt: 0], nil, nil],
      [NSArray arrayWithObjects: __T(@"Import Highlights"), [NSNumber numberWithInt: 0], nil, nil],
      [NSArray arrayWithObjects: __T(@"Import Everything"), [NSNumber numberWithInt: 0], nil, nil],
-     nil];
-  exportSettings  = [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Export"), [NSNumber numberWithInt: 0], nil, nil],
-                     nil];
+     nil]; */
+     
+  exportSettings  = @[
+                      @[ __T(@"Export"), @0 ]
+                     ];
+/*  [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Export"), [NSNumber numberWithInt: 0], nil, nil],
+                     nil];*/
 
-  versionSettings =
+  versionSettings = @[
+                      @[ [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"], @0 ],
+                      @[ __Tv(@"Anonymous Usage Statistics", @"Anonymous Usage Statistics?"), @2, @"usage-stats" ],
+                      @[ __T(@"Rate this app..."), @0 ],
+                      @[ __T(@"Submit an issue..."), @0 ]
+                     ];
+/*
+  
     [NSArray arrayWithObjects:  [NSArray arrayWithObjects: [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"
                                  ],
                                  [NSNumber numberWithInt: 0], nil, nil],
      [NSArray arrayWithObjects: __Tv(@"Anonymous Usage Statistics",
                                      @"Anonymous Usage Statistics?"), [NSNumber numberWithInt: 2], @"usage-stats", nil],
      nil];
-
-  settingsGroup = [NSArray arrayWithObjects: textSettings, layoutSettings,   // iCloudSettings,
-                   exportSettings, importSettings, versionSettings, nil];
+ */
+  settingsGroup = @[textSettings, layoutSettings,   // iCloudSettings,
+                   exportSettings, importSettings, versionSettings];
 }
 
 /**
@@ -336,21 +393,21 @@
 {
   switch (section)
   {
-  case 0: return __T(@"Text");
+  case SECTION_TEXT: return __T(@"Text");
     break;
 
-  case 1: return __T(@"Layout");
+  case SECTION_LAYOUT: return __T(@"Layout");
     break;
 
   //  case 2: return @"Synchronization";
   //          break;
-  case 2: return __T(@"Export");
+  case SECTION_EXPORT: return __T(@"Export");
     break;
 
-  case 3: return __T(@"Import");
+  case SECTION_IMPORT: return __T(@"Import");
     break;
 
-  case 4: return __T(@"Version");
+  case SECTION_VERSION: return __T(@"Version");
     break;
 
   default: return @"Undefined";
@@ -368,12 +425,12 @@
 {
   switch (section)
   {
-  case 0: return __Tv(
+  case SECTION_TEXT: return __Tv(
              @"note-when-transliterating-greek",
              @"﹡ When transliterating Greek, the app may be slower when navigating to new passages.\n\n✝ Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.");
     break;
 
-  case 1: return __Tv(
+  case SECTION_LAYOUT: return __Tv(
              @"note-opendyslexic",
              @"﹡ The OpenDyslexic font does not support polytonic Greek. It is suggested to use the OpenDyslexic font only if transliterating the Greek or when using a text without diacritics.");
     break;
@@ -381,17 +438,17 @@
 //        case 2: return @"Enable iCloud to synchronize your data across multiple devices. It is suggested \
 //                         that you export your data prior to enabling iCloud synchronization.";
 //                break;
-  case 2: return __Tv(
+  case SECTION_EXPORT: return __Tv(
              @"note-export",
              @"Export will create a file of the form 'export_date_time.dat' that you can download when your device is connected to iTunes. You can then save this file in a safe place, or use it to import data to another device.");
     break;
 
-  case 3: return __Tv(
+  case SECTION_IMPORT: return __Tv(
              @"note-import",
              @"Before importing, connect your device to iTunes and copy the file you want to import. Be sure to name it 'import.dat'. Then select the desired option above. You can import more than one time from the same file.");
     break;
 
-  case 4: return __Tv(
+  case SECTION_VERSION: return __Tv(
              @"note-anonymous-with-copyright",
              @"Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information. \n\n\n\n\n\n ");
     break;
@@ -579,7 +636,7 @@
   switch ([[cellData objectAtIndex: 1] intValue])
   {
   case 0 : {     // we're on a "nothing cell", but these will do actions...
-      if (section == 0)
+      if (section == SECTION_TEXT)
       {
         // manage Bibles
         PKBibleListViewController *blvc = [[PKBibleListViewController alloc] initWithStyle:UITableViewStylePlain];
@@ -589,8 +646,31 @@
         mvnc.navigationBar.barStyle = UIBarStyleBlack;
         [self presentModalViewController: mvnc animated: YES];
       }
+      if (section == SECTION_LAYOUT)
+      {
+        // display layout
+        PKLayoutController *LC = [[PKLayoutController alloc] init];
+        LC.delegate = self;
 
-      if (section == 2)
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+          if (PO)
+          {
+            [PO dismissPopoverAnimated: NO];
+          }
+          PO = [[UIPopoverController alloc] initWithContentViewController: LC];
+          [PO setPopoverContentSize: CGSizeMake(320, 420) animated: NO];
+          [PO presentPopoverFromRect:self.view.bounds inView:self.view permittedArrowDirections:0 animated:YES];
+        }
+        else
+        {
+          PKPortraitNavigationController *mvnc = [[PKPortraitNavigationController alloc] initWithRootViewController: LC];
+          mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
+          [self presentModalViewController: mvnc animated: YES];
+        }
+      }
+
+      if (section == SECTION_EXPORT)
       {
         title = __T(@"Export Operation");
 
@@ -604,7 +684,7 @@
         }
       }
 
-      if (section == 3)
+      if (section == SECTION_IMPORT)
       {
         title = __T(@"Import Operation");
 
@@ -651,6 +731,29 @@
         [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 1] reloadHighlights];
         [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 2] reloadNotes];
         [self.tableView reloadData];             // settings may be different.
+      }
+      if (section == SECTION_VERSION)
+      {
+        if (row == 2)
+        {
+          // rate
+          [[iRate sharedInstance] promptIfNetworkAvailable];
+        }
+        if (row == 3)
+        {
+          // submit an issue
+          NSURL *theURL = [NSURL URLWithString:@"https://github.com/photokandyStudios/gbible/issues"];
+          TSMiniWebBrowser *wb = [[TSMiniWebBrowser alloc] initWithUrl: theURL];
+          wb.showURLStringOnActionSheetTitle = YES;
+          wb.showPageTitleOnTitleBar         = YES;
+          wb.showActionButton                = YES;
+          wb.showReloadButton                = YES;
+          wb.mode = TSMiniWebBrowserModeModal;
+          wb.barStyle = UIBarStyleBlack;
+          wb.modalDismissButtonTitle         = __T(@"Done");
+          [self presentModalViewController: wb animated: YES];
+          
+        }
       }
       break;
   }
@@ -792,6 +895,11 @@
 {
   [self reloadSettingsArray];
   [self.tableView reloadData];
+}
+
+-(void) didChangeLayout:(PKLayoutController *)sender
+{
+  [self updateAppearanceForTheme];
 }
 
 @end

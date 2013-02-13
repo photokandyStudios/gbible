@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PKBibleDelegate.h"
+#import "PKLayoutControllerDelegate.h"
 
-@interface PKSettingsController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, PKBibleDelegate>
+@interface PKSettingsController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, PKBibleDelegate, PKLayoutControllerDelegate>
 
 @property (strong, nonatomic) NSArray *layoutSettings;
 @property (strong, nonatomic) NSArray *textSettings;
