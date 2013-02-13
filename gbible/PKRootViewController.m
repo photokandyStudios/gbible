@@ -182,7 +182,7 @@
 
 -(void) viewDidAppear: (BOOL) animated
 {
-  self.selectedIndex = 0;
+  //self.selectedIndex = 0;
 }
 
 -(void) showTopShadowWithOpacity: (CGFloat) opacity;
