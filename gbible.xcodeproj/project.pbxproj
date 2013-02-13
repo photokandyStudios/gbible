@@ -61,6 +61,8 @@
 		6A12F6F2151EDF0800B49B6E /* SegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A12F6F1151EDA9100B49B6E /* SegmentsController.m */; };
 		6A136916167C24BF001A1C7C /* PKLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A136915167C24BF001A1C7C /* PKLayoutController.m */; };
 		6A13691A167C3F5F001A1C7C /* GLTapLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A136918167C3F5F001A1C7C /* GLTapLabel.m */; };
+		6A1D143316CC494C0016C2BD /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6A1D143016CC494C0016C2BD /* iRate.bundle */; };
+		6A1D143416CC494C0016C2BD /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D143216CC494C0016C2BD /* iRate.m */; };
 		6A2039A516C49FDE00CA4749 /* PKSimpleBibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A2039A416C49FDE00CA4749 /* PKSimpleBibleViewController.m */; };
 		6A21635F1530EE3600D41447 /* PKHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A21635E1530EE3600D41447 /* PKHistory.m */; };
 		6A2163701530F7E700D41447 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21636F1530F7E700D41447 /* about.html */; };
@@ -316,6 +318,9 @@
 		6A136917167C3F5F001A1C7C /* GLTapLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTapLabel.h; sourceTree = "<group>"; };
 		6A136918167C3F5F001A1C7C /* GLTapLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLTapLabel.m; sourceTree = "<group>"; };
 		6A136919167C3F5F001A1C7C /* GLTapLabelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTapLabelDelegate.h; sourceTree = "<group>"; };
+		6A1D143016CC494C0016C2BD /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
+		6A1D143116CC494C0016C2BD /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
+		6A1D143216CC494C0016C2BD /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
 		6A2039A316C49FDE00CA4749 /* PKSimpleBibleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSimpleBibleViewController.h; sourceTree = "<group>"; };
 		6A2039A416C49FDE00CA4749 /* PKSimpleBibleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSimpleBibleViewController.m; sourceTree = "<group>"; };
 		6A21635D1530EE3600D41447 /* PKHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHistory.h; sourceTree = "<group>"; };
@@ -675,6 +680,16 @@
 			name = GLTapLabel;
 			sourceTree = "<group>";
 		};
+		6A1D142F16CC494C0016C2BD /* iRate */ = {
+			isa = PBXGroup;
+			children = (
+				6A1D143016CC494C0016C2BD /* iRate.bundle */,
+				6A1D143116CC494C0016C2BD /* iRate.h */,
+				6A1D143216CC494C0016C2BD /* iRate.m */,
+			);
+			path = iRate;
+			sourceTree = "<group>";
+		};
 		6A2163611530F1D100D41447 /* Navigation Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -952,6 +967,7 @@
 		6A92CCC81516F0CC00F8AE15 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				6A1D142F16CC494C0016C2BD /* iRate */,
 				6A50FA1B16C5A5CC00BE79BA /* KBKeyboardHandler */,
 				6AE5B92516BF71F6004256CC /* KOKeyboard */,
 				6ABD995D16B9DBD2008EB8E0 /* MAConfirmButton */,
@@ -1684,6 +1700,7 @@
 				6AE5B93F16BF71F6004256CC /* key-pressed@2x.png in Resources */,
 				6AE5B94016BF71F6004256CC /* key.png in Resources */,
 				6AE5B94116BF71F6004256CC /* key@2x.png in Resources */,
+				6A1D143316CC494C0016C2BD /* iRate.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1795,6 +1812,7 @@
 				6AE5B94616BF7E2D004256CC /* PKTextView.m in Sources */,
 				6A2039A516C49FDE00CA4749 /* PKSimpleBibleViewController.m in Sources */,
 				6A50FA1E16C5A5F600BE79BA /* KBKeyboardHandler.m in Sources */,
+				6A1D143416CC494C0016C2BD /* iRate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
