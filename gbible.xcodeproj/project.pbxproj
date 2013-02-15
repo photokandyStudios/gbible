@@ -321,6 +321,7 @@
 		6A1D143016CC494C0016C2BD /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
 		6A1D143116CC494C0016C2BD /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
 		6A1D143216CC494C0016C2BD /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
+		6A1D143516CDBD390016C2BD /* PKSearchDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKSearchDelegate.h; sourceTree = "<group>"; };
 		6A2039A316C49FDE00CA4749 /* PKSimpleBibleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSimpleBibleViewController.h; sourceTree = "<group>"; };
 		6A2039A416C49FDE00CA4749 /* PKSimpleBibleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSimpleBibleViewController.m; sourceTree = "<group>"; };
 		6A21635D1530EE3600D41447 /* PKHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHistory.h; sourceTree = "<group>"; };
@@ -756,6 +757,7 @@
 		6A2163671530F23900D41447 /* Search Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6A1D143516CDBD390016C2BD /* PKSearchDelegate.h */,
 				6A2163681530F24100D41447 /* Search Strongs Controller */,
 				6A2163691530F24D00D41447 /* Search Bible Controller */,
 			);
