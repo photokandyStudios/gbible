@@ -35,6 +35,7 @@
 @synthesize ourMenu;
 @synthesize selectedWord;
 @synthesize selectedRow;
+@synthesize delegate;
 
 -(id)initWithStyle: (UITableViewStyle) style
 {
@@ -58,12 +59,10 @@
 -(void)doSearchForTerm: (NSString *) theTerm byKeyOnly: (BOOL) keyOnly
 {
   self.byKeyOnly = byKeyOnly;
-//  [( (PKRootViewController *)self.parentViewController.parentViewController )showWaitingIndicator];
   [SVProgressHUD showWithStatus:__T(@"Searching...") maskType:SVProgressHUDMaskTypeClear];
   [[PKHistory instance] addStrongsSearch: theTerm];
   [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 3] reloadHistory];
   
-//  PKWait(
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
     ^{
          theSearchResults = nil;
@@ -110,23 +109,33 @@
   // Do any additional setup after loading the view.
   [TestFlight passCheckpoint: @"SEARCH_STRONGS"];
   
+  if (delegate)
+  {
+    UIBarButtonItem *closeButton =
+      [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
+      ];
+    self.navigationItem.rightBarButtonItem = closeButton;
+  }
+  
   // add search bar
   theSearchBar                   = [[UISearchBar alloc] initWithFrame: CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
   theSearchBar.delegate          = self;
   theSearchBar.placeholder       = __T(@"Strong's # or search term");
   theSearchBar.showsCancelButton = NO;
-  //theSearchBar.tintColor = [PKSettings PKBaseUIColor];
   
-  UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
-                                          initWithTarget: self action: @selector(didReceiveRightSwipe:)];
-  UISwipeGestureRecognizer *swipeLeft  = [[UISwipeGestureRecognizer alloc]
-                                          initWithTarget: self action: @selector(didReceiveLeftSwipe:)];
-  swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-  swipeLeft.direction  = UISwipeGestureRecognizerDirectionLeft;
-  [swipeRight setNumberOfTouchesRequired: 1];
-  [swipeLeft setNumberOfTouchesRequired: 1];
-  [self.tableView addGestureRecognizer: swipeRight];
-  [self.tableView addGestureRecognizer: swipeLeft];
+  if (!delegate)
+  {
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
+                                            initWithTarget: self action: @selector(didReceiveRightSwipe:)];
+    UISwipeGestureRecognizer *swipeLeft  = [[UISwipeGestureRecognizer alloc]
+                                            initWithTarget: self action: @selector(didReceiveLeftSwipe:)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    swipeLeft.direction  = UISwipeGestureRecognizerDirectionLeft;
+    [swipeRight setNumberOfTouchesRequired: 1];
+    [swipeLeft setNumberOfTouchesRequired: 1];
+    [self.tableView addGestureRecognizer: swipeRight];
+    [self.tableView addGestureRecognizer: swipeLeft];
+  }
   
   UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
                                              initWithTarget: self action: @selector(didReceiveLongPress:)];
@@ -138,18 +147,17 @@
   self.tableView.tableHeaderView    = theSearchBar;
   
   // add navbar items
-  UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
-                                      initWithImage: [UIImage imageNamed: @"Listb.png"]
-                                      style: UIBarButtonItemStylePlain
-                                      target: self.parentViewController.parentViewController.parentViewController
-                                      action: @selector(revealToggle:)];
-  
-  //if ([changeReference respondsToSelector:@selector(setTintColor:)])
-  //{
-  //    changeReference.tintColor = [PKSettings PKBaseUIColor];
-  //}
-  changeReference.accessibilityLabel    = __T(@"Go to passage");
-  self.navigationItem.leftBarButtonItem = changeReference;
+  if (!delegate)
+  {
+    UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
+                                        initWithImage: [UIImage imageNamed: @"Listb.png"]
+                                        style: UIBarButtonItemStylePlain
+                                        target: self.parentViewController.parentViewController.parentViewController
+                                        action: @selector(revealToggle:)];
+    
+    changeReference.accessibilityLabel    = __T(@"Go to passage");
+    self.navigationItem.leftBarButtonItem = changeReference;
+  }
   
   CGRect theRect = CGRectMake(0, self.tableView.center.y + 60, self.tableView.bounds.size.width, 60);
   noResults                      = [[UILabel alloc] initWithFrame: theRect];
@@ -165,7 +173,7 @@
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   
-  //    [self doSearchForTerm:self.theSearchTerm];
+//  [self doSearchForTerm:self.theSearchTerm];
   theSearchBar.text              = self.theSearchTerm;
 }
 
@@ -228,6 +236,10 @@
 
 -(void)calculateShadows
 {
+  if (delegate)
+  {
+    return; // we'd be a modal; nothing to calc.
+  }
   CGFloat topOpacity       = 0.0f;
   CGFloat theContentOffset = (self.tableView.contentOffset.y);
   
@@ -294,7 +306,6 @@
   CGSize theSize;
   CGFloat theHeight    = 0;
   CGFloat theCellWidth = (self.tableView.bounds.size.width - 30);
-  //    CGFloat theColumnWidth = (theCellWidth) / 2;
   CGSize maxSize       = CGSizeMake(theCellWidth, 300);
   
   theHeight += 10;   // the top margin
@@ -303,8 +314,6 @@
   theSize    = [[theResult objectAtIndex: 1] sizeWithFont: self.theFont constrainedToSize: maxSize];
   theHeight += theSize.height + 10;
   
-  //    theSize = [[[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3]
-  // stringByReplacingOccurrencesOfString:@"  " withString:@" "]] sizeWithFont:self.theFont constrainedToSize:maxSize];
   theSize    =
   [[[theResult objectAtIndex: 3] stringByReplacingOccurrencesOfString: @"  " withString: @" "] sizeWithFont: self.theFont
                                                                                           constrainedToSize: maxSize];
@@ -344,8 +353,6 @@
   theStrongsLabel.textColor       = [PKSettings PKStrongsColor];
   theStrongsLabel.font            = theBigFont;
   theStrongsLabel.backgroundColor = [UIColor clearColor];
-  //    theStrongsLabel.numberOfLines =1;
-  //    [theStrongsLabel sizeToFit];
   
   NSArray *theResult     = [PKStrongs entryForKey: [theSearchResults objectAtIndex: row]];
   
@@ -356,20 +363,14 @@
   theLemmaLabel.textColor       = [PKSettings PKTextColor];
   theLemmaLabel.font            = theBigFont;
   theLemmaLabel.backgroundColor = [UIColor clearColor];
-  //    theLemmaLabel.numberOfLines=1;
-  //    [theLemmaLabel sizeToFit];
   
   CGSize maxSize                 = CGSizeMake(theCellWidth, 300);
   
-  //    CGSize theSize = [[[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3]
-  // stringByReplacingOccurrencesOfString:@"  " withString:@" "]] sizeWithFont:theFont constrainedToSize:maxSize];
   CGSize theSize                 =
   [[[theResult objectAtIndex: 3] stringByReplacingOccurrencesOfString: @"  " withString: @" "] sizeWithFont: theFont
                                                                                           constrainedToSize: maxSize];
   PKHotLabel *theDefinitionLabel =
   [[PKHotLabel alloc] initWithFrame: CGRectMake(10, 20 + theBigFont.lineHeight, theCellWidth, theSize.height)];
-  //    theDefinitionLabel.text = [[theResult objectAtIndex:1] stringByAppendingFormat:@" %@", [[theResult objectAtIndex:3]
-  // stringByReplacingOccurrencesOfString:@"  " withString:@" "]];
   theDefinitionLabel.text               =
   [[theResult objectAtIndex: 3] stringByReplacingOccurrencesOfString: @"  " withString: @" "];
   theDefinitionLabel.textColor          = [PKSettings PKTextColor];
@@ -412,7 +413,6 @@
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
     return;
   }
-  //return;
   
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
   
@@ -494,9 +494,6 @@
 
 -(void) didReceiveLeftSwipe: (UISwipeGestureRecognizer *) gestureRecognizer
 {
-  //    CGPoint p = [gestureRecognizer locationInView:self.tableView];
-  //    if (p.x < 75)
-  //    {
   // hide the sidebar, if visible
   ZUUIRevealController *rc = (ZUUIRevealController *)self.parentViewController.parentViewController.parentViewController;
   
@@ -505,7 +502,6 @@
     [rc revealToggle: nil];
     return;
   }
-  //    }
 }
 
 /**
@@ -553,34 +549,61 @@
   
   UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
   pasteBoard.string = theText;
-  
- /* UIAlertView *anAlert     = [[UIAlertView alloc]
-                              initWithTitle: __T(@"Notice") message: __Tv(@"definition-copied",
-                                                                          @"Definition copied to clipboard") delegate: nil
-                              cancelButtonTitle: __T(@"Ok") otherButtonTitles: nil];
-  [anAlert show];*/
 }
 
 -(void) defineStrongs: (id) sender
 {
-  [self doSearchForTerm: selectedWord byKeyOnly: true];
+  if (delegate)
+  {
+    PKStrongsController *svc = [[PKStrongsController alloc] initWithStyle:UITableViewStylePlain];
+    svc.delegate = self;
+    [svc doSearchForTerm: selectedWord byKeyOnly: true];
+    [self.navigationController pushViewController:svc animated:YES];
+  }
+  else
+  {
+    [self doSearchForTerm: selectedWord byKeyOnly: true];
+  }
 }
 
 -(void) searchBible: (id) sender
 {
-  ZUUIRevealController *rc    = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
-  PKRootViewController *rvc   = (PKRootViewController *)[rc frontViewController];
-  PKSearchViewController *svc = [[[rvc.viewControllers objectAtIndex: 1] viewControllers] objectAtIndex: 0];
-  
-  if (!selectedWord)
+
+  if (delegate)
   {
-    NSString *theSVCTerm = [NSString stringWithFormat: @"\"%@ \"", [theSearchResults objectAtIndex: selectedRow]];
-    [svc doSearchForTerm: theSVCTerm
-         requireParsings: YES];
+    PKSearchViewController *svc = [[PKSearchViewController alloc] initWithStyle:UITableViewStylePlain];
+    svc.notifyWithCopyOfVerse = NO;
+    svc.delegate = self;
+    if (!selectedRow)
+    {
+      [svc doSearchForTerm: [NSString stringWithFormat: @"\"%@ \"", [theSearchResults objectAtIndex: selectedRow]]];
+    }
+    else
+    {
+      [svc doSearchForTerm: [NSString stringWithFormat: @"\"%@ \"", selectedWord] ];
+    }
+    
+    //UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
+    //mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self.navigationController pushViewController:svc animated:YES];
+    
   }
   else
   {
-    [svc doSearchForTerm: [NSString stringWithFormat: @"\"%@ \"", selectedWord] requireParsings: YES];
+    ZUUIRevealController *rc    = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
+    PKRootViewController *rvc   = (PKRootViewController *)[rc frontViewController];
+    PKSearchViewController *svc = [[[rvc.viewControllers objectAtIndex: 1] viewControllers] objectAtIndex: 0];
+    
+    if (!selectedWord)
+    {
+      NSString *theSVCTerm = [NSString stringWithFormat: @"\"%@ \"", [theSearchResults objectAtIndex: selectedRow]];
+      [svc doSearchForTerm: theSVCTerm
+           requireParsings: YES];
+    }
+    else
+    {
+      [svc doSearchForTerm: [NSString stringWithFormat: @"\"%@ \"", selectedWord] requireParsings: YES];
+    }
   }
 }
 
@@ -629,14 +652,35 @@
   }
 }
 
+-(void) closeMe: (id) sender
+{
+  [self dismissModalViewControllerAnimated: YES];
+}
+
+
 #pragma mark -
 #pragma mark Hot Label Delegate; this is essentially dead code
 
 -(void) label: (PKHotLabel *) label didTapWord: (NSString *) theWord
 {
   // search for the selected word
-  //NSLog(@"Received word: %@", theWord);
   [self doSearchForTerm: theWord byKeyOnly: true];
+}
+
+#pragma mark -
+#pragma mark Bible Reference Delegate
+-(void)newReferenceByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
+{
+  if (delegate)
+  {
+    [self dismissModalViewControllerAnimated: YES];
+    [delegate newReferenceByBook:theBook andChapter:theChapter andVerse:andVerse];
+  }
+}
+
+-(void)newVerseByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
+{
+  return;
 }
 
 @end

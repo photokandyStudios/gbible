@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PKBibleReferenceDelegate.h"
 
 @interface PKSearchViewController : UITableViewController <UISearchBarDelegate>
 
@@ -18,6 +19,9 @@
 @property int fontSize;
 @property (strong, nonatomic) UIFont *leftFont;
 @property (strong, nonatomic) UIFont *rightFont;
+
+@property (nonatomic, weak) id <PKBibleReferenceDelegate> delegate;
+@property BOOL notifyWithCopyOfVerse;
 
 -(void)doSearchForTerm: (NSString *) theTerm;
 -(void)doSearchForTerm: (NSString *) theTerm requireParsings: (BOOL) parsings;

@@ -33,6 +33,8 @@
 @synthesize fontSize;
 @synthesize leftFont;
 @synthesize rightFont;
+@synthesize delegate;
+@synthesize notifyWithCopyOfVerse;
 
 -(id)initWithStyle: (UITableViewStyle) style
 {
@@ -54,11 +56,9 @@
 
 -(void)doSearchForTerm: (NSString *) theTerm requireParsings: (BOOL) parsings
 {
-//  [( (PKRootViewController *)self.parentViewController.parentViewController )showWaitingIndicator];
   [SVProgressHUD showWithStatus:__T(@"Searching...") maskType:SVProgressHUDMaskTypeClear];
   [[PKHistory instance] addBibleSearch: theTerm];
   [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 3] reloadHistory];
-  //PKWait(
       dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         ^{
 
@@ -100,8 +100,6 @@
 
          }
       );
-  
-        // );
 }
 
 -(void)viewDidLoad
@@ -109,40 +107,48 @@
   [super viewDidLoad];
   [TestFlight passCheckpoint: @"SEARCH_BIBLE"];
   
+  if (delegate)
+  {
+    UIBarButtonItem *closeButton =
+      [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
+      ];
+    self.navigationItem.rightBarButtonItem = closeButton;
+  }
+
   // add search bar
   theSearchBar                   = [[UISearchBar alloc] initWithFrame: CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
   theSearchBar.delegate          = self;
   theSearchBar.placeholder       = __T(@"Search Term");
   theSearchBar.showsCancelButton = NO;
-  //theSearchBar.tintColor = [PKSettings PKBaseUIColor];
   
   self.tableView.tableHeaderView = theSearchBar;
   
-  UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
-                                          initWithTarget: self action: @selector(didReceiveRightSwipe:)];
-  UISwipeGestureRecognizer *swipeLeft  = [[UISwipeGestureRecognizer alloc]
-                                          initWithTarget: self action: @selector(didReceiveLeftSwipe:)];
-  swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-  swipeLeft.direction  = UISwipeGestureRecognizerDirectionLeft;
-  [swipeRight setNumberOfTouchesRequired: 1];
-  [swipeLeft setNumberOfTouchesRequired: 1];
-  [self.tableView addGestureRecognizer: swipeRight];
-  [self.tableView addGestureRecognizer: swipeLeft];
+  if (!delegate)
+  {
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
+                                            initWithTarget: self action: @selector(didReceiveRightSwipe:)];
+    UISwipeGestureRecognizer *swipeLeft  = [[UISwipeGestureRecognizer alloc]
+                                            initWithTarget: self action: @selector(didReceiveLeftSwipe:)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    swipeLeft.direction  = UISwipeGestureRecognizerDirectionLeft;
+    [swipeRight setNumberOfTouchesRequired: 1];
+    [swipeLeft setNumberOfTouchesRequired: 1];
+    [self.tableView addGestureRecognizer: swipeRight];
+    [self.tableView addGestureRecognizer: swipeLeft];
+  }
   
-  // add navbar items
-  UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
-                                      initWithImage: [UIImage imageNamed: @"Listb.png"]
-                                      style: UIBarButtonItemStylePlain
-                                      target: self.parentViewController.parentViewController.parentViewController
-                                      action: @selector(revealToggle:)];
-  
-  //if ([changeReference respondsToSelector:@selector(setTintColor:)])
-  //{
-  //    changeReference.tintColor = [PKSettings PKBaseUIColor];
-  //}
-  changeReference.accessibilityLabel    = __T(@"Go to passage");
-  self.navigationItem.leftBarButtonItem = changeReference;
-  
+  if (!delegate)
+  {
+    // add navbar items
+    UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
+                                        initWithImage: [UIImage imageNamed: @"Listb.png"]
+                                        style: UIBarButtonItemStylePlain
+                                        target: self.parentViewController.parentViewController.parentViewController
+                                        action: @selector(revealToggle:)];
+    
+    changeReference.accessibilityLabel    = __T(@"Go to passage");
+    self.navigationItem.leftBarButtonItem = changeReference;
+  }
   CGRect theRect = CGRectMake(0, self.tableView.center.y + 60, self.tableView.bounds.size.width, 60);
   noResults                      = [[UILabel alloc] initWithFrame: theRect];
   noResults.textColor            = [PKSettings PKTextColor];
@@ -157,7 +163,7 @@
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
-  [self doSearchForTerm: self.theSearchTerm];
+  //[self doSearchForTerm: self.theSearchTerm];
 }
 
 -(void) updateAppearanceForTheme
@@ -235,6 +241,10 @@
 
 -(void)calculateShadows
 {
+  if (delegate)
+  {
+    return;
+  }
   CGFloat topOpacity       = 0.0f;
   CGFloat theContentOffset = (self.tableView.contentOffset.y);
   
@@ -425,16 +435,30 @@
 {
   NSUInteger row             = [indexPath row];
   
-  ZUUIRevealController *rc   = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
-  PKRootViewController *rvc  = (PKRootViewController *)[rc frontViewController];
-  PKBibleViewController *bvc = [[[rvc.viewControllers objectAtIndex: 0] viewControllers] objectAtIndex: 0];
-  
   NSString *thePassage       = [theSearchResults objectAtIndex: row];
   int theBook                = [PKBible bookFromString: thePassage];
   int theChapter             = [PKBible chapterFromString: thePassage];
   int theVerse               = [PKBible verseFromString: thePassage];
-  
-  [bvc displayBook: theBook andChapter: theChapter andVerse: theVerse];
+
+  if (delegate)
+  {
+    if (notifyWithCopyOfVerse)
+    {
+      [delegate newVerseByBook:theBook andChapter:theChapter andVerse:theVerse];
+    }
+    else
+    {
+      [delegate newReferenceByBook:theBook andChapter:theChapter andVerse:theVerse];
+    }
+    [self dismissModalViewControllerAnimated: YES];
+  }
+  else
+  {
+    ZUUIRevealController *rc   = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
+    PKRootViewController *rvc  = (PKRootViewController *)[rc frontViewController];
+    PKBibleViewController *bvc = [[[rvc.viewControllers objectAtIndex: 0] viewControllers] objectAtIndex: 0];
+    [bvc displayBook: theBook andChapter: theChapter andVerse: theVerse];
+  }
   
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
 }
@@ -506,5 +530,12 @@
     return;
   }
 }
+
+
+-(void) closeMe: (id) sender
+{
+  [self dismissModalViewControllerAnimated: YES];
+}
+
 
 @end

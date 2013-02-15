@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PKHotLabelDelegate.h"
+#import "PKBibleReferenceDelegate.h"
 
-@interface PKStrongsController : UITableViewController <UISearchBarDelegate, PKHotLabelDelegate>
+@interface PKStrongsController : UITableViewController <UISearchBarDelegate, PKHotLabelDelegate, PKBibleReferenceDelegate>
 
 @property (strong, nonatomic) NSString *theSearchTerm;
 
@@ -29,6 +30,8 @@
 @property (strong, nonatomic) UIMenuController *ourMenu;
 @property (strong, nonatomic) NSString *selectedWord;
 @property NSUInteger selectedRow;
+
+@property (nonatomic, weak) id <PKBibleReferenceDelegate> delegate;
 
 -(void)doSearchForTerm: (NSString *) theTerm;
 -(void)doSearchForTerm: (NSString *) theTerm byKeyOnly: (BOOL) keyOnly;
