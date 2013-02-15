@@ -20,6 +20,7 @@
 #import "PKBibleBooksController.h"
 #import "PKSimpleBibleViewController.h"
 #import "KBKeyboardHandler.h"
+#import "PKStrongsController.h"
 
 @interface PKNoteEditorViewController ()
 
@@ -423,7 +424,22 @@
 
 - (void)defineStrongs
 {
-    [PO dismissPopoverAnimated: NO];
+//    [PO dismissPopoverAnimated: NO];
+  NSString *theSelectedWord = @"";
+  if (txtNote.selectedTextRange)
+  {
+    theSelectedWord = [txtNote.text substringWithRange:txtNote.selectedRange];
+  }
+
+  PKStrongsController *svc = [[PKStrongsController alloc] initWithStyle:UITableViewStylePlain];
+  svc.delegate = self;
+  [svc doSearchForTerm: theSelectedWord byKeyOnly: YES];
+  
+  UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
+  mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
+  mvnc.navigationBar.barStyle = UIBarStyleBlack;
+  [self presentModalViewController: mvnc animated: YES];
+
 }
 
 
