@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "PKLayoutControllerDelegate.h"
+#import "PKSearchDelegate.h"
+#import "PKBibleReferenceDelegate.h"
 
 //#import "FWTPopoverView.h"
 
 @interface PKBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate,
-                                                          UIActionSheetDelegate, PKLayoutControllerDelegate , UIKeyInput>
+                                                          UIActionSheetDelegate, PKLayoutControllerDelegate , UIKeyInput,
+                                                          PKSearchDelegate, PKBibleReferenceDelegate>
 
 -(void)displayBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse;
 

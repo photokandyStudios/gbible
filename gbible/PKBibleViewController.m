@@ -641,7 +641,29 @@
               }
               );
 }
-
+-(void)scrollToVerse: (int)theVerse
+{
+  PKWaitDelay(0.05, {
+                if (theVerse > 1)
+                {
+                  if ([self.tableView numberOfRowsInSection: 0] >  1)
+                  {
+                    if (theVerse - 1 < [self.tableView numberOfRowsInSection: 0])
+                    {
+                      [self.tableView scrollToRowAtIndexPath:
+                       [NSIndexPath                    indexPathForRow:
+                        theVerse - 1 inSection: 0]
+                                            atScrollPosition: UITableViewScrollPositionMiddle animated: YES];
+                    }
+                  }
+                }
+                else
+                {
+                  [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: YES];
+                }
+              }
+              );
+}
 #pragma mark -
 #pragma mark View Lifecycle
 
@@ -1964,6 +1986,23 @@
  */
 -(void) askHighlight: (id) sender
 {
+    ourMenu           = [UIMenuController sharedMenuController];
+    ourMenu.menuItems = [NSArray arrayWithObjects:
+// ISSUE #61
+                         //            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")      action:@selector(copySelection:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Highlight") action: @selector(askHighlight:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Annotate")  action: @selector(doAnnotate:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Search")    action: @selector(askSearch:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Define")    action: @selector(defineWord:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Explain")   action: @selector(explainVerse:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Layout")   action: @selector(textSettings:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Clear")     action: @selector(clearSelection:)],
+                         // handle second-tier items
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Add Highlight") action: @selector(highlightSelection:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Remove")        action: @selector(removeHighlights:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Bible")  action: @selector(searchBible:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Strong's") action: @selector(searchStrongs:)]
+                         , nil];
   ourMenuState = 1;
   [ourMenu update];
   [ourMenu setMenuVisible: YES animated: YES];
@@ -1976,6 +2015,23 @@
  */
 -(void) askSearch: (id) sender
 {
+    ourMenu           = [UIMenuController sharedMenuController];
+    ourMenu.menuItems = [NSArray arrayWithObjects:
+// ISSUE #61
+                         //            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")      action:@selector(copySelection:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Highlight") action: @selector(askHighlight:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Annotate")  action: @selector(doAnnotate:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Search")    action: @selector(askSearch:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Define")    action: @selector(defineWord:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Explain")   action: @selector(explainVerse:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Layout")   action: @selector(textSettings:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Clear")     action: @selector(clearSelection:)],
+                         // handle second-tier items
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Add Highlight") action: @selector(highlightSelection:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Remove")        action: @selector(removeHighlights:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Bible")  action: @selector(searchBible:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Strong's") action: @selector(searchStrongs:)]
+                         , nil];
   ourMenuState = 2;
   [ourMenu update];
   [ourMenu setMenuVisible: YES animated: YES];
@@ -2192,10 +2248,14 @@
   if (theWordTag == 0
       && theWordIndex > -1)
   {
-    ZUUIRevealController *rc  = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
+    selectedWord = [NSString stringWithFormat:@"G%i", theWordIndex];
+    [self searchStrongs: sender];
+
+/*    ZUUIRevealController *rc  = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
     PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
     PKStrongsController *svc  = [[[rvc.viewControllers objectAtIndex: 2] viewControllers] objectAtIndex: 0];
     [svc doSearchForTerm: [@"G" stringByAppendingString: [[NSNumber numberWithInt: theWordIndex] stringValue]] byKeyOnly: YES];
+    */
     return;
   }
 
@@ -2228,11 +2288,18 @@
  */
 -(void)searchBible: (id) sender
 {
-  ZUUIRevealController *rc    = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
-  PKRootViewController *rvc   = (PKRootViewController *)[rc frontViewController];
-  PKSearchViewController *svc = [[[rvc.viewControllers objectAtIndex: 1] viewControllers] objectAtIndex: 0];
-
+//  ZUUIRevealController *rc    = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
+//  PKRootViewController *rvc   = (PKRootViewController *)[rc frontViewController];
+//  PKSearchViewController *svc = [[[rvc.viewControllers objectAtIndex: 1] viewControllers] objectAtIndex: 0];
+  PKSearchViewController *svc = [[PKSearchViewController alloc] initWithStyle:UITableViewStylePlain];
+  svc.notifyWithCopyOfVerse = NO;
+  svc.delegate = self;
   [svc doSearchForTerm: selectedWord];
+
+  UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
+  mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
+  mvnc.navigationBar.barStyle = UIBarStyleBlack;
+  [self presentModalViewController: mvnc animated: YES];
 }
 
 /**
@@ -2245,12 +2312,20 @@
 {
   BOOL isStrongs            = [[selectedWord substringToIndex: 1] isEqualToString: @"G"]
                               && [[selectedWord substringFromIndex: 1] intValue] > 0;
-
-  ZUUIRevealController *rc  = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
-  PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
-  PKStrongsController *svc  = [[[rvc.viewControllers objectAtIndex: 2] viewControllers] objectAtIndex: 0];
-
+  PKStrongsController *svc = [[PKStrongsController alloc] initWithStyle:UITableViewStylePlain];
+  svc.delegate = self;
   [svc doSearchForTerm: selectedWord byKeyOnly: isStrongs];
+  
+  UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
+  mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
+  mvnc.navigationBar.barStyle = UIBarStyleBlack;
+  [self presentModalViewController: mvnc animated: YES];
+
+
+//  ZUUIRevealController *rc  = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
+ // PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
+  //PKStrongsController *svc  = [[[rvc.viewControllers objectAtIndex: 2] viewControllers] objectAtIndex: 0];
+
 }
 
 /**
@@ -2342,6 +2417,24 @@
   [self reloadTableCache];
   [self scrollToTopVerseWithAnimation];
   );
+}
+
+#pragma mark -
+#pragma mark Search delegate
+-(void) doBibleSearchFor:(NSString *)theTerm
+{
+  // TODO
+}
+-(void) doStrongsSearchFor:(NSString *)theTerm
+{
+  // TODO
+}
+
+#pragma mark -
+#pragma mark Reference delegate
+-(void) newReferenceByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
+{
+  [self displayBook:theBook andChapter:theChapter andVerse:andVerse];
 }
 
 #pragma mark -
