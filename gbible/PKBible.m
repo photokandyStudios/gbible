@@ -129,13 +129,16 @@
     [db inDatabase:^(FMDatabase *db)
       {
         NSString *lside = @"";
+        NSString *llside = @"";
         if ([side isEqualToString:@"greek"])  lside = @"leftSide";
         if ([side isEqualToString:@"english"])  lside = @"rightSide";
+        if ([side isEqualToString:@"greek"])  llside = @"leftside";
+        if ([side isEqualToString:@"english"])  llside = @"rightside";
         
         FMResultSet *s          =
           [db executeQuery:
-           @"select bibleAbbreviation, bibleAttribution, bibleSide, bibleID, bibleName, bibleParsedID from bibles where bibleSide in (?,?) order by bibleAbbreviation",
-           side, lside];
+           @"select bibleAbbreviation, bibleAttribution, bibleSide, bibleID, bibleName, bibleParsedID from bibles where bibleSide in (?,?,?) order by bibleAbbreviation",
+           side, lside, llside];
 
         while ([s next])
         {
