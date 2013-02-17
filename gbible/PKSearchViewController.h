@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PKBibleReferenceDelegate.h"
+#import "PKTableViewController.h"
 
-@interface PKSearchViewController : UITableViewController <UISearchBarDelegate>
+@interface PKSearchViewController : PKTableViewController <UISearchBarDelegate>
 
 @property (strong, nonatomic) NSString *theSearchTerm;
 @property (strong, nonatomic) NSArray *theSearchResults;

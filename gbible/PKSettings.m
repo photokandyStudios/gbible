@@ -472,6 +472,30 @@ static id _instance;
   return theColor;
 }
 
++(UIColor *)PKNavigationColor
+{
+  static NSArray *theColors;
+  if (!theColors) theColors =  @[[UIColor colorWithRed: 0.341176 green: 0.223529 blue: 0.125490 alpha: 1.0],
+                         [UIColor colorWithWhite: 0.10 alpha: 1],
+                         [UIColor colorWithWhite: .11 alpha: 1.0],
+                         [UIColor colorWithWhite: 0.11 alpha: 1.0]
+                       ];
+  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  return theColor;
+}
++(UIColor *)PKNavigationTextColor
+{
+  static NSArray *theColors;
+  if (!theColors) theColors =  @[[UIColor whiteColor],
+                         [UIColor whiteColor],
+                         [UIColor colorWithWhite: 0.85 alpha: 1.0],
+                         [UIColor colorWithWhite: 0.85 alpha: 1.0]
+                       ];
+  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  return theColor;
+}
+
+
 +(UIColor *)PKSelectionColor
 {
   static NSArray *theColors;

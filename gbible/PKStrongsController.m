@@ -13,11 +13,12 @@
 #import "PKAppDelegate.h"
 #import "ZUUIRevealController.h"
 #import "PKSearchViewController.h"
-#import "PKRootViewController.h"
+//#import "PKRootViewController.h"
 #import "TestFlight.h"
 #import "PKHistoryViewController.h"
 #import "SVProgressHUD.h"
 #import "PKHotLabel.h"
+#import "NSString+FontAwesome.h"
 
 @interface PKStrongsController ()
 
@@ -85,8 +86,6 @@
              
              ( (PKSettings *)[PKSettings instance] ).lastStrongsLookup = theTerm;
              
-             UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
-             tbc.selectedIndex = 2;
              self.byKeyOnly = NO;
              
              if ([theSearchResults count] == 0)
@@ -149,14 +148,17 @@
   // add navbar items
   if (!delegate)
   {
-    UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
-                                        initWithImage: [UIImage imageNamed: @"Listb.png"]
-                                        style: UIBarButtonItemStylePlain
-                                        target: self.parentViewController.parentViewController.parentViewController
-                                        action: @selector(revealToggle:)];
-    
-    changeReference.accessibilityLabel    = __T(@"Go to passage");
-    self.navigationItem.leftBarButtonItem = changeReference;
+  /*UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
+                                 initWithTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-reorder"]
+                                         style: UIBarButtonItemStylePlain target: [PKAppDelegate sharedInstance].rootViewController action: @selector(revealToggle:)];
+  [changeReference setTitleTextAttributes: @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
+                                         UITextAttributeTextColor : [UIColor whiteColor],
+                                         UITextAttributeTextShadowColor: [UIColor clearColor] }
+              forState:UIControlStateNormal];
+  [changeReference setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+  changeReference.accessibilityLabel = __T(@"Go to passage");
+  changeReference.tag=498;
+    self.navigationItem.leftBarButtonItem = changeReference;*/
   }
   
   CGRect theRect = CGRectMake(0, self.tableView.center.y + 60, self.tableView.bounds.size.width, 60);
@@ -179,6 +181,12 @@
 
 -(void) updateAppearanceForTheme
 {
+/*  UINavigationController *NC = self.navigationController;
+  NC.navigationBar.barStyle = UIBarStyleBlackOpaque;
+  NC.navigationBar.tintColor = [PKSettings PKSidebarPageColor];
+  [NC.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];*/
+  
+
   // get the font
   self.theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                  size: [[PKSettings instance] textFontSize]];
@@ -234,37 +242,6 @@
   return YES;
 }
 
--(void)calculateShadows
-{
-  if (delegate)
-  {
-    return; // we'd be a modal; nothing to calc.
-  }
-  CGFloat topOpacity       = 0.0f;
-  CGFloat theContentOffset = (self.tableView.contentOffset.y);
-  
-  if (theContentOffset > 15)
-  {
-    theContentOffset = 15;
-  }
-  topOpacity = (theContentOffset / 15) * 0.5;
-  
-  [( (PKRootViewController *)self.parentViewController.parentViewController ) showTopShadowWithOpacity: topOpacity];
-  
-  CGFloat bottomOpacity = 0.0f;
-  
-  theContentOffset = self.tableView.contentSize.height - self.tableView.contentOffset.y -
-  self.tableView.bounds.size.height;
-  
-  if (theContentOffset > 15)
-  {
-    theContentOffset = 15;
-  }
-  bottomOpacity = (theContentOffset / 15) * 0.5;
-  
-  [( (PKRootViewController *)self.parentViewController.parentViewController ) showBottomShadowWithOpacity: bottomOpacity];
-}
-
 -(void) viewDidAppear: (BOOL) animated
 {
   [super viewDidAppear: animated];
@@ -273,10 +250,6 @@
   [self becomeFirstResponder];
 }
 
--(void) scrollViewDidScroll: (UIScrollView *) scrollView
-{
-  [self calculateShadows];
-}
 
 #pragma mark
 #pragma mark Table View Data Source Methods
@@ -482,7 +455,7 @@
   if (p.x < 75)
   {
     // show the sidebar, if not visible
-    ZUUIRevealController *rc = (ZUUIRevealController *)self.parentViewController.parentViewController.parentViewController;
+    ZUUIRevealController *rc = [PKAppDelegate sharedInstance].rootViewController;
     
     if ([rc currentFrontViewPosition] == FrontViewPositionLeft)
     {
@@ -495,7 +468,7 @@
 -(void) didReceiveLeftSwipe: (UISwipeGestureRecognizer *) gestureRecognizer
 {
   // hide the sidebar, if visible
-  ZUUIRevealController *rc = (ZUUIRevealController *)self.parentViewController.parentViewController.parentViewController;
+  ZUUIRevealController *rc = [PKAppDelegate sharedInstance].rootViewController;
   
   if ([rc currentFrontViewPosition] == FrontViewPositionRight)
   {
@@ -590,9 +563,7 @@
   }
   else
   {
-    ZUUIRevealController *rc    = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
-    PKRootViewController *rvc   = (PKRootViewController *)[rc frontViewController];
-    PKSearchViewController *svc = [[[rvc.viewControllers objectAtIndex: 1] viewControllers] objectAtIndex: 0];
+    PKSearchViewController *svc = [[PKSearchViewController alloc] initWithStyle:UITableViewStylePlain];
     
     if (!selectedWord)
     {
@@ -604,6 +575,8 @@
     {
       [svc doSearchForTerm: [NSString stringWithFormat: @"\"%@ \"", selectedWord] requireParsings: YES];
     }
+    
+    [[PKAppDelegate sharedInstance].bibleViewController.navigationController pushViewController:svc animated:YES];
   }
 }
 

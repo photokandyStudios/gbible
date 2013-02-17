@@ -12,6 +12,11 @@
 #import "PKDatabase.h"
 #import "SegmentsController.h"
 #import "ZUUIRevealController.h"
+#import "PKBibleViewController.h"
+#import "PKBibleBooksController.h"
+#import "PKNotesViewController.h"
+#import "PKHistoryViewController.h"
+#import "PKHighlightsViewController.h"
 
 @interface PKAppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -19,11 +24,18 @@
 @property (strong, nonatomic) PKDatabase *database;
 @property (strong, nonatomic) PKSettings *mySettings;
 @property (strong, nonatomic) ZUUIRevealController *rootViewController;
+@property (strong, nonatomic) PKBibleViewController *bibleViewController;
+@property (strong, nonatomic) PKBibleBooksController *bibleBooksViewController;
+@property (strong, nonatomic) PKNotesViewController *notesViewController;
+@property (strong, nonatomic) PKHistoryViewController *historyViewController;
+@property (strong, nonatomic) PKHighlightsViewController *highlightsViewController;
 @property (strong, nonatomic) SegmentsController *segmentController;
 @property (strong, nonatomic) UISegmentedControl *segmentedControl;
 
 @property CGFloat brightness;
 
 +(id) instance;
++(PKAppDelegate *) sharedInstance;
+-(void)updateAppearanceForTheme;
 
 @end

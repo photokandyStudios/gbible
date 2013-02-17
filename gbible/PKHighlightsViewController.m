@@ -11,8 +11,9 @@
 #import "PKBible.h"
 #import "ZUUIRevealController.h"
 #import "PKBibleViewController.h"
-#import "PKRootViewController.h"
+//#import "PKRootViewController.h"
 #import "PKSettings.h"
+#import "PKAppDelegate.h"
 
 @interface PKHighlightsViewController ()
 
@@ -244,17 +245,9 @@
   int theChapter             = [PKBible chapterFromString: thePassage];
   int theVerse               = [PKBible verseFromString: thePassage];
   
-  ZUUIRevealController  *rc  = (ZUUIRevealController *)self.parentViewController
-  .parentViewController;
-  PKRootViewController *rvc  = (PKRootViewController *)rc.frontViewController;
-  
-  PKBibleViewController *bvc = [[[rvc.viewControllers objectAtIndex: 0] viewControllers] objectAtIndex: 0];
-  
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
-  
-  [rc revealToggle: self];
-  
-  [bvc displayBook: theBook andChapter: theChapter andVerse: theVerse];
+  [[PKAppDelegate sharedInstance].rootViewController revealToggle: self];  
+  [[PKAppDelegate sharedInstance].bibleViewController displayBook: theBook andChapter: theChapter andVerse: theVerse];
 }
 
 @end

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PKBibleReferenceDelegate.h"
+#import "PKTableViewController.h"
 
-@interface PKSimpleBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
+@interface PKSimpleBibleViewController : PKTableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 
 @property (nonatomic, weak) id <PKBibleReferenceDelegate> delegate;
 @property BOOL notifyWithCopyOfVerse;

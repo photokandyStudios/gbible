@@ -11,6 +11,7 @@
 #import "NSString+FontAwesome.h"
 #import "CoolButton.h"
 #import "TPKeyboardAvoidingScrollView.h"
+#import "PKAppDelegate.h"
 
 @interface PKLayoutController ()
 @property (strong, nonatomic) UILabel *previewLabel;
@@ -440,6 +441,7 @@
   label1.text = [NSString stringWithFormat: @"%@ %i", __T(@"Theme"), [[PKSettings instance] textTheme] + 1];
 
   [self notifyDelegate];
+  [[PKAppDelegate sharedInstance] updateAppearanceForTheme];
 }
 
 -(void) brightnessChanged: (id) sender

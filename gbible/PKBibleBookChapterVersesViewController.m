@@ -9,11 +9,12 @@
 #import "PKBibleBookChapterVersesViewController.h"
 #import "PKBible.h"
 #import "PKBibleViewController.h"
-#import "PKRootViewController.h"
+//#import "PKRootViewController.h"
 #import "ZUUIRevealController.h"
 #import "PKSettings.h"
 #import "PKSimpleCollectionViewCell.h"
 #import "PKBibleReferenceDelegate.h"
+#import "PKAppDelegate.h"
 
 @interface PKBibleBookChapterVersesViewController ()
 
@@ -150,17 +151,9 @@
   // we can now form a complete reference. Pass that back to the bible view
   if (!self.delegate)
   {
-    ZUUIRevealController  *rc  = (ZUUIRevealController *)self.parentViewController
-    .parentViewController;
-    PKRootViewController *rvc  = (PKRootViewController *)rc.frontViewController;
-    
-    PKBibleViewController *bvc = [[[rvc.viewControllers objectAtIndex: 0] viewControllers] objectAtIndex: 0];
-    
     [self.navigationController popToRootViewControllerAnimated: YES];
-    
-    [rc revealToggle: self];
-    
-    [bvc displayBook: selectedBook andChapter: selectedChapter andVerse: row + 1];
+    [[PKAppDelegate sharedInstance].rootViewController revealToggle: self];
+    [[PKAppDelegate sharedInstance].bibleViewController displayBook: selectedBook andChapter: selectedChapter andVerse: row + 1];
   }
   else
   {

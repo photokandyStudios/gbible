@@ -19,6 +19,7 @@
 
 -(id)initWithBook: (int) theBook withChapter: (int) theChapter;
 
+-(void) updateAppearanceForTheme;
 
 
 @end

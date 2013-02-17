@@ -373,6 +373,7 @@
                                                                                        0]]]];
   }
   [self.tableView reloadData];
+  [self calculateShadows];
 }
 
 -(void) updateAppearanceForTheme
@@ -465,6 +466,7 @@
 
 -(void)didRotateFromInterfaceOrientation: (UIInterfaceOrientation) fromInterfaceOrientation
 {
+  [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
   // get the top verse so we can scroll back to it after the rotation change
   int theVerse = [[[self.tableView indexPathsForVisibleRows] objectAtIndex: 0] row] + 1;
 

@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "PKHotLabelDelegate.h"
 #import "PKBibleReferenceDelegate.h"
+#import "PKTableViewController.h"
 
-@interface PKStrongsController : UITableViewController <UISearchBarDelegate, PKHotLabelDelegate, PKBibleReferenceDelegate>
+@interface PKStrongsController : PKTableViewController <UISearchBarDelegate, PKHotLabelDelegate, PKBibleReferenceDelegate>
 
 @property (strong, nonatomic) NSString *theSearchTerm;
 

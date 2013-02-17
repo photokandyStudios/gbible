@@ -10,6 +10,7 @@
 #import "ZUUIRevealController.h"
 #import "PKRootViewController.h"
 #import "PKSettings.h"
+#import "PKAppDelegate.h"
 
 @interface PKAboutViewController ()
 
@@ -80,7 +81,7 @@
   UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
                                       initWithImage: [UIImage imageNamed: @"Listb.png"]
                                       style: UIBarButtonItemStylePlain
-                                      target: self.parentViewController.parentViewController.parentViewController
+                                      target: [PKAppDelegate sharedInstance].rootViewController
                                       action: @selector(revealToggle:)];
   
   changeReference.accessibilityLabel    = __T(@"Go to passage");
@@ -101,6 +102,7 @@
 
 -(void)calculateShadows
 {
+  return; //TODO
   if ([self.aboutWebView respondsToSelector: @selector(scrollView)])
   {
     CGFloat topOpacity       = 0.0f;
@@ -158,7 +160,7 @@
   if (p.x < 75)
   {
     // show the sidebar, if not visible
-    ZUUIRevealController *rc = (ZUUIRevealController *)self.parentViewController.parentViewController.parentViewController;
+    ZUUIRevealController *rc = [PKAppDelegate sharedInstance].rootViewController;
     
     if ([rc currentFrontViewPosition] == FrontViewPositionLeft)
     {
@@ -171,7 +173,7 @@
 -(void) didReceiveLeftSwipe: (UISwipeGestureRecognizer *) gestureRecognizer
 {
   // hide the sidebar, if visible
-  ZUUIRevealController *rc = (ZUUIRevealController *)self.parentViewController.parentViewController.parentViewController;
+  ZUUIRevealController *rc = [PKAppDelegate sharedInstance].rootViewController;
   
   if ([rc currentFrontViewPosition] == FrontViewPositionRight)
   {

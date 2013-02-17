@@ -14,7 +14,7 @@
 #import "PKAppDelegate.h"
 #import "PKHighlightsViewController.h"
 #import "PKNotesViewController.h"
-#import "PKRootViewController.h"
+//#import "PKRootViewController.h"
 #import "PKBibleViewController.h"
 #import "PKBibleBooksController.h"
 #import "TestFlight.h"
@@ -25,6 +25,7 @@
 #import "PKPortraitNavigationController.h"
 #import "TSMiniWebBrowser.h"
 #import "iRate.h"
+#import "NSString+FontAwesome.h"
 
 const int SECTION_TEXT = 0;
 const int SECTION_LAYOUT = 1;
@@ -292,14 +293,17 @@ const int SECTION_VERSION = 4;
   [self.tableView addGestureRecognizer: swipeRight];
   [self.tableView addGestureRecognizer: swipeLeft];
 
-  UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
-                                      initWithImage: [UIImage imageNamed: @"Listb.png"]
-                                              style: UIBarButtonItemStylePlain
-                                             target: self.parentViewController.parentViewController.parentViewController
-                                             action: @selector(revealToggle:)];
-
-  changeReference.accessibilityLabel    = __T(@"Go to passage");
-  self.navigationItem.leftBarButtonItem = changeReference;
+  /*UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
+                                 initWithTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-reorder"]
+                                         style: UIBarButtonItemStylePlain target: [PKAppDelegate sharedInstance].rootViewController action: @selector(revealToggle:)];
+  [changeReference setTitleTextAttributes: @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
+                                         UITextAttributeTextColor : [UIColor whiteColor],
+                                         UITextAttributeTextShadowColor: [UIColor clearColor] }
+              forState:UIControlStateNormal];
+  [changeReference setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+  changeReference.accessibilityLabel = __T(@"Go to passage");
+  changeReference.tag=498;
+  self.navigationItem.leftBarButtonItem = changeReference;*/
 }
 
 /**
@@ -320,40 +324,10 @@ const int SECTION_VERSION = 4;
   versionSettings = nil;
 }
 
--(void)calculateShadows
-{
-  CGFloat topOpacity       = 0.0f;
-  CGFloat theContentOffset = (self.tableView.contentOffset.y);
-
-  if (theContentOffset > 15)
-  {
-    theContentOffset = 15;
-  }
-  topOpacity = (theContentOffset / 15) * 0.5;
-
-  [( (PKRootViewController *)self.parentViewController.parentViewController ) showTopShadowWithOpacity: topOpacity];
-
-  CGFloat bottomOpacity = 0.0f;
-
-  theContentOffset = self.tableView.contentSize.height - self.tableView.contentOffset.y -
-                     self.tableView.bounds.size.height;
-
-  if (theContentOffset > 15)
-  {
-    theContentOffset = 15;
-  }
-  bottomOpacity = (theContentOffset / 15) * 0.5;
-
-  [( (PKRootViewController *)self.parentViewController.parentViewController ) showBottomShadowWithOpacity: bottomOpacity];
-}
-
 -(void) viewDidAppear: (BOOL) animated
 {
   [super viewDidAppear: animated];
-  PKRootViewController *pvc  =
-    (PKRootViewController *)[[(PKAppDelegate *)[PKAppDelegate instance] rootViewController] frontViewController];
-  PKBibleViewController *bvc = [[[pvc.viewControllers objectAtIndex: 0] viewControllers] objectAtIndex: 0];
-  bvc.dirty = YES;
+  [PKAppDelegate sharedInstance].bibleViewController.dirty = YES;
   [self calculateShadows];
   [super viewDidAppear: animated];
   [self updateAppearanceForTheme];
@@ -364,11 +338,6 @@ const int SECTION_VERSION = 4;
   [super didRotateFromInterfaceOrientation: fromInterfaceOrientation];
   [self calculateShadows];
   [self.tableView reloadData];
-}
-
--(void) scrollViewDidScroll: (UIScrollView *) scrollView
-{
-  [self calculateShadows];
 }
 
 /**
@@ -773,7 +742,7 @@ const int SECTION_VERSION = 4;
     popover.cancelButtonIndex = popover.numberOfButtons - 1;
     currentPathForPopover     = indexPath;
     theTableCell              = newCell;
-    [popover showInView: self.parentViewController.parentViewController.view];
+    [popover showInView: self.view]; //.parentViewController.parentViewController.view];
     break;
 
   case 2:       // we're on a cell that we need to toggle the checkmark on
@@ -799,7 +768,7 @@ const int SECTION_VERSION = 4;
     popover.cancelButtonIndex = popover.numberOfButtons - 1;
     currentPathForPopover     = indexPath;
     theTableCell              = newCell;
-    [popover showInView: self.parentViewController.parentViewController.view];
+    [popover showInView: self.view]; //self.parentViewController.parentViewController.view];
     break;
   }
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
@@ -869,7 +838,7 @@ const int SECTION_VERSION = 4;
   if (p.x < 75)
   {
     // show the sidebar, if not visible
-    ZUUIRevealController *rc = (ZUUIRevealController *)self.parentViewController.parentViewController.parentViewController;
+    ZUUIRevealController *rc = [PKAppDelegate sharedInstance].rootViewController;
 
     if ([rc currentFrontViewPosition] == FrontViewPositionLeft)
     {
@@ -882,7 +851,7 @@ const int SECTION_VERSION = 4;
 -(void) didReceiveLeftSwipe: (UISwipeGestureRecognizer *) gestureRecognizer
 {
   // hide the sidebar, if visible
-  ZUUIRevealController *rc = (ZUUIRevealController *)self.parentViewController.parentViewController.parentViewController;
+  ZUUIRevealController *rc = [PKAppDelegate sharedInstance].rootViewController;
 
   if ([rc currentFrontViewPosition] == FrontViewPositionRight)
   {

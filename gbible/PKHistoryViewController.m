@@ -10,12 +10,13 @@
 #import "PKHistory.h"
 #import "PKBible.h"
 #import "ZUUIRevealController.h"
-#import "PKRootViewController.h"
+//#import "PKRootViewController.h"
 #import "PKBibleViewController.h"
 #import "PKSearchViewController.h"
 #import "PKStrongsController.h"
 #import "PKSettings.h"
 #import "TestFlight.h"
+#import "PKAppDelegate.h"
 
 @interface PKHistoryViewController ()
 
@@ -184,17 +185,10 @@
 {
   NSUInteger row               = [indexPath row];
   NSString *theHistoryItem     = [history objectAtIndex: row];
-  ZUUIRevealController  *rc    = (ZUUIRevealController *)self.parentViewController
-  .parentViewController;
-  PKRootViewController *rvc    = (PKRootViewController *)rc.frontViewController;
-  
-  PKBibleViewController *bvc   = [[[rvc.viewControllers objectAtIndex: 0] viewControllers] objectAtIndex: 0];
-  PKSearchViewController *sbvc = [[[rvc.viewControllers objectAtIndex: 1] viewControllers] objectAtIndex: 0];
-  PKStrongsController *ssvc    = [[[rvc.viewControllers objectAtIndex: 2] viewControllers] objectAtIndex: 0];
   
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
   
-  [rc revealToggle: self];
+  [[PKAppDelegate sharedInstance].rootViewController revealToggle: self];
   
   if ([theHistoryItem characterAtIndex: 0] == 'P')
   {
@@ -203,21 +197,25 @@
     int theBook          = [PKBible bookFromString: thePassage];
     int theChapter       = [PKBible chapterFromString: thePassage];
     int theVerse         = [PKBible verseFromString: thePassage];
-    [bvc displayBook: theBook andChapter: theChapter andVerse: theVerse];
+    [[PKAppDelegate sharedInstance].bibleViewController displayBook: theBook andChapter: theChapter andVerse: theVerse];
   }
   else
     if ([theHistoryItem characterAtIndex: 0] == 'B')
     {
+      PKSearchViewController *sbvc = [[PKSearchViewController alloc] initWithStyle:UITableViewStylePlain];
       // Bible search
       NSString *theSearchTerm = [theHistoryItem substringFromIndex: 1];
       [sbvc doSearchForTerm: theSearchTerm];
+      [[PKAppDelegate sharedInstance].bibleViewController.navigationController pushViewController:sbvc animated:YES];
     }
     else
       if ([theHistoryItem characterAtIndex: 0] == 'S')
       {
+        PKStrongsController *ssvc    = [[PKStrongsController alloc] initWithStyle:UITableViewStylePlain];
         // Strongs search
         NSString *theStrongsTerm = [theHistoryItem substringFromIndex: 1];
         [ssvc doSearchForTerm: theStrongsTerm];
+      [[PKAppDelegate sharedInstance].bibleViewController.navigationController pushViewController:ssvc animated:YES];
       }
 }
 

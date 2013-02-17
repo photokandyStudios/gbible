@@ -17,7 +17,7 @@
 #import "PKNoteEditorViewController.h"
 #import "PKStrongsController.h"
 #import "ZUUIRevealController.h"
-#import "PKRootViewController.h"
+//#import "PKRootViewController.h"
 #import "PKSearchViewController.h"
 #import "PKHistoryViewController.h"
 #import "PKHistory.h"
@@ -37,6 +37,7 @@
 //#import "FWTPopoverView.h"
 #import "PKStrongs.h"
 #import "SVProgressHUD.h"
+#import "PKSettingsController.h"
 
 @interface PKBibleViewController ()
 
@@ -175,10 +176,13 @@
  */
 -(void)displayBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse
 {
-  //[( (PKRootViewController *)self.parentViewController.parentViewController )showWaitingIndicator];
   [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
 
   PKWait(
+    if (self.navigationController.visibleViewController != self)
+    {
+      [self.navigationController popToRootViewControllerAnimated:YES];
+    }
     [self loadChapter: theChapter forBook: theBook];
     [self reloadTableCache];
     [(PKHistory *)[PKHistory instance] addPassagewithBook: theBook andChapter: theChapter andVerse: theVerse];
@@ -194,8 +198,6 @@
     {
       [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: NO];
     }
-    UITabBarController *tbc = (UITabBarController *)self.parentViewController.parentViewController;
-    tbc.selectedIndex = 0;
     );
 }
 
@@ -222,7 +224,6 @@
  */
 -(void)nextChapter
 {
-  [( (PKRootViewController *)self.parentViewController.parentViewController )showLeftSwipeIndicator];
   [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
   PKWait(
     int currentBook = [[PKSettings instance] currentBook];
@@ -260,7 +261,6 @@
  */
 -(void)previousChapter
 {
-  [( (PKRootViewController *)self.parentViewController.parentViewController )showRightSwipeIndicator];
   [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
   PKWait(
 
@@ -354,7 +354,7 @@
 
   tStartTime            = [NSDate date];
   self.title            = [[PKBible nameForBook: currentBook] stringByAppendingFormat: @" %i", currentChapter];
-  tableTitle.text       = self.title;
+  tableTitle.text       = [[PKBible nameForBook: currentBook] stringByAppendingFormat: @" %i", currentChapter];
   startTime             = [NSDate date];
   currentGreekChapter   = [PKBible getTextForBook: currentBook forChapter: currentChapter forSide: 1];
   currentEnglishChapter = [PKBible getTextForBook: currentBook forChapter: currentChapter forSide: 2];
@@ -689,6 +689,17 @@
 -(void) updateAppearanceForTheme
 {
   [self.tableView setBackgroundView: nil];
+
+/*  UINavigationController *NC = self.navigationController;
+  // masking from http://stackoverflow.com/questions/13338668/unable-to-make-navigation-bar-totally-transparent-in-ios6
+  NC.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+  NC.navigationBar.tintColor = nil;
+  const float colorMask[6] = {222, 255, 222, 255, 222, 255};
+  UIImage *img = [[UIImage alloc] init];
+  UIImage *maskedImage = [UIImage imageWithCGImage: CGImageCreateWithMaskingColors(img.CGImage, colorMask)];
+  [NC.navigationBar setBackgroundImage:maskedImage forBarMetrics:UIBarMetricsDefault];
+*/  
+  //self.title = @"";
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   tableTitle.textColor           = [PKSettings PKTextColor];
@@ -783,6 +794,13 @@
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
+  
+//http://stackoverflow.com/a/13163507
+if ([self.navigationController.navigationBar
+respondsToSelector:@selector(shadowImage)]) {
+self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
+}
+  
   dirty = YES;
   lastKnownOrientation           = [[UIDevice currentDevice] orientation];
   [TestFlight passCheckpoint: @"VIEW_BIBLE"];
@@ -811,18 +829,26 @@
   longPress.numberOfTapsRequired    = 0;
   longPress.numberOfTouchesRequired = 1;
   [self.tableView addGestureRecognizer: longPress];
+  
+  UITapGestureRecognizer *doublePress = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didReceiveDoubleTap:)];
+  doublePress.numberOfTapsRequired = 2;
+  [self.tableView addGestureRecognizer:doublePress];
 
   // init our selectedVeres
   selectedVerses = [[NSMutableDictionary alloc] init];
 
   // add navbar items
   UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
-                                      initWithImage: [UIImage imageNamed: @"Listb.png"]
-                                              style: UIBarButtonItemStylePlain
-                                             target: self
-                                             action: @selector(revealToggle:)];
-
+                                 initWithTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-reorder"]
+                                         style: UIBarButtonItemStylePlain target: self action: @selector(revealToggle:)];
+  [changeReference setTitleTextAttributes: @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
+                                         UITextAttributeTextColor : [UIColor whiteColor],
+                                         UITextAttributeTextShadowColor: [UIColor clearColor] }
+              forState:UIControlStateNormal];
+  [changeReference setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+  changeReference.tag=498;
   changeReference.accessibilityLabel = __T(@"Go to passage");
+
   // need a highlight item
   changeHighlight                    = [[UIBarButtonItem alloc]
                                         initWithTitle: @""
@@ -844,17 +870,38 @@
   UIBarButtonItem *fontSelect = [[UIBarButtonItem alloc]
                                  initWithTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-font"]
                                          style: UIBarButtonItemStylePlain target: self action: @selector(fontSelect:)];
-  [fontSelect setTitleTextAttributes: [[NSDictionary alloc]
-                                       initWithObjectsAndKeys: [UIColor blackColor], UITextAttributeTextShadowColor,
-                                       [UIColor whiteColor], UITextAttributeTextColor,
-                                       [UIFont fontWithName: kFontAwesomeFamilyName size: 22], UITextAttributeFont,
-                                       nil] forState: UIControlStateNormal];
+  [fontSelect setTitleTextAttributes: @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
+                                         UITextAttributeTextColor : [UIColor whiteColor],
+                                         UITextAttributeTextShadowColor: [UIColor clearColor] }
+              forState:UIControlStateNormal];
+  [fontSelect setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+  fontSelect.tag=498;
   fontSelect.accessibilityLabel = __T(@"Layout");
 
   leftTextSelect                = [[UIBarButtonItem alloc]
                                    initWithTitle: [[PKBible titleForTextID: [[PKSettings instance] greekText]]
                                                    stringByAppendingString: @" ▾"]
                                    style: UIBarButtonItemStylePlain target: self action: @selector(textSelect:)];
+
+  // build the toggle items
+  toggleStrongsBtn = [[UIBarButtonItem alloc]
+                      initWithTitle: @"#"
+                              style: UIBarButtonItemStylePlain
+                             target: self action: @selector(toggleStrongs:)];
+  toggleStrongsBtn.accessibilityLabel = __T(@"Toggle Strong's Numbers");
+
+  toggleMorphologyBtn                 = [[UIBarButtonItem alloc]
+                                         initWithTitle: @"M"
+                                                 style: UIBarButtonItemStylePlain
+                                                target: self action: @selector(toggleMorphology:)];
+  toggleMorphologyBtn.accessibilityLabel = __T(@"Toggle Morphology");
+
+  toggleTranslationBtn                   = [[UIBarButtonItem alloc]
+                                            initWithTitle: @"T"
+                                                    style: UIBarButtonItemStylePlain
+                                                   target: self action: @selector(toggleTranslation:)];
+  toggleTranslationBtn.accessibilityLabel = __T(@"Toggle Translation");
+
 
   if ([self.navigationItem respondsToSelector: @selector(setLeftBarButtonItems:)])
   {
@@ -863,11 +910,13 @@
       self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects: changeReference,
                                                 fontSelect,
                                                 changeHighlight,
-                                                leftTextSelect, nil];
+                                                leftTextSelect,
+                                                toggleStrongsBtn, toggleMorphologyBtn, toggleTranslationBtn,
+                                                nil];
     }
     else
     {
-      self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects: changeReference,
+      self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects: changeReference, fontSelect,
                                                 changeHighlight,
                                                 nil];
     }
@@ -889,53 +938,46 @@
                                    initWithTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-full"]
                                            style: UIBarButtonItemStylePlain
                                           target: self action: @selector(goFullScreen:)];
-  [goFullScreen setTitleTextAttributes: [[NSDictionary alloc]
-                                         initWithObjectsAndKeys: [UIColor blackColor], UITextAttributeTextShadowColor,
-                                         [UIColor whiteColor], UITextAttributeTextColor,
-                                         [UIFont fontWithName: kFontAwesomeFamilyName size: 22], UITextAttributeFont,
-                                         nil] forState: UIControlStateNormal];
+  [goFullScreen setTitleTextAttributes: @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
+                                         UITextAttributeTextColor : [UIColor whiteColor],
+                                         UITextAttributeTextShadowColor: [UIColor clearColor] }
+              forState:UIControlStateNormal];
   goFullScreen.accessibilityLabel = __T(@"Enter Full Screen");
-
-  // build the toggle items
-  toggleStrongsBtn = [[UIBarButtonItem alloc]
-                      initWithTitle: @"#"
-                              style: UIBarButtonItemStylePlain
-                             target: self action: @selector(toggleStrongs:)];
-  toggleStrongsBtn.accessibilityLabel = __T(@"Toggle Strong's Numbers");
-
-  toggleMorphologyBtn                 = [[UIBarButtonItem alloc]
-                                         initWithTitle: @"M"
-                                                 style: UIBarButtonItemStylePlain
-                                                target: self action: @selector(toggleMorphology:)];
-  toggleMorphologyBtn.accessibilityLabel = __T(@"Toggle Morphology");
-
-  toggleTranslationBtn                   = [[UIBarButtonItem alloc]
-                                            initWithTitle: @"T"
-                                                    style: UIBarButtonItemStylePlain
-                                                   target: self action: @selector(toggleTranslation:)];
-  toggleTranslationBtn.accessibilityLabel = __T(@"Toggle Translation");
-
-  goFullScreen.accessibilityLabel         = __T(@"Enter Full Screen");
+  [goFullScreen setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+  goFullScreen.tag=498;
 
   rightTextSelect = [[UIBarButtonItem alloc]
                      initWithTitle: [[PKBible titleForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"]
                              style: UIBarButtonItemStylePlain target: self action: @selector(textSelect:)];
 
+  UIBarButtonItem *adjustSettings = [[UIBarButtonItem alloc]
+                                 initWithTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-cog"]
+                                         style: UIBarButtonItemStylePlain target: self action: @selector(doSettings:)];
+  [adjustSettings setTitleTextAttributes: @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
+                                         UITextAttributeTextColor : [UIColor whiteColor],
+                                         UITextAttributeTextShadowColor: [UIColor clearColor] }
+              forState:UIControlStateNormal];
+  [adjustSettings setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+  adjustSettings.accessibilityLabel = __T(@"Settings");
+  adjustSettings.tag=498;
+  
+
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
   {
-    self.navigationItem.rightBarButtonItems = @[goFullScreen,
-                                                toggleStrongsBtn, toggleMorphologyBtn, toggleTranslationBtn,
+    self.navigationItem.rightBarButtonItems = @[adjustSettings, goFullScreen,
+                                                
                                                 rightTextSelect
                                               ];
   }
   else
   {
-    self.navigationItem.rightBarButtonItem = goFullScreen;
+    self.navigationItem.rightBarButtonItems = @[ adjustSettings ];
   }
 
   if ([changeHighlight respondsToSelector: @selector(setTintColor:)])
   {
     changeHighlight.tintColor          = [[PKSettings instance] highlightColor];
+    changeHighlight.tag = 498;
     changeHighlight.accessibilityLabel = __T(@"Highlight Color");
   }
 
@@ -1213,37 +1255,12 @@
   }
 }
 
--(void)calculateShadows
-{
-  CGFloat topOpacity       = 0.0f;
-  CGFloat theContentOffset = (self.tableView.contentOffset.y);
-
-  if (theContentOffset > 15)
-  {
-    theContentOffset = 15;
-  }
-  topOpacity = (theContentOffset / 15) * 0.5;
-
-  [( (PKRootViewController *)self.parentViewController.parentViewController ) showTopShadowWithOpacity: topOpacity];
-
-  CGFloat bottomOpacity = 0.0f;
-
-  theContentOffset = self.tableView.contentSize.height - self.tableView.contentOffset.y -
-                     self.tableView.bounds.size.height;
-
-  if (theContentOffset > 15)
-  {
-    theContentOffset = 15;
-  }
-  bottomOpacity = (theContentOffset / 15) * 0.5;
-
-  [( (PKRootViewController *)self.parentViewController.parentViewController ) showBottomShadowWithOpacity: bottomOpacity];
-}
-
+/*
 -(void)scrollViewDidScroll: (UIScrollView *) scrollView
 {
   [self calculateShadows];
 }
+*/
 
 #pragma mark -
 #pragma mark Table View Data Source Methods
@@ -1371,7 +1388,6 @@
  */
 -(UITableViewCell *) tableView: (UITableView *) tableView cellForRowAtIndexPath: (NSIndexPath *) indexPath
 {
-  //return [cells objectAtIndex:[indexPath row]];
   return [self cellForRowAtIndexPath: indexPath];
 }
 
@@ -1550,7 +1566,7 @@
   if (p.x < 75)
   {
     // show the sidebar, if not visible
-    ZUUIRevealController *rc = (ZUUIRevealController *)self.parentViewController.parentViewController.parentViewController;
+    ZUUIRevealController *rc = [PKAppDelegate sharedInstance].rootViewController;
 
     if ([rc currentFrontViewPosition] == FrontViewPositionLeft)
     {
@@ -1568,7 +1584,7 @@
  */
 -(void) didReceiveLeftSwipe: (UISwipeGestureRecognizer *) gestureRecognizer
 {
-  ZUUIRevealController *rc = (ZUUIRevealController *)self.parentViewController.parentViewController.parentViewController;
+  ZUUIRevealController *rc = [PKAppDelegate sharedInstance].rootViewController;
 
   if ([rc currentFrontViewPosition] == FrontViewPositionRight)
   {
@@ -1785,6 +1801,18 @@
   }
 }
 
+-(void)didReceiveDoubleTap: (id) sender
+{
+  if ( self.navigationController.navigationBarHidden )
+  {
+    [self goRegularScreen:nil];
+  }
+  else
+  {
+    [self goFullScreen:nil];
+  }
+}
+
 #pragma mark -
 #pragma mark miscellaneous selectors (called from popovers, buttons, etc.)
 
@@ -1886,23 +1914,13 @@
   {
     [PO dismissPopoverAnimated: NO];
   }
-  ( (PKRootViewController *)self.parentViewController.parentViewController ).aViewHasFullScreen = YES;
+
   [self.navigationController setNavigationBarHidden: YES animated: YES];
-
-  CGRect theRect = ( (PKRootViewController *)self.parentViewController.parentViewController ).tabBar.frame;
-  theRect.origin.y    += 49;
-  [( (PKRootViewController *)self.parentViewController.parentViewController ).tabBar setFrame: theRect];
-  theRect              = self.parentViewController.parentViewController.view.frame;
-  //theRect.origin.y -= 20;
-  theRect.size.height += 49;
-  [self.parentViewController.parentViewController.view setFrame: theRect];
-  [( (PKRootViewController *)self.parentViewController.parentViewController ) calcShadowPosition: [[UIDevice currentDevice]
-                                                                                                   orientation]];
-
   self.fullScreen     = YES;
 
   // create a button to get us back!
-  theRect             = self.parentViewController.parentViewController.view.frame;
+  CGRect theRect;
+  theRect             = self.view.frame;
   theRect.origin.x    = theRect.size.width - 54;
   theRect.origin.y    = 10;
   theRect.size.width  = 44;
@@ -1930,6 +1948,7 @@
   [btnRegularScreen addTarget: self action: @selector(goRegularScreen:) forControlEvents: UIControlEventTouchUpInside];
   [self.parentViewController.view addSubview: btnRegularScreen];
   [self.parentViewController.view bringSubviewToFront: btnRegularScreen];
+
 }
 
 -(void) goRegularScreen: (id) sender
@@ -1937,24 +1956,7 @@
   [btnRegularScreen removeFromSuperview];
   btnRegularScreen = nil;
 
-  ( (PKRootViewController *)self.parentViewController.parentViewController ).aViewHasFullScreen = NO;
   [self.navigationController setNavigationBarHidden: NO animated: YES];
-
-  CGRect theRect = ( (PKRootViewController *)self.parentViewController.parentViewController ).tabBar.frame;
-  theRect.origin.y    -= 49;
-  [( (PKRootViewController *)self.parentViewController.parentViewController ).tabBar setFrame: theRect];
-
-  theRect              = self.parentViewController.parentViewController.view.frame;
-  // theRect.origin.y += 20;
-  theRect.size.height -= 49;
-  [self.parentViewController.parentViewController.view setFrame: theRect];
-
-  PKWaitDelay(
-    2000,
-    [( (PKRootViewController *)self.parentViewController.parentViewController ) calcShadowPosition: [[UIDevice currentDevice]
-                                                                                                     orientation]];
-    );
-
   self.fullScreen = NO;
 }
 
@@ -2251,11 +2253,6 @@
     selectedWord = [NSString stringWithFormat:@"G%i", theWordIndex];
     [self searchStrongs: sender];
 
-/*    ZUUIRevealController *rc  = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
-    PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
-    PKStrongsController *svc  = [[[rvc.viewControllers objectAtIndex: 2] viewControllers] objectAtIndex: 0];
-    [svc doSearchForTerm: [@"G" stringByAppendingString: [[NSNumber numberWithInt: theWordIndex] stringValue]] byKeyOnly: YES];
-    */
     return;
   }
 
@@ -2288,9 +2285,6 @@
  */
 -(void)searchBible: (id) sender
 {
-//  ZUUIRevealController *rc    = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
-//  PKRootViewController *rvc   = (PKRootViewController *)[rc frontViewController];
-//  PKSearchViewController *svc = [[[rvc.viewControllers objectAtIndex: 1] viewControllers] objectAtIndex: 0];
   PKSearchViewController *svc = [[PKSearchViewController alloc] initWithStyle:UITableViewStylePlain];
   svc.notifyWithCopyOfVerse = NO;
   svc.delegate = self;
@@ -2320,12 +2314,6 @@
   mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
   mvnc.navigationBar.barStyle = UIBarStyleBlack;
   [self presentModalViewController: mvnc animated: YES];
-
-
-//  ZUUIRevealController *rc  = (ZUUIRevealController *)[[PKAppDelegate instance] rootViewController];
- // PKRootViewController *rvc = (PKRootViewController *)[rc frontViewController];
-  //PKStrongsController *svc  = [[[rvc.viewControllers objectAtIndex: 2] viewControllers] objectAtIndex: 0];
-
 }
 
 /**
@@ -2402,6 +2390,12 @@
     mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentModalViewController: mvnc animated: YES];
   }
+}
+
+-(void)doSettings: (id) sender
+{
+  PKSettingsController *sc = [[PKSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
+  [self.navigationController pushViewController:sc animated:YES];
 }
 
 #pragma mark -

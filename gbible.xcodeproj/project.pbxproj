@@ -86,6 +86,7 @@
 		6A542A561696BD0B001AD586 /* PKPortraitNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A542A551696BD0B001AD586 /* PKPortraitNavigationController.m */; };
 		6A58AE101529567D00EAF960 /* PKNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE0F1529567D00EAF960 /* PKNotes.m */; };
 		6A58AE1415295BBD00EAF960 /* PKNoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */; };
+		6A5B016316D031FD004A1081 /* PKTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5B016216D031FD004A1081 /* PKTableViewController.m */; };
 		6A6B599416A0EEC10027BD03 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6B599316A0EEC10027BD03 /* Icon.png */; };
 		6A6B599616A0EEC80027BD03 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6B599516A0EEC80027BD03 /* Icon@2x.png */; };
 		6A6B599816A0EEDE0027BD03 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6B599716A0EEDE0027BD03 /* Icon-72.png */; };
@@ -359,6 +360,8 @@
 		6A58AE0F1529567D00EAF960 /* PKNotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKNotes.m; sourceTree = "<group>"; };
 		6A58AE1215295BBD00EAF960 /* PKNoteEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKNoteEditorViewController.h; sourceTree = "<group>"; };
 		6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKNoteEditorViewController.m; sourceTree = "<group>"; };
+		6A5B016116D031FD004A1081 /* PKTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKTableViewController.h; sourceTree = "<group>"; };
+		6A5B016216D031FD004A1081 /* PKTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKTableViewController.m; sourceTree = "<group>"; };
 		6A6B599316A0EEC10027BD03 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		6A6B599516A0EEC80027BD03 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		6A6B599716A0EEDE0027BD03 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
@@ -874,6 +877,15 @@
 			name = KBKeyboardHandler;
 			sourceTree = "<group>";
 		};
+		6A5B016016D031CC004A1081 /* PKTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6A5B016116D031FD004A1081 /* PKTableViewController.h */,
+				6A5B016216D031FD004A1081 /* PKTableViewController.m */,
+			);
+			name = PKTableViewController;
+			sourceTree = "<group>";
+		};
 		6A6B59A716A122610027BD03 /* minizip */ = {
 			isa = PBXGroup;
 			children = (
@@ -1022,6 +1034,7 @@
 		6A9793AB1513F2F500A5C9F1 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6A5B016016D031CC004A1081 /* PKTableViewController */,
 				6ABD995616B8D699008EB8E0 /* Bible Management */,
 				6A2163621530F1F000D41447 /* Content Controllers */,
 				6A2163631530F20400D41447 /* Editing Controllers */,
@@ -1815,6 +1828,7 @@
 				6A2039A516C49FDE00CA4749 /* PKSimpleBibleViewController.m in Sources */,
 				6A50FA1E16C5A5F600BE79BA /* KBKeyboardHandler.m in Sources */,
 				6A1D143416CC494C0016C2BD /* iRate.m in Sources */,
+				6A5B016316D031FD004A1081 /* PKTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

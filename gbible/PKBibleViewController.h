@@ -10,10 +10,11 @@
 #import "PKLayoutControllerDelegate.h"
 #import "PKSearchDelegate.h"
 #import "PKBibleReferenceDelegate.h"
+#import "PKTableViewController.h"
 
 //#import "FWTPopoverView.h"
 
-@interface PKBibleViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate,
+@interface PKBibleViewController : PKTableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate,
                                                           UIActionSheetDelegate, PKLayoutControllerDelegate , UIKeyInput,
                                                           PKSearchDelegate, PKBibleReferenceDelegate>
 

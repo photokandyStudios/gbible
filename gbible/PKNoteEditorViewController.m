@@ -13,7 +13,7 @@
 #import "PKNotesViewController.h"
 #import "PKBibleViewController.h"
 #import "ZUUIRevealController.h"
-#import "PKRootViewController.h"
+//#import "PKRootViewController.h"
 #import "TestFlight.h"
 #import "KOKeyboardRow.h"
 #import "PKTextView.h"
@@ -261,10 +261,7 @@
   if (state == 1)
   {
     [(PKNotes *)[PKNotes instance] setNote: txtNote.text withTitle: txtTitle.text forPassage: passage];
-    PKRootViewController *pvc  =
-    (PKRootViewController *)[[(PKAppDelegate *)[PKAppDelegate instance] rootViewController] frontViewController];
-    PKBibleViewController *bvc = [[[pvc.viewControllers objectAtIndex: 0] viewControllers] objectAtIndex: 0];
-    [bvc notifyNoteChanged];
+    [[PKAppDelegate sharedInstance].bibleViewController notifyNoteChanged];
     [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 2] reloadNotes];
   }
   [self dismissModalViewControllerAnimated: YES];
@@ -273,10 +270,7 @@
 -(void)deletePressed: (id) sender
 {
   [(PKNotes *)[PKNotes instance] deleteNoteForPassage: passage];
-  PKRootViewController *pvc  =
-  (PKRootViewController *)[[(PKAppDelegate *)[PKAppDelegate instance] rootViewController] frontViewController];
-  PKBibleViewController *bvc = [[[pvc.viewControllers objectAtIndex: 0] viewControllers] objectAtIndex: 0];
-  [bvc notifyNoteChanged];
+  [[PKAppDelegate sharedInstance].bibleViewController notifyNoteChanged];
   [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 2] reloadNotes];
   [self dismissModalViewControllerAnimated: YES];
 }

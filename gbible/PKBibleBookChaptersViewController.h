@@ -18,4 +18,6 @@
 @property BOOL notifyWithCopyOfVerse;
 @property (nonatomic, weak) id <PKBibleReferenceDelegate> delegate;
 
+-(void) updateAppearanceForTheme;
+
 @end
