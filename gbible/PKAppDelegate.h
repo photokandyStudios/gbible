@@ -17,7 +17,8 @@
 #import "PKNotesViewController.h"
 #import "PKHistoryViewController.h"
 #import "PKHighlightsViewController.h"
-
+#import "PKStrongsController.h"
+#import "PKSearchViewController.h"
 @interface PKAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
@@ -29,6 +30,8 @@
 @property (strong, nonatomic) PKNotesViewController *notesViewController;
 @property (strong, nonatomic) PKHistoryViewController *historyViewController;
 @property (strong, nonatomic) PKHighlightsViewController *highlightsViewController;
+@property (strong, nonatomic) PKSearchViewController *searchViewController;
+@property (strong, nonatomic) PKStrongsController *strongsViewController;
 @property (strong, nonatomic) SegmentsController *segmentController;
 @property (strong, nonatomic) UISegmentedControl *segmentedControl;
 
@@ -37,5 +40,10 @@
 +(id) instance;
 +(PKAppDelegate *) sharedInstance;
 -(void)updateAppearanceForTheme;
+
++(void) applyThemeToUIBarButtonItem: (UIBarButtonItem *)b;
++(void) applyThemeToUINavigationBar: (UINavigationBar *)nba;
++(void) applyThemeToUISearchBar: (UISearchBar *)sba;
++(void) applyThemeToUISegmentedControl: (UISegmentedControl *)sca;
 
 @end
