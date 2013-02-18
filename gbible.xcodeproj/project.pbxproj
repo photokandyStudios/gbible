@@ -210,6 +210,7 @@
 		6AD7E2D5152AA4130072483E /* PKSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D4152AA4130072483E /* PKSearchViewController.m */; };
 		6AD7E2D7152AB51C0072483E /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D6152AB51C0072483E /* readme.md */; };
 		6AD7E2DD152BAC540072483E /* PKStrongs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7E2DC152BAC540072483E /* PKStrongs.m */; };
+		6ADD8C4C16D1810500664337 /* UIBarButtonItem+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADD8C4B16D1810500664337 /* UIBarButtonItem+Utility.m */; };
 		6AE5B93616BF71F6004256CC /* hal-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92616BF71F6004256CC /* hal-black.png */; };
 		6AE5B93716BF71F6004256CC /* hal-black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92716BF71F6004256CC /* hal-black@2x.png */; };
 		6AE5B93816BF71F6004256CC /* hal-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5B92816BF71F6004256CC /* hal-blue.png */; };
@@ -544,6 +545,8 @@
 		6AD7E2D6152AB51C0072483E /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		6AD7E2DB152BAC540072483E /* PKStrongs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKStrongs.h; sourceTree = "<group>"; };
 		6AD7E2DC152BAC540072483E /* PKStrongs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKStrongs.m; sourceTree = "<group>"; };
+		6ADD8C4A16D1810500664337 /* UIBarButtonItem+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Utility.h"; sourceTree = "<group>"; };
+		6ADD8C4B16D1810500664337 /* UIBarButtonItem+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Utility.m"; sourceTree = "<group>"; };
 		6AE5B92616BF71F6004256CC /* hal-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-black.png"; sourceTree = "<group>"; };
 		6AE5B92716BF71F6004256CC /* hal-black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-black@2x.png"; sourceTree = "<group>"; };
 		6AE5B92816BF71F6004256CC /* hal-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-blue.png"; sourceTree = "<group>"; };
@@ -943,6 +946,8 @@
 			children = (
 				6A74306516ADDCD900DC1320 /* searchutils.h */,
 				6A74306616ADDCEA00DC1320 /* searchutils.m */,
+				6ADD8C4A16D1810500664337 /* UIBarButtonItem+Utility.h */,
+				6ADD8C4B16D1810500664337 /* UIBarButtonItem+Utility.m */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -1829,6 +1834,7 @@
 				6A50FA1E16C5A5F600BE79BA /* KBKeyboardHandler.m in Sources */,
 				6A1D143416CC494C0016C2BD /* iRate.m in Sources */,
 				6A5B016316D031FD004A1081 /* PKTableViewController.m in Sources */,
+				6ADD8C4C16D1810500664337 /* UIBarButtonItem+Utility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
