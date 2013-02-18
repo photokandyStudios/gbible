@@ -1964,18 +1964,19 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 {
   [btnRegularScreen removeFromSuperview];
   btnRegularScreen = nil;
-#warning : WE HAVE A BUG HERE ON PHYSICAL IOS DEVICES WHEN IN LANDSCAPE.
   [self.navigationController setNavigationBarHidden: NO animated: YES];
   [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
   CGRect theFrame = PKAppDelegate.sharedInstance.rootViewController.view.frame;
   if ( UIInterfaceOrientationIsLandscape(  [[UIApplication sharedApplication] statusBarOrientation] ))
   {
-    theFrame.origin.x = 20;
+    if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationLandscapeLeft)
+      theFrame.origin.x = 20;
     theFrame.size.width = UIScreen.mainScreen.bounds.size.width-20;
   }
   else
   {
-    theFrame.origin.y = 20;
+    if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait)
+      theFrame.origin.y = 20;
     theFrame.size.height = UIScreen.mainScreen.bounds.size.height-20;
   }
   [PKAppDelegate.sharedInstance.rootViewController.view setFrame:theFrame];
