@@ -38,6 +38,7 @@
 #import "PKStrongs.h"
 #import "SVProgressHUD.h"
 #import "PKSettingsController.h"
+#import "UIBarButtonItem+Utility.h"
 
 @interface PKBibleViewController ()
 
@@ -353,8 +354,18 @@
   NSDate *tEndTime;
 
   tStartTime            = [NSDate date];
-  self.title            = [[PKBible nameForBook: currentBook] stringByAppendingFormat: @" %i", currentChapter];
   tableTitle.text       = [[PKBible nameForBook: currentBook] stringByAppendingFormat: @" %i", currentChapter];
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+  {
+    NSString * bookName= [PKBible nameForBook:currentBook];
+    bookName = [bookName stringByReplacingOccurrencesOfString:@" " withString:@""];
+    bookName = [bookName substringToIndex:3];
+    self.title            = [bookName stringByAppendingFormat: @". %i", currentChapter];
+  }
+  else
+  {
+    self.title = tableTitle.text;
+  }
   startTime             = [NSDate date];
   currentGreekChapter   = [PKBible getTextForBook: currentBook forChapter: currentChapter forSide: 1];
   currentEnglishChapter = [PKBible getTextForBook: currentBook forChapter: currentChapter forSide: 2];
@@ -810,7 +821,6 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   
   self.inputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
   
-
   // add our gestures
   UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
                                           initWithTarget: self action: @selector(didReceiveRightSwipe:)];
@@ -837,69 +847,62 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   // init our selectedVeres
   selectedVerses = [[NSMutableDictionary alloc] init];
 
-  // add navbar items
-  UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
-                                 initWithTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-reorder"]
-                                         style: UIBarButtonItemStylePlain target: self action: @selector(revealToggle:)];
-  [changeReference setTitleTextAttributes: @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
+
+  // Text Attributes for Font-Awesome Icons:
+  NSDictionary *faTextAttributes = @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
                                          UITextAttributeTextColor : [UIColor whiteColor],
-                                         UITextAttributeTextShadowColor: [UIColor clearColor] }
-              forState:UIControlStateNormal];
-  [changeReference setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-  changeReference.tag=498;
+                                         UITextAttributeTextShadowColor: [UIColor blackColor],
+                                         UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
+ // NSDictionary *normalTextAttributes = @{UITextAttributeTextColor : [UIColor whiteColor],
+   //                                      UITextAttributeTextShadowColor: [UIColor blackColor],
+     //                                    UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
+  NSDictionary *largeTextAttributes = @{ //UITextAttributeFont : [UIFont systemFontOfSize:20],
+                                         UITextAttributeFont : [UIFont fontWithName:@"Helvetica-Bold" size:20],
+                                         UITextAttributeTextColor : [UIColor whiteColor],
+                                         UITextAttributeTextShadowColor: [UIColor blackColor],
+                                         UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
+  
+  UIImage *blankImage = [UIImage new];
+  // add navbar items
+  //
+  // change reference is the menu button
+  UIBarButtonItem *changeReference = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-reorder" target:self action:@selector(revealToggle:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
   changeReference.accessibilityLabel = __T(@"Go to passage");
 
-  // need a highlight item
-  changeHighlight                    = [[UIBarButtonItem alloc]
+  // the highlight button indicates what color is the current highlight color
+/*  changeHighlight                    = [[UIBarButtonItem alloc]
                                         initWithTitle: @""
                                                 style: UIBarButtonItemStylePlain
                                                target: self action: @selector(changeHighlightColor:)];
-  [changeHighlight setTitleTextAttributes: [[NSDictionary alloc]
-                                            initWithObjectsAndKeys: [UIColor blackColor], UITextAttributeTextShadowColor,
-                                            [UIColor whiteColor], UITextAttributeTextColor,
-                                            [UIFont fontWithName: kFontAwesomeFamilyName size: 22], UITextAttributeFont,
-                                            nil] forState: UIControlStateNormal];
 
   changeHighlight.accessibilityLabel = __T(@"Highlight Color");
-
+  if ([changeHighlight respondsToSelector: @selector(setTintColor:)])
+  {
+    changeHighlight.tintColor          = [[PKSettings instance] highlightColor];
+    changeHighlight.tag = 498;
+    changeHighlight.accessibilityLabel = __T(@"Highlight Color");
+  }
   if (![changeHighlight respondsToSelector: @selector(setTintColor:)])
   {
     changeHighlight.title = ( (PKSettings *)[PKSettings instance] ).highlightTextColor;
   }
-
-  UIBarButtonItem *fontSelect = [[UIBarButtonItem alloc]
-                                 initWithTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-font"]
-                                         style: UIBarButtonItemStylePlain target: self action: @selector(fontSelect:)];
-  [fontSelect setTitleTextAttributes: @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
-                                         UITextAttributeTextColor : [UIColor whiteColor],
-                                         UITextAttributeTextShadowColor: [UIColor clearColor] }
-              forState:UIControlStateNormal];
-  [fontSelect setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-  fontSelect.tag=498;
+  */
+  // font select lets the user change the theme
+  UIBarButtonItem *fontSelect = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-font" target:self action:@selector(fontSelect:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
   fontSelect.accessibilityLabel = __T(@"Layout");
 
-  leftTextSelect                = [[UIBarButtonItem alloc]
-                                   initWithTitle: [[PKBible titleForTextID: [[PKSettings instance] greekText]]
-                                                   stringByAppendingString: @" ▾"]
-                                   style: UIBarButtonItemStylePlain target: self action: @selector(textSelect:)];
-
+  // leftTextSelect lets the user change the left-side Bible
+  leftTextSelect                = [UIBarButtonItem barButtonItemWithTitle:[[PKBible titleForTextID: [[PKSettings instance] greekText]]
+                                                   stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+  
   // build the toggle items
-  toggleStrongsBtn = [[UIBarButtonItem alloc]
-                      initWithTitle: @"#"
-                              style: UIBarButtonItemStylePlain
-                             target: self action: @selector(toggleStrongs:)];
+  toggleStrongsBtn = [UIBarButtonItem barButtonItemWithTitle:@"#" target:self action:@selector(toggleStrongs:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
   toggleStrongsBtn.accessibilityLabel = __T(@"Toggle Strong's Numbers");
 
-  toggleMorphologyBtn                 = [[UIBarButtonItem alloc]
-                                         initWithTitle: @"M"
-                                                 style: UIBarButtonItemStylePlain
-                                                target: self action: @selector(toggleMorphology:)];
+  toggleMorphologyBtn = [UIBarButtonItem barButtonItemWithTitle:@"M" target:self action:@selector(toggleMorphology:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
   toggleMorphologyBtn.accessibilityLabel = __T(@"Toggle Morphology");
 
-  toggleTranslationBtn                   = [[UIBarButtonItem alloc]
-                                            initWithTitle: @"T"
-                                                    style: UIBarButtonItemStylePlain
-                                                   target: self action: @selector(toggleTranslation:)];
+  toggleTranslationBtn = [UIBarButtonItem barButtonItemWithTitle:@"T" target:self action:@selector(toggleTranslation:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
   toggleTranslationBtn.accessibilityLabel = __T(@"Toggle Translation");
 
 
@@ -909,7 +912,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     {
       self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects: changeReference,
                                                 fontSelect,
-                                                changeHighlight,
+                                               // changeHighlight,
                                                 leftTextSelect,
                                                 toggleStrongsBtn, toggleMorphologyBtn, toggleTranslationBtn,
                                                 nil];
@@ -917,15 +920,16 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     else
     {
       self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects: changeReference, fontSelect,
-                                                changeHighlight,
+                                               // changeHighlight,
                                                 nil];
     }
   }
   else
   {
-    changeHighlight.style = UIBarButtonItemStyleBordered;
+  //  changeHighlight.style = UIBarButtonItemStyleBordered;
     changeReference.style = UIBarButtonItemStyleBordered;
-    NSArray *buttons = [NSArray arrayWithObjects: changeReference, changeHighlight, nil];
+    NSArray *buttons = [NSArray arrayWithObjects: changeReference, //changeHighlight,
+    nil];
     UIToolbar *tb    = [[UIToolbar alloc] initWithFrame: CGRectMake(0, 0, 150, 44)];
     tb.backgroundColor    = [UIColor clearColor];
     tb.barStyle           = UIBarStyleBlack;
@@ -934,52 +938,29 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: tb];
   }
 
-  UIBarButtonItem *goFullScreen = [[UIBarButtonItem alloc]
-                                   initWithTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-full"]
-                                           style: UIBarButtonItemStylePlain
-                                          target: self action: @selector(goFullScreen:)];
-  [goFullScreen setTitleTextAttributes: @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
-                                         UITextAttributeTextColor : [UIColor whiteColor],
-                                         UITextAttributeTextShadowColor: [UIColor clearColor] }
-              forState:UIControlStateNormal];
+  UIBarButtonItem *goFullScreen = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-fullscreen" target:self action:@selector(goFullScreen:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
+  
   goFullScreen.accessibilityLabel = __T(@"Enter Full Screen");
-  [goFullScreen setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-  goFullScreen.tag=498;
 
-  rightTextSelect = [[UIBarButtonItem alloc]
-                     initWithTitle: [[PKBible titleForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"]
-                             style: UIBarButtonItemStylePlain target: self action: @selector(textSelect:)];
+  rightTextSelect = [UIBarButtonItem barButtonItemWithTitle:[[PKBible titleForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
 
-  UIBarButtonItem *adjustSettings = [[UIBarButtonItem alloc]
-                                 initWithTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-cog"]
-                                         style: UIBarButtonItemStylePlain target: self action: @selector(doSettings:)];
-  [adjustSettings setTitleTextAttributes: @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
-                                         UITextAttributeTextColor : [UIColor whiteColor],
-                                         UITextAttributeTextShadowColor: [UIColor clearColor] }
-              forState:UIControlStateNormal];
-  [adjustSettings setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-  adjustSettings.accessibilityLabel = __T(@"Settings");
-  adjustSettings.tag=498;
+  UIBarButtonItem *adjustSettings = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-cog" target:self action:@selector(doSettings:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
+    adjustSettings.accessibilityLabel = __T(@"Settings");
+
+  UIBarButtonItem *searchText = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-search" target:self action:@selector(searchBible:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
+    adjustSettings.accessibilityLabel = __T(@"Search");
   
 
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
   {
-    self.navigationItem.rightBarButtonItems = @[adjustSettings, goFullScreen,
-                                                
-                                                rightTextSelect
+    self.navigationItem.rightBarButtonItems = @[goFullScreen, adjustSettings, searchText,rightTextSelect
                                               ];
   }
   else
   {
-    self.navigationItem.rightBarButtonItems = @[ adjustSettings ];
+    self.navigationItem.rightBarButtonItems = @[ adjustSettings, searchText ];
   }
 
-  if ([changeHighlight respondsToSelector: @selector(setTintColor:)])
-  {
-    changeHighlight.tintColor          = [[PKSettings instance] highlightColor];
-    changeHighlight.tag = 498;
-    changeHighlight.accessibilityLabel = __T(@"Highlight Color");
-  }
 
   // create the header and footer views
   UIView *headerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
@@ -1039,6 +1020,32 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   self.tableView.tableFooterView = footerView;
 }
 
+-(void) setUpMenuItems
+{
+    ourMenu           = [UIMenuController sharedMenuController];
+    ourMenu.menuItems = [NSArray arrayWithObjects:
+// ISSUE #61
+                         //            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")      action:@selector(copySelection:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Highlight") action: @selector(askHighlight:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Annotate")  action: @selector(doAnnotate:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Search")    action: @selector(askSearch:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Define")    action: @selector(defineWord:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Explain")   action: @selector(explainVerse:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Layout")   action: @selector(textSettings:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Clear")     action: @selector(clearSelection:)],
+                         // handle second-tier items
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Yellow") action: @selector(highlightSelectionYellow:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Green") action: @selector(highlightSelectionGreen:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Magenta") action: @selector(highlightSelectionMagenta:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Pink") action: @selector(highlightSelectionPink:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Blue") action: @selector(highlightSelectionBlue:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Remove")        action: @selector(removeHighlights:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Bible")  action: @selector(searchBible:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Strong's") action: @selector(searchStrongs:)]
+                         , nil];
+}
+
+
 /**
  *
  * Determine what actions can occur when a menu is displayed.
@@ -1096,7 +1103,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
     if ( SYSTEM_VERSION_LESS_THAN(@"5.0") )   // < ios 5
     {
-      if ( action == @selector(highlightSelection:) )
+      if ( action == @selector(highlightSelection:))
       {
         return YES;
       }
@@ -1142,7 +1149,13 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
   if (ourMenuState == 1)    // we're asking about highlighting
   {
-    if ( action == @selector(highlightSelection:) )
+    if ( action == @selector(highlightSelection:) ||
+         action == @selector(highlightSelectionYellow:) ||
+         action == @selector(highlightSelectionGreen:) ||
+         action == @selector(highlightSelectionMagenta:) ||
+         action == @selector(highlightSelectionPink:) ||
+         action == @selector(highlightSelectionBlue:)
+       )
     {
       return YES;
     }
@@ -1594,6 +1607,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   [self nextChapter];
 }
 
+
 /**
  *
  * We long-pressed on a cell. Determine the cell (and the word we're over: TODO)
@@ -1604,25 +1618,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 {
   if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
   {
-    // restore our menu items after a strongs view shows
-    ourMenu           = [UIMenuController sharedMenuController];
-    ourMenu.menuItems = [NSArray arrayWithObjects:
-// ISSUE #61
-                         //            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")      action:@selector(copySelection:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Highlight") action: @selector(askHighlight:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Annotate")  action: @selector(doAnnotate:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Search")    action: @selector(askSearch:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Define")    action: @selector(defineWord:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Explain")   action: @selector(explainVerse:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Layout")   action: @selector(textSettings:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Clear")     action: @selector(clearSelection:)],
-                         // handle second-tier items
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Add Highlight") action: @selector(highlightSelection:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Remove")        action: @selector(removeHighlights:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Bible")  action: @selector(searchBible:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Strong's") action: @selector(searchStrongs:)]
-                         , nil];
-
+    [self setUpMenuItems];
     CGPoint p              = [gestureRecognizer locationInView: self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: p];    // nil if no row
     UILabel *theWordLabel  = nil;
@@ -1916,6 +1912,19 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   }
 
   [self.navigationController setNavigationBarHidden: YES animated: YES];
+  [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+  CGRect theFrame = PKAppDelegate.sharedInstance.rootViewController.view.frame;
+  if ( UIInterfaceOrientationIsLandscape(  [[UIApplication sharedApplication] statusBarOrientation] ))
+  {
+    theFrame.origin.x = 0;
+    theFrame.size.width = UIScreen.mainScreen.bounds.size.width;
+  }
+  else
+  {
+    theFrame.origin.y = 0;
+    theFrame.size.height = UIScreen.mainScreen.bounds.size.height;
+  }
+  [PKAppDelegate.sharedInstance.rootViewController.view setFrame:theFrame];
   self.fullScreen     = YES;
 
   // create a button to get us back!
@@ -1957,6 +1966,19 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   btnRegularScreen = nil;
 
   [self.navigationController setNavigationBarHidden: NO animated: YES];
+  [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+  CGRect theFrame = PKAppDelegate.sharedInstance.rootViewController.view.frame;
+  if ( UIInterfaceOrientationIsLandscape(  [[UIApplication sharedApplication] statusBarOrientation] ))
+  {
+    theFrame.origin.x = 20;
+    theFrame.size.width = UIScreen.mainScreen.bounds.size.width-20;
+  }
+  else
+  {
+    theFrame.origin.y = 20;
+    theFrame.size.height = UIScreen.mainScreen.bounds.size.height-20;
+  }
+  [PKAppDelegate.sharedInstance.rootViewController.view setFrame:theFrame];
   self.fullScreen = NO;
 }
 
@@ -1988,23 +2010,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void) askHighlight: (id) sender
 {
-    ourMenu           = [UIMenuController sharedMenuController];
-    ourMenu.menuItems = [NSArray arrayWithObjects:
-// ISSUE #61
-                         //            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")      action:@selector(copySelection:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Highlight") action: @selector(askHighlight:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Annotate")  action: @selector(doAnnotate:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Search")    action: @selector(askSearch:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Define")    action: @selector(defineWord:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Explain")   action: @selector(explainVerse:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Layout")   action: @selector(textSettings:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Clear")     action: @selector(clearSelection:)],
-                         // handle second-tier items
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Add Highlight") action: @selector(highlightSelection:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Remove")        action: @selector(removeHighlights:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Bible")  action: @selector(searchBible:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Strong's") action: @selector(searchStrongs:)]
-                         , nil];
+   [self setUpMenuItems];
   ourMenuState = 1;
   [ourMenu update];
   [ourMenu setMenuVisible: YES animated: YES];
@@ -2017,23 +2023,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void) askSearch: (id) sender
 {
-    ourMenu           = [UIMenuController sharedMenuController];
-    ourMenu.menuItems = [NSArray arrayWithObjects:
-// ISSUE #61
-                         //            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")      action:@selector(copySelection:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Highlight") action: @selector(askHighlight:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Annotate")  action: @selector(doAnnotate:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Search")    action: @selector(askSearch:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Define")    action: @selector(defineWord:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Explain")   action: @selector(explainVerse:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Layout")   action: @selector(textSettings:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Clear")     action: @selector(clearSelection:)],
-                         // handle second-tier items
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Add Highlight") action: @selector(highlightSelection:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Remove")        action: @selector(removeHighlights:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Bible")  action: @selector(searchBible:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Strong's") action: @selector(searchStrongs:)]
-                         , nil];
+   [self setUpMenuItems];
   ourMenuState = 2;
   [ourMenu update];
   [ourMenu setMenuVisible: YES animated: YES];
@@ -2098,7 +2088,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void) notifyChangedHighlights
 {
-  [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 1] reloadHighlights];
+  [[[PKAppDelegate sharedInstance] highlightsViewController] reloadHighlights];
 }
 
 /**
@@ -2108,7 +2098,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void) notifyChangedHistory
 {
-  [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 3] reloadHistory];
+  [[[PKAppDelegate sharedInstance] historyViewController] reloadHistory];
 }
 
 /**
@@ -2217,6 +2207,53 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   [self clearSelection: nil];
 }
 
+-(void) highlightSelectionYellow: (id) sender
+{
+  UIColor *newColor  = [PKSettings PKYellowHighlightColor];
+  NSString *textColor = __T(@"Yellow");
+  ( (PKSettings *)[PKSettings instance] ).highlightColor     = newColor;
+  ( (PKSettings *)[PKSettings instance] ).highlightTextColor = textColor;
+  [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
+  [self highlightSelection:sender];
+}
+-(void) highlightSelectionGreen: (id) sender
+{
+  UIColor *newColor  = [PKSettings PKGreenHighlightColor];
+  NSString *textColor = __T(@"Green");
+  ( (PKSettings *)[PKSettings instance] ).highlightColor     = newColor;
+  ( (PKSettings *)[PKSettings instance] ).highlightTextColor = textColor;
+  [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
+  [self highlightSelection:sender];
+}
+-(void) highlightSelectionMagenta: (id) sender
+{
+  UIColor *newColor  = [PKSettings PKMagentaHighlightColor];
+  NSString *textColor = __T(@"Magenta");
+  ( (PKSettings *)[PKSettings instance] ).highlightColor     = newColor;
+  ( (PKSettings *)[PKSettings instance] ).highlightTextColor = textColor;
+  [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
+  [self highlightSelection:sender];
+}
+-(void) highlightSelectionPink: (id) sender
+{
+  UIColor *newColor  = [PKSettings PKPinkHighlightColor];
+  NSString *textColor = __T(@"Pink");
+  ( (PKSettings *)[PKSettings instance] ).highlightColor     = newColor;
+  ( (PKSettings *)[PKSettings instance] ).highlightTextColor = textColor;
+  [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
+  [self highlightSelection:sender];
+}
+-(void) highlightSelectionBlue: (id) sender
+{
+  UIColor *newColor  = [PKSettings PKBlueHighlightColor];
+  NSString *textColor = __T(@"Blue");
+  ( (PKSettings *)[PKSettings instance] ).highlightColor     = newColor;
+  ( (PKSettings *)[PKSettings instance] ).highlightTextColor = textColor;
+  [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
+  [self highlightSelection:sender];
+}
+
+
 /**
  *
  * Highlight the selection with the currently selected highlight color
@@ -2224,6 +2261,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void) highlightSelection: (id) sender
 {
+
   // we're highlighting the selection
   for (NSString *key in selectedVerses)
   {
@@ -2429,6 +2467,10 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 -(void) newReferenceByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
 {
   [self displayBook:theBook andChapter:theChapter andVerse:andVerse];
+}
+-(void) newVerseByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
+{
+  [self displayBook:theBook andChapter:theChapter andVerse:andVerse];  
 }
 
 #pragma mark -
