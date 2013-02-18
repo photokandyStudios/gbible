@@ -324,13 +324,17 @@ const int SECTION_VERSION = 4;
   versionSettings = nil;
 }
 
+-(void) viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
+  [self updateAppearanceForTheme];
+
+}
 -(void) viewDidAppear: (BOOL) animated
 {
   [super viewDidAppear: animated];
   [PKAppDelegate sharedInstance].bibleViewController.dirty = YES;
   [self calculateShadows];
-  [super viewDidAppear: animated];
-  [self updateAppearanceForTheme];
 }
 
 -(void) didRotateFromInterfaceOrientation: (UIInterfaceOrientation) fromInterfaceOrientation
@@ -697,8 +701,9 @@ const int SECTION_VERSION = 4;
             }
           }
         }
-        [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 1] reloadHighlights];
-        [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 2] reloadNotes];
+        [[[PKAppDelegate sharedInstance] highlightsViewController] reloadHighlights];
+        [[[PKAppDelegate sharedInstance] notesViewController] reloadNotes];
+
         [self.tableView reloadData];             // settings may be different.
       }
       if (section == SECTION_VERSION)
@@ -821,10 +826,7 @@ const int SECTION_VERSION = 4;
   if ([[cellData objectAtIndex: 2] isEqual: @"text-theme"])
   {
     [self updateAppearanceForTheme];
-    [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 0] updateAppearanceForTheme];
-    [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 1] updateAppearanceForTheme];
-    [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 2] updateAppearanceForTheme];
-    [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 3] updateAppearanceForTheme];
+    [[PKAppDelegate sharedInstance] updateAppearanceForTheme];
   }
 
   theTableCell          = nil;

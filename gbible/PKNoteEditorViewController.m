@@ -262,7 +262,7 @@
   {
     [(PKNotes *)[PKNotes instance] setNote: txtNote.text withTitle: txtTitle.text forPassage: passage];
     [[PKAppDelegate sharedInstance].bibleViewController notifyNoteChanged];
-    [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 2] reloadNotes];
+    [[[PKAppDelegate sharedInstance] notesViewController] reloadNotes];
   }
   [self dismissModalViewControllerAnimated: YES];
 }
@@ -271,7 +271,7 @@
 {
   [(PKNotes *)[PKNotes instance] deleteNoteForPassage: passage];
   [[PKAppDelegate sharedInstance].bibleViewController notifyNoteChanged];
-  [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 2] reloadNotes];
+    [[[PKAppDelegate sharedInstance] notesViewController] reloadNotes];
   [self dismissModalViewControllerAnimated: YES];
 }
 

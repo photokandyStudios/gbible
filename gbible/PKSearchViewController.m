@@ -59,7 +59,7 @@
 {
   [SVProgressHUD showWithStatus:__T(@"Searching...") maskType:SVProgressHUDMaskTypeClear];
   [[PKHistory instance] addBibleSearch: theTerm];
-  [[[[PKAppDelegate instance] segmentController].viewControllers objectAtIndex: 3] reloadHistory];
+  [[[PKAppDelegate sharedInstance] historyViewController] reloadHistory];
       dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         ^{
 
