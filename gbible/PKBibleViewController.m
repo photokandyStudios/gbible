@@ -1964,7 +1964,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 {
   [btnRegularScreen removeFromSuperview];
   btnRegularScreen = nil;
-
+#warning : WE HAVE A BUG HERE ON PHYSICAL IOS DEVICES WHEN IN LANDSCAPE.
   [self.navigationController setNavigationBarHidden: NO animated: YES];
   [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
   CGRect theFrame = PKAppDelegate.sharedInstance.rootViewController.view.frame;
