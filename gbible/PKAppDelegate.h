@@ -35,6 +35,8 @@
 @property (strong, nonatomic) SegmentsController *segmentController;
 @property (strong, nonatomic) UISegmentedControl *segmentedControl;
 
+@property (strong, nonatomic) UIImageView *splash;
+
 @property CGFloat brightness;
 
 +(id) instance;

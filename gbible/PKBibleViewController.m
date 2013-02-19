@@ -1235,9 +1235,21 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation
 {
+  if ( [PKAppDelegate sharedInstance].splash )
+  {
+    [[PKAppDelegate sharedInstance].splash removeFromSuperview];
+  }
   return YES;
 }
 
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+  //FIX ISSUE #74
+  if ( [PKAppDelegate sharedInstance].splash )
+  {
+    [[PKAppDelegate sharedInstance].splash removeFromSuperview];
+  }
+}
 /**
  *
  * Since our orientation (can) determine how much content is visible, when it changes, we
