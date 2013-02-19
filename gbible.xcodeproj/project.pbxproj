@@ -81,6 +81,7 @@
 		6A3E43431515981800D8745D /* BlueTabBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43411515981800D8745D /* BlueTabBar.png */; };
 		6A3E43441515981800D8745D /* BlueTabBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E43421515981800D8745D /* BlueTabBar@2x.png */; };
 		6A3E90541693E8F10062A4FA /* PKHotLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3E90531693E8F10062A4FA /* PKHotLabel.m */; };
+		6A43F14F16D3270F007F22B1 /* WKVerticalScrollBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A43F14E16D3270F007F22B1 /* WKVerticalScrollBar.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6A495CD7169D371000F1A55C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A495CD9169D371000F1A55C /* Localizable.strings */; };
 		6A50FA1E16C5A5F600BE79BA /* KBKeyboardHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A50FA1D16C5A5F600BE79BA /* KBKeyboardHandler.m */; };
 		6A542A561696BD0B001AD586 /* PKPortraitNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A542A551696BD0B001AD586 /* PKPortraitNavigationController.m */; };
@@ -347,6 +348,8 @@
 		6A3E90521693E8F10062A4FA /* PKHotLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHotLabel.h; sourceTree = "<group>"; };
 		6A3E90531693E8F10062A4FA /* PKHotLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKHotLabel.m; sourceTree = "<group>"; };
 		6A3E90551693E9910062A4FA /* PKHotLabelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHotLabelDelegate.h; sourceTree = "<group>"; };
+		6A43F14D16D3270F007F22B1 /* WKVerticalScrollBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKVerticalScrollBar.h; sourceTree = "<group>"; };
+		6A43F14E16D3270F007F22B1 /* WKVerticalScrollBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKVerticalScrollBar.m; sourceTree = "<group>"; };
 		6A495CD8169D371000F1A55C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A495CDE169D37BB00F1A55C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A495CDF169D37BC00F1A55C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -986,6 +989,8 @@
 		6A92CCC81516F0CC00F8AE15 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				6A43F14D16D3270F007F22B1 /* WKVerticalScrollBar.h */,
+				6A43F14E16D3270F007F22B1 /* WKVerticalScrollBar.m */,
 				6A1D142F16CC494C0016C2BD /* iRate */,
 				6A50FA1B16C5A5CC00BE79BA /* KBKeyboardHandler */,
 				6AE5B92516BF71F6004256CC /* KOKeyboard */,
@@ -1835,6 +1840,7 @@
 				6A1D143416CC494C0016C2BD /* iRate.m in Sources */,
 				6A5B016316D031FD004A1081 /* PKTableViewController.m in Sources */,
 				6ADD8C4C16D1810500664337 /* UIBarButtonItem+Utility.m in Sources */,
+				6A43F14F16D3270F007F22B1 /* WKVerticalScrollBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
