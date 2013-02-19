@@ -22,6 +22,8 @@
 
 @interface PKStrongsController ()
 
+@property (strong, nonatomic) NSMutableDictionary *cellHeights;
+
 @end
 
 @implementation PKStrongsController
@@ -37,6 +39,7 @@
 @synthesize selectedWord;
 @synthesize selectedRow;
 @synthesize delegate;
+@synthesize cellHeights;
 
 -(id)initWithStyle: (UITableViewStyle) style
 {
@@ -52,13 +55,20 @@
   return self;
 }
 
+-(void)clearCellHeights
+{
+  cellHeights = [NSMutableDictionary new];
+}
+
 -(void)doSearchForTerm: (NSString *) theTerm
 {
+  [self clearCellHeights];
   [self doSearchForTerm: theTerm byKeyOnly: self.byKeyOnly];
 }
 
 -(void)doSearchForTerm: (NSString *) theTerm byKeyOnly: (BOOL) keyOnly
 {
+  [self clearCellHeights];
   self.byKeyOnly = byKeyOnly;
   [SVProgressHUD showWithStatus:__T(@"Searching...") maskType:SVProgressHUDMaskTypeClear];
   [[PKHistory instance] addStrongsSearch: theTerm];
@@ -107,6 +117,7 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   [TestFlight passCheckpoint: @"SEARCH_STRONGS"];
+  [self clearCellHeights];
   
   if (delegate)
   {
@@ -121,6 +132,7 @@
   theSearchBar.delegate          = self;
   theSearchBar.placeholder       = __T(@"Strong's # or search term");
   theSearchBar.showsCancelButton = NO;
+  theSearchBar.text = theSearchTerm;
   
   if (!delegate)
   {
@@ -171,6 +183,16 @@
   noResults.autoresizingMask     = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
   noResults.numberOfLines        = 0;
   [self.view addSubview: noResults];
+
+  if ([self.theSearchTerm isEqualToString:@""])
+  {
+    noResults.text = __Tv(@"no-search", @"Enter Search Term");
+  }
+  else
+  {
+    noResults.text = __Tv(@"do-search", @"Search to display results");
+  }
+
   
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   self.tableView.backgroundColor = [PKSettings PKPageColor];
@@ -273,6 +295,11 @@
 -(CGFloat) tableView: (UITableView *) tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath
 {
   NSUInteger row       = [indexPath row];
+
+  if ( [cellHeights objectForKey:@(row)] )
+  {
+    return [[cellHeights objectForKey:@(row)] floatValue];
+  }
   
   NSArray *theResult   = [PKStrongs entryForKey: [theSearchResults objectAtIndex: row]];
   
@@ -293,6 +320,8 @@
   theHeight += theSize.height + 10;
   
   theHeight += 10;
+
+  [cellHeights setObject:@(theHeight) forKey:@(row)];
   
   return theHeight;
 }

@@ -22,6 +22,9 @@
 
 @interface PKSearchViewController ()
 
+// FIX ISSUE #75
+@property (strong, nonatomic) NSMutableDictionary *cellHeights;
+
 @end
 
 @implementation PKSearchViewController
@@ -36,6 +39,7 @@
 @synthesize rightFont;
 @synthesize delegate;
 @synthesize notifyWithCopyOfVerse;
+@synthesize cellHeights;
 
 -(id)initWithStyle: (UITableViewStyle) style
 {
@@ -50,13 +54,21 @@
   return self;
 }
 
+-(void)clearCellHeights
+{
+  cellHeights = [NSMutableDictionary new];
+}
+
+
 -(void)doSearchForTerm: (NSString *) theTerm
 {
+  [self clearCellHeights];
   [self doSearchForTerm: theTerm requireParsings: NO];
 }
 
 -(void)doSearchForTerm: (NSString *) theTerm requireParsings: (BOOL) parsings
 {
+  [self clearCellHeights];
   [SVProgressHUD showWithStatus:__T(@"Searching...") maskType:SVProgressHUDMaskTypeClear];
   [[PKHistory instance] addBibleSearch: theTerm];
   [[[PKAppDelegate sharedInstance] historyViewController] reloadHistory];
@@ -104,6 +116,7 @@
 {
   [super viewDidLoad];
   [TestFlight passCheckpoint: @"SEARCH_BIBLE"];
+  [self clearCellHeights];
   
   if (delegate)
   {
@@ -118,6 +131,8 @@
   theSearchBar.delegate          = self;
   theSearchBar.placeholder       = __T(@"Search Term");
   theSearchBar.showsCancelButton = NO;
+  theSearchBar.text = self.theSearchTerm;
+  
   
   self.tableView.tableHeaderView = theSearchBar;
   
@@ -161,8 +176,18 @@
   noResults.numberOfLines        = 0;
   [self.view addSubview: noResults];
   
+  if ([self.theSearchTerm isEqualToString:@""])
+  {
+    noResults.text = __Tv(@"no-search", @"Enter Search Term");
+  }
+  else
+  {
+    noResults.text = __Tv(@"do-search", @"Search to display results");
+  }
+  
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
+  
   
   //[self doSearchForTerm: self.theSearchTerm];
 }
@@ -272,40 +297,56 @@
 {
   NSUInteger row         = [indexPath row];
   
+  if ( [cellHeights objectForKey:@(row)] )
+  {
+    return [[cellHeights objectForKey:@(row)] floatValue];
+  }
+  
+  
   NSString *thePassage   = [theSearchResults objectAtIndex: row];
   int theBook            = [PKBible bookFromString: thePassage];
   int theChapter         = [PKBible chapterFromString: thePassage];
   int theVerse           = [PKBible verseFromString: thePassage];
   
   CGFloat theCellWidth   = (self.tableView.bounds.size.width);
-  CGFloat theColumnWidth = (theCellWidth) / 2;
-  CGSize maxSize         = CGSizeMake(theColumnWidth - 40, 100000);
+    CGFloat theHeight = 0;
   
-  CGSize theLeftSize;
-  CGSize theRightSize;
-  CGFloat theHeight = 0;
-  
-  theHeight  += 10;  // the top margin
-  
-  theLeftSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
-                  [PKBible nameForBook: theBook],
-                  theChapter,
-                  [PKBible getTextForBook: theBook
-                               forChapter: theChapter
-                                 forVerse: theVerse
-                                  forSide: 1]] sizeWithFont: self.leftFont
-                 constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
-  
-  theRightSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
-                   [PKBible nameForBook: theBook],
-                   theChapter,
-                   [PKBible getTextForBook: theBook
-                                forChapter: theChapter
-                                  forVerse: theVerse
-                                   forSide: 2]] sizeWithFont: self.rightFont
-                  constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
-  
-  theHeight += MAX(theLeftSize.height, theRightSize.height) + 10;
+  if (theCellWidth > 320)
+  {
+    CGFloat theColumnWidth = (theCellWidth) / 2;
+    CGSize maxSize         = CGSizeMake(theColumnWidth - 40, 100000);
+    
+    CGSize theLeftSize;
+    CGSize theRightSize;
+    
+    theHeight  += 10;  // the top margin
+    
+    theLeftSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
+                    [PKBible nameForBook: theBook],
+                    theChapter,
+                    [PKBible getTextForBook: theBook
+                                 forChapter: theChapter
+                                   forVerse: theVerse
+                                    forSide: 1]] sizeWithFont: self.leftFont
+                   constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
+    
+    theRightSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
+                     [PKBible nameForBook: theBook],
+                     theChapter,
+                     [PKBible getTextForBook: theBook
+                                  forChapter: theChapter
+                                    forVerse: theVerse
+                                     forSide: 2]] sizeWithFont: self.rightFont
+                    constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
+    
+    theHeight += MAX(theLeftSize.height, theRightSize.height) + 10;
+  }
+  else
+  {
+    UIFont *theHeadingFont = [UIFont fontWithName:self.leftFont.fontName size:self.leftFont.pointSize*1.25];
+    theHeight = 40 + [@"M" sizeWithFont: theHeadingFont].height + [@"M" sizeWithFont: leftFont].height*2 + + [@"M" sizeWithFont: rightFont].height*2;
+  }
+  [cellHeights setObject:@(theHeight) forKey:@(row)];
   
   return theHeight;
 }
@@ -336,64 +377,113 @@
   int theVerse           = [PKBible verseFromString: thePassage];
   
   CGFloat theCellWidth   = (self.tableView.bounds.size.width);
-  CGFloat theColumnWidth = (theCellWidth) / 2;
-  CGSize maxSize         = CGSizeMake(theColumnWidth - 40, 100000);
+  if (theCellWidth>320)
+  {
   
-  CGSize theLeftSize     = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
-                             [PKBible nameForBook: theBook],
-                             theChapter,
-                             [PKBible getTextForBook: theBook
-                                          forChapter: theChapter
-                                            forVerse: theVerse
-                                             forSide: 1]] sizeWithFont: self.leftFont
-                            constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
-  
-  CGSize theRightSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
-                          [PKBible nameForBook: theBook],
-                          theChapter,
-                          [PKBible getTextForBook: theBook
-                                       forChapter: theChapter
-                                         forVerse: theVerse
-                                          forSide: 2]] sizeWithFont: self.rightFont
-                         constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
-  
-  // now create the new subviews
-  PKHotLabel *theLeftSide = [[PKHotLabel alloc] initWithFrame: CGRectMake(20, 10, theColumnWidth - 40, theLeftSize.height)];
-  theLeftSide.hotColor = [PKSettings PKStrongsColor];
-  theLeftSide.hotWord  = self.theSearchTerm;
-  theLeftSide.text     = [NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
-                          [PKBible nameForBook: theBook],
-                          theChapter,
-                          [PKBible getTextForBook: theBook
-                                       forChapter: theChapter
-                                         forVerse: theVerse
-                                          forSide: 1]];
-  theLeftSide.textColor          = [PKSettings PKTextColor];
-  theLeftSide.hotBackgroundColor = [PKSettings PKSelectionColor];
-  theLeftSide.numberOfLines      = 0;
-  theLeftSide.backgroundColor    = [UIColor clearColor];
-  theLeftSide.font               = self.leftFont;
-  
-  PKHotLabel *theRightSide =
-  [[PKHotLabel alloc] initWithFrame: CGRectMake(theColumnWidth + 20, 10, theColumnWidth - 40, theRightSize.height)];
-  theRightSide.hotColor           = [PKSettings PKStrongsColor];
-  theRightSide.hotBackgroundColor = [PKSettings PKSelectionColor];
-  theRightSide.hotWord            = self.theSearchTerm;
-  theRightSide.text               = [NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
-                                     [PKBible nameForBook: theBook],
-                                     theChapter,
-                                     [PKBible getTextForBook: theBook
-                                                  forChapter: theChapter
-                                                    forVerse: theVerse
-                                                     forSide: 2]];
-  
-  theRightSide.textColor       = [PKSettings PKTextColor];
-  theRightSide.numberOfLines   = 0;
-  theRightSide.backgroundColor = [UIColor clearColor];
-  theRightSide.font            = self.rightFont;
-  
-  [cell addSubview: theLeftSide];
-  [cell addSubview: theRightSide];
+    CGFloat theColumnWidth = (theCellWidth) / 2;
+    CGSize maxSize         = CGSizeMake(theColumnWidth - 40, 100000);
+    
+    CGSize theLeftSize     = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
+                               [PKBible nameForBook: theBook],
+                               theChapter,
+                               [PKBible getTextForBook: theBook
+                                            forChapter: theChapter
+                                              forVerse: theVerse
+                                               forSide: 1]] sizeWithFont: self.leftFont
+                              constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
+    
+    CGSize theRightSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
+                            [PKBible nameForBook: theBook],
+                            theChapter,
+                            [PKBible getTextForBook: theBook
+                                         forChapter: theChapter
+                                           forVerse: theVerse
+                                            forSide: 2]] sizeWithFont: self.rightFont
+                           constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
+    
+    // now create the new subviews
+    PKHotLabel *theLeftSide = [[PKHotLabel alloc] initWithFrame: CGRectMake(20, 10, theColumnWidth - 40, theLeftSize.height)];
+    theLeftSide.text     = [NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
+                            [PKBible nameForBook: theBook],
+                            theChapter,
+                            [PKBible getTextForBook: theBook
+                                         forChapter: theChapter
+                                           forVerse: theVerse
+                                            forSide: 1]];
+    theLeftSide.hotColor = [PKSettings PKStrongsColor];
+    theLeftSide.hotWord  = self.theSearchTerm;
+    theLeftSide.textColor          = [PKSettings PKTextColor];
+    theLeftSide.hotBackgroundColor = [PKSettings PKSelectionColor];
+    theLeftSide.numberOfLines      = 0;
+    theLeftSide.backgroundColor    = [UIColor clearColor];
+    theLeftSide.font               = self.leftFont;
+    
+    PKHotLabel *theRightSide =
+    [[PKHotLabel alloc] initWithFrame: CGRectMake(theColumnWidth + 20, 10, theColumnWidth - 40, theRightSize.height)];
+    theRightSide.hotColor           = [PKSettings PKStrongsColor];
+    theRightSide.hotBackgroundColor = [PKSettings PKSelectionColor];
+    theRightSide.hotWord            = self.theSearchTerm;
+    theRightSide.text               = [NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
+                                       [PKBible nameForBook: theBook],
+                                       theChapter,
+                                       [PKBible getTextForBook: theBook
+                                                    forChapter: theChapter
+                                                      forVerse: theVerse
+                                                       forSide: 2]];
+    
+    theRightSide.textColor       = [PKSettings PKTextColor];
+    theRightSide.numberOfLines   = 0;
+    theRightSide.backgroundColor = [UIColor clearColor];
+    theRightSide.font            = self.rightFont;
+    
+    [cell addSubview: theLeftSide];
+    [cell addSubview: theRightSide];
+  }
+  else
+  {
+    UIFont *theHeadingFont = [UIFont fontWithName:self.leftFont.fontName size:self.leftFont.pointSize*1.25];
+    UILabel *theReference = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, theCellWidth-20, [@"M" sizeWithFont: theHeadingFont].height)];
+    
+    PKHotLabel *theTopText = [[PKHotLabel alloc] initWithFrame:CGRectMake(10, 20 + [@"M" sizeWithFont: theHeadingFont].height,
+                                                                          theCellWidth-20,
+                                                                          [@"M" sizeWithFont: leftFont].height*2)];
+    PKHotLabel *theBottomText=[[PKHotLabel alloc] initWithFrame:CGRectMake(10, 30 + [@"M" sizeWithFont: theHeadingFont].height + [@"M" sizeWithFont: leftFont].height*2,
+    theCellWidth-20, [@"M" sizeWithFont: rightFont].height*2)];
+    
+    
+    
+    theReference.font = theHeadingFont;
+    theReference.text = [NSString stringWithFormat:@"%@ %i:%i", [PKBible nameForBook:theBook], theChapter, theVerse];
+    theReference.textColor          = [PKSettings PKTextColor];
+    theReference.backgroundColor    = [UIColor clearColor];
+    
+    theTopText.font = leftFont;
+    theTopText.hotColor = [PKSettings PKStrongsColor];
+    theTopText.hotWord  = self.theSearchTerm;
+    theTopText.hotBackgroundColor = [PKSettings PKSelectionColor];
+    theTopText.numberOfLines      = 0;
+    theTopText.textColor          = [PKSettings PKTextColor];
+    theTopText.backgroundColor    = [UIColor clearColor];
+    theTopText.text = [PKBible getTextForBook: theBook
+                                         forChapter: theChapter
+                                           forVerse: theVerse
+                                            forSide: 1];
+    
+    theBottomText.font = rightFont;
+    theBottomText.hotColor = [PKSettings PKStrongsColor];
+    theBottomText.hotWord  = self.theSearchTerm;
+    theBottomText.hotBackgroundColor = [PKSettings PKSelectionColor];
+    theBottomText.numberOfLines      = 0;
+    theBottomText.textColor          = [PKSettings PKTextColor];
+    theBottomText.backgroundColor    = [UIColor clearColor];
+    theBottomText.text = [PKBible getTextForBook: theBook
+                                         forChapter: theChapter
+                                           forVerse: theVerse
+                                            forSide: 2];
+    [cell addSubview:theReference];
+    [cell addSubview:theTopText];
+    [cell addSubview:theBottomText];
+  }
   return cell;
 }
 
