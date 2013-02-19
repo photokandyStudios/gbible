@@ -8,17 +8,21 @@
 
 #import "PKTableViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "WKVerticalScrollBar.h"
 
 @interface PKTableViewController ()
 
 @property (strong, nonatomic) UIImageView  *topShadow;
 @property (strong, nonatomic) UIImageView *bottomShadow;
 
+@property (strong, nonatomic) WKVerticalScrollBar *verticalScrollBar;
+
 @end
 
 @implementation PKTableViewController
 @synthesize topShadow;
 @synthesize bottomShadow;
+@synthesize verticalScrollBar;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -52,6 +56,13 @@
     [self.view addSubview: bottomShadow];
   
     self.navigationItem.leftItemsSupplementBackButton = YES;
+  
+    verticalScrollBar = [[WKVerticalScrollBar alloc] initWithFrame:self.view.bounds];
+    verticalScrollBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    verticalScrollBar.scrollView = self.tableView;
+  
+    [self.view addSubview:verticalScrollBar];
+  
 
 }
 
@@ -133,6 +144,10 @@
   bottomOpacity = (theContentOffset / 15) * 0.5;
 
   [self showBottomShadowWithOpacity: bottomOpacity];
+  
+  theFrame = self.view.bounds;
+  theFrame.origin.y = self.tableView.contentOffset.y;
+  [verticalScrollBar setFrame:theFrame];
 }
 
 -(void)willRotateToInterfaceOrientation: (UIInterfaceOrientation) toInterfaceOrientation duration: (NSTimeInterval) duration
