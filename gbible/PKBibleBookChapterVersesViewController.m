@@ -151,7 +151,8 @@
   // we can now form a complete reference. Pass that back to the bible view
   if (!self.delegate)
   {
-    [self.navigationController popToRootViewControllerAnimated: YES];
+    [self.navigationController popViewControllerAnimated:YES];
+//    [self.navigationController popToRootViewControllerAnimated: YES];
     [[PKAppDelegate sharedInstance].rootViewController revealToggle: self];
     [[PKAppDelegate sharedInstance].bibleViewController displayBook: selectedBook andChapter: selectedChapter andVerse: row + 1];
   }
