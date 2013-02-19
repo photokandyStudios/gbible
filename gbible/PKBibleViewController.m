@@ -44,6 +44,7 @@
 
 @property UIDeviceOrientation lastKnownOrientation;
 @property int reusableLabelQueuePosition;
+@property (strong, nonatomic) UIBarButtonItem *searchText;
 @end
 
 @implementation PKBibleViewController
@@ -102,6 +103,7 @@
 @synthesize bibleTextIDs;
 
 @synthesize keyboardControl;
+@synthesize searchText;
 
 //@synthesize popoverView;
 
@@ -947,7 +949,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   UIBarButtonItem *adjustSettings = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-cog" target:self action:@selector(doSettings:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
     adjustSettings.accessibilityLabel = __T(@"Settings");
 
-  UIBarButtonItem *searchText = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-search" target:self action:@selector(searchBible:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
+  searchText = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-search" target:self action:@selector(searchBible:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
     adjustSettings.accessibilityLabel = __T(@"Search");
   
 
@@ -2339,7 +2341,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   PKSearchViewController *svc = [[PKSearchViewController alloc] initWithStyle:UITableViewStylePlain];
   svc.notifyWithCopyOfVerse = NO;
   svc.delegate = self;
-  [svc doSearchForTerm: selectedWord];
+  if (sender != searchText)
+    [svc doSearchForTerm: selectedWord];
 
   UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
   mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
