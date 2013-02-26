@@ -346,9 +346,9 @@
   NSUInteger currentBook    = [[PKSettings instance] currentBook];
   NSUInteger currentChapter = [[PKSettings instance] currentChapter];
   NSUInteger currentBible   = [[PKSettings instance] greekText];
-  parsed = (currentBible == PK_BIBLETEXT_BYZP
-            || currentBible == PK_BIBLETEXT_TRP
-            || currentBible == PK_BIBLETEXT_WHP);
+  parsed = [PKBible isStrongsSupportedByText:currentBible] ||
+           [PKBible isMorphologySupportedByText:currentBible] ||
+           [PKBible isTranslationSupportedByText:currentBible];
 
   NSDate *startTime;
   NSDate *endTime;
@@ -746,9 +746,9 @@
   rightTextSelect.title        = [[PKBible abbreviationForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"];
 
   // this will have to change, but for now it will do.
-  toggleStrongsBtn.enabled     = [[PKSettings instance] greekText] != PK_BIBLETEXT_TIS;
-  toggleMorphologyBtn.enabled  = [[PKSettings instance] greekText] != PK_BIBLETEXT_TIS;
-  toggleTranslationBtn.enabled = [[PKSettings instance] greekText] == PK_BIBLETEXT_WHP;
+  toggleStrongsBtn.enabled     = [PKBible isStrongsSupportedByText: [[PKSettings instance] greekText]];
+  toggleMorphologyBtn.enabled  = [PKBible isMorphologySupportedByText: [[PKSettings instance] greekText]];
+  toggleTranslationBtn.enabled = [PKBible isTranslationSupportedByText: [[PKSettings instance] greekText]];;
 }
 
 // ISSUE #61
@@ -1920,10 +1920,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void) goFullScreen: (id) sender
 {
-  if (PO)
-  {
-    [PO dismissPopoverAnimated: NO];
-  }
+  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [PO dismissPopoverAnimated: NO];
 
   [self.navigationController setNavigationBarHidden: YES animated: YES];
   [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
@@ -2299,6 +2297,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void)defineWord: (id) sender
 {
+  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [PO dismissPopoverAnimated: NO];
   // if the word is a greek word with a strong's #, we'll look it up first.
   if (theWordTag == 0
       && theWordIndex > -1)
@@ -2338,6 +2338,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void)searchBible: (id) sender
 {
+  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [PO dismissPopoverAnimated: NO];
   PKSearchViewController *svc = [[PKSearchViewController alloc] initWithStyle:UITableViewStylePlain];
   svc.notifyWithCopyOfVerse = NO;
   svc.delegate = self;
@@ -2448,6 +2450,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void)doSettings: (id) sender
 {
+  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [PO dismissPopoverAnimated: NO];
   PKSettingsController *sc = [[PKSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
   [self.navigationController pushViewController:sc animated:YES];
 }
