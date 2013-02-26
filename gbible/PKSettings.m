@@ -494,6 +494,17 @@ static id _instance;
   UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
   return theColor;
 }
++(UIColor *)PKBarButtonTextColor
+{
+  static NSArray *theColors;
+  if (!theColors) theColors =  @[[UIColor colorWithRed: 0.341176 green: 0.223529 blue: 0.125490 alpha: 1.0],
+                         [UIColor colorWithWhite: 0.25 alpha: 1.0],
+                         [UIColor colorWithWhite: 0.85 alpha: 1.0],
+                         [UIColor colorWithWhite: 0.85 alpha: 1.0]
+                       ];
+  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  return theColor;
+}
 
 
 +(UIColor *)PKSelectionColor

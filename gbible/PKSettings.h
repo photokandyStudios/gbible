@@ -83,4 +83,5 @@
 +(UIImage *)  PKImageRightArrow;
 +(UIColor *)  PKNavigationColor;
 +(UIColor *)  PKNavigationTextColor;
++(UIColor *)  PKBarButtonTextColor;
 @end
