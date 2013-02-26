@@ -136,9 +136,9 @@
   BOOL parsed               = NO;
   reusableLabelQueuePosition = -1;
   NSUInteger currentBible   = [[PKSettings instance] greekText];
-  parsed = (currentBible == PK_BIBLETEXT_BYZP
-            || currentBible == PK_BIBLETEXT_TRP
-            || currentBible == PK_BIBLETEXT_WHP);
+  parsed = [PKBible isStrongsSupportedByText:currentBible] ||
+           [PKBible isMorphologySupportedByText:currentBible] ||
+           [PKBible isTranslationSupportedByText:currentBible];
 
   NSDate *startTime;
   NSDate *endTime;
@@ -273,7 +273,7 @@
       formattedEnglishVerse = nil;
     }
 
-    CGFloat greekColumnWidth      = [PKBible columnWidth: 1 forBounds: self.view.bounds withCompression:YES];
+    //CGFloat greekColumnWidth      = [PKBible columnWidth: 1 forBounds: self.view.bounds withCompression:YES];
     NSMutableArray *theLabelArray = [[NSMutableArray alloc] init];
 
     // insert Greek labels
@@ -324,7 +324,7 @@
     //if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
     //     && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) )
     //{
-      greekColumnWidth = 0;
+    //  greekColumnWidth = 0;
     //}
 
     for (int i = 0; i < [formattedEnglishVerse count]; i++)
@@ -337,7 +337,7 @@
       CGFloat wordH           = [[theWordElement objectAtIndex: 5] floatValue];
 
       PKLabel *theLabel       = [self deQueueReusableLabel]; 
-      [theLabel setFrame: CGRectMake(wordX + greekColumnWidth, wordY, wordW, wordH)];
+      [theLabel setFrame: CGRectMake(wordX, wordY, wordW, wordH)];
       theLabel.text         = theWord;
       theLabel.textColor    = [PKSettings PKTextColor];
       theLabel.shadowColor  = [PKSettings PKLightShadowColor];
