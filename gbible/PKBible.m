@@ -18,6 +18,40 @@
 
 @implementation PKBible
 
++(BOOL) isMorphologySupportedByText: (int) theText
+{
+  if (theText == PK_BIBLETEXT_BYZP ||
+      theText == PK_BIBLETEXT_TRP ||
+      theText == PK_BIBLETEXT_WHP)
+  {
+    return YES;
+  }
+  return NO;
+}
+
++(BOOL) isTranslationSupportedByText: (int) theText
+{
+  if (theText == PK_BIBLETEXT_WHP ||
+      theText == 901)
+  {
+    return YES;
+  }
+  return NO;
+}
+
++(BOOL) isStrongsSupportedByText: (int) theText
+{
+  if (theText == PK_BIBLETEXT_BYZP ||
+      theText == PK_BIBLETEXT_TRP ||
+      theText == PK_BIBLETEXT_WHP ||
+      theText == 901)
+  {
+    return YES;
+  }
+  return NO;
+}
+
+
 +(FMDatabaseQueue *) bibleDatabaseForText: (int) theText
 {
   if (theText <= 100) return [[PKDatabase instance] bible];
@@ -372,6 +406,29 @@
   return totalCount;
 }
 
++(NSString *) handleGlobalStringReplacements: (NSString *)theText
+{
+  NSMutableString *text = [theText mutableCopy];
+  
+  // italics
+  [text replaceOccurrencesOfString:@"<i>" withString:@"/" options:0 range:NSMakeRange(0, [text length])];
+  [text replaceOccurrencesOfString:@"</i>" withString:@"/" options:0 range:NSMakeRange(0, [text length])];
+  
+  // superscripts
+  [text replaceOccurrencesOfString:@"<sup>0</sup>" withString:@"⁰" options:0 range:NSMakeRange(0, [text length])];
+  [text replaceOccurrencesOfString:@"<sup>1</sup>" withString:@"¹" options:0 range:NSMakeRange(0, [text length])];
+  [text replaceOccurrencesOfString:@"<sup>2</sup>" withString:@"²" options:0 range:NSMakeRange(0, [text length])];
+  [text replaceOccurrencesOfString:@"<sup>3</sup>" withString:@"³" options:0 range:NSMakeRange(0, [text length])];
+  [text replaceOccurrencesOfString:@"<sup>4</sup>" withString:@"⁴" options:0 range:NSMakeRange(0, [text length])];
+  [text replaceOccurrencesOfString:@"<sup>5</sup>" withString:@"⁵" options:0 range:NSMakeRange(0, [text length])];
+  [text replaceOccurrencesOfString:@"<sup>6</sup>" withString:@"⁶" options:0 range:NSMakeRange(0, [text length])];
+  [text replaceOccurrencesOfString:@"<sup>7</sup>" withString:@"⁷" options:0 range:NSMakeRange(0, [text length])];
+  [text replaceOccurrencesOfString:@"<sup>8</sup>" withString:@"⁸" options:0 range:NSMakeRange(0, [text length])];
+  [text replaceOccurrencesOfString:@"<sup>9</sup>" withString:@"⁹" options:0 range:NSMakeRange(0, [text length])];
+
+  return text;
+}
+
 /**
  *
  * Returns the text for a given reference (book chapter:verse) and side (1=greek,2=english)
@@ -404,6 +461,7 @@
 
   if (theText != nil)
   {
+    theText = [PKBible handleGlobalStringReplacements:theText];
     theText = [theRef stringByAppendingString: theText];
   }
   else
@@ -448,6 +506,7 @@
         NSString *theRef  = [NSString stringWithFormat: @"%i ", i];
         // if (theSide == 2)
         // {
+        theText = [PKBible handleGlobalStringReplacements:theText];
         theText = [theRef stringByAppendingString: theText];
         // }
         theText = [theText stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
@@ -560,7 +619,8 @@
   CGFloat lineHeight   = [@"M" sizeWithFont: theFont].height;
   lineHeight    = lineHeight * ( (float)[[PKSettings instance] textLineSpacing] / 100.0 );
   // determine the maximum size of the column (1 line, 2 lines, 3 lines?)
-  CGFloat columnHeight = lineHeight;
+  
+  /*CGFloat columnHeight = lineHeight;
   columnHeight += (lineHeight * [[PKSettings instance] textVerseSpacing]);
 
   if (parsed)
@@ -572,6 +632,7 @@
     }
     columnHeight += lineHeight;         // for G#s
   }
+  */
 
   CGFloat maxY = 0.0;
 
@@ -712,13 +773,16 @@
   BOOL showStrongs     = [[PKSettings instance] showStrongs];
   BOOL showInterlinear = [[PKSettings instance] showInterlinear];
   BOOL compressRightSide=[[PKSettings instance] compressRightSideText];
-
+  
   // should we transliterate?
   //BOOL transliterate = [[PKSettings instance] transliterateText];
 
   // what greek text are we?
-  BOOL whichGreekText          = [[PKSettings instance] greekText];
-
+  int whichGreekText          = [[PKSettings instance] greekText];
+  BOOL supportsMorphology = [PKBible isMorphologySupportedByText:whichGreekText];
+  BOOL supportsStrongs = [PKBible isStrongsSupportedByText:whichGreekText];
+  BOOL supportsTranslation = [PKBible isTranslationSupportedByText:whichGreekText];
+  
   // this array will contain the word elements
   NSMutableArray *theWordArray = [[NSMutableArray alloc] init];
 
@@ -765,10 +829,10 @@
   CGFloat startY      = 0;  //theRect.origin.y;
 
   CGFloat curX        = startX;
-  CGFloat curY        = startY;
+  CGFloat curY;
 
   // maximum point
-  CGFloat endX        = startX + theRect.size.width;
+  CGFloat endX;
 
   CGFloat columnWidth = [self columnWidth: theColumn forBounds: theRect withCompression:compression];     // (theRect.size.width) * columnMultiplier;
 
@@ -803,18 +867,17 @@
     if (parsed)
     {
       // are we going to show morphology?
-      if ([[PKSettings instance] showMorphology])
+      if ([[PKSettings instance] showMorphology] && supportsMorphology)
       {
         columnHeight += lineHeight;
       }
 
-      if (showStrongs)
+      if (showStrongs && supportsStrongs)
       {
         columnHeight += lineHeight;         // for G#s
       }
 
-      if (whichGreekText == 7
-          && showInterlinear)
+      if (supportsTranslation && showInterlinear)
       {
         columnHeight += lineHeight;
       }
@@ -828,6 +891,27 @@
   }
 
   CGFloat yOffset = 0.0;
+  CGFloat strongsOffset = lineHeight * 1;
+  CGFloat morphologyOffset = lineHeight * 2;
+  CGFloat translationOffset = lineHeight * 3;
+  
+  if (!showStrongs || !supportsStrongs)
+  {
+    strongsOffset = 0.0;
+    morphologyOffset -= lineHeight;
+    translationOffset -= lineHeight;
+  }
+  
+  if (!showMorphology || !supportsMorphology)
+  {
+    morphologyOffset -= lineHeight;
+    translationOffset -= lineHeight;
+  }
+  
+  if (!showInterlinear || !supportsTranslation)
+  {
+    translationOffset -= lineHeight;
+  }
 
   // give us some margin at the top
   startY  = lineHeight / 2;      //RE: ISSUE # 5
@@ -875,20 +959,20 @@
       // originally we used regular expressions, but they are SLOW
       // G#s are of the form G[0-9]+
 
-      if (theOriginalWord.length > 1
-          && [theOriginalWord hasPrefix: @"G"]
-          && [[theOriginalWord substringFromIndex: 1] intValue] > 0)
+      if ( (theOriginalWord.length > 1
+            && [theOriginalWord hasPrefix: @"G"]
+            && [[theOriginalWord substringFromIndex: 1] intValue] > 0) || [theOriginalWord hasPrefix:@"G*"] )
       {
         // we're a G#
         theWordType = 10;
-        yOffset     = lineHeight;
+        yOffset     = strongsOffset;
 
         if ([[theOriginalWord substringFromIndex: 1] intValue] > 5624)
         {
           theWord = [NSString stringWithFormat:@"M%i", [[theOriginalWord substringFromIndex: 1] intValue]];
             theWord = @"";
           theWordType =19;
-          yOffset     = lineHeight *2;
+          yOffset     = morphologyOffset;
           if (!showMorphology)
           {
             theWord = @"";
@@ -929,9 +1013,9 @@
                || [theOriginalWord hasSuffix: @")"]) )
         {
           theWordType = 5;
-          yOffset     = lineHeight * 3;
+          yOffset     = translationOffset;
 
-          if (!showMorphology)
+/*          if (!showMorphology)
           {
             yOffset -= lineHeight;
           }
@@ -939,7 +1023,7 @@
           if (!showStrongs)
           {
             yOffset -= lineHeight;
-          }
+          }*/
 
           if ([[theWord substringToIndex: 1] isEqualToString: @"("])
           {
@@ -976,9 +1060,9 @@
             {
               // we are!
               theWordType = 20;
-              yOffset     = lineHeight * 2;
+              yOffset     = morphologyOffset;
 
-              if (!showStrongs)
+/*              if (!showStrongs)
               {
                 yOffset -= lineHeight;
               }
@@ -986,7 +1070,7 @@
               if (!showMorphology)
               {
                 theWord = @"";
-              }
+              }*/
             }
           }
         }
