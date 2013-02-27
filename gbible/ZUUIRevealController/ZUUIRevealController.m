@@ -423,7 +423,7 @@
 	
 	if (animated)
 	{
-		[UIView animateWithDuration:0.15f delay:0.0f options:UIViewAnimationCurveEaseOut animations:^{
+		[UIView animateWithDuration:0.15f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
 			self.frontView.frame = CGRectMake(xSwapOffsetExpanded, 0.0f, self.frontView.frame.size.width, self.frontView.frame.size.height);
 		}
 		completion:^(BOOL finished)
@@ -435,7 +435,7 @@
 			 
 			[self _addFrontViewControllerToHierarchy:newFrontViewController];
 			 
-			[UIView animateWithDuration:0.225f delay:0.0f options:UIViewAnimationCurveEaseIn animations:^{
+			[UIView animateWithDuration:0.225f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
 				self.frontView.frame = CGRectMake(xSwapOffsetNormal, 0.0f, self.frontView.frame.size.width, self.frontView.frame.size.height);
 			}
 			completion:^(BOOL finished)
