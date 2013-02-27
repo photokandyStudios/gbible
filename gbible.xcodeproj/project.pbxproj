@@ -70,6 +70,7 @@
 		6A21637215338DDE00D41447 /* parsings.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21637115338DDE00D41447 /* parsings.html */; };
 		6A2163741533A21F00D41447 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A2163731533A21F00D41447 /* Default-Landscape@2x~ipad.png */; };
 		6A2163761533A22700D41447 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A2163751533A22600D41447 /* Default-Portrait@2x~ipad.png */; };
+		6A280BDA16DDB64700324F4B /* PKReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A280BD916DDB64700324F4B /* PKReference.m */; };
 		6A3172B4167B15BF00C94DD1 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A3172B0167B15BF00C94DD1 /* libTestFlight.a */; };
 		6A3172B5167B15BF00C94DD1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 6A3172B1167B15BF00C94DD1 /* README.md */; };
 		6A3172B6167B15BF00C94DD1 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 6A3172B2167B15BF00C94DD1 /* release_notes.md */; };
@@ -336,6 +337,8 @@
 		6A21637115338DDE00D41447 /* parsings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = parsings.html; sourceTree = "<group>"; };
 		6A2163731533A21F00D41447 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "../Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		6A2163751533A22600D41447 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait@2x~ipad.png"; path = "../Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		6A280BD816DDB64700324F4B /* PKReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKReference.h; sourceTree = "<group>"; };
+		6A280BD916DDB64700324F4B /* PKReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKReference.m; sourceTree = "<group>"; };
 		6A3172B0167B15BF00C94DD1 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		6A3172B1167B15BF00C94DD1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		6A3172B2167B15BF00C94DD1 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
@@ -853,6 +856,15 @@
 			name = "History Controller";
 			sourceTree = "<group>";
 		};
+		6A280BD716DDB61500324F4B /* reference */ = {
+			isa = PBXGroup;
+			children = (
+				6A280BD816DDB64700324F4B /* PKReference.h */,
+				6A280BD916DDB64700324F4B /* PKReference.m */,
+			);
+			name = reference;
+			sourceTree = "<group>";
+		};
 		6A3172AF167B15BF00C94DD1 /* TestFlightSDK1.2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1030,6 +1042,7 @@
 		6A9793A81513F2E700A5C9F1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6A280BD716DDB61500324F4B /* reference */,
 				6A9793BB15141C5200A5C9F1 /* bible */,
 				6AD7E2DA152BAC240072483E /* strongs */,
 				6A9793B915141C4200A5C9F1 /* history */,
@@ -1855,6 +1868,7 @@
 				6ADD8C4C16D1810500664337 /* UIBarButtonItem+Utility.m in Sources */,
 				6A43F14F16D3270F007F22B1 /* WKVerticalScrollBar.m in Sources */,
 				6A14850316DDA19D002AEA0A /* PKVerseTableViewController.m in Sources */,
+				6A280BDA16DDB64700324F4B /* PKReference.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1943,6 +1957,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1958,6 +1973,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/gbible/TestFlightSDK1.2\"",
 				);
+				OTHER_CFLAGS = "-ferror-limit=999";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1972,7 +1988,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
