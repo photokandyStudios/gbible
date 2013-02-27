@@ -6,6 +6,35 @@
 //  Copyright (c) 2013 photoKandy Studios LLC. All rights reserved.
 //
 
+// ============================ LICENSE ============================
+//
+// The code that is not otherwise licensed or is owned by photoKandy
+// Studios LLC is hereby licensed under a CC BY-NC-SA 3.0 license.
+// That is, you may copy the code and use it for non-commercial uses
+// under the same license. For the entire license, see
+// http://creativecommons.org/licenses/by-nc-sa/3.0/.
+//
+// Furthermore, you may use the code in this app for your own
+// personal or educational use. However you may NOT release a
+// competing app on the App Store without prior authorization and
+// significant code changes. If authorization is granted, attribution
+// must be kept, but you must also add in your own attribution. You
+// must also use your own API keys (TestFlight, Parse, etc.) and you
+// must provide your own support. As the code is released for non-
+// commercial purposes, any directly competing app based on this code
+// must not require payment of any form (including ads).
+//
+// Attribution must be visual and be of the form:
+//
+//   Portions of this code from Greek Interlinear Bible,
+//   (C) photokandy Studios LLC and Kerri Shotts, released
+//   under a CC BY-NC-SA 3.0 license.
+//
+// NOTE: The graphical assets are not covered under the above license.
+// They are copyright their respective owners. Any third party code
+// (such as that under the Third Party section) are licensed under
+// their respective licenses.
+//
 #import "PKBibleListViewController.h"
 #import "PKBible.h"
 #import "PKConstants.h"
@@ -64,6 +93,8 @@
   // send off a request to parse
   PFQuery *query = [PFQuery queryWithClassName:@"Bibles"];
   [query whereKey:@"ID" notContainedIn:installedBibleIDs];
+  [query whereKey:@"minVersion" lessThanOrEqualTo:[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"]];
+  [query whereKey:@"Available" equalTo:@(YES)];
   [query orderByAscending:@"Abbreviation"];
   [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
     if (!error) {
@@ -215,56 +246,10 @@
   return cell;
 }
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  // Navigation logic may go here. Create and push another view controller.
-  /*
-   <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-   // ...
-   // Pass the selected object to the new view controller.
-   [self.navigationController pushViewController:detailViewController animated:YES];
-   */
   
   int theBibleID;
   switch (indexPath.section)
@@ -285,7 +270,6 @@
   [self.navigationController pushViewController:bivc animated:YES];
   
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
-//  [self loadBibles];
 
 }
 
