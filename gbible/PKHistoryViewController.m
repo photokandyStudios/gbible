@@ -46,6 +46,7 @@
 #import "PKSettings.h"
 #import "TestFlight.h"
 #import "PKAppDelegate.h"
+#import "PKReference.h"
 
 @interface PKHistoryViewController ()
 
@@ -183,14 +184,14 @@
   if ([theHistoryItem characterAtIndex: 0] == 'P')
   {
     // passage
-    NSString *thePassage       = [theHistoryItem substringFromIndex: 1];
-    int theBook                = [PKBible bookFromString: thePassage];
-    int theChapter             = [PKBible chapterFromString: thePassage];
-    int theVerse               = [PKBible verseFromString: thePassage];
-    NSString *thePrettyPassage = [NSString stringWithFormat: @"%@ %i:%i",
+    PKReference *theReference       = [PKReference referenceWithString:[theHistoryItem substringFromIndex: 1]];
+    int theBook                = theReference.book;
+    int theChapter             = theReference.chapter;
+    int theVerse               = theReference.verse;
+    NSString *thePrettyReference = [NSString stringWithFormat: @"%@ %i:%i",
                                   [PKBible nameForBook: theBook], theChapter, theVerse];
     
-    cell.textLabel.text = thePrettyPassage;
+    cell.textLabel.text = thePrettyReference;
   }
   else
     if ([theHistoryItem characterAtIndex: 0] == 'B')
@@ -222,10 +223,10 @@
   if ([theHistoryItem characterAtIndex: 0] == 'P')
   {
     // passage
-    NSString *thePassage = [theHistoryItem substringFromIndex: 1];
-    int theBook          = [PKBible bookFromString: thePassage];
-    int theChapter       = [PKBible chapterFromString: thePassage];
-    int theVerse         = [PKBible verseFromString: thePassage];
+    PKReference *theReference       = [PKReference referenceWithString:[theHistoryItem substringFromIndex: 1]];
+    int theBook                = theReference.book;
+    int theChapter             = theReference.chapter;
+    int theVerse               = theReference.verse;
     [[PKAppDelegate sharedInstance].bibleViewController displayBook: theBook andChapter: theChapter andVerse: theVerse];
   }
   else

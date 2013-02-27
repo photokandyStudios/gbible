@@ -43,6 +43,7 @@
 #import "FMResultSet.h"
 #import "PKConstants.h"
 #import "searchutils.h"
+#import "PKReference.h"
 #import <Parse/Parse.h>
 
 @implementation PKBible
@@ -319,35 +320,6 @@
   }
 }
 
-/**
- *
- * Returns the numerical 3-letter code for the given book. For example, 40 = 40N, 10 = 10O
- *
- */
-+(NSString *) numericalThreeLetterCodeForBook: (int) theBook
-{
-  static NSArray *bookList;
-  @synchronized(bookList)
-  {
-    if (!bookList)
-    {
-      bookList = @[
-                       @"01O", @"02O", @"03O", @"04O", @"05O", @"06O", @"07O", @"08O",
-                       @"09O", @"10O", @"11O", @"12O", @"13O", @"14O",
-                       @"15O", @"16O", @"17O", @"18O", @"19O", @"20O", @"21O",
-                       @"22O", @"23O", @"24O", @"25O", @"26O", @"27O",
-                       @"28O", @"29O", @"30O", @"31O", @"32O", @"33O", @"34O", @"35O",
-                       @"36O", @"37O", @"38O", @"39O",
-                       // New Testament
-                       @"40N", @"41N", @"42N", @"43N", @"44N", @"45N", @"46N",
-                       @"47N", @"48N", @"49N", @"50N", @"51N",
-                       @"52N", @"53N", @"54N", @"55N", @"56N",
-                       @"57N", @"58N", @"59N", @"60N", @"61N", @"62N", @"63N",
-                       @"64N", @"65N", @"66N"];
-    }
-    return [bookList objectAtIndex: theBook - 1];
-  }
-}
 
 /**
  *
@@ -554,84 +526,6 @@
   return theArray;
 }
 
-/**
- *
- * Returns a string for the given passage. For example, for Matthew(book 40), Chapter 1, Verse 1
- * we return 40N.1.1 . Most useful when maintaining dictionary keys. Otherwise, it is better
- * and faster to use the book/chapter/verse method.
- *
- */
-+(NSString *) stringFromBook: (int) theBook forChapter: (int) theChapter forVerse: (int) theVerse
-{
-  NSString *theString;
-  theString = [[[[[self numericalThreeLetterCodeForBook: theBook] stringByAppendingString: @"."]
-                 stringByAppendingFormat: @"%i", theChapter] stringByAppendingString: @"."]
-               stringByAppendingFormat: @"%i", theVerse];
-  return theString;
-}
-
-/**
- *
- * Returns a shortened passage reference, containing the book and chapter. (No verse reference.)
- *
- * For example, given Matthew Chapter 1 (book 40), return 40N.1
- *
- */
-+(NSString *) stringFromBook: (int) theBook forChapter: (int) theChapter
-{
-  NSString *theString;
-  theString = [[[self numericalThreeLetterCodeForBook: theBook] stringByAppendingString: @"."]
-               stringByAppendingFormat: @"%i", theChapter];
-  return theString;
-}
-
-/**
- *
- * Returns the book portion of a string formatted by stringFromBook:forChapter:forVerse
- *
- * For example, given 40N.1.1, return 40
- *
- */
-+(int) bookFromString: (NSString *) theString
-{
-  return [theString intValue];
-}
-
-/**
- *
- * Returns the chapter portion of a string formatted by stringFromBook:forChapter:forVerse
- *
- * For example, given 40N.12.1, return 12
- *
- */
-+(int) chapterFromString: (NSString *) theString
-{
-  // return the chapter portion of a string
-  int firstPeriod  = [theString rangeOfString: @"."].location;
-  int secondPeriod =
-    [theString rangeOfString: @"." options: 0 range: NSMakeRange( firstPeriod + 1, [theString length] -
-                                                                  (firstPeriod + 1) )].location;
-
-  return [[theString substringWithRange: NSMakeRange( firstPeriod + 1, secondPeriod - (firstPeriod + 1) )] intValue];
-}
-
-/**
- *
- * Returns the verse portion of a string formatted by stringfromBook:forChapter:forVerse
- *
- * For example, given 40N.12.1, returns 1
- *
- */
-+(int) verseFromString: (NSString *) theString
-{
-  // return the verse portion of a string
-  int firstPeriod  = [theString rangeOfString: @"."].location;
-  int secondPeriod =
-    [theString rangeOfString: @"." options: 0 range: NSMakeRange( firstPeriod + 1, [theString length] -
-                                                                  (firstPeriod + 1) )].location;
-
-  return [[theString substringFromIndex: secondPeriod + 1] intValue];
-}
 
 /**
  *
@@ -1238,8 +1132,8 @@
           int theBook          = [s intForColumnIndex: 0];
           int theChapter       = [s intForColumnIndex: 1];
           int theVerse         = [s intForColumnIndex: 2];
-          NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
-          [theMatches addObject: thePassage];
+          PKReference *theReference = [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse];
+          [theMatches addObject: theReference];
         }
         [s close];
       }

@@ -40,6 +40,7 @@
 #import "PKSearchDelegate.h"
 #import "PKBibleReferenceDelegate.h"
 #import "PKTableViewController.h"
+#import "PKReference.h"
 
 //#import "FWTPopoverView.h"
 
@@ -62,7 +63,7 @@
 @property (strong, nonatomic) NSMutableDictionary *highlightedVerses;
 
 @property (strong, nonatomic) NSString *selectedWord;
-@property (strong, nonatomic) NSString *selectedPassage;
+@property (strong, nonatomic) PKReference *selectedPassage;
 
 @property (strong, nonatomic) NSMutableArray *cellHeights;     // RE: ISSUE #1
 @property (strong, nonatomic) NSMutableArray *cells;           // RE: ISSUE #1

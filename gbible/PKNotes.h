@@ -36,6 +36,7 @@
 // their respective licenses.
 //
 #import <Foundation/Foundation.h>
+#import "PKReference.h"
 
 @interface PKNotes : NSObject
 
@@ -43,10 +44,10 @@
     
     -(void) createSchema;
     -(int)  countNotes;
-    -(void) setNote: (NSString*)theNote withTitle: (NSString *)theTitle forPassage: (NSString*)thePassage;
-    -(NSArray *)getNoteForPassage: (NSString *)thePassage;
+    -(void) setNote: (NSString*)theNote withTitle: (NSString *)theTitle forReference: (PKReference*)theReference;
+    -(NSArray *)getNoteForReference: (PKReference*)theReference;
     -(NSMutableArray *)allNotes;
-    -(void) deleteNoteForPassage: (NSString*) thePassage;
+    -(void) deleteNoteForReference: (PKReference*)theReference;
 
 /* 1.2 */
     -(NSMutableArray *)notesMatching: (NSString *)theTerm;

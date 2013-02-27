@@ -128,7 +128,7 @@ static id _instance;
  * passage is formatted like 40N.10.5 (book.chapter.verse).
  *
  */
--(NSMutableArray *)allHighlightedPassages
+-(NSMutableArray *)allHighlightedReferences
 {
   FMDatabaseQueue *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
@@ -143,8 +143,8 @@ static id _instance;
         int theChapter       = [s intForColumnIndex: 1];
         int theVerse         = [s intForColumnIndex: 2];
         
-        NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
-        [theArray addObject: thePassage];
+        PKReference *theReference = [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse];
+        [theArray addObject: theReference];
       }
       [s close];
     }
@@ -160,7 +160,7 @@ static id _instance;
  * the UIColor of each highlight.
  *
  */
--(NSMutableDictionary *)allHighlightedPassagesForBook: (int) theBook andChapter: (int) theChapter
+-(NSMutableDictionary *)allHighlightedReferencesForBook: (int) theBook andChapter: (int) theChapter
 {
   FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
   NSMutableDictionary *theArray = [[NSMutableDictionary alloc] init];
@@ -200,14 +200,14 @@ static id _instance;
  * highlighted, it returns nil.
  *
  */
--(UIColor *)highlightForPassage: (NSString *) thePassage
+-(UIColor *)highlightForReference: (PKReference *) theReference
 {
   // if there is no highlight, we return nil.
   __block UIColor *theColor = nil;
 
-  NSNumber *theBook    = [NSNumber numberWithInt: [PKBible bookFromString: thePassage]];
-  NSNumber *theChapter = [NSNumber numberWithInt: [PKBible chapterFromString: thePassage]];
-  NSNumber *theVerse   = [NSNumber numberWithInt: [PKBible verseFromString: thePassage]];
+  NSNumber *theBook    = @(theReference.book);
+  NSNumber *theChapter = @(theReference.chapter);
+  NSNumber *theVerse   = @(theReference.verse);
 
   FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
 
@@ -242,11 +242,11 @@ static id _instance;
  * Creates a highlight for the supplied UIColor for the supplied passage.
  *
  */
--(void) setHighlight: (UIColor *) theColor forPassage: (NSString *) thePassage
+-(void) setHighlight: (UIColor *) theColor forReference: (PKReference *) theReference
 {
-  NSNumber *theBook    = [NSNumber numberWithInt: [PKBible bookFromString: thePassage]];
-  NSNumber *theChapter = [NSNumber numberWithInt: [PKBible chapterFromString: thePassage]];
-  NSNumber *theVerse   = [NSNumber numberWithInt: [PKBible verseFromString: thePassage]];
+  NSNumber *theBook    = @(theReference.book);
+  NSNumber *theChapter = @(theReference.chapter);
+  NSNumber *theVerse   = @(theReference.verse);
   
   FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
   
@@ -298,7 +298,7 @@ static id _instance;
       
       if (!theResult)
       {
-        NSLog(@"Couldn't save highlight for %@", thePassage);
+        NSLog(@"Couldn't save highlight for %@", theReference);
       }
     }
   ];
@@ -313,11 +313,11 @@ static id _instance;
  * remove the row in the table, which means the highlight is gone, gone, gone.
  *
  */
--(void) removeHighlightFromPassage: (NSString *) thePassage
+-(void) removeHighlightFromReference: (PKReference *) theReference
 {
-  NSNumber *theBook    = [NSNumber numberWithInt: [PKBible bookFromString: thePassage]];
-  NSNumber *theChapter = [NSNumber numberWithInt: [PKBible chapterFromString: thePassage]];
-  NSNumber *theVerse   = [NSNumber numberWithInt: [PKBible verseFromString: thePassage]];
+  NSNumber *theBook    = @(theReference.book);
+  NSNumber *theChapter = @(theReference.chapter);
+  NSNumber *theVerse   = @(theReference.verse);
   
   FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
 
@@ -328,7 +328,7 @@ static id _instance;
       
       if (!theResult)
       {
-        NSLog(@"Could not remove highlight for %@", thePassage);
+        NSLog(@"Could not remove highlight for %@", theReference);
       }
     }
   ];

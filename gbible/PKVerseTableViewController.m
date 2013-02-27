@@ -40,6 +40,8 @@
 
 @interface PKVerseTableViewController ()
 
+@property (strong, nonatomic) NSArray *verseReferences;
+
 @end
 
 @implementation PKVerseTableViewController

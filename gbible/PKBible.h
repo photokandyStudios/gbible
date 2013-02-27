@@ -61,7 +61,7 @@
 +(NSString *) titleForTextID: (int) theText;
 +(NSString *) abbreviationForTextID: (int) theText;
 +(NSString *) nameForBook: (int) theBook;
-+(NSString *) numericalThreeLetterCodeForBook: (int) theBook;
+
 +(NSString *) abbreviationForBook: (int) theBook;
 +(int)        countOfChaptersForBook: (int) theBook;
 +(int)        countOfVersesForBook: (int) theBook forChapter: (int) theChapter;
@@ -72,11 +72,6 @@
 +(NSString *) getTextForBook: (int) theBook forChapter: (int) theChapter forVerse: (int) theVerse
  forSide                    : (int) theSide;
 
-+(NSString *) stringFromBook: (int) theBook forChapter: (int) theChapter;
-+(NSString *) stringFromBook: (int) theBook forChapter: (int) theChapter forVerse: (int) theVerse;
-+(int)        bookFromString: (NSString *) theString;
-+(int)        chapterFromString: (NSString *) theString;
-+(int)        verseFromString: (NSString *) theString;
 
 +(NSArray *)  passagesMatching: (NSString *) theTerm;
 +(int)        parsedVariant: (int) theBook;

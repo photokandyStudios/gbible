@@ -103,7 +103,7 @@
   NSUInteger row            = theVerse -1;
   globalVerse = theVerse;
   BOOL curValue;
-  NSString *passage         = [PKBible stringFromBook: currentBook forChapter: currentChapter forVerse: row + 1];
+  NSString *passage         = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1].reference;
 
   curValue = [[selectedVerses objectForKey: passage] boolValue];
   [selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: passage];
@@ -139,7 +139,7 @@
 -(void)loadHighlights
 {
   // load our highlighted verses
-  highlightedVerses = [(PKHighlights *)[PKHighlights instance] allHighlightedPassagesForBook: currentBook
+  highlightedVerses = [(PKHighlights *)[PKHighlights instance] allHighlightedReferencesForBook: currentBook
                                                                                   andChapter: currentChapter];
 }
 
@@ -446,7 +446,7 @@
   {
     [self loadChapter];
     [self reloadTableCache];
-    [(PKHistory *)[PKHistory instance] addPassagewithBook: currentBook andChapter: currentChapter
+    [(PKHistory *)[PKHistory instance] addReferenceWithBook: currentBook andChapter: currentChapter
      andVerse: 1];
     dirty = NO;
   }
@@ -578,7 +578,7 @@
   int theChapter   = currentChapter;
 
   NSArray *theNote =
-    [[PKNotes instance] getNoteForPassage: [PKBible stringFromBook: theBook forChapter: theChapter forVerse: row + 1]];
+    [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:row+1]];
 
   if (theNote != nil
       && [[PKSettings instance] showNotesInline])
@@ -609,7 +609,7 @@
   BOOL curValue;
 
   // are we selected? If so, it takes precedence
-  NSString *passage         = [PKBible stringFromBook: currentBook forChapter: currentChapter forVerse: row + 1];
+  NSString *passage         = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1].reference;
   curValue = [[selectedVerses objectForKey: passage] boolValue];
 
   if (curValue)
@@ -670,8 +670,8 @@
   int theChapter           = currentChapter;
 
   NSArray *theNote         =
-    [[PKNotes instance] getNoteForPassage: [PKBible stringFromBook: theBook forChapter: theChapter forVerse: row + 1]];
-
+    [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:row+1]];
+  
   float greekVerseHeight   = 0.0;
   float englishVerseHeight = 0.0;
 
@@ -837,7 +837,7 @@
   int theBook      = currentBook;
   int theChapter   = currentChapter;
   NSArray *theNote =
-    [[PKNotes instance] getNoteForPassage: [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse]];
+    [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse]];
 
   if (theNote != nil)
   {

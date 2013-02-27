@@ -43,6 +43,7 @@
 //#import "PKRootViewController.h"
 #import "PKSettings.h"
 #import "PKAppDelegate.h"
+#import "PKReference.h"
 
 @interface PKNotesViewController ()
 
@@ -227,14 +228,14 @@
   
   NSUInteger row       = [indexPath row];
   
-  NSString *thePassage = [notes objectAtIndex: row];
+  PKReference *theReference = [notes objectAtIndex: row];
   //    int theBook = [PKBible bookFromString:thePassage];
   //    int theChapter = [PKBible chapterFromString:thePassage];
   //    int theVerse = [PKBible verseFromString:thePassage];
   //    NSString *thePrettyPassage = [NSString stringWithFormat:@"%@ %i:%i",
   //                                           [PKBible nameForBook:theBook], theChapter, theVerse];
   
-  NSArray *theNoteArray = [(PKNotes *)[PKNotes instance] getNoteForPassage: thePassage];
+  NSArray *theNoteArray = [(PKNotes *)[PKNotes instance] getNoteForReference: theReference];
   NSString *theTitle    = [theNoteArray objectAtIndex: 0];
   NSString *theNote     = [theNoteArray objectAtIndex: 1];
   
@@ -256,10 +257,10 @@
 -(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath
 {
   NSUInteger row             = [indexPath row];
-  NSString *thePassage       = [notes objectAtIndex: row];
-  int theBook                = [PKBible bookFromString: thePassage];
-  int theChapter             = [PKBible chapterFromString: thePassage];
-  int theVerse               = [PKBible verseFromString: thePassage];
+  PKReference *theReference       = [notes objectAtIndex: row];
+  int theBook                = theReference.book;
+  int theChapter             = theReference.chapter;
+  int theVerse               = theReference.verse;
   
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
   [[PKAppDelegate sharedInstance].rootViewController revealToggle: self];

@@ -63,7 +63,7 @@
 }
 
 @synthesize state;
-@synthesize passage;
+@synthesize reference;
 @synthesize note;
 @synthesize noteTitle;
 
@@ -88,16 +88,16 @@
   return self;
 }
 
--(id) initWithPassage: (NSString *) thePassage
+-(id) initWithReference: (PKReference*) theReference
 {
   self = [super init];
   
   if (self)
   {
-    passage = thePassage;
-    int theBook    = [PKBible bookFromString: thePassage];
-    int theChapter = [PKBible chapterFromString: thePassage];
-    int theVerse   = [PKBible verseFromString: thePassage];
+    reference = theReference;
+    int theBook    = theReference.book;
+    int theChapter = theReference.chapter;
+    int theVerse   = theReference.verse;
     
     noteTitle = [NSString stringWithFormat: @"%@ %i:%i",
                  [PKBible nameForBook: theBook],
@@ -110,13 +110,13 @@
   return self;
 }
 
--(id) initWithPassage: (NSString *) thePassage andTitle: (NSString *) theTitle andNote: (NSString *) theNote
+-(id) initWithReference: (PKReference *) theReference andTitle: (NSString *) theTitle andNote: (NSString *) theNote
 {
   self = [super init];
   
   if (self)
   {
-    passage   = thePassage;
+    reference   = theReference;
     noteTitle = theTitle;
     note      = theNote;
   }
@@ -146,7 +146,7 @@
 
 -(void)loadData
 {
-  NSArray *theNote = [(PKNotes *)[PKNotes instance] getNoteForPassage: self.passage];
+  NSArray *theNote = [(PKNotes *)[PKNotes instance] getNoteForReference: self.reference];
   
   if (!theNote)
   {
@@ -289,7 +289,7 @@
 {
   if (state == 1)
   {
-    [(PKNotes *)[PKNotes instance] setNote: txtNote.text withTitle: txtTitle.text forPassage: passage];
+    [(PKNotes *)[PKNotes instance] setNote: txtNote.text withTitle: txtTitle.text forReference: reference];
     [[PKAppDelegate sharedInstance].bibleViewController notifyNoteChanged];
     [[[PKAppDelegate sharedInstance] notesViewController] reloadNotes];
   }
@@ -298,7 +298,7 @@
 
 -(void)deletePressed: (id) sender
 {
-  [(PKNotes *)[PKNotes instance] deleteNoteForPassage: passage];
+  [(PKNotes *)[PKNotes instance] deleteNoteForReference: reference];
   [[PKAppDelegate sharedInstance].bibleViewController notifyNoteChanged];
     [[[PKAppDelegate sharedInstance] notesViewController] reloadNotes];
   [self dismissModalViewControllerAnimated: YES];
@@ -409,15 +409,15 @@
     }
     if (foundBook>-1)
     {
-      NSString *the3LC = [PKBible numericalThreeLetterCodeForBook:foundBook];
+      NSString *the3LC = [PKReference numericalThreeLetterCodeForBook:foundBook];
       NSString *theRemainder = [theSelectedWord substringFromIndex:startIndex];
       theRemainder = [theRemainder stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
       theRemainder = [theRemainder stringByReplacingOccurrencesOfString:@":" withString:@"."];
-      NSString *theReference = [NSString stringWithFormat:@"%@.%@", the3LC, theRemainder];
+      PKReference *theReference = [PKReference referenceWithString: [NSString stringWithFormat:@"%@.%@", the3LC, theRemainder]];
       
-      int book = [PKBible bookFromString:theReference];
-      int chapter = [PKBible chapterFromString:theReference];
-      int verse = [PKBible verseFromString:theReference];
+      int book = theReference.book;
+      int chapter = theReference.chapter;
+      int verse = theReference.verse;
       
       if (book>39 && chapter>0 && verse>0)
       {

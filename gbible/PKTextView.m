@@ -37,6 +37,7 @@
 //
 #import "PKTextView.h"
 #import "PKBible.h"
+#import "PKReference.h"
 
 @implementation PKTextView
 
@@ -107,15 +108,15 @@
       }
       if (foundBook>-1)
       {
-        NSString *the3LC = [PKBible numericalThreeLetterCodeForBook:foundBook];
+        NSString *the3LC = [PKReference numericalThreeLetterCodeForBook:foundBook];
         NSString *theRemainder = [theSelectedWord substringFromIndex:startIndex];
         theRemainder = [theRemainder stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         theRemainder = [theRemainder stringByReplacingOccurrencesOfString:@":" withString:@"."];
-        NSString *theReference = [NSString stringWithFormat:@"%@.%@", the3LC, theRemainder];
+        PKReference *theReference = [PKReference referenceWithString:[NSString stringWithFormat:@"%@.%@", the3LC, theRemainder]];
         
-        int book = [PKBible bookFromString:theReference];
-        int chapter = [PKBible chapterFromString:theReference];
-        int verse = [PKBible verseFromString:theReference];
+        int book = theReference.book;
+        int chapter = theReference.chapter;
+        int verse = theReference.verse;
         
         if (book>39 && chapter>0 && verse>0)
         {

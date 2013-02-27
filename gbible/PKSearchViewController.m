@@ -48,6 +48,7 @@
 #import "TestFlight.h"
 #import "SVProgressHUD.h"
 #import "NSString+FontAwesome.h"
+#import "PKReference.h"
 
 @interface PKSearchViewController ()
 
@@ -332,10 +333,10 @@
   }
   
   
-  NSString *thePassage   = [theSearchResults objectAtIndex: row];
-  int theBook            = [PKBible bookFromString: thePassage];
-  int theChapter         = [PKBible chapterFromString: thePassage];
-  int theVerse           = [PKBible verseFromString: thePassage];
+  PKReference *theReference   = [theSearchResults objectAtIndex: row];
+  int theBook            = theReference.book;
+  int theChapter         = theReference.chapter;
+  int theVerse           = theReference.verse;
   
   CGFloat theCellWidth   = (self.tableView.bounds.size.width);
     CGFloat theHeight = 0;
@@ -400,10 +401,10 @@
   
   NSUInteger row         = [indexPath row];
   
-  NSString *thePassage   = [theSearchResults objectAtIndex: row];
-  int theBook            = [PKBible bookFromString: thePassage];
-  int theChapter         = [PKBible chapterFromString: thePassage];
-  int theVerse           = [PKBible verseFromString: thePassage];
+  PKReference *theReference   = [theSearchResults objectAtIndex: row];
+  int theBook            = theReference.book;
+  int theChapter         = theReference.chapter;
+  int theVerse           = theReference.verse;
   
   CGFloat theCellWidth   = (self.tableView.bounds.size.width);
   if (theCellWidth>320)
@@ -520,10 +521,10 @@
 {
   NSUInteger row             = [indexPath row];
   
-  NSString *thePassage       = [theSearchResults objectAtIndex: row];
-  int theBook                = [PKBible bookFromString: thePassage];
-  int theChapter             = [PKBible chapterFromString: thePassage];
-  int theVerse               = [PKBible verseFromString: thePassage];
+  PKReference *theReference   = [theSearchResults objectAtIndex: row];
+  int theBook            = theReference.book;
+  int theChapter         = theReference.chapter;
+  int theVerse           = theReference.verse;
 
   if (delegate)
   {

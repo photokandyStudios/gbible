@@ -107,7 +107,7 @@
 -(void)reloadHighlights
 {
   // load all highlights
-  highlights = [[PKHighlights instance] allHighlightedPassages];
+  highlights = [[PKHighlights instance] allHighlightedReferences];
   [self.tableView reloadData];
   
   if ([highlights count] == 0)
@@ -223,14 +223,14 @@
   
   NSUInteger row             = [indexPath row];
   
-  NSString *thePassage       = [highlights objectAtIndex: row];
-  int theBook                = [PKBible bookFromString: thePassage];
-  int theChapter             = [PKBible chapterFromString: thePassage];
-  int theVerse               = [PKBible verseFromString: thePassage];
-  NSString *thePrettyPassage = [NSString stringWithFormat: @"%@ %i:%i",
+  PKReference *theReference       = [highlights objectAtIndex: row];
+  int theBook                = theReference.book  ;
+  int theChapter             = theReference.chapter;
+  int theVerse               = theReference.verse;
+  NSString *thePrettyReference = [NSString stringWithFormat: @"%@ %i:%i",
                                 [PKBible nameForBook: theBook], theChapter, theVerse];
   
-  cell.textLabel.text            = thePrettyPassage;
+  cell.textLabel.text            = thePrettyReference;
   cell.textLabel.textColor       = [UIColor blackColor];
   cell.textLabel.backgroundColor = [UIColor clearColor];
   
@@ -247,9 +247,9 @@
 -(void) tableView: (UITableView *) tableView willDisplayCell: (UITableViewCell *) cell forRowAtIndexPath: (NSIndexPath *) indexPath
 {
   NSUInteger row       = [indexPath row];
-  NSString *thePassage = [highlights objectAtIndex: row];
+  PKReference *theReference = [highlights objectAtIndex: row];
   
-  UIColor *theColor    = [[PKHighlights instance] highlightForPassage: thePassage];
+  UIColor *theColor    = [[PKHighlights instance] highlightForReference: theReference];
   
   if (theColor != nil)
   {
@@ -269,10 +269,10 @@
 -(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath
 {
   NSUInteger row             = [indexPath row];
-  NSString *thePassage       = [highlights objectAtIndex: row];
-  int theBook                = [PKBible bookFromString: thePassage];
-  int theChapter             = [PKBible chapterFromString: thePassage];
-  int theVerse               = [PKBible verseFromString: thePassage];
+  PKReference *theReference       = [highlights objectAtIndex: row];
+  int theBook                = theReference.book;
+  int theChapter             = theReference.chapter;
+  int theVerse               = theReference.verse;
   
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
   [[PKAppDelegate sharedInstance].rootViewController revealToggle: self];  

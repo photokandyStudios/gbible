@@ -36,16 +36,17 @@
 // their respective licenses.
 //
 #import <Foundation/Foundation.h>
+#import "PKReference.h"
 
 @interface PKHighlights : NSObject
 
 +(id)                   instance;
 -(int)                  countHighlights;
--(NSMutableArray *)     allHighlightedPassages;
--(NSMutableDictionary *)allHighlightedPassagesForBook: (int) theBook andChapter: (int) theChapter;
--(void)                 setHighlight: (UIColor *) theColor forPassage: (NSString *) thePassage;
--(void)                 removeHighlightFromPassage: (NSString *) thePassage;
--(UIColor *)            highlightForPassage: (NSString *) thePassage;
+-(NSMutableArray *)     allHighlightedReferences;
+-(NSMutableDictionary *)allHighlightedReferencesForBook: (int) theBook andChapter: (int) theChapter;
+-(void)                 setHighlight: (UIColor *) theColor forReference: (PKReference *) theReference;
+-(void)                 removeHighlightFromReference: (PKReference *) theReference;
+-(UIColor *)            highlightForReference: (PKReference *) theReference;
 -(void)                 createSchema;
 
 @end

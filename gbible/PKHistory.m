@@ -59,12 +59,12 @@ static id _instance;
   return _instance;
 }
 
--(NSMutableArray *)mostRecentPassages
+-(NSMutableArray *)mostRecentReferences
 {
-  return [self mostRecentPassagesWithLimit: 200];
+  return [self mostRecentReferencesWithLimit: 200];
 }
 
--(NSMutableArray *)mostRecentPassagesWithLimit: (int) theLimit
+-(NSMutableArray *)mostRecentReferencesWithLimit: (int) theLimit
 {
   FMDatabaseQueue *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
@@ -81,8 +81,8 @@ static id _instance;
         int theChapter       = [s intForColumnIndex: 1];
         int theVerse         = [s intForColumnIndex: 2];
         
-        NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
-        [theArray addObject: thePassage];
+        PKReference *theReference = [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse];
+        [theArray addObject: theReference];
       }
       [s close];
     }
@@ -118,7 +118,7 @@ static id _instance;
           int theVerse         = [s intForColumnIndex: 4];
           
           NSString *thePassage = [NSString stringWithFormat: @"P%@",
-                                  [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse]];
+                                  [PKReference referenceStringFromBook: theBook forChapter: theChapter forVerse: theVerse]];
           [theArray addObject: thePassage];
         }
         else
@@ -181,15 +181,15 @@ static id _instance;
   ];
 }
 
--(void) addPassage: (NSString *) thePassage
+-(void) addReference: (PKReference *) theReference
 {
-  int theBook    = [PKBible bookFromString: thePassage];
-  int theChapter = [PKBible chapterFromString: thePassage];
-  int theVerse   = [PKBible verseFromString: thePassage];
-  [self addPassagewithBook: theBook andChapter: theChapter andVerse: theVerse];
+  int theBook    = theReference.book;
+  int theChapter = theReference.chapter;
+  int theVerse   = theReference.verse;
+  [self addReferenceWithBook: theBook andChapter: theChapter andVerse: theVerse];
 }
 
--(void) addPassagewithBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse
+-(void) addReferenceWithBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse
 {
   FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
   [content inDatabase:^(FMDatabase *db)

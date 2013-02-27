@@ -68,6 +68,7 @@
 #import "SVProgressHUD.h"
 #import "PKSettingsController.h"
 #import "UIBarButtonItem+Utility.h"
+#import "PKReference.h"
 
 @interface PKBibleViewController ()
 
@@ -217,7 +218,7 @@
     }
     [self loadChapter: theChapter forBook: theBook];
     [self reloadTableCache];
-    [(PKHistory *)[PKHistory instance] addPassagewithBook: theBook andChapter: theChapter andVerse: theVerse];
+    [(PKHistory *)[PKHistory instance] addReference: [PKReference referenceWithBook:theBook andChapter: theChapter andVerse: theVerse]];
     [self notifyChangedHistory];
     ( (PKSettings *)[PKSettings instance] ).topVerse = theVerse;
 
@@ -278,7 +279,7 @@
 
     [self loadChapter: currentChapter forBook: currentBook];
     [self reloadTableCache];
-    [(PKHistory *)[PKHistory instance] addPassagewithBook: currentBook andChapter: currentChapter andVerse: 1];
+    [(PKHistory *)[PKHistory instance] addReferenceWithBook: currentBook andChapter: currentChapter andVerse: 1];
     [self notifyChangedHistory];
 
     [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: NO];
@@ -316,7 +317,7 @@
 
     [self loadChapter: currentChapter forBook: currentBook];
     [self reloadTableCache];
-    [(PKHistory *)[PKHistory instance] addPassagewithBook: currentBook andChapter: currentChapter andVerse: [PKBible
+    [(PKHistory *)[PKHistory instance] addReferenceWithBook: currentBook andChapter: currentChapter andVerse: [PKBible
                                                                                                              countOfVersesForBook:
                                                                                                              currentBook forChapter
                                                                                                              : currentChapter]];
@@ -338,7 +339,7 @@
   NSUInteger currentBook    = [[PKSettings instance] currentBook];
   NSUInteger currentChapter = [[PKSettings instance] currentChapter];
   // load our highlighted verses
-  highlightedVerses = [(PKHighlights *)[PKHighlights instance] allHighlightedPassagesForBook: currentBook
+  highlightedVerses = [(PKHighlights *)[PKHighlights instance] allHighlightedReferencesForBook: currentBook
                                                                                   andChapter: currentChapter];
 }
 
@@ -801,7 +802,7 @@
     lastKnownOrientation = [[UIDevice currentDevice] orientation];
     [self loadChapter];
     [self reloadTableCache];
-    [(PKHistory *)[PKHistory instance] addPassagewithBook: [[PKSettings instance] currentBook] andChapter: [[PKSettings instance]
+    [(PKHistory *)[PKHistory instance] addReferenceWithBook: [[PKSettings instance] currentBook] andChapter: [[PKSettings instance]
                                                                                                             currentChapter]
      andVerse: [[PKSettings instance] topVerse]];
     [self notifyChangedHistory];
@@ -1381,7 +1382,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   int theChapter   = [[PKSettings instance] currentChapter];
 
   NSArray *theNote =
-    [[PKNotes instance] getNoteForPassage: [PKBible stringFromBook: theBook forChapter: theChapter forVerse: row + 1]];
+    [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter: theChapter andVerse: row + 1]];
 
   if (theNote != nil
       && [[PKSettings instance] showNotesInline])
@@ -1414,8 +1415,9 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   NSUInteger currentChapter = [[PKSettings instance] currentChapter];
 
   // are we selected? If so, it takes precedence
-  NSString *passage         = [PKBible stringFromBook: currentBook forChapter: currentChapter forVerse: row + 1];
-  curValue = [[selectedVerses objectForKey: passage] boolValue];
+  PKReference *reference         = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1];
+  curValue = [[selectedVerses objectForKey: reference.reference] boolValue];
+  
 
   if (curValue)
   {
@@ -1485,7 +1487,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   int theChapter           = [[PKSettings instance] currentChapter];
 
   NSArray *theNote         =
-    [[PKNotes instance] getNoteForPassage: [PKBible stringFromBook: theBook forChapter: theChapter forVerse: row + 1]];
+    [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter: theChapter andVerse: row + 1]];
 
   float greekVerseHeight   = 0.0;
   float englishVerseHeight = 0.0;
@@ -1576,14 +1578,14 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   BOOL curValue;
   NSUInteger currentBook    = [[PKSettings instance] currentBook];
   NSUInteger currentChapter = [[PKSettings instance] currentChapter];
-  NSString *passage         = [PKBible stringFromBook: currentBook forChapter: currentChapter forVerse: row + 1];
+  PKReference *reference    = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1];
   PKTableViewCell *newCell  = (PKTableViewCell *)[tableView cellForRowAtIndexPath: indexPath];
 
   // toggle the selection state
 
-  curValue = [[selectedVerses objectForKey: passage] boolValue];
-  [selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: passage];
-  curValue = [[selectedVerses objectForKey: passage] boolValue];
+  curValue = [[selectedVerses objectForKey: reference.reference] boolValue];
+  [selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: reference.reference];
+  curValue = [[selectedVerses objectForKey: reference.reference] boolValue];
 
   if (curValue)
   {
@@ -1732,13 +1734,12 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       BOOL curValue;
       NSUInteger currentBook    = [[PKSettings instance] currentBook];
       NSUInteger currentChapter = [[PKSettings instance] currentChapter];
-      NSString *passage         = [PKBible stringFromBook: currentBook forChapter: currentChapter forVerse: row + 1];
 
-      selectedPassage = passage;
+      selectedPassage = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1];
 
       PKTableViewCell *newCell = (PKTableViewCell *)[self.tableView cellForRowAtIndexPath: indexPath];
-      [selectedVerses setObject: [NSNumber numberWithBool: YES] forKey: passage];
-      curValue = [[selectedVerses objectForKey: passage] boolValue];
+      [selectedVerses setObject: [NSNumber numberWithBool: YES] forKey: selectedPassage.reference];
+      curValue = [[selectedVerses objectForKey: selectedPassage.reference] boolValue];
 
       if (curValue)
       {
@@ -2037,9 +2038,9 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   {
     NSUInteger currentBook    = [[PKSettings instance] currentBook];
     NSUInteger currentChapter = [[PKSettings instance] currentChapter];
-    NSString *passage         = [PKBible stringFromBook: currentBook forChapter: currentChapter forVerse: i + 1];
+    PKReference *reference = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:i+1];
 
-    [selectedVerses setObject: [NSNumber numberWithBool: YES] forKey: passage];
+    [selectedVerses setObject: [NSNumber numberWithBool: YES] forKey: reference.reference];
   }
 
   [self reloadTableCache];
@@ -2167,7 +2168,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     if ([[selectedVerses objectForKey: key] boolValue])
     {
       [(PKHighlights *)[PKHighlights instance]
-       removeHighlightFromPassage: key];
+       removeHighlightFromReference: [PKReference referenceWithString: key]];
     }
   }
   [self notifyChangedHighlights];
@@ -2195,8 +2196,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
                                 sortedArrayUsingComparator:
                                 ^NSComparisonResult (id obj1, id obj2)
                                 {
-                                  int verse1 = [PKBible verseFromString: obj1];
-                                  int verse2 = [PKBible verseFromString: obj2];
+                                  int verse1 = [PKReference verseFromReferenceString: obj1];
+                                  int verse2 = [PKReference verseFromReferenceString: obj2];
 
                                   if (verse1 > verse2)
                                   {
@@ -2215,7 +2216,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   {
     if ([[selectedVerses objectForKey: key] boolValue])
     {
-      int theVerse = [PKBible verseFromString: key];
+      int theVerse = [PKReference verseFromReferenceString: key];
 
       if (theVerse <= [currentEnglishChapter count])
       {
@@ -2233,8 +2234,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       int theBook      = [[PKSettings instance] currentBook];
       int theChapter   = [[PKSettings instance] currentChapter];
       NSArray *theNote =
-        [[PKNotes instance] getNoteForPassage: [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse]];
-
+        [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse]];
       if (theNote != nil)
       {
         [theText appendFormat: @"\n%@ - %@", [theNote objectAtIndex: 0], [theNote objectAtIndex: 1]];
@@ -2311,7 +2311,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     {
       [(PKHighlights *)[PKHighlights instance]
        setHighlight: ( (PKSettings *)[PKSettings instance] ).highlightColor
-         forPassage: key];
+         forReference: [PKReference referenceWithString:key]];
     }
   }
   [self notifyChangedHighlights];
@@ -2408,9 +2408,9 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void)explainVerse: (id) sender
 {
-  int theBook                 = [PKBible bookFromString: selectedPassage];
-  int theChapter              = [PKBible chapterFromString: selectedPassage];
-  int theVerse                = [PKBible verseFromString: selectedPassage];
+  int theBook                 = selectedPassage.book;
+  int theChapter              = selectedPassage.chapter;
+  int theVerse                = selectedPassage.verse;
 
   NSString *theTransformedURL = [NSString stringWithFormat: @"http://bible.cc/%@/%i-%i.htm",
                                  [[PKBible nameForBook: theBook] lowercaseString],
@@ -2435,7 +2435,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void)doAnnotate: (id) sender
 {
-  PKNoteEditorViewController *nevc = [[PKNoteEditorViewController alloc] initWithPassage: selectedPassage];
+  PKNoteEditorViewController *nevc = [[PKNoteEditorViewController alloc] initWithReference: selectedPassage];
   UINavigationController *mvnc     = [[UINavigationController alloc] initWithRootViewController: nevc];
   //mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
 
@@ -2643,10 +2643,10 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   int currentChapter = [[PKSettings instance] currentChapter];
   BOOL curValue;
 
-  NSString *passage         = [PKBible stringFromBook: currentBook forChapter: currentChapter forVerse: row + 1];
+  PKReference *reference = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1];
 
-  curValue = [[selectedVerses objectForKey: passage] boolValue];
-  [selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: passage];
+  curValue = [[selectedVerses objectForKey: reference.reference] boolValue];
+  [selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: reference.reference];
   
   [self.tableView reloadData];
 }
@@ -2658,8 +2658,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
                                 sortedArrayUsingComparator:
                                 ^NSComparisonResult (id obj1, id obj2)
                                 {
-                                  int verse1 = [PKBible verseFromString: obj1];
-                                  int verse2 = [PKBible verseFromString: obj2];
+                                  int verse1 = [PKReference verseFromReferenceString: obj1];
+                                  int verse2 = [PKReference verseFromReferenceString: obj2];
 
                                   if (verse1 > verse2)
                                   {
@@ -2678,7 +2678,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   {
     if ([[selectedVerses objectForKey: key] boolValue])
     {
-      int index = [PKBible verseFromString:key];
+      int index = [PKReference verseFromReferenceString:key];
       if (index < lowestIndex)
         lowestIndex = index;
     }
@@ -2697,8 +2697,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
                                 sortedArrayUsingComparator:
                                 ^NSComparisonResult (id obj1, id obj2)
                                 {
-                                  int verse1 = [PKBible verseFromString: obj1];
-                                  int verse2 = [PKBible verseFromString: obj2];
+                                  int verse1 = [PKReference verseFromReferenceString: obj1];
+                                  int verse2 = [PKReference verseFromReferenceString: obj2];
 
                                   if (verse1 > verse2)
                                   {
@@ -2718,7 +2718,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   {
     if ([[selectedVerses objectForKey: key] boolValue])
     {
-      int index = [PKBible verseFromString:key];
+      int index = [PKReference verseFromReferenceString:key];
       if (index > highestIndex)
         highestIndex = index;
     }
@@ -2858,7 +2858,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       lowestVerse = [self lowestSelectedVerse];
       if (lowestVerse>0)
       {
-        self.selectedPassage = [PKBible stringFromBook:currentBook forChapter:currentChapter forVerse:lowestVerse];
+        self.selectedPassage = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:lowestVerse];
         [self doAnnotate:nil];
       }
     }
@@ -2870,7 +2870,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       lowestVerse = [self lowestSelectedVerse];
       if (lowestVerse>0)
       {
-        self.selectedPassage = [PKBible stringFromBook:currentBook forChapter:currentChapter forVerse:lowestVerse];
+        self.selectedPassage = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:lowestVerse];
         [self explainVerse:nil];
       }
     }

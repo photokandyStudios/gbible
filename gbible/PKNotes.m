@@ -108,11 +108,11 @@ static id _instance;
   return theCount;
 }
 
--(void) setNote: (NSString *) theNote withTitle: (NSString *) theTitle forPassage: (NSString *) thePassage;
+-(void) setNote: (NSString *) theNote withTitle: (NSString *) theTitle forReference: (PKReference *) theReference;
 {
-  NSNumber *theBook    = [NSNumber numberWithInt: [PKBible bookFromString: thePassage]];
-  NSNumber *theChapter = [NSNumber numberWithInt: [PKBible chapterFromString: thePassage]];
-  NSNumber *theVerse   = [NSNumber numberWithInt: [PKBible verseFromString: thePassage]];
+  NSNumber *theBook    = @(theReference.book);
+  NSNumber *theChapter = @(theReference.chapter);
+  NSNumber *theVerse   = @(theReference.verse);
   
   FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
 
@@ -144,18 +144,18 @@ static id _instance;
       
       if (!theResult)
       {
-        NSLog(@"Couldn't save note for %@", thePassage);
+        NSLog(@"Couldn't save note for %@", theReference);
       }
     }
   ];
 
 }
 
--(void) deleteNoteForPassage: (NSString *) thePassage
+-(void) deleteNoteForReference: (PKReference *) theReference
 {
-  NSNumber *theBook    = [NSNumber numberWithInt: [PKBible bookFromString: thePassage]];
-  NSNumber *theChapter = [NSNumber numberWithInt: [PKBible chapterFromString: thePassage]];
-  NSNumber *theVerse   = [NSNumber numberWithInt: [PKBible verseFromString: thePassage]];
+  NSNumber *theBook    = @(theReference.book);
+  NSNumber *theChapter = @(theReference.chapter);
+  NSNumber *theVerse   = @(theReference.verse);
   
   FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
 
@@ -166,18 +166,18 @@ static id _instance;
       
       if (!theResult)
       {
-        NSLog(@"Could not remove note for %@", thePassage);
+        NSLog(@"Could not remove note for %@", theReference);
       }
     }
   ];
   
 }
 
--(NSArray *)getNoteForPassage: (NSString *) thePassage;
+-(NSArray *)getNoteForReference: (PKReference *) theReference;
 {
-  NSNumber *theBook    = [NSNumber numberWithInt: [PKBible bookFromString: thePassage]];
-  NSNumber *theChapter = [NSNumber numberWithInt: [PKBible chapterFromString: thePassage]];
-  NSNumber *theVerse   = [NSNumber numberWithInt: [PKBible verseFromString: thePassage]];
+  NSNumber *theBook    = @(theReference.book);
+  NSNumber *theChapter = @(theReference.chapter);
+  NSNumber *theVerse   = @(theReference.verse);
   
   __block NSArray *theResult;
   
@@ -188,7 +188,7 @@ static id _instance;
       FMResultSet *s      =
       [db executeQuery:
        @"SELECT title,note FROM notes \
-       WHERE book=? AND chapter=? AND verse=?"                                      ,
+       WHERE book=? AND chapter=? AND verse=?",
        theBook, theChapter, theVerse];
       
       theResult = nil;
@@ -222,8 +222,8 @@ static id _instance;
         int theChapter       = [s intForColumnIndex: 1];
         int theVerse         = [s intForColumnIndex: 2];
         
-        NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
-        [theArray addObject: thePassage];
+        PKReference *theReference = [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse];
+        [theArray addObject: theReference];
       }
       [s close];
     }
@@ -249,8 +249,8 @@ static id _instance;
         int theChapter       = [s intForColumnIndex: 1];
         int theVerse         = [s intForColumnIndex: 2];
         
-        NSString *thePassage = [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse];
-        [theArray addObject: thePassage];
+        PKReference *theReference = [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse];
+        [theArray addObject: theReference];
       }
       [s close];
     }

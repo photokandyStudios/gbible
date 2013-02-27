@@ -196,7 +196,7 @@ static id _instance;
     
     
     // and make sure the userBible is excluded from user backup
-    NSURL *URL = [[NSURL alloc] initWithString:[@"file:///" stringByAppendingString:userBibleDatabase]];
+    NSURL *URL = [[NSURL alloc] initWithString: [[@"file://" stringByAppendingString:userBibleDatabase] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ];
     if ( SYSTEM_VERSION_GREATER_THAN(@"5.0.1") )
     {
       NSError *error = nil;
@@ -263,8 +263,8 @@ static id _instance;
     NSString *theNote  = [s stringForColumnIndex: 4];
     
     // use our model to add the note (we'll happily overwrite an existing note, of course)
-    [noteModel setNote: theNote withTitle: theTitle forPassage: [PKBible stringFromBook: theBook forChapter: theChapter forVerse:
-                                                                 theVerse]];
+    [noteModel setNote: theNote withTitle:theTitle forReference:
+        [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse]];
   }
   
   [imdb close];
@@ -319,7 +319,7 @@ static id _instance;
                                               blue: [[theColorArray objectAtIndex: 2] floatValue] alpha: 1.0];
     
     // use our model to add the highlight
-    [highlightModel setHighlight: theColor forPassage: [PKBible stringFromBook: theBook forChapter: theChapter forVerse: theVerse]];
+    [highlightModel setHighlight: theColor forReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse]];
   }
   
   [imdb close];

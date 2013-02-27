@@ -36,14 +36,15 @@
 // their respective licenses.
 //
 #import <Foundation/Foundation.h>
+#import "PKReference.h"
 
 @interface PKHistory : NSObject
 
 +(id)              instance;
--(NSMutableArray *)mostRecentPassages;
--(NSMutableArray *)mostRecentPassagesWithLimit: (int) theLimit;
--(void)            addPassage: (NSString *) thePassage;
--(void)            addPassagewithBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse;
+-(NSMutableArray *)mostRecentReferences;
+-(NSMutableArray *)mostRecentReferencesWithLimit: (int) theLimit;
+-(void)            addReference: (PKReference *) theReference;
+-(void)            addReferenceWithBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse;
 -(void)            createSchema;
 
 //v1.1 additions
