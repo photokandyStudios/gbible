@@ -61,6 +61,7 @@
 		6A12F6F2151EDF0800B49B6E /* SegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A12F6F1151EDA9100B49B6E /* SegmentsController.m */; };
 		6A136916167C24BF001A1C7C /* PKLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A136915167C24BF001A1C7C /* PKLayoutController.m */; };
 		6A13691A167C3F5F001A1C7C /* GLTapLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A136918167C3F5F001A1C7C /* GLTapLabel.m */; };
+		6A14850316DDA19D002AEA0A /* PKVerseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A14850216DDA19D002AEA0A /* PKVerseTableViewController.m */; };
 		6A1D143316CC494C0016C2BD /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6A1D143016CC494C0016C2BD /* iRate.bundle */; };
 		6A1D143416CC494C0016C2BD /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D143216CC494C0016C2BD /* iRate.m */; };
 		6A2039A516C49FDE00CA4749 /* PKSimpleBibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A2039A416C49FDE00CA4749 /* PKSimpleBibleViewController.m */; };
@@ -321,6 +322,8 @@
 		6A136917167C3F5F001A1C7C /* GLTapLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTapLabel.h; sourceTree = "<group>"; };
 		6A136918167C3F5F001A1C7C /* GLTapLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLTapLabel.m; sourceTree = "<group>"; };
 		6A136919167C3F5F001A1C7C /* GLTapLabelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTapLabelDelegate.h; sourceTree = "<group>"; };
+		6A14850116DDA19D002AEA0A /* PKVerseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKVerseTableViewController.h; sourceTree = "<group>"; };
+		6A14850216DDA19D002AEA0A /* PKVerseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKVerseTableViewController.m; sourceTree = "<group>"; };
 		6A1D143016CC494C0016C2BD /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
 		6A1D143116CC494C0016C2BD /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
 		6A1D143216CC494C0016C2BD /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
@@ -690,6 +693,15 @@
 			name = GLTapLabel;
 			sourceTree = "<group>";
 		};
+		6A14850016DDA0FC002AEA0A /* PKVerseTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6A14850116DDA19D002AEA0A /* PKVerseTableViewController.h */,
+				6A14850216DDA19D002AEA0A /* PKVerseTableViewController.m */,
+			);
+			name = PKVerseTableViewController;
+			sourceTree = "<group>";
+		};
 		6A1D142F16CC494C0016C2BD /* iRate */ = {
 			isa = PBXGroup;
 			children = (
@@ -1044,6 +1056,7 @@
 		6A9793AB1513F2F500A5C9F1 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6A14850016DDA0FC002AEA0A /* PKVerseTableViewController */,
 				6A5B016016D031CC004A1081 /* PKTableViewController */,
 				6ABD995616B8D699008EB8E0 /* Bible Management */,
 				6A2163621530F1F000D41447 /* Content Controllers */,
@@ -1841,6 +1854,7 @@
 				6A5B016316D031FD004A1081 /* PKTableViewController.m in Sources */,
 				6ADD8C4C16D1810500664337 /* UIBarButtonItem+Utility.m in Sources */,
 				6A43F14F16D3270F007F22B1 /* WKVerticalScrollBar.m in Sources */,
+				6A14850316DDA19D002AEA0A /* PKVerseTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

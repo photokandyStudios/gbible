@@ -398,13 +398,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKBibleListViewController.m"
-         timestampString = "381301248.831096"
+         timestampString = "383622842.042005"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "283"
-         endingLineNumber = "283"
-         landmarkName = "-tableView:didSelectRowAtIndexPath:"
-         landmarkType = "5">
+         startingLineNumber = "285"
+         endingLineNumber = "285">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
