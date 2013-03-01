@@ -69,6 +69,7 @@
 #import "PKSettingsController.h"
 #import "UIBarButtonItem+Utility.h"
 #import "PKReference.h"
+#import "UIFont+Utility.h"
 
 @interface PKBibleViewController ()
 
@@ -467,28 +468,10 @@
 
   formattedCells = [[NSMutableArray alloc] init];
   UIFont *theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                    size: [[PKSettings instance] textFontSize]];
-
-  if (theFont == nil)
-  {
-    theFont = [UIFont fontWithName: [NSString stringWithFormat: @"%@-Regular", [[PKSettings instance] textFontFace]]
-                              size: [[PKSettings instance] textFontSize]];
-  }
-
-  if (theFont == nil)
-  {
-    theFont = [UIFont fontWithName: @"Helvetica"
-                              size: [[PKSettings instance] textFontSize]];
-  }
+                                 andSize: [[PKSettings instance] textFontSize]];
 
   UIFont *theBoldFont = [UIFont fontWithName: [[PKSettings instance] textGreekFontFace]
-                                        size: [[PKSettings instance] textFontSize]];
-
-  if (theBoldFont == nil)
-  {
-    theBoldFont = [UIFont fontWithName: [NSString stringWithFormat: @"%@-Regular", [[PKSettings instance] textGreekFontFace]]
-                                  size: [[PKSettings instance] textFontSize]];
-  }
+                                     andSize: [[PKSettings instance] textFontSize]];
 
   if (theBoldFont == nil)       // just in case there's no alternate
   {
@@ -749,11 +732,11 @@
 
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
   {
-    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] size: 44];
+    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 44];
   }
   else
   {
-    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] size: 28];
+    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 28];
   }
 
   // set the button titles
@@ -1030,11 +1013,11 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   // set the table title up
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
   {
-    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] size: 44];
+    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 44];
   }
   else
   {
-    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] size: 28];
+    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 28];
   }
   tableTitle.textAlignment    = UITextAlignmentCenter;
   tableTitle.textColor        = [PKSettings PKTextColor];
@@ -1391,7 +1374,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
                              [theNote objectAtIndex: 0],
                              [theNote objectAtIndex: 1]];
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                                                       size: [[PKSettings instance] textFontSize]]
+                                                                    andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999)];
     theMax += 10 + theSize.height + 10;
   }
@@ -1511,7 +1494,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
                              [theNote objectAtIndex: 0],
                              [theNote objectAtIndex: 1]];
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                                                       size: [[PKSettings instance] textFontSize]]
+                                                                    andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999)];
     CGRect theRect        = CGRectMake(10, theMax + 10, self.tableView.bounds.size.width - 20, theSize.height);
 
@@ -1519,7 +1502,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     theNoteLabel.text            = theNoteText;
     theNoteLabel.numberOfLines   = 0;
     theNoteLabel.font            = [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                                   size: [[PKSettings instance] textFontSize]];
+                                                andSize: [[PKSettings instance] textFontSize]];
     //#502057, 80, 32, 97
     theNoteLabel.textColor       = [PKSettings PKAnnotationColor];
     theNoteLabel.backgroundColor = [UIColor clearColor];

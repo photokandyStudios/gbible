@@ -48,6 +48,7 @@
 #import "SVProgressHUD.h"
 #import "PKHotLabel.h"
 #import "NSString+FontAwesome.h"
+#import "UIFont+Utility.h"
 
 @interface PKStrongsController ()
 
@@ -240,20 +241,8 @@
 
   // get the font
   self.theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                 size: [[PKSettings instance] textFontSize]];
-  
-  if (self.theFont == nil)
-  {
-    self.theFont = [UIFont fontWithName: [NSString stringWithFormat: @"%@-Regular", [[PKSettings instance] textFontFace]]
-                                   size: [[PKSettings instance] textFontSize]];
-  }
-  
-  if (self.theFont == nil)
-  {
-    self.theFont = [UIFont fontWithName: @"Helvetica"
-                                   size: [[PKSettings instance] textFontSize]];
-  }
-  self.theBigFont                = [UIFont fontWithName: [self.theFont fontName] size: [[PKSettings instance] textFontSize] + 6];
+                              andSize: [[PKSettings instance] textFontSize]];
+  self.theBigFont                = [theFont fontWithSizeDelta:6];
   
   self.tableView.backgroundView  = nil;
   self.tableView.backgroundColor = [PKSettings PKPageColor];

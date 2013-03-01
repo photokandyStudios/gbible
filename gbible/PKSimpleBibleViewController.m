@@ -49,6 +49,7 @@
 #import "TestFlight.h"
 #import "PKStrongs.h"
 #import "SVProgressHUD.h"
+#import "UIFont+Utility.h"
 
 @interface PKSimpleBibleViewController ()
 
@@ -247,29 +248,10 @@
 
   formattedCells = [[NSMutableArray alloc] init];
   UIFont *theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                    size: [[PKSettings instance] textFontSize]];
-
-  if (theFont == nil)
-  {
-    theFont = [UIFont fontWithName: [NSString stringWithFormat: @"%@-Regular", [[PKSettings instance] textFontFace]]
-                              size: [[PKSettings instance] textFontSize]];
-  }
-
-  if (theFont == nil)
-  {
-    theFont = [UIFont fontWithName: @"Helvetica"
-                              size: [[PKSettings instance] textFontSize]];
-  }
+                                 andSize: [[PKSettings instance] textFontSize]];
 
   UIFont *theBoldFont = [UIFont fontWithName: [[PKSettings instance] textGreekFontFace]
-                                        size: [[PKSettings instance] textFontSize]];
-
-  if (theBoldFont == nil)
-  {
-    theBoldFont = [UIFont fontWithName: [NSString stringWithFormat: @"%@-Regular", [[PKSettings instance] textGreekFontFace]]
-                                  size: [[PKSettings instance] textFontSize]];
-  }
-
+                                     andSize: [[PKSettings instance] textFontSize]];
   if (theBoldFont == nil)       // just in case there's no alternate
   {
     theBoldFont = theFont;
@@ -587,7 +569,7 @@
                              [theNote objectAtIndex: 0],
                              [theNote objectAtIndex: 1]];
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                                                       size: [[PKSettings instance] textFontSize]]
+                                                                    andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999)];
     theMax += 10 + theSize.height + 10;
   }
@@ -694,7 +676,7 @@
                              [theNote objectAtIndex: 0],
                              [theNote objectAtIndex: 1]];
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                                                       size: [[PKSettings instance] textFontSize]]
+                                                                    andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999)];
     CGRect theRect        = CGRectMake(10, theMax + 10, self.tableView.bounds.size.width - 20, theSize.height);
 
@@ -702,7 +684,7 @@
     theNoteLabel.text            = theNoteText;
     theNoteLabel.numberOfLines   = 0;
     theNoteLabel.font            = [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                                   size: [[PKSettings instance] textFontSize]];
+                                                andSize: [[PKSettings instance] textFontSize]];
     theNoteLabel.textColor       = [PKSettings PKAnnotationColor];
     theNoteLabel.backgroundColor = [UIColor clearColor];
     theNoteLabel.shadowColor     = [PKSettings PKLightShadowColor];

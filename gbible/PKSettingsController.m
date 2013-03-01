@@ -495,7 +495,7 @@ const int SECTION_VERSION = 4;
 -(CGFloat)tableView: (UITableView *) tableView heightForFooterInSection: (NSInteger) section
 {
   return 40.0 +
-         [[self tableView: tableView titleForFooterInSection: section] sizeWithFont: [UIFont systemFontOfSize: 14]
+         [[self tableView: tableView titleForFooterInSection: section] sizeWithFont: [UIFont systemFontOfSize: 16]
           constrainedToSize: CGSizeMake(tableView.bounds.size.width -
                                         ( ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88: 20 ),
                                         1000)].height;

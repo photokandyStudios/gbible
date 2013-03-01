@@ -36,6 +36,7 @@
 // their respective licenses.
 //
 #import "PKLabel.h"
+#import "UIFont+Utility.h"
 
 @implementation PKLabel
 
@@ -79,6 +80,9 @@
 
 -(void) draw: (CGContextRef) theCtx
 {
+  UIFont *theFont = font;
+  if ([text rangeOfString:@"/"].location != NSNotFound) theFont = font.italicFont;
+  
   CGContextSaveGState(theCtx);
   {
     if (backgroundColor)
@@ -93,10 +97,10 @@
       CGRect newFrame = frame;
       newFrame.origin.x += shadowOffset.width;
       newFrame.origin.y += shadowOffset.height;
-      [text drawInRect: newFrame withFont: font];
+      [text drawInRect: newFrame withFont: theFont];
     }
     CGContextSetFillColorWithColor(theCtx, textColor.CGColor);
-    [text drawInRect: frame withFont: font];
+    [text drawInRect: frame withFont: theFont];
   }
   CGContextRestoreGState(theCtx);
 }

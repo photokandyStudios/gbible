@@ -41,6 +41,7 @@
 #import "CoolButton.h"
 #import "TPKeyboardAvoidingScrollView.h"
 #import "PKAppDelegate.h"
+#import "UIFont+Utility.h"
 
 @interface PKLayoutController ()
 @property (strong, nonatomic) UILabel *previewLabel;
@@ -61,7 +62,6 @@
 @property (strong, nonatomic) UISegmentedControl *themeSelector;
 
 @property (strong, nonatomic) NSArray *fontNames;
-@property (strong, nonatomic) NSArray *fontFaces;
 @property (strong, nonatomic) NSArray *fontSizes;
 @property (strong, nonatomic) NSArray *themeTextColors;
 @property (strong, nonatomic) NSArray *themeBgColors;
@@ -85,7 +85,6 @@
 @synthesize decreaseBrightnessLabel;
 @synthesize increaseBrightnessLabel;
 @synthesize fontNames;
-@synthesize fontFaces;
 @synthesize delegate;
 @synthesize fontSizes;
 @synthesize themeSelector;
@@ -312,13 +311,14 @@
 
   //[self.view addSubview:scroller];
 
-  fontNames = @[__T(@"Courier New"),    __T(@"Courier New Bold"),     __T(@"Helvetica Light"), __T(@"Helvetica"),
+  fontNames = @[__T(@"Courier"),    __T(@"Courier Bold"),
+                __T(@"Courier New"),    __T(@"Courier New Bold"),     __T(@"Helvetica Light"), __T(@"Helvetica"),
                 __T(@"Helvetica Bold"), __T(@"Helvetica Neue Light"), __T(@"Helvetica Neue"),  __T(@"Helvetica Neue Bold"),
-                __T(@"OpenDyslexic"),   __T(@"OpenDyslexic Bold"),    __T(@"Palatino"),        __T(@"Palatino Bold")];
+                __T(@"Open Dyslexic"),  __T(@"Open Dyslexic Bold"),   __T(@"Palatino"),        __T(@"Palatino Bold")];
 
-  fontFaces = @[@"CourierNewPSMT", @"CourierNewPS-BoldMT", @"Helvetica-Light", @"Helvetica",
-                @"Helvetica-Bold", @"HelveticaNeue-Light", @"HelveticaNeue", @"HelveticaNeue-Bold",
-                @"OpenDyslexic", @"OpenDyslexic-Bold", @"Palatino-Roman", @"Palatino-Bold"];
+  //fontFaces = @[@"CourierNewPSMT", @"CourierNewPS-BoldMT", @"Helvetica-Light", @"Helvetica",
+  //              @"Helvetica-Bold", @"HelveticaNeue-Light", @"HelveticaNeue", @"HelveticaNeue-Bold",
+  //              @"OpenDyslexic", @"OpenDyslexic-Bold", @"Palatino-Roman", @"Palatino-Bold"];
 
   // my height is 440px
 }
@@ -348,7 +348,7 @@
 
 -(NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
-  return fontFaces.count;
+  return fontNames.count;
 }
 
 -(NSInteger) numberOfSectionsInTableView: (UITableView *) tableView
@@ -372,19 +372,19 @@
 
   cell.textLabel.text          = fontNames[row];
   cell.textLabel.numberOfLines = 2;
-  cell.textLabel.font          = [UIFont fontWithName: fontFaces[row] size: 14];
+  cell.textLabel.font          = [UIFont fontWithName: fontNames[row] andSize: 14];
   cell.accessoryType           = UITableViewCellAccessoryNone;
 
   if (tableView == greekFontPicker)
   {
-    if ([[[PKSettings instance] textGreekFontFace] isEqualToString: fontFaces[row]])
+    if ([[[PKSettings instance] textGreekFontFace] isEqualToString: fontNames[row]])
     {
       cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
   }
   else
   {
-    if ([[[PKSettings instance] textFontFace] isEqualToString: fontFaces[row]])
+    if ([[[PKSettings instance] textFontFace] isEqualToString: fontNames[row]])
     {
       cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
@@ -400,11 +400,11 @@
 
   if (tableView == greekFontPicker)
   {
-    ( (PKSettings *)[PKSettings instance] ).textGreekFontFace = fontFaces[row];
+    ( (PKSettings *)[PKSettings instance] ).textGreekFontFace = fontNames[row];
   }
   else
   {
-    ( (PKSettings *)[PKSettings instance] ).textFontFace = fontFaces[row];
+    ( (PKSettings *)[PKSettings instance] ).textFontFace = fontNames[row];
   }
   [tableView reloadData];
   [self notifyDelegate];

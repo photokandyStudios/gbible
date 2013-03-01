@@ -49,6 +49,7 @@
 #import "SVProgressHUD.h"
 #import "NSString+FontAwesome.h"
 #import "PKReference.h"
+#import "UIFont+Utility.h"
 
 @interface PKSearchViewController ()
 
@@ -227,27 +228,10 @@
   self.fontSize = [[PKSettings instance] textFontSize];
   // get the font
   UIFont *theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                    size: [[PKSettings instance] textFontSize]];
+                                 andSize: [[PKSettings instance] textFontSize]];
   
-  if (theFont == nil)
-  {
-    theFont = [UIFont fontWithName: [NSString stringWithFormat: @"%@-Regular", [[PKSettings instance] textFontFace]]
-                              size: [[PKSettings instance] textFontSize]];
-  }
-  
-  if (theFont == nil)
-  {
-    theFont = [UIFont fontWithName: @"Helvetica"
-                              size: [[PKSettings instance] textFontSize]];
-  }
   UIFont *theBoldFont = [UIFont fontWithName: [[PKSettings instance] textGreekFontFace]
-                                        size: [[PKSettings instance] textFontSize]];
-  
-  if (theBoldFont == nil)
-  {
-    theBoldFont = [UIFont fontWithName: [NSString stringWithFormat: @"%@-Regular", [[PKSettings instance] textGreekFontFace]]
-                                  size: [[PKSettings instance] textFontSize]];
-  }
+                                     andSize: [[PKSettings instance] textFontSize]];
   
   if (theBoldFont == nil)       // just in case there's no alternate
   {
@@ -373,7 +357,7 @@
   }
   else
   {
-    UIFont *theHeadingFont = [UIFont fontWithName:self.leftFont.fontName size:self.leftFont.pointSize*1.25];
+    UIFont *theHeadingFont = [self.leftFont fontWithSizeDeltaPercent:1.25];
     theHeight = 40 + [@"M" sizeWithFont: theHeadingFont].height + [@"M" sizeWithFont: leftFont].height*2 + + [@"M" sizeWithFont: rightFont].height*2;
   }
   [cellHeights setObject:@(theHeight) forKey:@(row)];
@@ -471,7 +455,7 @@
   }
   else
   {
-    UIFont *theHeadingFont = [UIFont fontWithName:self.leftFont.fontName size:self.leftFont.pointSize*1.25];
+    UIFont *theHeadingFont = [self.leftFont fontWithSizeDeltaPercent:1.25];
     UILabel *theReference = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, theCellWidth-20, [@"M" sizeWithFont: theHeadingFont].height)];
     
     PKHotLabel *theTopText = [[PKHotLabel alloc] initWithFrame:CGRectMake(10, 20 + [@"M" sizeWithFont: theHeadingFont].height,

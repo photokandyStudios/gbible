@@ -50,6 +50,7 @@
 #import "PKSimpleBibleViewController.h"
 #import "KBKeyboardHandler.h"
 #import "PKStrongsController.h"
+#import "UIFont+Utility.h"
 
 @interface PKNoteEditorViewController ()
 
@@ -172,19 +173,7 @@
   
   // get the font
   UIFont *theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                    size: [[PKSettings instance] textFontSize]];
-  
-  if (theFont == nil)
-  {
-    theFont = [UIFont fontWithName: [NSString stringWithFormat: @"%@-Regular", [[PKSettings instance] textFontFace]]
-                              size: [[PKSettings instance] textFontSize]];
-  }
-  
-  if (theFont == nil)
-  {
-    theFont = [UIFont fontWithName: @"Helvetica"
-                              size: [[PKSettings instance] textFontSize]];
-  }
+                                 andSize: [[PKSettings instance] textFontSize]];
   
   scroller =
   [[TPKeyboardAvoidingScrollView alloc] initWithFrame: CGRectMake(0, 0, self.view.bounds.size.width,
@@ -201,7 +190,7 @@
   txtNote.autoresizingMask        = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
   txtNote.font           = theFont;
-  txtTitle.font          = [UIFont fontWithName:[theFont fontName] size:[theFont pointSize]*1.5];
+  txtTitle.font          = [theFont fontWithSizeDeltaPercent:1.5];
   
   //txtTitle.returnKeyType = UIReturnKeyNext;
   //txtNote.returnKeyType  = UIReturnKeyDefault;

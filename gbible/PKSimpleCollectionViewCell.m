@@ -51,7 +51,7 @@
         self.label = [[UILabel alloc] initWithFrame:CGRectMake(5,5, frame.size.width-10, frame.size.height-10)];
         self.label.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
         self.label.textAlignment = UITextAlignmentCenter;
-        self.label.font = [UIFont boldSystemFontOfSize:50.0];
+        //self.label.font = [UIFont boldSystemFontOfSize:50.0];
         self.label.backgroundColor = [UIColor clearColor];
         self.label.textColor = [PKSettings PKTextColor];
         self.label.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
