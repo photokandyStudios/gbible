@@ -64,6 +64,9 @@
 		6A14850316DDA19D002AEA0A /* PKVerseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A14850216DDA19D002AEA0A /* PKVerseTableViewController.m */; };
 		6A1D143316CC494C0016C2BD /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6A1D143016CC494C0016C2BD /* iRate.bundle */; };
 		6A1D143416CC494C0016C2BD /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D143216CC494C0016C2BD /* iRate.m */; };
+		6A1E279016DFFF8B00D516CA /* UIFont+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E278F16DFFF8B00D516CA /* UIFont+Utility.m */; };
+		6A1E279316E0146B00D516CA /* OpenDyslexic-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1E279116E0146B00D516CA /* OpenDyslexic-BoldItalic.otf */; };
+		6A1E279416E0146B00D516CA /* OpenDyslexic-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1E279216E0146B00D516CA /* OpenDyslexic-Italic.otf */; };
 		6A2039A516C49FDE00CA4749 /* PKSimpleBibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A2039A416C49FDE00CA4749 /* PKSimpleBibleViewController.m */; };
 		6A21635F1530EE3600D41447 /* PKHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A21635E1530EE3600D41447 /* PKHistory.m */; };
 		6A2163701530F7E700D41447 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A21636F1530F7E700D41447 /* about.html */; };
@@ -166,9 +169,6 @@
 		6A9B86AC15422E6100E4ABC0 /* topShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86A815422E6100E4ABC0 /* topShadow.png */; };
 		6A9B86AD15422E6100E4ABC0 /* topShadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86A915422E6100E4ABC0 /* topShadow@2x.png */; };
 		6A9B86B01542792400E4ABC0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9B86AF1542792400E4ABC0 /* SystemConfiguration.framework */; };
-		6A9B86B5154283C900E4ABC0 /* Pfennig.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86B21542818600E4ABC0 /* Pfennig.ttf */; };
-		6A9B86B6154283C900E4ABC0 /* PfennigBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86B31542818600E4ABC0 /* PfennigBold.ttf */; };
-		6A9B86B7154283C900E4ABC0 /* NewsCycle-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86B11542816700E4ABC0 /* NewsCycle-Regular.ttf */; };
 		6A9B86C11543A5CD00E4ABC0 /* Swipe.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BD1543A5CD00E4ABC0 /* Swipe.png */; };
 		6A9B86C21543A5CD00E4ABC0 /* Swipe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */; };
 		6A9B86C31543A5CD00E4ABC0 /* Wait.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9B86BF1543A5CD00E4ABC0 /* Wait.png */; };
@@ -329,6 +329,10 @@
 		6A1D143116CC494C0016C2BD /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
 		6A1D143216CC494C0016C2BD /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
 		6A1D143516CDBD390016C2BD /* PKSearchDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKSearchDelegate.h; sourceTree = "<group>"; };
+		6A1E278E16DFFF8B00D516CA /* UIFont+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+Utility.h"; sourceTree = "<group>"; };
+		6A1E278F16DFFF8B00D516CA /* UIFont+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Utility.m"; sourceTree = "<group>"; };
+		6A1E279116E0146B00D516CA /* OpenDyslexic-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic-BoldItalic.otf"; sourceTree = "<group>"; };
+		6A1E279216E0146B00D516CA /* OpenDyslexic-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic-Italic.otf"; sourceTree = "<group>"; };
 		6A2039A316C49FDE00CA4749 /* PKSimpleBibleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSimpleBibleViewController.h; sourceTree = "<group>"; };
 		6A2039A416C49FDE00CA4749 /* PKSimpleBibleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSimpleBibleViewController.m; sourceTree = "<group>"; };
 		6A21635D1530EE3600D41447 /* PKHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKHistory.h; sourceTree = "<group>"; };
@@ -481,9 +485,6 @@
 		6A9B86A815422E6100E4ABC0 /* topShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topShadow.png; sourceTree = "<group>"; };
 		6A9B86A915422E6100E4ABC0 /* topShadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topShadow@2x.png"; sourceTree = "<group>"; };
 		6A9B86AF1542792400E4ABC0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		6A9B86B11542816700E4ABC0 /* NewsCycle-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewsCycle-Regular.ttf"; sourceTree = "<group>"; };
-		6A9B86B21542818600E4ABC0 /* Pfennig.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pfennig.ttf; sourceTree = "<group>"; };
-		6A9B86B31542818600E4ABC0 /* PfennigBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PfennigBold.ttf; sourceTree = "<group>"; };
 		6A9B86BD1543A5CD00E4ABC0 /* Swipe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Swipe.png; sourceTree = "<group>"; };
 		6A9B86BE1543A5CD00E4ABC0 /* Swipe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Swipe@2x.png"; sourceTree = "<group>"; };
 		6A9B86BF1543A5CD00E4ABC0 /* Wait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wait.png; sourceTree = "<group>"; };
@@ -975,6 +976,8 @@
 				6A74306616ADDCEA00DC1320 /* searchutils.m */,
 				6ADD8C4A16D1810500664337 /* UIBarButtonItem+Utility.h */,
 				6ADD8C4B16D1810500664337 /* UIBarButtonItem+Utility.m */,
+				6A1E278E16DFFF8B00D516CA /* UIFont+Utility.h */,
+				6A1E278F16DFFF8B00D516CA /* UIFont+Utility.m */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -1149,9 +1152,8 @@
 				6A116AF01696585700E5C2D9 /* FontAwesomeFont.ttf */,
 				6AD4A0A5166F19E70005F519 /* OpenDyslexic-Bold.otf */,
 				6AD4A0A6166F19E70005F519 /* OpenDyslexic-Regular.otf */,
-				6A9B86B21542818600E4ABC0 /* Pfennig.ttf */,
-				6A9B86B31542818600E4ABC0 /* PfennigBold.ttf */,
-				6A9B86B11542816700E4ABC0 /* NewsCycle-Regular.ttf */,
+				6A1E279116E0146B00D516CA /* OpenDyslexic-BoldItalic.otf */,
+				6A1E279216E0146B00D516CA /* OpenDyslexic-Italic.otf */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -1609,9 +1611,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A9B86B5154283C900E4ABC0 /* Pfennig.ttf in Resources */,
-				6A9B86B6154283C900E4ABC0 /* PfennigBold.ttf in Resources */,
-				6A9B86B7154283C900E4ABC0 /* NewsCycle-Regular.ttf in Resources */,
 				6AF0C0B0150EE8BB00BFAE03 /* InfoPlist.strings in Resources */,
 				6AF9D03C1512939E00514499 /* back_icon@2x.png in Resources */,
 				6AF9D03B1512939E00514499 /* back_icon.png in Resources */,
@@ -1752,6 +1751,8 @@
 				6AE5B94016BF71F6004256CC /* key.png in Resources */,
 				6AE5B94116BF71F6004256CC /* key@2x.png in Resources */,
 				6A1D143316CC494C0016C2BD /* iRate.bundle in Resources */,
+				6A1E279316E0146B00D516CA /* OpenDyslexic-BoldItalic.otf in Resources */,
+				6A1E279416E0146B00D516CA /* OpenDyslexic-Italic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1869,6 +1870,7 @@
 				6A43F14F16D3270F007F22B1 /* WKVerticalScrollBar.m in Sources */,
 				6A14850316DDA19D002AEA0A /* PKVerseTableViewController.m in Sources */,
 				6A280BDA16DDB64700324F4B /* PKReference.m in Sources */,
+				6A1E279016DFFF8B00D516CA /* UIFont+Utility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

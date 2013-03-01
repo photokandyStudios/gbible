@@ -49,16 +49,15 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.2.5706</string>
+	<string>1.2.5713</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenDyslexic-Bold.otf</string>
 		<string>OpenDyslexic-Regular.otf</string>
-		<string>Pfennig.ttf</string>
-		<string>PfennigBold.ttf</string>
-		<string>NewsCycle-Regular.ttf</string>
+		<string>OpenDyslexic-Italic.otf</string>
+		<string>OpenDyslexic-BoldItalic.otf</string>
 		<string>FontAwesomeFont.ttf</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
