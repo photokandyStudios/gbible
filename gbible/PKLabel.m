@@ -81,7 +81,8 @@
 -(void) draw: (CGContextRef) theCtx
 {
   UIFont *theFont = font;
-  if ([text rangeOfString:@"/"].location != NSNotFound) theFont = font.italicFont;
+  // just for kicks
+  //if ([text rangeOfString:@"/"].location != NSNotFound) theFont = font.italicFont;
   
   CGContextSaveGState(theCtx);
   {
