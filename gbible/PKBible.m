@@ -646,31 +646,12 @@
   // we need to know the height of an M (* the setting...)
   CGFloat lineHeight   = [@"M" sizeWithFont: theFont].height;
   lineHeight    = lineHeight * ( (float)[[PKSettings instance] textLineSpacing] / 100.0 );
-  // determine the maximum size of the column (1 line, 2 lines, 3 lines?)
-  
-  /*CGFloat columnHeight = lineHeight;
-  columnHeight += (lineHeight * [[PKSettings instance] textVerseSpacing]);
-
-  if (parsed)
-  {
-    // are we going to show morphology?
-    if ([[PKSettings instance] showMorphology])
-    {
-      columnHeight += lineHeight;
-    }
-    columnHeight += lineHeight;         // for G#s
-  }
-  */
-
   CGFloat maxY = 0.0;
 
   for (int i = 0; i < [theWordArray count]; i++)
   {
-    NSArray *theWordElement = [theWordArray objectAtIndex: i];
-    //NSString *theWord = [theWordElement objectAtIndex:0];
-    //int theWordType = [[theWordElement objectAtIndex:1] intValue];
-    //CGFloat wordX = [[theWordElement objectAtIndex:2] floatValue];
-    CGFloat wordY = [[theWordElement objectAtIndex: 3] floatValue];
+    PKLabel *theWordElement = theWordArray[i];
+    CGFloat wordY = theWordElement.frame.origin.y + theWordElement.frame.size.height;;
 
     if (wordY > maxY)
     {
@@ -678,8 +659,7 @@
     }
   }
 
-  //maxY += columnHeight + lineHeight;
-  maxY += lineHeight + (lineHeight / 2);       //RE: ISSUE # 5
+  maxY += lineHeight/2 ;//+ (lineHeight / 2);       //RE: ISSUE # 5
 
   return maxY;
 }
@@ -776,6 +756,7 @@
   BOOL showStrongs     = [[PKSettings instance] showStrongs];
   BOOL showInterlinear = [[PKSettings instance] showInterlinear];
   BOOL compressRightSide=[[PKSettings instance] compressRightSideText];
+  BOOL strongsOnTop    = [[PKSettings instance] strongsOnTop];
   
   // what greek text are we?
   int whichGreekText          = [[PKSettings instance] greekText];
@@ -797,6 +778,8 @@
   {
     theBoldFont = theFont;
   }
+  
+  UIFont *theSmallerFont = [theFont fontWithSizeDeltaPercent:0.90];
 
   // set Margin
   CGFloat theMargin = 5;
@@ -808,15 +791,19 @@
   }
   // set starting points
   CGFloat startX      = theRect.origin.x + theMargin;  // some margin
-  CGFloat startY      = 0;  //theRect.origin.y;
-
+  CGFloat xOffset     = 0;
+  if (theColumn>1 && !compression)
+  {
+    xOffset = [self columnWidth:1 forBounds:theRect withCompression:compression];
+  }
+  CGFloat startY      = 0;
   CGFloat curX        = startX;
   CGFloat curY;
 
   // maximum point
   CGFloat endX;
 
-  CGFloat columnWidth = [self columnWidth: theColumn forBounds: theRect withCompression:compression];     // (theRect.size.width) * columnMultiplier;
+  CGFloat columnWidth = [self columnWidth: theColumn forBounds: theRect withCompression:compression];
 
   // new maximum point
   endX = startX + columnWidth;
@@ -839,6 +826,8 @@
   CGFloat spaceWidth            = [@" " sizeWithFont: theFont].width;
   // we need to know the height of an M (* the setting...)
   CGFloat lineHeight            = [@"M" sizeWithFont: theFont].height;
+  CGFloat smallerLineHeight     = [@"M" sizeWithFont: theSmallerFont].height;
+  CGFloat lineHeightAvg         = lineHeight + ((lineHeight - smallerLineHeight)/2);
   lineHeight    = lineHeight * ( (float)[[PKSettings instance] textLineSpacing] / 100.0 );
   // determine the maximum size of the column (1 line, 2 lines, 3 lines?)
   CGFloat columnHeight          = lineHeight;
@@ -873,13 +862,15 @@
   }
 
   CGFloat yOffset = 0.0;
-  CGFloat strongsOffset = lineHeight * 1;
+  CGFloat wordOffset = lineHeight * (strongsOnTop ? 1 : 0);
+  CGFloat strongsOffset = lineHeight * (strongsOnTop ? 0 : 1);
   CGFloat morphologyOffset = lineHeight * 2;
   CGFloat translationOffset = lineHeight * 3;
   
   if (!showStrongs || !supportsStrongs)
   {
     strongsOffset = 0.0;
+    if (strongsOnTop) wordOffset -= lineHeight;
     morphologyOffset -= lineHeight;
     translationOffset -= lineHeight;
   }
@@ -907,8 +898,8 @@
   int theWordType            = -1;
   NSString *theWord;
   NSString *thePriorWord;
-  NSArray *thePriorWordArray = @[];
-  int thePriorWordArrayIndex = -1;
+  PKLabel *thePriorWordElement;
+  int thePriorWordElementIndex = -1;
 
   CGFloat maxX               = 0.0;
 
@@ -925,8 +916,8 @@
     // obtain the prior word array
     if (thePriorWordType == 0)
     {
-      thePriorWordArray = [theWordArray lastObject];
-      thePriorWordArrayIndex = theWordArray.count-1;
+      thePriorWordElement = [theWordArray lastObject];
+      thePriorWordElementIndex = theWordArray.count-1;
     }
 
     // and its size
@@ -934,7 +925,7 @@
 
     // determine the type of the word
     theWordType = 0;            // by default, we're a regular word
-    yOffset     = 0.0;
+    yOffset     = wordOffset;
 
     if (theColumn == 1)          // we only do this for greek text
     {
@@ -948,6 +939,7 @@
         // we're a G#
         theWordType = 10;
         yOffset     = strongsOffset;
+        theWord = [theOriginalWord substringFromIndex:1];
 
         if ([[theOriginalWord substringFromIndex: 1] intValue] > 5624)
         {
@@ -962,27 +954,23 @@
           }
         }
 
-        if (!showStrongs) //  || [[theOriginalWord substringFromIndex: 1] intValue] > 5624)
+        if (!showStrongs)
         {
           theWord = @"";
-//          theWordType = -1;
         }
 
         // add the G# to the previous word if it was a greek word --
         // this lets us get to the Strong's # from the greek word too.
-        if (thePriorWordArray != nil
-            && thePriorWordArray.count > 0
+        if (thePriorWordElement != nil
             && [[theOriginalWord substringFromIndex: 1] intValue] <= 5624
             )
         {
-          int theIndex = thePriorWordArrayIndex; //[theWordArray indexOfObject: thePriorWordArray];
+          int theIndex = thePriorWordElementIndex; 
 
           if (theIndex > -1
               && theIndex < theWordArray.count)
           {
-            NSMutableArray *theNewPriorWordArray = [thePriorWordArray mutableCopy];
-            theNewPriorWordArray[6] = @ ([[theOriginalWord substringFromIndex: 1] intValue]);
-            [theWordArray replaceObjectAtIndex: theIndex withObject: [theNewPriorWordArray copy]];
+            thePriorWordElement.secondTag = [[theOriginalWord substringFromIndex: 1] intValue];
           }
         }
       }
@@ -997,22 +985,12 @@
           theWordType = 5;
           yOffset     = translationOffset;
 
-/*          if (!showMorphology)
-          {
-            yOffset -= lineHeight;
-          }
-
-          if (!showStrongs)
-          {
-            yOffset -= lineHeight;
-          }*/
-
-          if ([[theWord substringToIndex: 1] isEqualToString: @"("])
+          if ([theWord hasPrefix: @"("])
           {
             theWord = [theWord substringFromIndex: 1];
           }
 
-          if ([[theWord substringFromIndex: [theWord length] - 1] isEqualToString: @")"])
+          if ([theWord hasSuffix: @")"])
           {
             theWord = [theWord substringToIndex: [theWord length] - 1];
           }
@@ -1034,25 +1012,15 @@
           else
           {
             // are we a morphology word? [A-Z]+[A-Z0-9\\-]+
-            if ([PKBible isMorphology: theWord])                  //[[theWord uppercaseString] isEqualToString:theWord]
-            /*([theOriginalWord characterAtIndex:0] >= 'A' &&
-               [theOriginalWord characterAtIndex:0] <= 'Z')
-               &&
-               thePriorWordType >= 10 && thePriorWordType <20) */
+            if ([PKBible isMorphology: theWord])
             {
               // we are!
               theWordType = 20;
               yOffset     = morphologyOffset;
-
-/*              if (!showStrongs)
-              {
-                yOffset -= lineHeight;
-              }
-
               if (!showMorphology)
               {
                 theWord = @"";
-              }*/
+              }
             }
           }
         }
@@ -1066,7 +1034,14 @@
     }
     else
     {
-      theSize = [theWord sizeWithFont: theFont];
+      if ((theColumn == 1) ? theWordType : -1 > -1)
+      {
+        theSize = [theWord sizeWithFont: theSmallerFont];
+      }
+      else
+      {
+        theSize = [theWord sizeWithFont: theFont];
+      }
     }
 
     // determine this word's position, and if we should word-wrap or not.
@@ -1091,15 +1066,31 @@
     }
 
     // start creating our word element
-    NSArray *theWordElement = [NSArray arrayWithObjects: theWord,
-                               [NSNumber numberWithInt: theWordType],
-                               [NSNumber numberWithFloat: curX],
-                               [NSNumber numberWithFloat: (curY + yOffset)],
-                               [NSNumber numberWithFloat: theSize.width],
-                               [NSNumber numberWithFloat: theSize.height],
-                               @ - 1,                                 // G# placeholder
-                               nil];
-
+    CGFloat newY = curY+yOffset;
+    if ((theColumn == 1) ? theWordType : -1 > -1) newY += lineHeightAvg - theSize.height;
+    PKLabel *theWordElement     = [[PKLabel alloc] initWithFrame:CGRectMake(curX + xOffset, newY,
+                                                                            theSize.width, theSize.height)];
+    theWordElement.text         = theWord;
+    theWordElement.shadowColor  = [PKSettings PKLightShadowColor];
+    theWordElement.shadowOffset = CGSizeMake(0, 1);
+    theWordElement.tag          = (theColumn == 1) ? theWordType : -1; // so we can avoid certain words later
+    theWordElement.font         = (theColumn == 1 && theWordType == 0) ? theBoldFont : ((theWordElement.tag>-1) ? theSmallerFont : theFont);
+    theWordElement.secondTag    = -1;          // placeholder for Strong's
+    switch (theWordType)
+    {
+case 5:
+        theWordElement.textColor = [PKSettings PKInterlinearColor];
+        break;
+case 10:
+        theWordElement.textColor = [PKSettings PKStrongsColor];
+        theWordElement.secondTag = [[theOriginalWord substringFromIndex: 1] intValue];
+        break;
+case 20:
+        theWordElement.textColor = [PKSettings PKMorphologyColor];
+        break;
+default:
+      theWordElement.textColor    = [PKSettings PKTextColor];
+    }
     if ( ( showMorphology
            || (theWordType < 20
                && !showMorphology) )
