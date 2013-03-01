@@ -63,7 +63,6 @@
 @property (strong, nonatomic) NSMutableDictionary *highlightedVerses;
 @property (strong, nonatomic) NSMutableArray *cellHeights;     // RE: ISSUE #1
 @property (strong, nonatomic) NSMutableArray *cells;           // RE: ISSUE #1
-@property (strong, nonatomic) NSMutableArray *reusableLabels;
 @property (strong, nonatomic) NSMutableArray *formattedCells;
 @property (strong, nonatomic) UITableViewCell *theCachedCell;
 @property (strong, nonatomic) NSArray *bibleTextIDs;
@@ -79,7 +78,7 @@
   int globalVerse;
 }
 
-@synthesize currentGreekChapter, currentEnglishChapter, formattedGreekChapter, formattedEnglishChapter, formattedGreekVerseHeights, formattedEnglishVerseHeights, selectedVerses, highlightedVerses, cellHeights, cells, reusableLabels, formattedCells, theCachedCell, bibleTextIDs, currentBook, currentChapter, reusableLabelQueuePosition, dirty;
+@synthesize currentGreekChapter, currentEnglishChapter, formattedGreekChapter, formattedEnglishChapter, formattedGreekVerseHeights, formattedEnglishVerseHeights, selectedVerses, highlightedVerses, cellHeights, cells, formattedCells, theCachedCell, bibleTextIDs, currentBook, currentChapter, reusableLabelQueuePosition, dirty;
 @synthesize delegate, notifyWithCopyOfVerse;
 
 #pragma mark - 
@@ -144,23 +143,6 @@
                                                                                   andChapter: currentChapter];
 }
 
--(PKLabel *) deQueueReusableLabel
-{
-  PKLabel *theLabel = nil;
-  reusableLabelQueuePosition++;
-  if ([reusableLabels count] > reusableLabelQueuePosition)
-  {
-    theLabel = [reusableLabels objectAtIndex: reusableLabelQueuePosition];
-    return theLabel;
-  }
-  else
-  {
-    theLabel = [[PKLabel alloc] init];
-    [reusableLabels addObject: theLabel];
-    return theLabel;
-  }
-}
-
 -(void)loadChapter
 {
   BOOL parsed               = NO;
@@ -212,15 +194,6 @@
 
   for (int i = 0; i < [currentEnglishChapter count]; i++)
   {
-    /*
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
-         || UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]) )
-    {
-      greekHeightIPhone = 0.0;
-    }
-    else
-    {
-    */
       if (i < formattedGreekVerseHeights.count)
       {
         greekHeightIPhone = [formattedGreekVerseHeights[i] floatValue];
@@ -229,7 +202,6 @@
       {
         greekHeightIPhone = 0.0;
       }
-    //}
 
     NSArray *formattedText = [PKBible formatText: [currentEnglishChapter objectAtIndex: i]
                                        forColumn: 2 withBounds: self.view.bounds withParsings: parsed
@@ -264,7 +236,6 @@
     NSUInteger row = i;
 
     NSArray *formattedGreekVerse;
-
     if (row < [formattedGreekChapter count])
     {
       formattedGreekVerse = [formattedGreekChapter objectAtIndex: row];
@@ -273,8 +244,8 @@
     {
       formattedGreekVerse = nil;
     }
+    
     NSArray *formattedEnglishVerse;
-
     if (row < [formattedEnglishChapter count])
     {
       formattedEnglishVerse = [formattedEnglishChapter objectAtIndex: row];
@@ -284,80 +255,10 @@
       formattedEnglishVerse = nil;
     }
 
-    //CGFloat greekColumnWidth      = [PKBible columnWidth: 1 forBounds: self.view.bounds withCompression:YES];
     NSMutableArray *theLabelArray = [[NSMutableArray alloc] init];
+    [theLabelArray addObjectsFromArray:formattedGreekVerse];
+    [theLabelArray addObjectsFromArray:formattedEnglishVerse];
 
-    // insert Greek labels
-    for (int i = 0; i < [formattedGreekVerse count]; i++)
-    {
-      NSArray *theWordElement = [formattedGreekVerse objectAtIndex: i];
-      NSString *theWord       = [theWordElement objectAtIndex: 0];
-      int theWordType         = [[theWordElement objectAtIndex: 1] intValue];
-      CGFloat wordX           = [[theWordElement objectAtIndex: 2] floatValue];
-      CGFloat wordY           = [[theWordElement objectAtIndex: 3] floatValue];
-      CGFloat wordW           = [[theWordElement objectAtIndex: 4] floatValue];
-      CGFloat wordH           = [[theWordElement objectAtIndex: 5] floatValue];
-      int theStrongsValue     = [theWordElement[6] intValue];
-
-      PKLabel *theLabel       = [self deQueueReusableLabel]; 
-      [theLabel setFrame: CGRectMake(wordX, wordY, wordW, wordH)];
-      theLabel.text         = theWord; 
-      theLabel.textColor    = [PKSettings PKTextColor];
-      theLabel.shadowColor  = [PKSettings PKLightShadowColor];
-      theLabel.shadowOffset = CGSizeMake(0, 1);
-
-      if (theWordType == 5)
-      {
-        theLabel.textColor = [PKSettings PKInterlinearColor];
-      }
-
-      if (theWordType == 10)
-      {         
-        theLabel.textColor = [PKSettings PKStrongsColor];
-      }
-
-      if (theWordType == 20)
-      {         
-        theLabel.textColor = [PKSettings PKMorphologyColor];
-      }
-      theLabel.font      = theFont;
-      theLabel.tag       = theWordType; // so we can avoid certain words later
-      theLabel.secondTag = theStrongsValue;       // so we can always get the strong's #
-
-      if (theWordType == 0)
-      {
-        theLabel.font = theBoldFont;
-      }
-      [theLabelArray addObject: theLabel];
-    }
-
-    // insert English labels
-    //if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
-    //     && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) )
-    //{
-    //  greekColumnWidth = 0;
-    //}
-
-    for (int i = 0; i < [formattedEnglishVerse count]; i++)
-    {
-      NSArray *theWordElement = [formattedEnglishVerse objectAtIndex: i];
-      NSString *theWord       = [theWordElement objectAtIndex: 0];
-      CGFloat wordX           = [[theWordElement objectAtIndex: 2] floatValue];
-      CGFloat wordY           = [[theWordElement objectAtIndex: 3] floatValue];
-      CGFloat wordW           = [[theWordElement objectAtIndex: 4] floatValue];
-      CGFloat wordH           = [[theWordElement objectAtIndex: 5] floatValue];
-
-      PKLabel *theLabel       = [self deQueueReusableLabel]; 
-      [theLabel setFrame: CGRectMake(wordX, wordY, wordW, wordH)];
-      theLabel.text         = theWord;
-      theLabel.textColor    = [PKSettings PKTextColor];
-      theLabel.shadowColor  = [PKSettings PKLightShadowColor];
-      theLabel.shadowOffset = CGSizeMake(0, 1);
-      theLabel.font         = theFont;
-      theLabel.tag          = -1;
-      theLabel.secondTag    = -1;
-      [theLabelArray addObject: theLabel];
-    }
     [formattedCells addObject: theLabelArray];
   }
 
