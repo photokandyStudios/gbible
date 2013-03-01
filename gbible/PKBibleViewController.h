@@ -47,67 +47,9 @@
 @interface PKBibleViewController : PKTableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate,
                                                           UIActionSheetDelegate, PKLayoutControllerDelegate , UIKeyInput,
                                                           PKSearchDelegate, PKBibleReferenceDelegate>
-
--(void)displayBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse;
-
-@property (strong, nonatomic) NSArray *currentGreekChapter;
-@property (strong, nonatomic) NSArray *currentEnglishChapter;
-
-@property (strong, nonatomic) NSMutableArray *formattedGreekChapter;
-@property (strong, nonatomic) NSMutableArray *formattedEnglishChapter;
-
-@property (strong, nonatomic) NSMutableArray *formattedGreekVerseHeights;
-@property (strong, nonatomic) NSMutableArray *formattedEnglishVerseHeights;
-
-@property (strong, nonatomic) NSMutableDictionary *selectedVerses;
-@property (strong, nonatomic) NSMutableDictionary *highlightedVerses;
-
-@property (strong, nonatomic) NSString *selectedWord;
-@property (strong, nonatomic) PKReference *selectedPassage;
-
-@property (strong, nonatomic) NSMutableArray *cellHeights;     // RE: ISSUE #1
-@property (strong, nonatomic) NSMutableArray *cells;           // RE: ISSUE #1
-
-@property (strong, nonatomic) NSMutableArray *reusableLabels;
-
-// UI elements
-@property (strong, nonatomic) UIBarButtonItem *changeHighlight;
-@property (strong, nonatomic) NSMutableArray *formattedCells;
-@property (strong, nonatomic) UIMenuController *ourMenu;
-@property int ourMenuState;
-@property (strong, nonatomic) UIActionSheet *ourPopover;
-
-@property (strong, nonatomic) UIButton *btnRegularScreen;
-
-@property (strong, nonatomic) UILabel *tableTitle;
-
-@property int theWordTag;
-@property int theWordIndex;
-
-@property BOOL fullScreen;
-
-@property (strong, nonatomic) UITableViewCell *theCachedCell;
-
 @property BOOL dirty;
 
-@property (strong, nonatomic) UIButton *previousChapterButton;
-@property (strong, nonatomic) UIButton *nextChapterButton;
-
-@property (strong, nonatomic) UIPopoverController *PO;
-//@property (strong, nonatomic) FWTPopoverView *popoverView;
-
-@property (strong, nonatomic) UIBarButtonItem *toggleStrongsBtn;
-@property (strong, nonatomic) UIBarButtonItem *toggleMorphologyBtn;
-@property (strong, nonatomic) UIBarButtonItem *toggleTranslationBtn;
-
-@property (strong, nonatomic) UIBarButtonItem *leftTextSelect;
-@property (strong, nonatomic) UIBarButtonItem *rightTextSelect;
-@property (strong, nonatomic) NSArray *bibleTextIDs;
-
-@property (strong, nonatomic) UITextField *keyboardControl;
-
-@property (strong, nonatomic, readwrite) UIView *inputView;
-
+-(void)displayBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse;
 -(void)notifyNoteChanged;
 
 @end
