@@ -658,13 +658,6 @@
 		6A0FDF3415485129004E70A7 /* Base Objects */ = {
 			isa = PBXGroup;
 			children = (
-				6A0FDF3515485157004E70A7 /* PKLabel.h */,
-				6A0FDF3615485157004E70A7 /* PKLabel.m */,
-				6A3E90521693E8F10062A4FA /* PKHotLabel.h */,
-				6A3E90531693E8F10062A4FA /* PKHotLabel.m */,
-				6A3E90551693E9910062A4FA /* PKHotLabelDelegate.h */,
-				6AA6620116AA298A00D2139A /* PKSimpleCollectionViewCell.h */,
-				6AA6620216AA298A00D2139A /* PKSimpleCollectionViewCell.m */,
 			);
 			name = "Base Objects";
 			sourceTree = "<group>";
@@ -1060,6 +1053,13 @@
 		6A9793AA1513F2EF00A5C9F1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6A0FDF3515485157004E70A7 /* PKLabel.h */,
+				6A0FDF3615485157004E70A7 /* PKLabel.m */,
+				6A3E90521693E8F10062A4FA /* PKHotLabel.h */,
+				6A3E90531693E8F10062A4FA /* PKHotLabel.m */,
+				6A3E90551693E9910062A4FA /* PKHotLabelDelegate.h */,
+				6AA6620116AA298A00D2139A /* PKSimpleCollectionViewCell.h */,
+				6AA6620216AA298A00D2139A /* PKSimpleCollectionViewCell.m */,
 				6A0FDF3815485840004E70A7 /* PKTableViewCell.h */,
 				6A0FDF3915485840004E70A7 /* PKTableViewCell.m */,
 				6AE5B94416BF7E2D004256CC /* PKTextView.h */,
