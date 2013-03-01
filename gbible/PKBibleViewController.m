@@ -71,7 +71,59 @@
 #import "PKReference.h"
 #import "UIFont+Utility.h"
 
+
 @interface PKBibleViewController ()
+@property (strong, nonatomic) NSArray *currentGreekChapter;
+@property (strong, nonatomic) NSArray *currentEnglishChapter;
+
+@property (strong, nonatomic) NSMutableArray *formattedGreekChapter;
+@property (strong, nonatomic) NSMutableArray *formattedEnglishChapter;
+
+@property (strong, nonatomic) NSMutableArray *formattedGreekVerseHeights;
+@property (strong, nonatomic) NSMutableArray *formattedEnglishVerseHeights;
+
+@property (strong, nonatomic) NSMutableDictionary *selectedVerses;
+@property (strong, nonatomic) NSMutableDictionary *highlightedVerses;
+
+@property (strong, nonatomic) NSString *selectedWord;
+@property (strong, nonatomic) PKReference *selectedPassage;
+
+@property (strong, nonatomic) NSMutableArray *cellHeights;     // RE: ISSUE #1
+@property (strong, nonatomic) NSMutableArray *cells;           // RE: ISSUE #1
+
+// UI elements
+@property (strong, nonatomic) UIBarButtonItem *changeHighlight;
+@property (strong, nonatomic) NSMutableArray *formattedCells;
+@property (strong, nonatomic) UIMenuController *ourMenu;
+@property int ourMenuState;
+@property (strong, nonatomic) UIActionSheet *ourPopover;
+
+@property (strong, nonatomic) UIButton *btnRegularScreen;
+
+@property (strong, nonatomic) UILabel *tableTitle;
+
+@property int theWordTag;
+@property int theWordIndex;
+
+@property BOOL fullScreen;
+
+@property (strong, nonatomic) UIButton *previousChapterButton;
+@property (strong, nonatomic) UIButton *nextChapterButton;
+
+@property (strong, nonatomic) UIPopoverController *PO;
+//@property (strong, nonatomic) FWTPopoverView *popoverView;
+
+@property (strong, nonatomic) UIBarButtonItem *toggleStrongsBtn;
+@property (strong, nonatomic) UIBarButtonItem *toggleMorphologyBtn;
+@property (strong, nonatomic) UIBarButtonItem *toggleTranslationBtn;
+
+@property (strong, nonatomic) UIBarButtonItem *leftTextSelect;
+@property (strong, nonatomic) UIBarButtonItem *rightTextSelect;
+@property (strong, nonatomic) NSArray *bibleTextIDs;
+
+@property (strong, nonatomic) UITextField *keyboardControl;
+
+@property (strong, nonatomic, readwrite) UIView *inputView;
 
 @property UIDeviceOrientation lastKnownOrientation;
 @property int reusableLabelQueuePosition;
@@ -80,8 +132,6 @@
 
 @implementation PKBibleViewController
 
-@synthesize reusableLabels;
-@synthesize reusableLabelQueuePosition;
 @synthesize lastKnownOrientation;
 @synthesize currentGreekChapter;
 @synthesize currentEnglishChapter;
@@ -107,8 +157,6 @@
 @synthesize ourPopover;
 
 @synthesize selectedPassage;
-
-@synthesize theCachedCell;
 
 @synthesize fullScreen;
 @synthesize btnRegularScreen;
@@ -344,24 +392,6 @@
                                                                                   andChapter: currentChapter];
 }
 
--(PKLabel *) deQueueReusableLabel
-{
-  PKLabel *theLabel = nil;
-
-  reusableLabelQueuePosition++;
-
-  if ([reusableLabels count] > reusableLabelQueuePosition)
-  {
-    theLabel = [reusableLabels objectAtIndex: reusableLabelQueuePosition];
-    return theLabel;
-  }
-  else
-  {
-    theLabel = [[PKLabel alloc] init];
-    [reusableLabels addObject: theLabel];
-    return theLabel;
-  }
-}
 
 /**
  *
@@ -373,7 +403,7 @@
   BOOL parsed               = NO;
   BOOL compression = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
          && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]);
-  reusableLabelQueuePosition = -1;
+
   NSUInteger currentBook    = [[PKSettings instance] currentBook];
   NSUInteger currentChapter = [[PKSettings instance] currentChapter];
   NSUInteger currentBible   = [[PKSettings instance] greekText];
@@ -464,6 +494,8 @@
   }
   endTime  = [NSDate date];
   tEndTime = [NSDate date];
+
+
   // now, create all our UILabels here, so we don't have to do it while generating a cell.
 
   formattedCells = [[NSMutableArray alloc] init];
@@ -485,7 +517,6 @@
     NSUInteger row = i;
 
     NSArray *formattedGreekVerse;
-
     if (row < [formattedGreekChapter count])
     {
       formattedGreekVerse = [formattedGreekChapter objectAtIndex: row];
@@ -494,8 +525,8 @@
     {
       formattedGreekVerse = nil;
     }
-    NSArray *formattedEnglishVerse;
 
+    NSArray *formattedEnglishVerse;
     if (row < [formattedEnglishChapter count])
     {
       formattedEnglishVerse = [formattedEnglishChapter objectAtIndex: row];
@@ -505,80 +536,9 @@
       formattedEnglishVerse = nil;
     }
 
-    CGFloat greekColumnWidth      = [PKBible columnWidth: 1 forBounds: self.view.bounds withCompression:compression];
     NSMutableArray *theLabelArray = [[NSMutableArray alloc] init];
-
-    // insert Greek labels
-    for (int i = 0; i < [formattedGreekVerse count]; i++)
-    {
-      NSArray *theWordElement = [formattedGreekVerse objectAtIndex: i];
-      NSString *theWord       = [theWordElement objectAtIndex: 0];
-      int theWordType         = [[theWordElement objectAtIndex: 1] intValue];
-      CGFloat wordX           = [[theWordElement objectAtIndex: 2] floatValue];
-      CGFloat wordY           = [[theWordElement objectAtIndex: 3] floatValue];
-      CGFloat wordW           = [[theWordElement objectAtIndex: 4] floatValue];
-      CGFloat wordH           = [[theWordElement objectAtIndex: 5] floatValue];
-      int theStrongsValue     = [theWordElement[6] intValue];
-
-      PKLabel *theLabel       = [self deQueueReusableLabel]; 
-      [theLabel setFrame: CGRectMake(wordX, wordY, wordW, wordH)];
-      theLabel.text         = theWord; //#573920 87, 57, 32
-      theLabel.textColor    = [PKSettings PKTextColor];
-      theLabel.shadowColor  = [PKSettings PKLightShadowColor];
-      theLabel.shadowOffset = CGSizeMake(0, 1);
-
-      if (theWordType == 5)
-      {
-        theLabel.textColor = [PKSettings PKInterlinearColor];
-      }
-
-      if (theWordType == 10)
-      {         //#204057
-        theLabel.textColor = [PKSettings PKStrongsColor];
-      }
-
-      if (theWordType == 20)
-      {         //#305720
-        theLabel.textColor = [PKSettings PKMorphologyColor];
-      }
-      theLabel.font      = theFont;
-      theLabel.tag       = theWordType; // so we can avoid certain words later
-      theLabel.secondTag = theStrongsValue;       // so we can always get the strong's #
-
-      if (theWordType == 0)
-      {
-        theLabel.font = theBoldFont;
-      }
-      [theLabelArray addObject: theLabel];
-    }
-
-    // insert English labels
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
-         && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) )
-    {
-      greekColumnWidth = 0;
-    }
-
-    for (int i = 0; i < [formattedEnglishVerse count]; i++)
-    {
-      NSArray *theWordElement = [formattedEnglishVerse objectAtIndex: i];
-      NSString *theWord       = [theWordElement objectAtIndex: 0];
-      CGFloat wordX           = [[theWordElement objectAtIndex: 2] floatValue];
-      CGFloat wordY           = [[theWordElement objectAtIndex: 3] floatValue];
-      CGFloat wordW           = [[theWordElement objectAtIndex: 4] floatValue];
-      CGFloat wordH           = [[theWordElement objectAtIndex: 5] floatValue];
-
-      PKLabel *theLabel       = [self deQueueReusableLabel]; 
-      [theLabel setFrame: CGRectMake(wordX + greekColumnWidth, wordY, wordW, wordH)];
-      theLabel.text         = theWord;
-      theLabel.textColor    = [PKSettings PKTextColor];
-      theLabel.shadowColor  = [PKSettings PKLightShadowColor];
-      theLabel.shadowOffset = CGSizeMake(0, 1);
-      theLabel.font         = theFont;
-      theLabel.tag          = -1;
-      theLabel.secondTag    = -1;
-      [theLabelArray addObject: theLabel];
-    }
+    [theLabelArray addObjectsFromArray:formattedGreekVerse];
+    [theLabelArray addObjectsFromArray:formattedEnglishVerse];
     [formattedCells addObject: theLabelArray];
   }
 
@@ -706,8 +666,6 @@
   {
     // set our title
     [self.navigationItem setTitle: __T(@"Read Bible")];
-    reusableLabelQueuePosition = -1;
-    reusableLabels             = [[NSMutableArray alloc] init];
   }
   return self;
 }
@@ -1236,14 +1194,10 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
   ourPopover                   = nil;
 
-  theCachedCell                = nil;
   cells = nil;
   cellHeights                  = nil;
 
   btnRegularScreen             = nil;
-
-  reusableLabels               = nil;
-  reusableLabelQueuePosition   = -1;
 
   tableTitle                   = nil;
 }
@@ -1375,7 +1329,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
                              [theNote objectAtIndex: 1]];
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                                                     andSize: [[PKSettings instance] textFontSize]]
-                             constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999)];
+                             constrainedToSize: CGSizeMake(self.tableView.bounds.size.width -
+                             (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 999)];
     theMax += 10 + theSize.height + 10;
   }
 
@@ -1496,7 +1451,10 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                                                     andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999)];
-    CGRect theRect        = CGRectMake(10, theMax + 10, self.tableView.bounds.size.width - 20, theSize.height);
+    CGRect theRect        = CGRectMake( ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad  ) ? 44 : 10,
+                                        theMax + 10,
+                                        self.tableView.bounds.size.width -
+                                        (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad  ) ? 88 : 20), theSize.height);
 
     UILabel *theNoteLabel = [[UILabel alloc] initWithFrame: theRect];
     theNoteLabel.text            = theNoteText;
@@ -1649,7 +1607,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     [self setUpMenuItems];
     CGPoint p              = [gestureRecognizer locationInView: self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: p];    // nil if no row
-    UILabel *theWordLabel  = nil;
+    PKLabel *theWordLabel  = nil;
     selectedWord        = nil;
     CGRect theRect;
     theRect.origin.x    = p.x;
@@ -1689,8 +1647,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
             {
               theWordTag   = theView.tag;
               theWordIndex = theView.secondTag;
-              theWord      = ( (UILabel *)theView ).text;
-              theWordLabel = (UILabel *)theView;
+              theWord      = ( (PKLabel *)theView ).text;
+              theWordLabel = (PKLabel *)theView;
               minDistance  = theDistance;
             }
           }
@@ -2322,9 +2280,11 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   }
 
   // if the word is a strong's #, we'll do that lookup instead.
-  if ([[selectedWord substringToIndex: 1] isEqualToString: @"G"]
-      && [[selectedWord substringFromIndex: 1] intValue] > 0)
+  //if ([[selectedWord substringToIndex: 1] isEqualToString: @"G"]
+  //    && [[selectedWord substringFromIndex: 1] intValue] > 0)
+  if (theWordIndex>0)
   {
+    selectedWord = [NSString stringWithFormat:@"G%i", theWordIndex];
     [self searchStrongs: sender];
     return;
   }
@@ -2372,10 +2332,15 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void)searchStrongs: (id) sender
 {
-  BOOL isStrongs            = [[selectedWord substringToIndex: 1] isEqualToString: @"G"]
-                              && [[selectedWord substringFromIndex: 1] intValue] > 0;
+  BOOL isStrongs            = theWordIndex>0;
+  //[[selectedWord substringToIndex: 1] isEqualToString: @"G"]
+  //                            && [[selectedWord substringFromIndex: 1] intValue] > 0;
   PKStrongsController *svc = [[PKStrongsController alloc] initWithStyle:UITableViewStylePlain];
   svc.delegate = self;
+  if (isStrongs)
+  {
+      selectedWord = [NSString stringWithFormat:@"G%i", theWordIndex];
+  }
   [svc doSearchForTerm: selectedWord byKeyOnly: isStrongs];
   
   UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
