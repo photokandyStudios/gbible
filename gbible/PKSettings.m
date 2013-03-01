@@ -73,6 +73,7 @@
 @synthesize usageStats;
 @synthesize extendHighlights;
 @synthesize compressRightSideText;
+@synthesize strongsOnTop;
 
 static id _instance;
 
@@ -127,6 +128,7 @@ static id _instance;
   showNotesInline    = [[self loadSetting: PK_SETTING_INLINENOTES] boolValue];
   showMorphology     = [[self loadSetting: PK_SETTING_SHOWMORPHOLOGY] boolValue];
   showStrongs        = [[self loadSetting: @"show-strongs"] boolValue];
+  strongsOnTop       = [[self loadSetting: @"strongs-on-top"] boolValue];
   showInterlinear    = [[self loadSetting: @"show-interlinear"] boolValue];
   useICloud          = [[self loadSetting: PK_SETTING_USEICLOUD] boolValue];
   
@@ -297,6 +299,7 @@ static id _instance;
     [self saveSetting: PK_SETTING_TRANSLITERATE valueForSetting: (transliterateText ? @"YES": @"NO")];
     [self saveSetting: PK_SETTING_INLINENOTES valueForSetting: (showNotesInline ? @"YES": @"NO")];
     [self saveSetting: PK_SETTING_SHOWMORPHOLOGY valueForSetting: (showMorphology ? @"YES": @"NO")];
+    [self saveSetting: @"strongs-on-top" valueForSetting: (strongsOnTop ? @"YES": @"NO")];
     [self saveSetting: @"show-strongs" valueForSetting: (showStrongs ? @"YES": @"NO")];
     [self saveSetting: @"show-interlinear" valueForSetting: (showInterlinear ? @"YES": @"NO")];
     [self saveSetting: PK_SETTING_USEICLOUD valueForSetting: (useICloud ? @"YES": @"NO")];
@@ -409,13 +412,14 @@ static id _instance;
     showMorphology       = YES;
     showStrongs          = YES;
     showInterlinear      = YES;
+    strongsOnTop         = NO;
     useICloud            = NO;
     
     extendHighlights     = NO;
     compressRightSideText= NO;
     
     textFontFace         = @"Helvetica";
-    textGreekFontFace    = @"Helvetica-Bold";     //RE: ISSUE #6
+    textGreekFontFace    = @"Helvetica Bold";     //RE: ISSUE #6
 
     currentBook          = 40;  // Matthew
     currentChapter       = 1;   // Chapter 1

@@ -43,7 +43,6 @@
 #import "PKAppDelegate.h"
 #import "PKHighlightsViewController.h"
 #import "PKNotesViewController.h"
-//#import "PKRootViewController.h"
 #import "PKBibleViewController.h"
 #import "PKBibleBooksController.h"
 #import "TestFlight.h"
@@ -108,101 +107,22 @@ const int SECTION_VERSION = 4;
   [self.tableView setBackgroundView: nil];
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   // Fix issue #55
-  // self.tableView.sectionIndexColor = [PKSettings PKTextColor];
   self.tableView.separatorColor  = [PKSettings PKTextColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleSingleLine;
-  //self.tableView.sectionHeaderHeight = 60;
-  //self.tableView.sectionFooterHeight = 60;
   
   [self.tableView reloadData];
 }
 
 -(void)reloadSettingsArray
 {
-  NSArray *englishTypeface = @[@"CourierNewPSMT",@"CourierNewPS-BoldMT",
-                              @"Helvetica",@"HelveticaNeue",
-                              @"Helvetica-Light",@"HelveticaNeue-Light",
-                              @"OpenDyslexic-Regular",
-                              @"Palatino-Roman",@"Palatino-Bold"];
-  NSArray *greekTypeface = @[@"CourierNewPSMT",@"CourierNewPS-BoldMT",
-                            @"Helvetica",@"Helvetica-Bold",
-                            @"HelveticaNeue",@"HelveticaNeue-Bold",
-                            @"OpenDyslexic-Bold",
-                            @"Palatino-Roman",@"Palatino-Bold"];
-
-  if ( SYSTEM_VERSION_LESS_THAN(@"5.0") )
-  {
-    englishTypeface = @[@"CourierNewPSMT",@"CourierNewPS-BoldMT",
-                       @"Helvetica",
-                       @"OpenDyslexic-Regular",
-                       @"Palatino-Roman",@"Palatino-Bold"];
-    greekTypeface = @[@"CourierNewPSMT",@"CourierNewPS-BoldMT",
-                     @"Helvetica",@"Helvetica-Bold",
-                     @"OpenDyslexic-Bold",
-                     @"Palatino-Roman",@"Palatino-Bold"];
-  }
   layoutSettings = @[
                      @[ __T(@"Layout..."), @0 ],
                      @[ __T(@"Compress Right Side"), @2, @"compress-right-side"],
                      @[ __T(@"Extend Highlights"), @2, @"extend-highlights" ],
+                     @[ __T(@"Strong's On Top"), @2, @"strongs-on-top" ],
                      @[ __Tv(@"Show Inline Notes", @"Show Inline Notes?"), @2, PK_SETTING_INLINENOTES ]
                     ];
   
-  /*
-     [NSArray arrayWithObjects: __Tv(@"Show Inline Notes",
-                                     @"Show Inline Notes?"), [NSNumber numberWithInt: 2], PK_SETTING_INLINENOTES, nil],
-  [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Theme"), @3, @"text-theme",
-                                               @[@0, @1, @2, @3],
-                                               @[__T(@"Original"),       __T(@"Black on White"),
-                                                 __T(@"White on Black"), __T(@"Amber on Black")]
-                                               , nil],
-                    [NSArray arrayWithObjects: __T(@"English Typeface"), [NSNumber numberWithInt: 1], PK_SETTING_FONTFACE,
-                     englishTypeface, nil],
-                    [NSArray arrayWithObjects: __T(@"Greek Typeface﹡"), [NSNumber numberWithInt: 1], @"greek-typeface",                            //RE: ISSUE #6
-                     greekTypeface, nil],
-                    [NSArray arrayWithObjects: __T(@"Font Size"), [NSNumber numberWithInt: 3], PK_SETTING_FONTSIZE,
-                     [NSArray arrayWithObjects:
-                      [NSNumber numberWithInt: 9],
-                      [NSNumber numberWithInt: 10],
-                      [NSNumber numberWithInt: 11],
-                      [NSNumber numberWithInt: 12],
-                      [NSNumber numberWithInt: 14],
-                      [NSNumber numberWithInt: 16],
-                      [NSNumber numberWithInt: 18],
-                      [NSNumber numberWithInt: 20],
-                      [NSNumber numberWithInt: 22],
-                      [NSNumber numberWithInt: 26],
-                      [NSNumber numberWithInt: 32],
-                      [NSNumber numberWithInt: 48], nil],
-                     [NSArray arrayWithObjects:                                                       
-                      @"9pt", @"10pt", @"11pt", @"12pt",
-                      @"14pt", @"16pt", @"18pt", @"20pt", @"22pt",
-                      @"26pt", @"32pt", @"48pt",
-                      nil], nil],
-                    [NSArray arrayWithObjects: __T(@"Line Spacing"), [NSNumber numberWithInt: 3], PK_SETTING_LINESPACING,
-                     [NSArray arrayWithObjects:                                                       
-                      [NSNumber numberWithInt: PK_LS_NORMAL],
-                      [NSNumber numberWithInt: PK_LS_ONEQUARTER],
-                      [NSNumber numberWithInt: PK_LS_ONEHALF],
-                      [NSNumber numberWithInt: PK_LS_DOUBLE], nil],
-                     [NSArray arrayWithObjects:                                                       
-                      __T(@"Normal"),   __T(@"One-Quarter"),
-                      __T(@"One-Half"), __T(@"Double"), nil], nil],
-                    [NSArray arrayWithObjects: __T(@"Row Spacing"), [NSNumber numberWithInt: 3], PK_SETTING_VERSESPACING,
-                     [NSArray arrayWithObjects: [NSNumber numberWithInt: PK_VS_NONE],
-                      [NSNumber numberWithInt: PK_VS_SINGLE],
-                      [NSNumber numberWithInt: PK_VS_DOUBLE], nil],
-                     [NSArray arrayWithObjects: __T(@"Normal"), __T(@"Single Space"),
-                      __T(@"Double Space"), nil], nil],
-                    [NSArray arrayWithObjects: __T(@"Column Widths"), [NSNumber numberWithInt: 3], PK_SETTING_COLUMNWIDTHS,
-                     [NSArray arrayWithObjects: [NSNumber numberWithInt: PK_CW_WIDEGREEK],
-                      [NSNumber numberWithInt: PK_CW_WIDEENGLISH],
-                      [NSNumber numberWithInt: PK_CW_EQUAL], nil],
-                     [NSArray arrayWithObjects: __T(@"Wide Greek Column"),
-                      __T(@"Wide English Column"),
-                      __T(@"Equal Columns"), nil], nil],
-                    nil];
-  */
   // get the left and right-side Bibles
 
   if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
@@ -232,30 +152,6 @@ const int SECTION_VERSION = 4;
   }
   
   
-  /*
-  
-    [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Greek Text"), [NSNumber numberWithInt: 3], PK_SETTING_GREEKTEXT,
-                                [PKBible availableOriginalTexts: PK_TBL_BIBLES_ID],
-                                [PKBible availableOriginalTexts: PK_TBL_BIBLES_NAME],
-                                nil],
-     [NSArray arrayWithObjects: __T(@"English Text"), [NSNumber numberWithInt: 3], PK_SETTING_ENGLISHTEXT,
-      [PKBible availableHostTexts: PK_TBL_BIBLES_ID],
-      [PKBible availableHostTexts: PK_TBL_BIBLES_NAME],
-      nil],
-     [NSArray arrayWithObjects: __Tv(@"Transliterate Greek",
-                                     @"Transliterate Greek﹡?"), [NSNumber numberWithInt: 2], PK_SETTING_TRANSLITERATE, nil],
-     [NSArray arrayWithObjects: __Tv(@"Show Inline Notes",
-                                     @"Show Inline Notes?"), [NSNumber numberWithInt: 2], PK_SETTING_INLINENOTES, nil],
-     [NSArray arrayWithObjects: __Tv(@"Show Morphology",
-                                     @"Show Morphology?"), [NSNumber numberWithInt: 2], PK_SETTING_SHOWMORPHOLOGY, nil],
-     [NSArray arrayWithObjects: __Tv(@"Show Strong's",
-                                     @"Show Strong's?"), [NSNumber numberWithInt: 2], @"show-strongs", nil],
-     [NSArray arrayWithObjects: __Tv(@"Show Translation",
-                                     @"Show Translation✝?"), [NSNumber numberWithInt: 2], @"show-interlinear", nil],
-          [NSArray arrayWithObjects: __T(@"Manage Bibles..."), [NSNumber numberWithInt:0], nil, nil ],
-     nil];
-  
-  */
   // iCloudSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Enable iCloud?", [NSNumber numberWithInt:2],
   // PK_SETTING_USEICLOUD, nil],
   //                                            nil];
@@ -266,17 +162,10 @@ const int SECTION_VERSION = 4;
                       @[ __T(@"Import Highlights"), @0 ],
                       @[ __T(@"Import Everything"), @0 ]
                     ];
-  
-/*    [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Import Annotations"), [NSNumber numberWithInt: 0], nil, nil],
-     [NSArray arrayWithObjects: __T(@"Import Highlights"), [NSNumber numberWithInt: 0], nil, nil],
-     [NSArray arrayWithObjects: __T(@"Import Everything"), [NSNumber numberWithInt: 0], nil, nil],
-     nil]; */
-     
+       
   exportSettings  = @[
                       @[ __T(@"Export"), @0 ]
                      ];
-/*  [NSArray arrayWithObjects: [NSArray arrayWithObjects: __T(@"Export"), [NSNumber numberWithInt: 0], nil, nil],
-                     nil];*/
 
   versionSettings = @[
                       @[ [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"], @0 ],
@@ -285,15 +174,7 @@ const int SECTION_VERSION = 4;
                       @[ __T(@"Submit an issue..."), @0 ],
                       @[ __T(@"Help and About..."), @0 ]
                      ];
-/*
-  
-    [NSArray arrayWithObjects:  [NSArray arrayWithObjects: [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"
-                                 ],
-                                 [NSNumber numberWithInt: 0], nil, nil],
-     [NSArray arrayWithObjects: __Tv(@"Anonymous Usage Statistics",
-                                     @"Anonymous Usage Statistics?"), [NSNumber numberWithInt: 2], @"usage-stats", nil],
-     nil];
- */
+
   settingsGroup = @[textSettings, layoutSettings,   // iCloudSettings,
                    exportSettings, importSettings, versionSettings];
 }
@@ -324,17 +205,6 @@ const int SECTION_VERSION = 4;
   [self.tableView addGestureRecognizer: swipeRight];
   [self.tableView addGestureRecognizer: swipeLeft];
 
-  /*UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
-                                 initWithTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-reorder"]
-                                         style: UIBarButtonItemStylePlain target: [PKAppDelegate sharedInstance].rootViewController action: @selector(revealToggle:)];
-  [changeReference setTitleTextAttributes: @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
-                                         UITextAttributeTextColor : [UIColor whiteColor],
-                                         UITextAttributeTextShadowColor: [UIColor clearColor] }
-              forState:UIControlStateNormal];
-  [changeReference setBackgroundImage:[UIImage new] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-  changeReference.accessibilityLabel = __T(@"Go to passage");
-  changeReference.tag=498;
-  self.navigationItem.leftBarButtonItem = changeReference;*/
 }
 
 /**
@@ -577,7 +447,7 @@ const int SECTION_VERSION = 4;
     break;
 
   case 1 :      // here we want a disclosure arrow and the current setting
-                //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                
     cell.detailTextLabel.text = [(PKSettings *)[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]];
     break;
 
@@ -585,16 +455,14 @@ const int SECTION_VERSION = 4;
                 // FIX ISSUE #48
     cell.detailTextLabel.text = __T(@"No");
 
-    //cell.accessoryType = UITableViewCellAccessoryNone;
     if ([[(PKSettings *)[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]] boolValue])
     {
       cell.detailTextLabel.text = __T(@"Yes");
-      //cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
     break;
 
   case 3 :      // here we want a disclosure arrow, current settings, and lookup
-    ;             // cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    ;             
                   // first, get the setting
     NSString *theSetting      = [(PKSettings *)[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]];
     // now, convert it to an NSNumber
@@ -783,7 +651,7 @@ const int SECTION_VERSION = 4;
     popover.cancelButtonIndex = popover.numberOfButtons - 1;
     currentPathForPopover     = indexPath;
     theTableCell              = newCell;
-    [popover showInView: self.view]; //.parentViewController.parentViewController.view];
+    [popover showInView: self.view]; 
     break;
 
   case 2:       // we're on a cell that we need to toggle the checkmark on
@@ -809,7 +677,7 @@ const int SECTION_VERSION = 4;
     popover.cancelButtonIndex = popover.numberOfButtons - 1;
     currentPathForPopover     = indexPath;
     theTableCell              = newCell;
-    [popover showInView: self.view]; //self.parentViewController.parentViewController.view];
+    [popover showInView: self.view]; 
     break;
   }
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
