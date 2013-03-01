@@ -83,7 +83,7 @@
     if ( [[PKSettings instance] extendHighlights] )
     {
       CGRect newRect;
-      if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+      if (rect.size.width >= 1024) // FIX ISSUE #77
       {
         newRect = CGRectMake(rect.origin.x+30, rect.origin.y, rect.size.width-60, rect.size.height);
       }
@@ -100,7 +100,7 @@
       [highlightColor set];
       CGRect newRect;
       
-      if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+      if (rect.size.width >= 1024) // FIX ISSUE #77
       {
         newRect = CGRectMake(rect.origin.x + 5, rect.origin.y + 5, 30, rect.size.height - 10);
       }
