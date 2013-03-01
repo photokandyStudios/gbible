@@ -45,9 +45,18 @@
 #import "searchutils.h"
 #import "PKReference.h"
 #import <Parse/Parse.h>
+#import "PKLabel.h"
+#import "UIFont+Utility.h"
 
 @implementation PKBible
 
+/**
+ *
+ * Returns YES if the text supports the display of morphology.
+ *
+ * TODO: make this dynamic.
+ *
+ */
 +(BOOL) isMorphologySupportedByText: (int) theText
 {
   if (theText == PK_BIBLETEXT_BYZP ||
@@ -59,6 +68,14 @@
   return NO;
 }
 
+/**
+ *
+ * Returns YES if the text supports the display of interlinear
+ * translations.
+ *
+ * TODO: make this dynamic.
+ *
+ */
 +(BOOL) isTranslationSupportedByText: (int) theText
 {
   if (theText == PK_BIBLETEXT_WHP ||
@@ -69,6 +86,14 @@
   return NO;
 }
 
+/**
+ *
+ * Returns YES if the text supports the display of Strong's
+ * indexes.
+ *
+ * TODO: make this dynamic.
+ *
+ */
 +(BOOL) isStrongsSupportedByText: (int) theText
 {
   if (theText == PK_BIBLETEXT_BYZP ||
@@ -82,18 +107,38 @@
 }
 
 
+/**
+ *
+ * Return the database to use (built-in/user) based upon
+ * the text ID. Text IDs<=100 always use the built-in
+ * database. Text IDs>100 will use the user database.
+ *
+ */
 +(FMDatabaseQueue *) bibleDatabaseForText: (int) theText
 {
   if (theText <= 100) return [[PKDatabase instance] bible];
   return [[PKDatabase instance] userBible];
 }
 
+/**
+ *
+ * Return an array of the Bible databases.
+ *
+ */
 +(NSArray *) bibleArray
 {
   return @[ [[PKDatabase instance] bible],
             [[PKDatabase instance] userBible] ];
 }
 
+/**
+ *
+ * Returns the value for a particular column for a given text in the
+ * specified database (built-in/user).
+ *
+ * Excludes KJV if in a crown-copyright area.
+ *
+ */
 +(NSString *) text: (int) theText inDB: (FMDatabaseQueue *)db withColumn: (int) column
 {
   // http://stackoverflow.com/questions/3940615/find-current-country-from-iphone-device
@@ -126,16 +171,34 @@
   return theReturnValue;
 }
 
+/**
+ *
+ * Returns YES if a given text is in the built-in database.
+ *
+ */
 +(BOOL) isTextBuiltIn: (int) theText
 {
   return [self text: theText inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ID] != nil ? YES : NO;
 }
 
+/**
+ *
+ * Returns Yes if a given text is in the user database.
+ *
+ */
 +(BOOL) isTextInstalled: (int) theText
 {
   return [self text: theText inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ID] != nil ? YES : NO;
 }
 
+/**
+ *
+ * Returns an array of the data in a specific column in a specific Bible database
+ * (built-in/user). Used most often for displaying lists of available translations.
+ *
+ * Restricts KJV if in an area where it is crown-cypright.
+ *
+ */
 +(NSArray *) availableTextsInDB: (FMDatabaseQueue *)db withColumn: (int) column
 {
   // http://stackoverflow.com/questions/3940615/find-current-country-from-iphone-device
@@ -168,16 +231,36 @@
   return texts;
 }
 
+/**
+ *
+ * Convenience method. Return the data from the specified column using the
+ * built-in Bible database.
+ *
+ */
 +(NSArray *) builtInTextsWithColumn: (int) column
 {
   return [self availableTextsInDB:[[PKDatabase instance]bible] withColumn:column];
 }
 
+/**
+ *
+ * Convenience method. Return the data from the specified column using the
+ * user Bible database.
+ *
+ */
 +(NSArray *) installedTextsWithColumn: (int) column
 {
   return [self availableTextsInDB:[[PKDatabase instance]userBible] withColumn:column];
 }
 
+/**
+ *
+ * Returns the available texts in both the User and Built-In Bible database
+ * for the specific column and side (left/right).
+ *
+ * Excludes KJV where crown copyright.
+ *
+ */
 +(NSArray *) availableTextsForSide: (NSString *) side andColumn: (int) column
 {
   // http://stackoverflow.com/questions/3940615/find-current-country-from-iphone-device
@@ -222,17 +305,34 @@
   return texts;
 }
 
+/**
+ *
+ * Returns the data for the specific column for those texts on the left/
+ * "original" side.
+ *
+ */
 +(NSArray *) availableOriginalTexts: (int) column
 {
   return [PKBible availableTextsForSide: @"greek" andColumn: column];
 }
 
+/**
+ *
+ * Returns the data for the specific column for those texts on the right/
+ * "english" side.
+ *
+ */
 +(NSArray *) availableHostTexts: (int) column
 {
   return [PKBible availableTextsForSide: @"english" andColumn: column];
   // really a misnomer; we should allow the reader to choose any language edition of their choosing.
 }
 
+/**
+ *
+ * Get the full Bible title for the text ID.
+ *
+ */
 +(NSString *) titleForTextID: (int) theText
 {
   FMDatabaseQueue *db = [self bibleDatabaseForText:theText];
@@ -254,6 +354,11 @@
   return retValue;
 }
 
+/**
+ *
+ * Get the Bible's abbreviation for the text ID.
+ *
+ */
 +(NSString *) abbreviationForTextID: (int) theText
 {
   FMDatabaseQueue *db = [self bibleDatabaseForText:theText];
@@ -537,7 +642,7 @@
 {
   // this is our font
   UIFont *theFont      = [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                         size: [[PKSettings instance] textFontSize]];
+                                      andSize: [[PKSettings instance] textFontSize]];
   // we need to know the height of an M (* the setting...)
   CGFloat lineHeight   = [@"M" sizeWithFont: theFont].height;
   lineHeight    = lineHeight * ( (float)[[PKSettings instance] textLineSpacing] / 100.0 );
@@ -582,7 +687,7 @@
 /**
  *
  * Return the width of a given column for the given bounds, based upon the user's
- * column settings. TODO: Doesn't feel quite right on a smaller screen, though
+ * column settings. 
  *
  */
 +(CGFloat) columnWidth: (int) theColumn forBounds: (CGRect) theRect withCompression: (BOOL)compression
@@ -596,60 +701,30 @@
     theMargin = 44;
   }
 
-//  if (( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
-//       && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ) || (compression))
   if (compression)
   {
     return (theRect.size.width);
-//          return ((theRect.size.width) - (theMargin));
   }
 
   // define our column (based on incoming rect)
-  float columnMultiplier = 1;
   int columnSetting      = [[PKSettings instance] layoutColumnWidths];
+  
+  static float columnWidths[3][2] = { {1.75f, 1.25f},
+                                      {1.25f, 1.75f},
+                                      {1.50f, 1.50f} };
 
-  if (columnSetting == 0)       // 600930
-  {
-    if (theColumn == 1)
-    {
-      columnMultiplier = 1.75;
-    }
-
-    if (theColumn == 2)
-    {
-      columnMultiplier = 1.25;
-    }
-  }
-
-  if (columnSetting == 1)       // 300960
-  {
-    if (theColumn == 1)
-    {
-      columnMultiplier = 1.25;
-    }
-
-    if (theColumn == 2)
-    {
-      columnMultiplier = 1.75;
-    }
-  }
-
-  if (columnSetting == 2)       // 600930
-  {
-    columnMultiplier = 1.5;
-  }
-
-  if (theColumn == 3)
-  {
-    columnMultiplier = 0.25;
-  }
-  columnMultiplier = columnMultiplier / 3;
+  float columnMultiplier = columnWidths[columnSetting][theColumn-1] / 3;
 
   CGFloat columnWidth = ( (theRect.size.width) - (theMargin) ) * columnMultiplier;
 
   return columnWidth;
 }
 
+/**
+ *
+ * Returns YES if the word is a Morphology term.
+ *
+ */
 +(BOOL) isMorphology: (NSString *) theWord
 {
   // there's no easy way to determine if a word is a morphology word. Instead, let's encode
@@ -672,6 +747,11 @@
   return NO;
 }
 
+/**
+ *
+ * Returns the transliteration of the supplied word.
+ *
+ */
 +(NSString *)transliterate: (NSString *) theWord
 {
   // See what we can do about using CFStringTransform...
@@ -697,9 +777,6 @@
   BOOL showInterlinear = [[PKSettings instance] showInterlinear];
   BOOL compressRightSide=[[PKSettings instance] compressRightSideText];
   
-  // should we transliterate?
-  //BOOL transliterate = [[PKSettings instance] transliterateText];
-
   // what greek text are we?
   int whichGreekText          = [[PKSettings instance] greekText];
   BOOL supportsMorphology = [PKBible isMorphologySupportedByText:whichGreekText];
@@ -711,28 +788,10 @@
 
   // this is our font
   UIFont *theFont              = [UIFont fontWithName: [[PKSettings instance] textFontFace]
-                                                 size: [[PKSettings instance] textFontSize]];
-
-  if (theFont == nil)
-  {
-    theFont = [UIFont fontWithName: [NSString stringWithFormat: @"%@-Regular", [[PKSettings instance] textFontFace]]
-                              size: [[PKSettings instance] textFontSize]];
-  }
-
-  if (theFont == nil)
-  {
-    theFont = [UIFont fontWithName: @"Helvetica"
-                              size: [[PKSettings instance] textFontSize]];
-  }
+                                              andSize: [[PKSettings instance] textFontSize]];
 
   UIFont *theBoldFont = [UIFont fontWithName: [[PKSettings instance] textGreekFontFace]
-                                        size: [[PKSettings instance] textFontSize]];
-
-  if (theBoldFont == nil)
-  {
-    theBoldFont = [UIFont fontWithName: [NSString stringWithFormat: @"%@-Regular", [[PKSettings instance] textGreekFontFace]]
-                                  size: [[PKSettings instance] textFontSize]];
-  }
+                                     andSize: [[PKSettings instance] textFontSize]];
 
   if (theBoldFont == nil)           // just in case there's no alternate
   {
@@ -1058,6 +1117,11 @@
   return theWordArray;
 }
 
+/**
+ *
+ * Return an array of references where the text matches the specific term.
+ *
+ */
 +(NSArray *) passagesMatching: (NSString *) theTerm
 {
   int currentGreekBible   = [[PKSettings instance] greekText];
@@ -1066,6 +1130,13 @@
   return [self passagesMatching: theTerm withGreekBible: currentGreekBible andEnglishBible: currentEnglishBible];
 }
 
+/**
+ *
+ * DEPRECATED.
+ *
+ * Returns the parsed variant of a non-parsed text.
+ *
+ */
 +(int) parsedVariant: (int) theBook
 {
   __block int theParsedBook = -1;       // return this if nothing matches
@@ -1086,11 +1157,22 @@
   return theParsedBook;
 }
 
+/**
+ *
+ * DEPRECATED.
+ *
+ */
 +(BOOL) checkParsingsForBook: (int) theBook
 {
   return (theBook == [self parsedVariant: theBook]);
 }
 
+/**
+ *
+ * Returns an array of references that match the term. requireParsings lets
+ * us specify if the text needs to have a parsings or not.
+ *
+ */
 +(NSArray *) passagesMatching: (NSString *) theTerm requireParsings: (BOOL) parsings
 {
   int currentGreekBible   = [[PKSettings instance] greekText];
@@ -1108,6 +1190,11 @@
   return [self passagesMatching: theTerm withGreekBible: currentGreekBible andEnglishBible: currentEnglishBible];
 }
 
+/**
+ *
+ * Searches for the term within the two supplied texts and returns an array of the matches.
+ *
+ */
 +(NSArray *) passagesMatching: (NSString *) theTerm withGreekBible: (int) theGreekBible andEnglishBible: (int) theEnglishBible
 {
   NSMutableArray *theMatches = [[NSMutableArray alloc] init];
