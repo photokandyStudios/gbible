@@ -36,6 +36,7 @@
 // their respective licenses.
 //
 #import "PKHotLabel.h"
+#import "UIFont+Utility.h"
 
 @implementation PKHotLabel
 
@@ -76,8 +77,9 @@
     // no font; find one -- assume self.font's bolded equivalent.
     if (boldFontWhenhot)
     {
-      theHotFont = [UIFont fontWithName: [[theRegularFont fontName] stringByAppendingString: @"-Bold"]
-                                   size: [theRegularFont pointSize]];
+      theHotFont = theRegularFont.boldFont;
+//       [UIFont fontWithName: [[theRegularFont fontName] stringByAppendingString: @"-Bold"]
+//                                   size: [theRegularFont pointSize]];
     }
     
     if (!theHotFont)
