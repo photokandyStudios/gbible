@@ -776,6 +776,7 @@
  */
 -(void)viewDidLoad
 {
+  self.enableVerticalScrollBar = NO;
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   
@@ -1852,6 +1853,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void) toggleStrongs: (id) sender
 {
+  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [PO dismissPopoverAnimated: NO];
   [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
   PKWait(
   [self saveTopVerse];
@@ -1865,6 +1868,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void) toggleMorphology: (id) sender
 {
+  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [PO dismissPopoverAnimated: NO];
   [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
   PKWait(
   [self saveTopVerse];
@@ -1878,6 +1883,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void) toggleTranslation: (id) sender
 {
+  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [PO dismissPopoverAnimated: NO];
   [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
   PKWait(
   [self saveTopVerse];
