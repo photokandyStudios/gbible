@@ -902,6 +902,9 @@
   int thePriorWordElementIndex = -1;
 
   CGFloat maxX               = 0.0;
+  
+  NSMutableDictionary *currentColumnLabels = [[NSMutableDictionary alloc] initWithCapacity:4];
+  NSMutableDictionary *previousColumnLabels  = [[NSMutableDictionary alloc] initWithCapacity:4];
 
   for (int i = 0; i < [matches count]; i++)
   {
@@ -1004,10 +1007,10 @@
         {
           // are we a VARiant? (regex: VAR[0-9]
           if ( theOriginalWord.length > 1
-              && [theOriginalWord hasPrefix: @"VAR"])
+              && [theOriginalWord rangeOfString: @"VAR"].location != NSNotFound)
           {
             theWordType = 0;                 // we're really just a regular word.
-            yOffset     = 0.0;
+            yOffset     = wordOffset;
           }
           else
           {
@@ -1049,10 +1052,69 @@
          || (theColumn == 2
              && i > 0) )
     {
+      // New Column, move labels, and then copy priors
+      NSArray *theKeys = [currentColumnLabels allKeys];
+      //curX = startX;
+      for (int i=0; i<theKeys.count; i++)
+      {
+        PKLabel *theCurrentLabel = [currentColumnLabels objectForKey:theKeys[i]];
+        PKLabel *thePreviousLabel =[previousColumnLabels objectForKey:theKeys[i]];
+        PKLabel *theAnchorLabel = [currentColumnLabels objectForKey:@(wordOffset)];
+        PKLabel *thePreviousAnchorLabel = [previousColumnLabels objectForKey:@(wordOffset)];
+        CGRect theCurrentFrame = theCurrentLabel.frame;
+        CGRect thePreviousFrame= thePreviousLabel.frame;
+        CGRect thePreviousAnchorFrame = thePreviousAnchorLabel.frame;
+        if ( !theAnchorLabel && (![theKeys[i] isEqual: @(wordOffset)]) )
+        {
+          if (thePreviousLabel)
+          {
+            if (theCurrentFrame.origin.x > thePreviousFrame.origin.x)
+            {
+              theCurrentFrame.origin.x = thePreviousFrame.origin.x + thePreviousFrame.size.width + spaceWidth;
+              if (theCurrentFrame.origin.x < thePreviousAnchorFrame.origin.x &&
+                  thePreviousAnchorFrame.origin.y>=curY)
+                theCurrentFrame.origin.x = thePreviousAnchorFrame.origin.x;
+              [theCurrentLabel setFrame:theCurrentFrame];
+            }
+            else
+            {
+              theCurrentFrame.origin.x = startX;
+              [theCurrentLabel setFrame:theCurrentFrame];
+            }
+          }
+          else
+          {
+              theCurrentFrame.origin.x = startX;
+              [theCurrentLabel setFrame:theCurrentFrame];
+          }
+        }
+        if (theCurrentFrame.origin.x + theCurrentFrame.size.width - xOffset>curX)
+        {
+          curX = theCurrentFrame.origin.x + theCurrentFrame.size.width - xOffset;
+        }
+        if (!compression && (thePreviousAnchorFrame.origin.x + thePreviousAnchorFrame.size.width - xOffset>curX) &&
+            (thePreviousAnchorFrame.origin.y >= curY))
+        {
+          curX = thePreviousAnchorFrame.origin.x + thePreviousAnchorFrame.size.width - xOffset;
+        }
+      }
+      for (int i=0; i<theKeys.count; i++)
+      {
+        PKLabel *theCurrentLabel = [currentColumnLabels objectForKey:theKeys[i]];
+        if (theCurrentLabel)
+        {
+          [previousColumnLabels setObject:theCurrentLabel forKey:theKeys[i]];
+        }
+      }
+      
+      //previousColumnLabels = currentColumnLabels;
+      currentColumnLabels = [[NSMutableDictionary alloc] initWithCapacity:4];
+      
       // we're a new variation on the column. curX can move foward by maxX
-      curX += maxX + ( ![theWord isEqualToString:@""] ?spaceWidth : 0 );
+      //curX += maxX + ( ![theWord isEqualToString:@""] ?spaceWidth : 0 );
+      curX += ( ![theWord isEqualToString:@""] ?spaceWidth : 0 );
 
-      if (curX + theSize.width > endX - maxX ) //- spaceWidth)
+      if (curX + theSize.width > (endX) - maxX ) //- spaceWidth)
       {
         curX  = startX;
         curY += columnHeight;
@@ -1068,7 +1130,8 @@
     // start creating our word element
     CGFloat newY = curY+yOffset;
     if ((theColumn == 1) ? theWordType : -1 > -1) newY += lineHeightAvg - theSize.height;
-    PKLabel *theWordElement     = [[PKLabel alloc] initWithFrame:CGRectMake(curX + xOffset, newY,
+    PKLabel *theWordElement     = [[PKLabel alloc] initWithFrame:CGRectMake(curX + xOffset
+    , newY,
                                                                             theSize.width, theSize.height)];
     theWordElement.text         = theWord;
     theWordElement.shadowColor  = [PKSettings PKLightShadowColor];
@@ -1091,7 +1154,7 @@ case 20:
 default:
       theWordElement.textColor    = [PKSettings PKTextColor];
     }
-    if ( ( showMorphology
+    /*if ( ( showMorphology
            || (theWordType < 20
                && !showMorphology) )
          && ( showStrongs
@@ -1099,11 +1162,40 @@ default:
                   && !showStrongs) )
          && ( showInterlinear
               || (theWordType != 5
-                  && !showInterlinear) ) )
+                  && !showInterlinear) ) ) */
+    if (![theWord isEqual: @""])
     {
       [theWordArray addObject: theWordElement];
+      [currentColumnLabels setObject:theWordElement forKey:@(yOffset)];
     }
   }
+      // last Column, move labels, and then copy priors
+      NSArray *theKeys = [currentColumnLabels allKeys];
+      curX = 0;
+      for (int i=0; i<theKeys.count; i++)
+      {
+        PKLabel *theCurrentLabel = [currentColumnLabels objectForKey:theKeys[i]];
+        PKLabel *thePreviousLabel =[previousColumnLabels objectForKey:theKeys[i]];
+        PKLabel *theAnchorLabel = [currentColumnLabels objectForKey:@(wordOffset)];
+        PKLabel *thePreviousAnchorLabel = [previousColumnLabels objectForKey:@(wordOffset)];
+        CGRect theCurrentFrame = theCurrentLabel.frame;
+        CGRect thePreviousFrame= thePreviousLabel.frame;
+        CGRect thePreviousAnchorFrame = thePreviousAnchorLabel.frame;
+        if ( !theAnchorLabel && (![theKeys[i] isEqual: @(wordOffset)]) )
+        {
+          if (thePreviousLabel)
+          {
+            if (theCurrentFrame.origin.x > thePreviousFrame.origin.x)
+            {
+              theCurrentFrame.origin.x = thePreviousFrame.origin.x + thePreviousFrame.size.width + spaceWidth;
+              if (theCurrentFrame.origin.x < thePreviousAnchorFrame.origin.x &&
+                  thePreviousAnchorFrame.origin.y>=curY)
+                theCurrentFrame.origin.x = thePreviousAnchorFrame.origin.x;
+              [theCurrentLabel setFrame:theCurrentFrame];
+            }
+          }
+        }
+      }
 
   return theWordArray;
 }
