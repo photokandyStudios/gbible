@@ -340,6 +340,7 @@
 
 - (void)viewDidLoad
 {
+  self.enableVerticalScrollBar = NO;
     [super viewDidLoad];
 
   dirty = YES;
