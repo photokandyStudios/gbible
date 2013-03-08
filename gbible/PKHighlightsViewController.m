@@ -137,11 +137,13 @@
  */
 -(void)viewDidAppear: (BOOL) animated
 {
+  [super viewDidAppear:animated];
   CGRect newFrame = self.navigationController.view.frame;
   newFrame.size.width                  = 260;
   self.navigationController.view.frame = newFrame;
   [self reloadHighlights];
   [self updateAppearanceForTheme];
+  [self calculateShadows];
 }
 
 /**
@@ -231,6 +233,7 @@
                                 [PKBible nameForBook: theBook], theChapter, theVerse];
   
   cell.textLabel.text            = thePrettyReference;
+  cell.textLabel.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   cell.textLabel.textColor       = [UIColor blackColor];
   cell.textLabel.backgroundColor = [UIColor clearColor];
   

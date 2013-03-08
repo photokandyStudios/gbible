@@ -36,8 +36,9 @@
 // their respective licenses.
 //
 #import <UIKit/UIKit.h>
+#import "PKTableViewController.h"
 
-@interface PKNotesViewController : UITableViewController <UISearchBarDelegate>
+@interface PKNotesViewController : PKTableViewController <UISearchBarDelegate>
 
 @property (strong, nonatomic) NSArray *notes;
 @property (strong, nonatomic) UILabel *noResults;

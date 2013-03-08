@@ -242,7 +242,9 @@
   
   cell.textLabel.text = theBibleTitle;
   cell.detailTextLabel.text = theBibleAbbreviation;
-  
+  cell.textLabel.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
+  cell.detailTextLabel.font      = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
+
   return cell;
 }
 

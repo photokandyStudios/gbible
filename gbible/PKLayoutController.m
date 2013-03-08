@@ -42,6 +42,7 @@
 #import "TPKeyboardAvoidingScrollView.h"
 #import "PKAppDelegate.h"
 #import "UIFont+Utility.h"
+#import "PKAppDelegate.h"
 
 @interface PKLayoutController ()
 @property (strong, nonatomic) UILabel *previewLabel;
@@ -136,6 +137,7 @@
   label1                 = [[UILabel alloc] initWithFrame: CGRectMake(10, 10, 160, 30)];
   label1.text            = [NSString stringWithFormat: @"%@ %i", __T(@"Theme"), [[PKSettings instance] textTheme] + 1];
   label1.textAlignment   = UITextAlignmentLeft;
+  label1.font = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
   label1.backgroundColor = [UIColor clearColor];
   [self.view addSubview: label1];
 
@@ -172,7 +174,7 @@
   [self.view addSubview: theme4];
 
   fontSizeLabel                 = [[UILabel alloc] initWithFrame: CGRectMake(216, 10, 94, 30)];
-  fontSizeLabel.font            = [UIFont fontWithName: @"Helvetica-Bold" size: 20];
+  fontSizeLabel.font            = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:20];
   fontSizeLabel.textAlignment   = UITextAlignmentCenter;
   fontSizeLabel.text            = [NSString stringWithFormat: @"%ipt", [[PKSettings instance] textFontSize]];
   fontSizeLabel.backgroundColor = [UIColor clearColor];
@@ -188,6 +190,7 @@
   greekFontLabel      = [[UILabel alloc] initWithFrame: CGRectMake(10, 80, 140, 20)];
   greekFontLabel.text = __T(@"Greek Typeface");
   greekFontLabel.backgroundColor             = [UIColor clearColor];
+  greekFontLabel.font                      = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
   greekFontLabel.textAlignment               = UITextAlignmentCenter;
   greekFontLabel.adjustsFontSizeToFitWidth   = YES;
   greekFontLabel.minimumFontSize             = 0;
@@ -196,6 +199,7 @@
 
   englishFontLabel                           = [[UILabel alloc] initWithFrame: CGRectMake(170, 80, 140, 20)];
   englishFontLabel.text                      = __T(@"English Typeface");
+  englishFontLabel.font                      = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
   englishFontLabel.backgroundColor           = [UIColor clearColor];
   englishFontLabel.textAlignment             = UITextAlignmentCenter;
   englishFontLabel.adjustsFontSizeToFitWidth = YES;
@@ -280,7 +284,7 @@
   rowSpacingLabel = [[UILabel alloc] initWithFrame: CGRectMake(10, 335, 96, 40)];
   rowSpacingLabel.backgroundColor           = [UIColor clearColor];
   rowSpacingLabel.text                      = __T(@"Line Spacing");
-  rowSpacingLabel.font                      = [UIFont systemFontOfSize: 15];
+  rowSpacingLabel.font                      = [UIFont fontWithName:[PKSettings interfaceFont] size:15];
   rowSpacingLabel.textAlignment             = UITextAlignmentLeft;
   rowSpacingLabel.adjustsFontSizeToFitWidth = YES;
   rowSpacingLabel.minimumFontSize           = 0;

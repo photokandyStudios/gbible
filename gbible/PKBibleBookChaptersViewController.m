@@ -157,6 +157,7 @@
   NSUInteger row = [indexPath row];
   
   cell.label.text      = [NSString stringWithFormat: @"%i", row + 1]; // get chapter
+  cell.label.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   cell.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   cell.label.textColor = [PKSettings PKSidebarTextColor];
   

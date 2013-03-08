@@ -36,8 +36,9 @@
 // their respective licenses.
 //
 #import <UIKit/UIKit.h>
+#import "PKTableViewController.h"
 
-@interface PKHighlightsViewController : UITableViewController
+@interface PKHighlightsViewController : PKTableViewController
 
 @property (strong, nonatomic) NSArray *highlights;
 @property (strong, nonatomic) UILabel *noResults;

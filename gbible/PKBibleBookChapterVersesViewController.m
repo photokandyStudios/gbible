@@ -160,6 +160,7 @@
   NSUInteger row = [indexPath row];
   
   cell.label.text      = [NSString stringWithFormat: @"%i:%i", selectedChapter, row + 1];
+  cell.label.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   cell.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   cell.label.textColor = [PKSettings PKSidebarTextColor];
   

@@ -36,8 +36,9 @@
 // their respective licenses.
 //
 #import <UIKit/UIKit.h>
+#import "PKTableViewController.h"
 
-@interface PKHistoryViewController : UITableViewController
+@interface PKHistoryViewController : PKTableViewController
 
 @property (strong, nonatomic) NSArray *history;
 @property (strong, nonatomic) UILabel *noResults;

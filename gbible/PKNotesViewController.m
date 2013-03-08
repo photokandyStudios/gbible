@@ -147,11 +147,13 @@
  */
 -(void)viewDidAppear: (BOOL) animated
 {
+  [super viewDidAppear:animated];
   CGRect newFrame = self.navigationController.view.frame;
   newFrame.size.width                  = 260;
   self.navigationController.view.frame = newFrame;
   [self reloadNotes];
   [self updateAppearanceForTheme];
+  [self calculateShadows];
 }
 
 -(void)viewDidUnload
@@ -241,9 +243,11 @@
   
   cell.textLabel.text                = theTitle;
   cell.textLabel.textColor           = [PKSettings PKSidebarTextColor];
+  cell.textLabel.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   cell.detailTextLabel.text          = theNote;
   cell.detailTextLabel.textColor     = [PKSettings PKSidebarTextColor];
   cell.detailTextLabel.numberOfLines = 4;
+  cell.detailTextLabel.font      = [UIFont fontWithName:[PKSettings interfaceFont] size:14];
   [cell.detailTextLabel sizeToFit];
   
   return cell;

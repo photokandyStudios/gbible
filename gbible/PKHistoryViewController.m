@@ -124,11 +124,13 @@
 
 -(void)viewDidAppear: (BOOL) animated
 {
+  [super viewDidAppear:animated];
   CGRect newFrame = self.navigationController.view.frame;
   newFrame.size.width                  = 260;
   self.navigationController.view.frame = newFrame;
   [self reloadHistory];
   [self updateAppearanceForTheme];
+  [self calculateShadows];
 }
 
 -(void)didAnimateFirstHalfOfRotationToInterfaceOrientation: (UIInterfaceOrientation) toInterfaceOrientation
@@ -178,6 +180,7 @@
   
   NSUInteger row           = [indexPath row];
   cell.textLabel.textColor = [PKSettings PKSidebarTextColor];
+  cell.textLabel.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   
   NSString *theHistoryItem = [history objectAtIndex: row];
   

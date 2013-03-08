@@ -41,6 +41,7 @@
 #import "PKSettings.h"
 #import "PSTCollectionView.h"
 #import "PKSimpleCollectionViewCell.h"
+#import "PKAppDelegate.h"
 
 @interface PKBibleBooksController ()
 
@@ -185,6 +186,7 @@
   cell.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   cell.label.text      = [PKBible nameForBook: row + 40]; // get book name
   cell.label.textColor = [PKSettings PKSidebarTextColor];
+  cell.label.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   cell.label.textAlignment = UITextAlignmentLeft;
   //    cell.textLabel.textColor = [UIColor whiteColor];
   //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
