@@ -315,9 +315,11 @@
 
   //[self.view addSubview:scroller];
 
-  fontNames = @[__T(@"Courier"),    __T(@"Courier Bold"),
-                __T(@"Courier New"),    __T(@"Courier New Bold"),     __T(@"Helvetica Light"), __T(@"Helvetica"),
+  fontNames = @[__T(@"Arev Sans"), __T(@"Arev Sans Bold"), __T(@"Courier"),    __T(@"Courier Bold"),
+                __T(@"Courier New"),    __T(@"Courier New Bold"),     __T(@"Gentium Plus"), __T(@"Gentium Plus Italic"),
+                __T(@"Helvetica Light"), __T(@"Helvetica"),
                 __T(@"Helvetica Bold"), __T(@"Helvetica Neue Light"), __T(@"Helvetica Neue"),  __T(@"Helvetica Neue Bold"),
+                __T(@"New Athena Unicode"), __T(@"New Athena Unicode Bold"), 
                 __T(@"Open Dyslexic"),  __T(@"Open Dyslexic Bold"),   __T(@"Palatino"),        __T(@"Palatino Bold")];
 
   //fontFaces = @[@"CourierNewPSMT", @"CourierNewPS-BoldMT", @"Helvetica-Light", @"Helvetica",

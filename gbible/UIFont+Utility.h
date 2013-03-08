@@ -177,4 +177,8 @@ typedef enum {
  */
 -(UIFont *)fontWithSizeDeltaPercent:(CGFloat)theDeltaPercent;
 
++(CGFloat)pixelToPoints:(CGFloat)px;
+
++(CGFloat)pixelsFromPoints:(CGFloat)pt;
+
 @end

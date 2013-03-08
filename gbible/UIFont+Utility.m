@@ -58,6 +58,7 @@
     fontMap = @{ //family                      //substitutionary string       //normal  //bold  //italic  //bold-italic
                  @"American Typewriter Light": @[ @"AmericanTypewriter%@",    @"-Light", @"", @"-Light", @""],
                  @"American Typewriter":       @[ @"AmericanTypewriter%@",    @"", @"-Bold", @"", @"-Bold" ],
+                 @"Arev Sans":                 @[ @"ArevSans%@",              @"-Regular", @"-Bold", @"-Oblique", @"-BoldOblique" ],
                  @"Arial":                     @[ @"Arial%@MT",               @"", @"-Bold", @"-Italic", @"-BoldItalic" ],
                  @"Avenir Light":              @[ @"Avenir%@",                @"-Light", @"-Roman", @"-LightOblique", @"-Oblique" ],
                  @"Avenir":                    @[ @"Avenir%@",                @"-Roman", @"-Heavy", @"-Oblique", @"-HeavyOblique" ],
@@ -79,6 +80,7 @@
                  @"Euphemia UCAS":             @[ @"EuphemiaUCAS%@",          @"", @"-Bold", @"-Italic", @"-Bold" ],
                  @"Futura Medium":             @[ @"Futura-Medium%@",         @"", @"", @"Italic", @"Italic" ],
                  @"Geeza Pro":                 @[ @"GeezaPro%@",              @"", @"-Bold", @"", @"-Bold" ],
+                 @"Gentium Plus":              @[ @"GentiumPlus%@",           @"", @"", @"-Italic", @"-Italic" ],
                  @"Georgia":                   @[ @"Georgia%@",               @"", @"-Bold", @"-Italic", @"-BoldItalic" ],
                  @"Gill Sans Light":           @[ @"GillSans%@",              @"-Light", @"", @"-LightItalic", @"-Italic" ],
                  @"Gill Sans":                 @[ @"GillSans%@",              @"", @"-Bold", @"-Italic", @"-BoldItalic" ],
@@ -89,6 +91,7 @@
                  @"Hoefler Text":              @[ @"HoeflerText%@",           @"-Regular", @"-Black", @"-Italic", @"-BlackItalic" ],
                  @"Marion":                    @[ @"Marion%@",                @"-Regular", @"-Bold", @"-Italic", @"-Bold" ],
                  @"Marker Felt":               @[ @"MarkerFelt%@",            @"-Thin", @"-Wide", @"-Thin", @"-Wide" ],
+                 @"New Athena Unicode":        @[ @"NewAthenaUnicode%@",      @"", @"-Bold", @"-Italic", @"-BoldItalic" ],
                  @"Noteworthy":                @[ @"Noteworthy%@",            @"-Light", @"-Bold", @"-Light", @"-Bold" ],
                  @"Open Dyslexic":             @[ @"OpenDyslexic%@",          @"-Regular", @"-Bold", @"-Italic", @"-BoldItalic" ],
                  @"Optima":                    @[ @"Optima%@",                @"-Regular", @"-Bold", @"-Italic", @"-BoldItalic" ],
@@ -200,6 +203,39 @@
 -(UIFont *)fontWithSizeDeltaPercent:(CGFloat)theDeltaPercent
 {
   return [self fontWithSize:self.pointSize * theDeltaPercent];
+}
+
+//https://gist.github.com/jordiboehmelopez/3168819
++(CGFloat)pixelToPoints:(CGFloat)px {
+    CGFloat pointsPerInch = 72.0; // see: http://en.wikipedia.org/wiki/Point%5Fsize#Current%5FDTP%5Fpoint%5Fsystem
+    CGFloat scale = 1; // We dont't use [[UIScreen mainScreen] scale] as we don't want the native pixel, we want pixels for UIFont - it does the retina scaling for us
+    float pixelPerInch; // aka dpi
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        pixelPerInch = 132 * scale;
+    } else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        pixelPerInch = 163 * scale;
+    } else {
+        pixelPerInch = 160 * scale;
+    }
+    CGFloat result = px * pointsPerInch / pixelPerInch;
+    return result;
+}
+
+// based on above; do reverse
++(CGFloat)pixelsFromPoints:(CGFloat)pt
+{
+  CGFloat pointsPerInch = 72.0; // see: http://en.wikipedia.org/wiki/Point%5Fsize#Current%5FDTP%5Fpoint%5Fsystem
+    CGFloat scale = 1; // We dont't use [[UIScreen mainScreen] scale] as we don't want the native pixel, we want pixels for UIFont - it does the retina scaling for us
+    float pixelPerInch; // aka dpi
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        pixelPerInch = 132 * scale;
+    } else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        pixelPerInch = 163 * scale;
+    } else {
+        pixelPerInch = 160 * scale;
+    }
+    CGFloat result = pt * pixelPerInch / pointsPerInch;
+    return result;
 }
 
 @end
