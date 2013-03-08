@@ -62,10 +62,24 @@ const int SECTION_ICLOUD = -1;
 const int SECTION_EXPORT = 2;
 const int SECTION_IMPORT = 3;
 const int SECTION_VERSION = 4;
+const int SECTION_THIRD_PARTY = 5;
 
 @interface PKSettingsController ()
 
 @property (nonatomic, strong) UIPopoverController *PO;
+@property (strong, nonatomic) NSArray *layoutSettings;
+@property (strong, nonatomic) NSArray *textSettings;
+@property (strong, nonatomic) NSArray *iCloudSettings;
+@property (strong, nonatomic) NSArray *importSettings;
+@property (strong, nonatomic) NSArray *exportSettings;
+@property (strong, nonatomic) NSArray *versionSettings;
+@property (strong, nonatomic) NSArray *thirdPartyComponents;
+@property (strong, nonatomic) NSArray *thirdPartyComponentURLs;
+
+@property (strong, nonatomic) NSArray *settingsGroup;
+
+@property (strong, nonatomic) NSIndexPath *currentPathForPopover;
+@property (strong, nonatomic) UITableViewCell *theTableCell;
 
 @end
 
@@ -77,6 +91,8 @@ const int SECTION_VERSION = 4;
 @synthesize importSettings;
 @synthesize exportSettings;
 @synthesize versionSettings;
+@synthesize thirdPartyComponents;
+@synthesize thirdPartyComponentURLs;
 
 @synthesize settingsGroup;
 
@@ -115,14 +131,25 @@ const int SECTION_VERSION = 4;
 
 -(void)reloadSettingsArray
 {
-  layoutSettings = @[
-                     @[ __T(@"Layout..."), @0 ],
-                     @[ __T(@"Compress Right Side"), @2, @"compress-right-side"],
-                     @[ __T(@"Extend Highlights"), @2, @"extend-highlights" ],
-                     @[ __T(@"Strong's On Top"), @2, @"strongs-on-top" ],
-                     @[ __Tv(@"Show Inline Notes", @"Show Inline Notes?"), @2, PK_SETTING_INLINENOTES ]
-                    ];
-  
+  if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+  {
+    layoutSettings = @[
+                       @[ __T(@"Compress Right Side"), @2, @"compress-right-side"],
+                       @[ __T(@"Extend Highlights"), @2, @"extend-highlights" ],
+                       @[ __T(@"Strong's On Top"), @2, @"strongs-on-top" ],
+                       @[ __Tv(@"Show Inline Notes", @"Show Inline Notes?"), @2, PK_SETTING_INLINENOTES ]
+                      ];
+  }
+  else
+  {
+    layoutSettings = @[
+                       @[ __T(@"Layout..."), @0 ],
+                       @[ __T(@"Compress Right Side"), @2, @"compress-right-side"],
+                       @[ __T(@"Extend Highlights"), @2, @"extend-highlights" ],
+                       @[ __T(@"Strong's On Top"), @2, @"strongs-on-top" ],
+                       @[ __Tv(@"Show Inline Notes", @"Show Inline Notes?"), @2, PK_SETTING_INLINENOTES ]
+                      ];
+  }
   // get the left and right-side Bibles
 
   if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
@@ -175,8 +202,46 @@ const int SECTION_VERSION = 4;
                       @[ __T(@"Help and About..."), @0 ]
                      ];
 
+  thirdPartyComponents = @[
+                            @[ @"CoolButtons © 2011 Jess Martin", @0 ],
+                            @[ @"FMDatabase © Flying Meat Inc.", @0 ],
+                            @[ @"Font Awesome © Dave Gandy", @0 ],
+                            @[ @"iOS FontAwesome © 2012 Alex Usbergo", @0 ],
+                            @[ @"iRate © 2011 Charcoal Design", @0 ],
+                            @[ @"KBKeyboard Handler by Vladimir Grigorov", @0 ],
+                            @[ @"KOKeyboard © 2012 Adam Horacek, Kuba Brecka", @0 ],
+                            @[ @"MAConfirmButton © 2011 Mike Ahmarani", @0 ],
+                            @[ @"OpenDyslexic by Abelardo Gonzalez", @0 ],
+                            @[ @"PSTCollectionView © 2010-2013 Peter Steinberger", @0 ],
+                            @[ @"SegmentedControllerRevisited © 2012 Marcus Crafter", @0 ],
+                            @[ @"SVProgressHUD © 2011 Sam Vermette", @0 ],
+                            @[ @"TestFlightSDK 1.2 © 2011 TestFlight", @0 ],
+                            @[ @"TSMiniWebBrowser © 2012 Toni Sala", @0 ],
+                            @[ @"UIColor-Expanded © Erica Sadun", @0 ],
+                            @[ @"WKVerticalScrollBar © 2012 litl, LLC, and authors", @0 ],
+                            @[ @"ZUIIRevealController © 2011, Philip Kluz", @0 ]
+                          ];
+  thirdPartyComponentURLs = @[ @"https://github.com/jessmartin/CoolButtons",
+                               @"https://github.com/ccgus/fmdb",
+                               @"http://fortawesome.github.com/Font-Awesome/",
+                               @"https://github.com/alexdrone/ios-fontawesome",
+                               @"https://github.com/nicklockwood/iRate",
+                               @"http://stackoverflow.com/a/12402817",
+                               @"https://github.com/adamhoracek/KOKeyboard",
+                               @"https://github.com/mikeahmarani/MAConfirmButton",
+                               @"http://opendyslexic.org/",
+                               @"https://github.com/steipete/PSTCollectionView",
+                               @"https://github.com/crafterm/SegmentedControlRevisited",
+                               @"https://github.com/samvermette/SVProgressHUD",
+                               @"http://www.testflightapp.com",
+                               @"https://github.com/tonisalae/TSMiniWebBrowser",
+                               @"https://github.com/ars/uicolor-utilities",
+                               @"https://github.com/litl/WKVerticalScrollBar",
+                               @"https://github.com/pkluz/ZUUIRevealController"
+                            ];
+
   settingsGroup = @[textSettings, layoutSettings,   // iCloudSettings,
-                   exportSettings, importSettings, versionSettings];
+                   exportSettings, importSettings, versionSettings, thirdPartyComponents];
 }
 
 /**
@@ -283,6 +348,9 @@ const int SECTION_VERSION = 4;
 
   case SECTION_VERSION: return __T(@"Version");
     break;
+    
+  case SECTION_THIRD_PARTY: return __T(@"Third Party Components");
+    break;
 
   default: return @"Undefined";
     break;
@@ -299,14 +367,24 @@ const int SECTION_VERSION = 4;
 {
   switch (section)
   {
-  case SECTION_TEXT: return __Tv(
-             @"note-when-transliterating-greek",
-             @"﹡ When transliterating Greek, the app may be slower when navigating to new passages.\n\n✝ Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.");
+  case SECTION_TEXT:
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+       return __Tv(
+                 @"note-when-transliterating-greek",
+                 @"﹡ When transliterating Greek, the app may be slower when navigating to new passages.");
+    }
+    else
+    {
+      return [NSString stringWithFormat:@"%@%@%@", __Tv(@"note-when-transliterating-greek",
+                                               @"﹡ When transliterating Greek, the app may be slower when navigating to new passages."),
+                                                   @"\n",
+                                                   __Tv(@"note-for-translation", @"✝ Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.") ];
+    }
     break;
 
-  case SECTION_LAYOUT: return __Tv(
-             @"note-opendyslexic",
-             @"﹡ The OpenDyslexic font does not support polytonic Greek. It is suggested to use the OpenDyslexic font only if transliterating the Greek or when using a text without diacritics.");
+  case SECTION_LAYOUT:
+    return @"";
     break;
 
 //        case 2: return @"Enable iCloud to synchronize your data across multiple devices. It is suggested \
@@ -324,7 +402,10 @@ const int SECTION_VERSION = 4;
 
   case SECTION_VERSION: return __Tv(
              @"note-anonymous-with-copyright",
-             @"Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information. \n\n\n\n\n\n ");
+             @"Disable Anonymous Usage Statistics if you don't want to send anonymous usage and debugging information. Please consider leaving this setting enabled, as the information helps us to create a better app for everyone. We will never sell this information to any other company. TestFlight is used to compile the anonymous information. \n\nNote: If you in a country where using the Bible may result in personal harm, you should disable Anonymous Usage Statistics. \n\nThis application is Copyright 2013 photoKandy Studios LLC. It is released under the Creative Commons BY-SA-NC license. See http://www.photokandy.com/apps/gib for more information.");
+    break;
+  case SECTION_THIRD_PARTY:
+    return @"";
     break;
 
   default: return @"Undefined";
@@ -356,7 +437,7 @@ const int SECTION_VERSION = 4;
 -(CGFloat)tableView: (UITableView *) tableView heightForHeaderInSection: (NSInteger) section
 {
   return 20.0 +
-         [[self tableView: tableView titleForHeaderInSection: section] sizeWithFont: [UIFont boldSystemFontOfSize: 16]
+         [[self tableView: tableView titleForHeaderInSection: section] sizeWithFont: [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16]
           constrainedToSize: CGSizeMake(tableView.bounds.size.width -
                                         ( ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88: 20 ),
                                         1000)].height;
@@ -365,7 +446,7 @@ const int SECTION_VERSION = 4;
 -(CGFloat)tableView: (UITableView *) tableView heightForFooterInSection: (NSInteger) section
 {
   return 40.0 +
-         [[self tableView: tableView titleForFooterInSection: section] sizeWithFont: [UIFont systemFontOfSize: 16]
+         [[self tableView: tableView titleForFooterInSection: section] sizeWithFont: [UIFont fontWithName:[PKSettings interfaceFont] size:16]
           constrainedToSize: CGSizeMake(tableView.bounds.size.width -
                                         ( ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88: 20 ),
                                         1000)].height;
@@ -381,7 +462,7 @@ const int SECTION_VERSION = 4;
                                                 ( ([[UIDevice currentDevice] userInterfaceIdiom] ==
                                                    UIUserInterfaceIdiomPad) ? 88: 20 ), 20 )];
   label.text            = [self tableView: tableView titleForHeaderInSection: section];
-  label.font            = [UIFont boldSystemFontOfSize: 16.0];
+  label.font            = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   label.textAlignment   = NSTextAlignmentLeft;
   label.backgroundColor = [UIColor clearColor];
   label.textColor       = [PKSettings PKTextColor];
@@ -401,7 +482,7 @@ const int SECTION_VERSION = 4;
   label.text            = [self tableView: tableView titleForFooterInSection: section];
   label.numberOfLines   = 0;
   label.textAlignment   = NSTextAlignmentLeft;
-  label.font            = [UIFont systemFontOfSize: 16.0];
+  label.font            = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
   label.backgroundColor = [UIColor clearColor];
   label.textColor       = [PKSettings PKTextColor];
   [label sizeToFit];
@@ -436,8 +517,10 @@ const int SECTION_VERSION = 4;
   NSArray *cellData  = [[settingsGroup objectAtIndex: section] objectAtIndex: row];
 
   cell.textLabel.text      = [cellData objectAtIndex: 0];
+  cell.textLabel.numberOfLines=0;
   cell.textLabel.textColor = [PKSettings PKTextColor];
-
+  cell.textLabel.font = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
+  cell.detailTextLabel.font = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
   cell.accessoryType       = UITableViewCellAccessoryNone;
 
   switch ([[cellData objectAtIndex: 1] intValue])
@@ -632,6 +715,19 @@ const int SECTION_VERSION = 4;
           PKAboutViewController *avc = [[PKAboutViewController alloc] init];
           [self.navigationController pushViewController:avc animated:YES];
         }
+      }
+      if (section == SECTION_THIRD_PARTY)
+      {
+          NSURL *theURL = [NSURL URLWithString:[thirdPartyComponentURLs objectAtIndex:row ]];
+          TSMiniWebBrowser *wb = [[TSMiniWebBrowser alloc] initWithUrl: theURL];
+          wb.showURLStringOnActionSheetTitle = YES;
+          wb.showPageTitleOnTitleBar         = YES;
+          wb.showActionButton                = YES;
+          wb.showReloadButton                = YES;
+          wb.mode = TSMiniWebBrowserModeModal;
+          wb.barStyle = UIBarStyleBlack;
+          wb.modalDismissButtonTitle         = __T(@"Done");
+          [self presentModalViewController: wb animated: YES];
       }
       break;
   }

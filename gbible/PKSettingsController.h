@@ -41,16 +41,4 @@
 #import "PKTableViewController.h"
 
 @interface PKSettingsController : PKTableViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, PKBibleDelegate, PKLayoutControllerDelegate>
-
-@property (strong, nonatomic) NSArray *layoutSettings;
-@property (strong, nonatomic) NSArray *textSettings;
-@property (strong, nonatomic) NSArray *iCloudSettings;
-@property (strong, nonatomic) NSArray *importSettings;
-@property (strong, nonatomic) NSArray *exportSettings;
-@property (strong, nonatomic) NSArray *versionSettings;
-
-@property (strong, nonatomic) NSArray *settingsGroup;
-
-@property (strong, nonatomic) NSIndexPath *currentPathForPopover;
-@property (strong, nonatomic) UITableViewCell *theTableCell;
 @end
