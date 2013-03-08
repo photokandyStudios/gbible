@@ -32,8 +32,6 @@
 				<string>Icon-Small@2x.png</string>
 				<string>Icon@2x.png</string>
 			</array>
-			<key>UIPrerenderedIcon</key>
-			<true/>
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
@@ -49,7 +47,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.2.5743</string>
+	<string>1.2.5893</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
@@ -61,8 +59,6 @@
 		<string>FontAwesomeFont.ttf</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
-	<true/>
-	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
