@@ -47,7 +47,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.2.5893</string>
+	<string>1.2.5928</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
@@ -57,6 +57,16 @@
 		<string>OpenDyslexic-Italic.otf</string>
 		<string>OpenDyslexic-BoldItalic.otf</string>
 		<string>FontAwesomeFont.ttf</string>
+		<string>Arev.ttf</string>
+		<string>ArevBd.ttf</string>
+		<string>ArevBI.ttf</string>
+		<string>ArevIt.ttf</string>
+		<string>GentiumPlus-I.ttf</string>
+		<string>GentiumPlus-R.ttf</string>
+		<string>newathu405.ttf</string>
+		<string>newathuBold405.ttf</string>
+		<string>newathuBoldItalic405.ttf</string>
+		<string>newathuItalic405.ttf</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>

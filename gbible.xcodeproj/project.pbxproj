@@ -62,6 +62,16 @@
 		6A136916167C24BF001A1C7C /* PKLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A136915167C24BF001A1C7C /* PKLayoutController.m */; };
 		6A13691A167C3F5F001A1C7C /* GLTapLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A136918167C3F5F001A1C7C /* GLTapLabel.m */; };
 		6A14850316DDA19D002AEA0A /* PKVerseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A14850216DDA19D002AEA0A /* PKVerseTableViewController.m */; };
+		6A1C011216EA7FC900D4DDBF /* Arev.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1C010E16EA7FC900D4DDBF /* Arev.ttf */; };
+		6A1C011316EA7FC900D4DDBF /* ArevBd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1C010F16EA7FC900D4DDBF /* ArevBd.ttf */; };
+		6A1C011416EA7FC900D4DDBF /* ArevBI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1C011016EA7FC900D4DDBF /* ArevBI.ttf */; };
+		6A1C011516EA7FC900D4DDBF /* ArevIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1C011116EA7FC900D4DDBF /* ArevIt.ttf */; };
+		6A1C011A16EA896900D4DDBF /* newathu405.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1C011616EA896900D4DDBF /* newathu405.ttf */; };
+		6A1C011B16EA896900D4DDBF /* newathuBold405.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1C011716EA896900D4DDBF /* newathuBold405.ttf */; };
+		6A1C011C16EA896900D4DDBF /* newathuBoldItalic405.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1C011816EA896900D4DDBF /* newathuBoldItalic405.ttf */; };
+		6A1C011D16EA896900D4DDBF /* newathuItalic405.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1C011916EA896900D4DDBF /* newathuItalic405.ttf */; };
+		6A1C012016EA897900D4DDBF /* GentiumPlus-I.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1C011E16EA897900D4DDBF /* GentiumPlus-I.ttf */; };
+		6A1C012116EA897900D4DDBF /* GentiumPlus-R.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A1C011F16EA897900D4DDBF /* GentiumPlus-R.ttf */; };
 		6A1D143316CC494C0016C2BD /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6A1D143016CC494C0016C2BD /* iRate.bundle */; };
 		6A1D143416CC494C0016C2BD /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D143216CC494C0016C2BD /* iRate.m */; };
 		6A1E279016DFFF8B00D516CA /* UIFont+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E278F16DFFF8B00D516CA /* UIFont+Utility.m */; };
@@ -325,6 +335,16 @@
 		6A136919167C3F5F001A1C7C /* GLTapLabelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTapLabelDelegate.h; sourceTree = "<group>"; };
 		6A14850116DDA19D002AEA0A /* PKVerseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKVerseTableViewController.h; sourceTree = "<group>"; };
 		6A14850216DDA19D002AEA0A /* PKVerseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKVerseTableViewController.m; sourceTree = "<group>"; };
+		6A1C010E16EA7FC900D4DDBF /* Arev.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Arev.ttf; sourceTree = "<group>"; };
+		6A1C010F16EA7FC900D4DDBF /* ArevBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ArevBd.ttf; sourceTree = "<group>"; };
+		6A1C011016EA7FC900D4DDBF /* ArevBI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ArevBI.ttf; sourceTree = "<group>"; };
+		6A1C011116EA7FC900D4DDBF /* ArevIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ArevIt.ttf; sourceTree = "<group>"; };
+		6A1C011616EA896900D4DDBF /* newathu405.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = newathu405.ttf; sourceTree = "<group>"; };
+		6A1C011716EA896900D4DDBF /* newathuBold405.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = newathuBold405.ttf; sourceTree = "<group>"; };
+		6A1C011816EA896900D4DDBF /* newathuBoldItalic405.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = newathuBoldItalic405.ttf; sourceTree = "<group>"; };
+		6A1C011916EA896900D4DDBF /* newathuItalic405.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = newathuItalic405.ttf; sourceTree = "<group>"; };
+		6A1C011E16EA897900D4DDBF /* GentiumPlus-I.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GentiumPlus-I.ttf"; sourceTree = "<group>"; };
+		6A1C011F16EA897900D4DDBF /* GentiumPlus-R.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GentiumPlus-R.ttf"; sourceTree = "<group>"; };
 		6A1D143016CC494C0016C2BD /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
 		6A1D143116CC494C0016C2BD /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
 		6A1D143216CC494C0016C2BD /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
@@ -1149,6 +1169,16 @@
 		6A9B86B41542818F00E4ABC0 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				6A1C011E16EA897900D4DDBF /* GentiumPlus-I.ttf */,
+				6A1C011F16EA897900D4DDBF /* GentiumPlus-R.ttf */,
+				6A1C011616EA896900D4DDBF /* newathu405.ttf */,
+				6A1C011716EA896900D4DDBF /* newathuBold405.ttf */,
+				6A1C011816EA896900D4DDBF /* newathuBoldItalic405.ttf */,
+				6A1C011916EA896900D4DDBF /* newathuItalic405.ttf */,
+				6A1C010E16EA7FC900D4DDBF /* Arev.ttf */,
+				6A1C010F16EA7FC900D4DDBF /* ArevBd.ttf */,
+				6A1C011016EA7FC900D4DDBF /* ArevBI.ttf */,
+				6A1C011116EA7FC900D4DDBF /* ArevIt.ttf */,
 				6A116AF01696585700E5C2D9 /* FontAwesomeFont.ttf */,
 				6AD4A0A5166F19E70005F519 /* OpenDyslexic-Bold.otf */,
 				6AD4A0A6166F19E70005F519 /* OpenDyslexic-Regular.otf */,
@@ -1753,6 +1783,16 @@
 				6A68C93E16E9AE87005CA8EF /* Icon@2x.png in Resources */,
 				6A68C93F16E9AE87005CA8EF /* iTunesArtwork.png in Resources */,
 				6A68C94016E9AE87005CA8EF /* iTunesArtwork@2x.png in Resources */,
+				6A1C011216EA7FC900D4DDBF /* Arev.ttf in Resources */,
+				6A1C011316EA7FC900D4DDBF /* ArevBd.ttf in Resources */,
+				6A1C011416EA7FC900D4DDBF /* ArevBI.ttf in Resources */,
+				6A1C011516EA7FC900D4DDBF /* ArevIt.ttf in Resources */,
+				6A1C011A16EA896900D4DDBF /* newathu405.ttf in Resources */,
+				6A1C011B16EA896900D4DDBF /* newathuBold405.ttf in Resources */,
+				6A1C011C16EA896900D4DDBF /* newathuBoldItalic405.ttf in Resources */,
+				6A1C011D16EA896900D4DDBF /* newathuItalic405.ttf in Resources */,
+				6A1C012016EA897900D4DDBF /* GentiumPlus-I.ttf in Resources */,
+				6A1C012116EA897900D4DDBF /* GentiumPlus-R.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
