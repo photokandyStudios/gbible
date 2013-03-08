@@ -47,6 +47,13 @@
 #import "PKSettings.h"
 
 @interface PKBibleInfoViewController ()
+@property int theBibleID;
+@property (strong, nonatomic) UILabel * theBibleTitle;
+@property (strong, nonatomic) UILabel * theBibleAbbreviation;
+@property (strong, nonatomic) UIImageView * theBibleImage;
+@property (strong, nonatomic) UILabel * theBibleImageAbbr;
+@property (strong, nonatomic) UIWebView * theBibleInformation;
+@property (strong, nonatomic) MAConfirmButton * theActionButton;
 
 @end
 
@@ -115,14 +122,20 @@
                                                                      self.view.bounds.size.height-20 )];
   theBibleInformation.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   theBibleInformation.backgroundColor = [UIColor clearColor];
+  theBibleInformation.opaque = NO;
   [self.view addSubview:theBibleInformation];
   
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
+  [self loadBibleInformation];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
   [super viewDidAppear:animated];
-  [self loadBibleInformation];
   
 }
 
