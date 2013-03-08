@@ -38,6 +38,7 @@
 #import "PKSettings.h"
 #import "PKConstants.h"
 #import "PKDatabase.h"
+#import "UIFont+Utility.h"
 
 @implementation PKSettings
 @synthesize textFontFace;
@@ -154,7 +155,7 @@ static id _instance;
     greekText   = PK_BIBLETEXT_WHP;
     showStrongs = false;
   }
-
+  
   currentBook          = [[self loadSetting: @"current-book"] intValue];
   currentChapter       = [[self loadSetting: @"current-chapter"] intValue];
   currentVerse         = [[self loadSetting: @"current-verse"] intValue];
@@ -196,6 +197,13 @@ static id _instance;
     usageStats = YES;       // default;
     [self saveSettings];       // save it so the Settings page knows about it
   }
+
+  if (englishText == PK_BIBLETEXT_KJV)
+  {
+    englishText = PK_BIBLETEXT_YLT;
+    [self saveSettings];       // save it so the Settings page knows about it
+  }
+
 }
 
 /**
@@ -720,6 +728,28 @@ static id _instance;
 
   // otherwise the normal arrow
   return [UIImage imageNamed: @"ArrowRight"];
+}
+
++(NSString *) interfaceFont
+{
+  NSString *font = [NSString stringWithFormat:@"%@ %@", [[PKSettings instance] textFontFace],
+                                                       [[PKSettings instance] textGreekFontFace]];
+  if ([font rangeOfString:@"Dyslexic"].location != NSNotFound)
+  {
+    return [UIFont fontForFamilyName:@"Open Dyslexic"];
+  }
+  return [UIFont fontForFamilyName:@"Helvetica"];
+}
+
++(NSString *) boldInterfaceFont
+{
+  NSString *font = [NSString stringWithFormat:@"%@ %@", [[PKSettings instance] textFontFace],
+                                                       [[PKSettings instance] textGreekFontFace]];
+  if ([font rangeOfString:@"Dyslexic"].location != NSNotFound)
+  {
+    return [UIFont fontForFamilyName:@"Open Dyslexic Bold"];
+  }
+  return [UIFont fontForFamilyName:@"Helvetica Bold"];
 }
 
 @end
