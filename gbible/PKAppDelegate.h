@@ -77,4 +77,5 @@
 +(void) applyThemeToUISearchBar: (UISearchBar *)sba;
 +(void) applyThemeToUISegmentedControl: (UISegmentedControl *)sca;
 
+
 @end
