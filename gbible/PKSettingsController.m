@@ -137,6 +137,7 @@ const int SECTION_THIRD_PARTY = 5;
                        @[ __T(@"Compress Right Side"), @2, @"compress-right-side"],
                        @[ __T(@"Extend Highlights"), @2, @"extend-highlights" ],
                        @[ __T(@"Strong's On Top"), @2, @"strongs-on-top" ],
+                       @[ __T(@"Smaller Non-Greek Words"), @2, @"smaller-left-side-words" ],
                        @[ __Tv(@"Show Inline Notes", @"Show Inline Notes?"), @2, PK_SETTING_INLINENOTES ]
                       ];
   }
@@ -147,6 +148,7 @@ const int SECTION_THIRD_PARTY = 5;
                        @[ __T(@"Compress Right Side"), @2, @"compress-right-side"],
                        @[ __T(@"Extend Highlights"), @2, @"extend-highlights" ],
                        @[ __T(@"Strong's On Top"), @2, @"strongs-on-top" ],
+                       @[ __T(@"Smaller Non-Greek Words"), @2, @"smaller-left-side-words" ],
                        @[ __Tv(@"Show Inline Notes", @"Show Inline Notes?"), @2, PK_SETTING_INLINENOTES ]
                       ];
   }

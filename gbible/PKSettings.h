@@ -74,6 +74,7 @@
 @property (readwrite) BOOL usageStats;
 @property (readwrite, strong, nonatomic) NSString *lastNotesSearch;
 @property (readwrite) BOOL strongsOnTop;
+@property (readwrite) BOOL smallerLeftSideWords;
 
 //version 1.2
 @property BOOL compressRightSideText;       // if YES, compress the right side's text

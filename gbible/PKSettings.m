@@ -75,6 +75,7 @@
 @synthesize extendHighlights;
 @synthesize compressRightSideText;
 @synthesize strongsOnTop;
+@synthesize smallerLeftSideWords;
 
 static id _instance;
 
@@ -130,6 +131,7 @@ static id _instance;
   showMorphology     = [[self loadSetting: PK_SETTING_SHOWMORPHOLOGY] boolValue];
   showStrongs        = [[self loadSetting: @"show-strongs"] boolValue];
   strongsOnTop       = [[self loadSetting: @"strongs-on-top"] boolValue];
+  smallerLeftSideWords=[[self loadSetting: @"smaller-left-side-words"] boolValue];
   showInterlinear    = [[self loadSetting: @"show-interlinear"] boolValue];
   useICloud          = [[self loadSetting: PK_SETTING_USEICLOUD] boolValue];
   
@@ -308,6 +310,7 @@ static id _instance;
     [self saveSetting: PK_SETTING_INLINENOTES valueForSetting: (showNotesInline ? @"YES": @"NO")];
     [self saveSetting: PK_SETTING_SHOWMORPHOLOGY valueForSetting: (showMorphology ? @"YES": @"NO")];
     [self saveSetting: @"strongs-on-top" valueForSetting: (strongsOnTop ? @"YES": @"NO")];
+    [self saveSetting: @"smaller-left-side-words" valueForSetting: ( smallerLeftSideWords ? @"YES": @"NO" )];
     [self saveSetting: @"show-strongs" valueForSetting: (showStrongs ? @"YES": @"NO")];
     [self saveSetting: @"show-interlinear" valueForSetting: (showInterlinear ? @"YES": @"NO")];
     [self saveSetting: PK_SETTING_USEICLOUD valueForSetting: (useICloud ? @"YES": @"NO")];
@@ -421,6 +424,7 @@ static id _instance;
     showStrongs          = YES;
     showInterlinear      = YES;
     strongsOnTop         = NO;
+    smallerLeftSideWords = YES;
     useICloud            = NO;
     
     extendHighlights     = NO;
