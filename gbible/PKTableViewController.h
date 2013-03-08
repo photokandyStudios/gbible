@@ -39,6 +39,7 @@
 
 @interface PKTableViewController : UITableViewController
 
+@property BOOL enableVerticalScrollBar;
 -(void)calculateShadows;
 
 @end

@@ -52,12 +52,14 @@
 @synthesize topShadow;
 @synthesize bottomShadow;
 @synthesize verticalScrollBar;
+@synthesize enableVerticalScrollBar;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        enableVerticalScrollBar = YES;
     }
     return self;
 }
@@ -86,11 +88,14 @@
   
     self.navigationItem.leftItemsSupplementBackButton = YES;
   
-    verticalScrollBar = [[WKVerticalScrollBar alloc] initWithFrame:self.view.bounds];
-    verticalScrollBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    verticalScrollBar.scrollView = self.tableView;
-  
-    [self.view addSubview:verticalScrollBar];
+    if (enableVerticalScrollBar)
+    {
+      verticalScrollBar = [[WKVerticalScrollBar alloc] initWithFrame:self.view.bounds];
+      verticalScrollBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+      verticalScrollBar.scrollView = self.tableView;
+    
+      [self.tableView addSubview:verticalScrollBar];
+    }
   
 
 }
