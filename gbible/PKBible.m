@@ -779,7 +779,7 @@
     theBoldFont = theFont;
   }
   
-  UIFont *theSmallerFont = [theFont fontWithSizeDeltaPercent:0.90];
+  UIFont *theSmallerFont = [theFont fontWithSizeDeltaPercent: ([[PKSettings instance] smallerLeftSideWords]) ? 0.90 : 1.00];
 
   // set Margin
   CGFloat theMargin = 5;
@@ -825,13 +825,22 @@
   // we need to know the width of a space
   CGFloat spaceWidth            = [@" " sizeWithFont: theFont].width;
   // we need to know the height of an M (* the setting...)
-  CGFloat lineHeight            = [@"M" sizeWithFont: theFont].height;
-  CGFloat smallerLineHeight     = [@"M" sizeWithFont: theSmallerFont].height;
-  CGFloat lineHeightAvg         = lineHeight + ((lineHeight - smallerLineHeight)/2);
-  lineHeight    = lineHeight * ( (float)[[PKSettings instance] textLineSpacing] / 100.0 );
+/*  CGFloat otherHeight = [@"M" sizeWithFont: theFont].height;
+  NSLog ( @"Ascender: %f", [theFont ascender] );
+  NSLog ( @"Cap Height: %f", [theFont capHeight] );
+  NSLog ( @"x height: %f", [theFont xHeight] );
+  NSLog ( @"Descender: %f", [theFont descender] );
+ */
+  CGFloat lineHeight            = (theFont.ascender - theFont.descender) + 1; //[@"M" sizeWithFont: theFont].;
+  CGFloat boldLineHeight        = (theBoldFont.ascender - theBoldFont.descender) + 1; //[theBoldFont lineHeight];
+  CGFloat smallerLineHeight     = (theSmallerFont.ascender - theSmallerFont.descender) + 1; //[theSmallerFont lineHeight]; //[@"M" sizeWithFont: theSmallerFont].height;
+  CGFloat lineHeightAvg         = boldLineHeight + ((lineHeight - smallerLineHeight)/2);
+  //lineHeight    = lineHeight * ( (float)[[PKSettings instance] textLineSpacing] / 100.0 );
   // determine the maximum size of the column (1 line, 2 lines, 3 lines?)
-  CGFloat columnHeight          = lineHeight;
-  columnHeight += (lineHeight * [[PKSettings instance] textVerseSpacing]);
+  CGFloat leading = lineHeight * ( (float)[[PKSettings instance] textLineSpacing] / 100.0 );
+
+  CGFloat columnHeight          = leading;
+  columnHeight += (leading * [[PKSettings instance] textVerseSpacing]);
 
   if ( theColumn == 1 || !compression)
   {
@@ -840,54 +849,54 @@
       // are we going to show morphology?
       if ([[PKSettings instance] showMorphology] && supportsMorphology)
       {
-        columnHeight += lineHeight;
+        columnHeight += leading;
       }
 
       if (showStrongs && supportsStrongs)
       {
-        columnHeight += lineHeight;         // for G#s
+        columnHeight += leading;         // for G#s
       }
 
       if (supportsTranslation && showInterlinear)
       {
-        columnHeight += lineHeight;
+        columnHeight += leading;
       }
     }
   }
   
   if ( theColumn == 2 && compressRightSide )
   {
-    columnHeight          = lineHeight;
-    columnHeight += (lineHeight * [[PKSettings instance] textVerseSpacing]);
+    columnHeight          = leading;
+    columnHeight += (leading * [[PKSettings instance] textVerseSpacing]);
   }
 
   CGFloat yOffset = 0.0;
-  CGFloat wordOffset = lineHeight * (strongsOnTop ? 1 : 0);
-  CGFloat strongsOffset = lineHeight * (strongsOnTop ? 0 : 1);
-  CGFloat morphologyOffset = lineHeight * 2;
-  CGFloat translationOffset = lineHeight * 3;
+  CGFloat wordOffset = (leading * (strongsOnTop ? 1 : 0)) + ((leading-(theColumn==1 ? boldLineHeight : lineHeight))/2);
+  CGFloat strongsOffset = (leading * (strongsOnTop ? 0 : 1))  + ((leading-(theColumn==1 ? smallerLineHeight : lineHeight))/2);
+  CGFloat morphologyOffset = (leading * 2)  + ((leading-(theColumn==1 ? smallerLineHeight : lineHeight))/2);
+  CGFloat translationOffset = (leading * 3)  + ((leading-(theColumn==1 ? smallerLineHeight : lineHeight))/2);
   
   if (!showStrongs || !supportsStrongs)
   {
     strongsOffset = 0.0;
-    if (strongsOnTop) wordOffset -= lineHeight;
-    morphologyOffset -= lineHeight;
-    translationOffset -= lineHeight;
+    if (strongsOnTop) wordOffset -= leading;
+    morphologyOffset -= leading;
+    translationOffset -= leading;
   }
   
   if (!showMorphology || !supportsMorphology)
   {
-    morphologyOffset -= lineHeight;
-    translationOffset -= lineHeight;
+    morphologyOffset -= leading;
+    translationOffset -= leading;
   }
   
   if (!showInterlinear || !supportsTranslation)
   {
-    translationOffset -= lineHeight;
+    translationOffset -= leading;
   }
 
   // give us some margin at the top
-  startY  = lineHeight / 2;      //RE: ISSUE # 5
+  startY  = leading / 2;      //RE: ISSUE # 5
   startY += initialY;       // new formatting for iPhone;
   curY    = startY;    //RE: ISSUE # 5
 
@@ -1092,7 +1101,7 @@
         {
           curX = theCurrentFrame.origin.x + theCurrentFrame.size.width - xOffset;
         }
-        if (!compression && (thePreviousAnchorFrame.origin.x + thePreviousAnchorFrame.size.width - xOffset>curX) &&
+        if (!compression && !compressRightSide && (thePreviousAnchorFrame.origin.x + thePreviousAnchorFrame.size.width - xOffset>curX) &&
             (thePreviousAnchorFrame.origin.y >= curY))
         {
           curX = thePreviousAnchorFrame.origin.x + thePreviousAnchorFrame.size.width - xOffset;
@@ -1129,7 +1138,15 @@
 
     // start creating our word element
     CGFloat newY = curY+yOffset;
-    if ((theColumn == 1) ? theWordType : -1 > -1) newY += lineHeightAvg - theSize.height;
+/*    if ((theColumn == 1) ? theWordType : -1 > -1) newY += lineHeightAvg - theSize.height;
+    if ((theColumn == 1) && ([[theBoldFont fontName] rangeOfString:@"Athena"].location != NSNotFound))
+    {
+      if ((theColumn == 1) ? theWordType : -1 > -1) newY -= (boldLineHeight / 9);
+    }
+    if ((theColumn == 1) && ([[theBoldFont fontName] rangeOfString:@"Palatino"].location != NSNotFound))
+    {
+      if ((theColumn == 1) ? theWordType : -1 > -1) newY -= (boldLineHeight / 6);
+    } */
     PKLabel *theWordElement     = [[PKLabel alloc] initWithFrame:CGRectMake(curX + xOffset
     , newY,
                                                                             theSize.width, theSize.height)];
