@@ -1331,7 +1331,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                                                     andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width -
-                             (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 999)];
+                             (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 1999)];
     theMax += 10 + theSize.height + 10;
   }
 
@@ -1451,7 +1451,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
                              [theNote objectAtIndex: 1]];
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                                                     andSize: [[PKSettings instance] textFontSize]]
-                             constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999)];
+                             constrainedToSize: CGSizeMake(self.tableView.bounds.size.width -
+                             (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 1999)];
     CGRect theRect        = CGRectMake( ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad  ) ? 44 : 10,
                                         theMax + 10,
                                         self.tableView.bounds.size.width -
