@@ -48,6 +48,7 @@
 #import "PKHighlightsViewController.h"
 #import "PKStrongsController.h"
 #import "PKSearchViewController.h"
+#import "AccessibleSegmentedControl.h"
 @interface PKAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
@@ -62,7 +63,7 @@
 @property (strong, nonatomic) PKSearchViewController *searchViewController;
 @property (strong, nonatomic) PKStrongsController *strongsViewController;
 @property (strong, nonatomic) SegmentsController *segmentController;
-@property (strong, nonatomic) UISegmentedControl *segmentedControl;
+@property (strong, nonatomic) AccessibleSegmentedControl *segmentedControl;
 
 @property (strong, nonatomic) UIImageView *splash;
 
