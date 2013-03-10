@@ -931,6 +931,9 @@
       thePriorWordElement = [theWordArray lastObject];
       thePriorWordElementIndex = theWordArray.count-1;
     }
+    
+    // mark its language
+    NSString *theTrait = (theColumn ==1) ? @"Greek Word" : @"Word";
 
     // and its size
     CGSize theSize;
@@ -950,6 +953,7 @@
       {
         // we're a G#
         theWordType = 10;
+        theTrait = @"Strong's Number";
         yOffset     = strongsOffset;
         theWord = [theOriginalWord substringFromIndex:1];
 
@@ -958,6 +962,7 @@
           theWord = [NSString stringWithFormat:@"M%i", [[theOriginalWord substringFromIndex: 1] intValue]];
             theWord = @"";
           theWordType =19;
+          theTrait = @"Strong's Morphology";
           yOffset     = morphologyOffset;
           if (!showMorphology)
           {
@@ -995,6 +1000,7 @@
                || [theOriginalWord hasSuffix: @")"]) )
         {
           theWordType = 5;
+          theTrait = @"Word";
           yOffset     = translationOffset;
 
           if ([theWord hasPrefix: @"("])
@@ -1020,6 +1026,7 @@
           {
             theWordType = 0;                 // we're really just a regular word.
             yOffset     = wordOffset;
+            theTrait = @"Variant Indicator";
           }
           else
           {
@@ -1028,6 +1035,7 @@
             {
               // we are!
               theWordType = 20;
+              theTrait = @"Morphology Indicator";
               yOffset     = morphologyOffset;
               if (!showMorphology)
               {
@@ -1151,6 +1159,7 @@
     , newY,
                                                                             theSize.width, theSize.height)];
     theWordElement.text         = theWord;
+    theWordElement.trait        = theTrait;
     theWordElement.shadowColor  = [PKSettings PKLightShadowColor];
     theWordElement.shadowOffset = CGSizeMake(0, 1);
     theWordElement.tag          = (theColumn == 1) ? theWordType : -1; // so we can avoid certain words later
