@@ -241,6 +241,7 @@
 		6AE5B94616BF7E2D004256CC /* PKTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5B94516BF7E2D004256CC /* PKTextView.m */; };
 		6AE6138716B756B700C2E03C /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6AE6138416B756B700C2E03C /* SVProgressHUD.bundle */; };
 		6AE6138816B756B700C2E03C /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AE6138616B756B700C2E03C /* SVProgressHUD.m */; };
+		6AE8D76A16EC6E2200F9F9B8 /* AccessibleSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AE8D76916EC6E2200F9F9B8 /* AccessibleSegmentedControl.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6AF0C0A6150EE8BB00BFAE03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */; };
 		6AF0C0A8150EE8BB00BFAE03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */; };
 		6AF0C0AA150EE8BB00BFAE03 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A9150EE8BB00BFAE03 /* CoreGraphics.framework */; };
@@ -599,6 +600,8 @@
 		6AE6138416B756B700C2E03C /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		6AE6138516B756B700C2E03C /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		6AE6138616B756B700C2E03C /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		6AE8D76816EC6E2200F9F9B8 /* AccessibleSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessibleSegmentedControl.h; sourceTree = "<group>"; };
+		6AE8D76916EC6E2200F9F9B8 /* AccessibleSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessibleSegmentedControl.m; sourceTree = "<group>"; };
 		6AF0C0A1150EE8BB00BFAE03 /* gbible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gbible.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1029,6 +1032,7 @@
 		6A92CCC81516F0CC00F8AE15 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				6AE8D76B16EC6E2700F9F9B8 /* AccessibleSegmentedControl */,
 				6A6B59B916A125610027BD03 /* AFNetworking */,
 				6AF9D04C1512952000514499 /* CoolButton */,
 				6AF9D024151292C200514499 /* FMDB */,
@@ -1292,6 +1296,15 @@
 				6AE6138616B756B700C2E03C /* SVProgressHUD.m */,
 			);
 			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		6AE8D76B16EC6E2700F9F9B8 /* AccessibleSegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				6AE8D76816EC6E2200F9F9B8 /* AccessibleSegmentedControl.h */,
+				6AE8D76916EC6E2200F9F9B8 /* AccessibleSegmentedControl.m */,
+			);
+			name = AccessibleSegmentedControl;
 			sourceTree = "<group>";
 		};
 		6AF0C096150EE8BB00BFAE03 = {
@@ -1911,6 +1924,7 @@
 				6A14850316DDA19D002AEA0A /* PKVerseTableViewController.m in Sources */,
 				6A280BDA16DDB64700324F4B /* PKReference.m in Sources */,
 				6A1E279016DFFF8B00D516CA /* UIFont+Utility.m in Sources */,
+				6AE8D76A16EC6E2200F9F9B8 /* AccessibleSegmentedControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
