@@ -726,6 +726,7 @@
 -(void)viewDidAppear: (BOOL) animated
 {
   [super viewDidAppear:animated];
+  [self resignFirstResponder]; // resign first; just in case?
   [self becomeFirstResponder]; // respond to copy command from keyboard?
 }
 
