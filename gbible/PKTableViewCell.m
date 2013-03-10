@@ -39,11 +39,56 @@
 #import "PKLabel.h"
 #import "PKSettings.h"
 
+
+@interface PKTableViewCell()
+
+@property (strong, nonatomic) NSMutableArray *accessibilityElements;
+
+@end
+
 @implementation PKTableViewCell
 
-@synthesize labels;
+@synthesize labels = _labels;
+@synthesize accessibilityElements;
 @synthesize highlightColor;
 @synthesize selectedColor;
+
+-(void)setLabels:(NSArray *)labels
+{
+  _labels = labels;
+  accessibilityElements = nil;
+  if (UIAccessibilityIsVoiceOverRunning())
+  {
+    accessibilityElements = [[NSMutableArray alloc] initWithCapacity:_labels.count];
+    for (int i=0;i<_labels.count; i++)
+    {
+      PKLabel *theLabel = _labels[i];
+      UIAccessibilityElement *ae = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
+      ae.accessibilityFrame = [self convertRect:theLabel.frame toView:nil];
+      ae.accessibilityLabel = theLabel.text;
+      ae.accessibilityTraits = UIAccessibilityTraitStaticText;
+      if ( [theLabel.trait hasSuffix:@"Word"] )
+      {
+        if ([theLabel.trait hasPrefix:@"Greek"])
+        {
+          ae.accessibilityLanguage = @"grc";
+        }
+      }
+      else
+      {
+        ae.accessibilityHint = __T(theLabel.trait);
+      }
+      [accessibilityElements addObject:ae];
+    }
+  }
+}
+
+-(NSArray *)labels
+{
+  return _labels;
+}
+
+
 
 -(id)initWithStyle: (UITableViewCellStyle) style reuseIdentifier: (NSString *) reuseIdentifier
 {
@@ -52,9 +97,10 @@
   if (self)
   {
     // Initialization code
-    labels         = nil;
+    _labels         = nil;
     highlightColor = nil;
     selectedColor  = nil;
+    accessibilityElements = nil;
   }
   return self;
 }
@@ -128,11 +174,11 @@
   ctx = UIGraphicsGetCurrentContext();
   CGContextSaveGState(ctx);
   {
-    if (labels)
+    if (_labels)
     {
-      for (int i = 0; i < [labels count]; i++)
+      for (int i = 0; i < [_labels count]; i++)
       {
-        PKLabel *theLabel = [labels objectAtIndex: i];
+        PKLabel *theLabel = [_labels objectAtIndex: i];        
         [theLabel draw: ctx];
       }
     }
@@ -142,7 +188,124 @@
 
 -(void)dealloc
 {
-  labels = nil;
+  _labels = nil;
+  accessibilityElements = nil;
 }
+
+#pragma mark -
+#pragma mark accessibility
+
+- (void) _recalculateAccessibilityElements
+{
+  if (accessibilityElements)
+  {
+    for (int i=0; i<accessibilityElements.count; i++)
+    {
+      UIAccessibilityElement *ae = accessibilityElements[i];
+      PKLabel *theLabel = _labels[i];
+      ae.accessibilityFrame = [self convertRect:theLabel.frame toView:nil];
+    }
+  }
+}
+
+- (void) _recalculateAccessibilityElementByIndex: (NSInteger) index
+{
+  UIAccessibilityElement *ae = accessibilityElements[index];
+  PKLabel *theLabel = _labels[index];
+  CGRect theFrame = theLabel.frame;
+  ae.accessibilityFrame = [self.window convertRect:theFrame fromView:self];
+  
+}
+
+- (void) setNeedsDisplay
+{
+  [super setNeedsDisplay];
+  //[self _recalculateAccessibilityElements];
+}
+
+- (void) setNeedsLayout
+{
+  [super setNeedsLayout];
+  //[self _recalculateAccessibilityElements];
+}
+
+
+
+- (BOOL) isAccessibilityElement
+{
+  return UIAccessibilityIsVoiceOverRunning() ? NO : YES;
+}
+
+- (NSInteger) accessibilityElementCount
+{
+  //NSLog (@"Accessibility Count: %i", [_labels count] + [self.subviews count]);
+  if (accessibilityElements)
+    return [accessibilityElements count] + [self.subviews count];
+  else
+    return [self.subviews count];
+}
+
+- (id) accessibilityElementAtIndex:(NSInteger)index
+{
+  //NSLog (@"accessibilityElementAtIndex: %i", index);
+  NSInteger aCount = 0;
+  if (accessibilityElements)
+    aCount = accessibilityElements.count;
+  
+  if (index < aCount)
+  {
+    if (accessibilityElements)
+    {
+      UIAccessibilityElement *ae = accessibilityElements[index];
+      [self _recalculateAccessibilityElementByIndex:index];
+      return ae;
+    }
+    else
+    {
+      return nil;
+    }
+  }
+  else
+  {
+    NSInteger subViewIndex = index - aCount;
+    if (self.subviews.count>0)
+    {
+      if (subViewIndex < self.subviews.count)
+      {
+        UIView *aView =  self.subviews[subViewIndex] ;
+        return aView;
+      }
+      else
+      {
+       return nil;
+      }
+    }
+    else
+    {
+      return nil;
+    }
+  }
+}
+
+- (NSInteger) indexOfAccessibilityElement:(id)element
+{
+  //NSLog ( @"indexOfAccessibilityElement: %@", [((UIView *)element) description]);
+  NSInteger anIndex = NSNotFound;
+  if (accessibilityElements)
+  {
+    anIndex = [accessibilityElements indexOfObject:element];
+  }
+  if (anIndex == NSNotFound)
+  {
+    anIndex = [self.subviews indexOfObject:element];
+    if (anIndex != NSNotFound)
+    {
+      anIndex += [self accessibilityElementCount];
+    }
+  }
+  return anIndex;
+
+}
+
 
 @end
