@@ -205,6 +205,7 @@ const int SECTION_THIRD_PARTY = 5;
                      ];
 
   thirdPartyComponents = @[
+                            @[ @"AccessibleSegmentedController © 2012 Wooji Juice", @0 ],
                             @[ @"CoolButtons © 2011 Jess Martin", @0 ],
                             @[ @"FMDatabase © Flying Meat Inc.", @0 ],
                             @[ @"Font Awesome © Dave Gandy", @0 ],
@@ -223,7 +224,8 @@ const int SECTION_THIRD_PARTY = 5;
                             @[ @"WKVerticalScrollBar © 2012 litl, LLC, and authors", @0 ],
                             @[ @"ZUIIRevealController © 2011, Philip Kluz", @0 ]
                           ];
-  thirdPartyComponentURLs = @[ @"https://github.com/jessmartin/CoolButtons",
+  thirdPartyComponentURLs = @[ @"http://www.wooji-juice.com/blog/segmented-control-accessibility.html",
+                               @"https://github.com/jessmartin/CoolButtons",
                                @"https://github.com/ccgus/fmdb",
                                @"http://fortawesome.github.com/Font-Awesome/",
                                @"https://github.com/alexdrone/ios-fontawesome",
