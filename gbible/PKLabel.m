@@ -49,6 +49,7 @@
 @synthesize backgroundColor;
 @synthesize shadowColor;
 @synthesize font;
+@synthesize trait;
 
 -(id) init
 {
@@ -63,6 +64,7 @@
     textColor       = [UIColor blackColor];
     backgroundColor = nil;
     font            = [UIFont fontWithName: @"Helvetica" size: 14];
+    trait        = @"";
   }
   return self;
 }
@@ -113,6 +115,7 @@
   shadowColor     = nil;
   textColor       = nil;
   font            = nil;
+  trait        = nil;
 }
 
 @end

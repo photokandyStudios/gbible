@@ -48,6 +48,7 @@
 @property (nonatomic, strong) UIColor *backgroundColor;
 @property (nonatomic, strong) UIColor *shadowColor;
 @property (nonatomic, strong) UIFont *font;
+@property (nonatomic, strong) NSString *trait;
 
 -(id)   init;
 -(id)   initWithFrame: (CGRect) theFrame;
