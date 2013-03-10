@@ -922,7 +922,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     adjustSettings.accessibilityLabel = __T(@"Settings");
 
   searchText = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-search" target:self action:@selector(searchBible:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
-    adjustSettings.accessibilityLabel = __T(@"Search");
+    searchText.accessibilityLabel = __T(@"Search");
   
 
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
