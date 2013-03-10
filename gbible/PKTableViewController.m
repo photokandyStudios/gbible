@@ -192,11 +192,22 @@
 -(void)scrollViewDidScroll: (UIScrollView *) scrollView
 {
   [self calculateShadows];
+  if (UIAccessibilityIsVoiceOverRunning())
+  {
+    // This loop has a side effects, see the cell accesor code.
+    for (id cell in self.tableView.visibleCells)
+      if ( [cell accessibilityElementCount] >0 )
+        for (int f = 0; [cell accessibilityElementAtIndex:f]; f++);
+
+   // UIAccessibilityPostNotification(
+   //     UIAccessibilityLayoutChangedNotification, nil);
+  }
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation
 {
   return YES;
 }
+
 
 @end
