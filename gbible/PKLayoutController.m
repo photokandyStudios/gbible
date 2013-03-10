@@ -296,6 +296,7 @@
   decreaseBrightnessLabel.text              = [NSString fontAwesomeIconStringForIconIdentifier: @"icon-adjust"];
   decreaseBrightnessLabel.backgroundColor   = [UIColor clearColor];
   decreaseBrightnessLabel.textAlignment     = UITextAlignmentCenter;
+  decreaseBrightnessLabel.accessibilityLabel= __T(@"Decrease Brightness");
   [self.view addSubview: decreaseBrightnessLabel];
 
   increaseBrightnessLabel                   = [[UILabel alloc] initWithFrame: CGRectMake(280, 380, 30, 30)];
@@ -303,6 +304,7 @@
   increaseBrightnessLabel.text              = [NSString fontAwesomeIconStringForIconIdentifier: @"icon-adjust"];
   increaseBrightnessLabel.backgroundColor   = [UIColor clearColor];
   increaseBrightnessLabel.textAlignment     = UITextAlignmentCenter;
+  increaseBrightnessLabel.accessibilityLabel= __T(@"Increase Brightness");
   [self.view addSubview: increaseBrightnessLabel];
 
   brightnessSlider                          = [[UISlider alloc] initWithFrame: CGRectMake(50, 380, 220, 30)];
