@@ -74,7 +74,12 @@
     int buttonWidth = (barWidth - 2 * leftMargin - (buttonCount - 1) * buttonSpacing) / buttonCount;
     leftMargin = (barWidth - buttonWidth * buttonCount - buttonSpacing * (buttonCount - 1)) / 2;
     
-    NSString *keys = @"TTTTT()\"[]{}'<>\\/$´`~^|€£◉◉◉◉◉-+=%*!?#@&_:;,.1203467589";
+//    NSString *keys = @"TTTTT()\"[]{}'<>\\/$´`~^|€£◉◉◉◉◉-+=%*!?#@&_:;,.1203467589";
+// new greek layout
+//  β   γ | η   θ | μ   ν | ρ   σ | φ   χ |       | “   ” | ;   [ | ]   : | 2   3 | 4   5 |
+//    α   |   ζ   |   λ   |   π   |   υ   |   •   |   '   |   (   |   )   |   0   |   1   |
+//  δ   ε | ι   κ | ξ   ο | ς   τ | ψ   ω |       | ‘   ’ | -   { | }   – | 6   7 | 8   9 |
+    NSString *keys = @"βγαδεηθζικμνλξορσπςτφχυψω◉◉◉◉◉“”'‘’;[(-{]:)}–2306745189";
     
     for (int i = 0; i < buttonCount; i++) {
         KOSwipeButton *b = [[KOSwipeButton alloc] initWithFrame:CGRectMake(leftMargin + i * (buttonSpacing + buttonWidth), topMargin + (barHeight - buttonHeight) / 2, buttonWidth, buttonHeight)];
