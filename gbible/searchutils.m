@@ -58,17 +58,28 @@ NSString * convertSearchToSQL ( NSString *theTerm, NSString *theColumn )
 
   BOOL exactMatch               = NO;
 
-  if ([searchPhrase characterAtIndex: 0] == '"'
-      && [searchPhrase characterAtIndex: [searchPhrase length] - 1] == '"')
+  if (searchPhrase.length>0)
   {
-    exactMatch = YES;
+    if ([searchPhrase characterAtIndex: 0] == '"'
+        && [searchPhrase characterAtIndex: [searchPhrase length] - 1] == '"')
+    {
+      exactMatch = YES;
+    }
   }
-
+  else
+  {
+    return nil;
+  }
   [searchPhrase replaceOccurrencesOfString: @"\"" withString: @"" options: 0 range: NSMakeRange(0, [searchPhrase length])];
   [searchPhrase replaceOccurrencesOfString: @";" withString: @"" options: 0 range: NSMakeRange(0, [searchPhrase length])];
   [searchPhrase replaceOccurrencesOfString: @"/" withString: @"" options: 0 range: NSMakeRange(0, [searchPhrase length])];
   [searchPhrase replaceOccurrencesOfString: @"\\" withString: @"" options: 0 range: NSMakeRange(0, [searchPhrase length])];
   [searchPhrase replaceOccurrencesOfString: @"%" withString: @"%%" options: 0 range: NSMakeRange(0, [searchPhrase length])];
+  
+  while ([searchPhrase rangeOfString:@"  "].location != NSNotFound)
+  {
+    [searchPhrase replaceOccurrencesOfString: @"  " withString: @" " options: 0 range: NSMakeRange(0, [searchPhrase length])];
+  }
 
   if (!exactMatch)
   {

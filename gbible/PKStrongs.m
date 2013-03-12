@@ -78,23 +78,29 @@
 
 +(NSArray *)keysThatMatch: (NSString *) theTerm
 {
+  if (theTerm.length == 0)
+  {
+    return nil;
+  }
   NSMutableArray *theResult = [[NSMutableArray alloc] init];
   FMDatabaseQueue *db = [(PKDatabase *)[PKDatabase instance] bible];
   [db inDatabase:^(FMDatabase *db)
     {
       NSString *searchPhrase = convertSearchToSQL(theTerm, @"key||' '|| definition||' '||lemma||' '||pronunciation");
-
-      FMResultSet *s            =
-        [db executeQuery: [NSString stringWithFormat:
-                           @"SELECT * FROM strongsgr WHERE %@ \
-                              ORDER BY (CASE WHEN key=? THEN 0 ELSE 1 END), 1"                                                            ,
-                           searchPhrase], [theTerm uppercaseString]];
-
-      while ([s next])
+      if (searchPhrase)
       {
-        [theResult addObject: [s stringForColumnIndex: 0]];
+        FMResultSet *s            =
+          [db executeQuery: [NSString stringWithFormat:
+                             @"SELECT * FROM strongsgr WHERE %@ \
+                                ORDER BY (CASE WHEN key=? THEN 0 ELSE 1 END), 1"                                                            ,
+                             searchPhrase], [theTerm uppercaseString]];
+
+        while ([s next])
+        {
+          [theResult addObject: [s stringForColumnIndex: 0]];
+        }
+        [s close];
       }
-      [s close];
     }
   ];
 

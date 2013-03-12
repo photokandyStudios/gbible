@@ -1307,8 +1307,13 @@ default:
 +(NSArray *) passagesMatching: (NSString *) theTerm withGreekBible: (int) theGreekBible andEnglishBible: (int) theEnglishBible
 {
   NSMutableArray *theMatches = [[NSMutableArray alloc] init];
+  if (theTerm.length == 0)
+  {
+    return nil;
+  }
 
   NSString *searchPhrase = convertSearchToSQL(theTerm, @"bibleText");
+  if (!searchPhrase) return nil;
 
   NSArray *theDBs = @[ [self bibleDatabaseForText:theGreekBible], [self bibleDatabaseForText:theEnglishBible] ];
   

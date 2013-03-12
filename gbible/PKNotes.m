@@ -234,7 +234,12 @@ static id _instance;
 
 -(NSMutableArray *)notesMatching: (NSString *)theTerm
 {
+  if (theTerm.length==0)
+  {
+    return nil;
+  }
   NSString *searchPhrase = convertSearchToSQL(theTerm, @"title || ' ' || note");
+  if (!searchPhrase) return nil;
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
 
   FMDatabaseQueue *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
