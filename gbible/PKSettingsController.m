@@ -206,13 +206,16 @@ const int SECTION_THIRD_PARTY = 5;
 
   thirdPartyComponents = @[
                             @[ @"AccessibleSegmentedController © 2012 Wooji Juice", @0 ],
+                            @[ @"Arev Sans by Tavmjong Bah", @0 ],
                             @[ @"CoolButtons © 2011 Jess Martin", @0 ],
                             @[ @"FMDatabase © Flying Meat Inc.", @0 ],
                             @[ @"Font Awesome © Dave Gandy", @0 ],
+                            @[ @"Gentium Plus © 2003-2012, SIL International", @0 ],
                             @[ @"iOS FontAwesome © 2012 Alex Usbergo", @0 ],
                             @[ @"iRate © 2011 Charcoal Design", @0 ],
                             @[ @"KBKeyboard Handler by Vladimir Grigorov", @0 ],
                             @[ @"KOKeyboard © 2012 Adam Horacek, Kuba Brecka", @0 ],
+                            @[ @"New Athena Unicode by the American Philological Association", @0 ],
                             @[ @"MAConfirmButton © 2011 Mike Ahmarani", @0 ],
                             @[ @"OpenDyslexic by Abelardo Gonzalez", @0 ],
                             @[ @"PSTCollectionView © 2010-2013 Peter Steinberger", @0 ],
@@ -225,13 +228,16 @@ const int SECTION_THIRD_PARTY = 5;
                             @[ @"ZUIIRevealController © 2011, Philip Kluz", @0 ]
                           ];
   thirdPartyComponentURLs = @[ @"http://www.wooji-juice.com/blog/segmented-control-accessibility.html",
+                               @"http://tavmjong.free.fr/FONTS/",
                                @"https://github.com/jessmartin/CoolButtons",
                                @"https://github.com/ccgus/fmdb",
                                @"http://fortawesome.github.com/Font-Awesome/",
+                               @"http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=Gentium_download",
                                @"https://github.com/alexdrone/ios-fontawesome",
                                @"https://github.com/nicklockwood/iRate",
                                @"http://stackoverflow.com/a/12402817",
                                @"https://github.com/adamhoracek/KOKeyboard",
+                               @"http://apagreekkeys.org/NAUdownload.html", 
                                @"https://github.com/mikeahmarani/MAConfirmButton",
                                @"http://opendyslexic.org/",
                                @"https://github.com/steipete/PSTCollectionView",
