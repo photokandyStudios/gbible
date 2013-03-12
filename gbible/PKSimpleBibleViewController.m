@@ -705,6 +705,10 @@
 
   int theVerse = globalVerse;
 
+    PKReference *theReference = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:theVerse];
+    [theText appendFormat:@"%@\n\n", [theReference prettyReference]];
+
+
   if (theVerse <= [currentEnglishChapter count])
   {
     // FIX ISSUE #43a
