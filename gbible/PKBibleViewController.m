@@ -998,9 +998,10 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 -(void) setUpMenuItems
 {
     ourMenu           = [UIMenuController sharedMenuController];
-    ourMenu.menuItems = [NSArray arrayWithObjects:
+    ourMenu.menuItems = @[
 // ISSUE #61
                          //            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")      action:@selector(copySelection:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Copy...")      action: @selector(askCopy:)],
                          [[UIMenuItem alloc] initWithTitle: __T(@"Highlight") action: @selector(askHighlight:)],
                          [[UIMenuItem alloc] initWithTitle: __T(@"Annotate")  action: @selector(doAnnotate:)],
                          [[UIMenuItem alloc] initWithTitle: __T(@"Search")    action: @selector(askSearch:)],
@@ -1016,8 +1017,10 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
                          [[UIMenuItem alloc] initWithTitle: __T(@"Blue") action: @selector(highlightSelectionBlue:)],
                          [[UIMenuItem alloc] initWithTitle: __T(@"Remove")        action: @selector(removeHighlights:)],
                          [[UIMenuItem alloc] initWithTitle: __T(@"Search Bible")  action: @selector(searchBible:)],
-                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Strong's") action: @selector(searchStrongs:)]
-                         , nil];
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Search Strong's") action: @selector(searchStrongs:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Copy Left") action: @selector(copyLeft:)],
+                         [[UIMenuItem alloc] initWithTitle: __T(@"Copy Right") action: @selector(copyRight:)]
+                         ];
 }
 
 
@@ -1119,6 +1122,11 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       {
         return selectedWord != nil;
       }
+      
+      if ( action == @selector(askCopy:) )
+      {
+        return YES;
+      }
     }
   }
 
@@ -1152,6 +1160,12 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     {
       return selectedWord != nil;
     }
+  }
+  
+  if (ourMenuState == 3)    // we're asking about copying
+  {
+    return (action == @selector(copyLeft:)) || (action == @selector(copyRight:))
+         ? YES : NO;
   }
   return NO;
 }
@@ -2022,6 +2036,14 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   [ourMenu setMenuVisible: YES animated: YES];
 }
 
+-(void) askCopy: (id) sender
+{
+   [self setUpMenuItems];
+  ourMenuState = 3;
+  [ourMenu update];
+  [ourMenu setMenuVisible: YES animated: YES];
+}
+
 /**
  *
  * Display a drop-down for the highlight color button
@@ -2134,10 +2156,18 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 // ISSUE #61
 -(void) copy: (id) sender
 {
-  [self copySelection: nil];
+  [self copySelection: 3]; // all sides
+}
+-(void) copyLeft: (id) sender
+{
+  [self copySelection: 1]; // left sides
+}
+-(void) copyRight: (id) sender
+{
+  [self copySelection: 2]; // right sides
 }
 
--(void) copySelection: (id) sender
+-(void) copySelection: (int) whichSides
 {
   NSMutableString *theText   = [[NSMutableString alloc] init];
   // FIX ISSUE #43b
@@ -2167,18 +2197,26 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     if ([[selectedVerses objectForKey: key] boolValue])
     {
       int theVerse = [PKReference verseFromReferenceString: key];
-
-      if (theVerse <= [currentEnglishChapter count])
+      PKReference *theReference = [PKReference referenceWithString:key];
+      [theText appendFormat:@"%@\n\n", [theReference prettyReference]];
+      
+      if ( whichSides & 2 )
       {
-        // FIX ISSUE #43a
-        [theText appendString: [currentEnglishChapter objectAtIndex: theVerse - 1]];
+        if (theVerse <= [currentEnglishChapter count])
+        {
+          // FIX ISSUE #43a
+          [theText appendString: [currentEnglishChapter objectAtIndex: theVerse - 1]];
+        }
+        [theText appendString: @"\n"];
       }
-      [theText appendString: @"\n"];
 
-      if (theVerse <= [currentGreekChapter count])
+      if ( whichSides & 1 )
       {
-        // FIX ISSUE #43a
-        [theText appendString: [currentGreekChapter objectAtIndex: theVerse - 1]];
+        if (theVerse <= [currentGreekChapter count])
+        {
+          // FIX ISSUE #43a
+          [theText appendString: [currentGreekChapter objectAtIndex: theVerse - 1]];
+        }
       }
 
       int theBook      = [[PKSettings instance] currentBook];
@@ -2733,10 +2771,14 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
     NSIndexPath *currentPath = [self.tableView indexPathsForVisibleRows][0];
     int theRow = currentPath.row;
+    //
+    // SCROLL TO TOP
     if ([text isEqualToString:@"t"])
     {
       [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
+    //
+    // SELECT UP ONE VERSE
     if ([text isEqualToString:@"W"])
     {
       int theLowestVerse = [self lowestSelectedVerse];
@@ -2751,12 +2793,16 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
         [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theLowestVerse-1 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
       }
     }
+    //
+    // UP ONE VERSE
     if ([text isEqualToString:@"w"])
     {
       theRow--;
       [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
       
     }
+    //
+    // UP THREE VERSES
     if ([text isEqualToString:@"q"])
     {
       theRow = theRow - 3;
@@ -2764,12 +2810,16 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
       
     }
+    //
+    // DOWN ONE VERSE
     if ([text isEqualToString:@"s"])
     {
       theRow++;
       [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
       
     }
+    //
+    // DOWN THREE VERSES
     if ([text isEqualToString:@"z"])
     {
       theRow = theRow + 3;
@@ -2777,6 +2827,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
       
     }
+    //
+    // SELECT DOWN ONE VERSE
     if ([text isEqualToString:@"S"])
     {
       int theHighestVerse = [self highestSelectedVerse];
@@ -2791,23 +2843,33 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
         [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theHighestVerse-1 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
       }
     }
+    //
+    // SCROLL TO BOTTOM
     if ([text isEqualToString:@"b"])
     {
       [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow: currentVerseCount-1 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
+    //
+    // HIGHLIGHT
     if ([text isEqualToString:@"h"])
     {
       [self highlightSelection:nil];
     }
+    //
+    // REMOVE HIGHLIGHT
     if ([text isEqualToString:@"H"])
     {
       [self removeHighlights:nil];
     }
+    //
+    // CLEAR SELECTION
     if ([text isEqualToString:@"c"] ||
         [text isEqualToString:@"C"])
     {
       [self clearSelection:nil];
     }
+    //
+    // ANNOTATE
     if ([text isEqualToString:@"n"] ||
         [text isEqualToString:@"N"])
     {
@@ -2819,7 +2881,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
         [self doAnnotate:nil];
       }
     }
-    
+    //
+    // EXPLAIN
     if ([text isEqualToString:@"e"] ||
         [text isEqualToString:@"E"])
     {
@@ -2831,13 +2894,28 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
         [self explainVerse:nil];
       }
     }
-    
+    //
+    // COPY LEFT
+    if ([text isEqualToString:@"["])
+    {
+      [self copyLeft:nil];
+    }
+    if ([text isEqualToString:@"]"])
+    //
+    // COPY RIGHT
+    {
+      [self copyRight:nil];
+    }
+    //
+    // PREVIOUS CHAPTER
     if ([text isEqualToString:@"a"] ||
         [text isEqualToString:@"A"])
     {
       PKWaitDelay(5000, [self previousChapter];
                 );
     }
+    //
+    // NEXT CHAPTER
     if ([text isEqualToString:@"d"] ||
         [text isEqualToString:@"D"])
     {
