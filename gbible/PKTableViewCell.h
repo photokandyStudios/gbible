@@ -35,6 +35,11 @@
 // (such as that under the Third Party section) are licensed under
 // their respective licenses.
 //
+// ====================================================================
+//
+// NOTE: THIS FILE IN PARTICULAR IS LICENSED UNDER THE MIT LICENSE.
+//
+// ====================================================================
 #import <UIKit/UIKit.h>
 
 @interface PKTableViewCell : UITableViewCell

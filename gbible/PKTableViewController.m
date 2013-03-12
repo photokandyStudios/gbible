@@ -192,16 +192,16 @@
 -(void)scrollViewDidScroll: (UIScrollView *) scrollView
 {
   [self calculateShadows];
+  // THIS SECTION: MIT LICENSE
   if (UIAccessibilityIsVoiceOverRunning())
   {
+    // based on based on http://stackoverflow.com/a/8209674/741043
     // This loop has a side effects, see the cell accesor code.
     for (id cell in self.tableView.visibleCells)
       if ( [cell accessibilityElementCount] >0 )
         for (int f = 0; [cell accessibilityElementAtIndex:f]; f++);
-
-   // UIAccessibilityPostNotification(
-   //     UIAccessibilityLayoutChangedNotification, nil);
   }
+  // END MIT LICENSED SECTION
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation
