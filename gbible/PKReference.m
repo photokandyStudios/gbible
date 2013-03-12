@@ -36,6 +36,7 @@
 //
 
 #import "PKReference.h"
+#import "PKBible.h"
 
 @implementation PKReference
 
@@ -184,6 +185,12 @@
 -(NSString *)description
 {
   return [NSString stringWithFormat:@"PKReference: %@", self.reference];
+}
+
+-(NSString *)prettyReference
+{
+  return [NSString stringWithFormat: @"%@ %i:%i",
+                                [PKBible nameForBook: _book], _chapter, _verse];
 }
 
 

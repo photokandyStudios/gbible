@@ -48,6 +48,7 @@
 +(PKReference *)referenceWithString: (NSString *)theRef;
 
 -(NSString *)description;
+-(NSString *)prettyReference;
 
 // use only if necessary; you should try to use the regular object instead
 +(NSString *) numericalThreeLetterCodeForBook: (int) theBook;
