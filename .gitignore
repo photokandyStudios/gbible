@@ -31,3 +31,5 @@ gbible/PKBibleViewController.oldm
 .idea/xcode.xml
 
 gbible/bibleContent2
+
+*.xcuserstate
