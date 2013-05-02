@@ -99,6 +99,33 @@
 		6A43F14F16D3270F007F22B1 /* WKVerticalScrollBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A43F14E16D3270F007F22B1 /* WKVerticalScrollBar.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6A495CD7169D371000F1A55C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A495CD9169D371000F1A55C /* Localizable.strings */; };
 		6A50FA1E16C5A5F600BE79BA /* KBKeyboardHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A50FA1D16C5A5F600BE79BA /* KBKeyboardHandler.m */; };
+		6A510A3317330FBD00EF5BB1 /* 2.3.0-release.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A1117330FBD00EF5BB1 /* 2.3.0-release.txt */; };
+		6A510A3417330FBD00EF5BB1 /* HelpshiftLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A1417330FBD00EF5BB1 /* HelpshiftLocalizable.strings */; };
+		6A510A3517330FBD00EF5BB1 /* HS-background-tile.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A1917330FBD00EF5BB1 /* HS-background-tile.png */; };
+		6A510A3617330FBD00EF5BB1 /* HS-background-tile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A1A17330FBD00EF5BB1 /* HS-background-tile@2x.png */; };
+		6A510A3717330FBD00EF5BB1 /* HS-no-connection.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A1B17330FBD00EF5BB1 /* HS-no-connection.png */; };
+		6A510A3817330FBD00EF5BB1 /* HS-no-connection@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A1C17330FBD00EF5BB1 /* HS-no-connection@2x.png */; };
+		6A510A3917330FBD00EF5BB1 /* HS-powered-by-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A1D17330FBD00EF5BB1 /* HS-powered-by-logo.png */; };
+		6A510A3A17330FBD00EF5BB1 /* HS-powered-by-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A1E17330FBD00EF5BB1 /* HS-powered-by-logo@2x.png */; };
+		6A510A3B17330FBD00EF5BB1 /* HS-screenshot-error.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A1F17330FBD00EF5BB1 /* HS-screenshot-error.png */; };
+		6A510A3C17330FBD00EF5BB1 /* HS-screenshot-error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2017330FBD00EF5BB1 /* HS-screenshot-error@2x.png */; };
+		6A510A3D17330FBD00EF5BB1 /* HS-section-header.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2117330FBD00EF5BB1 /* HS-section-header.png */; };
+		6A510A3E17330FBD00EF5BB1 /* HS-section-header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2217330FBD00EF5BB1 /* HS-section-header@2x.png */; };
+		6A510A3F17330FBD00EF5BB1 /* HSChatBubbleBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2317330FBD00EF5BB1 /* HSChatBubbleBlue.png */; };
+		6A510A4017330FBD00EF5BB1 /* HSChatBubbleBlue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2417330FBD00EF5BB1 /* HSChatBubbleBlue@2x.png */; };
+		6A510A4117330FBD00EF5BB1 /* HSChatBubbleWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2517330FBD00EF5BB1 /* HSChatBubbleWhite.png */; };
+		6A510A4217330FBD00EF5BB1 /* HSChatBubbleWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2617330FBD00EF5BB1 /* HSChatBubbleWhite@2x.png */; };
+		6A510A4317330FBD00EF5BB1 /* HSConfirmBox.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2717330FBD00EF5BB1 /* HSConfirmBox.png */; };
+		6A510A4417330FBD00EF5BB1 /* HSConfirmBox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2817330FBD00EF5BB1 /* HSConfirmBox@2x.png */; };
+		6A510A4517330FBD00EF5BB1 /* HSTutorial.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2917330FBD00EF5BB1 /* HSTutorial.png */; };
+		6A510A4617330FBD00EF5BB1 /* HSTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2A17330FBD00EF5BB1 /* HSTutorial@2x.png */; };
+		6A510A4717330FBD00EF5BB1 /* HSTutorialiPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2B17330FBD00EF5BB1 /* HSTutorialiPad.png */; };
+		6A510A4817330FBD00EF5BB1 /* HSTutorialiPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A2C17330FBD00EF5BB1 /* HSTutorialiPad@2x.png */; };
+		6A510A4917330FBD00EF5BB1 /* HelpshiftConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A3017330FBD00EF5BB1 /* HelpshiftConfig.plist */; };
+		6A510A4A17330FBD00EF5BB1 /* HelpshiftConfigDark.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A510A3117330FBD00EF5BB1 /* HelpshiftConfigDark.plist */; };
+		6A510A4B17330FBD00EF5BB1 /* libHelpshift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A3217330FBD00EF5BB1 /* libHelpshift.a */; };
+		6A510A4E1733104A00EF5BB1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A4C1733104A00EF5BB1 /* CoreTelephony.framework */; };
+		6A510A4F1733104A00EF5BB1 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A4D1733104A00EF5BB1 /* CoreText.framework */; };
 		6A542A561696BD0B001AD586 /* PKPortraitNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A542A551696BD0B001AD586 /* PKPortraitNavigationController.m */; };
 		6A58AE101529567D00EAF960 /* PKNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE0F1529567D00EAF960 /* PKNotes.m */; };
 		6A58AE1415295BBD00EAF960 /* PKNoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */; };
@@ -389,6 +416,40 @@
 		6A50FA1C16C5A5F600BE79BA /* KBKeyboardHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBKeyboardHandler.h; sourceTree = "<group>"; };
 		6A50FA1D16C5A5F600BE79BA /* KBKeyboardHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBKeyboardHandler.m; sourceTree = "<group>"; };
 		6A50FA1F16C5A60C00BE79BA /* KBKeyboardHandlerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KBKeyboardHandlerDelegate.h; sourceTree = "<group>"; };
+		6A510A1117330FBD00EF5BB1 /* 2.3.0-release.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "2.3.0-release.txt"; sourceTree = "<group>"; };
+		6A510A1217330FBD00EF5BB1 /* Helpshift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helpshift.h; sourceTree = "<group>"; };
+		6A510A1517330FBD00EF5BB1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6A510A1617330FBD00EF5BB1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6A510A1717330FBD00EF5BB1 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6A510A1817330FBD00EF5BB1 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6A510A1917330FBD00EF5BB1 /* HS-background-tile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-background-tile.png"; sourceTree = "<group>"; };
+		6A510A1A17330FBD00EF5BB1 /* HS-background-tile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-background-tile@2x.png"; sourceTree = "<group>"; };
+		6A510A1B17330FBD00EF5BB1 /* HS-no-connection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-no-connection.png"; sourceTree = "<group>"; };
+		6A510A1C17330FBD00EF5BB1 /* HS-no-connection@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-no-connection@2x.png"; sourceTree = "<group>"; };
+		6A510A1D17330FBD00EF5BB1 /* HS-powered-by-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-powered-by-logo.png"; sourceTree = "<group>"; };
+		6A510A1E17330FBD00EF5BB1 /* HS-powered-by-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-powered-by-logo@2x.png"; sourceTree = "<group>"; };
+		6A510A1F17330FBD00EF5BB1 /* HS-screenshot-error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-screenshot-error.png"; sourceTree = "<group>"; };
+		6A510A2017330FBD00EF5BB1 /* HS-screenshot-error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-screenshot-error@2x.png"; sourceTree = "<group>"; };
+		6A510A2117330FBD00EF5BB1 /* HS-section-header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-section-header.png"; sourceTree = "<group>"; };
+		6A510A2217330FBD00EF5BB1 /* HS-section-header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-section-header@2x.png"; sourceTree = "<group>"; };
+		6A510A2317330FBD00EF5BB1 /* HSChatBubbleBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSChatBubbleBlue.png; sourceTree = "<group>"; };
+		6A510A2417330FBD00EF5BB1 /* HSChatBubbleBlue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSChatBubbleBlue@2x.png"; sourceTree = "<group>"; };
+		6A510A2517330FBD00EF5BB1 /* HSChatBubbleWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSChatBubbleWhite.png; sourceTree = "<group>"; };
+		6A510A2617330FBD00EF5BB1 /* HSChatBubbleWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSChatBubbleWhite@2x.png"; sourceTree = "<group>"; };
+		6A510A2717330FBD00EF5BB1 /* HSConfirmBox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSConfirmBox.png; sourceTree = "<group>"; };
+		6A510A2817330FBD00EF5BB1 /* HSConfirmBox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSConfirmBox@2x.png"; sourceTree = "<group>"; };
+		6A510A2917330FBD00EF5BB1 /* HSTutorial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSTutorial.png; sourceTree = "<group>"; };
+		6A510A2A17330FBD00EF5BB1 /* HSTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSTutorial@2x.png"; sourceTree = "<group>"; };
+		6A510A2B17330FBD00EF5BB1 /* HSTutorialiPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSTutorialiPad.png; sourceTree = "<group>"; };
+		6A510A2C17330FBD00EF5BB1 /* HSTutorialiPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSTutorialiPad@2x.png"; sourceTree = "<group>"; };
+		6A510A2D17330FBD00EF5BB1 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6A510A2E17330FBD00EF5BB1 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6A510A3017330FBD00EF5BB1 /* HelpshiftConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = HelpshiftConfig.plist; sourceTree = "<group>"; };
+		6A510A3117330FBD00EF5BB1 /* HelpshiftConfigDark.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = HelpshiftConfigDark.plist; sourceTree = "<group>"; };
+		6A510A3217330FBD00EF5BB1 /* libHelpshift.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libHelpshift.a; sourceTree = "<group>"; };
+		6A510A4C1733104A00EF5BB1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		6A510A4D1733104A00EF5BB1 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		6A510A511733242E00EF5BB1 /* gbible.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = gbible.entitlements; sourceTree = "<group>"; };
 		6A542A541696BD0B001AD586 /* PKPortraitNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKPortraitNavigationController.h; sourceTree = "<group>"; };
 		6A542A551696BD0B001AD586 /* PKPortraitNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKPortraitNavigationController.m; sourceTree = "<group>"; };
 		6A58AE0E1529567D00EAF960 /* PKNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKNotes.h; sourceTree = "<group>"; };
@@ -654,6 +715,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A510A4E1733104A00EF5BB1 /* CoreTelephony.framework in Frameworks */,
+				6A510A4F1733104A00EF5BB1 /* CoreText.framework in Frameworks */,
 				6A9B86B01542792400E4ABC0 /* SystemConfiguration.framework in Frameworks */,
 				6A9C80CE16B610F0006D1AF7 /* MobileCoreServices.framework in Frameworks */,
 				6A9C80D416B6110D006D1AF7 /* StoreKit.framework in Frameworks */,
@@ -672,6 +735,7 @@
 				6AF0C0AA150EE8BB00BFAE03 /* CoreGraphics.framework in Frameworks */,
 				6A3172B4167B15BF00C94DD1 /* libTestFlight.a in Frameworks */,
 				6A9C80C016B61079006D1AF7 /* Parse.framework in Frameworks */,
+				6A510A4B17330FBD00EF5BB1 /* libHelpshift.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -924,6 +988,55 @@
 			name = KBKeyboardHandler;
 			sourceTree = "<group>";
 		};
+		6A510A1017330FBD00EF5BB1 /* HelpshiftSDK-2.3.0 */ = {
+			isa = PBXGroup;
+			children = (
+				6A510A1117330FBD00EF5BB1 /* 2.3.0-release.txt */,
+				6A510A1217330FBD00EF5BB1 /* Helpshift.h */,
+				6A510A1317330FBD00EF5BB1 /* HSResources */,
+				6A510A2F17330FBD00EF5BB1 /* HSThemes */,
+				6A510A3217330FBD00EF5BB1 /* libHelpshift.a */,
+			);
+			path = "HelpshiftSDK-2.3.0";
+			sourceTree = "<group>";
+		};
+		6A510A1317330FBD00EF5BB1 /* HSResources */ = {
+			isa = PBXGroup;
+			children = (
+				6A510A1417330FBD00EF5BB1 /* HelpshiftLocalizable.strings */,
+				6A510A1917330FBD00EF5BB1 /* HS-background-tile.png */,
+				6A510A1A17330FBD00EF5BB1 /* HS-background-tile@2x.png */,
+				6A510A1B17330FBD00EF5BB1 /* HS-no-connection.png */,
+				6A510A1C17330FBD00EF5BB1 /* HS-no-connection@2x.png */,
+				6A510A1D17330FBD00EF5BB1 /* HS-powered-by-logo.png */,
+				6A510A1E17330FBD00EF5BB1 /* HS-powered-by-logo@2x.png */,
+				6A510A1F17330FBD00EF5BB1 /* HS-screenshot-error.png */,
+				6A510A2017330FBD00EF5BB1 /* HS-screenshot-error@2x.png */,
+				6A510A2117330FBD00EF5BB1 /* HS-section-header.png */,
+				6A510A2217330FBD00EF5BB1 /* HS-section-header@2x.png */,
+				6A510A2317330FBD00EF5BB1 /* HSChatBubbleBlue.png */,
+				6A510A2417330FBD00EF5BB1 /* HSChatBubbleBlue@2x.png */,
+				6A510A2517330FBD00EF5BB1 /* HSChatBubbleWhite.png */,
+				6A510A2617330FBD00EF5BB1 /* HSChatBubbleWhite@2x.png */,
+				6A510A2717330FBD00EF5BB1 /* HSConfirmBox.png */,
+				6A510A2817330FBD00EF5BB1 /* HSConfirmBox@2x.png */,
+				6A510A2917330FBD00EF5BB1 /* HSTutorial.png */,
+				6A510A2A17330FBD00EF5BB1 /* HSTutorial@2x.png */,
+				6A510A2B17330FBD00EF5BB1 /* HSTutorialiPad.png */,
+				6A510A2C17330FBD00EF5BB1 /* HSTutorialiPad@2x.png */,
+			);
+			path = HSResources;
+			sourceTree = "<group>";
+		};
+		6A510A2F17330FBD00EF5BB1 /* HSThemes */ = {
+			isa = PBXGroup;
+			children = (
+				6A510A3017330FBD00EF5BB1 /* HelpshiftConfig.plist */,
+				6A510A3117330FBD00EF5BB1 /* HelpshiftConfigDark.plist */,
+			);
+			path = HSThemes;
+			sourceTree = "<group>";
+		};
 		6A5B016016D031CC004A1081 /* PKTableViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1032,6 +1145,7 @@
 		6A92CCC81516F0CC00F8AE15 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				6A510A1017330FBD00EF5BB1 /* HelpshiftSDK-2.3.0 */,
 				6AE8D76B16EC6E2700F9F9B8 /* AccessibleSegmentedControl */,
 				6A6B59B916A125610027BD03 /* AFNetworking */,
 				6AF9D04C1512952000514499 /* CoolButton */,
@@ -1310,6 +1424,8 @@
 		6AF0C096150EE8BB00BFAE03 = {
 			isa = PBXGroup;
 			children = (
+				6A510A4C1733104A00EF5BB1 /* CoreTelephony.framework */,
+				6A510A4D1733104A00EF5BB1 /* CoreText.framework */,
 				6A68C92D16E9AE7A005CA8EF /* Icon-72.png */,
 				6A68C92E16E9AE7B005CA8EF /* Icon-72@2x.png */,
 				6A68C92F16E9AE7D005CA8EF /* Icon-Small-50.png */,
@@ -1362,6 +1478,7 @@
 		6AF0C0AB150EE8BB00BFAE03 /* gbible */ = {
 			isa = PBXGroup;
 			children = (
+				6A510A511733242E00EF5BB1 /* gbible.entitlements */,
 				6A74306316ADDC8E00DC1320 /* Utility */,
 				6A0FDF3415485129004E70A7 /* Base Objects */,
 				6A92CCC81516F0CC00F8AE15 /* Third Party */,
@@ -1638,6 +1755,10 @@
 				en,
 				es,
 				pl,
+				de,
+				fr,
+				it,
+				ru,
 			);
 			mainGroup = 6AF0C096150EE8BB00BFAE03;
 			productRefGroup = 6AF0C0A2150EE8BB00BFAE03 /* Products */;
@@ -1806,6 +1927,30 @@
 				6A1C011D16EA896900D4DDBF /* newathuItalic405.ttf in Resources */,
 				6A1C012016EA897900D4DDBF /* GentiumPlus-I.ttf in Resources */,
 				6A1C012116EA897900D4DDBF /* GentiumPlus-R.ttf in Resources */,
+				6A510A3317330FBD00EF5BB1 /* 2.3.0-release.txt in Resources */,
+				6A510A3417330FBD00EF5BB1 /* HelpshiftLocalizable.strings in Resources */,
+				6A510A3517330FBD00EF5BB1 /* HS-background-tile.png in Resources */,
+				6A510A3617330FBD00EF5BB1 /* HS-background-tile@2x.png in Resources */,
+				6A510A3717330FBD00EF5BB1 /* HS-no-connection.png in Resources */,
+				6A510A3817330FBD00EF5BB1 /* HS-no-connection@2x.png in Resources */,
+				6A510A3917330FBD00EF5BB1 /* HS-powered-by-logo.png in Resources */,
+				6A510A3A17330FBD00EF5BB1 /* HS-powered-by-logo@2x.png in Resources */,
+				6A510A3B17330FBD00EF5BB1 /* HS-screenshot-error.png in Resources */,
+				6A510A3C17330FBD00EF5BB1 /* HS-screenshot-error@2x.png in Resources */,
+				6A510A3D17330FBD00EF5BB1 /* HS-section-header.png in Resources */,
+				6A510A3E17330FBD00EF5BB1 /* HS-section-header@2x.png in Resources */,
+				6A510A3F17330FBD00EF5BB1 /* HSChatBubbleBlue.png in Resources */,
+				6A510A4017330FBD00EF5BB1 /* HSChatBubbleBlue@2x.png in Resources */,
+				6A510A4117330FBD00EF5BB1 /* HSChatBubbleWhite.png in Resources */,
+				6A510A4217330FBD00EF5BB1 /* HSChatBubbleWhite@2x.png in Resources */,
+				6A510A4317330FBD00EF5BB1 /* HSConfirmBox.png in Resources */,
+				6A510A4417330FBD00EF5BB1 /* HSConfirmBox@2x.png in Resources */,
+				6A510A4517330FBD00EF5BB1 /* HSTutorial.png in Resources */,
+				6A510A4617330FBD00EF5BB1 /* HSTutorial@2x.png in Resources */,
+				6A510A4717330FBD00EF5BB1 /* HSTutorialiPad.png in Resources */,
+				6A510A4817330FBD00EF5BB1 /* HSTutorialiPad@2x.png in Resources */,
+				6A510A4917330FBD00EF5BB1 /* HelpshiftConfig.plist in Resources */,
+				6A510A4A17330FBD00EF5BB1 /* HelpshiftConfigDark.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1941,6 +2086,19 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
+		6A510A1417330FBD00EF5BB1 /* HelpshiftLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6A510A1517330FBD00EF5BB1 /* de */,
+				6A510A1617330FBD00EF5BB1 /* en */,
+				6A510A1717330FBD00EF5BB1 /* es */,
+				6A510A1817330FBD00EF5BB1 /* fr */,
+				6A510A2D17330FBD00EF5BB1 /* it */,
+				6A510A2E17330FBD00EF5BB1 /* ru */,
+			);
+			name = HelpshiftLocalizable.strings;
+			sourceTree = "<group>";
+		};
 		6AF0C0AE150EE8BB00BFAE03 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2013,6 +2171,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = gbible/gbible.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2028,6 +2187,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/gbible/TestFlightSDK1.2\"",
+					"\"$(SRCROOT)/gbible/HelpshiftSDK-2.3.0\"",
 				);
 				OTHER_CFLAGS = "-ferror-limit=999";
 				OTHER_LDFLAGS = (
@@ -2044,6 +2204,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = gbible/gbible.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2059,6 +2220,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/gbible/TestFlightSDK1.2\"",
+					"\"$(SRCROOT)/gbible/HelpshiftSDK-2.3.0\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
