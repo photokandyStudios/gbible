@@ -55,6 +55,7 @@
 #import "iRate.h"
 #import "NSString+FontAwesome.h"
 #import "PKAboutViewController.h"
+#import "Helpshift.h"
 
 const int SECTION_TEXT = 0;
 const int SECTION_LAYOUT = 1;
@@ -201,6 +202,7 @@ const int SECTION_THIRD_PARTY = 5;
                       @[ __Tv(@"Anonymous Usage Statistics", @"Anonymous Usage Statistics?"), @2, @"usage-stats" ],
                       @[ __T(@"Rate this app..."), @0 ],
                       @[ __T(@"Submit an issue..."), @0 ],
+                      @[ __T(@"Support"), @0 ],
                       @[ __T(@"Help and About..."), @0 ]
                      ];
 
@@ -721,6 +723,11 @@ const int SECTION_THIRD_PARTY = 5;
           
         }
         if (row==4)
+        {
+          //TODO: Disable this when anonymous statistics is disabled?
+          [[Helpshift sharedInstance] showSupport: self];
+        }
+        if (row==5)
         {
           PKAboutViewController *avc = [[PKAboutViewController alloc] init];
           [self.navigationController pushViewController:avc animated:YES];
