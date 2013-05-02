@@ -126,7 +126,7 @@
 		6A510A4B17330FBD00EF5BB1 /* libHelpshift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A3217330FBD00EF5BB1 /* libHelpshift.a */; };
 		6A510A4E1733104A00EF5BB1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A4C1733104A00EF5BB1 /* CoreTelephony.framework */; };
 		6A510A4F1733104A00EF5BB1 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A4D1733104A00EF5BB1 /* CoreText.framework */; };
-		6A510A541733296D00EF5BB1 /* APIKeys.old.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A510A531733296D00EF5BB1 /* APIKeys.old.m */; };
+		6A510A541733296D00EF5BB1 /* APIKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A510A531733296D00EF5BB1 /* APIKeys.m */; };
 		6A542A561696BD0B001AD586 /* PKPortraitNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A542A551696BD0B001AD586 /* PKPortraitNavigationController.m */; };
 		6A58AE101529567D00EAF960 /* PKNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE0F1529567D00EAF960 /* PKNotes.m */; };
 		6A58AE1415295BBD00EAF960 /* PKNoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58AE1315295BBD00EAF960 /* PKNoteEditorViewController.m */; };
@@ -452,7 +452,7 @@
 		6A510A4D1733104A00EF5BB1 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		6A510A511733242E00EF5BB1 /* gbible.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = gbible.entitlements; sourceTree = "<group>"; };
 		6A510A52173328A900EF5BB1 /* APIKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIKeys.h; sourceTree = "<group>"; };
-		6A510A531733296D00EF5BB1 /* APIKeys.old.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIKeys.old.m; sourceTree = "<group>"; };
+		6A510A531733296D00EF5BB1 /* APIKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIKeys.m; sourceTree = "<group>"; };
 		6A542A541696BD0B001AD586 /* PKPortraitNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKPortraitNavigationController.h; sourceTree = "<group>"; };
 		6A542A551696BD0B001AD586 /* PKPortraitNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKPortraitNavigationController.m; sourceTree = "<group>"; };
 		6A58AE0E1529567D00EAF960 /* PKNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKNotes.h; sourceTree = "<group>"; };
@@ -1507,7 +1507,7 @@
 				6A9793B01513F87700A5C9F1 /* PKConstants.h */,
 				6A9793B61514162500A5C9F1 /* PKConstants.m */,
 				6A510A52173328A900EF5BB1 /* APIKeys.h */,
-				6A510A531733296D00EF5BB1 /* APIKeys.old.m */,
+				6A510A531733296D00EF5BB1 /* APIKeys.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2075,7 +2075,7 @@
 				6A280BDA16DDB64700324F4B /* PKReference.m in Sources */,
 				6A1E279016DFFF8B00D516CA /* UIFont+Utility.m in Sources */,
 				6AE8D76A16EC6E2200F9F9B8 /* AccessibleSegmentedControl.m in Sources */,
-				6A510A541733296D00EF5BB1 /* APIKeys.old.m in Sources */,
+				6A510A541733296D00EF5BB1 /* APIKeys.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
