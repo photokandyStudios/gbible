@@ -786,11 +786,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "389228369.491505"
+         timestampString = "389229709.277027"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "502"
-         endingLineNumber = "502"
+         startingLineNumber = "503"
+         endingLineNumber = "503"
          landmarkName = "-applicationDidBecomeActive:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -799,11 +799,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "389228369.491505"
+         timestampString = "389229709.277027"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "492"
-         endingLineNumber = "492"
+         startingLineNumber = "493"
+         endingLineNumber = "493"
          landmarkName = "-applicationWillEnterForeground:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -825,11 +825,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "389222715.020336"
+         timestampString = "389229709.277027"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "163"
-         endingLineNumber = "163"
+         startingLineNumber = "164"
+         endingLineNumber = "164"
          landmarkName = "-updateAppearanceForTheme"
          landmarkType = "5">
       </FileBreakpoint>
@@ -838,11 +838,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "389222715.020336"
+         timestampString = "389229709.277027"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "108"
-         endingLineNumber = "108"
+         startingLineNumber = "109"
+         endingLineNumber = "109"
          landmarkName = "-applyProxyToView:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -851,11 +851,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "389222715.020336"
+         timestampString = "389229709.277027"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "111"
-         endingLineNumber = "111"
+         startingLineNumber = "112"
+         endingLineNumber = "112"
          landmarkName = "-applyProxyToView:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -864,11 +864,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "389222715.020336"
+         timestampString = "389229709.277027"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "177"
-         endingLineNumber = "177"
+         startingLineNumber = "178"
+         endingLineNumber = "178"
          landmarkName = "-updateAppearanceForTheme"
          landmarkType = "5">
       </FileBreakpoint>
@@ -890,11 +890,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "389226242.456414"
+         timestampString = "389229709.277027"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "278"
-         endingLineNumber = "278"
+         startingLineNumber = "279"
+         endingLineNumber = "279"
          landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1033,11 +1033,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "389227351.232967"
+         timestampString = "389229709.277027"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "246"
-         endingLineNumber = "246"
+         startingLineNumber = "247"
+         endingLineNumber = "247"
          landmarkName = "-application:didFinishLaunchingWithOptions:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1387,11 +1387,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "389228369.491505"
+         timestampString = "389229709.277027"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "545"
-         endingLineNumber = "545"
+         startingLineNumber = "546"
+         endingLineNumber = "546"
          landmarkName = "-application:didReceiveRemoteNotification:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1400,11 +1400,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKAppDelegate.m"
-         timestampString = "389228369.491505"
+         timestampString = "389229709.277027"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "532"
-         endingLineNumber = "532"
+         startingLineNumber = "533"
+         endingLineNumber = "533"
          landmarkName = "-application:didRegisterForRemoteNotificationsWithDeviceToken:"
          landmarkType = "5">
       </FileBreakpoint>
