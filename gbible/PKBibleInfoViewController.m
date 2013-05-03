@@ -280,6 +280,8 @@
     if (!error) {
       for (int i=0; i<objects.count; i++)
       {
+        [objects[i] incrementKey:@"DLCount"];
+        [objects[i] saveEventually];
         PFFile *theBibleFile = [objects[i] objectForKey:@"Data"];
         NSString * theBibleFileName = [[objects[i] objectForKey:@"Abbreviation"] stringByAppendingString:@".db"];
         [theBibleFile getDataInBackgroundWithBlock:
