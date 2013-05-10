@@ -188,9 +188,28 @@ static id _instance;
     // make sure that the userBible table has all the proper schemas
     [userBible inDatabase:^(FMDatabase *db)
       {
+        // bible tables
         [db executeUpdate: @"CREATE TABLE bibles (bibleAbbreviation TEXT, bibleAttribution TEXT, bibleSide TEXT, bibleID INTEGER PRIMARY KEY, bibleName TEXT, bibleParsedID NUMERIC)"];
         [db executeUpdate: @"CREATE TABLE [content] ([bibleID] NUMERIC, [bibleReference] TEXT, [bibleText] TEXT, [bibleBook] INT, [bibleChapter] INT, [bibleVerse] INT, PRIMARY KEY ([bibleID] ASC, [bibleBook] ASC, [bibleChapter] ASC, [bibleVerse] ASC))"];
         [db executeUpdate: @"CREATE UNIQUE INDEX [idx_content] ON [content] ([bibleChapter] ASC, [bibleBook] ASC, [bibleVerse] ASC, [bibleID] ASC)"];
+        // lexicon tables
+        [db executeUpdate: @"CREATE TABLE lexicons (lexiconID INTEGER, lexiconAbbreviation TEXT NOT NULL, lexiconName TEXT NOT NULL, lexiconAttribution TEXT, PRIMARY KEY (lexiconID))"];
+        [db executeUpdate: @"CREATE TABLE lexiconContentMeta (lexiconID INTEGER NOT NULL, lexiconIndexID TEXT NOT NULL, lexiconKey TEXT NOT NULL, lexiconLemma TEXT, lexiconPronunciation TEXT, PRIMARY KEY (lexiconID, lexiconIndexID))"];
+        [db executeUpdate: @"CREATE TABLE lexiconContent (lexiconID INTEGER NOT NULL, lexiconIndexID TEXT NOT NULL, lexiconLocale TEXT NOT NULL, lexiconDefinition TEXT, PRIMARY KEY (lexiconID, lexiconIndexID, lexiconLocale) )"];
+        // lexicon indices
+        [db executeUpdate: @"CREATE UNIQUE INDEX idx_lexiconContentMeta ON lexiconContentMeta (lexiconID ASC, lexiconIndexID ASC, lexiconKey ASC)"];
+        [db executeUpdate: @"CREATE UNIQUE INDEX idx_lexiconContent ON lexiconContent (lexiconID ASC,lexiconIndexID ASC,lexiconLocale ASC)"];
+        // commentary tables
+        [db executeUpdate: @"CREATE TABLE commentaries ( commentaryID INTEGER NOT NULL, commentaryAbbreviation TEXT NOT NULL, commentaryName TEXT NOT NULL, commentaryAttribution TEXT, PRIMARY KEY (commentaryID))"];
+        [db executeUpdate: @"CREATE TABLE commentaryContent (commentaryID INTEGER NOT NULL, bibleBook INTEGER NOT NULL, bibleChapter INTEGER NOT NULL, bibleVerse INTEGER NOT NULL, commentaryText TEXT, PRIMARY KEY(commentaryID, bibleBook, bibleChapter, bibleVerse))"];
+        // commentary indices
+        [db executeUpdate: @"CREATE UNIQUE INDEX idx_commentaryContent ON commentaryContent (commentaryID ASC,bibleBook ASC,bibleChapter ASC,bibleVerse ASC)"];
+        // search index tables
+        [db executeUpdate:@"CREATE TABLE searchIndex ( searchIndexID INTEGER PRIMARY KEY AUTOINCREMENT, searchIndexTerm INTEGER NOT NULL, bibleID INTEGER NULL, lexiconID INTEGER NULL, commentaryID INTEGER NULL, reference INTEGER );"];
+        [db executeUpdate:@"CREATE TABLE searchIndexMaster ( searchIndexMasterID INTEGER PRIMARY KEY AUTOINCREMENT, searchIndexMasterTerm TEXT NOT NULL );"];
+        // search index indices
+        [db executeUpdate:@"CREATE INDEX idx_searchIndex ON searchIndex ( searchIndexTerm ASC )"];
+        [db executeUpdate:@"CREATE INDEX idx_searchIndexMaster ON searchIndexMaster (searchIndexMasterTerm ASC)"];
       }
     ];
     
