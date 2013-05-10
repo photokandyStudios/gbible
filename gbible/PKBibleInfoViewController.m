@@ -296,6 +296,16 @@
                             NSString *downloadFileTo = [NSString stringWithFormat:@"%@/%@", directoryPath, theBibleFileName];
                             [data writeToFile:downloadFileTo atomically:YES];
                             
+                            // now that the file is written, attach it to our userBible database
+                            FMDatabaseQueue *dbq = [[PKDatabase instance] userBible];
+                            FMDatabase *db = dbq.database;
+                            [db executeUpdate:@"ATTACH DATABASE ? AS bibleImport", downloadFileTo];
+                            [db executeUpdate:@"INSERT INTO content SELECT * FROM bibleImport.content"];
+                            [db executeUpdate:@"INSERT INTO bibles SELECT * FROM bibleImport.bibles"];
+                            [db executeUpdate:@"DETACH DATABASE bibleImport"];
+                            
+/*
+                            
                             // now that the file is written, we need to open it up as a database
                             FMDatabase *theNewBible = [[FMDatabase alloc] initWithPath:downloadFileTo];
                             [theNewBible open];
@@ -346,6 +356,7 @@
                             }
                             
                             [theNewBible close];
+*/
                             // delete the file once we're done with it
                             NSFileManager *fileManager = [NSFileManager defaultManager];
                             [fileManager removeItemAtPath:downloadFileTo error:NULL];
