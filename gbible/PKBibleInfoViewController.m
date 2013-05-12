@@ -45,6 +45,7 @@
 #import "FMDatabase.h"
 #import "FMDatabaseQueue.h"
 #import "PKSettings.h"
+#import "SSZipArchive.h"
 
 @interface PKBibleInfoViewController ()
 @property int theBibleID;
@@ -243,11 +244,21 @@
                    FMDatabaseQueue *db = [[PKDatabase instance] userBible];
                    [db inDatabase: ^(FMDatabase *db)
                     {
+                      // delete the Bible metadata
                       NSString *sql = @"DELETE FROM bibles WHERE bibleID=?";
                       [db executeUpdate:sql, @(theBibleID)];
                       
+                      // delete the content of the specific Bible
                       sql = @"DELETE FROM content WHERE bibleID=?";
                       [db executeUpdate:sql, @(theBibleID)];
+                      
+                      // delete the search Index for the Bible
+                      sql = @"DELETE FROM searchIndex WHERE bibleID=?";
+                      [db executeUpdate:sql, @(theBibleID)];
+                      
+                      // delete all the unused search index master records
+                      sql = @"DELETE FROM searchIndexMaster WHERE NOT EXISTS (SELECT searchIndexTerm FROM searchIndex WHERE searchIndexTerm=searchIndexMasterID)";
+                      [db executeUpdate:sql];
                       
                       [db executeUpdate:@"Vacuum"]; // might have to remark to exclude from backup?
                       
@@ -283,7 +294,7 @@
         [objects[i] incrementKey:@"DLCount"];
         [objects[i] saveEventually];
         PFFile *theBibleFile = [objects[i] objectForKey:@"Data"];
-        NSString * theBibleFileName = [[objects[i] objectForKey:@"Abbreviation"] stringByAppendingString:@".db"];
+        NSString * theBibleFileName = [[objects[i] objectForKey:@"Abbreviation"] stringByAppendingString:@".zip"];
         [theBibleFile getDataInBackgroundWithBlock:
          ^(NSData *data, NSError *error)
          {
@@ -296,13 +307,19 @@
                             NSString *downloadFileTo = [NSString stringWithFormat:@"%@/%@", directoryPath, theBibleFileName];
                             [data writeToFile:downloadFileTo atomically:YES];
                             
+                            // now that the file is saved, we need to uncompress it.
+                            [SSZipArchive unzipFileAtPath:downloadFileTo toDestination:directoryPath];
+                            
                             // now that the file is written, attach it to our userBible database
                             FMDatabaseQueue *dbq = [[PKDatabase instance] userBible];
                             FMDatabase *db = dbq.database;
-                            [db executeUpdate:@"ATTACH DATABASE ? AS bibleImport", downloadFileTo];
+                            [db executeUpdate:@"ATTACH DATABASE ? AS bibleImport", [downloadFileTo stringByReplacingOccurrencesOfString:@"zip" withString:@"db"]];
                             [db executeUpdate:@"INSERT INTO content SELECT * FROM bibleImport.content"];
                             [db executeUpdate:@"INSERT INTO bibles SELECT * FROM bibleImport.bibles"];
+                            [db executeUpdate:@"INSERT INTO searchIndexMaster SELECT null, searchIndexMasterTerm FROM ( SELECT searchIndexMasterTerm FROM bibleImport.searchIndexMaster EXCEPT SELECT searchIndexMasterTerm FROM searchIndexMaster)"];
+                            [db executeUpdate:@"INSERT INTO searchIndex SELECT null, (SELECT searchIndexMasterID FROM searchIndexMaster WHERE searchIndexMasterTerm=(SELECT searchIndexMasterTerm FROM bibleImport.searchIndexMaster WHERE searchIndexMasterID=searchIndexTerm) ) searchIndexTerm, bibleID, lexiconID, commentaryID, reference FROM bibleImport.searchIndex"];
                             [db executeUpdate:@"DETACH DATABASE bibleImport"];
+                            
                             
 /*
                             
@@ -359,6 +376,7 @@
 */
                             // delete the file once we're done with it
                             NSFileManager *fileManager = [NSFileManager defaultManager];
+                            [fileManager removeItemAtPath:[downloadFileTo stringByReplacingOccurrencesOfString:@"zip" withString:@"db"] error:NULL];
                             [fileManager removeItemAtPath:downloadFileTo error:NULL];
                             // tell the user we're done
                             dispatch_async(dispatch_get_main_queue(),
