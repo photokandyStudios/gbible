@@ -87,17 +87,22 @@ static id _instance;
     [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
                                            YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userContent"];
     
+    // delete the old user Bible database (they have to redownload everything anyway)
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:[[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userBible"] error:nil];
+
     // locate our user Bible database
     NSString *userBibleDatabase =
     [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userBible"];
+                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"webContent"];
     
     if (SYSTEM_VERSION_LESS_THAN(@"5.0.1"))
     {
       // per apple reqs, we have to put this in the cache directory.
       userBibleDatabase =
       [[NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask,
-                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userBible"];
+                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"webContent"];
     }
 
     // does the bible database exist? If not, we have a problem...
@@ -194,8 +199,8 @@ static id _instance;
         [db executeUpdate: @"CREATE UNIQUE INDEX [idx_content] ON [content] ([bibleChapter] ASC, [bibleBook] ASC, [bibleVerse] ASC, [bibleID] ASC)"];
         // lexicon tables
         [db executeUpdate: @"CREATE TABLE lexicons (lexiconID INTEGER, lexiconAbbreviation TEXT NOT NULL, lexiconName TEXT NOT NULL, lexiconAttribution TEXT, PRIMARY KEY (lexiconID))"];
-        [db executeUpdate: @"CREATE TABLE lexiconContentMeta (lexiconID INTEGER NOT NULL, lexiconIndexID TEXT NOT NULL, lexiconKey TEXT NOT NULL, lexiconLemma TEXT, lexiconPronunciation TEXT, PRIMARY KEY (lexiconID, lexiconIndexID))"];
-        [db executeUpdate: @"CREATE TABLE lexiconContent (lexiconID INTEGER NOT NULL, lexiconIndexID TEXT NOT NULL, lexiconLocale TEXT NOT NULL, lexiconDefinition TEXT, PRIMARY KEY (lexiconID, lexiconIndexID, lexiconLocale) )"];
+        [db executeUpdate: @"CREATE TABLE lexiconContentMeta (lexiconID INTEGER NOT NULL, lexiconIndexID INTEGER NOT NULL, lexiconKey TEXT NOT NULL, lexiconLemma TEXT, lexiconPronunciation TEXT, PRIMARY KEY (lexiconID, lexiconIndexID))"];
+        [db executeUpdate: @"CREATE TABLE lexiconContent (lexiconID INTEGER NOT NULL, lexiconIndexID INTEGER NOT NULL, lexiconLocale TEXT NOT NULL, lexiconDefinition TEXT, PRIMARY KEY (lexiconID, lexiconIndexID, lexiconLocale) )"];
         // lexicon indices
         [db executeUpdate: @"CREATE UNIQUE INDEX idx_lexiconContentMeta ON lexiconContentMeta (lexiconID ASC, lexiconIndexID ASC, lexiconKey ASC)"];
         [db executeUpdate: @"CREATE UNIQUE INDEX idx_lexiconContent ON lexiconContent (lexiconID ASC,lexiconIndexID ASC,lexiconLocale ASC)"];
