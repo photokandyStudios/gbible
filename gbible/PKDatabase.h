@@ -45,7 +45,7 @@
 @property (readonly, strong, nonatomic) FMDatabaseQueue *userBible;
 @property (readonly, strong, nonatomic) FMDatabaseQueue *content;
 
-+(id)   instance;
++(PKDatabase *)   instance;
 -(id)   init;
 -(void) dealloc;
 

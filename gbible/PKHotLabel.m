@@ -40,12 +40,6 @@
 
 @implementation PKHotLabel
 
-@synthesize hotBackgroundColor;
-@synthesize hotColor;
-@synthesize hotFont;
-@synthesize hotWord;
-@synthesize boldFontWhenhot;
-
 -(id)initWithFrame: (CGRect) frame
 {
   self = [super initWithFrame: frame];
@@ -70,12 +64,12 @@
   UIColor *theRegularColor = self.textColor;
   
   UIFont *theRegularFont   = self.font;
-  UIFont *theHotFont       = self.hotFont;
+  UIFont *theHotFont       = _hotFont;
   
   if (!theHotFont)
   {
     // no font; find one -- assume self.font's bolded equivalent.
-    if (boldFontWhenhot)
+    if (_boldFontWhenhot)
     {
       theHotFont = theRegularFont.boldFont;
 //       [UIFont fontWithName: [[theRegularFont fontName] stringByAppendingString: @"-Bold"]
@@ -107,18 +101,18 @@
   CGFloat spaceWidth = [@" " sizeWithFont: theRegularFont].width;
   CGFloat fontHeight = [@"M" sizeWithFont: theRegularFont].height;
   
-  for (int i = 0; i < [theWords count]; i++)
+  for (NSUInteger i = 0; i < [theWords count]; i++)
   {
     NSString *theWord = theWords[i];
     
     // is theWord a hotWord?
-    BOOL isHot        = ([theWord rangeOfString: hotWord options: NSDiacriticInsensitiveSearch
+    BOOL isHot        = ([theWord rangeOfString: _hotWord options: NSDiacriticInsensitiveSearch
                           && NSCaseInsensitiveSearch].location != NSNotFound);
     
     // do we have a comparator?
-    if (self.hotComparator)
+    if (_hotComparator)
     {
-      isHot |= self.hotComparator(theWord);
+      isHot |= _hotComparator(theWord);
     }
     
     CGSize sizeOfTheWord = [theWord sizeWithFont: (isHot ? theHotFont: theRegularFont)];
@@ -134,13 +128,13 @@
     if (isHot)
     {
       // set the color and background
-      if (hotBackgroundColor)
+      if (_hotBackgroundColor)
       {
-        [hotBackgroundColor setFill];
+        [_hotBackgroundColor setFill];
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGContextFillRect( context, CGRectMake(x, y, sizeOfTheWord.width, sizeOfTheWord.height) );
       }
-      [hotColor setFill];
+      [_hotColor setFill];
       
       // oh, and by the way -- since we're hot, add this to our arrays
       [hotWords addObject: theWord];
@@ -159,7 +153,7 @@
 
 -(NSString *)wordFromPoint: (CGPoint) thePoint
 {
-  for (int i = 0; i < [hotWords count]; i++)
+  for (NSUInteger i = 0; i < [hotWords count]; i++)
   {
     NSString *theWord  = hotWords[i];
     CGRect theWordRect = [( (NSValue *)hotWordsRect[i] )CGRectValue];

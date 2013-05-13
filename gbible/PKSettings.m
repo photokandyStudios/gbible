@@ -41,6 +41,7 @@
 #import "UIFont+Utility.h"
 
 @implementation PKSettings
+/*
 @synthesize textFontFace;
 @synthesize textGreekFontFace;    //RE: ISSUE #6
 @synthesize textLineSpacing;
@@ -76,15 +77,16 @@
 @synthesize compressRightSideText;
 @synthesize strongsOnTop;
 @synthesize smallerLeftSideWords;
+*/
 
-static id _instance;
+static PKSettings * _instance;
 
 /**
  *
  * Global instance for singletons
  *
  */
-+(id) instance
++(PKSettings *) instance
 {
   @synchronized(self) {
     if (!_instance)
@@ -118,91 +120,91 @@ static id _instance;
   [self createDefaultSettings];
 
   // now, load up our settings
-  textFontFace       = [self loadSetting: PK_SETTING_FONTFACE];
-  textGreekFontFace  = [self loadSetting: @"greek-typeface"];   //RE: ISSUE #6
-  textFontSize       = [[self loadSetting: PK_SETTING_FONTSIZE] intValue];
-  textLineSpacing    = [[self loadSetting: PK_SETTING_LINESPACING] intValue];
-  textVerseSpacing   = [[self loadSetting: PK_SETTING_VERSESPACING] intValue];
-  layoutColumnWidths = [[self loadSetting: PK_SETTING_COLUMNWIDTHS] intValue];
-  greekText          = [[self loadSetting: PK_SETTING_GREEKTEXT] intValue];
-  englishText        = [[self loadSetting: PK_SETTING_ENGLISHTEXT] intValue];
-  transliterateText  = [[self loadSetting: PK_SETTING_TRANSLITERATE] boolValue];
-  showNotesInline    = [[self loadSetting: PK_SETTING_INLINENOTES] boolValue];
-  showMorphology     = [[self loadSetting: PK_SETTING_SHOWMORPHOLOGY] boolValue];
-  showStrongs        = [[self loadSetting: @"show-strongs"] boolValue];
-  strongsOnTop       = [[self loadSetting: @"strongs-on-top"] boolValue];
-  smallerLeftSideWords=[[self loadSetting: @"smaller-left-side-words"] boolValue];
-  showInterlinear    = [[self loadSetting: @"show-interlinear"] boolValue];
-  useICloud          = [[self loadSetting: PK_SETTING_USEICLOUD] boolValue];
+  _textFontFace       = [self loadSetting: PK_SETTING_FONTFACE];
+  _textGreekFontFace  = [self loadSetting: @"greek-typeface"];   //RE: ISSUE #6
+  _textFontSize       = [[self loadSetting: PK_SETTING_FONTSIZE] intValue];
+  _textLineSpacing    = [[self loadSetting: PK_SETTING_LINESPACING] intValue];
+  _textVerseSpacing   = [[self loadSetting: PK_SETTING_VERSESPACING] intValue];
+  _layoutColumnWidths = [[self loadSetting: PK_SETTING_COLUMNWIDTHS] intValue];
+  _greekText          = [[self loadSetting: PK_SETTING_GREEKTEXT] intValue];
+  _englishText        = [[self loadSetting: PK_SETTING_ENGLISHTEXT] intValue];
+  _transliterateText  = [[self loadSetting: PK_SETTING_TRANSLITERATE] boolValue];
+  _showNotesInline    = [[self loadSetting: PK_SETTING_INLINENOTES] boolValue];
+  _showMorphology     = [[self loadSetting: PK_SETTING_SHOWMORPHOLOGY] boolValue];
+  _showStrongs        = [[self loadSetting: @"show-strongs"] boolValue];
+  _strongsOnTop       = [[self loadSetting: @"strongs-on-top"] boolValue];
+  _smallerLeftSideWords=[[self loadSetting: @"smaller-left-side-words"] boolValue];
+  _showInterlinear    = [[self loadSetting: @"show-interlinear"] boolValue];
+  _useICloud          = [[self loadSetting: PK_SETTING_USEICLOUD] boolValue];
   
-  compressRightSideText= [[self loadSetting: @"compress-right-side"] boolValue];
-  extendHighlights   = [[self loadSetting: @"extend-highlights"] boolValue];
+  _compressRightSideText= [[self loadSetting: @"compress-right-side"] boolValue];
+  _extendHighlights   = [[self loadSetting: @"extend-highlights"] boolValue];
 
   //if the Bible selected is one we no longer support, change it to the new
   //equivalent. Since these would all be non-parsed, turn strongs off.
-  if (greekText == PK_BIBLETEXT_BYZ)
+  if (_greekText == PK_BIBLETEXT_BYZ)
   {
-    greekText   = PK_BIBLETEXT_BYZP;
-    showStrongs = false;
+    _greekText   = PK_BIBLETEXT_BYZP;
+    _showStrongs = false;
   }
 
-  if (greekText == PK_BIBLETEXT_TR)
+  if (_greekText == PK_BIBLETEXT_TR)
   {
-    greekText   = PK_BIBLETEXT_TRP;
-    showStrongs = false;
+    _greekText   = PK_BIBLETEXT_TRP;
+    _showStrongs = false;
   }
 
-  if (greekText == PK_BIBLETEXT_WH)
+  if (_greekText == PK_BIBLETEXT_WH)
   {
-    greekText   = PK_BIBLETEXT_WHP;
-    showStrongs = false;
+    _greekText   = PK_BIBLETEXT_WHP;
+    _showStrongs = false;
   }
   
-  currentBook          = [[self loadSetting: @"current-book"] intValue];
-  currentChapter       = [[self loadSetting: @"current-chapter"] intValue];
-  currentVerse         = [[self loadSetting: @"current-verse"] intValue];
+  _currentBook          = [[self loadSetting: @"current-book"] intValue];
+  _currentChapter       = [[self loadSetting: @"current-chapter"] intValue];
+  _currentVerse         = [[self loadSetting: @"current-verse"] intValue];
 
-  topVerse             = [[self loadSetting: @"top-verse"] intValue];
+  _topVerse             = [[self loadSetting: @"top-verse"] intValue];
 
-  noteBook             = [[self loadSetting: @"note-book"] intValue];
-  noteChapter          = [[self loadSetting: @"note-chapter"] intValue];
-  noteVerse            = [[self loadSetting: @"note-verse"] intValue];
+  _noteBook             = [[self loadSetting: @"note-book"] intValue];
+  _noteChapter          = [[self loadSetting: @"note-chapter"] intValue];
+  _noteVerse            = [[self loadSetting: @"note-verse"] intValue];
 
-  currentTextHighlight = [self loadSetting: @"current-text-highlight"];
-  lastStrongsLookup    = [self loadSetting: @"last-strongs-lookup"];
-  lastSearch           = [self loadSetting: @"last-search"];
-  lastNotesSearch      = [self loadSetting: @"last-notes-search"];
+  _currentTextHighlight = [self loadSetting: @"current-text-highlight"];
+  _lastStrongsLookup    = [self loadSetting: @"last-strongs-lookup"];
+  _lastSearch           = [self loadSetting: @"last-search"];
+  _lastNotesSearch      = [self loadSetting: @"last-notes-search"];
 
-  oldNote              = [self loadSetting: @"old-note"];
-  currentNote          = [self loadSetting: @"current-note"];
+  _oldNote              = [self loadSetting: @"old-note"];
+  _currentNote          = [self loadSetting: @"current-note"];
 
-  highlightTextColor   = [self loadSetting: @"highlight-text-color"];
+  _highlightTextColor   = [self loadSetting: @"highlight-text-color"];
   // load up highlight color
   NSString *theColorString;
 
   theColorString = [self loadSetting: @"highlight-color"];
   NSArray *theColorArray = [theColorString componentsSeparatedByString: @","];
   // there will always be 3 values; R=0, G=1, B=2
-  highlightColor = [UIColor colorWithRed: [[theColorArray objectAtIndex: 0] floatValue]
+  _highlightColor = [UIColor colorWithRed: [[theColorArray objectAtIndex: 0] floatValue]
                                    green: [[theColorArray objectAtIndex: 1] floatValue]
                                     blue: [[theColorArray objectAtIndex: 2] floatValue] alpha: 1.0];
 
-  textTheme = [[self loadSetting: @"text-theme"] isEqual: @""] ? 0 :
+  _textTheme = [[self loadSetting: @"text-theme"] isEqual: @""] ? 0 :
               [[self loadSetting: @"text-theme"] intValue];
 
   if ([self loadSetting: @"usage-stats"])
   {
-    usageStats = [[self loadSetting: @"usage-stats"] boolValue];
+    _usageStats = [[self loadSetting: @"usage-stats"] boolValue];
   }
   else
   {
-    usageStats = YES;       // default;
+    _usageStats = YES;       // default;
     [self saveSettings];       // save it so the Settings page knows about it
   }
 
-  if (englishText == PK_BIBLETEXT_KJV)
+  if (_englishText == PK_BIBLETEXT_KJV)
   {
-    englishText = PK_BIBLETEXT_YLT;
+    _englishText = PK_BIBLETEXT_YLT;
     [self saveSettings];       // save it so the Settings page knows about it
   }
 
@@ -217,7 +219,7 @@ static id _instance;
 -(NSString *) loadSetting: (NSString *) theSetting
 {
   __block NSString *theResult = @"";
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
   
   [content inDatabase:^(FMDatabase *db)
     {
@@ -244,12 +246,12 @@ static id _instance;
  */
 -(void) saveCurrentReference
 {
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
   [content inTransaction:^(FMDatabase *db, BOOL *rollback) {
-    [self saveSetting: @"current-book" valueForSetting: [NSString stringWithFormat: @"%i", currentBook]];
-    [self saveSetting: @"current-chapter" valueForSetting: [NSString stringWithFormat: @"%i", currentChapter]];
-    [self saveSetting: @"current-verse" valueForSetting: [NSString stringWithFormat: @"%i", currentVerse]];
-    [self saveSetting: @"top-verse" valueForSetting: [NSString stringWithFormat: @"%i", topVerse]];
+    [self saveSetting: @"current-book" valueForSetting: [NSString stringWithFormat: @"%i", _currentBook]];
+    [self saveSetting: @"current-chapter" valueForSetting: [NSString stringWithFormat: @"%i", _currentChapter]];
+    [self saveSetting: @"current-verse" valueForSetting: [NSString stringWithFormat: @"%i", _currentVerse]];
+    [self saveSetting: @"top-verse" valueForSetting: [NSString stringWithFormat: @"%i", _topVerse]];
   }];
 }
 
@@ -266,25 +268,25 @@ static id _instance;
   float blue  = 0.0;
   float alpha = 0.0;
 
-  if ([highlightColor respondsToSelector: @selector(getRed:green:blue:alpha:)])
+  if ([_highlightColor respondsToSelector: @selector(getRed:green:blue:alpha:)])
   {
-    [highlightColor getRed: &red green: &green blue: &blue alpha: &alpha];
+    [_highlightColor getRed: &red green: &green blue: &blue alpha: &alpha];
   }
   else
   {
-    const CGFloat *components = CGColorGetComponents([highlightColor CGColor]);
+    const CGFloat *components = CGColorGetComponents([_highlightColor CGColor]);
     red   = components[0];
     green = components[1];
     blue  = components[2];
-    alpha = CGColorGetAlpha([highlightColor CGColor]);
+    alpha = CGColorGetAlpha([_highlightColor CGColor]);
   }
 
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
   [content inTransaction:^(FMDatabase *db, BOOL *rollback) {
     [self saveSetting: @"highlight-color" valueForSetting: [NSString stringWithFormat: @"%f,%f,%f",
                                                             red, green, blue]];
 
-    [self saveSetting: @"highlight-text-color" valueForSetting: highlightTextColor];
+    [self saveSetting: @"highlight-text-color" valueForSetting: _highlightTextColor];
   }];
 }
 
@@ -296,44 +298,44 @@ static id _instance;
 -(void) saveSettings
 {
 
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
   [content inTransaction:^(FMDatabase *db, BOOL *rollback) {
-    [self saveSetting: PK_SETTING_FONTFACE valueForSetting: textFontFace];
-    [self saveSetting: @"greek-typeface" valueForSetting: textGreekFontFace];     //RE: ISSUE #6
-    [self saveSetting: PK_SETTING_FONTSIZE valueForSetting: [NSString stringWithFormat: @"%i", textFontSize]];
-    [self saveSetting: PK_SETTING_LINESPACING valueForSetting: [NSString stringWithFormat: @"%i", textLineSpacing]];
-    [self saveSetting: PK_SETTING_VERSESPACING valueForSetting: [NSString stringWithFormat: @"%i", textVerseSpacing]];
-    [self saveSetting: PK_SETTING_COLUMNWIDTHS valueForSetting: [NSString stringWithFormat: @"%i", layoutColumnWidths]];
-    [self saveSetting: PK_SETTING_GREEKTEXT valueForSetting: [NSString stringWithFormat: @"%i", greekText]];
-    [self saveSetting: PK_SETTING_ENGLISHTEXT valueForSetting: [NSString stringWithFormat: @"%i", englishText]];
-    [self saveSetting: PK_SETTING_TRANSLITERATE valueForSetting: (transliterateText ? @"YES": @"NO")];
-    [self saveSetting: PK_SETTING_INLINENOTES valueForSetting: (showNotesInline ? @"YES": @"NO")];
-    [self saveSetting: PK_SETTING_SHOWMORPHOLOGY valueForSetting: (showMorphology ? @"YES": @"NO")];
-    [self saveSetting: @"strongs-on-top" valueForSetting: (strongsOnTop ? @"YES": @"NO")];
-    [self saveSetting: @"smaller-left-side-words" valueForSetting: ( smallerLeftSideWords ? @"YES": @"NO" )];
-    [self saveSetting: @"show-strongs" valueForSetting: (showStrongs ? @"YES": @"NO")];
-    [self saveSetting: @"show-interlinear" valueForSetting: (showInterlinear ? @"YES": @"NO")];
-    [self saveSetting: PK_SETTING_USEICLOUD valueForSetting: (useICloud ? @"YES": @"NO")];
+    [self saveSetting: PK_SETTING_FONTFACE valueForSetting: _textFontFace];
+    [self saveSetting: @"greek-typeface" valueForSetting: _textGreekFontFace];     //RE: ISSUE #6
+    [self saveSetting: PK_SETTING_FONTSIZE valueForSetting: [NSString stringWithFormat: @"%i", _textFontSize]];
+    [self saveSetting: PK_SETTING_LINESPACING valueForSetting: [NSString stringWithFormat: @"%i", _textLineSpacing]];
+    [self saveSetting: PK_SETTING_VERSESPACING valueForSetting: [NSString stringWithFormat: @"%i", _textVerseSpacing]];
+    [self saveSetting: PK_SETTING_COLUMNWIDTHS valueForSetting: [NSString stringWithFormat: @"%i", _layoutColumnWidths]];
+    [self saveSetting: PK_SETTING_GREEKTEXT valueForSetting: [NSString stringWithFormat: @"%i", _greekText]];
+    [self saveSetting: PK_SETTING_ENGLISHTEXT valueForSetting: [NSString stringWithFormat: @"%i", _englishText]];
+    [self saveSetting: PK_SETTING_TRANSLITERATE valueForSetting: (_transliterateText ? @"YES": @"NO")];
+    [self saveSetting: PK_SETTING_INLINENOTES valueForSetting: (_showNotesInline ? @"YES": @"NO")];
+    [self saveSetting: PK_SETTING_SHOWMORPHOLOGY valueForSetting: (_showMorphology ? @"YES": @"NO")];
+    [self saveSetting: @"strongs-on-top" valueForSetting: (_strongsOnTop ? @"YES": @"NO")];
+    [self saveSetting: @"smaller-left-side-words" valueForSetting: ( _smallerLeftSideWords ? @"YES": @"NO" )];
+    [self saveSetting: @"show-strongs" valueForSetting: (_showStrongs ? @"YES": @"NO")];
+    [self saveSetting: @"show-interlinear" valueForSetting: (_showInterlinear ? @"YES": @"NO")];
+    [self saveSetting: PK_SETTING_USEICLOUD valueForSetting: (_useICloud ? @"YES": @"NO")];
 
-    [self saveSetting: @"compress-right-side" valueForSetting: (compressRightSideText ? @"YES": @"NO")];
-    [self saveSetting: @"extend-highlights" valueForSetting: (extendHighlights ? @"YES": @"NO")];
-
-
-    [self saveSetting: @"note-book" valueForSetting: [NSString stringWithFormat: @"%i", noteBook]];
-    [self saveSetting: @"note-chapter" valueForSetting: [NSString stringWithFormat: @"%i", noteChapter]];
-    [self saveSetting: @"note-verse" valueForSetting: [NSString stringWithFormat: @"%i", noteVerse]];
-
-    [self saveSetting: @"current-text-highlight" valueForSetting: currentTextHighlight];
-    [self saveSetting: @"last-strongs-lookup" valueForSetting: lastStrongsLookup];
-    [self saveSetting: @"last-search" valueForSetting: lastSearch];
-    [self saveSetting: @"last-notes-search" valueForSetting: lastNotesSearch];
-
-    [self saveSetting: @"old-note" valueForSetting: oldNote];
-    [self saveSetting: @"current-note" valueForSetting: currentNote];
+    [self saveSetting: @"compress-right-side" valueForSetting: (_compressRightSideText ? @"YES": @"NO")];
+    [self saveSetting: @"extend-highlights" valueForSetting: (_extendHighlights ? @"YES": @"NO")];
 
 
-    [self saveSetting: @"text-theme" valueForSetting: [NSString stringWithFormat: @"%i", textTheme]];
-    [self saveSetting: @"usage-stats" valueForSetting: (usageStats ? @"YES": @"NO")];
+    [self saveSetting: @"note-book" valueForSetting: [NSString stringWithFormat: @"%i", _noteBook]];
+    [self saveSetting: @"note-chapter" valueForSetting: [NSString stringWithFormat: @"%i", _noteChapter]];
+    [self saveSetting: @"note-verse" valueForSetting: [NSString stringWithFormat: @"%i", _noteVerse]];
+
+    [self saveSetting: @"current-text-highlight" valueForSetting: _currentTextHighlight];
+    [self saveSetting: @"last-strongs-lookup" valueForSetting: _lastStrongsLookup];
+    [self saveSetting: @"last-search" valueForSetting: _lastSearch];
+    [self saveSetting: @"last-notes-search" valueForSetting: _lastNotesSearch];
+
+    [self saveSetting: @"old-note" valueForSetting: _oldNote];
+    [self saveSetting: @"current-note" valueForSetting: _currentNote];
+
+
+    [self saveSetting: @"text-theme" valueForSetting: [NSString stringWithFormat: @"%i", _textTheme]];
+    [self saveSetting: @"usage-stats" valueForSetting: (_usageStats ? @"YES": @"NO")];
     
   }];
 
@@ -349,7 +351,7 @@ static id _instance;
  */
 -(void) saveSetting: (NSString *) theSetting valueForSetting: (NSString *) theValue
 {
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
   FMDatabase *db = [content database];
   
 //  [content inDatabase:^(FMDatabase *db)
@@ -395,7 +397,7 @@ static id _instance;
 {
   __block BOOL returnVal      = YES;
   // get local versions of our databases
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
 
   [content inDatabase:^(FMDatabase *db)
     {
@@ -412,44 +414,44 @@ static id _instance;
 
   if (returnVal)
   {
-    textFontSize         = 14;  // 14pt default font size
-    textLineSpacing      = PK_LS_NORMAL;
-    textVerseSpacing     = PK_VS_NONE;
-    layoutColumnWidths   = PK_CW_WIDEGREEK;
-    greekText            = PK_BIBLETEXT_BYZP;
-    englishText          = PK_BIBLETEXT_YLT;
-    transliterateText    = NO;
-    showNotesInline      = NO;
-    showMorphology       = YES;
-    showStrongs          = YES;
-    showInterlinear      = YES;
-    strongsOnTop         = NO;
-    smallerLeftSideWords = YES;
-    useICloud            = NO;
+    _textFontSize         = 14;  // 14pt default font size
+    _textLineSpacing      = PK_LS_NORMAL;
+    _textVerseSpacing     = PK_VS_NONE;
+    _layoutColumnWidths   = PK_CW_WIDEGREEK;
+    _greekText            = PK_BIBLETEXT_BYZP;
+    _englishText          = PK_BIBLETEXT_YLT;
+    _transliterateText    = NO;
+    _showNotesInline      = NO;
+    _showMorphology       = YES;
+    _showStrongs          = YES;
+    _showInterlinear      = YES;
+    _strongsOnTop         = NO;
+    _smallerLeftSideWords = YES;
+    _useICloud            = NO;
     
-    extendHighlights     = NO;
-    compressRightSideText= NO;
+    _extendHighlights     = NO;
+    _compressRightSideText= NO;
     
-    textFontFace         = @"Helvetica";
-    textGreekFontFace    = @"Helvetica Bold";     //RE: ISSUE #6
+    _textFontFace         = @"Helvetica";
+    _textGreekFontFace    = @"Helvetica Bold";     //RE: ISSUE #6
 
-    currentBook          = 40;  // Matthew
-    currentChapter       = 1;   // Chapter 1
-    currentVerse         = 1;   // Verse 1
-    topVerse             = 1;   // Top visible verse is 1
-    noteBook             = 0;   // no note
-    noteChapter          = 0;   // "
-    noteVerse            = 0;   // "
-    currentTextHighlight = @"";
-    lastStrongsLookup    = @"";
-    lastSearch           = @"";
-    lastNotesSearch      = @"";
-    oldNote              = @"";
-    currentNote          = @"";
-    highlightColor       = [PKSettings PKYellowHighlightColor];
-    highlightTextColor   = __T(@"Yellow");
-    textTheme            = 0;
-    usageStats           = YES;
+    _currentBook          = 40;  // Matthew
+    _currentChapter       = 1;   // Chapter 1
+    _currentVerse         = 1;   // Verse 1
+    _topVerse             = 1;   // Top visible verse is 1
+    _noteBook             = 0;   // no note
+    _noteChapter          = 0;   // "
+    _noteVerse            = 0;   // "
+    _currentTextHighlight = @"";
+    _lastStrongsLookup    = @"";
+    _lastSearch           = @"";
+    _lastNotesSearch      = @"";
+    _oldNote              = @"";
+    _currentNote          = @"";
+    _highlightColor       = [PKSettings PKYellowHighlightColor];
+    _highlightTextColor   = __T(@"Yellow");
+    _textTheme            = 0;
+    _usageStats           = YES;
 
     [self saveSettings];
     // done, return success or failure
@@ -464,15 +466,15 @@ static id _instance;
  */
 -(void) dealloc
 {
-  textFontFace         = nil;
-  currentTextHighlight = nil;
-  lastStrongsLookup    = nil;
-  lastSearch           = nil;
-  oldNote              = nil;
-  currentNote          = nil;
-  highlightColor       = nil;
-  highlightTextColor   = nil;
-  textGreekFontFace    = nil;
+  _textFontFace         = nil;
+  _currentTextHighlight = nil;
+  _lastStrongsLookup    = nil;
+  _lastSearch           = nil;
+  _oldNote              = nil;
+  _currentNote          = nil;
+  _highlightColor       = nil;
+  _highlightTextColor   = nil;
+  _textGreekFontFace    = nil;
 }
 
 /**
@@ -489,7 +491,7 @@ static id _instance;
                          [UIColor colorWithRed: 0.875 green: 0.9325 blue: 1.0 alpha: 1.0],
                          [UIColor colorWithRed: 0.875 green: 0.9325 blue: 1.0 alpha: 1.0]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -501,7 +503,7 @@ static id _instance;
                          [UIColor colorWithWhite: 0.11 alpha: 1],
                          [UIColor colorWithWhite: 0.11 alpha: 1]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -513,7 +515,7 @@ static id _instance;
                          [UIColor colorWithWhite: 0.65 alpha: 1.0],
                          [UIColor colorWithRed: 0.65 green: 0.50 blue: 0.00 alpha: 1.0]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -525,7 +527,7 @@ static id _instance;
                          [UIColor colorWithWhite: .11 alpha: 1.0],
                          [UIColor colorWithWhite: 0.11 alpha: 1.0]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 +(UIColor *)PKNavigationTextColor
@@ -536,7 +538,7 @@ static id _instance;
                          [UIColor colorWithWhite: 0.85 alpha: 1.0],
                          [UIColor colorWithWhite: 0.85 alpha: 1.0]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 +(UIColor *)PKBarButtonTextColor
@@ -547,7 +549,7 @@ static id _instance;
                          [UIColor colorWithWhite: 0.85 alpha: 1.0],
                          [UIColor colorWithWhite: 0.85 alpha: 1.0]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -560,7 +562,7 @@ static id _instance;
                          [UIColor colorWithRed: 0.20 green: 0.20 blue: 0.20 alpha: 1.0],
                          [UIColor colorWithRed: 0.25 green: 0.20 blue: 0.10 alpha: 1.0]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -572,7 +574,7 @@ static id _instance;
                          [UIColor whiteColor],
                          [UIColor whiteColor]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -584,7 +586,7 @@ static id _instance;
                          [UIColor colorWithWhite: 0.0 alpha: 1],
                          [UIColor colorWithWhite: 0.0 alpha: 1]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -596,7 +598,7 @@ static id _instance;
                          [UIColor colorWithWhite: 0.10 alpha: 1],
                          [UIColor colorWithWhite: 0.10 alpha: 1]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -608,7 +610,7 @@ static id _instance;
                          [UIColor colorWithWhite: 0.65 alpha: 1.0],
                          [UIColor colorWithRed: 0.65 green: 0.50 blue: 0.00 alpha: 1.0]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -620,7 +622,7 @@ static id _instance;
                          [UIColor colorWithRed: 0.4 green: 0.4 blue: 0.65 alpha: 1.0],
                          [UIColor colorWithRed: 0.56 green: 0.43 blue: 0.0 alpha: 1.0]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -632,7 +634,7 @@ static id _instance;
                          [UIColor colorWithRed: 0.4 green: 0.65 blue: 0.4 alpha: 1.0],
                          [UIColor colorWithRed: 0.56 green: 0.43 blue: 0.0 alpha: 1.0]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -644,7 +646,7 @@ static id _instance;
                          [UIColor colorWithRed: 0.65 green: 0.4 blue: 0.4 alpha: 1.0],
                          [UIColor colorWithRed: 0.56 green: 0.43 blue: 0.0 alpha: 1.0]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -656,7 +658,7 @@ static id _instance;
                          [UIColor colorWithRed: 0.4 green: 0.4 blue: 0.4 alpha: 1.0],
                          [UIColor colorWithRed: 0.56 green: 0.43 blue: 0.0 alpha: 1.0]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
@@ -668,7 +670,7 @@ static id _instance;
                          [UIColor colorWithWhite: 0.0 alpha: 0.75],
                          [UIColor colorWithWhite: 0.0 alpha: 0.75]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
   return [UIColor colorWithWhite: 1.0 alpha: 0.25];
 }
@@ -706,13 +708,13 @@ static id _instance;
                          [UIColor colorWithRed: 0.250980 green: 0.282352 blue: 0.313725 alpha: 1.0],
                          [UIColor colorWithRed: 0.250980 green: 0.282352 blue: 0.313725 alpha: 1.0]
                        ];
-  UIColor *theColor = theColors[[( (PKSettings *)[PKSettings instance] )textTheme]];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;
 }
 
 +(UIImage *)PKImageLeftArrow
 {
-  int theTheme =  [( (PKSettings *)[PKSettings instance] )textTheme];
+  int theTheme =  [[PKSettings instance] textTheme];
 
   // dark themes need a white arrow
   if (theTheme > 1)
@@ -724,7 +726,7 @@ static id _instance;
 
 +(UIImage *)PKImageRightArrow
 {
-  int theTheme =  [( (PKSettings *)[PKSettings instance] )textTheme];
+  int theTheme =  [[PKSettings instance] textTheme];
 
   // dark themes need a white arrow
   if (theTheme > 1)

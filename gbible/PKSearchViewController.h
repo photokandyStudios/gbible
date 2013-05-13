@@ -41,14 +41,6 @@
 
 @interface PKSearchViewController : PKTableViewController <UISearchBarDelegate>
 
-@property (strong, nonatomic) NSString *theSearchTerm;
-@property (strong, nonatomic) NSArray *theSearchResults;
-@property (strong, nonatomic) UISearchBar *theSearchBar;
-@property (strong, nonatomic) UIButton *clickToDismiss;
-@property (strong, nonatomic) UILabel *noResults;
-@property int fontSize;
-@property (strong, nonatomic) UIFont *leftFont;
-@property (strong, nonatomic) UIFont *rightFont;
 
 @property (nonatomic, weak) id <PKBibleReferenceDelegate> delegate;
 @property BOOL notifyWithCopyOfVerse;

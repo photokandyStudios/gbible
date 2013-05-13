@@ -53,32 +53,30 @@
 
 @interface PKSimpleBibleViewController ()
 
-@property (strong, nonatomic) NSArray *currentGreekChapter;
-@property (strong, nonatomic) NSArray *currentEnglishChapter;
-@property (strong, nonatomic) NSMutableArray *formattedGreekChapter;
-@property (strong, nonatomic) NSMutableArray *formattedEnglishChapter;
-@property (strong, nonatomic) NSMutableArray *formattedGreekVerseHeights;
-@property (strong, nonatomic) NSMutableArray *formattedEnglishVerseHeights;
-@property (strong, nonatomic) NSMutableDictionary *selectedVerses;
-@property (strong, nonatomic) NSMutableDictionary *highlightedVerses;
-@property (strong, nonatomic) NSMutableArray *cellHeights;     // RE: ISSUE #1
-@property (strong, nonatomic) NSMutableArray *cells;           // RE: ISSUE #1
-@property (strong, nonatomic) NSMutableArray *formattedCells;
-@property (strong, nonatomic) UITableViewCell *theCachedCell;
-@property (strong, nonatomic) NSArray *bibleTextIDs;
-@property int currentBook;
-@property int currentChapter;
-@property int reusableLabelQueuePosition;
-@property BOOL dirty;
-
 @end
 
 @implementation PKSimpleBibleViewController
 {
   int globalVerse;
+  NSArray * __strong _currentGreekChapter;
+  NSArray * __strong _currentEnglishChapter;
+  NSMutableArray * __strong _formattedGreekChapter;
+  NSMutableArray * __strong _formattedEnglishChapter;
+  NSMutableArray * __strong _formattedGreekVerseHeights;
+  NSMutableArray * __strong _formattedEnglishVerseHeights;
+  NSMutableDictionary * __strong _selectedVerses;
+  NSMutableDictionary * __strong _highlightedVerses;
+  NSMutableArray * __strong _cellHeights;     // RE: ISSUE #1
+  NSMutableArray * __strong _cells;           // RE: ISSUE #1
+  NSMutableArray * __strong _formattedCells;
+  UITableViewCell * __strong _theCachedCell;
+  NSArray * __strong _bibleTextIDs;
+  int _currentBook;
+  int _currentChapter;
+  int _reusableLabelQueuePosition;
+  BOOL _dirty;
 }
 
-@synthesize currentGreekChapter, currentEnglishChapter, formattedGreekChapter, formattedEnglishChapter, formattedGreekVerseHeights, formattedEnglishVerseHeights, selectedVerses, highlightedVerses, cellHeights, cells, formattedCells, theCachedCell, bibleTextIDs, currentBook, currentChapter, reusableLabelQueuePosition, dirty;
 @synthesize delegate, notifyWithCopyOfVerse;
 
 #pragma mark - 
@@ -91,10 +89,10 @@
  */
 -(void)loadChapter: (int) theChapter forBook: (int) theBook
 {
-  selectedVerses             = [[NSMutableDictionary alloc] init];
+  _selectedVerses             = [[NSMutableDictionary alloc] init];
   globalVerse = 0;
-  currentBook    = theBook;
-  currentChapter = theChapter;
+  _currentBook    = theBook;
+  _currentChapter = theChapter;
   [self.tableView reloadData];
 }
 
@@ -103,10 +101,10 @@
   NSUInteger row            = theVerse -1;
   globalVerse = theVerse;
   BOOL curValue;
-  NSString *passage         = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1].reference;
+  NSString *passage         = [PKReference referenceWithBook:_currentBook andChapter:_currentChapter andVerse:row+1].reference;
 
-  curValue = [[selectedVerses objectForKey: passage] boolValue];
-  [selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: passage];
+  curValue = [[_selectedVerses objectForKey: passage] boolValue];
+  [_selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: passage];
   
   [self.tableView reloadData];
 
@@ -139,14 +137,14 @@
 -(void)loadHighlights
 {
   // load our highlighted verses
-  highlightedVerses = [(PKHighlights *)[PKHighlights instance] allHighlightedReferencesForBook: currentBook
-                                                                                  andChapter: currentChapter];
+  _highlightedVerses = [[PKHighlights instance] allHighlightedReferencesForBook: _currentBook
+                                                                                  andChapter: _currentChapter];
 }
 
 -(void)loadChapter
 {
   BOOL parsed               = NO;
-  reusableLabelQueuePosition = -1;
+  _reusableLabelQueuePosition = -1;
   NSUInteger currentBible   = [[PKSettings instance] greekText];
   parsed = [PKBible isStrongsSupportedByText:currentBible] ||
            [PKBible isMorphologySupportedByText:currentBible] ||
@@ -158,30 +156,30 @@
   NSDate *tEndTime;
 
   tStartTime            = [NSDate date];
-  self.title            = [[PKBible nameForBook: currentBook] stringByAppendingFormat: @" %i", currentChapter];
+  self.title            = [[PKBible nameForBook: _currentBook] stringByAppendingFormat: @" %i", _currentChapter];
   startTime             = [NSDate date];
-  currentGreekChapter   = [PKBible getTextForBook: currentBook forChapter: currentChapter forSide: 1];
-  currentEnglishChapter = [PKBible getTextForBook: currentBook forChapter: currentChapter forSide: 2];
+  _currentGreekChapter   = [PKBible getTextForBook: _currentBook forChapter: _currentChapter forSide: 1];
+  _currentEnglishChapter = [PKBible getTextForBook: _currentBook forChapter: _currentChapter forSide: 2];
   endTime               = [NSDate date];
 
   // now, get the formatting for both sides, verse by verse
   // greek side first
   startTime                  = [NSDate date];
-  formattedGreekChapter      = [[NSMutableArray alloc] init];
-  formattedGreekVerseHeights = [[NSMutableArray alloc] init];
+  _formattedGreekChapter      = [[NSMutableArray alloc] init];
+  _formattedGreekVerseHeights = [[NSMutableArray alloc] init];
   CGFloat greekHeightIPhone;
 
-  for (int i = 0; i < [currentGreekChapter count]; i++)
+  for (int i = 0; i < [_currentGreekChapter count]; i++)
   {
-    NSArray *formattedText = [PKBible formatText: [currentGreekChapter objectAtIndex: i]
+    NSArray *formattedText = [PKBible formatText: [_currentGreekChapter objectAtIndex: i]
                                        forColumn: 1 withBounds: self.view.bounds withParsings: parsed
                                       startingAt: 0.0 withCompression:YES];
 
-    [formattedGreekChapter addObject:
+    [_formattedGreekChapter addObject:
      formattedText
     ];
 
-    [formattedGreekVerseHeights addObject:
+    [_formattedGreekVerseHeights addObject:
      [NSNumber numberWithFloat: [PKBible formattedTextHeight: formattedText withParsings: parsed]]
     ];
   }
@@ -189,28 +187,28 @@
 
   // english next
   startTime                    = [NSDate date];
-  formattedEnglishChapter      = [[NSMutableArray alloc] init];
-  formattedEnglishVerseHeights = [[NSMutableArray alloc] init];
+  _formattedEnglishChapter      = [[NSMutableArray alloc] init];
+  _formattedEnglishVerseHeights = [[NSMutableArray alloc] init];
 
-  for (int i = 0; i < [currentEnglishChapter count]; i++)
+  for (int i = 0; i < [_currentEnglishChapter count]; i++)
   {
-      if (i < formattedGreekVerseHeights.count)
+      if (i < _formattedGreekVerseHeights.count)
       {
-        greekHeightIPhone = [formattedGreekVerseHeights[i] floatValue];
+        greekHeightIPhone = [_formattedGreekVerseHeights[i] floatValue];
       }
       else
       {
         greekHeightIPhone = 0.0;
       }
 
-    NSArray *formattedText = [PKBible formatText: [currentEnglishChapter objectAtIndex: i]
+    NSArray *formattedText = [PKBible formatText: [_currentEnglishChapter objectAtIndex: i]
                                        forColumn: 2 withBounds: self.view.bounds withParsings: parsed
                                       startingAt: greekHeightIPhone withCompression:YES];
 
-    [formattedEnglishChapter addObject:
+    [_formattedEnglishChapter addObject:
      formattedText
     ];
-    [formattedEnglishVerseHeights addObject:
+    [_formattedEnglishVerseHeights addObject:
      [NSNumber numberWithFloat: [PKBible formattedTextHeight: formattedText withParsings: parsed]]
     ];
   }
@@ -218,7 +216,7 @@
   tEndTime = [NSDate date];
   // now, create all our UILabels here, so we don't have to do it while generating a cell.
 
-  formattedCells = [[NSMutableArray alloc] init];
+  _formattedCells = [[NSMutableArray alloc] init];
   UIFont *theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                  andSize: [[PKSettings instance] textFontSize]];
 
@@ -229,16 +227,16 @@
     theBoldFont = theFont;
   }
 
-  for (int i = 0; i < MAX([currentGreekChapter count], [currentEnglishChapter count]); i++)
+  for (int i = 0; i < MAX([_currentGreekChapter count], [_currentEnglishChapter count]); i++)
   {
     // for each verse (i)
 
     NSUInteger row = i;
 
     NSArray *formattedGreekVerse;
-    if (row < [formattedGreekChapter count])
+    if (row < [_formattedGreekChapter count])
     {
-      formattedGreekVerse = [formattedGreekChapter objectAtIndex: row];
+      formattedGreekVerse = [_formattedGreekChapter objectAtIndex: row];
     }
     else
     {
@@ -246,9 +244,9 @@
     }
     
     NSArray *formattedEnglishVerse;
-    if (row < [formattedEnglishChapter count])
+    if (row < [_formattedEnglishChapter count])
     {
-      formattedEnglishVerse = [formattedEnglishChapter objectAtIndex: row];
+      formattedEnglishVerse = [_formattedEnglishChapter objectAtIndex: row];
     }
     else
     {
@@ -259,7 +257,7 @@
     [theLabelArray addObjectsFromArray:formattedGreekVerse];
     [theLabelArray addObjectsFromArray:formattedEnglishVerse];
 
-    [formattedCells addObject: theLabelArray];
+    [_formattedCells addObject: theLabelArray];
   }
 
   [self loadHighlights];
@@ -275,13 +273,13 @@
  */
 -(void) reloadTableCache
 {
-  cellHeights = nil;
+  _cellHeights = nil;
 
-  cellHeights = [[NSMutableArray alloc] init];
+  _cellHeights = [[NSMutableArray alloc] init];
 
-  for (int row = 0; row < MAX([formattedGreekChapter count], [formattedEnglishChapter count]); row++)
+  for (int row = 0; row < MAX([_formattedGreekChapter count], [_formattedEnglishChapter count]); row++)
   {
-    [cellHeights addObject: [NSNumber numberWithFloat: [self heightForRowAtIndexPath: [NSIndexPath indexPathForRow: row inSection:
+    [_cellHeights addObject: [NSNumber numberWithFloat: [self heightForRowAtIndexPath: [NSIndexPath indexPathForRow: row inSection:
                                                                                        0]]]];
   }
   [self.tableView reloadData];
@@ -325,13 +323,13 @@
 -(void)viewWillAppear: (BOOL) animated
 {
   [super viewWillAppear:animated];
-  if (dirty)
+  if (_dirty)
   {
     [self loadChapter];
     [self reloadTableCache];
-    [(PKHistory *)[PKHistory instance] addReferenceWithBook: currentBook andChapter: currentChapter
+    [[PKHistory instance] addReferenceWithBook: _currentBook andChapter: _currentChapter
      andVerse: 1];
-    dirty = NO;
+    _dirty = NO;
   }
   [self updateAppearanceForTheme];
 
@@ -343,13 +341,13 @@
   self.enableVerticalScrollBar = NO;
     [super viewDidLoad];
 
-  dirty = YES;
+  _dirty = YES;
   [self.tableView setBackgroundView: nil];
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
   // init our selectedVeres
-  selectedVerses = [[NSMutableDictionary alloc] init];
+  _selectedVerses = [[NSMutableDictionary alloc] init];
 
   if (self.navigationItem)
   {
@@ -421,8 +419,8 @@
 -(NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
   // return the number of verses in the current passage
-  int currentGreekVerseCount   = [currentGreekChapter count];
-  int currentEnglishVerseCount = [currentEnglishChapter count];
+  int currentGreekVerseCount   = [_currentGreekChapter count];
+  int currentEnglishVerseCount = [_currentEnglishChapter count];
   int currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
 
   return currentVerseCount;
@@ -435,7 +433,7 @@
  */
 -(CGFloat) tableView: (UITableView *) tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath
 {
-  return [[cellHeights objectAtIndex: indexPath.row] floatValue];
+  return [[_cellHeights objectAtIndex: indexPath.row] floatValue];
 }
 
 -(CGFloat) heightForRowAtIndexPath: (NSIndexPath *) indexPath
@@ -445,21 +443,21 @@
   float greekVerseHeight   = 0.0;
   float englishVerseHeight = 0.0;
 
-  if (row < [formattedGreekVerseHeights count])
+  if (row < [_formattedGreekVerseHeights count])
   {
-    greekVerseHeight = [[formattedGreekVerseHeights objectAtIndex: row] floatValue];
+    greekVerseHeight = [[_formattedGreekVerseHeights objectAtIndex: row] floatValue];
   }
 
-  if (row < [formattedEnglishVerseHeights count])
+  if (row < [_formattedEnglishVerseHeights count])
   {
-    englishVerseHeight = [[formattedEnglishVerseHeights objectAtIndex: row] floatValue];
+    englishVerseHeight = [[_formattedEnglishVerseHeights objectAtIndex: row] floatValue];
   }
 
   float theMax = MAX(greekVerseHeight, englishVerseHeight);
 
   // if we have a note to display, add to theMax
-  int theBook      = currentBook;
-  int theChapter   = currentChapter;
+  int theBook      = _currentBook;
+  int theChapter   = _currentChapter;
 
   NSArray *theNote =
     [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:row+1]];
@@ -493,8 +491,8 @@
   BOOL curValue;
 
   // are we selected? If so, it takes precedence
-  NSString *passage         = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1].reference;
-  curValue = [[selectedVerses objectForKey: passage] boolValue];
+  NSString *passage         = [PKReference referenceWithBook:_currentBook andChapter:_currentChapter andVerse:row+1].reference;
+  curValue = [[_selectedVerses objectForKey: passage] boolValue];
 
   if (curValue)
   {
@@ -506,9 +504,9 @@
   }
 
   // are we highlighted?
-  if ([highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]] != nil)
+  if ([_highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]] != nil)
   {
-    pkCell.highlightColor = [highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]];
+    pkCell.highlightColor = [_highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]];
   }
   else   // not highlighted, be transparent.
   {
@@ -550,8 +548,8 @@
   NSUInteger row = [indexPath row];
 
   // and check if we have a note
-  int theBook              = currentBook;
-  int theChapter           = currentChapter;
+  int theBook              = _currentBook;
+  int theChapter           = _currentChapter;
 
   NSArray *theNote         =
     [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:row+1]];
@@ -559,14 +557,14 @@
   float greekVerseHeight   = 0.0;
   float englishVerseHeight = 0.0;
 
-  if (row < [formattedGreekVerseHeights count])
+  if (row < [_formattedGreekVerseHeights count])
   {
-    greekVerseHeight = [[formattedGreekVerseHeights objectAtIndex: row] floatValue];
+    greekVerseHeight = [[_formattedGreekVerseHeights objectAtIndex: row] floatValue];
   }
 
-  if (row < [formattedEnglishVerseHeights count])
+  if (row < [_formattedEnglishVerseHeights count])
   {
-    englishVerseHeight = [[formattedEnglishVerseHeights objectAtIndex: row] floatValue];
+    englishVerseHeight = [[_formattedEnglishVerseHeights objectAtIndex: row] floatValue];
   }
 
   float theMax = MAX(greekVerseHeight, englishVerseHeight);
@@ -605,7 +603,7 @@
     }
   }
 
-  NSMutableArray *formattedCell = [formattedCells objectAtIndex: row];
+  NSMutableArray *formattedCell = [_formattedCells objectAtIndex: row];
 
   NSMutableString *theAString   = [[NSMutableString alloc] init];
 
@@ -633,11 +631,11 @@
   {
     if (self.notifyWithCopyOfVerse)
     {
-      [self.delegate newVerseByBook:currentBook andChapter:currentChapter andVerse:row+1];
+      [self.delegate newVerseByBook:_currentBook andChapter:_currentChapter andVerse:row+1];
     }
     else
     {
-      [self.delegate newReferenceByBook:currentBook andChapter:currentChapter andVerse:row+1];
+      [self.delegate newReferenceByBook:_currentBook andChapter:_currentChapter andVerse:row+1];
     }
     [self dismissModalViewControllerAnimated: YES];
   }
@@ -705,25 +703,25 @@
 
   int theVerse = globalVerse;
 
-    PKReference *theReference = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:theVerse];
+    PKReference *theReference = [PKReference referenceWithBook:_currentBook andChapter:_currentChapter andVerse:theVerse];
     [theText appendFormat:@"%@\n\n", [theReference prettyReference]];
 
 
-  if (theVerse <= [currentEnglishChapter count])
+  if (theVerse <= [_currentEnglishChapter count])
   {
     // FIX ISSUE #43a
-    [theText appendString: [currentEnglishChapter objectAtIndex: theVerse - 1]];
+    [theText appendString: [_currentEnglishChapter objectAtIndex: theVerse - 1]];
   }
   [theText appendString: @"\n"];
 
-  if (theVerse <= [currentGreekChapter count])
+  if (theVerse <= [_currentGreekChapter count])
   {
     // FIX ISSUE #43a
-    [theText appendString: [currentGreekChapter objectAtIndex: theVerse - 1]];
+    [theText appendString: [_currentGreekChapter objectAtIndex: theVerse - 1]];
   }
 
-  int theBook      = currentBook;
-  int theChapter   = currentChapter;
+  int theBook      = _currentBook;
+  int theChapter   = _currentChapter;
   NSArray *theNote =
     [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse]];
 

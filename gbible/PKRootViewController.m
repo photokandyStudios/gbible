@@ -51,10 +51,6 @@
 @end
 
 @implementation PKRootViewController
-@synthesize topShadow;
-@synthesize bottomShadow;
-@synthesize aViewHasFullScreen;
-@synthesize ourIndicator;
 /**
  *
  * Initialize our main controller. We create a tab bar and include each of our main views in it.
@@ -67,7 +63,7 @@
   if (self)
   {
     // I know this is harder to do in code than IB, but for crying out loud - i hate magic!
-    aViewHasFullScreen = NO;
+    _aViewHasFullScreen = NO;
     // initialize our tab bar
     PKBibleViewController *bibleViewController    = [[PKBibleViewController alloc] init];
     PKSearchViewController *searchViewController  = [[PKSearchViewController alloc] init];
@@ -186,23 +182,23 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   // add our shadows
-  topShadow                     = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"topShadow.png"]];
-  bottomShadow                  = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"bottomShadow.png"]];
+  _topShadow                     = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"topShadow.png"]];
+  _bottomShadow                  = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"bottomShadow.png"]];
   
-  topShadow.frame               = CGRectMake(0, 44, self.view.bounds.size.width, 15);
-  bottomShadow.frame            = CGRectMake(0, self.view.bounds.size.height - 44 - 20, self.view.bounds.size.width, 15);
+  _topShadow.frame               = CGRectMake(0, 44, self.view.bounds.size.width, 15);
+  _bottomShadow.frame            = CGRectMake(0, self.view.bounds.size.height - 44 - 20, self.view.bounds.size.width, 15);
   
-  topShadow.contentMode         = UIViewContentModeScaleToFill;
-  bottomShadow.contentMode      = UIViewContentModeScaleToFill;
+  _topShadow.contentMode         = UIViewContentModeScaleToFill;
+  _bottomShadow.contentMode      = UIViewContentModeScaleToFill;
   
-  topShadow.autoresizingMask    = UIViewAutoresizingFlexibleWidth;
-  bottomShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+  _topShadow.autoresizingMask    = UIViewAutoresizingFlexibleWidth;
+  _bottomShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
   
-  topShadow.layer.opacity       = 0.0f;
-  bottomShadow.layer.opacity    = 0.0f;
+  _topShadow.layer.opacity       = 0.0f;
+  _bottomShadow.layer.opacity    = 0.0f;
   
-  [self.view addSubview: topShadow];
-  [self.view addSubview: bottomShadow];
+  [self.view addSubview: _topShadow];
+  [self.view addSubview: _bottomShadow];
   
   self.view.backgroundColor = [PKSettings PKBaseUIColor];
   
@@ -214,21 +210,21 @@
   //self.selectedIndex = 0;
 }
 
--(void) showTopShadowWithOpacity: (CGFloat) opacity;
+-(void) showTopShadowWithOpacity: (CGFloat) opacity
 {
-  topShadow.layer.opacity = opacity;
+  _topShadow.layer.opacity = opacity;
 }
--(void) showBottomShadowWithOpacity: (CGFloat) opacity;
+-(void) showBottomShadowWithOpacity: (CGFloat) opacity
 {
-  bottomShadow.layer.opacity = opacity;
+  _bottomShadow.layer.opacity = opacity;
 }
 
 -(void)viewDidUnload
 {
   [super viewDidUnload];
   // Release any retained subviews of the main view.
-  topShadow    = nil;
-  bottomShadow = nil;
+  _topShadow    = nil;
+  _bottomShadow = nil;
 }
 
 -(void)calcShadowPosition: (UIInterfaceOrientation) toInterfaceOrientation
@@ -238,21 +234,21 @@
     // for iphone we have 44 and 32(?) for the navbar height
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
     {
-      topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
+      _topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
     }
     else
     {
-      topShadow.frame = CGRectMake(0, 32, self.view.bounds.size.width, 15);
+      _topShadow.frame = CGRectMake(0, 32, self.view.bounds.size.width, 15);
     }
   }
   else
   {
-    topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
+    _topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
   }
   
-  if (aViewHasFullScreen)
+  if (_aViewHasFullScreen)
   {
-    topShadow.frame = CGRectMake(0, 0, self.view.bounds.size.width, 15);
+    _topShadow.frame = CGRectMake(0, 0, self.view.bounds.size.width, 15);
   }
 }
 
@@ -268,56 +264,56 @@
 
 -(void) showWaitingIndicator
 {
-  if (ourIndicator != nil)
+  if (_ourIndicator != nil)
   {
-    [ourIndicator removeFromSuperview];
+    [_ourIndicator removeFromSuperview];
   }
-  ourIndicator = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Wait.png"]];
+  _ourIndicator = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Wait.png"]];
   
   CGPoint centerPoint = self.view.center;
   CGRect theRect      = CGRectMake(centerPoint.x - 96, centerPoint.y - 96, 192, 192);
-  [ourIndicator setFrame: theRect];
-  ourIndicator.alpha = 0.25f;
+  [_ourIndicator setFrame: theRect];
+  _ourIndicator.alpha = 0.25f;
   
-  [self.view addSubview: ourIndicator];
+  [self.view addSubview: _ourIndicator];
   
   [self performSelector: @selector(hideIndicator) withObject: self afterDelay: 0.2f];
 }
 
 -(void) showRightSwipeIndicator
 {
-  if (ourIndicator != nil)
+  if (_ourIndicator != nil)
   {
-    [ourIndicator removeFromSuperview];
+    [_ourIndicator removeFromSuperview];
   }
-  ourIndicator       = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Swipe.png"]];
+  _ourIndicator       = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Swipe.png"]];
   
   CGPoint centerPoint = self.view.center;
   centerPoint.x      = 0;
   CGRect theRect      = CGRectMake(centerPoint.x - 96, centerPoint.y - 96, 192, 192);
-  [ourIndicator setFrame: theRect];
-  ourIndicator.alpha = 0.25f;
+  [_ourIndicator setFrame: theRect];
+  _ourIndicator.alpha = 0.25f;
   
-  [self.view addSubview: ourIndicator];
+  [self.view addSubview: _ourIndicator];
   
   [self performSelector: @selector(hideIndicator) withObject: self afterDelay: 0.2f];
 }
 
 -(void) showLeftSwipeIndicator
 {
-  if (ourIndicator != nil)
+  if (_ourIndicator != nil)
   {
-    [ourIndicator removeFromSuperview];
+    [_ourIndicator removeFromSuperview];
   }
-  ourIndicator       = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Swipe.png"]];
+  _ourIndicator       = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Swipe.png"]];
   
   CGPoint centerPoint = self.view.center;
   centerPoint.x      = self.view.bounds.size.width;
   CGRect theRect      = CGRectMake(centerPoint.x - 96, centerPoint.y - 96, 192, 192);
-  [ourIndicator setFrame: theRect];
-  ourIndicator.alpha = 0.25f;
+  [_ourIndicator setFrame: theRect];
+  _ourIndicator.alpha = 0.25f;
   
-  [self.view addSubview: ourIndicator];
+  [self.view addSubview: _ourIndicator];
   
   [self performSelector: @selector(hideIndicator) withObject: self afterDelay: 0.2f];
 }
@@ -326,12 +322,12 @@
 {
   [UIView animateWithDuration: 0.4f animations:
    ^{
-     ourIndicator.alpha = 0.0;
+     _ourIndicator.alpha = 0.0;
    }
                    completion:^(BOOL finished)
    {
-     [ourIndicator removeFromSuperview];
-     ourIndicator = nil;
+     [_ourIndicator removeFromSuperview];
+     _ourIndicator = nil;
    }
    ];
 }

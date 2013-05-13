@@ -49,17 +49,18 @@
 @end
 
 @implementation PKTableViewController
+/*
 @synthesize topShadow;
 @synthesize bottomShadow;
 @synthesize verticalScrollBar;
 @synthesize enableVerticalScrollBar;
-
+*/
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        enableVerticalScrollBar = YES;
+        _enableVerticalScrollBar = YES;
     }
     return self;
 }
@@ -68,33 +69,33 @@
 {
     [super viewDidLoad];
 
-    topShadow                     = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"topShadow.png"]];
-    bottomShadow                  = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"bottomShadow.png"]];
+    _topShadow                     = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"topShadow.png"]];
+    _bottomShadow                  = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"bottomShadow.png"]];
     
-    topShadow.frame               = CGRectMake(0, 44, self.view.bounds.size.width, 15);
-    bottomShadow.frame            = CGRectMake(0, self.view.bounds.size.height - 44 - 20, self.view.bounds.size.width, 15);
+    _topShadow.frame               = CGRectMake(0, 44, self.view.bounds.size.width, 15);
+    _bottomShadow.frame            = CGRectMake(0, self.view.bounds.size.height - 44 - 20, self.view.bounds.size.width, 15);
     
-    topShadow.contentMode         = UIViewContentModeScaleToFill;
-    bottomShadow.contentMode      = UIViewContentModeScaleToFill;
+    _topShadow.contentMode         = UIViewContentModeScaleToFill;
+    _bottomShadow.contentMode      = UIViewContentModeScaleToFill;
     
-    topShadow.autoresizingMask    = UIViewAutoresizingFlexibleWidth;
-    bottomShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    _topShadow.autoresizingMask    = UIViewAutoresizingFlexibleWidth;
+    _bottomShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     
-    topShadow.layer.opacity       = 0.0f;
-    bottomShadow.layer.opacity    = 0.0f;
+    _topShadow.layer.opacity       = 0.0f;
+    _bottomShadow.layer.opacity    = 0.0f;
     
-    [self.view addSubview: topShadow];
-    [self.view addSubview: bottomShadow];
+    [self.view addSubview: _topShadow];
+    [self.view addSubview: _bottomShadow];
   
     self.navigationItem.leftItemsSupplementBackButton = YES;
   
-    if (enableVerticalScrollBar)
+    if (_enableVerticalScrollBar)
     {
-      verticalScrollBar = [[WKVerticalScrollBar alloc] initWithFrame:self.view.bounds];
-      verticalScrollBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-      verticalScrollBar.scrollView = self.tableView;
+      _verticalScrollBar = [[WKVerticalScrollBar alloc] initWithFrame:self.view.bounds];
+      _verticalScrollBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+      _verticalScrollBar.scrollView = self.tableView;
     
-      [self.tableView addSubview:verticalScrollBar];
+      [self.tableView addSubview:_verticalScrollBar];
     }
   
 
@@ -106,13 +107,13 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void) showTopShadowWithOpacity: (CGFloat) opacity;
+-(void) showTopShadowWithOpacity: (CGFloat) opacity
 {
-  topShadow.layer.opacity = opacity;
+  _topShadow.layer.opacity = opacity;
 }
--(void) showBottomShadowWithOpacity: (CGFloat) opacity;
+-(void) showBottomShadowWithOpacity: (CGFloat) opacity
 {
-  bottomShadow.layer.opacity = opacity;
+  _bottomShadow.layer.opacity = opacity;
 }
 
 -(void)calcShadowPosition: (UIInterfaceOrientation) toInterfaceOrientation
@@ -123,21 +124,21 @@
     // for iphone we have 44 and 32(?) for the navbar height
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
     {
-      topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
+      _topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
     }
     else
     {
-      topShadow.frame = CGRectMake(0, 32, self.view.bounds.size.width, 15);
+      _topShadow.frame = CGRectMake(0, 32, self.view.bounds.size.width, 15);
     }
   }
   else
   {
-    topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
+    _topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
   }
   
   if ( self.navigationController.isNavigationBarHidden != YES )
   {
-    topShadow.frame = CGRectMake(0, 0, self.view.bounds.size.width, 15);
+    _topShadow.frame = CGRectMake(0, 0, self.view.bounds.size.width, 15);
   }
 }
 
@@ -146,13 +147,13 @@
   CGFloat topOpacity       = 0.0f;
   CGFloat theContentOffset = (self.tableView.contentOffset.y);
 
-  CGRect theFrame = topShadow.frame;
+  CGRect theFrame = _topShadow.frame;
   theFrame.origin.y = theContentOffset;
   //if (!self.navigationController.isNavigationBarHidden && !self.navigationController.navigationBar.isOpaque)
   //{
   //  theFrame.origin.y += self.navigationController.navigationBar.bounds.size.height;
  // }
-  [topShadow setFrame:theFrame];
+  [_topShadow setFrame:theFrame];
     
   if (theContentOffset > 15)
   {
@@ -167,9 +168,9 @@
   theContentOffset = self.tableView.contentSize.height - self.tableView.contentOffset.y -
                      self.tableView.bounds.size.height;
 
-  theFrame = bottomShadow.frame;
+  theFrame = _bottomShadow.frame;
   theFrame.origin.y = self.tableView.contentOffset.y + self.tableView.bounds.size.height - theFrame.size.height;
-  [bottomShadow setFrame:theFrame];
+  [_bottomShadow setFrame:theFrame];
 
   if (theContentOffset > 15)
   {
@@ -181,7 +182,7 @@
   
   theFrame = self.view.bounds;
   theFrame.origin.y = self.tableView.contentOffset.y;
-  [verticalScrollBar setFrame:theFrame];
+  [_verticalScrollBar setFrame:theFrame];
 }
 
 -(void)willRotateToInterfaceOrientation: (UIInterfaceOrientation) toInterfaceOrientation duration: (NSTimeInterval) duration

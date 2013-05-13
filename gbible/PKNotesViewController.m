@@ -50,39 +50,40 @@
 @end
 
 @implementation PKNotesViewController
+{
+  NSArray *__strong _notes;
+  UILabel *__strong _noResults;
 
-@synthesize notes;
-@synthesize noResults;
-
-@synthesize theSearchBar;
-@synthesize theSearchTerm;
-@synthesize clickToDismiss;
+  NSString *__strong _theSearchTerm;
+  UISearchBar *__strong _theSearchBar;
+  UIButton *__strong _clickToDismiss;
+}
 
 -(void)updateNotesViewAfterSearch
 {
   [self.tableView reloadData];
   
-  if ([notes count] == 0)
+  if ([_notes count] == 0)
   {
-    noResults.text = __Tv(@"no-results", @"No results.");
+    _noResults.text = __Tv(@"no-results", @"No results.");
   }
   else
   {
-    noResults.text = @"";
+    _noResults.text = @"";
   }
 
 }
 -(void)reloadNotes
 {
-    notes = [(PKNotes *)[PKNotes instance] allNotes];
+    _notes = [[PKNotes instance] allNotes];
   [self.tableView reloadData];
-  if ([notes count] == 0)
+  if ([_notes count] == 0)
   {
-    noResults.text = __Tv(@"no-notes", @"You don't have any notes.");
+    _noResults.text = __Tv(@"no-notes", @"You don't have any notes.");
   }
   else
   {
-    noResults.text = @"";
+    _noResults.text = @"";
   }
   
 }
@@ -94,7 +95,7 @@
   if (self)
   {
     // Custom initialization
-    self.theSearchTerm = [[PKSettings instance] lastNotesSearch];
+    _theSearchTerm = [[PKSettings instance] lastNotesSearch];
 
   }
   return self;
@@ -120,23 +121,23 @@
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
   // add search bar
-  theSearchBar                   = [[UISearchBar alloc] initWithFrame: CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
-  theSearchBar.delegate          = self;
-  theSearchBar.placeholder       = __T(@"Search Term");
-  theSearchBar.showsCancelButton = NO;
-  theSearchBar.text = theSearchTerm;
-  self.tableView.tableHeaderView = theSearchBar;
+  _theSearchBar                   = [[UISearchBar alloc] initWithFrame: CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
+  _theSearchBar.delegate          = self;
+  _theSearchBar.placeholder       = __T(@"Search Term");
+  _theSearchBar.showsCancelButton = NO;
+  _theSearchBar.text = _theSearchTerm;
+  self.tableView.tableHeaderView = _theSearchBar;
 
   CGRect theRect = CGRectMake(0, self.tableView.center.y + 20, 260, 60);
-  noResults                  = [[UILabel alloc] initWithFrame: theRect];
-  noResults.textColor        = [PKSettings PKTextColor]; //[UIColor whiteColor];
-  noResults.font             = [UIFont fontWithName: @"Zapfino" size: 15];
-  noResults.textAlignment    = UITextAlignmentCenter;
-  noResults.backgroundColor  = [UIColor clearColor];
-  noResults.shadowColor      = [UIColor clearColor];
-  noResults.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-  noResults.numberOfLines    = 0;
-  [self.view addSubview: noResults];
+  _noResults                  = [[UILabel alloc] initWithFrame: theRect];
+  _noResults.textColor        = [PKSettings PKTextColor]; //[UIColor whiteColor];
+  _noResults.font             = [UIFont fontWithName: @"Zapfino" size: 15];
+  _noResults.textAlignment    = UITextAlignmentCenter;
+  _noResults.backgroundColor  = [UIColor clearColor];
+  _noResults.shadowColor      = [UIColor clearColor];
+  _noResults.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+  _noResults.numberOfLines    = 0;
+  [self.view addSubview: _noResults];
   self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 
@@ -160,8 +161,12 @@
 {
   [super viewDidUnload];
   // Release any retained subviews of the main view.
-  notes     = nil;
-  noResults = nil;
+  _notes     = nil;
+  _noResults = nil;
+  
+  _theSearchBar = nil;
+  _theSearchTerm = nil;
+  _clickToDismiss = nil;
 }
 
 /**
@@ -208,7 +213,7 @@
  */
 -(NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
-  return [notes count];
+  return [_notes count];
 }
 
 /**
@@ -230,14 +235,14 @@
   
   NSUInteger row       = [indexPath row];
   
-  PKReference *theReference = [notes objectAtIndex: row];
+  PKReference *theReference = [_notes objectAtIndex: row];
   //    int theBook = [PKBible bookFromString:thePassage];
   //    int theChapter = [PKBible chapterFromString:thePassage];
   //    int theVerse = [PKBible verseFromString:thePassage];
   //    NSString *thePrettyPassage = [NSString stringWithFormat:@"%@ %i:%i",
   //                                           [PKBible nameForBook:theBook], theChapter, theVerse];
   
-  NSArray *theNoteArray = [(PKNotes *)[PKNotes instance] getNoteForReference: theReference];
+  NSArray *theNoteArray = [[PKNotes instance] getNoteForReference: theReference];
   NSString *theTitle    = [theNoteArray objectAtIndex: 0];
   NSString *theNote     = [theNoteArray objectAtIndex: 1];
   
@@ -261,7 +266,7 @@
 -(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath
 {
   NSUInteger row             = [indexPath row];
-  PKReference *theReference       = [notes objectAtIndex: row];
+  PKReference *theReference       = [_notes objectAtIndex: row];
   int theBook                = theReference.book;
   int theChapter             = theReference.chapter;
   int theVerse               = theReference.verse;
@@ -281,16 +286,16 @@
 -(void)searchBarSearchButtonClicked: (UISearchBar *) searchBar
 {
   [self hideKeyboard];
-  theSearchTerm = searchBar.text;
-  ((PKSettings *)[PKSettings instance]).lastNotesSearch = theSearchTerm;
+  _theSearchTerm = searchBar.text;
+  [PKSettings instance].lastNotesSearch = _theSearchTerm;
   [[PKSettings instance] saveSettings];
-  if ([theSearchTerm isEqualToString:@""])
+  if ([_theSearchTerm isEqualToString:@""])
   {
     [self reloadNotes];
   }
   else
   {
-    notes = [(PKNotes *)[PKNotes instance] notesMatching:theSearchTerm];
+    _notes = [[PKNotes instance] notesMatching:_theSearchTerm];
     [self updateNotesViewAfterSearch];
   }
 }
@@ -299,27 +304,27 @@
 {
   CGRect theRect = self.tableView.frame;
   theRect.origin.y               += 44;
-  clickToDismiss                  = [[UIButton alloc] initWithFrame: theRect];
-  clickToDismiss.autoresizingMask = UIViewAutoresizingFlexibleWidth |
+  _clickToDismiss                  = [[UIButton alloc] initWithFrame: theRect];
+  _clickToDismiss.autoresizingMask = UIViewAutoresizingFlexibleWidth |
   UIViewAutoresizingFlexibleHeight;
-  clickToDismiss.backgroundColor  = [UIColor colorWithWhite: 0 alpha: 0.5];
-  [clickToDismiss addTarget: self action: @selector(hideKeyboard) forControlEvents: UIControlEventTouchDown |
+  _clickToDismiss.backgroundColor  = [UIColor colorWithWhite: 0 alpha: 0.5];
+  [_clickToDismiss addTarget: self action: @selector(hideKeyboard) forControlEvents: UIControlEventTouchDown |
    UIControlEventTouchDragInside
    ];
   self.tableView.scrollEnabled = NO;
-  [self.view addSubview: clickToDismiss];
+  [self.view addSubview: _clickToDismiss];
 }
 
 //FIX ISSUE #50
 -(void)searchBarTextDidEndEditing: (UISearchBar *) searchBar
 {
-  [clickToDismiss removeFromSuperview];
-  clickToDismiss               = nil;
+  [_clickToDismiss removeFromSuperview];
+  _clickToDismiss               = nil;
   self.tableView.scrollEnabled = YES;
-  theSearchTerm = searchBar.text;
-  ((PKSettings *)[PKSettings instance]).lastNotesSearch = theSearchTerm;
+  _theSearchTerm = searchBar.text;
+  [PKSettings instance].lastNotesSearch = _theSearchTerm;
   [[PKSettings instance] saveSettings];
-  if ([theSearchTerm isEqualToString:@""])
+  if ([_theSearchTerm isEqualToString:@""])
   {
     [self reloadNotes];
   }
@@ -327,11 +332,11 @@
 
 -(void) hideKeyboard
 {
-  [clickToDismiss removeFromSuperview];
-  clickToDismiss               = nil;
+  [_clickToDismiss removeFromSuperview];
+  _clickToDismiss               = nil;
   [self becomeFirstResponder];
   self.tableView.scrollEnabled = YES;
-  if ([theSearchTerm isEqualToString:@""])
+  if ([_theSearchTerm isEqualToString:@""])
   {
     [self reloadNotes];
   }

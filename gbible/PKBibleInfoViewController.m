@@ -48,33 +48,26 @@
 #import "SSZipArchive.h"
 
 @interface PKBibleInfoViewController ()
-@property int theBibleID;
-@property (strong, nonatomic) UILabel * theBibleTitle;
-@property (strong, nonatomic) UILabel * theBibleAbbreviation;
-@property (strong, nonatomic) UIImageView * theBibleImage;
-@property (strong, nonatomic) UILabel * theBibleImageAbbr;
-@property (strong, nonatomic) UIWebView * theBibleInformation;
-@property (strong, nonatomic) MAConfirmButton * theActionButton;
 
 @end
 
 @implementation PKBibleInfoViewController
-
-@synthesize theBibleAbbreviation;
-@synthesize theActionButton;
-@synthesize theBibleTitle;
-@synthesize theBibleID;
-@synthesize theBibleInformation;
-@synthesize theBibleImage;
-@synthesize theBibleImageAbbr;
-@synthesize delegate;
+{
+  int _theBibleID;
+  UILabel *  __strong _theBibleTitle;
+  UILabel *  __strong _theBibleAbbreviation;
+  UIImageView *  __strong _theBibleImage;
+  UILabel *  __strong _theBibleImageAbbr;
+  UIWebView *  __strong _theBibleInformation;
+  MAConfirmButton *  __strong _theActionButton;
+}
 
 - (id)initWithBibleID: (int) bibleID
 {
   self = [super init];
   if (self) {
     // Custom initialization
-    self.theBibleID = bibleID;
+    _theBibleID = bibleID;
     [self.navigationItem setTitle: __T(@"Manage Bible")];
     
   }
@@ -88,43 +81,25 @@
   self.view.backgroundColor = [UIColor colorWithWhite:0.95 alpha: 1.0];
   
   // create the UI layout and then fire off a load of the information.
-  theBibleImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 141, 173)];
-  theBibleImage.image = [UIImage imageNamed:@"leather-book"];
-  [self.view addSubview:theBibleImage];
+  _theBibleImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 141, 173)];
+  _theBibleImage.image = [UIImage imageNamed:@"leather-book"];
+  [self.view addSubview:_theBibleImage];
   
-  theBibleImageAbbr = [[UILabel alloc] initWithFrame:CGRectMake(35, 30, 98, 35)];
-  theBibleImageAbbr.font = [UIFont fontWithName:@"Georgia" size:35];
-  theBibleImageAbbr.textColor = [UIColor colorWithHexString:@"b4a567"];
-  theBibleImageAbbr.textAlignment = UITextAlignmentCenter;
-  theBibleImageAbbr.backgroundColor = [UIColor clearColor];
-  theBibleImageAbbr.adjustsFontSizeToFitWidth = YES;
-  theBibleImageAbbr.shadowColor = [UIColor whiteColor];
-  theBibleImageAbbr.shadowOffset = CGSizeMake(0, -1);
-  [self.view addSubview:theBibleImageAbbr];
-  
-  /*    theBibleTitle = [[UILabel alloc] initWithFrame: CGRectMake(161, 103, self.view.bounds.size.width-181, 40)];
-   theBibleTitle.font = [UIFont fontWithName:@"Helvetica" size:32.0];
-   theBibleTitle.textColor = [UIColor blackColor];
-   theBibleTitle.textAlignment = UITextAlignmentLeft;
-   theBibleTitle.backgroundColor = [UIColor clearColor];
-   theBibleTitle.adjustsFontSizeToFitWidth = YES;
-   theBibleTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-   [self.view addSubview:theBibleTitle];
-   */
-  /*    theBibleAbbreviation = [[UILabel alloc] initWithFrame: CGRectMake(161, 153, 100, 20)];
-   theBibleAbbreviation.font = [UIFont fontWithName:@"Helvetica" size:16.0];
-   theBibleAbbreviation.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
-   theBibleAbbreviation.textAlignment = UITextAlignmentLeft;
-   theBibleAbbreviation.backgroundColor = [UIColor clearColor];
-   theBibleAbbreviation.autoresizingMask = UIViewAutoresizingNone;
-   [self.view addSubview:theBibleAbbreviation];
-   */
-  theBibleInformation = [[UIWebView alloc] initWithFrame: CGRectMake( 151, 10, self.view.bounds.size.width-171,
+  _theBibleImageAbbr = [[UILabel alloc] initWithFrame:CGRectMake(35, 30, 98, 35)];
+  _theBibleImageAbbr.font = [UIFont fontWithName:@"Georgia" size:35];
+  _theBibleImageAbbr.textColor = [UIColor colorWithHexString:@"b4a567"];
+  _theBibleImageAbbr.textAlignment = UITextAlignmentCenter;
+  _theBibleImageAbbr.backgroundColor = [UIColor clearColor];
+  _theBibleImageAbbr.adjustsFontSizeToFitWidth = YES;
+  _theBibleImageAbbr.shadowColor = [UIColor whiteColor];
+  _theBibleImageAbbr.shadowOffset = CGSizeMake(0, -1);
+  [self.view addSubview:_theBibleImageAbbr];
+  _theBibleInformation = [[UIWebView alloc] initWithFrame: CGRectMake( 151, 10, self.view.bounds.size.width-171,
                                                                      self.view.bounds.size.height-20 )];
-  theBibleInformation.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-  theBibleInformation.backgroundColor = [UIColor clearColor];
-  theBibleInformation.opaque = NO;
-  [self.view addSubview:theBibleInformation];
+  _theBibleInformation.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  _theBibleInformation.backgroundColor = [UIColor clearColor];
+  _theBibleInformation.opaque = NO;
+  [self.view addSubview:_theBibleInformation];
   
 }
 
@@ -144,41 +119,41 @@
 {
   NSString *preHTMLiPad = @"<style>BODY { background-color: #f2f2f2; font-family: 'Helvetica'; color:#333; }</style>";
   NSString *preHTMLiPhone = @"<style>BODY { background-color: #f2f2f2; font-family: 'Helvetica'; color:#333; font-size: 66%}</style>";
-  [theBibleInformation loadHTMLString:[(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? preHTMLiPad : preHTMLiPhone) stringByAppendingString:theHTML] baseURL:nil];
+  [_theBibleInformation loadHTMLString:[(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? preHTMLiPad : preHTMLiPhone) stringByAppendingString:theHTML] baseURL:nil];
 }
 
 - (void)loadBibleInformation
 {
-  if (theActionButton)
+  if (_theActionButton)
   {
-    [theActionButton removeFromSuperview];
-    theActionButton = nil;
+    [_theActionButton removeFromSuperview];
+    _theActionButton = nil;
   }
   
   // if the Bible is a built-in or installed, we want to get the information from there first.
-  if ( [PKBible isTextBuiltIn: theBibleID] )
+  if ( [PKBible isTextBuiltIn: _theBibleID] )
   {
     //    theBibleTitle.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_NAME];
     //    theBibleAbbreviation.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
-    theBibleImageAbbr.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
-    [self setHTML:[PKBible text:theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ATTRIBUTION]];
+    _theBibleImageAbbr.text = [PKBible text:_theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
+    [self setHTML:[PKBible text:_theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ATTRIBUTION]];
     
-    theActionButton = [[MAConfirmButton alloc] initWithDisabledTitle:__T(@"Built-In")];
-    [theActionButton setAnchor:CGPointMake(141, 193)];
-    [self.view addSubview:theActionButton];
+    _theActionButton = [[MAConfirmButton alloc] initWithDisabledTitle:__T(@"Built-In")];
+    [_theActionButton setAnchor:CGPointMake(141, 193)];
+    [self.view addSubview:_theActionButton];
   }
   else
-    if ( [PKBible isTextInstalled: theBibleID] )
+    if ( [PKBible isTextInstalled: _theBibleID] )
     {
       //      theBibleTitle.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_NAME];
       //      theBibleAbbreviation.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
-      theBibleImageAbbr.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
-      [self setHTML:[PKBible text:theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ATTRIBUTION]];
-      theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"Installed") confirm:__T(@"Remove Bible")];
-      theActionButton.secondColor=[UIColor redColor];
-      [theActionButton setAnchor:CGPointMake(141, 193)];
-      [theActionButton addTarget:self action:@selector(removeBible:) forControlEvents:UIControlEventTouchUpInside];
-      [self.view addSubview:theActionButton];
+      _theBibleImageAbbr.text = [PKBible text:_theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
+      [self setHTML:[PKBible text:_theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ATTRIBUTION]];
+      _theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"Installed") confirm:__T(@"Remove Bible")];
+      _theActionButton.secondColor=[UIColor redColor];
+      [_theActionButton setAnchor:CGPointMake(141, 193)];
+      [_theActionButton addTarget:self action:@selector(removeBible:) forControlEvents:UIControlEventTouchUpInside];
+      [self.view addSubview:_theActionButton];
     }
     else
     {
@@ -189,7 +164,7 @@
                      ^{
                        
                        PFQuery *query = [PFQuery queryWithClassName:@"Bibles"];
-                       [query whereKey:@"ID" equalTo:@(theBibleID)];
+                       [query whereKey:@"ID" equalTo:@(_theBibleID)];
                        [query orderByAscending:@"Abbreviation"];
                        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                          if (!error) {
@@ -200,13 +175,13 @@
                                             {
                                               //            theBibleTitle.text = [objects[i] objectForKey:@"Title"];
                                               //            theBibleAbbreviation.text = [objects[i] objectForKey:@"Abbreviation"];
-                                              theBibleImageAbbr.text = [objects[i] objectForKey:@"Abbreviation"];
+                                              _theBibleImageAbbr.text = [objects[i] objectForKey:@"Abbreviation"];
                                               [self setHTML:[objects[i] objectForKey:@"Info"]];
                                               
-                                              theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"FREE") confirm:__T(@"Download")];
-                                              [theActionButton setAnchor:CGPointMake(141, 193)];
-                                              [theActionButton addTarget:self action:@selector(downloadBible:) forControlEvents:UIControlEventTouchUpInside];
-                                              [self.view addSubview:theActionButton];
+                                              _theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"FREE") confirm:__T(@"Download")];
+                                              [_theActionButton setAnchor:CGPointMake(141, 193)];
+                                              [_theActionButton addTarget:self action:@selector(downloadBible:) forControlEvents:UIControlEventTouchUpInside];
+                                              [self.view addSubview:_theActionButton];
                                               
                                             }
                                           });
@@ -227,14 +202,14 @@
 - (void) removeBible: (id) sender
 {
   // make sure we're not currently using the Bible in question
-  if ([[PKSettings instance] englishText] == theBibleID)
+  if ([[PKSettings instance] englishText] == _theBibleID)
   {
     // change the text
-    ((PKSettings *) [PKSettings instance]).englishText = PK_BIBLETEXT_YLT;
+    [PKSettings instance].englishText = PK_BIBLETEXT_YLT;
     [[PKSettings instance] saveSettings];
   }
   // change the button
-  [theActionButton disableWithTitle:__T(@"Removing")];
+  [_theActionButton disableWithTitle:__T(@"Removing")];
   [SVProgressHUD showWithStatus:__T(@"Removing...") maskType:SVProgressHUDMaskTypeClear];
   
   // delete the corresponding entry from the master table,
@@ -246,15 +221,15 @@
                     {
                       // delete the Bible metadata
                       NSString *sql = @"DELETE FROM bibles WHERE bibleID=?";
-                      [db executeUpdate:sql, @(theBibleID)];
+                      [db executeUpdate:sql, @(_theBibleID)];
                       
                       // delete the content of the specific Bible
                       sql = @"DELETE FROM content WHERE bibleID=?";
-                      [db executeUpdate:sql, @(theBibleID)];
+                      [db executeUpdate:sql, @(_theBibleID)];
                       
                       // delete the search Index for the Bible
                       sql = @"DELETE FROM searchIndex WHERE bibleID=?";
-                      [db executeUpdate:sql, @(theBibleID)];
+                      [db executeUpdate:sql, @(_theBibleID)];
                       
                       // delete all the unused search index master records
                       sql = @"DELETE FROM searchIndexMaster WHERE NOT EXISTS (SELECT searchIndexTerm FROM searchIndex WHERE searchIndexTerm=searchIndexMasterID)";
@@ -266,9 +241,9 @@
                                      ^{
                                        [SVProgressHUD showSuccessWithStatus:__T(@"Removed!")];
                                        [self loadBibleInformation];
-                                       if (delegate)
+                                       if (_delegate)
                                        {
-                                         [delegate installedBiblesChanged];
+                                         [_delegate installedBiblesChanged];
                                        }
                                      }
                                      );
@@ -281,11 +256,11 @@
 - (void) downloadBible: (id) sender
 {
   // change the button
-  [theActionButton disableWithTitle:__T(@"Installing")];
+  [_theActionButton disableWithTitle:__T(@"Installing")];
   
   // ask Parse for the Bible again
   PFQuery *query = [PFQuery queryWithClassName:@"Bibles"];
-  [query whereKey:@"ID" equalTo:@(theBibleID)];
+  [query whereKey:@"ID" equalTo:@(_theBibleID)];
   [query orderByAscending:@"Abbreviation"];
   [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
     if (!error) {
@@ -383,9 +358,9 @@
                                            ^{
                                              [SVProgressHUD showSuccessWithStatus:__T(@"Installed!")];
                                              [self loadBibleInformation];
-                                             if (delegate)
+                                             if (_delegate)
                                              {
-                                               [delegate installedBiblesChanged];
+                                               [_delegate installedBiblesChanged];
                                              }
                                              
                                            }

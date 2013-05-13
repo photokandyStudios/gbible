@@ -837,7 +837,7 @@
   CGFloat lineHeight            = (theFont.ascender - theFont.descender) + 1; //[@"M" sizeWithFont: theFont].;
   CGFloat boldLineHeight        = (theBoldFont.ascender - theBoldFont.descender) + 1; //[theBoldFont lineHeight];
   CGFloat smallerLineHeight     = (theSmallerFont.ascender - theSmallerFont.descender) + 1; //[theSmallerFont lineHeight]; //[@"M" sizeWithFont: theSmallerFont].height;
-  CGFloat lineHeightAvg         = boldLineHeight + ((lineHeight - smallerLineHeight)/2);
+  //CGFloat lineHeightAvg         = boldLineHeight + ((lineHeight - smallerLineHeight)/2);
   //lineHeight    = lineHeight * ( (float)[[PKSettings instance] textLineSpacing] / 100.0 );
   // determine the maximum size of the column (1 line, 2 lines, 3 lines?)
   CGFloat leading = lineHeight * ( (float)[[PKSettings instance] textLineSpacing] / 100.0 );

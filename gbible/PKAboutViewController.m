@@ -46,8 +46,9 @@
 @end
 
 @implementation PKAboutViewController
-
-@synthesize aboutWebView;
+{
+    UIWebView * __strong _aboutWebView;
+}
 
 -(id)init
 {
@@ -67,8 +68,8 @@
   // Do any additional setup after loading the view.
   [TestFlight passCheckpoint: @"ABOUT"];
   CGRect theRect = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-  self.aboutWebView = [[UIWebView alloc] initWithFrame: theRect];
-  [self.view addSubview: self.aboutWebView];
+  _aboutWebView = [[UIWebView alloc] initWithFrame: theRect];
+  [self.view addSubview: _aboutWebView];
   
   // LOCALIZATION SUPPORT FOR ABOUT
   // First, obtain the language
@@ -86,13 +87,13 @@
   {
     theURL = [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource: @"about" ofType: @"html"] isDirectory: NO];
   }
-  [self.aboutWebView loadRequest: [NSURLRequest requestWithURL: theURL]];
+  [_aboutWebView loadRequest: [NSURLRequest requestWithURL: theURL]];
   
-  self.aboutWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  _aboutWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   
-  if ([self.aboutWebView respondsToSelector: @selector(scrollView)])
+  if ([_aboutWebView respondsToSelector: @selector(scrollView)])
   {
-    self.aboutWebView.scrollView.delegate = self;
+    _aboutWebView.scrollView.delegate = self;
   }
   self.view.autoresizesSubviews = YES;
   
@@ -104,8 +105,8 @@
   swipeLeft.direction  = UISwipeGestureRecognizerDirectionLeft;
   [swipeRight setNumberOfTouchesRequired: 1];
   [swipeLeft setNumberOfTouchesRequired: 1];
-  [self.aboutWebView addGestureRecognizer: swipeRight];
-  [self.aboutWebView addGestureRecognizer: swipeLeft];
+  [_aboutWebView addGestureRecognizer: swipeRight];
+  [_aboutWebView addGestureRecognizer: swipeLeft];
   
 }
 
@@ -113,7 +114,7 @@
 {
   [super viewDidUnload];
   // Release any retained subviews of the main view.
-  aboutWebView = nil;
+  _aboutWebView = nil;
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation
@@ -135,7 +136,7 @@
 
 -(void) didReceiveRightSwipe: (UISwipeGestureRecognizer *) gestureRecognizer
 {
-  CGPoint p = [gestureRecognizer locationInView: self.aboutWebView];
+  CGPoint p = [gestureRecognizer locationInView: _aboutWebView];
   
   if (p.x < 75)
   {

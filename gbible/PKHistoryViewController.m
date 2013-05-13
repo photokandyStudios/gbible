@@ -50,25 +50,28 @@
 
 @interface PKHistoryViewController ()
 
+
+
 @end
 
 @implementation PKHistoryViewController
-
-@synthesize history;
-@synthesize noResults;
+{
+  NSArray *__strong _history;
+  UILabel *__strong _noResults;
+}
 
 -(void)reloadHistory
 {
-  history = [(PKHistory *)[PKHistory instance] mostRecentHistory];
+  _history = [[PKHistory instance] mostRecentHistory];
   [self.tableView reloadData];
   
-  if ([history count] == 0)
+  if ([_history count] == 0)
   {
-    noResults.text = __Tv(@"no-history", @"You've no history.");
+    _noResults.text = __Tv(@"no-history", @"You've no history.");
   }
   else
   {
-    noResults.text = @"";
+    _noResults.text = @"";
   }
 }
 
@@ -93,23 +96,23 @@
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
   CGRect theRect = CGRectMake(0, self.tableView.center.y + 20, 260, 60);
-  noResults                  = [[UILabel alloc] initWithFrame: theRect];
-  noResults.textColor        = [PKSettings PKTextColor];
-  noResults.font             = [UIFont fontWithName: @"Zapfino" size: 15];
-  noResults.textAlignment    = UITextAlignmentCenter;
-  noResults.backgroundColor  = [UIColor clearColor];
-  noResults.shadowColor      = [UIColor clearColor];
-  noResults.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-  noResults.numberOfLines    = 0;
-  [self.view addSubview: noResults];
+  _noResults                  = [[UILabel alloc] initWithFrame: theRect];
+  _noResults.textColor        = [PKSettings PKTextColor];
+  _noResults.font             = [UIFont fontWithName: @"Zapfino" size: 15];
+  _noResults.textAlignment    = UITextAlignmentCenter;
+  _noResults.backgroundColor  = [UIColor clearColor];
+  _noResults.shadowColor      = [UIColor clearColor];
+  _noResults.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+  _noResults.numberOfLines    = 0;
+  [self.view addSubview: _noResults];
   self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 
 -(void)viewDidUnload
 {
   [super viewDidUnload];
-  history   = nil;
-  noResults = nil;
+  _history   = nil;
+  _noResults = nil;
 }
 
 -(void) updateAppearanceForTheme
@@ -163,7 +166,7 @@
 -(NSInteger)tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
   // Return the number of rows in the section.
-  return [history count];
+  return [_history count];
 }
 
 -(UITableViewCell *)tableView: (UITableView *) tableView cellForRowAtIndexPath: (NSIndexPath *) indexPath
@@ -182,7 +185,7 @@
   cell.textLabel.textColor = [PKSettings PKSidebarTextColor];
   cell.textLabel.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   
-  NSString *theHistoryItem = [history objectAtIndex: row];
+  NSString *theHistoryItem = [_history objectAtIndex: row];
   
   if ([theHistoryItem characterAtIndex: 0] == 'P')
   {
@@ -217,7 +220,7 @@
 -(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath
 {
   NSUInteger row               = [indexPath row];
-  NSString *theHistoryItem     = [history objectAtIndex: row];
+  NSString *theHistoryItem     = [_history objectAtIndex: row];
   
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
   

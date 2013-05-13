@@ -40,7 +40,7 @@
 
 @interface PKHighlights : NSObject
 
-+(id)                   instance;
++(PKHighlights *)                   instance;
 -(int)                  countHighlights;
 -(NSMutableArray *)     allHighlightedReferences;
 -(NSMutableDictionary *)allHighlightedReferencesForBook: (int) theBook andChapter: (int) theChapter;

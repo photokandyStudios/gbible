@@ -46,12 +46,14 @@
 
 @interface PKHighlightsViewController ()
 
+
 @end
 
 @implementation PKHighlightsViewController
-
-@synthesize highlights;
-@synthesize noResults;
+{
+  NSArray *__strong _highlights;
+  UILabel *__strong _noResults;
+}
 
 # pragma mark -
 # pragma mark view lifecycle
@@ -87,15 +89,15 @@
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
   CGRect theRect = CGRectMake(0, self.tableView.center.y + 20, 260, 60);
-  noResults                  = [[UILabel alloc] initWithFrame: theRect];
-  noResults.textColor        = [PKSettings PKTextColor];
-  noResults.font             = [UIFont fontWithName: @"Zapfino" size: 15];
-  noResults.textAlignment    = UITextAlignmentCenter;
-  noResults.backgroundColor  = [UIColor clearColor];
-  noResults.shadowColor      = [UIColor clearColor];
-  noResults.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-  noResults.numberOfLines    = 0;
-  [self.view addSubview: noResults];
+  _noResults                  = [[UILabel alloc] initWithFrame: theRect];
+  _noResults.textColor        = [PKSettings PKTextColor];
+  _noResults.font             = [UIFont fontWithName: @"Zapfino" size: 15];
+  _noResults.textAlignment    = UITextAlignmentCenter;
+  _noResults.backgroundColor  = [UIColor clearColor];
+  _noResults.shadowColor      = [UIColor clearColor];
+  _noResults.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+  _noResults.numberOfLines    = 0;
+  [self.view addSubview: _noResults];
   self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 
@@ -107,16 +109,16 @@
 -(void)reloadHighlights
 {
   // load all highlights
-  highlights = [[PKHighlights instance] allHighlightedReferences];
+  _highlights = [[PKHighlights instance] allHighlightedReferences];
   [self.tableView reloadData];
   
-  if ([highlights count] == 0)
+  if ([_highlights count] == 0)
   {
-    noResults.text = __Tv(@"no-highlights", @"You've no highlights.");
+    _noResults.text = __Tv(@"no-highlights", @"You've no highlights.");
   }
   else
   {
-    noResults.text = @"";
+    _noResults.text = @"";
   }
 }
 
@@ -155,8 +157,8 @@
 {
   [super viewDidUnload];
   // Release any retained subviews of the main view.
-  highlights = nil;
-  noResults  = nil;
+  _highlights = nil;
+  _noResults  = nil;
 }
 
 /**
@@ -203,7 +205,7 @@
  */
 -(NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
-  return [highlights count];
+  return [_highlights count];
 }
 
 /**
@@ -225,7 +227,7 @@
   
   NSUInteger row             = [indexPath row];
   
-  PKReference *theReference       = [highlights objectAtIndex: row];
+  PKReference *theReference       = [_highlights objectAtIndex: row];
   int theBook                = theReference.book  ;
   int theChapter             = theReference.chapter;
   int theVerse               = theReference.verse;
@@ -250,7 +252,7 @@
 -(void) tableView: (UITableView *) tableView willDisplayCell: (UITableViewCell *) cell forRowAtIndexPath: (NSIndexPath *) indexPath
 {
   NSUInteger row       = [indexPath row];
-  PKReference *theReference = [highlights objectAtIndex: row];
+  PKReference *theReference = [_highlights objectAtIndex: row];
   
   UIColor *theColor    = [[PKHighlights instance] highlightForReference: theReference];
   
@@ -272,7 +274,7 @@
 -(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath
 {
   NSUInteger row             = [indexPath row];
-  PKReference *theReference       = [highlights objectAtIndex: row];
+  PKReference *theReference       = [_highlights objectAtIndex: row];
   int theBook                = theReference.book;
   int theChapter             = theReference.chapter;
   int theVerse               = theReference.verse;

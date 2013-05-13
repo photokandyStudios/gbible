@@ -67,40 +67,24 @@ const int SECTION_THIRD_PARTY = 5;
 
 @interface PKSettingsController ()
 
-@property (nonatomic, strong) UIPopoverController *PO;
-@property (strong, nonatomic) NSArray *layoutSettings;
-@property (strong, nonatomic) NSArray *textSettings;
-@property (strong, nonatomic) NSArray *iCloudSettings;
-@property (strong, nonatomic) NSArray *importSettings;
-@property (strong, nonatomic) NSArray *exportSettings;
-@property (strong, nonatomic) NSArray *versionSettings;
-@property (strong, nonatomic) NSArray *thirdPartyComponents;
-@property (strong, nonatomic) NSArray *thirdPartyComponentURLs;
-
-@property (strong, nonatomic) NSArray *settingsGroup;
-
-@property (strong, nonatomic) NSIndexPath *currentPathForPopover;
-@property (strong, nonatomic) UITableViewCell *theTableCell;
 
 @end
 
 @implementation PKSettingsController
-
-@synthesize layoutSettings;
-@synthesize textSettings;
-@synthesize iCloudSettings;
-@synthesize importSettings;
-@synthesize exportSettings;
-@synthesize versionSettings;
-@synthesize thirdPartyComponents;
-@synthesize thirdPartyComponentURLs;
-
-@synthesize settingsGroup;
-
-@synthesize currentPathForPopover;
-@synthesize theTableCell;
-
-@synthesize PO;
+{
+  UIPopoverController * __strong _PO;
+  NSArray * __strong _layoutSettings;
+  NSArray * __strong _textSettings;
+  NSArray * __strong _iCloudSettings;
+  NSArray * __strong _importSettings;
+  NSArray * __strong _exportSettings;
+  NSArray * __strong _versionSettings;
+  NSArray * __strong _thirdPartyComponents;
+  NSArray * __strong _thirdPartyComponentURLs;
+  NSArray * __strong _settingsGroup;
+  NSIndexPath * __strong _currentPathForPopover;
+  UITableViewCell * __strong _theTableCell;
+}
 
 /**
  *
@@ -134,7 +118,7 @@ const int SECTION_THIRD_PARTY = 5;
 {
   if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
   {
-    layoutSettings = @[
+    _layoutSettings = @[
                        @[ __T(@"Compress Right Side"), @2, @"compress-right-side"],
                        @[ __T(@"Extend Highlights"), @2, @"extend-highlights" ],
                        @[ __T(@"Strong's On Top"), @2, @"strongs-on-top" ],
@@ -144,7 +128,7 @@ const int SECTION_THIRD_PARTY = 5;
   }
   else
   {
-    layoutSettings = @[
+    _layoutSettings = @[
                        @[ __T(@"Layout..."), @0 ],
                        @[ __T(@"Compress Right Side"), @2, @"compress-right-side"],
                        @[ __T(@"Extend Highlights"), @2, @"extend-highlights" ],
@@ -157,7 +141,7 @@ const int SECTION_THIRD_PARTY = 5;
 
   if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
   {
-    textSettings = @[
+    _textSettings = @[
                       @[ __T(@"Left Text") , @3, PK_SETTING_GREEKTEXT, [PKBible availableOriginalTexts: PK_TBL_BIBLES_ID],
                                                                        [PKBible availableOriginalTexts: PK_TBL_BIBLES_NAME] ],
                       @[ __T(@"Right Text"), @3, PK_SETTING_ENGLISHTEXT, [PKBible availableHostTexts: PK_TBL_BIBLES_ID],
@@ -168,7 +152,7 @@ const int SECTION_THIRD_PARTY = 5;
   }
   else
   {
-    textSettings = @[
+    _textSettings = @[
                       @[ __T(@"Left Text") , @3, PK_SETTING_GREEKTEXT, [PKBible availableOriginalTexts: PK_TBL_BIBLES_ID],
                                                                        [PKBible availableOriginalTexts: PK_TBL_BIBLES_NAME] ],
                       @[ __T(@"Right Text"), @3, PK_SETTING_ENGLISHTEXT, [PKBible availableHostTexts: PK_TBL_BIBLES_ID],
@@ -187,17 +171,17 @@ const int SECTION_THIRD_PARTY = 5;
   //                                            nil];
   
   
-  importSettings = @[
+  _importSettings = @[
                       @[ __T(@"Import Annotations"), @0 ],
                       @[ __T(@"Import Highlights"), @0 ],
                       @[ __T(@"Import Everything"), @0 ]
                     ];
        
-  exportSettings  = @[
+  _exportSettings  = @[
                       @[ __T(@"Export"), @0 ]
                      ];
 
-  versionSettings = @[
+  _versionSettings = @[
                       @[ [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"], @0 ],
                       @[ __Tv(@"Anonymous Usage Statistics", @"Anonymous Usage Statistics?"), @2, @"usage-stats" ],
                       @[ __T(@"Rate this app..."), @0 ],
@@ -206,7 +190,7 @@ const int SECTION_THIRD_PARTY = 5;
                       @[ __T(@"Help and About..."), @0 ]
                      ];
 
-  thirdPartyComponents = @[
+  _thirdPartyComponents = @[
                             @[ @"AccessibleSegmentedController © 2012 Wooji Juice", @0 ],
                             @[ @"Arev Sans by Tavmjong Bah", @0 ],
                             @[ @"CoolButtons © 2011 Jess Martin", @0 ],
@@ -229,7 +213,7 @@ const int SECTION_THIRD_PARTY = 5;
                             @[ @"WKVerticalScrollBar © 2012 litl, LLC, and authors", @0 ],
                             @[ @"ZUIIRevealController © 2011, Philip Kluz", @0 ]
                           ];
-  thirdPartyComponentURLs = @[ @"http://www.wooji-juice.com/blog/segmented-control-accessibility.html",
+  _thirdPartyComponentURLs = @[ @"http://www.wooji-juice.com/blog/segmented-control-accessibility.html",
                                @"http://tavmjong.free.fr/FONTS/",
                                @"https://github.com/jessmartin/CoolButtons",
                                @"https://github.com/ccgus/fmdb",
@@ -252,8 +236,8 @@ const int SECTION_THIRD_PARTY = 5;
                                @"https://github.com/pkluz/ZUUIRevealController"
                             ];
 
-  settingsGroup = @[textSettings, layoutSettings,   // iCloudSettings,
-                   exportSettings, importSettings, versionSettings, thirdPartyComponents];
+  _settingsGroup = @[_textSettings, _layoutSettings,   // iCloudSettings,
+                   _exportSettings, _importSettings, _versionSettings, _thirdPartyComponents];
 }
 
 /**
@@ -293,13 +277,15 @@ const int SECTION_THIRD_PARTY = 5;
 {
   [super viewDidUnload];
   // Release any retained subviews of the main view.
-  settingsGroup   = nil;
-  exportSettings  = nil;
-  importSettings  = nil;
+  _settingsGroup   = nil;
+  _exportSettings  = nil;
+  _importSettings  = nil;
   // iCloudSettings = nil;
-  textSettings    = nil;
-  layoutSettings  = nil;
-  versionSettings = nil;
+  _textSettings    = nil;
+  _layoutSettings  = nil;
+  _versionSettings = nil;
+  _thirdPartyComponents = nil;
+  _thirdPartyComponentURLs = nil;
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -433,7 +419,7 @@ const int SECTION_THIRD_PARTY = 5;
  */
 -(NSInteger) numberOfSectionsInTableView: (UITableView *) tableView
 {
-  return [settingsGroup count];
+  return [_settingsGroup count];
 }
 
 /**
@@ -443,7 +429,7 @@ const int SECTION_THIRD_PARTY = 5;
  */
 -(NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
-  return [[self.settingsGroup objectAtIndex: section] count];
+  return [[_settingsGroup objectAtIndex: section] count];
 }
 
 -(CGFloat)tableView: (UITableView *) tableView heightForHeaderInSection: (NSInteger) section
@@ -526,7 +512,7 @@ const int SECTION_THIRD_PARTY = 5;
 
   NSUInteger section = [indexPath section];
   NSUInteger row     = [indexPath row];
-  NSArray *cellData  = [[settingsGroup objectAtIndex: section] objectAtIndex: row];
+  NSArray *cellData  = [[_settingsGroup objectAtIndex: section] objectAtIndex: row];
 
   cell.textLabel.text      = [cellData objectAtIndex: 0];
   cell.textLabel.numberOfLines=0;
@@ -543,14 +529,14 @@ const int SECTION_THIRD_PARTY = 5;
 
   case 1 :      // here we want a disclosure arrow and the current setting
                 
-    cell.detailTextLabel.text = [(PKSettings *)[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]];
+    cell.detailTextLabel.text = [[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]];
     break;
 
   case 2 :      // here we want to display a checkbox if YES; none if NO
                 // FIX ISSUE #48
     cell.detailTextLabel.text = __T(@"No");
 
-    if ([[(PKSettings *)[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]] boolValue])
+    if ([[[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]] boolValue])
     {
       cell.detailTextLabel.text = __T(@"Yes");
     }
@@ -559,7 +545,7 @@ const int SECTION_THIRD_PARTY = 5;
   case 3 :      // here we want a disclosure arrow, current settings, and lookup
     ;             
                   // first, get the setting
-    NSString *theSetting      = [(PKSettings *)[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]];
+    NSString *theSetting      = [[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]];
     // now, convert it to an NSNumber
     NSNumber *theSettingValue = [NSNumber numberWithInt: [theSetting integerValue]];
     // find it in the cell's 3rd array
@@ -594,7 +580,7 @@ const int SECTION_THIRD_PARTY = 5;
   UIActionSheet *popover;
   NSUInteger section       = [indexPath section];
   NSUInteger row           = [indexPath row];
-  NSArray *cellData        = [[settingsGroup objectAtIndex: section] objectAtIndex: row];
+  NSArray *cellData        = [[_settingsGroup objectAtIndex: section] objectAtIndex: row];
   BOOL curValue;
   UITableViewCell *newCell = [tableView cellForRowAtIndexPath: indexPath];
 
@@ -621,13 +607,13 @@ const int SECTION_THIRD_PARTY = 5;
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
-          if (PO)
+          if (_PO)
           {
-            [PO dismissPopoverAnimated: NO];
+            [_PO dismissPopoverAnimated: NO];
           }
-          PO = [[UIPopoverController alloc] initWithContentViewController: LC];
-          [PO setPopoverContentSize: CGSizeMake(320, 420) animated: NO];
-          [PO presentPopoverFromRect:self.view.bounds inView:self.view permittedArrowDirections:0 animated:YES];
+          _PO = [[UIPopoverController alloc] initWithContentViewController: LC];
+          [_PO setPopoverContentSize: CGSizeMake(320, 420) animated: NO];
+          [_PO presentPopoverFromRect:self.view.bounds inView:self.view permittedArrowDirections:0 animated:YES];
         }
         else
         {
@@ -641,7 +627,7 @@ const int SECTION_THIRD_PARTY = 5;
       {
         title = __T(@"Export Operation");
 
-        if ([(PKDatabase *)[PKDatabase instance] exportAll])
+        if ([[PKDatabase instance] exportAll])
         {
           UIAlertView *theAlertView =
             [[UIAlertView alloc] initWithTitle: title message: __T(@"Done!") delegate: self cancelButtonTitle: nil
@@ -657,7 +643,7 @@ const int SECTION_THIRD_PARTY = 5;
 
         if (row == 0)
         {
-          if ([(PKDatabase *)[PKDatabase instance] importNotes])
+          if ([[PKDatabase instance] importNotes])
           {
             UIAlertView *theAlertView =
               [[UIAlertView alloc] initWithTitle: title message: __T(@"Done!") delegate: self cancelButtonTitle: nil
@@ -669,7 +655,7 @@ const int SECTION_THIRD_PARTY = 5;
 
         if (row == 1)
         {
-          if ([(PKDatabase *)[PKDatabase instance] importHighlights])
+          if ([[PKDatabase instance] importHighlights])
           {
             UIAlertView *theAlertView =
               [[UIAlertView alloc] initWithTitle: title message: __T(@"Done!") delegate: self cancelButtonTitle: nil
@@ -681,11 +667,11 @@ const int SECTION_THIRD_PARTY = 5;
 
         if (row == 2)
         {
-          if ([(PKDatabase *)[PKDatabase instance] importNotes])
+          if ([[PKDatabase instance] importNotes])
           {
-            if ([(PKDatabase *)[PKDatabase instance] importHighlights])
+            if ([[PKDatabase instance] importHighlights])
             {
-              if ([(PKDatabase *)[PKDatabase instance] importSettings])
+              if ([[PKDatabase instance] importSettings])
               {
                 UIAlertView *theAlertView =
                   [[UIAlertView alloc] initWithTitle: title message: __T(@"Done!") delegate: self cancelButtonTitle: nil
@@ -735,7 +721,7 @@ const int SECTION_THIRD_PARTY = 5;
       }
       if (section == SECTION_THIRD_PARTY)
       {
-          NSURL *theURL = [NSURL URLWithString:[thirdPartyComponentURLs objectAtIndex:row ]];
+          NSURL *theURL = [NSURL URLWithString:[_thirdPartyComponentURLs objectAtIndex:row ]];
           TSMiniWebBrowser *wb = [[TSMiniWebBrowser alloc] initWithUrl: theURL];
           wb.showURLStringOnActionSheetTitle = YES;
           wb.showPageTitleOnTitleBar         = YES;
@@ -762,13 +748,13 @@ const int SECTION_THIRD_PARTY = 5;
     }
     [popover addButtonWithTitle: __T(@"Cancel")];
     popover.cancelButtonIndex = popover.numberOfButtons - 1;
-    currentPathForPopover     = indexPath;
-    theTableCell              = newCell;
+    _currentPathForPopover     = indexPath;
+    _theTableCell              = newCell;
     [popover showInView: self.view]; 
     break;
 
   case 2:       // we're on a cell that we need to toggle the checkmark on
-    curValue                     = [[(PKSettings *)[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]] boolValue];
+    curValue                     = [[[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]] boolValue];
     [[PKSettings instance] saveSetting: [cellData objectAtIndex: 2] valueForSetting: (!curValue ? @"YES": @"NO")];
     [[PKSettings instance] reloadSettings];
     newCell.detailTextLabel.text = (!curValue) ? __T(@"Yes") : __T(@"No");
@@ -788,8 +774,8 @@ const int SECTION_THIRD_PARTY = 5;
     }
     [popover addButtonWithTitle: __T(@"Cancel")];
     popover.cancelButtonIndex = popover.numberOfButtons - 1;
-    currentPathForPopover     = indexPath;
-    theTableCell              = newCell;
+    _currentPathForPopover     = indexPath;
+    _theTableCell              = newCell;
     [popover showInView: self.view]; 
     break;
   }
@@ -808,17 +794,17 @@ const int SECTION_THIRD_PARTY = 5;
  */
 -(void)actionSheet: (UIActionSheet *) actionSheet didDismissWithButtonIndex: (NSInteger) buttonIndex
 {
-  NSUInteger section = [currentPathForPopover section];
-  NSUInteger row     = [currentPathForPopover row];
-  NSArray *cellData  = [[settingsGroup objectAtIndex: section] objectAtIndex: row];
+  NSUInteger section = [_currentPathForPopover section];
+  NSUInteger row     = [_currentPathForPopover row];
+  NSArray *cellData  = [[_settingsGroup objectAtIndex: section] objectAtIndex: row];
   NSString *selectedValue;
   NSString *settingValue;
 
   // handle Cancel being pressed...
   if (buttonIndex == actionSheet.cancelButtonIndex)
   {
-    currentPathForPopover = nil;
-    theTableCell          = nil;
+    _currentPathForPopover = nil;
+    _theTableCell          = nil;
     return;     // no action
   }
 
@@ -828,7 +814,7 @@ const int SECTION_THIRD_PARTY = 5;
     selectedValue                     = [[cellData objectAtIndex: 3] objectAtIndex: buttonIndex];
     [[PKSettings instance] saveSetting: [cellData objectAtIndex: 2] valueForSetting: selectedValue];
     [[PKSettings instance] reloadSettings];
-    theTableCell.detailTextLabel.text = selectedValue;
+    _theTableCell.detailTextLabel.text = selectedValue;
     break;
 
   case 3:       // we're a lookup popover
@@ -836,7 +822,7 @@ const int SECTION_THIRD_PARTY = 5;
     settingValue                      = [[cellData objectAtIndex: 3] objectAtIndex: buttonIndex];
     [[PKSettings instance] saveSetting: [cellData objectAtIndex: 2] valueForSetting: settingValue];
     [[PKSettings instance] reloadSettings];
-    theTableCell.detailTextLabel.text = selectedValue;
+    _theTableCell.detailTextLabel.text = selectedValue;
     break;
   }
 
@@ -846,8 +832,8 @@ const int SECTION_THIRD_PARTY = 5;
     [[PKAppDelegate sharedInstance] updateAppearanceForTheme];
   }
 
-  theTableCell          = nil;
-  currentPathForPopover = nil;
+  _theTableCell          = nil;
+  _currentPathForPopover = nil;
 }
 
 -(void) didReceiveRightSwipe: (UISwipeGestureRecognizer *) gestureRecognizer

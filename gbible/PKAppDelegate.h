@@ -69,7 +69,7 @@
 
 @property CGFloat brightness;
 
-+(id) instance;
++(PKAppDelegate *) instance;
 +(PKAppDelegate *) sharedInstance;
 -(void)updateAppearanceForTheme;
 

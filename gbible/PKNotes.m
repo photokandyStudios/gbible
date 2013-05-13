@@ -44,9 +44,9 @@
 
 @implementation PKNotes
 
-static id _instance;
+static PKNotes * _instance;
 
-+(id) instance
++(PKNotes *) instance
 {
   @synchronized(self) {
     if (!_instance)
@@ -63,7 +63,7 @@ static id _instance;
 -(void) createSchema
 {
   // get local versions of our databases
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
 
   [content inDatabase:^(FMDatabase *db)
     {
@@ -88,10 +88,10 @@ static id _instance;
   
 }
 
--(int)  countNotes;
+-(int)  countNotes
 {
   __block int theCount        = 0;
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
 
   [content inDatabase:^(FMDatabase *db)
     {
@@ -108,13 +108,13 @@ static id _instance;
   return theCount;
 }
 
--(void) setNote: (NSString *) theNote withTitle: (NSString *) theTitle forReference: (PKReference *) theReference;
+-(void) setNote: (NSString *) theNote withTitle: (NSString *) theTitle forReference: (PKReference *) theReference
 {
   NSNumber *theBook    = @(theReference.book);
   NSNumber *theChapter = @(theReference.chapter);
   NSNumber *theVerse   = @(theReference.verse);
   
-  FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content  = [PKDatabase instance].content;
 
   [content inDatabase:^(FMDatabase *db)
     {
@@ -157,7 +157,7 @@ static id _instance;
   NSNumber *theChapter = @(theReference.chapter);
   NSNumber *theVerse   = @(theReference.verse);
   
-  FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content  = [PKDatabase instance].content;
 
   [content inDatabase:^(FMDatabase *db)
     {
@@ -173,7 +173,7 @@ static id _instance;
   
 }
 
--(NSArray *)getNoteForReference: (PKReference *) theReference;
+-(NSArray *)getNoteForReference: (PKReference *) theReference
 {
   NSNumber *theBook    = @(theReference.book);
   NSNumber *theChapter = @(theReference.chapter);
@@ -181,7 +181,7 @@ static id _instance;
   
   __block NSArray *theResult;
   
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
 
   [content inDatabase:^(FMDatabase *db)
     {
@@ -207,9 +207,9 @@ static id _instance;
   return theResult;
 }
 
--(NSMutableArray *)allNotes;
+-(NSMutableArray *)allNotes
 {
-  FMDatabaseQueue *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content      = [PKDatabase instance].content;
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
 
   [content inDatabase:^(FMDatabase *db)
@@ -242,7 +242,7 @@ static id _instance;
   if (!searchPhrase) return nil;
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
 
-  FMDatabaseQueue *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content      = [PKDatabase instance].content;
 
   [content inDatabase:^(FMDatabase *db)
     {

@@ -41,22 +41,21 @@
 
 @implementation PKSimpleCollectionViewCell
 
-@synthesize label;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.label = [[UILabel alloc] initWithFrame:CGRectMake(5,5, frame.size.width-10, frame.size.height-10)];
-        self.label.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-        self.label.textAlignment = UITextAlignmentCenter;
+        _label = [[UILabel alloc] initWithFrame:CGRectMake(5,5, frame.size.width-10, frame.size.height-10)];
+        _label.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+        _label.textAlignment = UITextAlignmentCenter;
         //self.label.font = [UIFont boldSystemFontOfSize:50.0];
-        self.label.backgroundColor = [UIColor clearColor];
-        self.label.textColor = [PKSettings PKTextColor];
-        self.label.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
-        self.label.adjustsFontSizeToFitWidth = YES;
-        [self.contentView addSubview:label];
+        _label.backgroundColor = [UIColor clearColor];
+        _label.textColor = [PKSettings PKTextColor];
+        _label.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
+        _label.adjustsFontSizeToFitWidth = YES;
+        [self.contentView addSubview:_label];
     }
     return self;
 }

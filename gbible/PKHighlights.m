@@ -43,14 +43,14 @@
 
 @implementation PKHighlights
 
-static id _instance;
+static PKHighlights * _instance;
 
 /**
  *
  * Return the global instance of the highlights model.
  *
  */
-+(id) instance
++(PKHighlights *) instance
 {
   @synchronized(self) {
     if (!_instance)
@@ -73,7 +73,7 @@ static id _instance;
 -(void) createSchema
 {
   // get local versions of our databases
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
   
   [content inDatabase:^(FMDatabase *db)
     {
@@ -104,7 +104,7 @@ static id _instance;
  */
 -(int) countHighlights
 {
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
 
   __block int theCount        = 0;
   [content inDatabase:^(FMDatabase *db)
@@ -130,7 +130,7 @@ static id _instance;
  */
 -(NSMutableArray *)allHighlightedReferences
 {
-  FMDatabaseQueue *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content      = [PKDatabase instance].content;
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
 
   [content inDatabase:^(FMDatabase *db)
@@ -162,7 +162,7 @@ static id _instance;
  */
 -(NSMutableDictionary *)allHighlightedReferencesForBook: (int) theBook andChapter: (int) theChapter
 {
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
   NSMutableDictionary *theArray = [[NSMutableDictionary alloc] init];
 
   [content inDatabase:^(FMDatabase *db)
@@ -209,7 +209,7 @@ static id _instance;
   NSNumber *theChapter = @(theReference.chapter);
   NSNumber *theVerse   = @(theReference.verse);
 
-  FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content  = [PKDatabase instance].content;
 
   [content inDatabase:^(FMDatabase *db)
     {
@@ -248,7 +248,7 @@ static id _instance;
   NSNumber *theChapter = @(theReference.chapter);
   NSNumber *theVerse   = @(theReference.verse);
   
-  FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content  = [PKDatabase instance].content;
   
   float red            = 0.0;
   float green          = 0.0;
@@ -319,7 +319,7 @@ static id _instance;
   NSNumber *theChapter = @(theReference.chapter);
   NSNumber *theVerse   = @(theReference.verse);
   
-  FMDatabaseQueue *content  = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content  = [PKDatabase instance].content;
 
   [content inDatabase:^(FMDatabase *db)
     {

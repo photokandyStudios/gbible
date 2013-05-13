@@ -45,31 +45,20 @@
 
 @implementation PKLabel
 
-@synthesize frame;
-@synthesize shadowOffset;
-@synthesize tag;
-@synthesize secondTag;
-@synthesize text;
-@synthesize textColor;
-@synthesize backgroundColor;
-@synthesize shadowColor;
-@synthesize font;
-@synthesize trait;
-
 -(id) init
 {
   self = [super init];
   
   if (self)
   {
-    shadowColor     = nil;
-    shadowOffset    = CGSizeMake(1.0, 1.0);
-    tag             = 0;
-    text            = @"";
-    textColor       = [UIColor blackColor];
-    backgroundColor = nil;
-    font            = [UIFont fontWithName: @"Helvetica" size: 14];
-    trait        = @"";
+    _shadowColor     = nil;
+    _shadowOffset    = CGSizeMake(1.0, 1.0);
+    _tag             = 0;
+    _text            = @"";
+    _textColor       = [UIColor blackColor];
+    _backgroundColor = nil;
+    _font            = [UIFont fontWithName: @"Helvetica" size: 14];
+    _trait        = @"";
   }
   return self;
 }
@@ -80,47 +69,47 @@
   
   if (self)
   {
-    frame = theFrame;
+    _frame = theFrame;
   }
   return self;
 }
 
 -(void) draw: (CGContextRef) theCtx
 {
-  UIFont *theFont = font;
+  UIFont *theFont = _font;
   // just for kicks
   //if ([text rangeOfString:@"/"].location != NSNotFound) theFont = font.italicFont;
   
   CGContextSaveGState(theCtx);
   {
-    if (backgroundColor)
+    if (_backgroundColor)
     {
-      CGContextSetFillColorWithColor(theCtx, backgroundColor.CGColor);
-      CGContextFillRect(theCtx, frame);
+      CGContextSetFillColorWithColor(theCtx, _backgroundColor.CGColor);
+      CGContextFillRect(theCtx, _frame);
     }
     
-    if (shadowColor)
+    if (_shadowColor)
     {
-      CGContextSetFillColorWithColor(theCtx, shadowColor.CGColor);
-      CGRect newFrame = frame;
-      newFrame.origin.x += shadowOffset.width;
-      newFrame.origin.y += shadowOffset.height;
-      [text drawInRect: newFrame withFont: theFont];
+      CGContextSetFillColorWithColor(theCtx, _shadowColor.CGColor);
+      CGRect newFrame = _frame;
+      newFrame.origin.x += _shadowOffset.width;
+      newFrame.origin.y += _shadowOffset.height;
+      [_text drawInRect: newFrame withFont: theFont];
     }
-    CGContextSetFillColorWithColor(theCtx, textColor.CGColor);
-    [text drawInRect: frame withFont: theFont];
+    CGContextSetFillColorWithColor(theCtx, _textColor.CGColor);
+    [_text drawInRect: _frame withFont: theFont];
   }
   CGContextRestoreGState(theCtx);
 }
 
 -(void) dealloc
 {
-  text            = nil;
-  backgroundColor = nil;
-  shadowColor     = nil;
-  textColor       = nil;
-  font            = nil;
-  trait        = nil;
+  _text            = nil;
+  _backgroundColor = nil;
+  _shadowColor     = nil;
+  _textColor       = nil;
+  _font            = nil;
+  _trait        = nil;
 }
 
 @end

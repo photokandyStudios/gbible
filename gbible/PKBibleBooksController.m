@@ -49,9 +49,6 @@
 
 @implementation PKBibleBooksController
 
-//@synthesize theCollectionView;
-@synthesize delegate;
-
 # pragma mark -
 # pragma mark view lifecycle
 
@@ -90,7 +87,7 @@
   [self.collectionView registerClass:[PKSimpleCollectionViewCell class] forCellWithReuseIdentifier:@"simple-cell"];
   //self.collectionView.bounds = CGRectMake (0,0, 260, 500);
   
-  if (delegate)
+  if (_delegate)
   {
     UIBarButtonItem *closeButton =
       [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
@@ -116,7 +113,7 @@
  */
 -(void)viewDidAppear: (BOOL) animated
 {
-  if (!delegate)
+  if (!_delegate)
   {
     CGRect newFrame = self.navigationController.view.frame;
     newFrame.size.width                  = 260;
@@ -139,7 +136,7 @@
  */
 -(void)didAnimateFirstHalfOfRotationToInterfaceOrientation: (UIInterfaceOrientation) toInterfaceOrientation
 {
-  if (!delegate)
+  if (!_delegate)
   {
     CGRect newFrame = self.navigationController.view.frame;
     newFrame.size.width                  = 260;
@@ -149,7 +146,7 @@
 
 -(void)didRotateFromInterfaceOrientation: (UIInterfaceOrientation) fromInterfaceOrientation
 {
-  if (!delegate)
+  if (!_delegate)
   {
     CGRect newFrame = self.navigationController.view.frame;
     newFrame.size.width                  = 260;

@@ -40,9 +40,11 @@
 
 @implementation PKReference
 
+/*
 @synthesize book = _book;
 @synthesize chapter = _chapter;
 @synthesize verse = _verse;
+*/
 
 +(PKReference *)referenceWithBook: (int)theBook andChapter:(int)theChapter andVerse:(int)theVerse
 {

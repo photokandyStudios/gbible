@@ -43,9 +43,9 @@
 
 @implementation PKHistory
 
-static id _instance;
+static PKHistory * _instance;
 
-+(id) instance
++(PKHistory *) instance
 {
   @synchronized(self) {
     if (!_instance)
@@ -66,7 +66,7 @@ static id _instance;
 
 -(NSMutableArray *)mostRecentReferencesWithLimit: (int) theLimit
 {
-  FMDatabaseQueue *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content      = [PKDatabase instance].content;
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
 
   [content inDatabase:^(FMDatabase *db)
@@ -98,7 +98,7 @@ static id _instance;
 
 -(NSMutableArray *)mostRecentHistoryWithLimit: (int) theLimit
 {
-  FMDatabaseQueue *content      = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content      = [PKDatabase instance].content;
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
 
   [content inDatabase:^(FMDatabase *db)
@@ -145,7 +145,7 @@ static id _instance;
 
 -(void) addBibleSearch: (NSString *) theSearchTerm
 {
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
 
   [content inDatabase:^(FMDatabase *db)
     {
@@ -165,7 +165,7 @@ static id _instance;
 
 -(void) addStrongsSearch: (NSString *) theStrongsTerm
 {
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
   [content inDatabase:^(FMDatabase *db)
     {
       BOOL theResult      = YES;
@@ -191,7 +191,7 @@ static id _instance;
 
 -(void) addReferenceWithBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse
 {
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
   [content inDatabase:^(FMDatabase *db)
     {
       BOOL theResult      = YES;
@@ -213,7 +213,7 @@ static id _instance;
 -(void) createSchema
 {
   // get local versions of our databases
-  FMDatabaseQueue *content = ( (PKDatabase *)[PKDatabase instance] ).content;
+  FMDatabaseQueue *content = [PKDatabase instance].content;
 
   [content inDatabase:^(FMDatabase *db)
     {

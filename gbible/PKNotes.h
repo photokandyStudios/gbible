@@ -40,7 +40,7 @@
 
 @interface PKNotes : NSObject
 
-    +(id) instance;
+    +(PKNotes *) instance;
     
     -(void) createSchema;
     -(int)  countNotes;

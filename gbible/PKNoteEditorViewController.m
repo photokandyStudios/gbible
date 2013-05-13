@@ -54,29 +54,30 @@
 
 @interface PKNoteEditorViewController ()
 
-@property (nonatomic, strong) UIPopoverController *PO;
 
 @end
 
 @implementation PKNoteEditorViewController
 {
   KBKeyboardHandler* keyboard;
+
+  UIPopoverController *__strong _PO;
+
+  PKReference *__strong _reference;
+  NSString *__strong _noteTitle;
+  NSString *__strong _note;
+  int _state;
+
+  UITextView *__strong _txtTitle;
+  PKTextView *__strong _txtNote;
+  UIBarButtonItem *__strong _btnDelete;
+  UIBarButtonItem *__strong _btnCancel;
+  UIBarButtonItem *__strong _btnDone;
+
+  TPKeyboardAvoidingScrollView *__strong _scroller;
+
 }
 
-@synthesize state;
-@synthesize reference;
-@synthesize note;
-@synthesize noteTitle;
-
-@synthesize txtTitle;
-@synthesize txtNote;
-@synthesize btnDelete;
-@synthesize btnCancel;
-@synthesize btnDone;
-
-@synthesize scroller;
-
-@synthesize PO;
 
 -(id)init
 {
@@ -95,16 +96,16 @@
   
   if (self)
   {
-    reference = theReference;
+    _reference = theReference;
     int theBook    = theReference.book;
     int theChapter = theReference.chapter;
     int theVerse   = theReference.verse;
     
-    noteTitle = [NSString stringWithFormat: @"%@ %i:%i",
+    _noteTitle = [NSString stringWithFormat: @"%@ %i:%i",
                  [PKBible nameForBook: theBook],
                  theChapter, theVerse];
     
-    note = [NSString stringWithFormat: @"%@\n%@",
+    _note = [NSString stringWithFormat: @"%@\n%@",
             [PKBible getTextForBook: theBook forChapter: theChapter forVerse: theVerse forSide: 1],
             [PKBible getTextForBook: theBook forChapter: theChapter forVerse: theVerse forSide: 2]];
   }
@@ -117,26 +118,26 @@
   
   if (self)
   {
-    reference   = theReference;
-    noteTitle = theTitle;
-    note      = theNote;
+    _reference   = theReference;
+    _noteTitle = theTitle;
+    _note      = theNote;
   }
   return self;
 }
 
 -(void)updateState
 {
-  switch (state)
+  switch (_state)
   {
     case 0:
-      self.navigationItem.leftBarButtonItem  = btnDelete;
-      self.navigationItem.rightBarButtonItem = btnDone;
+      self.navigationItem.leftBarButtonItem  = _btnDelete;
+      self.navigationItem.rightBarButtonItem = _btnDone;
       self.navigationItem.title              = __T(@"Viewing Note");
       break;
       
     case 1:
-      self.navigationItem.leftBarButtonItem  = btnCancel;
-      self.navigationItem.rightBarButtonItem = btnDone;
+      self.navigationItem.leftBarButtonItem  = _btnCancel;
+      self.navigationItem.rightBarButtonItem = _btnDone;
       self.navigationItem.title              = __T(@"Editing Note");
       break;
       
@@ -147,20 +148,20 @@
 
 -(void)loadData
 {
-  NSArray *theNote = [(PKNotes *)[PKNotes instance] getNoteForReference: self.reference];
+  NSArray *theNote = [[PKNotes instance] getNoteForReference: _reference];
   
   if (!theNote)
   {
     // we're creating a note...yay! State will go straight to edit
-    self.state    = 1;      // editing, pull values from default
-    txtTitle.text = noteTitle;
-    txtNote.text  = note;
+    _state    = 1;      // editing, pull values from default
+    _txtTitle.text = _noteTitle;
+    _txtNote.text  = _note;
   }
   else
   {
-    self.state    = 0;      // looking
-    txtTitle.text = [theNote objectAtIndex: 0];
-    txtNote.text  = [theNote objectAtIndex: 1];
+    _state    = 0;      // looking
+    _txtTitle.text = [theNote objectAtIndex: 0];
+    _txtNote.text  = [theNote objectAtIndex: 1];
   }
   [self updateState];
 }
@@ -175,47 +176,47 @@
   UIFont *theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                  andSize: [[PKSettings instance] textFontSize]];
   
-  scroller =
+  _scroller =
   [[TPKeyboardAvoidingScrollView alloc] initWithFrame: CGRectMake(0, 0, self.view.bounds.size.width,
                                                                   self.view.bounds.size.height)];
   
-  txtTitle =
+  _txtTitle =
   [[UITextView alloc] initWithFrame: CGRectMake(10, 10, self.view.bounds.size.width - 20, (theFont.lineHeight*1.5) + 10)];
-  txtNote  =
+  _txtNote  =
   [[PKTextView alloc] initWithFrame: CGRectMake(10, 20 + theFont.lineHeight, self.view.bounds.size.width - 20,
                                                 self.view.bounds.size.height - 52)];
   
   self.view.autoresizesSubviews   = YES;
-  txtTitle.autoresizingMask       = UIViewAutoresizingFlexibleWidth;
-  txtNote.autoresizingMask        = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  _txtTitle.autoresizingMask       = UIViewAutoresizingFlexibleWidth;
+  _txtNote.autoresizingMask        = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
-  txtNote.font           = theFont;
-  txtTitle.font          = [theFont fontWithSizeDeltaPercent:1.5];
+  _txtNote.font           = theFont;
+  _txtTitle.font          = [theFont fontWithSizeDeltaPercent:1.5];
   
   //txtTitle.returnKeyType = UIReturnKeyNext;
   //txtNote.returnKeyType  = UIReturnKeyDefault;
   
-  txtTitle.delegate      = self;
-  txtNote.delegate       = self;
-  txtNote.actionDelegate = self;
+  _txtTitle.delegate      = self;
+  _txtNote.delegate       = self;
+  _txtNote.actionDelegate = self;
   
-  btnDone                = [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStyleDone
+  _btnDone                = [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStyleDone
                                                            target: self
                                                            action: @selector(donePressed:)];
-  btnDelete              = [[UIBarButtonItem alloc] initWithTitle: __T(@"Delete") style: UIBarButtonItemStylePlain
+  _btnDelete              = [[UIBarButtonItem alloc] initWithTitle: __T(@"Delete") style: UIBarButtonItemStylePlain
                                                            target: self
                                                            action: @selector(deletePressed:)];
-  btnCancel              = [[UIBarButtonItem alloc] initWithTitle: __T(@"Cancel") style: UIBarButtonItemStylePlain
+  _btnCancel              = [[UIBarButtonItem alloc] initWithTitle: __T(@"Cancel") style: UIBarButtonItemStylePlain
                                                            target: self
                                                            action: @selector(cancelPressed:)];
   
   self.view.backgroundColor = [UIColor whiteColor];
-  [self.view addSubview: txtTitle];
-  [self.view addSubview: txtNote];
+  [self.view addSubview: _txtTitle];
+  [self.view addSubview: _txtNote];
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
   {
-    [KOKeyboardRow applyToTextView:txtNote];
-    [KOKeyboardRow applyToTextView:txtTitle];
+    [KOKeyboardRow applyToTextView:_txtNote];
+    [KOKeyboardRow applyToTextView:_txtTitle];
   }
   // register for keyboard events
   keyboard = [[KBKeyboardHandler alloc] init];
@@ -228,10 +229,10 @@
 -(void) updateAppearanceForTheme
 {
   self.view.backgroundColor = [PKSettings PKPageColor];
-  self.txtNote.backgroundColor                     = [UIColor clearColor];
-  self.txtTitle.backgroundColor                    = [UIColor clearColor];
-  self.txtNote.textColor                           = [PKSettings PKTextColor];
-  self.txtTitle.textColor                          = [PKSettings PKTextColor];
+  _txtNote.backgroundColor                     = [UIColor clearColor];
+  _txtTitle.backgroundColor                    = [UIColor clearColor];
+  _txtNote.textColor                           = [PKSettings PKTextColor];
+  _txtTitle.textColor                          = [PKSettings PKTextColor];
   self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 
@@ -247,18 +248,18 @@
   // Release any retained subviews of the main view.
   keyboard.delegate = nil;
   keyboard = nil;
-  txtTitle  = nil;
-  txtNote   = nil;
-  btnDelete = nil;
-  btnCancel = nil;
-  btnDone   = nil;
-  scroller  = nil;
+  _txtTitle  = nil;
+  _txtNote   = nil;
+  _btnDelete = nil;
+  _btnCancel = nil;
+  _btnDone   = nil;
+  _scroller  = nil;
 }
 
 -(void)didAnimateFirstHalfOfRotationToInterfaceOrientation: (UIInterfaceOrientation) toInterfaceOrientation
 {
   [self.view layoutSubviews];
-  [scroller adjustWidth: YES andHeight: YES withHorizontalPadding: 0 andVerticalPadding: 0];
+  [_scroller adjustWidth: YES andHeight: YES withHorizontalPadding: 0 andVerticalPadding: 0];
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation
@@ -276,9 +277,9 @@
 
 -(void)donePressed: (id) sender
 {
-  if (state == 1)
+  if (_state == 1)
   {
-    [(PKNotes *)[PKNotes instance] setNote: txtNote.text withTitle: txtTitle.text forReference: reference];
+    [[PKNotes instance] setNote: _txtNote.text withTitle: _txtTitle.text forReference: _reference];
     [[PKAppDelegate sharedInstance].bibleViewController notifyNoteChanged];
     [[[PKAppDelegate sharedInstance] notesViewController] reloadNotes];
   }
@@ -287,7 +288,7 @@
 
 -(void)deletePressed: (id) sender
 {
-  [(PKNotes *)[PKNotes instance] deleteNoteForReference: reference];
+  [[PKNotes instance] deleteNoteForReference: _reference];
   [[PKAppDelegate sharedInstance].bibleViewController notifyNoteChanged];
     [[[PKAppDelegate sharedInstance] notesViewController] reloadNotes];
   [self dismissModalViewControllerAnimated: YES];
@@ -319,7 +320,7 @@
 
 -(void) textViewDidBeginEditing: (UITextView *) textView
 {
-  state = 1;
+  _state = 1;
   [self updateState];
 }
 
@@ -369,9 +370,9 @@
   int theBook = -1;
   int theChapter = -1;
   NSString *theSelectedWord = @"";
-  if (txtNote.selectedTextRange)
+  if (_txtNote.selectedTextRange)
   {
-    theSelectedWord = [txtNote.text substringWithRange:txtNote.selectedRange];
+    theSelectedWord = [_txtNote.text substringWithRange:_txtNote.selectedRange];
   }
 
   if ([theSelectedWord rangeOfString:@":"].location != NSNotFound)
@@ -438,9 +439,9 @@
 {
 //    [PO dismissPopoverAnimated: NO];
   NSString *theSelectedWord = @"";
-  if (txtNote.selectedTextRange)
+  if (_txtNote.selectedTextRange)
   {
-    theSelectedWord = [txtNote.text substringWithRange:txtNote.selectedRange];
+    theSelectedWord = [_txtNote.text substringWithRange:_txtNote.selectedRange];
   }
 
   PKStrongsController *svc = [[PKStrongsController alloc] initWithStyle:UITableViewStylePlain];
@@ -461,7 +462,7 @@
 {
   NSString *theReference = [NSString stringWithFormat:@" %@ %i:%i ", [PKBible nameForBook:theBook],
                                                                   theChapter, andVerse];
-  [txtNote insertText:theReference];
+  [_txtNote insertText:theReference];
   //[txtNote becomeFirstResponder];
 }
 
@@ -471,7 +472,7 @@
     [PKBible getTextForBook:theBook forChapter:theChapter forVerse:andVerse forSide:1],
     [PKBible getTextForBook:theBook forChapter:theChapter forVerse:andVerse forSide:2]
   ];
-  [txtNote insertText:theText];
+  [_txtNote insertText:theText];
 
 }
 

@@ -51,10 +51,6 @@
 
 @implementation PKBibleBookChapterVersesViewController
 
-@synthesize selectedBook;
-@synthesize selectedChapter;
-@synthesize delegate;
-
 #pragma mark -
 #pragma mark view lifecycle
 
@@ -70,8 +66,8 @@
   if (self)
   {
     // Custom initialization
-    selectedBook    = theBook;
-    selectedChapter = theChapter;
+    _selectedBook    = theBook;
+    _selectedChapter = theChapter;
   }
   return self;
 }
@@ -90,12 +86,12 @@
   self.view.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   self.collectionView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   //self.title                                       = __T(@"Select Verse");
-  self.title = [__T(@"Chapter") stringByAppendingFormat:@" %i", selectedChapter];
+  self.title = [__T(@"Chapter") stringByAppendingFormat:@" %i", _selectedChapter];
   self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 
   [self.collectionView registerClass:[PKSimpleCollectionViewCell class] forCellWithReuseIdentifier:@"simple-cell"];
   
-  if (delegate)
+  if (_delegate)
   {
     UIBarButtonItem *closeButton =
       [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
@@ -142,7 +138,7 @@
  */
 - (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-  return [PKBible countOfVersesForBook: selectedBook forChapter: selectedChapter];
+  return [PKBible countOfVersesForBook: _selectedBook forChapter: _selectedChapter];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +155,7 @@
   
   NSUInteger row = [indexPath row];
   
-  cell.label.text      = [NSString stringWithFormat: @"%i:%i", selectedChapter, row + 1];
+  cell.label.text      = [NSString stringWithFormat: @"%i:%i", _selectedChapter, row + 1];
   cell.label.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   cell.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   cell.label.textColor = [PKSettings PKSidebarTextColor];
@@ -184,17 +180,17 @@
     [self.navigationController popViewControllerAnimated:YES];
 //    [self.navigationController popToRootViewControllerAnimated: YES];
     [[PKAppDelegate sharedInstance].rootViewController revealToggle: self];
-    [[PKAppDelegate sharedInstance].bibleViewController displayBook: selectedBook andChapter: selectedChapter andVerse: row + 1];
+    [[PKAppDelegate sharedInstance].bibleViewController displayBook: _selectedBook andChapter: _selectedChapter andVerse: row + 1];
   }
   else
   {
     if (self.notifyWithCopyOfVerse)
     {
-      [self.delegate newVerseByBook:selectedBook andChapter:selectedChapter andVerse:row+1];
+      [self.delegate newVerseByBook:_selectedBook andChapter:_selectedChapter andVerse:row+1];
     }
     else
     {
-      [self.delegate newReferenceByBook:selectedBook andChapter:selectedChapter andVerse:row+1];
+      [self.delegate newReferenceByBook:_selectedBook andChapter:_selectedChapter andVerse:row+1];
     }
     [self dismissModalViewControllerAnimated: YES];
   }

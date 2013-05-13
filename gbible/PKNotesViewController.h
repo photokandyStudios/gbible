@@ -40,13 +40,6 @@
 
 @interface PKNotesViewController : PKTableViewController <UISearchBarDelegate>
 
-@property (strong, nonatomic) NSArray *notes;
-@property (strong, nonatomic) UILabel *noResults;
-
-@property (strong, nonatomic) NSString *theSearchTerm;
-@property (strong, nonatomic) UISearchBar *theSearchBar;
-@property (strong, nonatomic) UIButton *clickToDismiss;
-
 
 -(void)reloadNotes;
 

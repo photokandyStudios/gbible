@@ -73,118 +73,67 @@
 
 
 @interface PKBibleViewController ()
-@property (strong, nonatomic) NSArray *currentGreekChapter;
-@property (strong, nonatomic) NSArray *currentEnglishChapter;
-
-@property (strong, nonatomic) NSMutableArray *formattedGreekChapter;
-@property (strong, nonatomic) NSMutableArray *formattedEnglishChapter;
-
-@property (strong, nonatomic) NSMutableArray *formattedGreekVerseHeights;
-@property (strong, nonatomic) NSMutableArray *formattedEnglishVerseHeights;
-
-@property (strong, nonatomic) NSMutableDictionary *selectedVerses;
-@property (strong, nonatomic) NSMutableDictionary *highlightedVerses;
-
-@property (strong, nonatomic) NSString *selectedWord;
-@property (strong, nonatomic) PKReference *selectedPassage;
-
-@property (strong, nonatomic) NSMutableArray *cellHeights;     // RE: ISSUE #1
-@property (strong, nonatomic) NSMutableArray *cells;           // RE: ISSUE #1
-
-// UI elements
-@property (strong, nonatomic) UIBarButtonItem *changeHighlight;
-@property (strong, nonatomic) NSMutableArray *formattedCells;
-@property (strong, nonatomic) UIMenuController *ourMenu;
-@property int ourMenuState;
-@property (strong, nonatomic) UIActionSheet *ourPopover;
-
-@property (strong, nonatomic) UIButton *btnRegularScreen;
-
-@property (strong, nonatomic) UILabel *tableTitle;
-
-@property int theWordTag;
-@property int theWordIndex;
-
-@property BOOL fullScreen;
-
-@property (strong, nonatomic) UIButton *previousChapterButton;
-@property (strong, nonatomic) UIButton *nextChapterButton;
-
-@property (strong, nonatomic) UIPopoverController *PO;
-//@property (strong, nonatomic) FWTPopoverView *popoverView;
-
-@property (strong, nonatomic) UIBarButtonItem *toggleStrongsBtn;
-@property (strong, nonatomic) UIBarButtonItem *toggleMorphologyBtn;
-@property (strong, nonatomic) UIBarButtonItem *toggleTranslationBtn;
-
-@property (strong, nonatomic) UIBarButtonItem *leftTextSelect;
-@property (strong, nonatomic) UIBarButtonItem *rightTextSelect;
-@property (strong, nonatomic) NSArray *bibleTextIDs;
-
-@property (strong, nonatomic) UITextField *keyboardControl;
-
-@property (strong, nonatomic, readwrite) UIView *inputView;
-
-@property UIDeviceOrientation lastKnownOrientation;
-@property int reusableLabelQueuePosition;
-@property (strong, nonatomic) UIBarButtonItem *searchText;
+  @property (strong, nonatomic, readwrite) UIView *inputView;
 @end
 
 @implementation PKBibleViewController
+{
+  NSArray * __strong _currentGreekChapter;
+  NSArray * __strong _currentEnglishChapter;
 
-@synthesize lastKnownOrientation;
-@synthesize currentGreekChapter;
-@synthesize currentEnglishChapter;
+  NSMutableArray * __strong _formattedGreekChapter;
+  NSMutableArray * __strong _formattedEnglishChapter;
 
-@synthesize formattedGreekChapter;
-@synthesize formattedEnglishChapter;
+  NSMutableArray * __strong _formattedGreekVerseHeights;
+  NSMutableArray * __strong _formattedEnglishVerseHeights;
 
-@synthesize formattedGreekVerseHeights;
-@synthesize formattedEnglishVerseHeights;
+  NSMutableDictionary * __strong _selectedVerses;
+  NSMutableDictionary * __strong _highlightedVerses;
 
-@synthesize selectedVerses;
-@synthesize highlightedVerses;
+  NSString * __strong _selectedWord;
+  PKReference * __strong _selectedPassage;
 
-@synthesize cellHeights;
-@synthesize cells;
+  NSMutableArray * __strong _cellHeights;     // RE: ISSUE #1
+  NSMutableArray * __strong _cells;           // RE: ISSUE #1
 
-@synthesize changeHighlight;
-@synthesize formattedCells;
-@synthesize ourMenu;
-@synthesize ourMenuState;
-@synthesize selectedWord;
+  // UI elements
+  UIBarButtonItem * __strong _changeHighlight;
+  NSMutableArray * __strong _formattedCells;
+  UIMenuController * __strong _ourMenu;
+  int _ourMenuState;
+  UIActionSheet * __strong _ourPopover;
 
-@synthesize ourPopover;
+  UIButton * __strong _btnRegularScreen;
 
-@synthesize selectedPassage;
+  UILabel * __strong _tableTitle;
 
-@synthesize fullScreen;
-@synthesize btnRegularScreen;
+  int _theWordTag;
+  int _theWordIndex;
 
-@synthesize theWordTag;
-@synthesize dirty;
+  BOOL _fullScreen;
 
-@synthesize tableTitle;
+  UIButton * __strong _previousChapterButton;
+  UIButton * __strong _nextChapterButton;
 
-@synthesize previousChapterButton;
-@synthesize nextChapterButton;
+  UIPopoverController * __strong _PO;
+  //@property (strong, nonatomic) FWTPopoverView *popoverView;
 
-@synthesize PO;
+  UIBarButtonItem * __strong _toggleStrongsBtn;
+  UIBarButtonItem * __strong _toggleMorphologyBtn;
+  UIBarButtonItem * __strong _toggleTranslationBtn;
 
-@synthesize theWordIndex;
+  UIBarButtonItem * __strong _leftTextSelect;
+  UIBarButtonItem * __strong _rightTextSelect;
+  NSArray * __strong _bibleTextIDs;
 
-@synthesize toggleStrongsBtn;
-@synthesize toggleMorphologyBtn;
-@synthesize toggleTranslationBtn;
+  UITextField * __strong _keyboardControl;
 
-@synthesize leftTextSelect;
-@synthesize rightTextSelect;
-@synthesize bibleTextIDs;
 
-@synthesize keyboardControl;
-@synthesize searchText;
+  UIDeviceOrientation _lastKnownOrientation;
+  int _reusableLabelQueuePosition;
+  UIBarButtonItem * __strong _searchText;
+}
 
-//@synthesize popoverView;
 
 #pragma mark -
 #pragma mark Network Connectivity
@@ -267,9 +216,9 @@
     }
     [self loadChapter: theChapter forBook: theBook];
     [self reloadTableCache];
-    [(PKHistory *)[PKHistory instance] addReference: [PKReference referenceWithBook:theBook andChapter: theChapter andVerse: theVerse]];
+    [[PKHistory instance] addReference: [PKReference referenceWithBook:theBook andChapter: theChapter andVerse: theVerse]];
     [self notifyChangedHistory];
-    ( (PKSettings *)[PKSettings instance] ).topVerse = theVerse;
+    [PKSettings instance].topVerse = theVerse;
 
     if (theVerse > 1)
     {
@@ -291,7 +240,7 @@
 -(void)loadChapter: (int) theChapter forBook: (int) theBook
 {
   // clear selectedVerses
-  selectedVerses             = [[NSMutableDictionary alloc] init];
+  _selectedVerses             = [[NSMutableDictionary alloc] init];
   PKSettings *theSettings = [PKSettings instance];
   theSettings.currentBook    = theBook;
   theSettings.currentChapter = theChapter;
@@ -328,7 +277,7 @@
 
     [self loadChapter: currentChapter forBook: currentBook];
     [self reloadTableCache];
-    [(PKHistory *)[PKHistory instance] addReferenceWithBook: currentBook andChapter: currentChapter andVerse: 1];
+    [[PKHistory instance] addReferenceWithBook: currentBook andChapter: currentChapter andVerse: 1];
     [self notifyChangedHistory];
 
     [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: NO];
@@ -366,7 +315,7 @@
 
     [self loadChapter: currentChapter forBook: currentBook];
     [self reloadTableCache];
-    [(PKHistory *)[PKHistory instance] addReferenceWithBook: currentBook andChapter: currentChapter andVerse: [PKBible
+    [[PKHistory instance] addReferenceWithBook: currentBook andChapter: currentChapter andVerse: [PKBible
                                                                                                              countOfVersesForBook:
                                                                                                              currentBook forChapter
                                                                                                              : currentChapter]];
@@ -388,7 +337,7 @@
   NSUInteger currentBook    = [[PKSettings instance] currentBook];
   NSUInteger currentChapter = [[PKSettings instance] currentChapter];
   // load our highlighted verses
-  highlightedVerses = [(PKHighlights *)[PKHighlights instance] allHighlightedReferencesForBook: currentBook
+  _highlightedVerses = [[PKHighlights instance] allHighlightedReferencesForBook: currentBook
                                                                                   andChapter: currentChapter];
 }
 
@@ -417,7 +366,7 @@
   NSDate *tEndTime;
 
   tStartTime            = [NSDate date];
-  tableTitle.text       = [[PKBible nameForBook: currentBook] stringByAppendingFormat: @" %i", currentChapter];
+  _tableTitle.text       = [[PKBible nameForBook: currentBook] stringByAppendingFormat: @" %i", currentChapter];
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
   {
     NSString * bookName= [PKBible nameForBook:currentBook];
@@ -427,31 +376,31 @@
   }
   else
   {
-    self.title = tableTitle.text;
+    self.title = _tableTitle.text;
   }
   startTime             = [NSDate date];
-  currentGreekChapter   = [PKBible getTextForBook: currentBook forChapter: currentChapter forSide: 1];
-  currentEnglishChapter = [PKBible getTextForBook: currentBook forChapter: currentChapter forSide: 2];
+  _currentGreekChapter   = [PKBible getTextForBook: currentBook forChapter: currentChapter forSide: 1];
+  _currentEnglishChapter = [PKBible getTextForBook: currentBook forChapter: currentChapter forSide: 2];
   endTime               = [NSDate date];
 
   // now, get the formatting for both sides, verse by verse
   // greek side first
   startTime                  = [NSDate date];
-  formattedGreekChapter      = [[NSMutableArray alloc] init];
-  formattedGreekVerseHeights = [[NSMutableArray alloc] init];
+  _formattedGreekChapter      = [[NSMutableArray alloc] init];
+  _formattedGreekVerseHeights = [[NSMutableArray alloc] init];
   CGFloat greekHeightIPhone;
 
-  for (int i = 0; i < [currentGreekChapter count]; i++)
+  for (NSUInteger i = 0; i < [_currentGreekChapter count]; i++)
   {
-    NSArray *formattedText = [PKBible formatText: [currentGreekChapter objectAtIndex: i]
+    NSArray *formattedText = [PKBible formatText: [_currentGreekChapter objectAtIndex: i]
                                        forColumn: 1 withBounds: self.view.bounds withParsings: parsed
                                       startingAt: 0.0 withCompression:compression];
 
-    [formattedGreekChapter addObject:
+    [_formattedGreekChapter addObject:
      formattedText
     ];
 
-    [formattedGreekVerseHeights addObject:
+    [_formattedGreekVerseHeights addObject:
      [NSNumber numberWithFloat: [PKBible formattedTextHeight: formattedText withParsings: parsed]]
     ];
   }
@@ -459,10 +408,10 @@
 
   // english next
   startTime                    = [NSDate date];
-  formattedEnglishChapter      = [[NSMutableArray alloc] init];
-  formattedEnglishVerseHeights = [[NSMutableArray alloc] init];
+  _formattedEnglishChapter      = [[NSMutableArray alloc] init];
+  _formattedEnglishVerseHeights = [[NSMutableArray alloc] init];
 
-  for (int i = 0; i < [currentEnglishChapter count]; i++)
+  for (NSUInteger i = 0; i < [_currentEnglishChapter count]; i++)
   {
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
          || UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]) )
@@ -471,9 +420,9 @@
     }
     else
     {
-      if (i < formattedGreekVerseHeights.count)
+      if (i < _formattedGreekVerseHeights.count)
       {
-        greekHeightIPhone = [formattedGreekVerseHeights[i] floatValue];
+        greekHeightIPhone = [_formattedGreekVerseHeights[i] floatValue];
       }
       else
       {
@@ -481,14 +430,14 @@
       }
     }
 
-    NSArray *formattedText = [PKBible formatText: [currentEnglishChapter objectAtIndex: i]
+    NSArray *formattedText = [PKBible formatText: [_currentEnglishChapter objectAtIndex: i]
                                        forColumn: 2 withBounds: self.view.bounds withParsings: parsed
                                       startingAt: greekHeightIPhone withCompression:compression];
 
-    [formattedEnglishChapter addObject:
+    [_formattedEnglishChapter addObject:
      formattedText
     ];
-    [formattedEnglishVerseHeights addObject:
+    [_formattedEnglishVerseHeights addObject:
      [NSNumber numberWithFloat: [PKBible formattedTextHeight: formattedText withParsings: parsed]]
     ];
   }
@@ -498,7 +447,7 @@
 
   // now, create all our UILabels here, so we don't have to do it while generating a cell.
 
-  formattedCells = [[NSMutableArray alloc] init];
+  _formattedCells = [[NSMutableArray alloc] init];
   UIFont *theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                  andSize: [[PKSettings instance] textFontSize]];
 
@@ -510,16 +459,16 @@
     theBoldFont = theFont;
   }
 
-  for (int i = 0; i < MAX([currentGreekChapter count], [currentEnglishChapter count]); i++)
+  for (NSUInteger i = 0; i < MAX([_currentGreekChapter count], [_currentEnglishChapter count]); i++)
   {
     // for each verse (i)
 
     NSUInteger row = i;
 
     NSArray *formattedGreekVerse;
-    if (row < [formattedGreekChapter count])
+    if (row < [_formattedGreekChapter count])
     {
-      formattedGreekVerse = [formattedGreekChapter objectAtIndex: row];
+      formattedGreekVerse = [_formattedGreekChapter objectAtIndex: row];
     }
     else
     {
@@ -527,9 +476,9 @@
     }
 
     NSArray *formattedEnglishVerse;
-    if (row < [formattedEnglishChapter count])
+    if (row < [_formattedEnglishChapter count])
     {
-      formattedEnglishVerse = [formattedEnglishChapter objectAtIndex: row];
+      formattedEnglishVerse = [_formattedEnglishChapter objectAtIndex: row];
     }
     else
     {
@@ -539,7 +488,7 @@
     NSMutableArray *theLabelArray = [[NSMutableArray alloc] init];
     [theLabelArray addObjectsFromArray:formattedGreekVerse];
     [theLabelArray addObjectsFromArray:formattedEnglishVerse];
-    [formattedCells addObject: theLabelArray];
+    [_formattedCells addObject: theLabelArray];
   }
 
   [self loadHighlights];
@@ -555,13 +504,13 @@
  */
 -(void) reloadTableCache
 {
-  cellHeights = nil;
+  _cellHeights = nil;
 
-  cellHeights = [[NSMutableArray alloc] init];
+  _cellHeights = [[NSMutableArray alloc] init];
 
-  for (int row = 0; row < MAX([formattedGreekChapter count], [formattedEnglishChapter count]); row++)
+  for (NSUInteger row = 0; row < MAX([_formattedGreekChapter count], [_formattedEnglishChapter count]); row++)
   {
-    [cellHeights addObject: [NSNumber numberWithFloat: [self heightForRowAtIndexPath: [NSIndexPath indexPathForRow: row inSection:
+    [_cellHeights addObject: [NSNumber numberWithFloat: [self heightForRowAtIndexPath: [NSIndexPath indexPathForRow: row inSection:
                                                                                        0]]]];
   }
   [self.tableView reloadData];
@@ -574,7 +523,7 @@
 
   if ([indexPaths count] > 0)
   {
-    ( (PKSettings *)[PKSettings instance] ).topVerse = [[indexPaths objectAtIndex: 0] row] + 1;
+    [PKSettings instance].topVerse = [[indexPaths objectAtIndex: 0] row] + 1;
   }
 }
 
@@ -686,40 +635,40 @@
   //self.title = @"";
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
-  tableTitle.textColor           = [PKSettings PKTextColor];
+  _tableTitle.textColor           = [PKSettings PKTextColor];
 
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
   {
-    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 44];
+    _tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 44];
   }
   else
   {
-    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 28];
+    _tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 28];
   }
 
   // set the button titles
-  [previousChapterButton setImage: [PKSettings PKImageLeftArrow] forState: UIControlStateNormal];
-  [previousChapterButton setImage: [PKSettings PKImageLeftArrow] forState: UIControlStateHighlighted];
-  [previousChapterButton setImage: [PKSettings PKImageLeftArrow] forState: UIControlStateDisabled];
-  [previousChapterButton setImage: [PKSettings PKImageLeftArrow] forState: UIControlStateSelected];
+  [_previousChapterButton setImage: [PKSettings PKImageLeftArrow] forState: UIControlStateNormal];
+  [_previousChapterButton setImage: [PKSettings PKImageLeftArrow] forState: UIControlStateHighlighted];
+  [_previousChapterButton setImage: [PKSettings PKImageLeftArrow] forState: UIControlStateDisabled];
+  [_previousChapterButton setImage: [PKSettings PKImageLeftArrow] forState: UIControlStateSelected];
 
-  [nextChapterButton setImage: [PKSettings PKImageRightArrow] forState: UIControlStateNormal];
-  [nextChapterButton setImage: [PKSettings PKImageRightArrow] forState: UIControlStateHighlighted];
-  [nextChapterButton setImage: [PKSettings PKImageRightArrow] forState: UIControlStateDisabled];
-  [nextChapterButton setImage: [PKSettings PKImageRightArrow] forState: UIControlStateSelected];
+  [_nextChapterButton setImage: [PKSettings PKImageRightArrow] forState: UIControlStateNormal];
+  [_nextChapterButton setImage: [PKSettings PKImageRightArrow] forState: UIControlStateHighlighted];
+  [_nextChapterButton setImage: [PKSettings PKImageRightArrow] forState: UIControlStateDisabled];
+  [_nextChapterButton setImage: [PKSettings PKImageRightArrow] forState: UIControlStateSelected];
 
   [self reloadTableCache];
 }
 
 -(void) bibleTextChanged
 {
-  leftTextSelect.title         = [[PKBible abbreviationForTextID: [[PKSettings instance] greekText]] stringByAppendingString: @" ▾"];
-  rightTextSelect.title        = [[PKBible abbreviationForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"];
+  _leftTextSelect.title         = [[PKBible abbreviationForTextID: [[PKSettings instance] greekText]] stringByAppendingString: @" ▾"];
+  _rightTextSelect.title        = [[PKBible abbreviationForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"];
 
   // this will have to change, but for now it will do.
-  toggleStrongsBtn.enabled     = [PKBible isStrongsSupportedByText: [[PKSettings instance] greekText]];
-  toggleMorphologyBtn.enabled  = [PKBible isMorphologySupportedByText: [[PKSettings instance] greekText]];
-  toggleTranslationBtn.enabled = [PKBible isTranslationSupportedByText: [[PKSettings instance] greekText]];;
+  _toggleStrongsBtn.enabled     = [PKBible isStrongsSupportedByText: [[PKSettings instance] greekText]];
+  _toggleMorphologyBtn.enabled  = [PKBible isMorphologySupportedByText: [[PKSettings instance] greekText]];
+  _toggleTranslationBtn.enabled = [PKBible isTranslationSupportedByText: [[PKSettings instance] greekText]];;
 }
 
 // ISSUE #61
@@ -738,19 +687,19 @@
 -(void)viewWillAppear: (BOOL) animated
 {
   [super viewWillAppear:animated];
-  if (dirty
-      || lastKnownOrientation != [[UIDevice currentDevice] orientation])
+  if (_dirty
+      || _lastKnownOrientation != [[UIDevice currentDevice] orientation])
   {
-    lastKnownOrientation = [[UIDevice currentDevice] orientation];
+    _lastKnownOrientation = [[UIDevice currentDevice] orientation];
     [self loadChapter];
     [self reloadTableCache];
-    [(PKHistory *)[PKHistory instance] addReferenceWithBook: [[PKSettings instance] currentBook] andChapter: [[PKSettings instance]
+    [[PKHistory instance] addReferenceWithBook: [[PKSettings instance] currentBook] andChapter: [[PKSettings instance]
                                                                                                             currentChapter]
      andVerse: [[PKSettings instance] topVerse]];
     [self notifyChangedHistory];
     [self scrollToTopVerse];
     [self calculateShadows];
-    dirty = NO;
+    _dirty = NO;
   }
   [self bibleTextChanged];
   [self updateAppearanceForTheme];
@@ -760,10 +709,10 @@
 -(void)viewWillDisappear: (BOOL) animated
 {
   int theVerse = [[[self.tableView indexPathsForVisibleRows] objectAtIndex: 0] row] + 1;
-  ( (PKSettings *)[PKSettings instance] ).topVerse = theVerse;
+  [PKSettings instance].topVerse = theVerse;
   [[PKSettings instance] saveCurrentReference];
 
-  if (fullScreen)
+  if (_fullScreen)
   {
     [self goRegularScreen: nil];
   }
@@ -787,8 +736,8 @@ respondsToSelector:@selector(shadowImage)]) {
 self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 }
   
-  dirty = YES;
-  lastKnownOrientation           = [[UIDevice currentDevice] orientation];
+  _dirty = YES;
+  _lastKnownOrientation           = [[UIDevice currentDevice] orientation];
   [TestFlight passCheckpoint: @"VIEW_BIBLE"];
   [self.tableView setBackgroundView: nil];
   self.tableView.backgroundColor = [PKSettings PKPageColor];
@@ -820,7 +769,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   [self.tableView addGestureRecognizer:doublePress];
 
   // init our selectedVeres
-  selectedVerses = [[NSMutableDictionary alloc] init];
+  _selectedVerses = [[NSMutableDictionary alloc] init];
 
 
   // Text Attributes for Font-Awesome Icons:
@@ -867,18 +816,18 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   fontSelect.accessibilityLabel = __T(@"Layout");
 
   // leftTextSelect lets the user change the left-side Bible
-  leftTextSelect                = [UIBarButtonItem barButtonItemWithTitle:[[PKBible titleForTextID: [[PKSettings instance] greekText]]
+  _leftTextSelect                = [UIBarButtonItem barButtonItemWithTitle:[[PKBible titleForTextID: [[PKSettings instance] greekText]]
                                                    stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
   
   // build the toggle items
-  toggleStrongsBtn = [UIBarButtonItem barButtonItemWithTitle:@"#" target:self action:@selector(toggleStrongs:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-  toggleStrongsBtn.accessibilityLabel = __T(@"Toggle Strong's Numbers");
+  _toggleStrongsBtn = [UIBarButtonItem barButtonItemWithTitle:@"#" target:self action:@selector(toggleStrongs:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+  _toggleStrongsBtn.accessibilityLabel = __T(@"Toggle Strong's Numbers");
 
-  toggleMorphologyBtn = [UIBarButtonItem barButtonItemWithTitle:@"M" target:self action:@selector(toggleMorphology:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-  toggleMorphologyBtn.accessibilityLabel = __T(@"Toggle Morphology");
+  _toggleMorphologyBtn = [UIBarButtonItem barButtonItemWithTitle:@"M" target:self action:@selector(toggleMorphology:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+  _toggleMorphologyBtn.accessibilityLabel = __T(@"Toggle Morphology");
 
-  toggleTranslationBtn = [UIBarButtonItem barButtonItemWithTitle:@"T" target:self action:@selector(toggleTranslation:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-  toggleTranslationBtn.accessibilityLabel = __T(@"Toggle Translation");
+  _toggleTranslationBtn = [UIBarButtonItem barButtonItemWithTitle:@"T" target:self action:@selector(toggleTranslation:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+  _toggleTranslationBtn.accessibilityLabel = __T(@"Toggle Translation");
 
 
   if ([self.navigationItem respondsToSelector: @selector(setLeftBarButtonItems:)])
@@ -888,8 +837,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects: changeReference,
                                                 fontSelect,
                                                // changeHighlight,
-                                                leftTextSelect,
-                                                toggleStrongsBtn, toggleMorphologyBtn, toggleTranslationBtn,
+                                                _leftTextSelect,
+                                                _toggleStrongsBtn, _toggleMorphologyBtn, _toggleTranslationBtn,
                                                 nil];
     }
     else
@@ -917,78 +866,78 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   
   goFullScreen.accessibilityLabel = __T(@"Enter Full Screen");
 
-  rightTextSelect = [UIBarButtonItem barButtonItemWithTitle:[[PKBible titleForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+  _rightTextSelect = [UIBarButtonItem barButtonItemWithTitle:[[PKBible titleForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
 
   UIBarButtonItem *adjustSettings = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-cog" target:self action:@selector(doSettings:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
     adjustSettings.accessibilityLabel = __T(@"Settings");
 
-  searchText = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-search" target:self action:@selector(searchBible:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
-    searchText.accessibilityLabel = __T(@"Search");
+  _searchText = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-search" target:self action:@selector(searchBible:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
+    _searchText.accessibilityLabel = __T(@"Search");
   
 
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
   {
-    self.navigationItem.rightBarButtonItems = @[goFullScreen, adjustSettings, searchText,rightTextSelect
+    self.navigationItem.rightBarButtonItems = @[goFullScreen, adjustSettings, _searchText, _rightTextSelect
                                               ];
   }
   else
   {
-    self.navigationItem.rightBarButtonItems = @[ adjustSettings, searchText ];
+    self.navigationItem.rightBarButtonItems = @[ adjustSettings, _searchText ];
   }
 
 
   // create the header and footer views
   UIView *headerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
-  tableTitle            = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
-  previousChapterButton = [UIButton buttonWithType: UIButtonTypeCustom];
-  [previousChapterButton setFrame: CGRectMake(10, 22, 44, 44)];
+  _tableTitle            = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
+  _previousChapterButton = [UIButton buttonWithType: UIButtonTypeCustom];
+  [_previousChapterButton setFrame: CGRectMake(10, 22, 44, 44)];
 
   UIView *footerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, self.tableView.frame.size.width, 64)];
-  nextChapterButton = [UIButton buttonWithType: UIButtonTypeCustom];
-  [nextChapterButton setFrame: CGRectMake(self.tableView.frame.size.width - 54, 10, 44, 44)];
+  _nextChapterButton = [UIButton buttonWithType: UIButtonTypeCustom];
+  [_nextChapterButton setFrame: CGRectMake(self.tableView.frame.size.width - 54, 10, 44, 44)];
 
   // set the button titles
-  [previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft.png"] forState: UIControlStateNormal];
-  [previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft.png"] forState: UIControlStateHighlighted];
-  [previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft.png"] forState: UIControlStateDisabled];
-  [previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft.png"] forState: UIControlStateSelected];
+  [_previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft.png"] forState: UIControlStateNormal];
+  [_previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft.png"] forState: UIControlStateHighlighted];
+  [_previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft.png"] forState: UIControlStateDisabled];
+  [_previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft.png"] forState: UIControlStateSelected];
 
-  [nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight.png"] forState: UIControlStateNormal];
-  [nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight.png"] forState: UIControlStateHighlighted];
-  [nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight.png"] forState: UIControlStateDisabled];
-  [nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight.png"] forState: UIControlStateSelected];
+  [_nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight.png"] forState: UIControlStateNormal];
+  [_nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight.png"] forState: UIControlStateHighlighted];
+  [_nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight.png"] forState: UIControlStateDisabled];
+  [_nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight.png"] forState: UIControlStateSelected];
 
   // set the targets
-  [previousChapterButton addTarget: self action: @selector(previousChapter) forControlEvents: UIControlEventTouchUpInside];
-  [nextChapterButton addTarget: self action: @selector(nextChapter) forControlEvents: UIControlEventTouchUpInside];
+  [_previousChapterButton addTarget: self action: @selector(previousChapter) forControlEvents: UIControlEventTouchUpInside];
+  [_nextChapterButton addTarget: self action: @selector(nextChapter) forControlEvents: UIControlEventTouchUpInside];
 
-  nextChapterButton.autoresizingMask       = UIViewAutoresizingFlexibleLeftMargin;
+  _nextChapterButton.autoresizingMask       = UIViewAutoresizingFlexibleLeftMargin;
 
-  previousChapterButton.alpha              = 0.5f;
-  nextChapterButton.alpha                  = 0.5f;
+  _previousChapterButton.alpha              = 0.5f;
+  _nextChapterButton.alpha                  = 0.5f;
 
-  previousChapterButton.accessibilityLabel = __T(@"Previous Chapter");
-  nextChapterButton.accessibilityLabel     = __T(@"Next Chapter");
+  _previousChapterButton.accessibilityLabel = __T(@"Previous Chapter");
+  _nextChapterButton.accessibilityLabel     = __T(@"Next Chapter");
 
   // set the table title up
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
   {
-    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 44];
+    _tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 44];
   }
   else
   {
-    tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 28];
+    _tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 28];
   }
-  tableTitle.textAlignment    = UITextAlignmentCenter;
-  tableTitle.textColor        = [PKSettings PKTextColor];
-  tableTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-  tableTitle.backgroundColor  = [UIColor clearColor];
+  _tableTitle.textAlignment    = UITextAlignmentCenter;
+  _tableTitle.textColor        = [PKSettings PKTextColor];
+  _tableTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+  _tableTitle.backgroundColor  = [UIColor clearColor];
 
   // add the items to our views
-  [headerView addSubview: tableTitle];
-  [headerView addSubview: previousChapterButton];
+  [headerView addSubview: _tableTitle];
+  [headerView addSubview: _previousChapterButton];
 
-  [footerView addSubview: nextChapterButton];
+  [footerView addSubview: _nextChapterButton];
 
   // add the views to the table
   self.tableView.tableHeaderView = headerView;
@@ -997,8 +946,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void) setUpMenuItems
 {
-    ourMenu           = [UIMenuController sharedMenuController];
-    ourMenu.menuItems = @[
+    _ourMenu           = [UIMenuController sharedMenuController];
+    _ourMenu.menuItems = @[
 // ISSUE #61
                          //            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")      action:@selector(copySelection:)],
                          [[UIMenuItem alloc] initWithTitle: __T(@"Copy...")      action: @selector(askCopy:)],
@@ -1031,7 +980,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(BOOL) canPerformAction: (SEL) action withSender: (id) sender
 {
-  if (ourMenuState == 0)
+  if (_ourMenuState == 0)
   {
 // ISSUE #61
     if ( action == @selector(copy:) )
@@ -1051,17 +1000,17 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
     if ( action == @selector(defineWord:) )           //return selectedWord!=nil && theWordTag != 0;
     {
-      if (!selectedWord)
+      if (!_selectedWord)
       {
         return NO;
       }                                                                                 // word must not be nil
 
-      if (theWordTag == 0)
+      if (_theWordTag == 0)
       {
-        return theWordIndex > -1;
+        return _theWordIndex > -1;
       }                                                                                                // if greek, must have a
                                                                                                        // strongs#
-      return (theWordTag < 20);                                               // otherwise, we must not be a morphological word
+      return (_theWordTag < 20);                                               // otherwise, we must not be a morphological word
     }
 
     if ( action == @selector(explainVerse:) )
@@ -1093,12 +1042,12 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
       if ( action == @selector(searchBible:) )
       {
-        return selectedWord != nil;
+        return _selectedWord != nil;
       }
 
       if ( action == @selector(searchStrongs:) )
       {
-        return selectedWord != nil;
+        return _selectedWord != nil;
       }
 
       if ( action == @selector(askHighlight:) )
@@ -1120,7 +1069,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
       if ( action == @selector(askSearch:) )
       {
-        return selectedWord != nil;
+        return _selectedWord != nil;
       }
       
       if ( action == @selector(askCopy:) )
@@ -1130,7 +1079,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     }
   }
 
-  if (ourMenuState == 1)    // we're asking about highlighting
+  if (_ourMenuState == 1)    // we're asking about highlighting
   {
     if ( action == @selector(highlightSelection:) ||
          action == @selector(highlightSelectionYellow:) ||
@@ -1149,20 +1098,20 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     }
   }
 
-  if (ourMenuState == 2)   // we're asking about searching
+  if (_ourMenuState == 2)   // we're asking about searching
   {
     if ( action == @selector(searchBible:) )
     {
-      return selectedWord != nil;
+      return _selectedWord != nil;
     }
 
     if ( action == @selector(searchStrongs:) )
     {
-      return selectedWord != nil;
+      return _selectedWord != nil;
     }
   }
   
-  if (ourMenuState == 3)    // we're asking about copying
+  if (_ourMenuState == 3)    // we're asking about copying
   {
     return (action == @selector(copyLeft:)) || (action == @selector(copyRight:))
          ? YES : NO;
@@ -1189,33 +1138,35 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 {
   [super viewDidUnload];
   // Release any retained subviews of the main view.
-  currentGreekChapter          = nil;
-  currentEnglishChapter        = nil;
+  _currentGreekChapter          = nil;
+  _currentEnglishChapter        = nil;
 
-  formattedGreekChapter        = nil;
-  formattedEnglishChapter      = nil;
+  _formattedGreekChapter        = nil;
+  _formattedEnglishChapter      = nil;
 
-  formattedGreekVerseHeights   = nil;
-  formattedEnglishVerseHeights = nil;
+  _formattedGreekVerseHeights   = nil;
+  _formattedEnglishVerseHeights = nil;
 
-  selectedVerses               = nil;
-  highlightedVerses            = nil;
+  _selectedVerses               = nil;
+  _highlightedVerses            = nil;
 
-  changeHighlight              = nil;
-  formattedCells               = nil;
-  ourMenu = nil;
+  _changeHighlight              = nil;
+  _formattedCells               = nil;
+  _ourMenu = nil;
 
-  selectedWord                 = nil;
-  selectedPassage              = nil;
+  _selectedWord                 = nil;
+  _selectedPassage              = nil;
 
-  ourPopover                   = nil;
+  _ourPopover                   = nil;
 
-  cells = nil;
-  cellHeights                  = nil;
+  _cells = nil;
+  _cellHeights                  = nil;
 
-  btnRegularScreen             = nil;
+  _btnRegularScreen             = nil;
 
-  tableTitle                   = nil;
+  _tableTitle                   = nil;
+  
+  _PO                           = nil;
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation
@@ -1244,7 +1195,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void)didRotateFromInterfaceOrientation: (UIInterfaceOrientation) fromInterfaceOrientation
 {
-  lastKnownOrientation = [[UIDevice currentDevice] orientation];
+  _lastKnownOrientation = [[UIDevice currentDevice] orientation];
   [self calculateShadows];
   // get the top verse so we can scroll back to it after the rotation change
   int theVerse = [[[self.tableView indexPathsForVisibleRows] objectAtIndex: 0] row] + 1;
@@ -1294,8 +1245,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 -(NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
   // return the number of verses in the current passage
-  int currentGreekVerseCount   = [currentGreekChapter count];
-  int currentEnglishVerseCount = [currentEnglishChapter count];
+  int currentGreekVerseCount   = [_currentGreekChapter count];
+  int currentEnglishVerseCount = [_currentEnglishChapter count];
   int currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
 
   return currentVerseCount;
@@ -1308,7 +1259,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(CGFloat) tableView: (UITableView *) tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath
 {
-  return [[cellHeights objectAtIndex: indexPath.row] floatValue];
+  return [[_cellHeights objectAtIndex: indexPath.row] floatValue];
 }
 
 -(CGFloat) heightForRowAtIndexPath: (NSIndexPath *) indexPath
@@ -1318,14 +1269,14 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   float greekVerseHeight   = 0.0;
   float englishVerseHeight = 0.0;
 
-  if (row < [formattedGreekVerseHeights count])
+  if (row < [_formattedGreekVerseHeights count])
   {
-    greekVerseHeight = [[formattedGreekVerseHeights objectAtIndex: row] floatValue];
+    greekVerseHeight = [[_formattedGreekVerseHeights objectAtIndex: row] floatValue];
   }
 
-  if (row < [formattedEnglishVerseHeights count])
+  if (row < [_formattedEnglishVerseHeights count])
   {
-    englishVerseHeight = [[formattedEnglishVerseHeights objectAtIndex: row] floatValue];
+    englishVerseHeight = [[_formattedEnglishVerseHeights objectAtIndex: row] floatValue];
   }
 
   float theMax = MAX(greekVerseHeight, englishVerseHeight);
@@ -1370,7 +1321,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
   // are we selected? If so, it takes precedence
   PKReference *reference         = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1];
-  curValue = [[selectedVerses objectForKey: reference.reference] boolValue];
+  curValue = [[_selectedVerses objectForKey: reference.reference] boolValue];
   
 
   if (curValue)
@@ -1383,9 +1334,9 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   }
 
   // are we highlighted?
-  if ([highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]] != nil)
+  if ([_highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]] != nil)
   {
-    pkCell.highlightColor = [highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]];
+    pkCell.highlightColor = [_highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]];
   }
   else   // not highlighted, be transparent.
   {
@@ -1446,14 +1397,14 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   float greekVerseHeight   = 0.0;
   float englishVerseHeight = 0.0;
 
-  if (row < [formattedGreekVerseHeights count])
+  if (row < [_formattedGreekVerseHeights count])
   {
-    greekVerseHeight = [[formattedGreekVerseHeights objectAtIndex: row] floatValue];
+    greekVerseHeight = [[_formattedGreekVerseHeights objectAtIndex: row] floatValue];
   }
 
-  if (row < [formattedEnglishVerseHeights count])
+  if (row < [_formattedEnglishVerseHeights count])
   {
-    englishVerseHeight = [[formattedEnglishVerseHeights objectAtIndex: row] floatValue];
+    englishVerseHeight = [[_formattedEnglishVerseHeights objectAtIndex: row] floatValue];
   }
 
   float theMax = MAX(greekVerseHeight, englishVerseHeight);
@@ -1497,11 +1448,11 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     }
   }
 
-  NSMutableArray *formattedCell = [formattedCells objectAtIndex: row];
+  NSMutableArray *formattedCell = [_formattedCells objectAtIndex: row];
 
   NSMutableString *theAString   = [[NSMutableString alloc] init];
 
-  for (int i = 0; i < [formattedCell count]; i++)
+  for (NSUInteger i = 0; i < [formattedCell count]; i++)
   {
     [theAString appendString: [[formattedCell objectAtIndex: i] text]];
     [theAString appendString: @" "];
@@ -1526,7 +1477,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 -(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath
 {
   // if we have a menu open, we don't want to change anything....
-  if (ourMenu.isMenuVisible)
+  if (_ourMenu.isMenuVisible)
   {
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
     return;
@@ -1541,9 +1492,9 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
   // toggle the selection state
 
-  curValue = [[selectedVerses objectForKey: reference.reference] boolValue];
-  [selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: reference.reference];
-  curValue = [[selectedVerses objectForKey: reference.reference] boolValue];
+  curValue = [[_selectedVerses objectForKey: reference.reference] boolValue];
+  [_selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: reference.reference];
+  curValue = [[_selectedVerses objectForKey: reference.reference] boolValue];
 
   if (curValue)
   {
@@ -1555,9 +1506,9 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   }
 
   // are we highlighted?
-  if ([highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]] != nil)
+  if ([_highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]] != nil)
   {
-    newCell.highlightColor = [highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]];
+    newCell.highlightColor = [_highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]];
   }
   else   // not highlighted, be transparent.
   {
@@ -1625,7 +1576,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     CGPoint p              = [gestureRecognizer locationInView: self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: p];    // nil if no row
     PKLabel *theWordLabel  = nil;
-    selectedWord        = nil;
+    _selectedWord        = nil;
     CGRect theRect;
     theRect.origin.x    = p.x;
     theRect.origin.y    = p.y;
@@ -1641,9 +1592,9 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       PKTableViewCell *theCell = (PKTableViewCell *)[self.tableView cellForRowAtIndexPath: indexPath];
       CGPoint wp               = [gestureRecognizer locationInView: theCell];
       NSString *theWord        = nil;
-      theWordTag = -1;
+      _theWordTag = -1;
 
-      for (int i = 0; i < [theCell.labels count]; i++)
+      for (NSUInteger i = 0; i < [theCell.labels count]; i++)
       {
         PKLabel *theView = [theCell.labels objectAtIndex: i];
 
@@ -1662,8 +1613,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
             if (theDistance < minDistance)
             {
-              theWordTag   = theView.tag;
-              theWordIndex = theView.secondTag;
+              _theWordTag   = theView.tag;
+              _theWordIndex = theView.secondTag;
               theWord      = ( (PKLabel *)theView ).text;
               theWordLabel = (PKLabel *)theView;
               minDistance  = theDistance;
@@ -1680,24 +1631,24 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
         if ([theWord isEqualToString: @""])
         {
-          theWordTag   = -1;
-          theWordIndex = -1;
+          _theWordTag   = -1;
+          _theWordIndex = -1;
           theWord      = nil;
           theWordLabel = nil;
         }
       }
-      selectedWord = theWord;
+      _selectedWord = theWord;
 
       // select the row
       BOOL curValue;
       NSUInteger currentBook    = [[PKSettings instance] currentBook];
       NSUInteger currentChapter = [[PKSettings instance] currentChapter];
 
-      selectedPassage = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1];
+      _selectedPassage = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1];
 
       PKTableViewCell *newCell = (PKTableViewCell *)[self.tableView cellForRowAtIndexPath: indexPath];
-      [selectedVerses setObject: [NSNumber numberWithBool: YES] forKey: selectedPassage.reference];
-      curValue = [[selectedVerses objectForKey: selectedPassage.reference] boolValue];
+      [_selectedVerses setObject: [NSNumber numberWithBool: YES] forKey: _selectedPassage.reference];
+      curValue = [[_selectedVerses objectForKey: _selectedPassage.reference] boolValue];
 
       if (curValue)
       {
@@ -1709,9 +1660,9 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       }
 
       // are we highlighted?
-      if ([highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]] != nil)
+      if ([_highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]] != nil)
       {
-        newCell.highlightColor = [highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]];
+        newCell.highlightColor = [_highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]];
       }
       else       // not highlighted, be transparent.
       {
@@ -1719,7 +1670,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       }
       [newCell setNeedsDisplay];
 
-      if (selectedWord != nil)
+      if (_selectedWord != nil)
       {
         // highlight the word we got
         theRect           = theWordLabel.frame;
@@ -1790,11 +1741,11 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
         }
  */
 
-      ourMenuState = 0;   // show entire menu (not second-tier)
+      _ourMenuState = 0;   // show entire menu (not second-tier)
       [self becomeFirstResponder];
-      [ourMenu update];   // just in case
-      [ourMenu setTargetRect: theRect inView: self.tableView];
-      [ourMenu setMenuVisible: YES animated: YES];
+      [_ourMenu update];   // just in case
+      [_ourMenu setTargetRect: theRect inView: self.tableView];
+      [_ourMenu setMenuVisible: YES animated: YES];
     }
   }
 }
@@ -1816,18 +1767,18 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void) textSelect: (id) sender
 {
-  if (PO)
+  if (_PO)
   {
-    [PO dismissPopoverAnimated: NO];
+    [_PO dismissPopoverAnimated: NO];
   }
   NSArray *bibleTextNames;
   NSArray *bibleAbbreviations;
   NSString *title;
   int theTag;
 
-  if (sender == leftTextSelect)
+  if (sender == _leftTextSelect)
   {
-    bibleTextIDs   = [PKBible availableOriginalTexts: PK_TBL_BIBLES_ID];
+    _bibleTextIDs   = [PKBible availableOriginalTexts: PK_TBL_BIBLES_ID];
     bibleTextNames = [PKBible availableOriginalTexts: PK_TBL_BIBLES_NAME];
     bibleAbbreviations=[PKBible availableOriginalTexts:PK_TBL_BIBLES_ABBREVIATION];
     title          = __T(@"Greek Text");
@@ -1835,7 +1786,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   }
   else
   {
-    bibleTextIDs   = [PKBible availableHostTexts: PK_TBL_BIBLES_ID];
+    _bibleTextIDs   = [PKBible availableHostTexts: PK_TBL_BIBLES_ID];
     bibleTextNames = [PKBible availableHostTexts: PK_TBL_BIBLES_NAME];
     bibleAbbreviations=[PKBible availableHostTexts:PK_TBL_BIBLES_ABBREVIATION];
     title          = __T(@"English Text");
@@ -1843,21 +1794,21 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   }
 
   // dismiss our popover if we've got one
-  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
 
   UIActionSheet *theActionSheet = [[UIActionSheet alloc] init];
   theActionSheet.title    = title;
   theActionSheet.delegate = self;
 
-  for (int i = 0; i < bibleTextIDs.count; i++)
+  for (NSUInteger i = 0; i < _bibleTextIDs.count; i++)
   {
     [theActionSheet addButtonWithTitle: [bibleTextNames[i] stringByAppendingFormat:@" (%@)", bibleAbbreviations[i]]];
   }
 
   [theActionSheet addButtonWithTitle: __T(@"Cancel")];
-  theActionSheet.cancelButtonIndex = bibleTextIDs.count;
+  theActionSheet.cancelButtonIndex = _bibleTextIDs.count;
   theActionSheet.tag               = theTag; // text chooser
-  ourPopover = theActionSheet;
+  _ourPopover = theActionSheet;
 
   [theActionSheet showFromBarButtonItem: sender animated: YES];
 }
@@ -1869,12 +1820,12 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void) toggleStrongs: (id) sender
 {
-  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
-  [PO dismissPopoverAnimated: NO];
+  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [_PO dismissPopoverAnimated: NO];
   [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
   PKWait(
   [self saveTopVerse];
-  ( (PKSettings *)[PKSettings instance] ).showStrongs = !( (PKSettings *)[PKSettings instance] ).showStrongs;
+  [PKSettings instance].showStrongs = ![PKSettings instance].showStrongs;
   [[PKSettings instance] saveSettings];
   [self loadChapter];
   [self reloadTableCache];
@@ -1884,12 +1835,12 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void) toggleMorphology: (id) sender
 {
-  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
-  [PO dismissPopoverAnimated: NO];
+  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [_PO dismissPopoverAnimated: NO];
   [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
   PKWait(
   [self saveTopVerse];
-  ( (PKSettings *)[PKSettings instance] ).showMorphology = !( (PKSettings *)[PKSettings instance] ).showMorphology;
+  [PKSettings instance].showMorphology = ![PKSettings instance].showMorphology;
   [[PKSettings instance] saveSettings];
   [self loadChapter];
   [self reloadTableCache];
@@ -1899,12 +1850,12 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void) toggleTranslation: (id) sender
 {
-  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
-  [PO dismissPopoverAnimated: NO];
+  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [_PO dismissPopoverAnimated: NO];
   [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
   PKWait(
   [self saveTopVerse];
-  ( (PKSettings *)[PKSettings instance] ).showInterlinear = !( (PKSettings *)[PKSettings instance] ).showInterlinear;
+  [PKSettings instance].showInterlinear = ![PKSettings instance].showInterlinear;
   [[PKSettings instance] saveSettings];
   [self loadChapter];
   [self reloadTableCache];
@@ -1914,8 +1865,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void) goFullScreen: (id) sender
 {
-  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
-  [PO dismissPopoverAnimated: NO];
+  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [_PO dismissPopoverAnimated: NO];
 
   [self.navigationController setNavigationBarHidden: YES animated: YES];
   [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
@@ -1931,7 +1882,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     theFrame.size.height = UIScreen.mainScreen.bounds.size.height;
   }
   [PKAppDelegate.sharedInstance.rootViewController.view setFrame:theFrame];
-  self.fullScreen     = YES;
+  _fullScreen     = YES;
 
   // create a button to get us back!
   CGRect theRect;
@@ -1941,35 +1892,35 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   theRect.size.width  = 44;
   theRect.size.height = 32;
 
-  btnRegularScreen    = [UIButton buttonWithType: UIButtonTypeRoundedRect];
+  _btnRegularScreen    = [UIButton buttonWithType: UIButtonTypeRoundedRect];
 
-  [btnRegularScreen setFrame: theRect];
-  [btnRegularScreen setTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-small"] forState:
+  [_btnRegularScreen setFrame: theRect];
+  [_btnRegularScreen setTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-small"] forState:
    UIControlStateNormal];
-  [btnRegularScreen setTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-small"] forState:
+  [_btnRegularScreen setTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-small"] forState:
    UIControlStateHighlighted];
-  [btnRegularScreen setTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-small"] forState:
+  [_btnRegularScreen setTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-small"] forState:
    UIControlStateDisabled];
-  [btnRegularScreen setTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-small"] forState:
+  [_btnRegularScreen setTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-small"] forState:
    UIControlStateSelected];
 
-  btnRegularScreen.titleLabel.font = [UIFont fontWithName: kFontAwesomeFamilyName size: 22];
+  _btnRegularScreen.titleLabel.font = [UIFont fontWithName: kFontAwesomeFamilyName size: 22];
 
-  btnRegularScreen.accessibilityLabel   = __T(@"Leave Full Screen");
+  _btnRegularScreen.accessibilityLabel   = __T(@"Leave Full Screen");
 
-  btnRegularScreen.titleLabel.textColor = [PKSettings PKBaseUIColor];
-  btnRegularScreen.layer.opacity        = 0.5;
-  btnRegularScreen.autoresizingMask     = UIViewAutoresizingFlexibleLeftMargin;
-  [btnRegularScreen addTarget: self action: @selector(goRegularScreen:) forControlEvents: UIControlEventTouchUpInside];
-  [self.parentViewController.view addSubview: btnRegularScreen];
-  [self.parentViewController.view bringSubviewToFront: btnRegularScreen];
+  _btnRegularScreen.titleLabel.textColor = [PKSettings PKBaseUIColor];
+  _btnRegularScreen.layer.opacity        = 0.5;
+  _btnRegularScreen.autoresizingMask     = UIViewAutoresizingFlexibleLeftMargin;
+  [_btnRegularScreen addTarget: self action: @selector(goRegularScreen:) forControlEvents: UIControlEventTouchUpInside];
+  [self.parentViewController.view addSubview: _btnRegularScreen];
+  [self.parentViewController.view bringSubviewToFront: _btnRegularScreen];
 
 }
 
 -(void) goRegularScreen: (id) sender
 {
-  [btnRegularScreen removeFromSuperview];
-  btnRegularScreen = nil;
+  [_btnRegularScreen removeFromSuperview];
+  _btnRegularScreen = nil;
   [self.navigationController setNavigationBarHidden: NO animated: YES];
   [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
   CGRect theFrame = PKAppDelegate.sharedInstance.rootViewController.view.frame;
@@ -1986,15 +1937,15 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     theFrame.size.height = UIScreen.mainScreen.bounds.size.height-20;
   }
   [PKAppDelegate.sharedInstance.rootViewController.view setFrame:theFrame];
-  self.fullScreen = NO;
+  _fullScreen = NO;
 }
 
 -(void) selectAll: (id) sender
 {
-  selectedVerses = [[NSMutableDictionary alloc] init]; // clear selection
+  _selectedVerses = [[NSMutableDictionary alloc] init]; // clear selection
 
-  int currentGreekVerseCount   = [currentGreekChapter count];
-  int currentEnglishVerseCount = [currentEnglishChapter count];
+  int currentGreekVerseCount   = [_currentGreekChapter count];
+  int currentEnglishVerseCount = [_currentEnglishChapter count];
   int currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
 
   // add all the verses to the selection
@@ -2004,7 +1955,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
     NSUInteger currentChapter = [[PKSettings instance] currentChapter];
     PKReference *reference = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:i+1];
 
-    [selectedVerses setObject: [NSNumber numberWithBool: YES] forKey: reference.reference];
+    [_selectedVerses setObject: [NSNumber numberWithBool: YES] forKey: reference.reference];
   }
 
   [self reloadTableCache];
@@ -2018,9 +1969,9 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 -(void) askHighlight: (id) sender
 {
    [self setUpMenuItems];
-  ourMenuState = 1;
-  [ourMenu update];
-  [ourMenu setMenuVisible: YES animated: YES];
+  _ourMenuState = 1;
+  [_ourMenu update];
+  [_ourMenu setMenuVisible: YES animated: YES];
 }
 
 /**
@@ -2031,17 +1982,17 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 -(void) askSearch: (id) sender
 {
    [self setUpMenuItems];
-  ourMenuState = 2;
-  [ourMenu update];
-  [ourMenu setMenuVisible: YES animated: YES];
+  _ourMenuState = 2;
+  [_ourMenu update];
+  [_ourMenu setMenuVisible: YES animated: YES];
 }
 
 -(void) askCopy: (id) sender
 {
    [self setUpMenuItems];
-  ourMenuState = 3;
-  [ourMenu update];
-  [ourMenu setMenuVisible: YES animated: YES];
+  _ourMenuState = 3;
+  [_ourMenu update];
+  [_ourMenu setMenuVisible: YES animated: YES];
 }
 
 /**
@@ -2051,11 +2002,11 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void) changeHighlightColor: (id) sender
 {
-  if (PO)
+  if (_PO)
   {
-    [PO dismissPopoverAnimated: NO];
+    [_PO dismissPopoverAnimated: NO];
   }
-  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
 
   UIActionSheet *theActionSheet = [[UIActionSheet alloc]
                                             initWithTitle: __T(@"Choose Color")
@@ -2065,7 +2016,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
                                         otherButtonTitles: __T(@"Yellow"), __T(@"Green"), __T(@"Magenta"),
                                    __T(@"Pink"),   __T(@"Blue"),    nil];
   theActionSheet.tag = 1999;   // color chooser
-  ourPopover         = theActionSheet;
+  _ourPopover         = theActionSheet;
   [theActionSheet showFromBarButtonItem: sender animated: YES];
 }
 
@@ -2076,7 +2027,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void) clearSelection: (id) sender
 {
-  selectedVerses = [[NSMutableDictionary alloc] init];   // clear selection
+  _selectedVerses = [[NSMutableDictionary alloc] init];   // clear selection
 //    [self.tableView reloadData]; // and reload the table's data
   [self reloadTableCache];
 }
@@ -2088,11 +2039,11 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void) revealToggle: (id) sender
 {
-  if (PO)
+  if (_PO)
   {
-    [PO dismissPopoverAnimated: NO];
+    [_PO dismissPopoverAnimated: NO];
   }
-  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
   [(ZUUIRevealController *)[[PKAppDelegate instance] rootViewController] revealToggle: sender];
 }
 
@@ -2135,11 +2086,11 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void) removeHighlights: (id) sender
 {
-  for (NSString *key in selectedVerses)
+  for (NSString *key in _selectedVerses)
   {
-    if ([[selectedVerses objectForKey: key] boolValue])
+    if ([[_selectedVerses objectForKey: key] boolValue])
     {
-      [(PKHighlights *)[PKHighlights instance]
+      [[PKHighlights instance]
        removeHighlightFromReference: [PKReference referenceWithString: key]];
     }
   }
@@ -2171,7 +2122,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 {
   NSMutableString *theText   = [[NSMutableString alloc] init];
   // FIX ISSUE #43b
-  NSArray *allSelectedVerses = [[selectedVerses allKeys]
+  NSArray *allSelectedVerses = [[_selectedVerses allKeys]
                                 // FIX ISSUE #60
                                 sortedArrayUsingComparator:
                                 ^NSComparisonResult (id obj1, id obj2)
@@ -2194,28 +2145,28 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
   for (NSString *key in allSelectedVerses)
   {
-    if ([[selectedVerses objectForKey: key] boolValue])
+    if ([[_selectedVerses objectForKey: key] boolValue])
     {
-      int theVerse = [PKReference verseFromReferenceString: key];
+      NSUInteger theVerse = [PKReference verseFromReferenceString: key];
       PKReference *theReference = [PKReference referenceWithString:key];
       [theText appendFormat:@"%@\n\n", [theReference prettyReference]];
       
       if ( whichSides & 2 )
       {
-        if (theVerse <= [currentEnglishChapter count])
+        if (theVerse <= [_currentEnglishChapter count])
         {
           // FIX ISSUE #43a
-          [theText appendString: [currentEnglishChapter objectAtIndex: theVerse - 1]];
+          [theText appendString: [_currentEnglishChapter objectAtIndex: theVerse - 1]];
         }
         [theText appendString: @"\n"];
       }
 
       if ( whichSides & 1 )
       {
-        if (theVerse <= [currentGreekChapter count])
+        if (theVerse <= [_currentGreekChapter count])
         {
           // FIX ISSUE #43a
-          [theText appendString: [currentGreekChapter objectAtIndex: theVerse - 1]];
+          [theText appendString: [_currentGreekChapter objectAtIndex: theVerse - 1]];
         }
       }
 
@@ -2241,45 +2192,45 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 {
   UIColor *newColor  = [PKSettings PKYellowHighlightColor];
   NSString *textColor = __T(@"Yellow");
-  ( (PKSettings *)[PKSettings instance] ).highlightColor     = newColor;
-  ( (PKSettings *)[PKSettings instance] ).highlightTextColor = textColor;
-  [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
+  [PKSettings instance].highlightColor     = newColor;
+  [PKSettings instance].highlightTextColor = textColor;
+  [[PKSettings instance] saveCurrentHighlight];
   [self highlightSelection:sender];
 }
 -(void) highlightSelectionGreen: (id) sender
 {
   UIColor *newColor  = [PKSettings PKGreenHighlightColor];
   NSString *textColor = __T(@"Green");
-  ( (PKSettings *)[PKSettings instance] ).highlightColor     = newColor;
-  ( (PKSettings *)[PKSettings instance] ).highlightTextColor = textColor;
-  [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
+  [PKSettings instance].highlightColor     = newColor;
+  [PKSettings instance].highlightTextColor = textColor;
+  [[PKSettings instance] saveCurrentHighlight];
   [self highlightSelection:sender];
 }
 -(void) highlightSelectionMagenta: (id) sender
 {
   UIColor *newColor  = [PKSettings PKMagentaHighlightColor];
   NSString *textColor = __T(@"Magenta");
-  ( (PKSettings *)[PKSettings instance] ).highlightColor     = newColor;
-  ( (PKSettings *)[PKSettings instance] ).highlightTextColor = textColor;
-  [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
+  [PKSettings instance].highlightColor     = newColor;
+  [PKSettings instance].highlightTextColor = textColor;
+  [[PKSettings instance] saveCurrentHighlight];
   [self highlightSelection:sender];
 }
 -(void) highlightSelectionPink: (id) sender
 {
   UIColor *newColor  = [PKSettings PKPinkHighlightColor];
   NSString *textColor = __T(@"Pink");
-  ( (PKSettings *)[PKSettings instance] ).highlightColor     = newColor;
-  ( (PKSettings *)[PKSettings instance] ).highlightTextColor = textColor;
-  [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
+  [PKSettings instance].highlightColor     = newColor;
+  [PKSettings instance].highlightTextColor = textColor;
+  [[PKSettings instance] saveCurrentHighlight];
   [self highlightSelection:sender];
 }
 -(void) highlightSelectionBlue: (id) sender
 {
   UIColor *newColor  = [PKSettings PKBlueHighlightColor];
   NSString *textColor = __T(@"Blue");
-  ( (PKSettings *)[PKSettings instance] ).highlightColor     = newColor;
-  ( (PKSettings *)[PKSettings instance] ).highlightTextColor = textColor;
-  [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
+  [PKSettings instance].highlightColor     = newColor;
+  [PKSettings instance].highlightTextColor = textColor;
+  [[PKSettings instance] saveCurrentHighlight];
   [self highlightSelection:sender];
 }
 
@@ -2293,12 +2244,12 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 {
 
   // we're highlighting the selection
-  for (NSString *key in selectedVerses)
+  for (NSString *key in _selectedVerses)
   {
-    if ([[selectedVerses objectForKey: key] boolValue])
+    if ([[_selectedVerses objectForKey: key] boolValue])
     {
-      [(PKHighlights *)[PKHighlights instance]
-       setHighlight: ( (PKSettings *)[PKSettings instance] ).highlightColor
+      [[PKHighlights instance]
+       setHighlight: [PKSettings instance].highlightColor
          forReference: [PKReference referenceWithString:key]];
     }
   }
@@ -2314,13 +2265,13 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void)defineWord: (id) sender
 {
-  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
-  [PO dismissPopoverAnimated: NO];
+  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [_PO dismissPopoverAnimated: NO];
   // if the word is a greek word with a strong's #, we'll look it up first.
-  if (theWordTag == 0
-      && theWordIndex > -1)
+  if (_theWordTag == 0
+      && _theWordIndex > -1)
   {
-    selectedWord = [NSString stringWithFormat:@"G%i", theWordIndex];
+    _selectedWord = [NSString stringWithFormat:@"G%i", _theWordIndex];
     [self searchStrongs: sender];
 
     return;
@@ -2329,14 +2280,14 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   // if the word is a strong's #, we'll do that lookup instead.
   //if ([[selectedWord substringToIndex: 1] isEqualToString: @"G"]
   //    && [[selectedWord substringFromIndex: 1] intValue] > 0)
-  if (theWordIndex>0)
+  if (_theWordIndex>0)
   {
-    selectedWord = [NSString stringWithFormat:@"G%i", theWordIndex];
+    _selectedWord = [NSString stringWithFormat:@"G%i", _theWordIndex];
     [self searchStrongs: sender];
     return;
   }
 
-  UIReferenceLibraryViewController *dictionary = [[UIReferenceLibraryViewController alloc] initWithTerm: selectedWord];
+  UIReferenceLibraryViewController *dictionary = [[UIReferenceLibraryViewController alloc] initWithTerm: _selectedWord];
 
   if (dictionary != nil)
   {
@@ -2357,13 +2308,13 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void)searchBible: (id) sender
 {
-  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
-  [PO dismissPopoverAnimated: NO];
+  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [_PO dismissPopoverAnimated: NO];
   PKSearchViewController *svc = [[PKSearchViewController alloc] initWithStyle:UITableViewStylePlain];
   svc.notifyWithCopyOfVerse = NO;
   svc.delegate = self;
-  if (sender != searchText)
-    [svc doSearchForTerm: selectedWord];
+  if (sender != _searchText)
+    [svc doSearchForTerm: _selectedWord];
 
   UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
   mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -2379,16 +2330,16 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void)searchStrongs: (id) sender
 {
-  BOOL isStrongs            = theWordIndex>0;
+  BOOL isStrongs            = _theWordIndex>0;
   //[[selectedWord substringToIndex: 1] isEqualToString: @"G"]
   //                            && [[selectedWord substringFromIndex: 1] intValue] > 0;
   PKStrongsController *svc = [[PKStrongsController alloc] initWithStyle:UITableViewStylePlain];
   svc.delegate = self;
   if (isStrongs)
   {
-      selectedWord = [NSString stringWithFormat:@"G%i", theWordIndex];
+      _selectedWord = [NSString stringWithFormat:@"G%i", _theWordIndex];
   }
-  [svc doSearchForTerm: selectedWord byKeyOnly: isStrongs];
+  [svc doSearchForTerm: _selectedWord byKeyOnly: isStrongs];
   
   UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
   mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -2403,9 +2354,9 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void)explainVerse: (id) sender
 {
-  int theBook                 = selectedPassage.book;
-  int theChapter              = selectedPassage.chapter;
-  int theVerse                = selectedPassage.verse;
+  int theBook                 = _selectedPassage.book;
+  int theChapter              = _selectedPassage.chapter;
+  int theVerse                = _selectedPassage.verse;
 
   NSString *theTransformedURL = [NSString stringWithFormat: @"http://bible.cc/%@/%i-%i.htm",
                                  [[PKBible nameForBook: theBook] lowercaseString],
@@ -2430,7 +2381,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
  */
 -(void)doAnnotate: (id) sender
 {
-  PKNoteEditorViewController *nevc = [[PKNoteEditorViewController alloc] initWithReference: selectedPassage];
+  PKNoteEditorViewController *nevc = [[PKNoteEditorViewController alloc] initWithReference: _selectedPassage];
   UINavigationController *mvnc     = [[UINavigationController alloc] initWithRootViewController: nevc];
   //mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
 
@@ -2449,19 +2400,19 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void)fontSelect: (id) sender
 {
-  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
   PKLayoutController *LC = [[PKLayoutController alloc] init];
   LC.delegate = self;
 
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
   {
-    if (PO)
+    if (_PO)
     {
-      [PO dismissPopoverAnimated: NO];
+      [_PO dismissPopoverAnimated: NO];
     }
-    PO = [[UIPopoverController alloc] initWithContentViewController: LC];
-    [PO setPopoverContentSize: CGSizeMake(320, 420) animated: NO];
-    [PO presentPopoverFromBarButtonItem: (UIBarButtonItem *)sender permittedArrowDirections: UIPopoverArrowDirectionAny animated:
+    _PO = [[UIPopoverController alloc] initWithContentViewController: LC];
+    [_PO setPopoverContentSize: CGSizeMake(320, 420) animated: NO];
+    [_PO presentPopoverFromBarButtonItem: (UIBarButtonItem *)sender permittedArrowDirections: UIPopoverArrowDirectionAny animated:
      YES];
   }
   else
@@ -2474,8 +2425,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(void)doSettings: (id) sender
 {
-  [ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
-  [PO dismissPopoverAnimated: NO];
+  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [_PO dismissPopoverAnimated: NO];
   PKSettingsController *sc = [[PKSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
   [self.navigationController pushViewController:sc animated:YES];
 }
@@ -2531,23 +2482,23 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   {
     // handle text changes
     if (buttonIndex < 0
-        || buttonIndex == bibleTextIDs.count)
+        || buttonIndex == _bibleTextIDs.count)
     {
       // cancel; do nothing.
       return;
     }
 
-    int theNewId = [bibleTextIDs[buttonIndex] intValue];
+    int theNewId = [_bibleTextIDs[buttonIndex] intValue];
 
     if (actionSheet.tag == 1898)
     {
-      ( (PKSettings *)[PKSettings instance] ).greekText = theNewId;
-      leftTextSelect.title =  [[PKBible titleForTextID: theNewId] stringByAppendingString: @" ▾"];
+      [PKSettings instance].greekText = theNewId;
+      _leftTextSelect.title =  [[PKBible titleForTextID: theNewId] stringByAppendingString: @" ▾"];
     }
     else
     {
-      ( (PKSettings *)[PKSettings instance] ).englishText = theNewId;
-      rightTextSelect.title = [[PKBible titleForTextID: theNewId] stringByAppendingString: @" ▾"];
+      [PKSettings instance].englishText = theNewId;
+      _rightTextSelect.title = [[PKBible titleForTextID: theNewId] stringByAppendingString: @" ▾"];
     }
     [[PKSettings instance] saveSettings];
     [self bibleTextChanged];
@@ -2597,19 +2548,19 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       return;       // either cancelling, or out of range. we don't care.
     }
 
-    if ([changeHighlight respondsToSelector: @selector(setTintColor:)])
+    if ([_changeHighlight respondsToSelector: @selector(setTintColor:)])
     {
-      self.changeHighlight.tintColor     = newColor;
-      changeHighlight.accessibilityLabel =
+      _changeHighlight.tintColor     = newColor;
+      _changeHighlight.accessibilityLabel =
         [[__T (@"Highlight Color") stringByAppendingString: @" "] stringByAppendingString: textColor];
     }
     else
     {
-      self.changeHighlight.title = textColor;
+      _changeHighlight.title = textColor;
     }
-    ( (PKSettings *)[PKSettings instance] ).highlightColor     = newColor;
-    ( (PKSettings *)[PKSettings instance] ).highlightTextColor = textColor;
-    [(PKSettings *)[PKSettings instance] saveCurrentHighlight];
+    [PKSettings instance].highlightColor     = newColor;
+    [PKSettings instance].highlightTextColor = textColor;
+    [[PKSettings instance] saveCurrentHighlight];
   }
 }
 
@@ -2640,15 +2591,15 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
   PKReference *reference = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1];
 
-  curValue = [[selectedVerses objectForKey: reference.reference] boolValue];
-  [selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: reference.reference];
+  curValue = [[_selectedVerses objectForKey: reference.reference] boolValue];
+  [_selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: reference.reference];
   
   [self.tableView reloadData];
 }
 
 -(int)lowestSelectedVerse
 {
-  NSArray *allSelectedVerses = [[selectedVerses allKeys]
+  NSArray *allSelectedVerses = [[_selectedVerses allKeys]
                                 // FIX ISSUE #60
                                 sortedArrayUsingComparator:
                                 ^NSComparisonResult (id obj1, id obj2)
@@ -2671,7 +2622,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   int lowestIndex = 999;
   for (NSString *key in allSelectedVerses)
   {
-    if ([[selectedVerses objectForKey: key] boolValue])
+    if ([[_selectedVerses objectForKey: key] boolValue])
     {
       int index = [PKReference verseFromReferenceString:key];
       if (index < lowestIndex)
@@ -2687,7 +2638,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
 -(int)highestSelectedVerse
 {
-  NSArray *allSelectedVerses = [[selectedVerses allKeys]
+  NSArray *allSelectedVerses = [[_selectedVerses allKeys]
                                 // FIX ISSUE #60
                                 sortedArrayUsingComparator:
                                 ^NSComparisonResult (id obj1, id obj2)
@@ -2711,7 +2662,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   int highestIndex = 0;
   for (NSString *key in allSelectedVerses)
   {
-    if ([[selectedVerses objectForKey: key] boolValue])
+    if ([[_selectedVerses objectForKey: key] boolValue])
     {
       int index = [PKReference verseFromReferenceString:key];
       if (index > highestIndex)
@@ -2754,8 +2705,8 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
   //
   int currentBook = [[PKSettings instance] currentBook];
   int currentChapter = [[PKSettings instance] currentChapter];
-  int currentGreekVerseCount   = [currentGreekChapter count];
-  int currentEnglishVerseCount = [currentEnglishChapter count];
+  int currentGreekVerseCount   = [_currentGreekChapter count];
+  int currentEnglishVerseCount = [_currentEnglishChapter count];
   int currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
 
   static NSDate *lastKeypress;
@@ -2877,7 +2828,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       lowestVerse = [self lowestSelectedVerse];
       if (lowestVerse>0)
       {
-        self.selectedPassage = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:lowestVerse];
+        _selectedPassage = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:lowestVerse];
         [self doAnnotate:nil];
       }
     }
@@ -2890,7 +2841,7 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
       lowestVerse = [self lowestSelectedVerse];
       if (lowestVerse>0)
       {
-        self.selectedPassage = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:lowestVerse];
+        _selectedPassage = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:lowestVerse];
         [self explainVerse:nil];
       }
     }

@@ -60,6 +60,7 @@
 
 @implementation PKAppDelegate
 
+/*
 @synthesize window = _window;
 @synthesize database;
 @synthesize mySettings;
@@ -75,8 +76,9 @@
 @synthesize strongsViewController;
 @synthesize brightness;
 @synthesize splash;
+*/
 
-static id _instance;
+static PKAppDelegate * _instance;
 
 +(void) initialize
 {
@@ -175,16 +177,16 @@ static id _instance;
   if ([[UIBarButtonItem class] respondsToSelector: @selector(appearance)])
   {
     
-    [PKAppDelegate applyThemeToUISegmentedControl:segmentedControl];
+    [PKAppDelegate applyThemeToUISegmentedControl:_segmentedControl];
     
     NSMutableArray *va = [[NSMutableArray alloc] initWithArray:
-                          @[ bibleBooksViewController, notesViewController,
-                          highlightsViewController, historyViewController,
-                          searchViewController, strongsViewController ] ];
-    if (bibleBooksViewController.navigationController.visibleViewController)
-      [va addObject:bibleBooksViewController.navigationController.visibleViewController];
-    if (bibleViewController.navigationController.visibleViewController)
-      [va addObject:bibleViewController.navigationController.visibleViewController];
+                          @[ _bibleBooksViewController, _notesViewController,
+                          _highlightsViewController, _historyViewController,
+                          _searchViewController, _strongsViewController ] ];
+    if (_bibleBooksViewController.navigationController.visibleViewController)
+      [va addObject:_bibleBooksViewController.navigationController.visibleViewController];
+    if (_bibleViewController.navigationController.visibleViewController)
+      [va addObject:_bibleViewController.navigationController.visibleViewController];
     for ( UIViewController * nb in va )
     {
       UINavigationItem * ni = nb.navigationItem;
@@ -240,13 +242,13 @@ static id _instance;
                                                                           UIRemoteNotificationTypeBadge];
   
   //open our databases...
-  database   = [PKDatabase instance];
+  _database   = [PKDatabase instance];
   
   //and get our settings
-  mySettings = [PKSettings instance];
-  [mySettings reloadSettings];
+  _mySettings = [PKSettings instance];
+  [_mySettings reloadSettings];
   
-  if ([mySettings usageStats] == YES)
+  if ([_mySettings usageStats] == YES)
   {
     [TestFlight takeOff: TESTFLIGHT_API_KEY];
     [Helpshift installForAppID:HELPSHIFT_APP_ID domainName:HELPSHIFT_DOMAIN apiKey:HELPSHIFT_API_KEY];
@@ -255,19 +257,19 @@ static id _instance;
   
   self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
   // define our "top-level" controller -- this is the one above the navigation panel
-  bibleViewController = [[PKBibleViewController alloc] initWithStyle: UITableViewStylePlain];
+  _bibleViewController = [[PKBibleViewController alloc] initWithStyle: UITableViewStylePlain];
   // define an array that houses all our navigation panels.
   
-  bibleBooksViewController = [[PKBibleBooksController alloc] initWithCollectionViewLayout:[PSUICollectionViewFlowLayout new]];
-  highlightsViewController = [[PKHighlightsViewController alloc] init];
-  notesViewController = [[PKNotesViewController alloc] init];
-  historyViewController = [[PKHistoryViewController alloc] init];
-  searchViewController = [[PKSearchViewController alloc] initWithStyle:UITableViewStylePlain];
-  strongsViewController = [[PKStrongsController alloc] initWithStyle:UITableViewStylePlain];
-  NSArray *navViewControllers         = @[ bibleBooksViewController, highlightsViewController,
-                                           notesViewController,
-                                           strongsViewController, searchViewController,
-                                           historyViewController
+  _bibleBooksViewController = [[PKBibleBooksController alloc] initWithCollectionViewLayout:[PSUICollectionViewFlowLayout new]];
+  _highlightsViewController = [[PKHighlightsViewController alloc] init];
+  _notesViewController = [[PKNotesViewController alloc] init];
+  _historyViewController = [[PKHistoryViewController alloc] init];
+  _searchViewController = [[PKSearchViewController alloc] initWithStyle:UITableViewStylePlain];
+  _strongsViewController = [[PKStrongsController alloc] initWithStyle:UITableViewStylePlain];
+  NSArray *navViewControllers         = @[ _bibleBooksViewController, _highlightsViewController,
+                                           _notesViewController,
+                                           _strongsViewController, _searchViewController,
+                                           _historyViewController
                                            ];
   
   UINavigationController *segmentedNavBarController =
@@ -322,10 +324,10 @@ static id _instance;
   scFrame.size.height         = 34;
   self.segmentedControl.frame = scFrame;
   
-  [self.segmentController indexDidChangeForSegmentedControl: segmentedControl];
+  [self.segmentController indexDidChangeForSegmentedControl: _segmentedControl];
   
   // define our ZUII
-  UINavigationController *NC = [[UINavigationController alloc] initWithRootViewController:bibleViewController];
+  UINavigationController *NC = [[UINavigationController alloc] initWithRootViewController:_bibleViewController];
   ZUUIRevealController *revealController = [[ZUUIRevealController alloc]
                                             initWithFrontViewController: NC
                                             rearViewController: segmentedNavBarController];
@@ -347,13 +349,13 @@ static id _instance;
         
         if ([UIScreen mainScreen].scale == 2)
         {
-          splash.image = [UIImage imageNamed: @"Default-Landscape@2x~ipad.png"];
+          _splash.image = [UIImage imageNamed: @"Default-Landscape@2x~ipad.png"];
         }
         else
         {
-          splash.image = [UIImage imageNamed: @"Default-Landscape~ipad.png"];
+          _splash.image = [UIImage imageNamed: @"Default-Landscape~ipad.png"];
         }
-        [splash setFrame: CGRectMake(0, 0, 1024, 748)];
+        [_splash setFrame: CGRectMake(0, 0, 1024, 748)];
         break;
         
       case UIInterfaceOrientationPortrait:
@@ -361,13 +363,13 @@ static id _instance;
         
         if ([UIScreen mainScreen].scale == 2)
         {
-          splash.image = [UIImage imageNamed: @"Default-Portrait@2x~ipad.png"];
+          _splash.image = [UIImage imageNamed: @"Default-Portrait@2x~ipad.png"];
         }
         else
         {
-          splash.image = [UIImage imageNamed: @"Default-Portrait~ipad.png"];
+          _splash.image = [UIImage imageNamed: @"Default-Portrait~ipad.png"];
         }
-        [splash setFrame: CGRectMake(0, 0, 768, 1004)];
+        [_splash setFrame: CGRectMake(0, 0, 768, 1004)];
         break;
     }
   }
@@ -380,34 +382,34 @@ static id _instance;
       if ([UIScreen mainScreen].bounds.size.height == 568.0f)
       {
         // 4 inch iPhone 5
-        splash.image = [UIImage imageNamed: @"Default-568h@2x.png"];
-        [splash setFrame: CGRectMake(0, 0, 320, 548)];
+        _splash.image = [UIImage imageNamed: @"Default-568h@2x.png"];
+        [_splash setFrame: CGRectMake(0, 0, 320, 548)];
       }
       else
       {
-        splash.image = [UIImage imageNamed: @"Default@2x.png"];
-        [splash setFrame: CGRectMake(0, 0, 320, 460)];
+        _splash.image = [UIImage imageNamed: @"Default@2x.png"];
+        [_splash setFrame: CGRectMake(0, 0, 320, 460)];
       }
     }
     else
     {
-      splash.image = [UIImage imageNamed: @"Default.png"];
-      [splash setFrame: CGRectMake(0, 0, 320, 460)];
+      _splash.image = [UIImage imageNamed: @"Default.png"];
+      [_splash setFrame: CGRectMake(0, 0, 320, 460)];
     }
   }
   
-  [self.window.rootViewController.view addSubview: splash];
-  [self.window.rootViewController.view bringSubviewToFront: splash];
+  [self.window.rootViewController.view addSubview: _splash];
+  [self.window.rootViewController.view bringSubviewToFront: _splash];
   
   PKWaitDelay(2, {
     [UIView transitionWithView: self.window
                       duration: 1.00f
                        options: UIViewAnimationOptionCurveEaseInOut
                     animations:^(void) {
-                      splash.alpha = 0.0f;
+                      _splash.alpha = 0.0f;
                     }
                     completion:^(BOOL finished) {
-                      [splash removeFromSuperview];
+                      [_splash removeFromSuperview];
                     }
      ];
   }
@@ -418,7 +420,7 @@ static id _instance;
   [TestFlight passCheckpoint: @"APPLICATION_START"];
   
   // since we alter the brightness, get the value now
-  brightness = [[UIScreen mainScreen] brightness];
+  _brightness = [[UIScreen mainScreen] brightness];
 
   // check for notifications; and handle if necessary
   NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -451,7 +453,7 @@ static id _instance;
   // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method
   // to pause the game.
   // and restore the brightness
-  [[UIScreen mainScreen] setBrightness: brightness];
+  [[UIScreen mainScreen] setBrightness: _brightness];
 }
 
 /**
@@ -467,14 +469,14 @@ static id _instance;
   // quits.
   
   // and restore the brightness
-  [[UIScreen mainScreen] setBrightness: brightness];
+  [[UIScreen mainScreen] setBrightness: _brightness];
   
   // attempt to fix issue #36
-  NSArray *indexPaths        = [bibleViewController.tableView indexPathsForVisibleRows];
+  NSArray *indexPaths        = [_bibleViewController.tableView indexPathsForVisibleRows];
   
   if ([indexPaths count] > 0)
   {
-    ( (PKSettings *)[PKSettings instance] ).topVerse = [[indexPaths objectAtIndex: 0] row] + 1;
+    [PKSettings instance].topVerse = [[indexPaths objectAtIndex: 0] row] + 1;
   }
   
   // save our settings
@@ -490,7 +492,7 @@ static id _instance;
 {
   // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on
   // entering the background.
-  brightness = [[UIScreen mainScreen] brightness];
+  _brightness = [[UIScreen mainScreen] brightness];
 }
 
 /**
@@ -504,9 +506,9 @@ static id _instance;
   // in the background, optionally refresh the user interface.
   //[iOSHierarchyViewer start];
   
-  [bibleViewController resignFirstResponder];
+  [_bibleViewController resignFirstResponder];
   PKWaitDelay(0.5,
-              [bibleViewController becomeFirstResponder];
+              [_bibleViewController becomeFirstResponder];
               );
 }
 
@@ -519,7 +521,7 @@ static id _instance;
 {
   // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   // and restore the brightness
-  [[UIScreen mainScreen] setBrightness: brightness];
+  [[UIScreen mainScreen] setBrightness: _brightness];
   [[PKSettings instance] saveSettings];
 }
 

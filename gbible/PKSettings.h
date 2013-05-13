@@ -80,7 +80,7 @@
 @property BOOL compressRightSideText;       // if YES, compress the right side's text
 @property BOOL extendHighlights;            // if YES, extend the highlights across the screen
 
-+(id)         instance;
++(PKSettings *)         instance;
 -(NSString *) loadSetting: (NSString *) theSetting;
 -(void)       reloadSettings;
 -(void)       saveSetting: (NSString *) theSetting valueForSetting: (NSString *) theValue;

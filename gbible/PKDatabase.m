@@ -47,14 +47,14 @@
 @synthesize content;
 @synthesize userBible;
 
-static id _instance;
+static PKDatabase * _instance;
 
 /**
  *
  * Return the global instance of the database
  *
  */
-+(id) instance
++(PKDatabase *) instance
 {
   @synchronized(self) {
     if (!_instance)
@@ -122,7 +122,7 @@ static id _instance;
     NSArray *allDBs = @[ bible, content, userBible ];
     NSArray *allDBNames = @[ @"Bible", @"User Content", @"User Bible"];
     
-    for (int i=0; i<allDBs.count; i++)
+    for (NSUInteger i=0; i<allDBs.count; i++)
     {
       FMDatabaseQueue *theDB = allDBs[i];
       NSString *theDBName = allDBNames[i];

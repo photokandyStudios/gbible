@@ -48,20 +48,21 @@
 @end
 
 @implementation PKBibleListViewController
+{
+  NSArray * __strong _builtInBibleIDs;
+  NSArray * __strong _builtInBibleAbbreviations;
+  NSArray * __strong _builtInBibleTitles;
+
+  NSArray * __strong _installedBibleIDs;
+  NSArray * __strong _installedBibleAbbreviations;
+  NSArray * __strong _installedBibleTitles;
+
+  NSArray * __strong _availableBibleIDs;
+  NSArray * __strong _availableBibleAbbreviations;
+  NSArray * __strong _availableBibleTitles;
+}
 
 @synthesize delegate;
-
-@synthesize builtInBibleIDs;
-@synthesize builtInBibleAbbreviations;
-@synthesize builtInBibleTitles;
-
-@synthesize installedBibleIDs;
-@synthesize installedBibleAbbreviations;
-@synthesize installedBibleTitles;
-
-@synthesize availableBibleIDs;
-@synthesize availableBibleAbbreviations;
-@synthesize availableBibleTitles;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -76,23 +77,23 @@
 - (void)loadBibles
 {
   // we'll first load the bibles we know we have
-  builtInBibleIDs           = [PKBible builtInTextsWithColumn:PK_TBL_BIBLES_ID];
-  builtInBibleAbbreviations = [PKBible builtInTextsWithColumn:PK_TBL_BIBLES_ABBREVIATION];
-  builtInBibleTitles        = [PKBible builtInTextsWithColumn:PK_TBL_BIBLES_NAME];
+  _builtInBibleIDs           = [PKBible builtInTextsWithColumn:PK_TBL_BIBLES_ID];
+  _builtInBibleAbbreviations = [PKBible builtInTextsWithColumn:PK_TBL_BIBLES_ABBREVIATION];
+  _builtInBibleTitles        = [PKBible builtInTextsWithColumn:PK_TBL_BIBLES_NAME];
   
-  installedBibleIDs           = [PKBible installedTextsWithColumn:PK_TBL_BIBLES_ID];
-  installedBibleAbbreviations = [PKBible installedTextsWithColumn:PK_TBL_BIBLES_ABBREVIATION];
-  installedBibleTitles        = [PKBible installedTextsWithColumn:PK_TBL_BIBLES_NAME];
+  _installedBibleIDs           = [PKBible installedTextsWithColumn:PK_TBL_BIBLES_ID];
+  _installedBibleAbbreviations = [PKBible installedTextsWithColumn:PK_TBL_BIBLES_ABBREVIATION];
+  _installedBibleTitles        = [PKBible installedTextsWithColumn:PK_TBL_BIBLES_NAME];
   
-  availableBibleIDs = [[NSArray alloc] init];
-  availableBibleAbbreviations = [[NSArray alloc] init];
-  availableBibleTitles = [[NSArray alloc] init];
+  _availableBibleIDs = [[NSArray alloc] init];
+  _availableBibleAbbreviations = [[NSArray alloc] init];
+  _availableBibleTitles = [[NSArray alloc] init];
   
   [self.tableView reloadData];
   
   // send off a request to parse
   PFQuery *query = [PFQuery queryWithClassName:@"Bibles"];
-  [query whereKey:@"ID" notContainedIn:installedBibleIDs];
+  [query whereKey:@"ID" notContainedIn:_installedBibleIDs];
   [query whereKey:@"minVersion" lessThanOrEqualTo:[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"]];
   [query whereKey:@"Available" equalTo:@(YES)];
   [query orderByAscending:@"Abbreviation"];
@@ -110,9 +111,9 @@
         [mAvailableBibleTitles addObject:[objects[i] objectForKey:@"Title"]];
       }
    
-   availableBibleIDs = [mAvailableBibleIDs copy];
-   availableBibleAbbreviations = [mAvailableBibleAbbreviations copy];
-   availableBibleTitles = [mAvailableBibleTitles copy];
+   _availableBibleIDs = [mAvailableBibleIDs copy];
+   _availableBibleAbbreviations = [mAvailableBibleAbbreviations copy];
+   _availableBibleTitles = [mAvailableBibleTitles copy];
    
    [self.tableView reloadData];
    } else {
@@ -177,13 +178,13 @@
   switch (section)
   {
     case 0:
-      return builtInBibleTitles.count;
+      return _builtInBibleTitles.count;
       break;
     case 1:
-      return installedBibleTitles.count;
+      return _installedBibleTitles.count;
       break;
     case 2:
-      return availableBibleTitles.count;
+      return _availableBibleTitles.count;
       break;
   }
   
@@ -227,16 +228,16 @@
   switch (indexPath.section)
   {
     case 0:
-      theBibleTitle = builtInBibleTitles[indexPath.row];
-      theBibleAbbreviation = builtInBibleAbbreviations[indexPath.row];
+      theBibleTitle = _builtInBibleTitles[indexPath.row];
+      theBibleAbbreviation = _builtInBibleAbbreviations[indexPath.row];
       break;
     case 1:
-      theBibleTitle = installedBibleTitles[indexPath.row];
-      theBibleAbbreviation = installedBibleAbbreviations[indexPath.row];
+      theBibleTitle = _installedBibleTitles[indexPath.row];
+      theBibleAbbreviation = _installedBibleAbbreviations[indexPath.row];
       break;
     case 2:
-      theBibleTitle = availableBibleTitles[indexPath.row];
-      theBibleAbbreviation = availableBibleAbbreviations[indexPath.row];
+      theBibleTitle = _availableBibleTitles[indexPath.row];
+      theBibleAbbreviation = _availableBibleAbbreviations[indexPath.row];
       break;
   }
   
@@ -257,14 +258,16 @@
   switch (indexPath.section)
   {
     case 0:
-      theBibleID = [builtInBibleIDs[indexPath.row] intValue];
+      theBibleID = [_builtInBibleIDs[indexPath.row] intValue];
       break;
     case 1:
-      theBibleID = [installedBibleIDs[indexPath.row] intValue];
+      theBibleID = [_installedBibleIDs[indexPath.row] intValue];
       break;
     case 2:
-      theBibleID = [availableBibleIDs[indexPath.row] intValue];
+      theBibleID = [_availableBibleIDs[indexPath.row] intValue];
       break;
+    default:
+      theBibleID = 0;
   }
   
   PKBibleInfoViewController *bivc = [[PKBibleInfoViewController alloc] initWithBibleID:theBibleID];

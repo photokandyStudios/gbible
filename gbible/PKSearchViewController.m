@@ -53,24 +53,22 @@
 
 @interface PKSearchViewController ()
 
-// FIX ISSUE #75
-@property (strong, nonatomic) NSMutableDictionary *cellHeights;
-
 @end
 
 @implementation PKSearchViewController
+{
+  // FIX ISSUE #75
+  NSMutableDictionary * __strong _cellHeights;
 
-@synthesize theSearchBar;
-@synthesize theSearchTerm;
-@synthesize theSearchResults;
-@synthesize clickToDismiss;
-@synthesize noResults;
-@synthesize fontSize;
-@synthesize leftFont;
-@synthesize rightFont;
-@synthesize delegate;
-@synthesize notifyWithCopyOfVerse;
-@synthesize cellHeights;
+  NSString * __strong _theSearchTerm;
+  NSArray * __strong _theSearchResults;
+  UISearchBar * __strong _theSearchBar;
+  UIButton * __strong _clickToDismiss;
+  UILabel * __strong _noResults;
+  int _fontSize;
+  UIFont * __strong _leftFont;
+  UIFont * __strong _rightFont;
+}
 
 -(id)initWithStyle: (UITableViewStyle) style
 {
@@ -80,14 +78,14 @@
   {
     // Custom initialization
     [self.navigationItem setTitle: __T(@"Search")];
-    self.theSearchTerm = [[PKSettings instance] lastSearch];
+    _theSearchTerm = [[PKSettings instance] lastSearch];
   }
   return self;
 }
 
 -(void)clearCellHeights
 {
-  cellHeights = [NSMutableDictionary new];
+  _cellHeights = [NSMutableDictionary new];
 }
 
 
@@ -106,16 +104,16 @@
       dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         ^{
 
-           theSearchResults = nil;
-           theSearchTerm = theTerm;
+           _theSearchResults = nil;
+           _theSearchTerm = theTerm;
            
            if ([theTerm isEqualToString: @""])
            {
-             theSearchResults = nil;
+             _theSearchResults = nil;
            }
            else
            {
-             theSearchResults = [PKBible passagesMatching: theTerm requireParsings: parsings];
+             _theSearchResults = [PKBible passagesMatching: theTerm requireParsings: parsings];
            }
           
            dispatch_async(dispatch_get_main_queue(),
@@ -123,17 +121,17 @@
                [SVProgressHUD dismiss];
                [self.tableView reloadData];
                
-               theSearchBar.text = theTerm;
+               _theSearchBar.text = theTerm;
                
-               ( (PKSettings *)[PKSettings instance] ).lastSearch = theTerm;
+               [PKSettings instance].lastSearch = theTerm;
               
-               if ([theSearchResults count] == 0)
+               if ([_theSearchResults count] == 0)
                {
-                 noResults.text = __Tv(@"no-results", @"No results. Please try again.");
+                 _noResults.text = __Tv(@"no-results", @"No results. Please try again.");
                }
                else
                {
-                 noResults.text = @"";
+                 _noResults.text = @"";
                }
              }
            );
@@ -149,7 +147,7 @@
   [TestFlight passCheckpoint: @"SEARCH_BIBLE"];
   [self clearCellHeights];
   
-  if (delegate)
+  if (_delegate)
   {
     UIBarButtonItem *closeButton =
       [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
@@ -158,16 +156,16 @@
   }
 
   // add search bar
-  theSearchBar                   = [[UISearchBar alloc] initWithFrame: CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
-  theSearchBar.delegate          = self;
-  theSearchBar.placeholder       = __T(@"Search Term");
-  theSearchBar.showsCancelButton = NO;
-  theSearchBar.text = self.theSearchTerm;
+  _theSearchBar                   = [[UISearchBar alloc] initWithFrame: CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
+  _theSearchBar.delegate          = self;
+  _theSearchBar.placeholder       = __T(@"Search Term");
+  _theSearchBar.showsCancelButton = NO;
+  _theSearchBar.text = _theSearchTerm;
   
   
-  self.tableView.tableHeaderView = theSearchBar;
+  self.tableView.tableHeaderView = _theSearchBar;
   
-  if (!delegate)
+  if (!_delegate)
   {
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
                                             initWithTarget: self action: @selector(didReceiveRightSwipe:)];
@@ -181,7 +179,7 @@
     [self.tableView addGestureRecognizer: swipeLeft];
   }
   
-  if (!delegate)
+  if (!_delegate)
   {
     // add navbar items
   /*UIBarButtonItem *changeReference = [[UIBarButtonItem alloc]
@@ -197,23 +195,23 @@
     self.navigationItem.leftBarButtonItem = changeReference;*/
   }
   CGRect theRect = CGRectMake(0, self.tableView.center.y + 60, self.tableView.bounds.size.width, 60);
-  noResults                      = [[UILabel alloc] initWithFrame: theRect];
-  noResults.textColor            = [PKSettings PKTextColor];
-  noResults.font                 = [UIFont fontWithName: @"Zapfino" size: 15];
-  noResults.textAlignment        = UITextAlignmentCenter;
-  noResults.backgroundColor      = [UIColor clearColor];
-  noResults.shadowColor          = [UIColor whiteColor];
-  noResults.autoresizingMask     = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-  noResults.numberOfLines        = 0;
-  [self.view addSubview: noResults];
+  _noResults                      = [[UILabel alloc] initWithFrame: theRect];
+  _noResults.textColor            = [PKSettings PKTextColor];
+  _noResults.font                 = [UIFont fontWithName: @"Zapfino" size: 15];
+  _noResults.textAlignment        = UITextAlignmentCenter;
+  _noResults.backgroundColor      = [UIColor clearColor];
+  _noResults.shadowColor          = [UIColor whiteColor];
+  _noResults.autoresizingMask     = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+  _noResults.numberOfLines        = 0;
+  [self.view addSubview: _noResults];
   
-  if ([self.theSearchTerm isEqualToString:@""])
+  if ([_theSearchTerm isEqualToString:@""])
   {
-    noResults.text = __Tv(@"no-search", @"Enter Search Term");
+    _noResults.text = __Tv(@"no-search", @"Enter Search Term");
   }
   else
   {
-    noResults.text = __Tv(@"do-search", @"Search to display results");
+    _noResults.text = __Tv(@"do-search", @"Search to display results");
   }
   
   self.tableView.backgroundColor = [PKSettings PKPageColor];
@@ -225,7 +223,7 @@
 
 -(void) updateAppearanceForTheme
 {
-  self.fontSize = [[PKSettings instance] textFontSize];
+  _fontSize = [[PKSettings instance] textFontSize];
   // get the font
   UIFont *theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                  andSize: [[PKSettings instance] textFontSize]];
@@ -237,8 +235,8 @@
   {
     theBoldFont = theFont;
   }
-  self.rightFont                 = theFont;
-  self.leftFont                  = theBoldFont;
+  _rightFont                 = theFont;
+  _leftFont                  = theBoldFont;
   
   self.tableView.backgroundView  = nil;
   self.tableView.backgroundColor = [PKSettings PKPageColor];
@@ -256,10 +254,12 @@
 -(void)viewDidUnload
 {
   [super viewDidUnload];
-  theSearchResults = nil;
-  theSearchTerm    = nil;
-  clickToDismiss   = nil;
-  noResults        = nil;
+  _theSearchResults = nil;
+  _theSearchTerm    = nil;
+  _clickToDismiss   = nil;
+  _noResults        = nil;
+  _cellHeights = nil;
+  _theSearchBar = nil;
 }
 
 -(void)didRotateFromInterfaceOrientation: (UIInterfaceOrientation) fromInterfaceOrientation
@@ -297,9 +297,9 @@
 -(NSInteger)tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
   // Return the number of rows in the section.
-  if (theSearchResults != nil)
+  if (_theSearchResults != nil)
   {
-    return [theSearchResults count];
+    return [_theSearchResults count];
   }
   else
   {
@@ -311,13 +311,13 @@
 {
   NSUInteger row         = [indexPath row];
   
-  if ( [cellHeights objectForKey:@(row)] )
+  if ( [_cellHeights objectForKey:@(row)] )
   {
-    return [[cellHeights objectForKey:@(row)] floatValue];
+    return [[_cellHeights objectForKey:@(row)] floatValue];
   }
   
   
-  PKReference *theReference   = [theSearchResults objectAtIndex: row];
+  PKReference *theReference   = [_theSearchResults objectAtIndex: row];
   int theBook            = theReference.book;
   int theChapter         = theReference.chapter;
   int theVerse           = theReference.verse;
@@ -341,7 +341,7 @@
                     [PKBible getTextForBook: theBook
                                  forChapter: theChapter
                                    forVerse: theVerse
-                                    forSide: 1]] sizeWithFont: self.leftFont
+                                    forSide: 1]] sizeWithFont: _leftFont
                    constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
     
     theRightSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
@@ -350,17 +350,17 @@
                      [PKBible getTextForBook: theBook
                                   forChapter: theChapter
                                     forVerse: theVerse
-                                     forSide: 2]] sizeWithFont: self.rightFont
+                                     forSide: 2]] sizeWithFont: _rightFont
                     constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
     
     theHeight += MAX(theLeftSize.height, theRightSize.height) + 10;
   }
   else
   {
-    UIFont *theHeadingFont = [self.leftFont fontWithSizeDeltaPercent:1.25];
-    theHeight = 40 + [@"M" sizeWithFont: theHeadingFont].height + [@"M" sizeWithFont: leftFont].height*2 + + [@"M" sizeWithFont: rightFont].height*2;
+    UIFont *theHeadingFont = [_leftFont fontWithSizeDeltaPercent:1.25];
+    theHeight = 40 + [@"M" sizeWithFont: theHeadingFont].height + [@"M" sizeWithFont: _leftFont].height*2 + + [@"M" sizeWithFont: _rightFont].height*2;
   }
-  [cellHeights setObject:@(theHeight) forKey:@(row)];
+  [_cellHeights setObject:@(theHeight) forKey:@(row)];
   
   return theHeight;
 }
@@ -385,7 +385,7 @@
   
   NSUInteger row         = [indexPath row];
   
-  PKReference *theReference   = [theSearchResults objectAtIndex: row];
+  PKReference *theReference   = [_theSearchResults objectAtIndex: row];
   int theBook            = theReference.book;
   int theChapter         = theReference.chapter;
   int theVerse           = theReference.verse;
@@ -403,7 +403,7 @@
                                [PKBible getTextForBook: theBook
                                             forChapter: theChapter
                                               forVerse: theVerse
-                                               forSide: 1]] sizeWithFont: self.leftFont
+                                               forSide: 1]] sizeWithFont: _leftFont
                               constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
     
     CGSize theRightSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
@@ -412,7 +412,7 @@
                             [PKBible getTextForBook: theBook
                                          forChapter: theChapter
                                            forVerse: theVerse
-                                            forSide: 2]] sizeWithFont: self.rightFont
+                                            forSide: 2]] sizeWithFont: _rightFont
                            constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
     
     // now create the new subviews
@@ -425,18 +425,18 @@
                                            forVerse: theVerse
                                             forSide: 1]];
     theLeftSide.hotColor = [PKSettings PKStrongsColor];
-    theLeftSide.hotWord  = self.theSearchTerm;
+    theLeftSide.hotWord  = _theSearchTerm;
     theLeftSide.textColor          = [PKSettings PKTextColor];
     theLeftSide.hotBackgroundColor = [PKSettings PKSelectionColor];
     theLeftSide.numberOfLines      = 0;
     theLeftSide.backgroundColor    = [UIColor clearColor];
-    theLeftSide.font               = self.leftFont;
+    theLeftSide.font               = _leftFont;
     
     PKHotLabel *theRightSide =
     [[PKHotLabel alloc] initWithFrame: CGRectMake(theColumnWidth + 20, 10, theColumnWidth - 40, theRightSize.height)];
     theRightSide.hotColor           = [PKSettings PKStrongsColor];
     theRightSide.hotBackgroundColor = [PKSettings PKSelectionColor];
-    theRightSide.hotWord            = self.theSearchTerm;
+    theRightSide.hotWord            = _theSearchTerm;
     theRightSide.text               = [NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
                                        [PKBible nameForBook: theBook],
                                        theChapter,
@@ -448,21 +448,21 @@
     theRightSide.textColor       = [PKSettings PKTextColor];
     theRightSide.numberOfLines   = 0;
     theRightSide.backgroundColor = [UIColor clearColor];
-    theRightSide.font            = self.rightFont;
+    theRightSide.font            = _rightFont;
     
     [cell addSubview: theLeftSide];
     [cell addSubview: theRightSide];
   }
   else
   {
-    UIFont *theHeadingFont = [self.leftFont fontWithSizeDeltaPercent:1.25];
+    UIFont *theHeadingFont = [_leftFont fontWithSizeDeltaPercent:1.25];
     UILabel *theReference = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, theCellWidth-20, [@"M" sizeWithFont: theHeadingFont].height)];
     
     PKHotLabel *theTopText = [[PKHotLabel alloc] initWithFrame:CGRectMake(10, 20 + [@"M" sizeWithFont: theHeadingFont].height,
                                                                           theCellWidth-20,
-                                                                          [@"M" sizeWithFont: leftFont].height*2)];
-    PKHotLabel *theBottomText=[[PKHotLabel alloc] initWithFrame:CGRectMake(10, 30 + [@"M" sizeWithFont: theHeadingFont].height + [@"M" sizeWithFont: leftFont].height*2,
-    theCellWidth-20, [@"M" sizeWithFont: rightFont].height*2)];
+                                                                          [@"M" sizeWithFont: _leftFont].height*2)];
+    PKHotLabel *theBottomText=[[PKHotLabel alloc] initWithFrame:CGRectMake(10, 30 + [@"M" sizeWithFont: theHeadingFont].height + [@"M" sizeWithFont: _leftFont].height*2,
+    theCellWidth-20, [@"M" sizeWithFont: _rightFont].height*2)];
     
     
     
@@ -471,9 +471,9 @@
     theReference.textColor          = [PKSettings PKTextColor];
     theReference.backgroundColor    = [UIColor clearColor];
     
-    theTopText.font = leftFont;
+    theTopText.font = _leftFont;
     theTopText.hotColor = [PKSettings PKStrongsColor];
-    theTopText.hotWord  = self.theSearchTerm;
+    theTopText.hotWord  = _theSearchTerm;
     theTopText.hotBackgroundColor = [PKSettings PKSelectionColor];
     theTopText.numberOfLines      = 0;
     theTopText.textColor          = [PKSettings PKTextColor];
@@ -483,9 +483,9 @@
                                            forVerse: theVerse
                                             forSide: 1];
     
-    theBottomText.font = rightFont;
+    theBottomText.font = _rightFont;
     theBottomText.hotColor = [PKSettings PKStrongsColor];
-    theBottomText.hotWord  = self.theSearchTerm;
+    theBottomText.hotWord  = _theSearchTerm;
     theBottomText.hotBackgroundColor = [PKSettings PKSelectionColor];
     theBottomText.numberOfLines      = 0;
     theBottomText.textColor          = [PKSettings PKTextColor];
@@ -505,20 +505,20 @@
 {
   NSUInteger row             = [indexPath row];
   
-  PKReference *theReference   = [theSearchResults objectAtIndex: row];
+  PKReference *theReference   = [_theSearchResults objectAtIndex: row];
   int theBook            = theReference.book;
   int theChapter         = theReference.chapter;
   int theVerse           = theReference.verse;
 
-  if (delegate)
+  if (_delegate)
   {
-    if (notifyWithCopyOfVerse)
+    if (_notifyWithCopyOfVerse)
     {
-      [delegate newVerseByBook:theBook andChapter:theChapter andVerse:theVerse];
+      [_delegate newVerseByBook:theBook andChapter:theChapter andVerse:theVerse];
     }
     else
     {
-      [delegate newReferenceByBook:theBook andChapter:theChapter andVerse:theVerse];
+      [_delegate newReferenceByBook:theBook andChapter:theChapter andVerse:theVerse];
     }
     [self dismissModalViewControllerAnimated: YES];
   }
@@ -542,29 +542,29 @@
 {
   CGRect theRect = self.tableView.frame;
   theRect.origin.y               += 44;
-  clickToDismiss                  = [[UIButton alloc] initWithFrame: theRect];
-  clickToDismiss.autoresizingMask = UIViewAutoresizingFlexibleWidth |
+  _clickToDismiss                  = [[UIButton alloc] initWithFrame: theRect];
+  _clickToDismiss.autoresizingMask = UIViewAutoresizingFlexibleWidth |
   UIViewAutoresizingFlexibleHeight;
-  clickToDismiss.backgroundColor  = [UIColor colorWithWhite: 0 alpha: 0.5];
-  [clickToDismiss addTarget: self action: @selector(hideKeyboard) forControlEvents: UIControlEventTouchDown |
+  _clickToDismiss.backgroundColor  = [UIColor colorWithWhite: 0 alpha: 0.5];
+  [_clickToDismiss addTarget: self action: @selector(hideKeyboard) forControlEvents: UIControlEventTouchDown |
    UIControlEventTouchDragInside
    ];
   self.tableView.scrollEnabled = NO;
-  [self.view addSubview: clickToDismiss];
+  [self.view addSubview: _clickToDismiss];
 }
 
 //FIX ISSUE #50
 -(void)searchBarTextDidEndEditing: (UISearchBar *) searchBar
 {
-  [clickToDismiss removeFromSuperview];
-  clickToDismiss               = nil;
+  [_clickToDismiss removeFromSuperview];
+  _clickToDismiss               = nil;
   self.tableView.scrollEnabled = YES;
 }
 
 -(void) hideKeyboard
 {
-  [clickToDismiss removeFromSuperview];
-  clickToDismiss               = nil;
+  [_clickToDismiss removeFromSuperview];
+  _clickToDismiss               = nil;
   [self becomeFirstResponder];
   self.tableView.scrollEnabled = YES;
 }

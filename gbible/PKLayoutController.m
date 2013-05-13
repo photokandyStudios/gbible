@@ -45,53 +45,33 @@
 #import "PKAppDelegate.h"
 
 @interface PKLayoutController ()
-@property (strong, nonatomic) UILabel *previewLabel;
-@property (strong, nonatomic) UILabel *label1;
-@property (strong, nonatomic) UILabel *fontSizeLabel;
-@property (strong, nonatomic) UILabel *greekFontLabel;
-@property (strong, nonatomic) UILabel *englishFontLabel;
-@property (strong, nonatomic) UILabel *rowSpacingLabel;
-@property (strong, nonatomic) UIStepper *fontStepper;
-@property (strong, nonatomic) UISlider *brightnessSlider;
-@property (strong, nonatomic) UISegmentedControl *rowSpacingSelector;
-@property (strong, nonatomic) UISegmentedControl *lineSpacingSelector;
-@property (strong, nonatomic) UISegmentedControl *columnSelector;
-@property (strong, nonatomic) UITableView *englishFontPicker;
-@property (strong, nonatomic) UITableView *greekFontPicker;
-@property (strong, nonatomic) UILabel *decreaseBrightnessLabel;
-@property (strong, nonatomic) UILabel *increaseBrightnessLabel;
-@property (strong, nonatomic) UISegmentedControl *themeSelector;
-
-@property (strong, nonatomic) NSArray *fontNames;
-@property (strong, nonatomic) NSArray *fontSizes;
-@property (strong, nonatomic) NSArray *themeTextColors;
-@property (strong, nonatomic) NSArray *themeBgColors;
 
 @end
 
 @implementation PKLayoutController
+{
+  UILabel *__strong _previewLabel;
+  UILabel *__strong _label1;
+  UILabel *__strong _fontSizeLabel;
+  UILabel *__strong _greekFontLabel;
+  UILabel *__strong _englishFontLabel;
+  UILabel *__strong _rowSpacingLabel;
+  UIStepper *__strong _fontStepper;
+  UISlider *__strong _brightnessSlider;
+  UISegmentedControl *__strong _rowSpacingSelector;
+  UISegmentedControl *__strong _lineSpacingSelector;
+  UISegmentedControl *__strong _columnSelector;
+  UITableView *__strong _englishFontPicker;
+  UITableView *__strong _greekFontPicker;
+  UILabel *__strong _decreaseBrightnessLabel;
+  UILabel *__strong _increaseBrightnessLabel;
+  UISegmentedControl *__strong _themeSelector;
 
-@synthesize previewLabel;
-@synthesize fontSizeLabel;
-@synthesize greekFontLabel;
-@synthesize englishFontLabel;
-@synthesize rowSpacingLabel;
-@synthesize fontStepper;
-@synthesize brightnessSlider;
-@synthesize rowSpacingSelector;
-@synthesize lineSpacingSelector;
-@synthesize columnSelector;
-@synthesize englishFontPicker;
-@synthesize greekFontPicker;
-@synthesize decreaseBrightnessLabel;
-@synthesize increaseBrightnessLabel;
-@synthesize fontNames;
-@synthesize delegate;
-@synthesize fontSizes;
-@synthesize themeSelector;
-@synthesize themeTextColors;
-@synthesize themeBgColors;
-@synthesize label1;
+  NSArray *__strong _fontNames;
+  NSArray *__strong _fontSizes;
+  NSArray *__strong _themeTextColors;
+  NSArray *__strong _themeBgColors;
+}
 
 -(id)init
 {
@@ -119,14 +99,14 @@
     self.navigationItem.title              = __T(@"Text Settings");
   }
 
-  fontSizes     = @[@9, @10, @11, @12, @14, @16, @18, @20, @22, @26, @32, @48];
+  _fontSizes     = @[@9, @10, @11, @12, @14, @16, @18, @20, @22, @26, @32, @48];
 
-  themeBgColors = @[[UIColor colorWithRed: 0.945098 green: 0.933333 blue: 0.898039 alpha: 1],
+  _themeBgColors = @[[UIColor colorWithRed: 0.945098 green: 0.933333 blue: 0.898039 alpha: 1],
                     [UIColor colorWithWhite: 0.90 alpha: 1],
                     [UIColor colorWithWhite: 0.10 alpha: 1],
                     [UIColor colorWithWhite: 0.10 alpha: 1]
                   ];
-  themeTextColors =  @[[UIColor colorWithRed: 0.341176 green: 0.223529 blue: 0.125490 alpha: 1.0],
+  _themeTextColors =  @[[UIColor colorWithRed: 0.341176 green: 0.223529 blue: 0.125490 alpha: 1.0],
                        [UIColor colorWithWhite: 0.10 alpha: 1],
                        [UIColor colorWithWhite: 0.65 alpha: 1.0],
                        [UIColor colorWithRed: 0.65 green: 0.50 blue: 0.00 alpha: 1.0]
@@ -134,190 +114,190 @@
 
   self.view.backgroundColor = [UIColor colorWithWhite: 0.9 alpha: 1];
 
-  label1                 = [[UILabel alloc] initWithFrame: CGRectMake(10, 10, 160, 30)];
-  label1.text            = [NSString stringWithFormat: @"%@ %i", __T(@"Theme"), [[PKSettings instance] textTheme] + 1];
-  label1.textAlignment   = UITextAlignmentLeft;
-  label1.font = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
-  label1.backgroundColor = [UIColor clearColor];
-  [self.view addSubview: label1];
+  _label1                 = [[UILabel alloc] initWithFrame: CGRectMake(10, 10, 160, 30)];
+  _label1.text            = [NSString stringWithFormat: @"%@ %i", __T(@"Theme"), [[PKSettings instance] textTheme] + 1];
+  _label1.textAlignment   = UITextAlignmentLeft;
+  _label1.font = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
+  _label1.backgroundColor = [UIColor clearColor];
+  [self.view addSubview: _label1];
 
   CoolButton *theme1 = [[CoolButton alloc] initWithFrame: CGRectMake(10, 44, 49, 27)];
   [theme1 addTarget: self action: @selector(themeChanged:) forControlEvents: UIControlEventTouchUpInside];
-  theme1.buttonColor = themeBgColors[0];
+  theme1.buttonColor = _themeBgColors[0];
   [theme1 setTag: 0];
   [theme1 setTitle: __T(@"1") forState: UIControlStateNormal];
-  [theme1 setTitleColor: themeTextColors[0] forState: UIControlStateNormal];
+  [theme1 setTitleColor: _themeTextColors[0] forState: UIControlStateNormal];
   [self.view addSubview: theme1];
 
   CoolButton *theme2 = [[CoolButton alloc] initWithFrame: CGRectMake(59, 44, 49, 27)];
   [theme2 addTarget: self action: @selector(themeChanged:) forControlEvents: UIControlEventTouchUpInside];
-  theme2.buttonColor = themeBgColors[1];
+  theme2.buttonColor = _themeBgColors[1];
   [theme2 setTag: 1];
   [theme2 setTitle: __T(@"2") forState: UIControlStateNormal];
-  [theme2 setTitleColor: themeTextColors[1] forState: UIControlStateNormal];
+  [theme2 setTitleColor: _themeTextColors[1] forState: UIControlStateNormal];
   [self.view addSubview: theme2];
 
   CoolButton *theme3 = [[CoolButton alloc] initWithFrame: CGRectMake(108, 44, 49, 27)];
   [theme3 addTarget: self action: @selector(themeChanged:) forControlEvents: UIControlEventTouchUpInside];
-  theme3.buttonColor = themeBgColors[2];
+  theme3.buttonColor = _themeBgColors[2];
   [theme3 setTag: 2];
   [theme3 setTitle: __T(@"3") forState: UIControlStateNormal];
-  [theme3 setTitleColor: themeTextColors[2] forState: UIControlStateNormal];
+  [theme3 setTitleColor: _themeTextColors[2] forState: UIControlStateNormal];
   [self.view addSubview: theme3];
 
   CoolButton *theme4 = [[CoolButton alloc] initWithFrame: CGRectMake(157, 44, 49, 27)];
   [theme4 addTarget: self action: @selector(themeChanged:) forControlEvents: UIControlEventTouchUpInside];
-  theme4.buttonColor = themeBgColors[3];
+  theme4.buttonColor = _themeBgColors[3];
   [theme4 setTag: 3];
   [theme4 setTitle: __T(@"4") forState: UIControlStateNormal];
-  [theme4 setTitleColor: themeTextColors[3] forState: UIControlStateNormal];
+  [theme4 setTitleColor: _themeTextColors[3] forState: UIControlStateNormal];
   [self.view addSubview: theme4];
 
-  fontSizeLabel                 = [[UILabel alloc] initWithFrame: CGRectMake(216, 10, 94, 30)];
-  fontSizeLabel.font            = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:20];
-  fontSizeLabel.textAlignment   = UITextAlignmentCenter;
-  fontSizeLabel.text            = [NSString stringWithFormat: @"%ipt", [[PKSettings instance] textFontSize]];
-  fontSizeLabel.backgroundColor = [UIColor clearColor];
-  [self.view addSubview: fontSizeLabel];
+  _fontSizeLabel                 = [[UILabel alloc] initWithFrame: CGRectMake(216, 10, 94, 30)];
+  _fontSizeLabel.font            = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:20];
+  _fontSizeLabel.textAlignment   = UITextAlignmentCenter;
+  _fontSizeLabel.text            = [NSString stringWithFormat: @"%ipt", [[PKSettings instance] textFontSize]];
+  _fontSizeLabel.backgroundColor = [UIColor clearColor];
+  [self.view addSubview: _fontSizeLabel];
 
-  fontStepper                   = [[UIStepper alloc] initWithFrame: CGRectMake(216, 44, 88, 60)];
-  fontStepper.value             = [fontSizes indexOfObject: [NSNumber numberWithInt: [[PKSettings instance] textFontSize]]];
-  [fontStepper setMinimumValue: 0];
-  [fontStepper setMaximumValue: 11];
-  [fontStepper addTarget: self action: @selector(fontSizeChanged:) forControlEvents: UIControlEventValueChanged];
-  [self.view addSubview: fontStepper];
+  _fontStepper                   = [[UIStepper alloc] initWithFrame: CGRectMake(216, 44, 88, 60)];
+  _fontStepper.value             = [_fontSizes indexOfObject: [NSNumber numberWithInt: [[PKSettings instance] textFontSize]]];
+  [_fontStepper setMinimumValue: 0];
+  [_fontStepper setMaximumValue: 11];
+  [_fontStepper addTarget: self action: @selector(fontSizeChanged:) forControlEvents: UIControlEventValueChanged];
+  [self.view addSubview: _fontStepper];
 
-  greekFontLabel      = [[UILabel alloc] initWithFrame: CGRectMake(10, 80, 140, 20)];
-  greekFontLabel.text = __T(@"Greek Typeface");
-  greekFontLabel.backgroundColor             = [UIColor clearColor];
-  greekFontLabel.font                      = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
-  greekFontLabel.textAlignment               = UITextAlignmentCenter;
-  greekFontLabel.adjustsFontSizeToFitWidth   = YES;
-  greekFontLabel.minimumFontSize             = 0;
-  greekFontLabel.numberOfLines               = 1;
-  [self.view addSubview: greekFontLabel];
+  _greekFontLabel      = [[UILabel alloc] initWithFrame: CGRectMake(10, 80, 140, 20)];
+  _greekFontLabel.text = __T(@"Greek Typeface");
+  _greekFontLabel.backgroundColor             = [UIColor clearColor];
+  _greekFontLabel.font                      = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
+  _greekFontLabel.textAlignment               = UITextAlignmentCenter;
+  _greekFontLabel.adjustsFontSizeToFitWidth   = YES;
+  _greekFontLabel.minimumFontSize             = 0;
+  _greekFontLabel.numberOfLines               = 1;
+  [self.view addSubview: _greekFontLabel];
 
-  englishFontLabel                           = [[UILabel alloc] initWithFrame: CGRectMake(170, 80, 140, 20)];
-  englishFontLabel.text                      = __T(@"English Typeface");
-  englishFontLabel.font                      = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
-  englishFontLabel.backgroundColor           = [UIColor clearColor];
-  englishFontLabel.textAlignment             = UITextAlignmentCenter;
-  englishFontLabel.adjustsFontSizeToFitWidth = YES;
-  englishFontLabel.minimumFontSize           = 0;
-  englishFontLabel.numberOfLines             = 1;
-  [self.view addSubview: englishFontLabel];
+  _englishFontLabel                           = [[UILabel alloc] initWithFrame: CGRectMake(170, 80, 140, 20)];
+  _englishFontLabel.text                      = __T(@"English Typeface");
+  _englishFontLabel.font                      = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
+  _englishFontLabel.backgroundColor           = [UIColor clearColor];
+  _englishFontLabel.textAlignment             = UITextAlignmentCenter;
+  _englishFontLabel.adjustsFontSizeToFitWidth = YES;
+  _englishFontLabel.minimumFontSize           = 0;
+  _englishFontLabel.numberOfLines             = 1;
+  [self.view addSubview: _englishFontLabel];
 
-  greekFontPicker                            =
+  _greekFontPicker                            =
     [[UITableView alloc] initWithFrame: CGRectMake(00, 100, 165, 190) style: UITableViewStyleGrouped];
-  greekFontPicker.backgroundColor            = [UIColor clearColor];
-  greekFontPicker.backgroundView             = nil;
-  greekFontPicker.dataSource                 = self;
-  greekFontPicker.delegate                   = self;
+  _greekFontPicker.backgroundColor            = [UIColor clearColor];
+  _greekFontPicker.backgroundView             = nil;
+  _greekFontPicker.dataSource                 = self;
+  _greekFontPicker.delegate                   = self;
 
-  [self.view addSubview: greekFontPicker];
+  [self.view addSubview: _greekFontPicker];
 
-  englishFontPicker                 =
+  _englishFontPicker                 =
     [[UITableView alloc] initWithFrame: CGRectMake(155, 100, 165, 190) style: UITableViewStyleGrouped];
-  englishFontPicker.backgroundColor = [UIColor clearColor];
-  englishFontPicker.backgroundView  = nil;
-  englishFontPicker.dataSource      = self;
-  englishFontPicker.delegate        = self;
+  _englishFontPicker.backgroundColor = [UIColor clearColor];
+  _englishFontPicker.backgroundView  = nil;
+  _englishFontPicker.dataSource      = self;
+  _englishFontPicker.delegate        = self;
 
-  [self.view addSubview: englishFontPicker];
+  [self.view addSubview: _englishFontPicker];
 
-  lineSpacingSelector = [[UISegmentedControl alloc] initWithFrame: CGRectMake(10, 300, 145, 30)];
+  _lineSpacingSelector = [[UISegmentedControl alloc] initWithFrame: CGRectMake(10, 300, 145, 30)];
 
-  [lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"SingleSpacing"] atIndex: 0 animated: NO];
-  [lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"OneHalfSpacing"] atIndex: 1 animated: NO];
-  [lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"DoubleSpacing"] atIndex: 2 animated: NO];
-  lineSpacingSelector.selectedSegmentIndex = ( ( (PKSettings *)[PKSettings instance] ).textVerseSpacing );
-  [lineSpacingSelector addTarget: self action: @selector(lineSpacingChanged:) forControlEvents: UIControlEventValueChanged];
-  [self.view addSubview: lineSpacingSelector];
+  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"SingleSpacing"] atIndex: 0 animated: NO];
+  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"OneHalfSpacing"] atIndex: 1 animated: NO];
+  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"DoubleSpacing"] atIndex: 2 animated: NO];
+  _lineSpacingSelector.selectedSegmentIndex = ( [PKSettings instance].textVerseSpacing );
+  [_lineSpacingSelector addTarget: self action: @selector(lineSpacingChanged:) forControlEvents: UIControlEventValueChanged];
+  [self.view addSubview: _lineSpacingSelector];
 
-  columnSelector = [[UISegmentedControl alloc] initWithFrame: CGRectMake(165, 300, 145, 30)];
-  [columnSelector addTarget: self action: @selector(columnChanged:) forControlEvents: UIControlEventValueChanged];
-  [columnSelector insertSegmentWithImage: [UIImage imageNamed: @"WideLeftColumns"] atIndex: 0 animated: NO];
-  [columnSelector insertSegmentWithImage: [UIImage imageNamed: @"EqualColumns"] atIndex: 1 animated: NO];
-  [columnSelector insertSegmentWithImage: [UIImage imageNamed: @"WideRightColumns"] atIndex: 2 animated: NO];
+  _columnSelector = [[UISegmentedControl alloc] initWithFrame: CGRectMake(165, 300, 145, 30)];
+  [_columnSelector addTarget: self action: @selector(columnChanged:) forControlEvents: UIControlEventValueChanged];
+  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"WideLeftColumns"] atIndex: 0 animated: NO];
+  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"EqualColumns"] atIndex: 1 animated: NO];
+  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"WideRightColumns"] atIndex: 2 animated: NO];
 
-  switch ( ( (PKSettings *)[PKSettings instance] ).layoutColumnWidths )
+  switch ( [PKSettings instance].layoutColumnWidths )
   {
   case 0:
-    columnSelector.selectedSegmentIndex = 0;
+    _columnSelector.selectedSegmentIndex = 0;
     break;
 
   case 1:
-    columnSelector.selectedSegmentIndex = 2;
+    _columnSelector.selectedSegmentIndex = 2;
     break;
 
   case 2:
-    columnSelector.selectedSegmentIndex = 1;
+    _columnSelector.selectedSegmentIndex = 1;
     break;
   }
-  [self.view addSubview: columnSelector];
+  [self.view addSubview: _columnSelector];
 
-  rowSpacingSelector = [[UISegmentedControl alloc] initWithFrame: CGRectMake(116, 340, 194, 30)];
+  _rowSpacingSelector = [[UISegmentedControl alloc] initWithFrame: CGRectMake(116, 340, 194, 30)];
 
-  [rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"One"] atIndex: 0 animated: NO];
-  [rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"OneAndOneQuarter"] atIndex: 1 animated: NO];
-  [rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"OneAndOneHalf"] atIndex: 2 animated: NO];
-  [rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"Two"] atIndex: 3 animated: NO];
+  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"One"] atIndex: 0 animated: NO];
+  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"OneAndOneQuarter"] atIndex: 1 animated: NO];
+  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"OneAndOneHalf"] atIndex: 2 animated: NO];
+  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"Two"] atIndex: 3 animated: NO];
 
-  switch ( ( (PKSettings *)[PKSettings instance] ).textLineSpacing )
+  switch ( [PKSettings instance].textLineSpacing )
   {
-  case 100: rowSpacingSelector.selectedSegmentIndex = 0;
+  case 100: _rowSpacingSelector.selectedSegmentIndex = 0;
     break;
 
-  case 125: rowSpacingSelector.selectedSegmentIndex = 1;
+  case 125: _rowSpacingSelector.selectedSegmentIndex = 1;
     break;
 
-  case 150: rowSpacingSelector.selectedSegmentIndex = 2;
+  case 150: _rowSpacingSelector.selectedSegmentIndex = 2;
     break;
 
-  case 200: rowSpacingSelector.selectedSegmentIndex = 3;
+  case 200: _rowSpacingSelector.selectedSegmentIndex = 3;
     break;
   }
-  [rowSpacingSelector addTarget: self action: @selector(rowSpacingChanged:) forControlEvents: UIControlEventValueChanged];
+  [_rowSpacingSelector addTarget: self action: @selector(rowSpacingChanged:) forControlEvents: UIControlEventValueChanged];
 
-  [self.view addSubview: rowSpacingSelector];
+  [self.view addSubview: _rowSpacingSelector];
 
-  rowSpacingLabel = [[UILabel alloc] initWithFrame: CGRectMake(10, 335, 96, 40)];
-  rowSpacingLabel.backgroundColor           = [UIColor clearColor];
-  rowSpacingLabel.text                      = __T(@"Line Spacing");
-  rowSpacingLabel.font                      = [UIFont fontWithName:[PKSettings interfaceFont] size:15];
-  rowSpacingLabel.textAlignment             = UITextAlignmentLeft;
-  rowSpacingLabel.adjustsFontSizeToFitWidth = YES;
-  rowSpacingLabel.minimumFontSize           = 0;
-  rowSpacingLabel.numberOfLines             = 2;
-  [self.view addSubview: rowSpacingLabel];
+  _rowSpacingLabel = [[UILabel alloc] initWithFrame: CGRectMake(10, 335, 96, 40)];
+  _rowSpacingLabel.backgroundColor           = [UIColor clearColor];
+  _rowSpacingLabel.text                      = __T(@"Line Spacing");
+  _rowSpacingLabel.font                      = [UIFont fontWithName:[PKSettings interfaceFont] size:15];
+  _rowSpacingLabel.textAlignment             = UITextAlignmentLeft;
+  _rowSpacingLabel.adjustsFontSizeToFitWidth = YES;
+  _rowSpacingLabel.minimumFontSize           = 0;
+  _rowSpacingLabel.numberOfLines             = 2;
+  [self.view addSubview: _rowSpacingLabel];
 
-  decreaseBrightnessLabel                   = [[UILabel alloc] initWithFrame: CGRectMake(10, 380, 30, 30)];
-  decreaseBrightnessLabel.font              = [UIFont fontWithName: kFontAwesomeFamilyName size: 16];
-  decreaseBrightnessLabel.text              = [NSString fontAwesomeIconStringForIconIdentifier: @"icon-adjust"];
-  decreaseBrightnessLabel.backgroundColor   = [UIColor clearColor];
-  decreaseBrightnessLabel.textAlignment     = UITextAlignmentCenter;
-  decreaseBrightnessLabel.accessibilityLabel= __T(@"Decrease Brightness");
-  [self.view addSubview: decreaseBrightnessLabel];
+  _decreaseBrightnessLabel                   = [[UILabel alloc] initWithFrame: CGRectMake(10, 380, 30, 30)];
+  _decreaseBrightnessLabel.font              = [UIFont fontWithName: kFontAwesomeFamilyName size: 16];
+  _decreaseBrightnessLabel.text              = [NSString fontAwesomeIconStringForIconIdentifier: @"icon-adjust"];
+  _decreaseBrightnessLabel.backgroundColor   = [UIColor clearColor];
+  _decreaseBrightnessLabel.textAlignment     = UITextAlignmentCenter;
+  _decreaseBrightnessLabel.accessibilityLabel= __T(@"Decrease Brightness");
+  [self.view addSubview: _decreaseBrightnessLabel];
 
-  increaseBrightnessLabel                   = [[UILabel alloc] initWithFrame: CGRectMake(280, 380, 30, 30)];
-  increaseBrightnessLabel.font              = [UIFont fontWithName: kFontAwesomeFamilyName size: 24];
-  increaseBrightnessLabel.text              = [NSString fontAwesomeIconStringForIconIdentifier: @"icon-adjust"];
-  increaseBrightnessLabel.backgroundColor   = [UIColor clearColor];
-  increaseBrightnessLabel.textAlignment     = UITextAlignmentCenter;
-  increaseBrightnessLabel.accessibilityLabel= __T(@"Increase Brightness");
-  [self.view addSubview: increaseBrightnessLabel];
+  _increaseBrightnessLabel                   = [[UILabel alloc] initWithFrame: CGRectMake(280, 380, 30, 30)];
+  _increaseBrightnessLabel.font              = [UIFont fontWithName: kFontAwesomeFamilyName size: 24];
+  _increaseBrightnessLabel.text              = [NSString fontAwesomeIconStringForIconIdentifier: @"icon-adjust"];
+  _increaseBrightnessLabel.backgroundColor   = [UIColor clearColor];
+  _increaseBrightnessLabel.textAlignment     = UITextAlignmentCenter;
+  _increaseBrightnessLabel.accessibilityLabel= __T(@"Increase Brightness");
+  [self.view addSubview: _increaseBrightnessLabel];
 
-  brightnessSlider                          = [[UISlider alloc] initWithFrame: CGRectMake(50, 380, 220, 30)];
-  [brightnessSlider setMinimumValue: 0];
-  [brightnessSlider setMaximumValue: 1];
-  [brightnessSlider setValue: [[UIScreen mainScreen] brightness]];
-  [brightnessSlider addTarget: self action: @selector(brightnessChanged:) forControlEvents: UIControlEventValueChanged];
+  _brightnessSlider                          = [[UISlider alloc] initWithFrame: CGRectMake(50, 380, 220, 30)];
+  [_brightnessSlider setMinimumValue: 0];
+  [_brightnessSlider setMaximumValue: 1];
+  [_brightnessSlider setValue: [[UIScreen mainScreen] brightness]];
+  [_brightnessSlider addTarget: self action: @selector(brightnessChanged:) forControlEvents: UIControlEventValueChanged];
 
-  [self.view addSubview: brightnessSlider];
+  [self.view addSubview: _brightnessSlider];
 
   //[self.view addSubview:scroller];
 
-  fontNames = @[__T(@"Arev Sans"), __T(@"Arev Sans Bold"), __T(@"Courier"),    __T(@"Courier Bold"),
+  _fontNames = @[__T(@"Arev Sans"), __T(@"Arev Sans Bold"), __T(@"Courier"),    __T(@"Courier Bold"),
                 __T(@"Courier New"),    __T(@"Courier New Bold"),     __T(@"Gentium Plus"), __T(@"Gentium Plus Italic"),
                 __T(@"Helvetica Light"), __T(@"Helvetica"),
                 __T(@"Helvetica Bold"), __T(@"Helvetica Neue Light"), __T(@"Helvetica Neue"),  __T(@"Helvetica Neue Bold"),
@@ -344,9 +324,9 @@
   {
     [[PKSettings instance] saveSettings];
 
-    if (delegate)
+    if (_delegate)
     {
-      [delegate didChangeLayout: self];
+      [_delegate didChangeLayout: self];
     }
   }
 }
@@ -356,7 +336,7 @@
 
 -(NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
-  return fontNames.count;
+  return _fontNames.count;
 }
 
 -(NSInteger) numberOfSectionsInTableView: (UITableView *) tableView
@@ -378,21 +358,21 @@
 
   int row = [indexPath row];
 
-  cell.textLabel.text          = fontNames[row];
+  cell.textLabel.text          = _fontNames[row];
   cell.textLabel.numberOfLines = 2;
-  cell.textLabel.font          = [UIFont fontWithName: fontNames[row] andSize: 14];
+  cell.textLabel.font          = [UIFont fontWithName: _fontNames[row] andSize: 14];
   cell.accessoryType           = UITableViewCellAccessoryNone;
 
-  if (tableView == greekFontPicker)
+  if (tableView == _greekFontPicker)
   {
-    if ([[[PKSettings instance] textGreekFontFace] isEqualToString: fontNames[row]])
+    if ([[[PKSettings instance] textGreekFontFace] isEqualToString: _fontNames[row]])
     {
       cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
   }
   else
   {
-    if ([[[PKSettings instance] textFontFace] isEqualToString: fontNames[row]])
+    if ([[[PKSettings instance] textFontFace] isEqualToString: _fontNames[row]])
     {
       cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
@@ -406,13 +386,13 @@
   int row = [indexPath row];
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
 
-  if (tableView == greekFontPicker)
+  if (tableView == _greekFontPicker)
   {
-    ( (PKSettings *)[PKSettings instance] ).textGreekFontFace = fontNames[row];
+    [PKSettings instance].textGreekFontFace = _fontNames[row];
   }
   else
   {
-    ( (PKSettings *)[PKSettings instance] ).textFontFace = fontNames[row];
+    [PKSettings instance].textFontFace = _fontNames[row];
   }
   [tableView reloadData];
   [self notifyDelegate];
@@ -423,18 +403,18 @@
 
 -(void) columnChanged: (id) sender
 {
-  switch (columnSelector.selectedSegmentIndex)
+  switch (_columnSelector.selectedSegmentIndex)
   {
   case 0:
-    ( (PKSettings *)[PKSettings instance] ).layoutColumnWidths = 0;
+    [PKSettings instance].layoutColumnWidths = 0;
     break;
 
   case 1:
-    ( (PKSettings *)[PKSettings instance] ).layoutColumnWidths = 2;
+    [PKSettings instance].layoutColumnWidths = 2;
     break;
 
   case 2:
-    ( (PKSettings *)[PKSettings instance] ).layoutColumnWidths = 1;
+    [PKSettings instance].layoutColumnWidths = 1;
     break;
   }
   [self notifyDelegate];
@@ -442,31 +422,31 @@
 
 -(void) fontSizeChanged: (id) sender
 {
-  ( (PKSettings *)[PKSettings instance] ).textFontSize = [fontSizes[(int)fontStepper.value] intValue];
-  fontSizeLabel.text = [NSString stringWithFormat: @"%ipt", [[PKSettings instance] textFontSize]];
+  [PKSettings instance].textFontSize = [_fontSizes[(int)_fontStepper.value] intValue];
+  _fontSizeLabel.text = [NSString stringWithFormat: @"%ipt", [[PKSettings instance] textFontSize]];
   [self notifyDelegate];
 }
 
 -(void) lineSpacingChanged: (id) sender
 {
-  ( ( (PKSettings *)[PKSettings instance] ).textVerseSpacing ) = lineSpacingSelector.selectedSegmentIndex;
+  ( [PKSettings instance].textVerseSpacing ) = _lineSpacingSelector.selectedSegmentIndex;
   [self notifyDelegate];
 }
 
 -(void) rowSpacingChanged: (id) sender
 {
-  switch (rowSpacingSelector.selectedSegmentIndex)
+  switch (_rowSpacingSelector.selectedSegmentIndex)
   {
-  case 0: ( (PKSettings *)[PKSettings instance] ).textLineSpacing = 100;
+  case 0: [PKSettings instance].textLineSpacing = 100;
     break;
 
-  case 1: ( (PKSettings *)[PKSettings instance] ).textLineSpacing = 125;
+  case 1: [PKSettings instance].textLineSpacing = 125;
     break;
 
-  case 2: ( (PKSettings *)[PKSettings instance] ).textLineSpacing = 150;
+  case 2: [PKSettings instance].textLineSpacing = 150;
     break;
 
-  case 3: ( (PKSettings *)[PKSettings instance] ).textLineSpacing = 200;
+  case 3: [PKSettings instance].textLineSpacing = 200;
     break;
   }
   [self notifyDelegate];
@@ -474,8 +454,8 @@
 
 -(void) themeChanged: (id) sender
 {
-  ( (PKSettings *)[PKSettings instance] ).textTheme = ( (CoolButton *)sender ).tag;
-  label1.text = [NSString stringWithFormat: @"%@ %i", __T(@"Theme"), [[PKSettings instance] textTheme] + 1];
+  [PKSettings instance].textTheme = ( (CoolButton *)sender ).tag;
+  _label1.text = [NSString stringWithFormat: @"%@ %i", __T(@"Theme"), [[PKSettings instance] textTheme] + 1];
 
   [self notifyDelegate];
   [[PKAppDelegate sharedInstance] updateAppearanceForTheme];
@@ -483,7 +463,7 @@
 
 -(void) brightnessChanged: (id) sender
 {
-  [[UIScreen mainScreen] setBrightness: brightnessSlider.value];
+  [[UIScreen mainScreen] setBrightness: _brightnessSlider.value];
 }
 
 -(void) closeMe: (id) sender
@@ -491,9 +471,9 @@
   [self dismissModalViewControllerAnimated: YES];
   [[PKSettings instance] saveSettings];
 
-  if (delegate)
+  if (_delegate)
   {
-    [delegate didChangeLayout: self];
+    [_delegate didChangeLayout: self];
   }
 }
 

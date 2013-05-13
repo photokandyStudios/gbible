@@ -48,9 +48,6 @@
 
 @implementation PKBibleBookChaptersViewController
 
-@synthesize selectedBook;
-@synthesize delegate;
-
 #pragma mark -
 #pragma mark view lifecycle
 
@@ -66,7 +63,7 @@
   if (self)
   {
     // Custom initialization
-    selectedBook = theBook;
+    _selectedBook = theBook;
   }
   return self;
 }
@@ -86,12 +83,12 @@
   self.view.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   self.collectionView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
 //  self.title                                       = __T(@"Select Chapter");
-  self.title = [PKBible nameForBook:selectedBook];
+  self.title = [PKBible nameForBook:_selectedBook];
   self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 
   [self.collectionView registerClass:[PKSimpleCollectionViewCell class] forCellWithReuseIdentifier:@"simple-cell"];
 
-  if (delegate)
+  if (_delegate)
   {
     UIBarButtonItem *closeButton =
       [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
@@ -139,7 +136,7 @@
  */
 - (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-  return [PKBible countOfChaptersForBook: selectedBook];
+  return [PKBible countOfChaptersForBook: _selectedBook];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -176,7 +173,7 @@
   if (!self.delegate)
   {
     PKBibleBookChapterVersesViewController *bcvc = [[PKBibleBookChapterVersesViewController alloc]
-                                                    initWithBook: selectedBook withChapter: row + 1];
+                                                    initWithBook: _selectedBook withChapter: row + 1];
     bcvc.delegate = self.delegate;
     bcvc.notifyWithCopyOfVerse = self.notifyWithCopyOfVerse;
 
@@ -187,7 +184,7 @@
     PKSimpleBibleViewController *sbvc = [[PKSimpleBibleViewController alloc] initWithStyle:UITableViewStylePlain];
     sbvc.delegate = self.delegate;
     sbvc.notifyWithCopyOfVerse = self.notifyWithCopyOfVerse;
-    [sbvc loadChapter:row + 1 forBook:selectedBook];
+    [sbvc loadChapter:row + 1 forBook:_selectedBook];
     [self.navigationController pushViewController:sbvc animated:YES];
   }
   

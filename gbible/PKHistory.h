@@ -40,7 +40,7 @@
 
 @interface PKHistory : NSObject
 
-+(id)              instance;
++(PKHistory *)              instance;
 -(NSMutableArray *)mostRecentReferences;
 -(NSMutableArray *)mostRecentReferencesWithLimit: (int) theLimit;
 -(void)            addReference: (PKReference *) theReference;

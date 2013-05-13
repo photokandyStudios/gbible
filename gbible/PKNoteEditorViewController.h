@@ -46,18 +46,6 @@
 
 @interface PKNoteEditorViewController : UIViewController <UITextViewDelegate, PKTextViewDelegate, PKBibleReferenceDelegate, KBKeyboardHandlerDelegate>
 
-@property (strong, nonatomic) PKReference *reference;
-@property (strong, nonatomic) NSString *noteTitle;
-@property (strong, nonatomic) NSString *note;
-@property int state;
-
-@property (strong, nonatomic) UITextView *txtTitle;
-@property (strong, nonatomic) PKTextView *txtNote;
-@property (strong, nonatomic) UIBarButtonItem *btnDelete;
-@property (strong, nonatomic) UIBarButtonItem *btnCancel;
-@property (strong, nonatomic) UIBarButtonItem *btnDone;
-
-@property (strong, nonatomic) TPKeyboardAvoidingScrollView *scroller;
 
 -(id) initWithReference: (PKReference *) theReference;
 -(id) initWithReference: (PKReference *) theReference andTitle: (NSString *) theTitle andNote: (NSString *) theNote;

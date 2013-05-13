@@ -47,7 +47,7 @@
 
 +(NSArray *)entryForKey: (NSString *) theKey
 {
-  FMDatabaseQueue *db            = [(PKDatabase *)[PKDatabase instance] bible];
+  FMDatabaseQueue *db            = [[PKDatabase instance] bible];
   NSMutableArray *theResult = [[NSMutableArray alloc] init];
 
   [db inDatabase:^(FMDatabase *db)
@@ -83,7 +83,7 @@
     return nil;
   }
   NSMutableArray *theResult = [[NSMutableArray alloc] init];
-  FMDatabaseQueue *db = [(PKDatabase *)[PKDatabase instance] bible];
+  FMDatabaseQueue *db = [[PKDatabase instance] bible];
   [db inDatabase:^(FMDatabase *db)
     {
       NSString *searchPhrase = convertSearchToSQL(theTerm, @"key||' '|| definition||' '||lemma||' '||pronunciation");
@@ -113,7 +113,7 @@
   {
     return [self keysThatMatch: theTerm];
   }
-  FMDatabaseQueue *db            = [(PKDatabase *)[PKDatabase instance] bible];
+  FMDatabaseQueue *db            = [[PKDatabase instance] bible];
   NSMutableArray *theResult = [[NSMutableArray alloc] init];
   [db inDatabase:^(FMDatabase *db)
     {
