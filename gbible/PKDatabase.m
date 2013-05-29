@@ -87,10 +87,16 @@ static PKDatabase * _instance;
     [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
                                            YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userContent"];
     
-    // delete the old user Bible database (they have to redownload everything anyway)
+    // move the old Bible database to the new one (we're changing names, since it makes more sense)
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    [fileManager removeItemAtPath:[[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userBible"] error:nil];
+    [fileManager moveItemAtPath:[[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userBible"]
+                         toPath:[[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"webContent"]
+                          error:nil];
+    
+/*    [fileManager removeItemAtPath:[[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userBible"] error:nil]; */
 
     // locate our user Bible database
     NSString *userBibleDatabase =
@@ -209,12 +215,14 @@ static PKDatabase * _instance;
         [db executeUpdate: @"CREATE TABLE commentaryContent (commentaryID INTEGER NOT NULL, bibleBook INTEGER NOT NULL, bibleChapter INTEGER NOT NULL, bibleVerse INTEGER NOT NULL, commentaryText TEXT, PRIMARY KEY(commentaryID, bibleBook, bibleChapter, bibleVerse))"];
         // commentary indices
         [db executeUpdate: @"CREATE UNIQUE INDEX idx_commentaryContent ON commentaryContent (commentaryID ASC,bibleBook ASC,bibleChapter ASC,bibleVerse ASC)"];
+        /* NOTE: removing for now: there's got to be a better space-efficient way.
         // search index tables
         [db executeUpdate:@"CREATE TABLE searchIndex ( searchIndexID INTEGER PRIMARY KEY AUTOINCREMENT, searchIndexTerm INTEGER NOT NULL, bibleID INTEGER NULL, lexiconID INTEGER NULL, commentaryID INTEGER NULL, reference INTEGER );"];
         [db executeUpdate:@"CREATE TABLE searchIndexMaster ( searchIndexMasterID INTEGER PRIMARY KEY AUTOINCREMENT, searchIndexMasterTerm TEXT NOT NULL );"];
         // search index indices
         [db executeUpdate:@"CREATE INDEX idx_searchIndex ON searchIndex ( searchIndexTerm ASC )"];
         [db executeUpdate:@"CREATE INDEX idx_searchIndexMaster ON searchIndexMaster (searchIndexMasterTerm ASC)"];
+        */
       }
     ];
     
