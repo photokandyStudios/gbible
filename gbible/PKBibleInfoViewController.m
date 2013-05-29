@@ -227,6 +227,7 @@
                       sql = @"DELETE FROM content WHERE bibleID=?";
                       [db executeUpdate:sql, @(_theBibleID)];
                       
+                      /* NOTE: removing for now, until I come up with a better search index
                       // delete the search Index for the Bible
                       sql = @"DELETE FROM searchIndex WHERE bibleID=?";
                       [db executeUpdate:sql, @(_theBibleID)];
@@ -234,7 +235,7 @@
                       // delete all the unused search index master records
                       sql = @"DELETE FROM searchIndexMaster WHERE NOT EXISTS (SELECT searchIndexTerm FROM searchIndex WHERE searchIndexTerm=searchIndexMasterID)";
                       [db executeUpdate:sql];
-                      
+                      */
                       [db executeUpdate:@"Vacuum"]; // might have to remark to exclude from backup?
                       
                       dispatch_async(dispatch_get_main_queue(),
@@ -291,64 +292,13 @@
                             [db executeUpdate:@"ATTACH DATABASE ? AS bibleImport", [downloadFileTo stringByReplacingOccurrencesOfString:@"zip" withString:@"db"]];
                             [db executeUpdate:@"INSERT INTO content SELECT * FROM bibleImport.content"];
                             [db executeUpdate:@"INSERT INTO bibles SELECT * FROM bibleImport.bibles"];
+                            /* NOTE: Removing for now until I come up with a better option.
                             [db executeUpdate:@"INSERT INTO searchIndexMaster SELECT null, searchIndexMasterTerm FROM ( SELECT searchIndexMasterTerm FROM bibleImport.searchIndexMaster EXCEPT SELECT searchIndexMasterTerm FROM searchIndexMaster)"];
                             [db executeUpdate:@"INSERT INTO searchIndex SELECT null, (SELECT searchIndexMasterID FROM searchIndexMaster WHERE searchIndexMasterTerm=(SELECT searchIndexMasterTerm FROM bibleImport.searchIndexMaster WHERE searchIndexMasterID=searchIndexTerm) ) searchIndexTerm, bibleID, lexiconID, commentaryID, reference FROM bibleImport.searchIndex"];
+                            */
                             [db executeUpdate:@"DETACH DATABASE bibleImport"];
                             
                             
-/*
-                            
-                            // now that the file is written, we need to open it up as a database
-                            FMDatabase *theNewBible = [[FMDatabase alloc] initWithPath:downloadFileTo];
-                            [theNewBible open];
-                            FMDatabaseQueue *db = [[PKDatabase instance] userBible];
-                            
-                            [db inTransaction: ^(FMDatabase *db, BOOL *rollback)
-                             {
-                               FMResultSet *s = [theNewBible executeQuery:@"SELECT * FROM content order by 4,5,6"];
-                               int i=0;
-                               while ([s next])
-                               {
-                                 if (i%25==0)
-                                 {
-                                   dispatch_async(dispatch_get_main_queue(),
-                                                  ^{
-                                                    [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Verse %i", i] maskType:SVProgressHUDMaskTypeClear];
-                                                  }
-                                                  );
-                                 }
-                                 i++;
-                                 NSString *sql = @"INSERT INTO content VALUES (?, ?, ?, ?, ?, ?)";
-                                 [db executeUpdate:sql, [s objectForColumnIndex:0],
-                                  [s objectForColumnIndex:1],
-                                  [s objectForColumnIndex:2],
-                                  [s objectForColumnIndex:3],
-                                  [s objectForColumnIndex:4],
-                                  [s objectForColumnIndex:5]];
-                               }
-                               [db commit];
-                             }
-                             ];
-                            
-                            // also add to the master table
-                            FMResultSet *s = [theNewBible executeQuery:@"SELECT * FROM bibles"];
-                            while ([s next])
-                            {
-                              FMDatabaseQueue *db = [[PKDatabase instance] userBible];
-                              [db inDatabase:^(FMDatabase *db)
-                               {
-                                 NSString *sql = @"INSERT INTO bibles VALUES (?, ?, ?, ?, ?, NULL)";
-                                 [db executeUpdate:sql, [s objectForColumnIndex:0],
-                                  [s objectForColumnIndex:1],
-                                  [s objectForColumnIndex:2],
-                                  [s objectForColumnIndex:3],
-                                  [s objectForColumnIndex:4]];
-                               }
-                               ];
-                            }
-                            
-                            [theNewBible close];
-*/
                             // delete the file once we're done with it
                             NSFileManager *fileManager = [NSFileManager defaultManager];
                             [fileManager removeItemAtPath:[downloadFileTo stringByReplacingOccurrencesOfString:@"zip" withString:@"db"] error:NULL];
