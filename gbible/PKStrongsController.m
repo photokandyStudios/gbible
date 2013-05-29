@@ -56,17 +56,17 @@
 
 @implementation PKStrongsController
 {
-  NSMutableDictionary * __strong _cellHeights;
-  NSString * __strong _theSearchTerm;
-  NSArray * __strong _theSearchResults;
-  UISearchBar * __strong _theSearchBar;
-  UIButton * __strong _clickToDismiss;
-  UILabel * __strong _noResults;
-  UIFont * __strong _theFont;
-  UIFont * __strong _theBigFont;
+  NSMutableDictionary * /**__strong**/ _cellHeights;
+  NSString * /**__strong**/ _theSearchTerm;
+  NSArray * /**__strong**/ _theSearchResults;
+  UISearchBar * /**__strong**/ _theSearchBar;
+  UIButton * /**__strong**/ _clickToDismiss;
+  UILabel * /**__strong**/ _noResults;
+  UIFont * /**__strong**/ _theFont;
+  UIFont * /**__strong**/ _theBigFont;
   BOOL _byKeyOnly;
-  UIMenuController * __strong _ourMenu;
-  NSString * __strong _selectedWord;
+  UIMenuController * /**__strong**/ _ourMenu;
+  NSString * /**__strong**/ _selectedWord;
   NSUInteger _selectedRow;
 }
 

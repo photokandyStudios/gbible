@@ -54,12 +54,12 @@
 @implementation PKBibleInfoViewController
 {
   int _theBibleID;
-  UILabel *  __strong _theBibleTitle;
-  UILabel *  __strong _theBibleAbbreviation;
-  UIImageView *  __strong _theBibleImage;
-  UILabel *  __strong _theBibleImageAbbr;
-  UIWebView *  __strong _theBibleInformation;
-  MAConfirmButton *  __strong _theActionButton;
+  UILabel *  /**__strong**/ _theBibleTitle;
+  UILabel *  /**__strong**/ _theBibleAbbreviation;
+  UIImageView *  /**__strong**/ _theBibleImage;
+  UILabel *  /**__strong**/ _theBibleImageAbbr;
+  UIWebView *  /**__strong**/ _theBibleInformation;
+  MAConfirmButton *  /**__strong**/ _theActionButton;
 }
 
 - (id)initWithBibleID: (int) bibleID

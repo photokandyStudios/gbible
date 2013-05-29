@@ -51,12 +51,12 @@
 
 @implementation PKNotesViewController
 {
-  NSArray *__strong _notes;
-  UILabel *__strong _noResults;
+  NSArray */**__strong**/ _notes;
+  UILabel */**__strong**/ _noResults;
 
-  NSString *__strong _theSearchTerm;
-  UISearchBar *__strong _theSearchBar;
-  UIButton *__strong _clickToDismiss;
+  NSString */**__strong**/ _theSearchTerm;
+  UISearchBar */**__strong**/ _theSearchBar;
+  UIButton */**__strong**/ _clickToDismiss;
 }
 
 -(void)updateNotesViewAfterSearch

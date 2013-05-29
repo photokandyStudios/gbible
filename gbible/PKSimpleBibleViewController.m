@@ -58,19 +58,19 @@
 @implementation PKSimpleBibleViewController
 {
   int globalVerse;
-  NSArray * __strong _currentGreekChapter;
-  NSArray * __strong _currentEnglishChapter;
-  NSMutableArray * __strong _formattedGreekChapter;
-  NSMutableArray * __strong _formattedEnglishChapter;
-  NSMutableArray * __strong _formattedGreekVerseHeights;
-  NSMutableArray * __strong _formattedEnglishVerseHeights;
-  NSMutableDictionary * __strong _selectedVerses;
-  NSMutableDictionary * __strong _highlightedVerses;
-  NSMutableArray * __strong _cellHeights;     // RE: ISSUE #1
-  NSMutableArray * __strong _cells;           // RE: ISSUE #1
-  NSMutableArray * __strong _formattedCells;
-  UITableViewCell * __strong _theCachedCell;
-  NSArray * __strong _bibleTextIDs;
+  NSArray * /**__strong**/ _currentGreekChapter;
+  NSArray * /**__strong**/ _currentEnglishChapter;
+  NSMutableArray * /**__strong**/ _formattedGreekChapter;
+  NSMutableArray * /**__strong**/ _formattedEnglishChapter;
+  NSMutableArray * /**__strong**/ _formattedGreekVerseHeights;
+  NSMutableArray * /**__strong**/ _formattedEnglishVerseHeights;
+  NSMutableDictionary * /**__strong**/ _selectedVerses;
+  NSMutableDictionary * /**__strong**/ _highlightedVerses;
+  NSMutableArray * /**__strong**/ _cellHeights;     // RE: ISSUE #1
+  NSMutableArray * /**__strong**/ _cells;           // RE: ISSUE #1
+  NSMutableArray * /**__strong**/ _formattedCells;
+  UITableViewCell * /**__strong**/ _theCachedCell;
+  NSArray * /**__strong**/ _bibleTextIDs;
   int _currentBook;
   int _currentChapter;
   int _reusableLabelQueuePosition;

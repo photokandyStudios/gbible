@@ -49,17 +49,17 @@
 
 @implementation PKBibleListViewController
 {
-  NSArray * __strong _builtInBibleIDs;
-  NSArray * __strong _builtInBibleAbbreviations;
-  NSArray * __strong _builtInBibleTitles;
+  NSArray * /**__strong**/ _builtInBibleIDs;
+  NSArray * /**__strong**/ _builtInBibleAbbreviations;
+  NSArray * /**__strong**/ _builtInBibleTitles;
 
-  NSArray * __strong _installedBibleIDs;
-  NSArray * __strong _installedBibleAbbreviations;
-  NSArray * __strong _installedBibleTitles;
+  NSArray * /**__strong**/ _installedBibleIDs;
+  NSArray * /**__strong**/ _installedBibleAbbreviations;
+  NSArray * /**__strong**/ _installedBibleTitles;
 
-  NSArray * __strong _availableBibleIDs;
-  NSArray * __strong _availableBibleAbbreviations;
-  NSArray * __strong _availableBibleTitles;
+  NSArray * /**__strong**/ _availableBibleIDs;
+  NSArray * /**__strong**/ _availableBibleAbbreviations;
+  NSArray * /**__strong**/ _availableBibleTitles;
 }
 
 @synthesize delegate;

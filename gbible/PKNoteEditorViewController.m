@@ -61,20 +61,20 @@
 {
   KBKeyboardHandler* keyboard;
 
-  UIPopoverController *__strong _PO;
+  UIPopoverController */**__strong**/ _PO;
 
-  PKReference *__strong _reference;
-  NSString *__strong _noteTitle;
-  NSString *__strong _note;
+  PKReference */**__strong**/ _reference;
+  NSString */**__strong**/ _noteTitle;
+  NSString */**__strong**/ _note;
   int _state;
 
-  UITextView *__strong _txtTitle;
-  PKTextView *__strong _txtNote;
-  UIBarButtonItem *__strong _btnDelete;
-  UIBarButtonItem *__strong _btnCancel;
-  UIBarButtonItem *__strong _btnDone;
+  UITextView */**__strong**/ _txtTitle;
+  PKTextView */**__strong**/ _txtNote;
+  UIBarButtonItem */**__strong**/ _btnDelete;
+  UIBarButtonItem */**__strong**/ _btnCancel;
+  UIBarButtonItem */**__strong**/ _btnDone;
 
-  TPKeyboardAvoidingScrollView *__strong _scroller;
+  TPKeyboardAvoidingScrollView */**__strong**/ _scroller;
 
 }
 

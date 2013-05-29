@@ -58,16 +58,16 @@
 @implementation PKSearchViewController
 {
   // FIX ISSUE #75
-  NSMutableDictionary * __strong _cellHeights;
+  NSMutableDictionary * /**__strong**/ _cellHeights;
 
-  NSString * __strong _theSearchTerm;
-  NSArray * __strong _theSearchResults;
-  UISearchBar * __strong _theSearchBar;
-  UIButton * __strong _clickToDismiss;
-  UILabel * __strong _noResults;
+  NSString * /**__strong**/ _theSearchTerm;
+  NSArray * /**__strong**/ _theSearchResults;
+  UISearchBar * /**__strong**/ _theSearchBar;
+  UIButton * /**__strong**/ _clickToDismiss;
+  UILabel * /**__strong**/ _noResults;
   int _fontSize;
-  UIFont * __strong _leftFont;
-  UIFont * __strong _rightFont;
+  UIFont * /**__strong**/ _leftFont;
+  UIFont * /**__strong**/ _rightFont;
 }
 
 -(id)initWithStyle: (UITableViewStyle) style

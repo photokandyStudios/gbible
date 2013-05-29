@@ -78,60 +78,60 @@
 
 @implementation PKBibleViewController
 {
-  NSArray * __strong _currentGreekChapter;
-  NSArray * __strong _currentEnglishChapter;
+  NSArray * /**__strong**/ _currentGreekChapter;
+  NSArray * /**__strong**/ _currentEnglishChapter;
 
-  NSMutableArray * __strong _formattedGreekChapter;
-  NSMutableArray * __strong _formattedEnglishChapter;
+  NSMutableArray * /**__strong**/ _formattedGreekChapter;
+  NSMutableArray * /**__strong**/ _formattedEnglishChapter;
 
-  NSMutableArray * __strong _formattedGreekVerseHeights;
-  NSMutableArray * __strong _formattedEnglishVerseHeights;
+  NSMutableArray * /**__strong**/ _formattedGreekVerseHeights;
+  NSMutableArray * /**__strong**/ _formattedEnglishVerseHeights;
 
-  NSMutableDictionary * __strong _selectedVerses;
-  NSMutableDictionary * __strong _highlightedVerses;
+  NSMutableDictionary * /**__strong**/ _selectedVerses;
+  NSMutableDictionary * /**__strong**/ _highlightedVerses;
 
-  NSString * __strong _selectedWord;
-  PKReference * __strong _selectedPassage;
+  NSString * /**__strong**/ _selectedWord;
+  PKReference * /**__strong**/ _selectedPassage;
 
-  NSMutableArray * __strong _cellHeights;     // RE: ISSUE #1
-  NSMutableArray * __strong _cells;           // RE: ISSUE #1
+  NSMutableArray * /**__strong**/ _cellHeights;     // RE: ISSUE #1
+  NSMutableArray * /**__strong**/ _cells;           // RE: ISSUE #1
 
   // UI elements
-  UIBarButtonItem * __strong _changeHighlight;
-  NSMutableArray * __strong _formattedCells;
-  UIMenuController * __strong _ourMenu;
+  UIBarButtonItem * /**__strong**/ _changeHighlight;
+  NSMutableArray * /**__strong**/ _formattedCells;
+  UIMenuController * /**__strong**/ _ourMenu;
   int _ourMenuState;
-  UIActionSheet * __strong _ourPopover;
+  UIActionSheet * /**__strong**/ _ourPopover;
 
-  UIButton * __strong _btnRegularScreen;
+  UIButton * /**__strong**/ _btnRegularScreen;
 
-  UILabel * __strong _tableTitle;
+  UILabel * /**__strong**/ _tableTitle;
 
   int _theWordTag;
   int _theWordIndex;
 
   BOOL _fullScreen;
 
-  UIButton * __strong _previousChapterButton;
-  UIButton * __strong _nextChapterButton;
+  UIButton * /**__strong**/ _previousChapterButton;
+  UIButton * /**__strong**/ _nextChapterButton;
 
-  UIPopoverController * __strong _PO;
+  UIPopoverController * /**__strong**/ _PO;
   //@property (strong, nonatomic) FWTPopoverView *popoverView;
 
-  UIBarButtonItem * __strong _toggleStrongsBtn;
-  UIBarButtonItem * __strong _toggleMorphologyBtn;
-  UIBarButtonItem * __strong _toggleTranslationBtn;
+  UIBarButtonItem * /**__strong**/ _toggleStrongsBtn;
+  UIBarButtonItem * /**__strong**/ _toggleMorphologyBtn;
+  UIBarButtonItem * /**__strong**/ _toggleTranslationBtn;
 
-  UIBarButtonItem * __strong _leftTextSelect;
-  UIBarButtonItem * __strong _rightTextSelect;
-  NSArray * __strong _bibleTextIDs;
+  UIBarButtonItem * /**__strong**/ _leftTextSelect;
+  UIBarButtonItem * /**__strong**/ _rightTextSelect;
+  NSArray * /**__strong**/ _bibleTextIDs;
 
-  UITextField * __strong _keyboardControl;
+  UITextField * /**__strong**/ _keyboardControl;
 
 
   UIDeviceOrientation _lastKnownOrientation;
   int _reusableLabelQueuePosition;
-  UIBarButtonItem * __strong _searchText;
+  UIBarButtonItem * /**__strong**/ _searchText;
 }
 
 

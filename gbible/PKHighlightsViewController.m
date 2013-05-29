@@ -51,8 +51,8 @@
 
 @implementation PKHighlightsViewController
 {
-  NSArray *__strong _highlights;
-  UILabel *__strong _noResults;
+  NSArray */**__strong**/ _highlights;
+  UILabel */**__strong**/ _noResults;
 }
 
 # pragma mark -

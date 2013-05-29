@@ -50,27 +50,27 @@
 
 @implementation PKLayoutController
 {
-  UILabel *__strong _previewLabel;
-  UILabel *__strong _label1;
-  UILabel *__strong _fontSizeLabel;
-  UILabel *__strong _greekFontLabel;
-  UILabel *__strong _englishFontLabel;
-  UILabel *__strong _rowSpacingLabel;
-  UIStepper *__strong _fontStepper;
-  UISlider *__strong _brightnessSlider;
-  UISegmentedControl *__strong _rowSpacingSelector;
-  UISegmentedControl *__strong _lineSpacingSelector;
-  UISegmentedControl *__strong _columnSelector;
-  UITableView *__strong _englishFontPicker;
-  UITableView *__strong _greekFontPicker;
-  UILabel *__strong _decreaseBrightnessLabel;
-  UILabel *__strong _increaseBrightnessLabel;
-  UISegmentedControl *__strong _themeSelector;
+  UILabel */**__strong**/ _previewLabel;
+  UILabel */**__strong**/ _label1;
+  UILabel */**__strong**/ _fontSizeLabel;
+  UILabel */**__strong**/ _greekFontLabel;
+  UILabel */**__strong**/ _englishFontLabel;
+  UILabel */**__strong**/ _rowSpacingLabel;
+  UIStepper */**__strong**/ _fontStepper;
+  UISlider */**__strong**/ _brightnessSlider;
+  UISegmentedControl */**__strong**/ _rowSpacingSelector;
+  UISegmentedControl */**__strong**/ _lineSpacingSelector;
+  UISegmentedControl */**__strong**/ _columnSelector;
+  UITableView */**__strong**/ _englishFontPicker;
+  UITableView */**__strong**/ _greekFontPicker;
+  UILabel */**__strong**/ _decreaseBrightnessLabel;
+  UILabel */**__strong**/ _increaseBrightnessLabel;
+  UISegmentedControl */**__strong**/ _themeSelector;
 
-  NSArray *__strong _fontNames;
-  NSArray *__strong _fontSizes;
-  NSArray *__strong _themeTextColors;
-  NSArray *__strong _themeBgColors;
+  NSArray */**__strong**/ _fontNames;
+  NSArray */**__strong**/ _fontSizes;
+  NSArray */**__strong**/ _themeTextColors;
+  NSArray */**__strong**/ _themeBgColors;
 }
 
 -(id)init

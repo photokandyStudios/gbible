@@ -56,8 +56,8 @@
 
 @implementation PKHistoryViewController
 {
-  NSArray *__strong _history;
-  UILabel *__strong _noResults;
+  NSArray */**__strong**/ _history;
+  UILabel */**__strong**/ _noResults;
 }
 
 -(void)reloadHistory

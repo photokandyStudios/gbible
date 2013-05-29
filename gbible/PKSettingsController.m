@@ -72,18 +72,18 @@ const int SECTION_THIRD_PARTY = 5;
 
 @implementation PKSettingsController
 {
-  UIPopoverController * __strong _PO;
-  NSArray * __strong _layoutSettings;
-  NSArray * __strong _textSettings;
-  NSArray * __strong _iCloudSettings;
-  NSArray * __strong _importSettings;
-  NSArray * __strong _exportSettings;
-  NSArray * __strong _versionSettings;
-  NSArray * __strong _thirdPartyComponents;
-  NSArray * __strong _thirdPartyComponentURLs;
-  NSArray * __strong _settingsGroup;
-  NSIndexPath * __strong _currentPathForPopover;
-  UITableViewCell * __strong _theTableCell;
+  UIPopoverController * /**__strong**/ _PO;
+  NSArray * /**__strong**/ _layoutSettings;
+  NSArray * /**__strong**/ _textSettings;
+  NSArray * /**__strong**/ _iCloudSettings;
+  NSArray * /**__strong**/ _importSettings;
+  NSArray * /**__strong**/ _exportSettings;
+  NSArray * /**__strong**/ _versionSettings;
+  NSArray * /**__strong**/ _thirdPartyComponents;
+  NSArray * /**__strong**/ _thirdPartyComponentURLs;
+  NSArray * /**__strong**/ _settingsGroup;
+  NSIndexPath * /**__strong**/ _currentPathForPopover;
+  UITableViewCell * /**__strong**/ _theTableCell;
 }
 
 /**

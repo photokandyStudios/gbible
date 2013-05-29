@@ -47,7 +47,7 @@
 
 @implementation PKAboutViewController
 {
-    UIWebView * __strong _aboutWebView;
+    UIWebView * /**__strong**/ _aboutWebView;
 }
 
 -(id)init
