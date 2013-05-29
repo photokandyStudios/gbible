@@ -477,19 +477,6 @@
          timestampString = "390104336.722696"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "334"
-         endingLineNumber = "334"
-         landmarkName = "-downloadBible:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "gbible/PKBibleInfoViewController.m"
-         timestampString = "390104336.722696"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
          startingLineNumber = "127"
          endingLineNumber = "127"
          landmarkName = "-loadBibleInformation"
@@ -1020,11 +1007,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "gbible/PKDatabase.m"
-         timestampString = "390015250.552971"
+         timestampString = "391553791.777968"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "223"
-         endingLineNumber = "223"
+         startingLineNumber = "231"
+         endingLineNumber = "231"
          landmarkName = "-init"
          landmarkType = "5">
       </FileBreakpoint>
