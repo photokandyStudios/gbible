@@ -207,18 +207,18 @@
 
   _lineSpacingSelector = [[UISegmentedControl alloc] initWithFrame: CGRectMake(10, 300, 145, 30)];
 
-  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"SingleSpacing"] atIndex: 0 animated: NO];
-  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"OneHalfSpacing"] atIndex: 1 animated: NO];
-  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"DoubleSpacing"] atIndex: 2 animated: NO];
+  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"vs0"] atIndex: 0 animated: NO];
+  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"vs1"] atIndex: 1 animated: NO];
+  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"vs2"] atIndex: 2 animated: NO];
   _lineSpacingSelector.selectedSegmentIndex = ( [PKSettings instance].textVerseSpacing );
   [_lineSpacingSelector addTarget: self action: @selector(lineSpacingChanged:) forControlEvents: UIControlEventValueChanged];
   [self.view addSubview: _lineSpacingSelector];
 
   _columnSelector = [[UISegmentedControl alloc] initWithFrame: CGRectMake(165, 300, 145, 30)];
   [_columnSelector addTarget: self action: @selector(columnChanged:) forControlEvents: UIControlEventValueChanged];
-  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"WideLeftColumns"] atIndex: 0 animated: NO];
-  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"EqualColumns"] atIndex: 1 animated: NO];
-  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"WideRightColumns"] atIndex: 2 animated: NO];
+  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"wlc"] atIndex: 0 animated: NO];
+  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"eqc"] atIndex: 1 animated: NO];
+  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"wrc"] atIndex: 2 animated: NO];
 
   switch ( [PKSettings instance].layoutColumnWidths )
   {
@@ -238,10 +238,10 @@
 
   _rowSpacingSelector = [[UISegmentedControl alloc] initWithFrame: CGRectMake(116, 340, 194, 30)];
 
-  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"One"] atIndex: 0 animated: NO];
-  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"OneAndOneQuarter"] atIndex: 1 animated: NO];
-  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"OneAndOneHalf"] atIndex: 2 animated: NO];
-  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"Two"] atIndex: 3 animated: NO];
+  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"ls100"] atIndex: 0 animated: NO];
+  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"ls125"] atIndex: 1 animated: NO];
+  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"ls150"] atIndex: 2 animated: NO];
+  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"ls200"] atIndex: 3 animated: NO];
 
   switch ( [PKSettings instance].textLineSpacing )
   {
