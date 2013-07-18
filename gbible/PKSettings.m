@@ -483,6 +483,18 @@ static PKSettings * _instance;
  *
  */
 
++(UIColor *)PKTintColor
+{
+  static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithRed: 27.0/255.0 green: 105.0/255.0 blue: 161.0/255.0 alpha: 1.0],
+                                [UIColor colorWithRed: 27.0/255.0 green: 105.0/255.0 blue: 161.0/255.0 alpha: 1.0],
+                                [UIColor colorWithRed: 27.0/255.0 green: 105.0/255.0 blue: 161.0/255.0 alpha: 1.0],
+                                [UIColor colorWithRed: 27.0/255.0 green: 105.0/255.0 blue: 161.0/255.0 alpha: 1.0]
+                       ];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
+  return theColor;
+};
+
 +(UIColor *)PKSidebarSelectionColor
 {
   static NSArray *theColors;

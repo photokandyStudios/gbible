@@ -90,6 +90,7 @@
 -(BOOL)       createDefaultSettings;
 -(void)       dealloc;
 
++(UIColor *)  PKTintColor;
 +(UIColor *)  PKSidebarSelectionColor;
 +(UIColor *)  PKSidebarPageColor;
 +(UIColor *)  PKSidebarTextColor;
