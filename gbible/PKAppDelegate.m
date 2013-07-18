@@ -55,6 +55,8 @@
 #import "AccessibleSegmentedControl.h"
 #import "Helpshift.h"
 #import "APIKeys.h"
+#import "UIImage+PKColor.h"
+#import "UIColor-Expanded.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -130,24 +132,37 @@ static PKAppDelegate * _instance;
     return;
   [b setTintColor: [PKSettings PKPageColor]];
   [b setTitleTextAttributes:@{
-    UITextAttributeTextColor: [PKSettings PKBarButtonTextColor],
+    UITextAttributeTextColor: [PKSettings PKTintColor],
     UITextAttributeTextShadowColor: [UIColor clearColor],
     UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)],
     UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:13]
     }
                    forState:UIControlStateNormal];
+  [b setTitleTextAttributes:@{
+    UITextAttributeTextColor: [[PKSettings PKTintColor] colorByMultiplyingBy:1.5f],
+    UITextAttributeTextShadowColor: [UIColor clearColor],
+    UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)],
+    UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:13]
+    }
+                   forState:UIControlStateHighlighted];
 
 }
 
 +(void) applyThemeToUINavigationBar: (UINavigationBar *)nba
 {
-  nba.barStyle = UIBarStyleBlackOpaque;
-  nba.tintColor = [PKSettings PKNavigationColor];
-  [nba setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+  nba.barStyle = UIBarStyleBlackTranslucent;
+  //nba.tintColor = [UIColor clearColor]; //[PKSettings PKNavigationColor];
+  //const float colorMask[6] = {222, 255, 222, 255, 222, 255};
+  //UIImage *img = [[UIImage alloc] init];
+  //UIImage *maskedImage = [UIImage imageWithCGImage: CGImageCreateWithMaskingColors(img.CGImage, colorMask)];
+  UIImage *img = [UIImage imageWithColor: [[PKSettings PKPageColor] colorWithAlphaComponent:0.85] ];
+
+  [nba setBackgroundImage:img forBarMetrics:UIBarMetricsDefault];
+  //[nba setShadowImage:[[UIImage alloc] init]];
   
-  nba.titleTextAttributes = @{ UITextAttributeTextColor: [PKSettings PKNavigationTextColor],
-                               UITextAttributeTextShadowColor: [UIColor blackColor],
-    UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:20]
+  nba.titleTextAttributes = @{ UITextAttributeTextColor: [PKSettings PKTextColor],
+                               UITextAttributeTextShadowColor: [UIColor clearColor],
+    UITextAttributeFont: [UIFont fontWithName:PKSettings.interfaceFont size:20]
                                };
 }
 
