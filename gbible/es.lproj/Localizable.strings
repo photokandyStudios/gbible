@@ -66,8 +66,8 @@
 /* Buttons, Segmented Controls */
 "OK" = "OK";
 "Cancel" = "Cancelar";
-"Done" = "Hecho";
-"Done!" = "¡Agotado!"; //KS
+"Done" = "OK"; // JCS 1.3, re commit f5c7c02
+"Done!" = "¡Terminado!"; // JCS 1.3, re commit f5c7c02
 "Delete" = "Borrar";
 "Go to passage" = "Ir a pasaje";
 "Highlight Color" = "Color de subrayado";
