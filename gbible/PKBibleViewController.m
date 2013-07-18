@@ -523,7 +523,11 @@
 
   if ([indexPaths count] > 0)
   {
-    [PKSettings instance].topVerse = [[indexPaths objectAtIndex: 0] row] + 1;
+    [PKSettings instance].topVerse = [[indexPaths objectAtIndex: 1] row] + 1;
+  }
+  else
+  {
+    [PKSettings instance].topVerse = 1;
   }
 }
 
@@ -731,10 +735,10 @@
   // Do any additional setup after loading the view.
   
 //http://stackoverflow.com/a/13163507
-if ([self.navigationController.navigationBar
-respondsToSelector:@selector(shadowImage)]) {
-self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
-}
+//if ([self.navigationController.navigationBar
+//respondsToSelector:@selector(shadowImage)]) {
+//self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
+//}
   
   _dirty = YES;
   _lastKnownOrientation           = [[UIDevice currentDevice] orientation];
@@ -774,16 +778,16 @@ self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
 
   // Text Attributes for Font-Awesome Icons:
   NSDictionary *faTextAttributes = @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
-                                         UITextAttributeTextColor : [UIColor whiteColor],
-                                         UITextAttributeTextShadowColor: [UIColor blackColor],
+                                         UITextAttributeTextColor : [PKSettings PKTintColor],
+                                         UITextAttributeTextShadowColor: [UIColor clearColor],
                                          UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
  // NSDictionary *normalTextAttributes = @{UITextAttributeTextColor : [UIColor whiteColor],
    //                                      UITextAttributeTextShadowColor: [UIColor blackColor],
      //                                    UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
   NSDictionary *largeTextAttributes = @{ //UITextAttributeFont : [UIFont systemFontOfSize:20],
                                          UITextAttributeFont : [UIFont fontWithName:@"Helvetica-Bold" size:20],
-                                         UITextAttributeTextColor : [UIColor whiteColor],
-                                         UITextAttributeTextShadowColor: [UIColor blackColor],
+                                         UITextAttributeTextColor : [PKSettings PKTintColor],
+                                         UITextAttributeTextShadowColor: [UIColor clearColor],
                                          UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
   
   UIImage *blankImage = [UIImage new];
