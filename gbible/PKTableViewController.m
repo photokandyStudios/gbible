@@ -159,7 +159,7 @@
   {
     theContentOffset = 15;
   }
-  topOpacity = (theContentOffset / 15) * 0.5;
+  //topOpacity = (theContentOffset / 15) * 0.5;
 
   [self showTopShadowWithOpacity: topOpacity];
 
@@ -176,7 +176,7 @@
   {
     theContentOffset = 15;
   }
-  bottomOpacity = (theContentOffset / 15) * 0.5;
+  //bottomOpacity = (theContentOffset / 15) * 0.5;
 
   [self showBottomShadowWithOpacity: bottomOpacity];
   
