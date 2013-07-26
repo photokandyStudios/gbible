@@ -55,7 +55,7 @@
 #import "AccessibleSegmentedControl.h"
 #import "Helpshift.h"
 #import "APIKeys.h"
-#import "UIImage+PKColor.h"
+#import "UIImage+PKUtility.h"
 #import "UIColor-Expanded.h"
 
 #import <QuartzCore/QuartzCore.h>
