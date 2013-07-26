@@ -70,6 +70,7 @@
 #import "UIBarButtonItem+Utility.h"
 #import "PKReference.h"
 #import "UIFont+Utility.h"
+#import "UIImage+PKUtility.h"
 
 
 @interface PKBibleViewController ()
@@ -650,17 +651,6 @@
     _tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 28];
   }
 
-  // set the button titles
-  [_previousChapterButton setImage: [PKSettings PKImageLeftArrow] forState: UIControlStateNormal];
-  [_previousChapterButton setImage: [PKSettings PKImageLeftArrow] forState: UIControlStateHighlighted];
-  [_previousChapterButton setImage: [PKSettings PKImageLeftArrow] forState: UIControlStateDisabled];
-  [_previousChapterButton setImage: [PKSettings PKImageLeftArrow] forState: UIControlStateSelected];
-
-  [_nextChapterButton setImage: [PKSettings PKImageRightArrow] forState: UIControlStateNormal];
-  [_nextChapterButton setImage: [PKSettings PKImageRightArrow] forState: UIControlStateHighlighted];
-  [_nextChapterButton setImage: [PKSettings PKImageRightArrow] forState: UIControlStateDisabled];
-  [_nextChapterButton setImage: [PKSettings PKImageRightArrow] forState: UIControlStateSelected];
-
   [self reloadTableCache];
 }
 
@@ -777,15 +767,8 @@
 
 
   // Text Attributes for Font-Awesome Icons:
-  NSDictionary *faTextAttributes = @{ UITextAttributeFont : [UIFont fontWithName: kFontAwesomeFamilyName size: 22],
-                                         UITextAttributeTextColor : [PKSettings PKTintColor],
-                                         UITextAttributeTextShadowColor: [UIColor clearColor],
-                                         UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
- // NSDictionary *normalTextAttributes = @{UITextAttributeTextColor : [UIColor whiteColor],
-   //                                      UITextAttributeTextShadowColor: [UIColor blackColor],
-     //                                    UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
   NSDictionary *largeTextAttributes = @{ //UITextAttributeFont : [UIFont systemFontOfSize:20],
-                                         UITextAttributeFont : [UIFont fontWithName:@"Helvetica-Bold" size:20],
+                                         UITextAttributeFont : [UIFont fontWithName:@"HelveticaNeue" size:20],
                                          UITextAttributeTextColor : [PKSettings PKTintColor],
                                          UITextAttributeTextShadowColor: [UIColor clearColor],
                                          UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
@@ -794,29 +777,13 @@
   // add navbar items
   //
   // change reference is the menu button
-  UIBarButtonItem *changeReference = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-reorder" target:self action:@selector(revealToggle:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
+  
+  
+  UIBarButtonItem *changeReference = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"Menu-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(revealToggle:) andBackgroundImage:blankImage];
   changeReference.accessibilityLabel = __T(@"Go to passage");
 
-  // the highlight button indicates what color is the current highlight color
-/*  changeHighlight                    = [[UIBarButtonItem alloc]
-                                        initWithTitle: @""
-                                                style: UIBarButtonItemStylePlain
-                                               target: self action: @selector(changeHighlightColor:)];
-
-  changeHighlight.accessibilityLabel = __T(@"Highlight Color");
-  if ([changeHighlight respondsToSelector: @selector(setTintColor:)])
-  {
-    changeHighlight.tintColor          = [[PKSettings instance] highlightColor];
-    changeHighlight.tag = 498;
-    changeHighlight.accessibilityLabel = __T(@"Highlight Color");
-  }
-  if (![changeHighlight respondsToSelector: @selector(setTintColor:)])
-  {
-    changeHighlight.title = ( (PKSettings *)[PKSettings instance] ).highlightTextColor;
-  }
-  */
   // font select lets the user change the theme
-  UIBarButtonItem *fontSelect = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-font" target:self action:@selector(fontSelect:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
+  UIBarButtonItem *fontSelect = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"Layout-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(fontSelect:) andBackgroundImage:blankImage];
   fontSelect.accessibilityLabel = __T(@"Layout");
 
   // leftTextSelect lets the user change the left-side Bible
@@ -866,16 +833,16 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: tb];
   }
 
-  UIBarButtonItem *goFullScreen = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-fullscreen" target:self action:@selector(goFullScreen:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
+  UIBarButtonItem *goFullScreen = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"FullScreen-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(goFullScreen:) andBackgroundImage:blankImage];
   
   goFullScreen.accessibilityLabel = __T(@"Enter Full Screen");
 
   _rightTextSelect = [UIBarButtonItem barButtonItemWithTitle:[[PKBible titleForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
 
-  UIBarButtonItem *adjustSettings = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-cog" target:self action:@selector(doSettings:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
+  UIBarButtonItem *adjustSettings = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"Settings-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(doSettings:) andBackgroundImage:blankImage];
     adjustSettings.accessibilityLabel = __T(@"Settings");
 
-  _searchText = [UIBarButtonItem barButtonItemUsingFontAwesomeIcon:@"icon-search" target:self action:@selector(searchBible:) withTitleTextAttributes:faTextAttributes andBackgroundImage:blankImage];
+  _searchText = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(searchBible:) andBackgroundImage:blankImage];
     _searchText.accessibilityLabel = __T(@"Search");
   
 
@@ -901,15 +868,8 @@
   [_nextChapterButton setFrame: CGRectMake(self.tableView.frame.size.width - 54, 10, 44, 44)];
 
   // set the button titles
-  [_previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft.png"] forState: UIControlStateNormal];
-  [_previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft.png"] forState: UIControlStateHighlighted];
-  [_previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft.png"] forState: UIControlStateDisabled];
-  [_previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft.png"] forState: UIControlStateSelected];
-
-  [_nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight.png"] forState: UIControlStateNormal];
-  [_nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight.png"] forState: UIControlStateHighlighted];
-  [_nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight.png"] forState: UIControlStateDisabled];
-  [_nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight.png"] forState: UIControlStateSelected];
+  [_previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft-30" withColor:[PKSettings PKTintColor]] forState: UIControlStateNormal];
+  [_nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight-30" withColor:[PKSettings PKTintColor]] forState: UIControlStateNormal];
 
   // set the targets
   [_previousChapterButton addTarget: self action: @selector(previousChapter) forControlEvents: UIControlEventTouchUpInside];
@@ -917,8 +877,6 @@
 
   _nextChapterButton.autoresizingMask       = UIViewAutoresizingFlexibleLeftMargin;
 
-  _previousChapterButton.alpha              = 0.5f;
-  _nextChapterButton.alpha                  = 0.5f;
 
   _previousChapterButton.accessibilityLabel = __T(@"Previous Chapter");
   _nextChapterButton.accessibilityLabel     = __T(@"Next Chapter");

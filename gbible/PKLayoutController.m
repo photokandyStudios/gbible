@@ -43,6 +43,7 @@
 #import "PKAppDelegate.h"
 #import "UIFont+Utility.h"
 #import "PKAppDelegate.h"
+#import "UIImage+PKUtility.h"
 
 @interface PKLayoutController ()
 
@@ -63,8 +64,8 @@
   UISegmentedControl */**__strong**/ _columnSelector;
   UITableView */**__strong**/ _englishFontPicker;
   UITableView */**__strong**/ _greekFontPicker;
-  UILabel */**__strong**/ _decreaseBrightnessLabel;
-  UILabel */**__strong**/ _increaseBrightnessLabel;
+  UIImageView */**__strong**/ _decreaseBrightnessLabel;
+  UIImageView */**__strong**/ _increaseBrightnessLabel;
   UISegmentedControl */**__strong**/ _themeSelector;
 
   NSArray */**__strong**/ _fontNames;
@@ -207,18 +208,18 @@
 
   _lineSpacingSelector = [[UISegmentedControl alloc] initWithFrame: CGRectMake(10, 300, 145, 30)];
 
-  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"vs0"] atIndex: 0 animated: NO];
-  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"vs1"] atIndex: 1 animated: NO];
-  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"vs2"] atIndex: 2 animated: NO];
+  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"vs0-30" withColor:[PKSettings PKTintColor]] atIndex: 0 animated: NO];
+  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"vs1-30" withColor:[PKSettings PKTintColor]] atIndex: 1 animated: NO];
+  [_lineSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"vs2-30" withColor:[PKSettings PKTintColor]] atIndex: 2 animated: NO];
   _lineSpacingSelector.selectedSegmentIndex = ( [PKSettings instance].textVerseSpacing );
   [_lineSpacingSelector addTarget: self action: @selector(lineSpacingChanged:) forControlEvents: UIControlEventValueChanged];
   [self.view addSubview: _lineSpacingSelector];
 
   _columnSelector = [[UISegmentedControl alloc] initWithFrame: CGRectMake(165, 300, 145, 30)];
   [_columnSelector addTarget: self action: @selector(columnChanged:) forControlEvents: UIControlEventValueChanged];
-  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"wlc"] atIndex: 0 animated: NO];
-  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"eqc"] atIndex: 1 animated: NO];
-  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"wrc"] atIndex: 2 animated: NO];
+  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"wlc-30" withColor:[PKSettings PKTintColor]] atIndex: 0 animated: NO];
+  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"eqc-30" withColor:[PKSettings PKTintColor]] atIndex: 1 animated: NO];
+  [_columnSelector insertSegmentWithImage: [UIImage imageNamed: @"wrc-30" withColor:[PKSettings PKTintColor]] atIndex: 2 animated: NO];
 
   switch ( [PKSettings instance].layoutColumnWidths )
   {
@@ -238,10 +239,10 @@
 
   _rowSpacingSelector = [[UISegmentedControl alloc] initWithFrame: CGRectMake(116, 340, 194, 30)];
 
-  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"ls100"] atIndex: 0 animated: NO];
-  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"ls125"] atIndex: 1 animated: NO];
-  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"ls150"] atIndex: 2 animated: NO];
-  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"ls200"] atIndex: 3 animated: NO];
+  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"ls100-30" withColor:[PKSettings PKTintColor]] atIndex: 0 animated: NO];
+  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"ls125-30" withColor:[PKSettings PKTintColor]] atIndex: 1 animated: NO];
+  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"ls150-30" withColor:[PKSettings PKTintColor]] atIndex: 2 animated: NO];
+  [_rowSpacingSelector insertSegmentWithImage: [UIImage imageNamed: @"ls200-30" withColor:[PKSettings PKTintColor]] atIndex: 3 animated: NO];
 
   switch ( [PKSettings instance].textLineSpacing )
   {
@@ -271,20 +272,16 @@
   _rowSpacingLabel.numberOfLines             = 2;
   [self.view addSubview: _rowSpacingLabel];
 
-  _decreaseBrightnessLabel                   = [[UILabel alloc] initWithFrame: CGRectMake(10, 380, 30, 30)];
-  _decreaseBrightnessLabel.font              = [UIFont fontWithName: kFontAwesomeFamilyName size: 16];
-  _decreaseBrightnessLabel.text              = [NSString fontAwesomeIconStringForIconIdentifier: @"icon-adjust"];
+  _decreaseBrightnessLabel                   = [[UIImageView alloc] initWithFrame: CGRectMake(10, 380, 30, 30)];
   _decreaseBrightnessLabel.backgroundColor   = [UIColor clearColor];
-  _decreaseBrightnessLabel.textAlignment     = UITextAlignmentCenter;
   _decreaseBrightnessLabel.accessibilityLabel= __T(@"Decrease Brightness");
+  _decreaseBrightnessLabel.image             = [UIImage imageNamed:@"LessBrightness-30" withColor:[UIColor blackColor]];
   [self.view addSubview: _decreaseBrightnessLabel];
 
-  _increaseBrightnessLabel                   = [[UILabel alloc] initWithFrame: CGRectMake(280, 380, 30, 30)];
-  _increaseBrightnessLabel.font              = [UIFont fontWithName: kFontAwesomeFamilyName size: 24];
-  _increaseBrightnessLabel.text              = [NSString fontAwesomeIconStringForIconIdentifier: @"icon-adjust"];
+  _increaseBrightnessLabel                   = [[UIImageView alloc] initWithFrame: CGRectMake(280, 380, 30, 30)];
   _increaseBrightnessLabel.backgroundColor   = [UIColor clearColor];
-  _increaseBrightnessLabel.textAlignment     = UITextAlignmentCenter;
   _increaseBrightnessLabel.accessibilityLabel= __T(@"Increase Brightness");
+  _increaseBrightnessLabel.image             = [UIImage imageNamed:@"MoreBrightness-30" withColor:[UIColor blackColor]];
   [self.view addSubview: _increaseBrightnessLabel];
 
   _brightnessSlider                          = [[UISlider alloc] initWithFrame: CGRectMake(50, 380, 220, 30)];
