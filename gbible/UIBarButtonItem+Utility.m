@@ -85,5 +85,16 @@
   return b;
 }
 
++(UIBarButtonItem *) barButtonItemWithImage: (UIImage *)image
+                                     target: (id)theTarget
+                                     action: (SEL)theAction
+                         andBackgroundImage: (UIImage *)theImage
+{
+  UIBarButtonItem *b = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:theTarget action:theAction];
+  [b setBackgroundImage:theImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+  b.tag = 498;
+  return b;
+}
+
 
 @end

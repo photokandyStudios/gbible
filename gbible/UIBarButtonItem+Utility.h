@@ -51,4 +51,9 @@
                     withTitleTextAttributes: (NSDictionary *)textAttributes
                          andBackgroundImage: (UIImage *)theImage;
 
++(UIBarButtonItem *) barButtonItemWithImage: (UIImage *)image
+                                     target: (id)theTarget
+                                     action: (SEL)theAction
+                         andBackgroundImage: (UIImage *)theImage;
+
 @end
