@@ -1,0 +1,165 @@
+  
+Helpshift SDK 2.5.0 Release Notes (for iOS)
+-----------------------------------------------
+
+Helpshift is an embedded support desk for native apps.
+Helpshift SDK for iOS is required for having Helpshift support running on native apps.
+
+Requirements:
+App must be running on iOS 5 or 6.
+The SDK works with armv7 or armv7s as well as i386 (iOS simulator) architectures.
+
+Documentation for Installation and Usage Instructions:
+http://www.helpshift.com/docs/
+
+New features:
+2.5.0 Release Date: June 17, 2013
+       * Bug fixes in chat
+2.5.0-rc.1 Release Date: June 6, 2013
+       * UX change in the way in app notifications are shown
+       * Bug fixes
+       * UI fixes
+2.4.0 Release Date: May 22, 2013
+       * In app notification bug fixes
+       * UI fixes
+2.4.0-rc.1 Release Date: May 8, 2013
+       * In app notifications
+       * Bug fixes
+       * UI fixes
+2.3.0 Release Date: May 2, 2013
+2.3.0-rc.2 Release Date: April 29, 2013
+       * Bug fixes
+2.3.0-rc.1 Release Date: April 25, 2013
+       * Added API's to clear user data and breadcrumb list.	
+2.2.0 Release Date: April 17, 2013
+       * Bug fixes
+2.2.0-rc.3 Release Date: April 13, 2013
+       * Bug fixes
+2.2.0-rc.2 Release Date: April 12, 2013
+       * Bug fixes
+2.2.0-rc.1 Release Date: April 11, 2013
+       * Added optional flags for reporting issues
+2.1.0 Release Date: April 10, 2013
+2.1.0-rc.2 Release Date: April 3, 2013
+       * Bug fixes
+       * UI fixes
+2.1.0-rc.1 Release Date: March 28, 2013
+       * Added translation for German, Spanish, Russian, Italian, French
+       * New api to show a decomposed view for showing all FAQs
+       * Improved FAQ display
+       * Bug fixes
+2.0.1 Release Date: March 26, 2013
+       * Bug fixes
+2.0.0 Release Date: March 20, 2013
+       * registerDeviceToken api is now asynchronous
+       * Bug fixes
+       * UI fixes
+2.0.0-rc.1 Release Date: March 13, 2013
+       * Urban Airship bug fixes on iPad
+       * Fixes for custom popovers on iPhone
+       * Other bug fixes
+       * UI fixes
+2.0.0-beta.3 Release Date: March 8, 2013
+       * iPad support
+       * Links and telephone numbers in chat messages are discernible and clickable
+       * Added api to provide additional metadata with every reported issue
+       * Bug fixes
+       * UI fixes
+2.0.0-beta.2 Release Date: February 25, 2013
+       * Bug fixes
+2.0.0-beta.1 Release Date: February 22, 2013
+       * Enhanced skinning support through plist files
+       * Enhanced Decomposition support
+       * Localization support
+       * Animation/UI fixes
+       * Bug fixes
+1.4.6 Release Date : February 18, 2013
+       * Notification API fixes
+1.4.5 Release Date : February 6, 2013
+       * Documentation updates
+1.4.5-rc2 Release Date: February 1, 2013
+       * iOS 6 Navigation Controller rotation fixes
+1.4.5-rc1 Release Date: January 30, 2013
+       * Critical fix: Chat polling not working if notification polling is running
+1.4.4 Release Date: January 24, 2013
+       * Added support for multilingual issue reporting
+       * Some memory leaks resolved
+       * Bug fixes
+1.4.4-rc2 Release Data: January 21, 2013
+       * Special characters handled for report issue
+       * Chat screen offline messages fixes
+       * Some UI fixes
+       * Other bug fixes
+1.4.4-rc1 Release Data: January 16, 2013
+       * Added new apis for getting notifications about issue updates.
+       * Added screenshot confirmation before sending the image.
+       * Bug fixes
+       * UI fixes
+1.4.3 Release Date: January 10, 2013
+       * Added Helpshift delegate method for helpshift session ended.
+       * Bug fixes
+1.4.2 Release Date: January 2, 2013
+       * Report issue decomposition
+       * Bug fixes
+       * UI fixes
+       * Documentation updates
+1.4.1 Release Date: December 28, 2012
+       * Bug fixes
+1.4.0 Release Date: December 27, 2012
+       * Urban airship integration
+       * Search performance improvements
+       * Improved documentation
+       * Bug fixes
+       * UI fixes
+1.3.3 Release Date: December 19, 2012
+       * Bug fixes
+       * UI fixes
+1.3.2 Release Date: December 18, 2012
+       * Crittercism integration
+       * Bug fixes
+1.3.1 Release Date: December 13, 2012
+       * Bug fixes
+1.3.0 Release Date: December 12, 2012
+       * Support for landscape mode
+       * Bug fixes
+       * UI fixes
+1.2.4 Release Date: December 7, 2012
+       * Bug fixes
+1.2.3 Release Date: December 5, 2012
+       * Updates to the device meta-data being sent to the server
+       * Api for migrating the data in case user migrates from an old sdk which stored data in the standard user-defaults
+       * The user-defaults storage is now sandboxed away to avoid data deletion when application clears its own data
+       * User profile is based on a config value from the config api
+       * Enhancements to the review request workflow
+       * Migrating to config api for getting the review request information such as url and interval
+       * Debug log limit now comes from a dedicated config option rather than using the breadcrumb limit
+       * Bug fixes
+       * UI fixes
+1.2.2 Release Date: November 23, 2012
+	* Change in the method signature for installing the Helpshift library support.
+	* Bug fixes
+	* UI fixes
+1.2.1 Release Date: November 12, 2012
+	* iPod touch carrier does not exist (case handled)
+	* UIView choppy animations fixed
+	* Reachability class conflict fixed
+	* Memory leak fixes
+	* UI/Stability fixes
+
+1.2.0 Release Date: November 2, 2012
+        * Funnel support
+        * UI Changes/Fixes
+        * Powered By Helpshift logo
+        * Stability fixes
+        * New UI for the library including half-modal and fullscreen views
+        * Screenshot thumbnail
+        * Network warnings
+        * Review Feedback workflow
+        * Skinning support for the app through the admin dashboard
+        * Extra device information
+        * Debug logs for the app
+        * Breadcrumbs support
+        * Was this FAQ helpful workflow
+        * Universal library with support for simulator, armv7, armv7s versions
+        * Support for iPhone 5
+        * Improved stability and performance

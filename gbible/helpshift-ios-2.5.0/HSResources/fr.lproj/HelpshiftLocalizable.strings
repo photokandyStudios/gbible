@@ -1,0 +1,86 @@
+/* 
+  HSLocalizable.strings
+  Helpshift
+
+  Created by Suman Raj on 11/01/13.
+  Copyright (c) 2013 Helpshift,Inc., All rights reserved.
+*/
+
+"Review our app" = "Évaluez notre app";
+"Would you mind taking a moment to review our app? It won't take more than a minute. Thanks for your support!" = "Acceptez-vous de prendre un instant pour évaluer votre app ?  Cela ne prendra qu'une minute. Merci pour votre support.";
+"Never ask me again" = "Ne plus me le demander";
+"Rate and Review" = "Évaluez et classifiez";
+"Remind me later" = "Me le redemander plus tard";
+"No Internet!" = "Pas d'Internet!";
+"No working Internet connection is found." = "Aucune connexion internet n'a été trouvée.";
+"Take a screenshot on your iPhone" = "Choisissez une capture d'écran sur votre iPhone.";
+"Take a screenshot on your iPad" = "Choisissez une capture d'écran sur votre iPad.";
+"Go to the screen you want a screenshot of, hold down the power button and the home button on your iPhone, at the same time." = "Choisissez l'écran désiré puis maintenez enfoncés simultanément le bouton de mise sous tension et le bouton d'accueil de votre iPhone.";
+"Go to the screen you want a screenshot of, hold down the power button and the home button on your iPad, at the same time." = "Choisissez l'écran désiré puis maintenez enfoncés simultanément le bouton de mise sous tension et le bouton d'accueil de votre iPad.";
+"That's it, your screenshot is now in your iPhone gallery!" = "Voilà, votre nouvelle capture d'écran est maintenant intégrée à la galerie de photos de votre iPhone !";
+"That's it, your screenshot is now in your iPad gallery!" = "Voilà, votre nouvelle capture d'écran est maintenant intégrée à la galerie de photos de votre iPad !";
+"Back to Issue" = "Retour au problème";
+"Take screenshot" = "Prenez une capture d'écran";
+"Opening Gallery..." = "Ouverture de la Galerie de photos...";
+"Sending Screenshot..." = "Envoi de la capture d'écran choisie...";
+"Screenshot sent" = "La capture d'écran a été envoyée";
+"Your message was not sent.Tap \"Try Again\" to send this message?" = "Votre message n'a pas été envoyé. Voulez-vous taper Réessayez pour envoyer ce message ? ";
+"How can we help?" = "Comment pouvons-nous vous aider?";
+"No faqs found in this section" = "Il n'y a pas de questions répertoriées dans cette section";
+"Could not fetch faqs" = "Il n'a pas été possible de chercher de questions";
+"FAQ" = "FAQ";
+"My Issues" = "Mes problèmes";
+"Can't find what you were looking for?" = "Vous n'avez pas pu trouver ce que vous cherchiez?";
+"Add an Issue" = "Ajoutez un problème";
+"Thank you for reporting this issue." = "Merci d'avoir signalé ce problème.";
+"Thank you for reporting this issue. We have received it and will get back to you." = "Merci d'avoir signalé ce problème. Nous avons bien reçu votre rapport et nous ferons le suivi nécessaire avec vous.";
+"Sorry to hear that. Could you please tell us a little bit more about the problem you are facing?" = "Nous sommes désolés. Pourriez-vous nous en dire un peu plus au sujet du problème que vous avez rencontré?";
+"We're happy to help you!" = "Nous sommes heureux de pouvoir vous aider";
+"We have received it and will get back to you." = "Nous avons bien reçu votre rapport et nous ferons le suivi nécessaire avec vous.";
+"Could not send your issue" = "Le problème que vous avez identifié n'a pas pu être envoyé";
+"Please try again or check your network connection." = "Veuillez essayer de nouveau ou vérifier votre connexion réseau.";
+"We will only ask for your details when you report your first issue. For more details read our privacy policy at" = "Vos informations ne serons nécessaires qu'au moment de signaler votre premier problème. Pour plus de détails, référez-vous à notre politique de confidentialité à l'adresse suivante:";
+"Attaching device information will give the developer details of your device to help solve your problem quicker."= "En joignant les informations concernant votre appareil vous donnez aux concepteurs des informations qui leur seront utiles pour résoudre vos problèmes plus rapidement.";
+"Describe your problem" = "Décrivez votre problème";
+"Report Issue Text" = "Décrivez votre problème";
+"Your Name" = "Votre nom";
+"Your email address (optional)" = "Votre adresse courriel (facultatif)";
+"Email invalid" = "Adresse courriel non-valide";
+"Please provide a valid email address." = "Veuillez donner une adresse courriel valide.";
+"Invalid Entry" = "Entrée non-valide";
+"Please enter a brief description of the issue you are facing." = "Veuillez écrire une brève description du problème que vous avez rencontré.";
+"Attach device information" = "Joignez les informations de l'appareil";
+"REPORT AN ISSUE" = "SIGNALEZ UN PROBLÈME";
+"Question" = "Question";
+"Was this helpful?" = "Cela vous a-t-il été utile?";
+"You found this helpful." = "Notre aide vous a-t-elle été utile.";
+"You didn't find this helpful." = "Notre aide ne vous a pas été utile.";
+"Sending your issue..." = "Envoi de votre demande de résolution de problème...";
+"Next" = "Suivant";
+"Try Again" = "Veuillez réessayer";
+"Cancel" = "Annulez";
+"REVIEW" = "RÉVISION";
+"Send" = "Envoyez";
+"Change" = "Changez";
+"You have answered: NO" = "Vous avez répondu: NON";
+"You have answered: YES" = "Vous avez répondu: OUI";
+"Ok, attach" = "Ok, attachez";
+"Learn how" = "Apprenez comment faire";
+"YES" = "OUI";
+"NO" = "NON";
+"Accepted review request" = "Demande de révision acceptée";
+"Messages" = "Messages";
+"SEND" = "ENVOYEZ";
+"Back" = "Retour";
+"OK" = "OK";
+"Close" = "Fermez";
+"Loading..." = "Chargement...";
+"Inbox" = "Boîte de réception";
+"Help" = "Aide";
+"Sending failed !" = "Envoi échoué !";
+"Screenshot could not be sent. Image is too large, try again with another image" = "Capture d'écran n'a pas pu être envoyé. L'image est trop grande, essayez à nouveau avec une autre image";
+"Name invalid" = "Nom invalide";
+"Please provide a name." = "S'il vous plaît donner un nom.";
+"New message from Support" = "Nouveau message de soutien";
+"new messages from Support" = "nouveaux messages de soutien";
+"No FAQs found" = "Pas FAQ trouvés";

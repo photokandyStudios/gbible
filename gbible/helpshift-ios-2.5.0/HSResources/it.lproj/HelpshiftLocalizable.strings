@@ -1,0 +1,86 @@
+/* 
+  HSLocalizable.strings
+  Helpshift
+
+  Created by Suman Raj on 11/01/13.
+  Copyright (c) 2013 Helpshift,Inc., All rights reserved.
+*/
+
+"Review our app" = "Recensisci la nostra app";
+"Would you mind taking a moment to review our app? It won't take more than a minute. Thanks for your support!" = "Ti va di dedicare qualche istante per recensire la nostra app? Non richiederà più di un minuto. Grazie per il tuo sostegno!";
+"Never ask me again" = "Non chiedermelo più";
+"Rate and Review" = "Valuta e recensisci";
+"Remind me later" = "Ricordamelo più tardi";
+"No Internet!" = "Nessuna connessione Internet!";
+"No working Internet connection is found." = "Nessuna connessione Internet trovata.";
+"Take a screenshot on your iPhone" = "Acquisisci schermata sul tuo iPhone";
+"Take a screenshot on your iPad" = "Acquisisci schermata sul tuo iPad";
+"Go to the screen you want a screenshot of, hold down the power button and the home button on your iPhone, at the same time." = "Vai alla schermata che vuoi acquisire, tieni premuto il pulsante di alimentazione e contemporaneamente premi il pulsante Home sul tuo iPhone.";
+"Go to the screen you want a screenshot of, hold down the power button and the home button on your iPad, at the same time." = "Vai alla schermata che vuoi acquisire, tieni premuto il pulsante di alimentazione e contemporaneamente premi il pulsante Home sul tuo iPad.";
+"That's it, your screenshot is now in your iPhone gallery!" = "Ecco fatto, ora la tua schermata è presente nella galleria immagini del tuo iPhone!";
+"That's it, your screenshot is now in your iPad gallery!" = "Ecco fatto, ora la tua schermata è presente nella galleria immagini del tuo iPad!";
+"Back to Issue" = "Torna al problema";
+"Take screenshot" = "Acquisisci schermata";
+"Opening Gallery..." = "Apertura galleria...";
+"Sending Screenshot..." = "Invio schermata...";
+"Screenshot sent" = "Schermata inviata";
+"Your message was not sent.Tap \"Try Again\" to send this message?" = "Il tuo messaggio non è stato inviato. Toccare Riprova per inviare il messaggio?";
+"How can we help?" = "Come possiamo aiutarti?";
+"No faqs found in this section" = "Nessuna FAQ trovata in questa sezione";
+"Could not fetch faqs" = "Impossibile recuperare le FAQ";
+"FAQ" = "FAQ";
+"My Issues" = "I miei problemi";
+"Can't find what you were looking for?" = "Non riesci a trovare quel che stai cercando?";
+"Add an Issue" = "Aggiungi un problema";
+"Thank you for reporting this issue." = "Grazie per aver segnalato questo problema.";
+"Thank you for reporting this issue. We have received it and will get back to you." = "Grazie per aver segnalato questo problema. Ti risponderemo presto.";
+"Sorry to hear that. Could you please tell us a little bit more about the problem you are facing?" = "Siamo molto spiacenti. Puoi fornirci maggiori informazioni sul problema che hai riscontrato?";
+"We're happy to help you!" = "Siamo felici di aiutarti!";
+"We have received it and will get back to you." = "Ti risponderemo presto.";
+"Could not send your issue" = "Impossibile inviare il tuo problema";
+"Please try again or check your network connection." = "Riprova o controlla la tua connessione di rete.";
+"We will only ask for your details when you report your first issue. For more details read our privacy policy at" = "Chiederemo i tuoi dati solo alla tua prima segnalazione di un problema. Per ulteriori informazioni leggi la nostra informativa sulla privacy:";
+"Attaching device information will give the developer details of your device to help solve your problem quicker."= "Fornendo i dati relativi al dispositivo permetterai allo sviluppatore di risolvere il tuo problema più velocemente.";
+"Describe your problem" = "Descrivi il tuo problema";
+"Report Issue Text" = "Descrivi il tuo problema";
+"Your Name" = "Il tuo nome";
+"Your email address (optional)" = "Il tuo indirizzo e-mail (facoltativo)";
+"Email invalid" = "E-mail non valida";
+"Please provide a valid email address." = "Fornisci un indirizzo e-mail valido.";
+"Invalid Entry" = "Voce non valida";
+"Please enter a brief description of the issue you are facing." = "Inserisci una breve descrizione del problema che hai riscontrato.";
+"Attach device information" = "Allega info dispositivo";
+"REPORT AN ISSUE" = "SEGNALA UN PROBLEMA";
+"Question" = "Domanda";
+"Was this helpful?" = "È stato utile?";
+"You found this helpful." = "Questo ti è stato utile.";
+"You didn't find this helpful." = "Questo non ti è stato utile.";
+"Sending your issue..." = "Invio del tuo problema...";
+"Next" = "Avanti";
+"Try Again" = "Riprova";
+"Cancel" = "Annulla";
+"REVIEW" = "RECENSISCI";
+"Send" = "Invia";
+"Change" = "Modifica";
+"You have answered: NO" = "Hai risposto: NO";
+"You have answered: YES" = "Hai risposto: SÌ";
+"Ok, attach" = "Ok, allega";
+"Learn how" = "Scopri come";
+"YES" = "SÌ";
+"NO" = "NO";
+"Accepted review request" = "Richiesta di recensione accettata";
+"Messages" = "Messaggi";
+"SEND" = "INVIA";
+"Back" = "Indietro";
+"OK" = "OK";
+"Close" = "Chiudi";
+"Loading..." = "Caricamento in corso...";
+"Inbox" = "Posta in arrivo";
+"Help" = "Guida";
+"Sending failed !" = "Invio non riuscito !";
+"Screenshot could not be sent. Image is too large, try again with another image" = "Screenshot non è stato inviato. L'immagine è troppo grande, prova di nuovo con un'altra immagine";
+"Name invalid" = "Nome non valido";
+"Please provide a name." = "Si prega di inserire un nome.";
+"New message from Support" = "Nuovo messaggio da appoggio";
+"new messages from Support" = "nuovi messaggi da appoggio";
+"No FAQs found" = "Nessun FAQs trovato";

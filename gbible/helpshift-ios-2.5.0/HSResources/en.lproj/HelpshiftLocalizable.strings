@@ -1,0 +1,87 @@
+/* 
+  HSLocalizable.strings
+  Helpshift
+
+  Created by Suman Raj on 11/01/13.
+  Copyright (c) 2013 Helpshift,Inc., All rights reserved.
+*/
+
+"Review our app" = "Review our app";
+"Would you mind taking a moment to review our app? It won't take more than a minute. Thanks for your support!" = "Would you mind taking a moment to review our app? It won't take more than a minute. Thanks for your support!";
+"Never ask me again" = "Never ask me again";
+"Rate and Review" = "Rate and Review";
+"Remind me later" = "Remind me later";
+"No Internet!" = "No Internet!";
+"No working Internet connection is found." = "No working Internet connection is found.";
+"Take a screenshot on your iPhone" = "Take a screenshot on your iPhone";
+"Take a screenshot on your iPad" = "Take a screenshot on your iPad";
+"Go to the screen you want a screenshot of, hold down the power button and the home button on your iPhone, at the same time." = "Go to the screen you want a screenshot of, hold down the power button and the home button on your iPhone, at the same time.";
+"Go to the screen you want a screenshot of, hold down the power button and the home button on your iPad, at the same time." = "Go to the screen you want a screenshot of, hold down the power button and the home button on your iPad, at the same time.";
+"That's it, your screenshot is now in your iPhone gallery!" = "That's it, your screenshot is now in your iPhone gallery!";
+"That's it, your screenshot is now in your iPad gallery!" = "That's it, your screenshot is now in your iPad gallery!";
+"Back to Issue" = "Back to Issue";
+"Take screenshot" = "Take screenshot";
+"Opening Gallery..." = "Opening Gallery...";
+"Sending Screenshot..." = "Sending Screenshot...";
+"Screenshot sent" = "Screenshot sent";
+"Your message was not sent.Tap \"Try Again\" to send this message?" = "Your message was not sent.Tap \"Try Again\" to send this message?";
+"How can we help?" = "How can we help?";
+"No faqs found in this section" = "No faqs found in this section";
+"Could not fetch faqs" = "Could not fetch faqs";
+"FAQ" = "FAQ";
+"My Issues" = "My Issues";
+"Can't find what you were looking for?" = "Can't find what you were looking for?";
+"Add an Issue" = "Add an Issue";
+"Thank you for reporting this issue." = "Thank you for reporting this issue.";
+"Thank you for reporting this issue. We have received it and will get back to you." = "Thank you for reporting this issue. We have received it and will get back to you.";
+"Sorry to hear that. Could you please tell us a little bit more about the problem you are facing?" = "Sorry to hear that. Could you please tell us a little bit more about the problem you are facing?";
+"We're happy to help you!" = "We're happy to help you!";
+"We have received it and will get back to you." = "We have received it and will get back to you.";
+"Could not send your issue" = "Could not send your issue";
+"Please try again or check your network connection." = "Please try again or check your network connection.";
+"We will only ask for your details when you report your first issue. For more details read our privacy policy at" = "We will only ask for your details when you report your first issue. For more details read our privacy policy at";
+"Attaching device information will give the developer details of your device to help solve your problem quicker."= "Attaching device information will give the developer details of your device to help solve your problem quicker.";
+"Describe your problem" = "Describe your problem";
+"Report Issue Text" = "Describe your problem";
+"Your Name" = "Your Name";
+"Your email address (optional)" = "Your email address (optional)";
+"Email invalid" = "Email invalid";
+"Please provide a valid email address." = "Please provide a valid email address.";
+"Invalid Entry" = "Invalid Entry";
+"Please enter a brief description of the issue you are facing." = "Please enter a brief description of the issue you are facing.";
+"Attach device information" = "Attach device information";
+"REPORT AN ISSUE" = "REPORT AN ISSUE";
+"Question" = "Question";
+"Was this helpful?" = "Was this helpful?";
+"You found this helpful." = "You found this helpful.";
+"You didn't find this helpful." = "You didn't find this helpful.";
+"Sending your issue..." = "Sending your issue...";
+"Next" = "Next";
+"Try Again" = "Try Again";
+"Cancel" = "Cancel";
+"REVIEW" = "REVIEW";
+"Send" = "Send";
+"Change" = "Change";
+"You have answered: NO" = "You have answered: NO";
+"You have answered: YES" = "You have answered: YES";
+"Ok, attach" = "Ok, attach";
+"Learn how" = "Learn how";
+"YES" = "YES";
+"NO" = "NO";
+"Accepted review request" = "Accepted review request";
+"Messages" = "Messages";
+"SEND" = "SEND";
+"Back" = "Back";
+"OK" = "OK";
+"Close" = "Close";
+"Loading..." = "Loading...";
+"Inbox" = "Inbox";
+"Help" = "Help";
+"Could not report your issue." = "Could not report your issue.";
+"Sending failed !" = "Sending failed !";
+"Screenshot could not be sent. Image is too large, try again with another image" = "Screenshot could not be sent. Image is too large, try again with another image";
+"Name invalid" = "Name invalid";
+"Please provide a name." = "Please provide a name.";
+"New message from Support" = "New message from Support";
+"new messages from Support" = "new messages from Support";
+"No FAQs found" = "No FAQs found";

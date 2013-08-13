@@ -1,0 +1,86 @@
+/* 
+  HSLocalizable.strings
+  Helpshift
+
+  Created by Suman Raj on 11/01/13.
+  Copyright (c) 2013 Helpshift, Inc., All rights reserved.
+*/
+
+"Review our app" = "Оценить приложение";
+"Would you mind taking a moment to review our app? It won't take more than a minute. Thanks for your support!" = "Будьте добры, уделите минуту обзору нашего приложения. Это не займёт больше минуты. Спасибо за поддержку!";
+"Never ask me again" = "Больше не спрашивать";
+"Rate and Review" = "Оценить и дать отзыв";
+"Remind me later" = "Напомнить позже";
+"No Internet!" = "Нет Интернета!";
+"No working Internet connection is found." = "Не обнаружено рабочего подключения к Интернету!";
+"Take a screenshot on your iPhone" = "Снять скриншот на свой iPhone";
+"Take a screenshot on your iPad" = "Снять скриншот на свой iPad";
+"Go to the screen you want a screenshot of, hold down the power button and the home button on your iPhone, at the same time." = "Перейдите на экран, скриншот которого хотите снять, нажмите и удерживайте кнопку питания и главную кнопку на iPhone одновременно.";
+"Go to the screen you want a screenshot of, hold down the power button and the home button on your iPad, at the same time." = "Перейдите на экран, скриншот которого хотите снять, нажмите и удерживайте кнопку питания и главную кнопку на iPad одновременно.";
+"That's it, your screenshot is now in your iPhone gallery!" = "Вот и всё, теперь скриншот находится в галерее iPhone!";
+"That's it, your screenshot is now in your iPad gallery!" = "Вот и всё, теперь скриншот находится в галерее iPad!";
+"Back to Issue" = "Вернуться к проблеме";
+"Take screenshot" = "Снять скриншот";
+"Opening Gallery..." = "Идёт открытие галереи...";
+"Sending Screenshot..." = "Идёт отправка скриншота...";
+"Screenshot sent" = "Скриншот отправлен";
+"Your message was not sent.Tap \"Try Again\" to send this message?" = "Ваше сообщение не отправлено. Повторить попытку отправки сообщения?";
+"How can we help?" = "Чем мы можем помочь?";
+"No faqs found in this section" = "В этом разделе нет вопросов-ответов";
+"Could not fetch faqs" = "Невозможно вызвать вопросы-ответы";
+"FAQ" = "Вопрос-ответ";
+"My Issues" = "Мои проблемы";
+"Can't find what you were looking for?" = "Не нашли того, чего искали?";
+"Add an Issue" = "Добавить проблему";
+"Thank you for reporting this issue." = "Спасибо за сообщение о проблеме.";
+"Thank you for reporting this issue. We have received it and will get back to you." = "Спасибо за сообщение о проблеме. Мы его получили и свяжемся с вами.";
+"Sorry to hear that. Could you please tell us a little bit more about the problem you are facing?" = "Жаль об этом слышать. Не могли бы вы рассказать немного подробнее о проблеме, с которой столкнулись?";
+"We're happy to help you!" = "Мы рады вам помочь!";
+"We have received it and will get back to you." = "Мы его получили и свяжемся с вами.";
+"Could not send your issue" = "Невозможно отправить проблему";
+"Please try again or check your network connection." = "Повторите попытку или проверьте сетевое подключение.";
+"We will only ask for your details when you report your first issue. For more details read our privacy policy at" = "Мы попросим ваши реквизиты только при первом сообщении о проблеме. Дополнительные подробности по политике конфиденциальности на";
+"Attaching device information will give the developer details of your device to help solve your problem quicker."= "Прикреплённая информация об устройстве даст разработчику подробную информацию, которая поможет ускорить решение проблемы.";
+"Describe your problem" = "Опишите проблему";
+"Report Issue Text" = "Опишите проблему";
+"Your Name" = "Ваше имя";
+"Your email address (optional)" = "Адрес эл.почты (необязательно)";
+"Email invalid" = "Недействительная эл.почта";
+"Please provide a valid email address." = "Введите действительный адрес эл.почты.";
+"Invalid Entry" = "Недействительная запись";
+"Please enter a brief description of the issue you are facing." = "Пожалуйста, введите краткое описание проблемы, с которой вы столкнулись.";
+"Attach device information" = "Прикрепите информацию об устройстве";
+"REPORT AN ISSUE" = "СООБЩИТЬ О ПРОБЛЕМЕ";
+"Question" = "Вопрос";
+"Was this helpful?" = "Было полезно?";
+"You found this helpful." = "Вы нашли это полезным.";
+"You didn't find this helpful." = "Вы не нашли это полезным.";
+"Sending your issue..." = "Идёт отправка сообщения...";
+"Next" = "Далее";
+"Try Again" = "Повторить попытку";
+"Cancel" = "Отмена";
+"REVIEW" = "ОЦЕНИТЬ";
+"Send" = "Отправить";
+"Change" = "Изменить";
+"You have answered: NO" = "Ваш ответ: НЕТ";
+"You have answered: YES" = "Ваш ответ: ДА";
+"Ok, attach" = "OK, прикрепить";
+"Learn how" = "Узнать как";
+"YES" = "ДА";
+"NO" = "НЕТ";
+"Accepted review request" = "Принять запрос на оценку";
+"Messages" = "Сообщения";
+"SEND" = "Отправить";
+"Back" = "Назад";
+"OK" = "OK";
+"Close" = "Закрыть";
+"Loading..." = "Идёт загрузка...";
+"Inbox" = "Входящая почта";
+"Help" = "Справка";
+"Sending failed !" = "Письмо не удалось !";
+"Screenshot could not be sent. Image is too large, try again with another image" = "Скриншот не может быть отправлено. Изображение слишком большой, попробуйте еще раз с другим изображением";
+"Name invalid" = "Имя недействительных";
+"Please provide a name." = "Пожалуйста, укажите имя.";
+"New message from Support" = "Новое послание от поддержки";
+"new messages from Support" = "новых сообщениях от поддержки";
+"No FAQs found" = "Не часто задаваемые вопросы не найдены";
