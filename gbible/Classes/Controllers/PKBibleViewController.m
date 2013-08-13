@@ -62,7 +62,6 @@
 #import <netinet/in.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "PKPortraitNavigationController.h"
-#import "PopoverView/PopoverView.h"
 //#import "FWTPopoverView.h"
 #import "PKStrongs.h"
 #import "SVProgressHUD.h"
