@@ -88,7 +88,7 @@
                        @"57N", @"58N", @"59N", @"60N", @"61N", @"62N", @"63N",
                        @"64N", @"65N", @"66N"];
     }
-    return [bookList objectAtIndex: theBook - 1];
+    return bookList[theBook - 1];
   }
 }
 

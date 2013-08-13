@@ -160,8 +160,8 @@
   else
   {
     _state    = 0;      // looking
-    _txtTitle.text = [theNote objectAtIndex: 0];
-    _txtNote.text  = [theNote objectAtIndex: 1];
+    _txtTitle.text = theNote[0];
+    _txtNote.text  = theNote[1];
   }
   [self updateState];
 }
@@ -170,7 +170,6 @@
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  [TestFlight passCheckpoint: @"ANNOTATION"];
   
   // get the font
   UIFont *theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
@@ -338,7 +337,7 @@
 - (void)insertVerseReference
 {
 
-  PKBibleBooksController *BBC = [[PKBibleBooksController alloc] initWithCollectionViewLayout:[PSUICollectionViewFlowLayout new]];
+  PKBibleBooksController *BBC = [[PKBibleBooksController alloc] initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
   BBC.delegate = self;
   
   UINavigationController *NC = [[UINavigationController alloc] initWithRootViewController:BBC];
@@ -352,7 +351,7 @@
 - (void)insertVerse
 {
 
-  PKBibleBooksController *BBC = [[PKBibleBooksController alloc] initWithCollectionViewLayout:[PSUICollectionViewFlowLayout new]];
+  PKBibleBooksController *BBC = [[PKBibleBooksController alloc] initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
   BBC.delegate = self;
   BBC.notifyWithCopyOfVerse = YES;
   

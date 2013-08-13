@@ -84,15 +84,15 @@ static PKDatabase * _instance;
     
     // locate our user content database
     NSString *userContentDatabase =
-    [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userContent"];
+    [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                           YES)[0] stringByAppendingPathComponent: @"userContent"];
     
     // move the old Bible database to the new one (we're changing names, since it makes more sense)
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    [fileManager moveItemAtPath:[[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userBible"]
-                         toPath:[[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"webContent"]
+    [fileManager moveItemAtPath:[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                           YES)[0] stringByAppendingPathComponent: @"userBible"]
+                         toPath:[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                           YES)[0] stringByAppendingPathComponent: @"webContent"]
                           error:nil];
     
 /*    [fileManager removeItemAtPath:[[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
@@ -100,15 +100,15 @@ static PKDatabase * _instance;
 
     // locate our user Bible database
     NSString *userBibleDatabase =
-    [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"webContent"];
+    [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                           YES)[0] stringByAppendingPathComponent: @"webContent"];
     
     if (SYSTEM_VERSION_LESS_THAN(@"5.0.1"))
     {
       // per apple reqs, we have to put this in the cache directory.
       userBibleDatabase =
-      [[NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask,
-                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"webContent"];
+      [NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask,
+                                           YES)[0] stringByAppendingPathComponent: @"webContent"];
     }
 
     // does the bible database exist? If not, we have a problem...
@@ -155,10 +155,10 @@ static PKDatabase * _instance;
            {
              @autoreleasepool {
                const char *x = (const char *)sqlite3_value_text (aargv[0]);
-               NSString *sx = [NSString stringWithUTF8String: x];
+               NSString *sx = @(x);
                
                const char *y = (const char *)sqlite3_value_text (aargv[1]);
-               NSString *sy = [NSString stringWithUTF8String: y];
+               NSString *sy = @(y);
                
                int lx = [sx length];
                int ly = [sy length];
@@ -232,7 +232,7 @@ static PKDatabase * _instance;
     if ( SYSTEM_VERSION_GREATER_THAN(@"5.0.1") )
     {
       NSError *error = nil;
-      BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
+      BOOL success = [URL setResourceValue: @YES
                                     forKey: NSURLIsExcludedFromBackupKey error: &error];
       if(!success){
           NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
@@ -256,8 +256,8 @@ static PKDatabase * _instance;
 {
   // locate our import database
   NSString *importDatabaseName =
-  [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                         YES) objectAtIndex: 0] stringByAppendingPathComponent: @"import.dat"];
+  [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                         YES)[0] stringByAppendingPathComponent: @"import.dat"];
   
   NSFileManager *fm            = [NSFileManager defaultManager];
   
@@ -307,8 +307,8 @@ static PKDatabase * _instance;
 {
   // locate our import database
   NSString *importDatabaseName =
-  [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                         YES) objectAtIndex: 0] stringByAppendingPathComponent: @"import.dat"];
+  [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                         YES)[0] stringByAppendingPathComponent: @"import.dat"];
   
   NSFileManager *fm            = [NSFileManager defaultManager];
   
@@ -346,9 +346,9 @@ static PKDatabase * _instance;
     
     NSArray *theColorArray = [theValue componentsSeparatedByString: @","];
     // there will always be 3 values; R=0, G=1, B=2
-    UIColor *theColor      = [UIColor colorWithRed: [[theColorArray objectAtIndex: 0] floatValue]
-                                             green: [[theColorArray objectAtIndex: 1] floatValue]
-                                              blue: [[theColorArray objectAtIndex: 2] floatValue] alpha: 1.0];
+    UIColor *theColor      = [UIColor colorWithRed: [theColorArray[0] floatValue]
+                                             green: [theColorArray[1] floatValue]
+                                              blue: [theColorArray[2] floatValue] alpha: 1.0];
     
     // use our model to add the highlight
     [highlightModel setHighlight: theColor forReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse]];
@@ -362,8 +362,8 @@ static PKDatabase * _instance;
 {
   // locate our import database
   NSString *importDatabaseName =
-  [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                         YES) objectAtIndex: 0] stringByAppendingPathComponent: @"import.dat"];
+  [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                         YES)[0] stringByAppendingPathComponent: @"import.dat"];
   
   NSFileManager *fm            = [NSFileManager defaultManager];
   
@@ -418,12 +418,12 @@ static PKDatabase * _instance;
                                    [theFormatter stringFromDate: theDate]];
   // get the export name
   NSString *exportDatabaseName  =
-  [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                         YES) objectAtIndex: 0] stringByAppendingPathComponent: theExportName];
+  [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                         YES)[0] stringByAppendingPathComponent: theExportName];
   // locate our user content database
   NSString *userContentDatabase =
-  [[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                         YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userContent"];
+  [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                         YES)[0] stringByAppendingPathComponent: @"userContent"];
   
   NSFileManager *fileManager    = [NSFileManager defaultManager];
   

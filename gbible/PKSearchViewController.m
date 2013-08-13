@@ -144,7 +144,6 @@
 -(void)viewDidLoad
 {
   [super viewDidLoad];
-  [TestFlight passCheckpoint: @"SEARCH_BIBLE"];
   [self clearCellHeights];
   
   if (_delegate)
@@ -311,13 +310,13 @@
 {
   NSUInteger row         = [indexPath row];
   
-  if ( [_cellHeights objectForKey:@(row)] )
+  if ( _cellHeights[@(row)] )
   {
-    return [[_cellHeights objectForKey:@(row)] floatValue];
+    return [_cellHeights[@(row)] floatValue];
   }
   
   
-  PKReference *theReference   = [_theSearchResults objectAtIndex: row];
+  PKReference *theReference   = _theSearchResults[row];
   int theBook            = theReference.book;
   int theChapter         = theReference.chapter;
   int theVerse           = theReference.verse;
@@ -360,7 +359,7 @@
     UIFont *theHeadingFont = [_leftFont fontWithSizeDeltaPercent:1.25];
     theHeight = 40 + [@"M" sizeWithFont: theHeadingFont].height + [@"M" sizeWithFont: _leftFont].height*2 + + [@"M" sizeWithFont: _rightFont].height*2;
   }
-  [_cellHeights setObject:@(theHeight) forKey:@(row)];
+  _cellHeights[@(row)] = @(theHeight);
   
   return theHeight;
 }
@@ -385,7 +384,7 @@
   
   NSUInteger row         = [indexPath row];
   
-  PKReference *theReference   = [_theSearchResults objectAtIndex: row];
+  PKReference *theReference   = _theSearchResults[row];
   int theBook            = theReference.book;
   int theChapter         = theReference.chapter;
   int theVerse           = theReference.verse;
@@ -505,7 +504,7 @@
 {
   NSUInteger row             = [indexPath row];
   
-  PKReference *theReference   = [_theSearchResults objectAtIndex: row];
+  PKReference *theReference   = _theSearchResults[row];
   int theBook            = theReference.book;
   int theChapter         = theReference.chapter;
   int theVerse           = theReference.verse;

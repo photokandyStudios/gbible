@@ -61,7 +61,7 @@
  */
 -(id)initWithBook: (int) theBook withChapter: (int) theChapter
 {
-  self = [super initWithCollectionViewLayout:[PSUICollectionViewFlowLayout new]];
+  self = [super initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
   
   if (self)
   {
@@ -81,7 +81,6 @@
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  [TestFlight passCheckpoint: @"BIBLE_BOOK_CHAPTER_VERSES"];
   
   self.view.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   self.collectionView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
@@ -126,7 +125,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - PSTCollectionViewDataSource
 
--(NSInteger) numberOfSectionsInCollectionView:(PSUICollectionView *)collectionView
+-(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
   return 1;
 }
@@ -136,7 +135,7 @@
  * Return # of verses for the book & chapter
  *
  */
-- (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
+- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
   return [PKBible countOfVersesForBook: _selectedBook forChapter: _selectedChapter];
 }
@@ -149,7 +148,7 @@
  * Return the cell with a typical reference, like Matthew 1:1
  *
  */
-- (PSUICollectionViewCell *)collectionView:(PSUICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
   PKSimpleCollectionViewCell *cell = (PKSimpleCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"simple-cell" forIndexPath:indexPath];
   
@@ -168,7 +167,7 @@
  * If we press a row, we need to tell the BibleView controller to go there
  *
  */
--(void) collectionView:(PSUICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+-(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
   NSUInteger row = [indexPath row];
   
@@ -196,24 +195,24 @@
   }
  
 }
--(CGSize) collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+-(CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
   return CGSizeMake((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 86 : 65),
                     (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 50 : 44) );
 }
 
--(CGFloat) collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+-(CGFloat) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
   return 0;
 }
 
--(CGFloat) collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+-(CGFloat) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
   return 0;
 }
 
 - (UIEdgeInsets)collectionView:
-(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(0,0,0,0);
 }
 

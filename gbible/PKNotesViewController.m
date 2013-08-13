@@ -114,7 +114,6 @@
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  [TestFlight passCheckpoint: @"ANNOTATIONS"];
   
   self.tableView.backgroundView  = nil;
   self.tableView.backgroundColor = [PKSettings PKSelectionColor];
@@ -235,7 +234,7 @@
   
   NSUInteger row       = [indexPath row];
   
-  PKReference *theReference = [_notes objectAtIndex: row];
+  PKReference *theReference = _notes[row];
   //    int theBook = [PKBible bookFromString:thePassage];
   //    int theChapter = [PKBible chapterFromString:thePassage];
   //    int theVerse = [PKBible verseFromString:thePassage];
@@ -243,8 +242,8 @@
   //                                           [PKBible nameForBook:theBook], theChapter, theVerse];
   
   NSArray *theNoteArray = [[PKNotes instance] getNoteForReference: theReference];
-  NSString *theTitle    = [theNoteArray objectAtIndex: 0];
-  NSString *theNote     = [theNoteArray objectAtIndex: 1];
+  NSString *theTitle    = theNoteArray[0];
+  NSString *theNote     = theNoteArray[1];
   
   cell.textLabel.text                = theTitle;
   cell.textLabel.textColor           = [PKSettings PKSidebarTextColor];
@@ -266,7 +265,7 @@
 -(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath
 {
   NSUInteger row             = [indexPath row];
-  PKReference *theReference       = [_notes objectAtIndex: row];
+  PKReference *theReference       = _notes[row];
   int theBook                = theReference.book;
   int theChapter             = theReference.chapter;
   int theVerse               = theReference.verse;

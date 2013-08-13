@@ -35,9 +35,8 @@
 // (such as that under the Third Party section) are licensed under
 // their respective licenses.
 //
-#import "PSTCollectionView.h"
 
-@interface PKSimpleCollectionViewCell : PSUICollectionViewCell
+@interface PKSimpleCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) UILabel *label;
 

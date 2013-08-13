@@ -424,7 +424,7 @@
     {
       return @"";
     }
-    return [bookList objectAtIndex: theBook - 1];
+    return bookList[theBook - 1];
   }
 }
 
@@ -455,7 +455,7 @@
                        @"Phl", @"Heb", @"Jas", @"1Pe", @"2Pe", @"1Jo", @"2Jo",
                        @"3Jo", @"Jud", @"Rev"];
     }
-    return [bookList objectAtIndex: theBook - 1];
+    return bookList[theBook - 1];
   }
 }
 
@@ -497,9 +497,9 @@
     FMDatabaseQueue *db = theDBs[i];
     [db inDatabase:^(FMDatabase *db)
       {
-        FMResultSet *s          = [db executeQuery: theSQL, [NSNumber numberWithInt: (i==0?currentGreekBible:currentEnglishBible)],
-                                   [NSNumber numberWithInt: theBook],
-                                   [NSNumber numberWithInt: theChapter]];
+        FMResultSet *s          = [db executeQuery: theSQL, @(i==0?currentGreekBible:currentEnglishBible),
+                                   @(theBook),
+                                   @(theChapter)];
 
         while ([s next])
         {
@@ -555,10 +555,10 @@
   
   [db inDatabase:^(FMDatabase *db)
     {
-      FMResultSet *s   = [db executeQuery: theSQL, [NSNumber numberWithInt: currentBible],
-                          [NSNumber numberWithInt: theBook],
-                          [NSNumber numberWithInt: theChapter],
-                          [NSNumber numberWithInt: theVerse]];
+      FMResultSet *s   = [db executeQuery: theSQL, @(currentBible),
+                          @(theBook),
+                          @(theChapter),
+                          @(theVerse)];
 
       while ([s next])
       {
@@ -604,9 +604,9 @@
 
   [db inDatabase:^(FMDatabase *db)
     {
-      FMResultSet *s           = [db executeQuery: theSQL, [NSNumber numberWithInt: currentBible],
-                                  [NSNumber numberWithInt: theBook],
-                                  [NSNumber numberWithInt: theChapter]];
+      FMResultSet *s           = [db executeQuery: theSQL, @(currentBible),
+                                  @(theBook),
+                                  @(theChapter)];
       int i                    = 1;
 
       while ([s next])
@@ -925,8 +925,8 @@
     thePriorWord     = theWord;
 
     // got the current word
-    NSString *theOriginalWord = [matches objectAtIndex: i];
-    theWord = [matches objectAtIndex: i];
+    NSString *theOriginalWord = matches[i];
+    theWord = matches[i];
 
     // obtain the prior word array
     if (thePriorWordType == 0)
@@ -1077,10 +1077,10 @@
       //curX = startX;
       for (int i=0; i<theKeys.count; i++)
       {
-        PKLabel *theCurrentLabel = [currentColumnLabels objectForKey:theKeys[i]];
-        PKLabel *thePreviousLabel =[previousColumnLabels objectForKey:theKeys[i]];
-        PKLabel *theAnchorLabel = [currentColumnLabels objectForKey:@(wordOffset)];
-        PKLabel *thePreviousAnchorLabel = [previousColumnLabels objectForKey:@(wordOffset)];
+        PKLabel *theCurrentLabel = currentColumnLabels[theKeys[i]];
+        PKLabel *thePreviousLabel =previousColumnLabels[theKeys[i]];
+        PKLabel *theAnchorLabel = currentColumnLabels[@(wordOffset)];
+        PKLabel *thePreviousAnchorLabel = previousColumnLabels[@(wordOffset)];
         CGRect theCurrentFrame = theCurrentLabel.frame;
         CGRect thePreviousFrame= thePreviousLabel.frame;
         CGRect thePreviousAnchorFrame = thePreviousAnchorLabel.frame;
@@ -1120,10 +1120,10 @@
       }
       for (int i=0; i<theKeys.count; i++)
       {
-        PKLabel *theCurrentLabel = [currentColumnLabels objectForKey:theKeys[i]];
+        PKLabel *theCurrentLabel = currentColumnLabels[theKeys[i]];
         if (theCurrentLabel)
         {
-          [previousColumnLabels setObject:theCurrentLabel forKey:theKeys[i]];
+          previousColumnLabels[theKeys[i]] = theCurrentLabel;
         }
       }
       
@@ -1195,7 +1195,7 @@ default:
     if (![theWord isEqual: @""])
     {
       [theWordArray addObject: theWordElement];
-      [currentColumnLabels setObject:theWordElement forKey:@(yOffset)];
+      currentColumnLabels[@(yOffset)] = theWordElement;
     }
   }
       // last Column, move labels, and then copy priors
@@ -1203,10 +1203,10 @@ default:
       curX = 0;
       for (int i=0; i<theKeys.count; i++)
       {
-        PKLabel *theCurrentLabel = [currentColumnLabels objectForKey:theKeys[i]];
-        PKLabel *thePreviousLabel =[previousColumnLabels objectForKey:theKeys[i]];
-        PKLabel *theAnchorLabel = [currentColumnLabels objectForKey:@(wordOffset)];
-        PKLabel *thePreviousAnchorLabel = [previousColumnLabels objectForKey:@(wordOffset)];
+        PKLabel *theCurrentLabel = currentColumnLabels[theKeys[i]];
+        PKLabel *thePreviousLabel =previousColumnLabels[theKeys[i]];
+        PKLabel *theAnchorLabel = currentColumnLabels[@(wordOffset)];
+        PKLabel *thePreviousAnchorLabel = previousColumnLabels[@(wordOffset)];
         CGRect theCurrentFrame = theCurrentLabel.frame;
         CGRect thePreviousFrame= thePreviousLabel.frame;
         CGRect thePreviousAnchorFrame = thePreviousAnchorLabel.frame;
@@ -1257,7 +1257,7 @@ default:
   [db inDatabase:^(FMDatabase *db)
     {
       FMResultSet *s    =
-        [db executeQuery: @"SELECT IFNULL(bibleParsedID,-1) FROM bibles WHERE bibleID=?", [NSNumber numberWithInt: theBook]];
+        [db executeQuery: @"SELECT IFNULL(bibleParsedID,-1) FROM bibles WHERE bibleID=?", @(theBook)];
 
       if ([s next])
       {
@@ -1329,7 +1329,7 @@ default:
           [db executeQuery: [NSString stringWithFormat:
                              @"SELECT DISTINCT bibleBook, bibleChapter, bibleVerse FROM content WHERE bibleID = ? AND (%@) ORDER BY 1,2,3",
                              searchPhrase],
-           [NSNumber numberWithInt: (i==0?theGreekBible:theEnglishBible)]];
+           @(i==0?theGreekBible:theEnglishBible)];
 
         while ([s next])
         {

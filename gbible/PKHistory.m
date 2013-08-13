@@ -73,7 +73,7 @@ static PKHistory * _instance;
     {
       FMResultSet *s           =
       [db executeQuery: @"SELECT DISTINCT book,chapter,verse FROM history11 WHERE kind=0 ORDER BY seq DESC LIMIT ?",
-       [NSNumber numberWithInt: theLimit]];
+       @(theLimit)];
       
       while ([s next])
       {
@@ -105,7 +105,7 @@ static PKHistory * _instance;
     {
       FMResultSet *s           =
       [db executeQuery: @"SELECT DISTINCT kind,data,book,chapter,verse FROM history11 ORDER BY seq DESC LIMIT ?",
-       [NSNumber numberWithInt: theLimit]];
+       @(theLimit)];
       
       while ([s next])
       {
@@ -197,9 +197,9 @@ static PKHistory * _instance;
       BOOL theResult      = YES;
       
       theResult = [db executeUpdate: @"INSERT INTO history11 VALUES (NULL,0,NULL,?,?,?)",
-                   [NSNumber numberWithInt: theBook],
-                   [NSNumber numberWithInt: theChapter],
-                   [NSNumber numberWithInt: theVerse]];
+                   @(theBook),
+                   @(theChapter),
+                   @(theVerse)];
       
       if (!theResult)
       {

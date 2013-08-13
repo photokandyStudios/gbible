@@ -171,8 +171,8 @@ static PKHighlights * _instance;
       [db executeQuery:
        @"SELECT book,chapter,verse, value FROM highlights \
        WHERE book=? AND chapter=? ORDER BY 1,2,3"                                                          ,
-       [NSNumber numberWithInt: theBook],
-       [NSNumber numberWithInt: theChapter]];
+       @(theBook),
+       @(theChapter)];
       
       while ([s next])
       {
@@ -181,9 +181,9 @@ static PKHighlights * _instance;
         // we need to split the results: the highlight will be RRR,GGG,BBB (from 0.0 to 1.0)
         NSArray *theColorArray = [theResult componentsSeparatedByString: @","];
         // there will always be 3 values; R=0, G=1, B=2
-        UIColor *theColor      = [UIColor colorWithRed: [[theColorArray objectAtIndex: 0] floatValue]
-                                                 green: [[theColorArray objectAtIndex: 1] floatValue]
-                                                  blue: [[theColorArray objectAtIndex: 2] floatValue] alpha: 0.33];
+        UIColor *theColor      = [UIColor colorWithRed: [theColorArray[0] floatValue]
+                                                 green: [theColorArray[1] floatValue]
+                                                  blue: [theColorArray[2] floatValue] alpha: 0.33];
         
         [theArray setValue: theColor forKey: [NSString stringWithFormat: @"%i", theVerse]];
       }
@@ -226,9 +226,9 @@ static PKHighlights * _instance;
         // we need to split the results: the highlight will be RRR,GGG,BBB (from 0.0 to 1.0)
         NSArray *theColorArray = [theResult componentsSeparatedByString: @","];
         // there will always be 3 values; R=0, G=1, B=2
-        theColor = [UIColor colorWithRed: [[theColorArray objectAtIndex: 0] floatValue]
-                                   green: [[theColorArray objectAtIndex: 1] floatValue]
-                                    blue: [[theColorArray objectAtIndex: 2] floatValue] alpha: 0.33];
+        theColor = [UIColor colorWithRed: [theColorArray[0] floatValue]
+                                   green: [theColorArray[1] floatValue]
+                                    blue: [theColorArray[2] floatValue] alpha: 0.33];
       }
       [s close];
     }

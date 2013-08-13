@@ -89,7 +89,6 @@
 -(void)viewDidLoad
 {
   [super viewDidLoad];
-  [TestFlight passCheckpoint: @"HISTORY"];
   
   self.tableView.backgroundView  = nil;
   self.tableView.backgroundColor = [PKSettings PKSelectionColor];
@@ -185,7 +184,7 @@
   cell.textLabel.textColor = [PKSettings PKSidebarTextColor];
   cell.textLabel.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   
-  NSString *theHistoryItem = [_history objectAtIndex: row];
+  NSString *theHistoryItem = _history[row];
   
   if ([theHistoryItem characterAtIndex: 0] == 'P')
   {
@@ -220,7 +219,7 @@
 -(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath
 {
   NSUInteger row               = [indexPath row];
-  NSString *theHistoryItem     = [_history objectAtIndex: row];
+  NSString *theHistoryItem     = _history[row];
   
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
   

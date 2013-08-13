@@ -184,7 +184,7 @@
     {
       for (NSUInteger i = 0; i < [_labels count]; i++)
       {
-        PKLabel *theLabel = [_labels objectAtIndex: i];        
+        PKLabel *theLabel = _labels[i];        
         [theLabel draw: ctx];
       }
     }

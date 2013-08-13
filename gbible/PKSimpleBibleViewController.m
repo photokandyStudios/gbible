@@ -103,8 +103,8 @@
   BOOL curValue;
   NSString *passage         = [PKReference referenceWithBook:_currentBook andChapter:_currentChapter andVerse:row+1].reference;
 
-  curValue = [[_selectedVerses objectForKey: passage] boolValue];
-  [_selectedVerses setObject: [NSNumber numberWithBool: !curValue] forKey: passage];
+  curValue = [_selectedVerses[passage] boolValue];
+  _selectedVerses[passage] = [NSNumber numberWithBool: !curValue];
   
   [self.tableView reloadData];
 
@@ -171,7 +171,7 @@
 
   for (int i = 0; i < [_currentGreekChapter count]; i++)
   {
-    NSArray *formattedText = [PKBible formatText: [_currentGreekChapter objectAtIndex: i]
+    NSArray *formattedText = [PKBible formatText: _currentGreekChapter[i]
                                        forColumn: 1 withBounds: self.view.bounds withParsings: parsed
                                       startingAt: 0.0 withCompression:YES];
 
@@ -180,7 +180,7 @@
     ];
 
     [_formattedGreekVerseHeights addObject:
-     [NSNumber numberWithFloat: [PKBible formattedTextHeight: formattedText withParsings: parsed]]
+     @([PKBible formattedTextHeight: formattedText withParsings: parsed])
     ];
   }
   endTime = [NSDate date];
@@ -201,7 +201,7 @@
         greekHeightIPhone = 0.0;
       }
 
-    NSArray *formattedText = [PKBible formatText: [_currentEnglishChapter objectAtIndex: i]
+    NSArray *formattedText = [PKBible formatText: _currentEnglishChapter[i]
                                        forColumn: 2 withBounds: self.view.bounds withParsings: parsed
                                       startingAt: greekHeightIPhone withCompression:YES];
 
@@ -209,7 +209,7 @@
      formattedText
     ];
     [_formattedEnglishVerseHeights addObject:
-     [NSNumber numberWithFloat: [PKBible formattedTextHeight: formattedText withParsings: parsed]]
+     @([PKBible formattedTextHeight: formattedText withParsings: parsed])
     ];
   }
   endTime  = [NSDate date];
@@ -236,7 +236,7 @@
     NSArray *formattedGreekVerse;
     if (row < [_formattedGreekChapter count])
     {
-      formattedGreekVerse = [_formattedGreekChapter objectAtIndex: row];
+      formattedGreekVerse = _formattedGreekChapter[row];
     }
     else
     {
@@ -246,7 +246,7 @@
     NSArray *formattedEnglishVerse;
     if (row < [_formattedEnglishChapter count])
     {
-      formattedEnglishVerse = [_formattedEnglishChapter objectAtIndex: row];
+      formattedEnglishVerse = _formattedEnglishChapter[row];
     }
     else
     {
@@ -279,8 +279,8 @@
 
   for (int row = 0; row < MAX([_formattedGreekChapter count], [_formattedEnglishChapter count]); row++)
   {
-    [_cellHeights addObject: [NSNumber numberWithFloat: [self heightForRowAtIndexPath: [NSIndexPath indexPathForRow: row inSection:
-                                                                                       0]]]];
+    [_cellHeights addObject: @([self heightForRowAtIndexPath: [NSIndexPath indexPathForRow: row inSection:
+                                                                                       0]])];
   }
   [self.tableView reloadData];
   [self calculateShadows];
@@ -379,7 +379,7 @@
 {
   [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
   // get the top verse so we can scroll back to it after the rotation change
-  int theVerse = [[[self.tableView indexPathsForVisibleRows] objectAtIndex: 0] row] + 1;
+  int theVerse = [[self.tableView indexPathsForVisibleRows][0] row] + 1;
 
   [self loadChapter];
   [self reloadTableCache];
@@ -433,7 +433,7 @@
  */
 -(CGFloat) tableView: (UITableView *) tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath
 {
-  return [[_cellHeights objectAtIndex: indexPath.row] floatValue];
+  return [_cellHeights[indexPath.row] floatValue];
 }
 
 -(CGFloat) heightForRowAtIndexPath: (NSIndexPath *) indexPath
@@ -445,12 +445,12 @@
 
   if (row < [_formattedGreekVerseHeights count])
   {
-    greekVerseHeight = [[_formattedGreekVerseHeights objectAtIndex: row] floatValue];
+    greekVerseHeight = [_formattedGreekVerseHeights[row] floatValue];
   }
 
   if (row < [_formattedEnglishVerseHeights count])
   {
-    englishVerseHeight = [[_formattedEnglishVerseHeights objectAtIndex: row] floatValue];
+    englishVerseHeight = [_formattedEnglishVerseHeights[row] floatValue];
   }
 
   float theMax = MAX(greekVerseHeight, englishVerseHeight);
@@ -466,8 +466,8 @@
       && [[PKSettings instance] showNotesInline])
   {
     NSString *theNoteText = [NSString stringWithFormat: @"%@ - %@",
-                             [theNote objectAtIndex: 0],
-                             [theNote objectAtIndex: 1]];
+                             theNote[0],
+                             theNote[1]];
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                                                     andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999)];
@@ -492,7 +492,7 @@
 
   // are we selected? If so, it takes precedence
   NSString *passage         = [PKReference referenceWithBook:_currentBook andChapter:_currentChapter andVerse:row+1].reference;
-  curValue = [[_selectedVerses objectForKey: passage] boolValue];
+  curValue = [_selectedVerses[passage] boolValue];
 
   if (curValue)
   {
@@ -504,9 +504,9 @@
   }
 
   // are we highlighted?
-  if ([_highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]] != nil)
+  if (_highlightedVerses[[NSString stringWithFormat: @"%i", row + 1]] != nil)
   {
-    pkCell.highlightColor = [_highlightedVerses objectForKey: [NSString stringWithFormat: @"%i", row + 1]];
+    pkCell.highlightColor = _highlightedVerses[[NSString stringWithFormat: @"%i", row + 1]];
   }
   else   // not highlighted, be transparent.
   {
@@ -559,12 +559,12 @@
 
   if (row < [_formattedGreekVerseHeights count])
   {
-    greekVerseHeight = [[_formattedGreekVerseHeights objectAtIndex: row] floatValue];
+    greekVerseHeight = [_formattedGreekVerseHeights[row] floatValue];
   }
 
   if (row < [_formattedEnglishVerseHeights count])
   {
-    englishVerseHeight = [[_formattedEnglishVerseHeights objectAtIndex: row] floatValue];
+    englishVerseHeight = [_formattedEnglishVerseHeights[row] floatValue];
   }
 
   float theMax = MAX(greekVerseHeight, englishVerseHeight);
@@ -573,8 +573,8 @@
       && [[PKSettings instance] showNotesInline])
   {
     NSString *theNoteText = [NSString stringWithFormat: @"%@ - %@",
-                             [theNote objectAtIndex: 0],
-                             [theNote objectAtIndex: 1]];
+                             theNote[0],
+                             theNote[1]];
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                                                     andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999)];
@@ -603,13 +603,13 @@
     }
   }
 
-  NSMutableArray *formattedCell = [_formattedCells objectAtIndex: row];
+  NSMutableArray *formattedCell = _formattedCells[row];
 
   NSMutableString *theAString   = [[NSMutableString alloc] init];
 
   for (int i = 0; i < [formattedCell count]; i++)
   {
-    [theAString appendString: [[formattedCell objectAtIndex: i] text]];
+    [theAString appendString: [formattedCell[i] text]];
     [theAString appendString: @" "];
   }
 
@@ -710,14 +710,14 @@
   if (theVerse <= [_currentEnglishChapter count])
   {
     // FIX ISSUE #43a
-    [theText appendString: [_currentEnglishChapter objectAtIndex: theVerse - 1]];
+    [theText appendString: _currentEnglishChapter[theVerse - 1]];
   }
   [theText appendString: @"\n"];
 
   if (theVerse <= [_currentGreekChapter count])
   {
     // FIX ISSUE #43a
-    [theText appendString: [_currentGreekChapter objectAtIndex: theVerse - 1]];
+    [theText appendString: _currentGreekChapter[theVerse - 1]];
   }
 
   int theBook      = _currentBook;
@@ -727,7 +727,7 @@
 
   if (theNote != nil)
   {
-    [theText appendFormat: @"\n%@ - %@", [theNote objectAtIndex: 0], [theNote objectAtIndex: 1]];
+    [theText appendFormat: @"\n%@ - %@", theNote[0], theNote[1]];
   }
   [theText appendString: @"\n\n"];
 

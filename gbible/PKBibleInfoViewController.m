@@ -175,8 +175,8 @@
                                             {
                                               //            theBibleTitle.text = [objects[i] objectForKey:@"Title"];
                                               //            theBibleAbbreviation.text = [objects[i] objectForKey:@"Abbreviation"];
-                                              _theBibleImageAbbr.text = [objects[i] objectForKey:@"Abbreviation"];
-                                              [self setHTML:[objects[i] objectForKey:@"Info"]];
+                                              _theBibleImageAbbr.text = (objects[i])[@"Abbreviation"];
+                                              [self setHTML:(objects[i])[@"Info"]];
                                               
                                               _theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"FREE") confirm:__T(@"Download")];
                                               [_theActionButton setAnchor:CGPointMake(141, 193)];
@@ -269,8 +269,8 @@
       {
         [objects[i] incrementKey:@"DLCount"];
         [objects[i] saveEventually];
-        PFFile *theBibleFile = [objects[i] objectForKey:@"Data"];
-        NSString * theBibleFileName = [[objects[i] objectForKey:@"Abbreviation"] stringByAppendingString:@".zip"];
+        PFFile *theBibleFile = (objects[i])[@"Data"];
+        NSString * theBibleFileName = [(objects[i])[@"Abbreviation"] stringByAppendingString:@".zip"];
         [theBibleFile getDataInBackgroundWithBlock:
          ^(NSData *data, NSError *error)
          {

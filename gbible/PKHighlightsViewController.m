@@ -83,7 +83,6 @@
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  [TestFlight passCheckpoint: @"HIGHLIGHTS"];
   self.tableView.backgroundView  = nil;
   self.tableView.backgroundColor = [PKSettings PKSelectionColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
@@ -227,7 +226,7 @@
   
   NSUInteger row             = [indexPath row];
   
-  PKReference *theReference       = [_highlights objectAtIndex: row];
+  PKReference *theReference       = _highlights[row];
   int theBook                = theReference.book  ;
   int theChapter             = theReference.chapter;
   int theVerse               = theReference.verse;
@@ -252,7 +251,7 @@
 -(void) tableView: (UITableView *) tableView willDisplayCell: (UITableViewCell *) cell forRowAtIndexPath: (NSIndexPath *) indexPath
 {
   NSUInteger row       = [indexPath row];
-  PKReference *theReference = [_highlights objectAtIndex: row];
+  PKReference *theReference = _highlights[row];
   
   UIColor *theColor    = [[PKHighlights instance] highlightForReference: theReference];
   
@@ -274,7 +273,7 @@
 -(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath
 {
   NSUInteger row             = [indexPath row];
-  PKReference *theReference       = [_highlights objectAtIndex: row];
+  PKReference *theReference       = _highlights[row];
   int theBook                = theReference.book;
   int theChapter             = theReference.chapter;
   int theVerse               = theReference.verse;

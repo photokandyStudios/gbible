@@ -145,7 +145,6 @@
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  [TestFlight passCheckpoint: @"SEARCH_STRONGS"];
   [self clearCellHeights];
   
   if (_delegate)
@@ -323,12 +322,12 @@
 {
   NSUInteger row       = [indexPath row];
 
-  if ( [_cellHeights objectForKey:@(row)] )
+  if ( _cellHeights[@(row)] )
   {
-    return [[_cellHeights objectForKey:@(row)] floatValue];
+    return [_cellHeights[@(row)] floatValue];
   }
   
-  NSArray *theResult   = [PKStrongs entryForKey: [_theSearchResults objectAtIndex: row]];
+  NSArray *theResult   = [PKStrongs entryForKey: _theSearchResults[row]];
   
   CGSize theSize;
   CGFloat theHeight    = 0;
@@ -338,17 +337,17 @@
   theHeight += 10;   // the top margin
   theHeight += _theBigFont.lineHeight;   // the top labels
   
-  theSize    = [[theResult objectAtIndex: 1] sizeWithFont: _theFont constrainedToSize: maxSize];
+  theSize    = [theResult[1] sizeWithFont: _theFont constrainedToSize: maxSize];
   theHeight += theSize.height + 10;
   
   theSize    =
-  [[[theResult objectAtIndex: 3] stringByReplacingOccurrencesOfString: @"  " withString: @" "] sizeWithFont: _theFont
+  [[theResult[3] stringByReplacingOccurrencesOfString: @"  " withString: @" "] sizeWithFont: _theFont
                                                                                           constrainedToSize: maxSize];
   theHeight += theSize.height + 10;
   
   theHeight += 10;
 
-  [_cellHeights setObject:@(theHeight) forKey:@(row)];
+  _cellHeights[@(row)] = @(theHeight);
   
   return theHeight;
 }
@@ -378,16 +377,16 @@
   
   // now create the new subviews
   UILabel *theStrongsLabel = [[UILabel alloc] initWithFrame: CGRectMake(10, 10, theColumnWidth, _theBigFont.lineHeight)];
-  theStrongsLabel.text            = [_theSearchResults objectAtIndex: row];
+  theStrongsLabel.text            = _theSearchResults[row];
   theStrongsLabel.textColor       = [PKSettings PKStrongsColor];
   theStrongsLabel.font            = _theBigFont;
   theStrongsLabel.backgroundColor = [UIColor clearColor];
   
-  NSArray *theResult     = [PKStrongs entryForKey: [_theSearchResults objectAtIndex: row]];
+  NSArray *theResult     = [PKStrongs entryForKey: _theSearchResults[row]];
   
   UILabel *theLemmaLabel =
   [[UILabel alloc] initWithFrame: CGRectMake(theColumnWidth + 20, 10, theColumnWidth, _theBigFont.lineHeight)];
-  theLemmaLabel.text            = [[theResult objectAtIndex: 1] stringByAppendingFormat: @" (%@)", [theResult objectAtIndex: 2]];
+  theLemmaLabel.text            = [theResult[1] stringByAppendingFormat: @" (%@)", theResult[2]];
   theLemmaLabel.textAlignment   = UITextAlignmentRight;
   theLemmaLabel.textColor       = [PKSettings PKTextColor];
   theLemmaLabel.font            = _theBigFont;
@@ -396,12 +395,12 @@
   CGSize maxSize                 = CGSizeMake(theCellWidth, 300);
   
   CGSize theSize                 =
-  [[[theResult objectAtIndex: 3] stringByReplacingOccurrencesOfString: @"  " withString: @" "] sizeWithFont: _theFont
+  [[theResult[3] stringByReplacingOccurrencesOfString: @"  " withString: @" "] sizeWithFont: _theFont
                                                                                           constrainedToSize: maxSize];
   PKHotLabel *theDefinitionLabel =
   [[PKHotLabel alloc] initWithFrame: CGRectMake(10, 20 + _theBigFont.lineHeight, theCellWidth, theSize.height)];
   theDefinitionLabel.text               =
-  [[theResult objectAtIndex: 3] stringByReplacingOccurrencesOfString: @"  " withString: @" "];
+  [theResult[3] stringByReplacingOccurrencesOfString: @"  " withString: @" "];
   theDefinitionLabel.textColor          = [PKSettings PKTextColor];
   theDefinitionLabel.font               = _theFont;
   theDefinitionLabel.lineBreakMode      = UILineBreakModeWordWrap;
@@ -447,13 +446,8 @@
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
   
   _ourMenu           = [UIMenuController sharedMenuController];
-  _ourMenu.menuItems = [NSArray arrayWithObjects:
-                       //Issue #61
-                       //                            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")         action:@selector(copyStrongs:)],
-                       [[UIMenuItem alloc] initWithTitle: __T(@"Define")       action: @selector(defineStrongs:)],
-                       [[UIMenuItem alloc] initWithTitle: __T(@"Search Bible") action: @selector(searchBible:)]
-                       //                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)]
-                       , nil];
+  _ourMenu.menuItems = @[[[UIMenuItem alloc] initWithTitle: __T(@"Define")       action: @selector(defineStrongs:)],
+                       [[UIMenuItem alloc] initWithTitle: __T(@"Search Bible") action: @selector(searchBible:)]];
   
   NSUInteger row           = [indexPath row];
   _selectedWord = nil;
@@ -568,13 +562,13 @@
 
 -(void) copyStrongs: (id) sender
 {
-  NSMutableString *theText = [[_theSearchResults objectAtIndex: _selectedRow] mutableCopy];
-  NSArray *theResult       = [PKStrongs entryForKey: [_theSearchResults objectAtIndex: _selectedRow]];
+  NSMutableString *theText = [_theSearchResults[_selectedRow] mutableCopy];
+  NSArray *theResult       = [PKStrongs entryForKey: _theSearchResults[_selectedRow]];
   
   [theText appendFormat: @"\n%@: %@\n%@: %@\n%@: %@", // ISSUE #62
-   __T(@"Lemma"),         [theResult objectAtIndex: 1],
-   __T(@"Pronunciation"), [theResult objectAtIndex: 2],
-   __T(@"Definition"),    [theResult objectAtIndex: 3]
+   __T(@"Lemma"),         theResult[1],
+   __T(@"Pronunciation"), theResult[2],
+   __T(@"Definition"),    theResult[3]
    ];
   
   UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
@@ -606,7 +600,7 @@
     svc.delegate = self;
     if (!_selectedRow)
     {
-      [svc doSearchForTerm: [NSString stringWithFormat: @"\"%@ \"", [_theSearchResults objectAtIndex: _selectedRow]]];
+      [svc doSearchForTerm: [NSString stringWithFormat: @"\"%@ \"", _theSearchResults[_selectedRow]]];
     }
     else
     {
@@ -624,7 +618,7 @@
     
     if (!_selectedWord)
     {
-      NSString *theSVCTerm = [NSString stringWithFormat: @"\"%@ \"", [_theSearchResults objectAtIndex: _selectedRow]];
+      NSString *theSVCTerm = [NSString stringWithFormat: @"\"%@ \"", _theSearchResults[_selectedRow]];
       [svc doSearchForTerm: theSVCTerm
            requireParsings: YES];
     }
@@ -655,13 +649,8 @@
       CGPoint wp               = [gestureRecognizer locationInView: ourLabel];
       NSString *hotWord        = [ourLabel wordFromPoint: wp];
       _ourMenu           = [UIMenuController sharedMenuController];
-      _ourMenu.menuItems = [NSArray arrayWithObjects:
-                           // ISSUE #61
-                           //                            [[UIMenuItem alloc] initWithTitle:__T(@"Copy")         action:@selector(copyStrongs:)],
-                           [[UIMenuItem alloc] initWithTitle: __T(@"Define")       action: @selector(defineStrongs:)],
-                           [[UIMenuItem alloc] initWithTitle: __T(@"Search Bible") action: @selector(searchBible:)]
-                           //                            [[UIMenuItem alloc] initWithTitle:@"Annotate"  action:@selector(doAnnotate:)]
-                           , nil];
+      _ourMenu.menuItems = @[[[UIMenuItem alloc] initWithTitle: __T(@"Define")       action: @selector(defineStrongs:)],
+                           [[UIMenuItem alloc] initWithTitle: __T(@"Search Bible") action: @selector(searchBible:)]];
       
       if (hotWord)
       {

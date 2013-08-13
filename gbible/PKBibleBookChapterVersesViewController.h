@@ -36,10 +36,9 @@
 // their respective licenses.
 //
 #import <UIKit/UIKit.h>
-#import "PSTCollectionView.h"
 #import "PKBibleReferenceDelegate.h"
 
-@interface PKBibleBookChapterVersesViewController : PSUICollectionViewController
+@interface PKBibleBookChapterVersesViewController : UICollectionViewController
 
 @property int selectedBook;
 @property int selectedChapter;

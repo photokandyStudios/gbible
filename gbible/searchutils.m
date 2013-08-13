@@ -88,7 +88,7 @@ NSString * convertSearchToSQL ( NSString *theTerm, NSString *theColumn )
 
     for (int i = 0; i < [allTerms count]; i++)
     {
-      NSMutableString *theWord = [[allTerms objectAtIndex: i] mutableCopy];
+      NSMutableString *theWord = [allTerms[i] mutableCopy];
 
       switch ([theWord characterAtIndex: 0])
       {

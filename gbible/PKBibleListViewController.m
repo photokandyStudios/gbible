@@ -94,7 +94,7 @@
   // send off a request to parse
   PFQuery *query = [PFQuery queryWithClassName:@"Bibles"];
   [query whereKey:@"ID" notContainedIn:_installedBibleIDs];
-  [query whereKey:@"minVersion" lessThanOrEqualTo:[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"]];
+  [query whereKey:@"minVersion" lessThanOrEqualTo:[[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"]];
   [query whereKey:@"Available" equalTo:@(YES)];
   [query orderByAscending:@"Abbreviation"];
   [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -106,9 +106,9 @@
       
       for (int i=0; i<objects.count; i++)
       {
-        [mAvailableBibleIDs addObject:[objects[i] objectForKey:@"ID"]];
-        [mAvailableBibleAbbreviations addObject:[objects[i] objectForKey:@"Abbreviation"]];
-        [mAvailableBibleTitles addObject:[objects[i] objectForKey:@"Title"]];
+        [mAvailableBibleIDs addObject:(objects[i])[@"ID"]];
+        [mAvailableBibleAbbreviations addObject:(objects[i])[@"Abbreviation"]];
+        [mAvailableBibleTitles addObject:(objects[i])[@"Title"]];
       }
    
    _availableBibleIDs = [mAvailableBibleIDs copy];

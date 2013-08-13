@@ -46,7 +46,6 @@
 #import "PKSettings.h"
 #import "TestFlight.h"
 #import "NSString+FontAwesome.h"
-#import "PSTCollectionView.h"
 #import "iRate.h"
 #import "PKSearchViewController.h"
 #import "PKStrongsController.h"
@@ -265,8 +264,8 @@ static PKAppDelegate * _instance;
   
   if ([_mySettings usageStats] == YES)
   {
-    [TestFlight takeOff: TESTFLIGHT_API_KEY];
-    [Helpshift installForAppID:HELPSHIFT_APP_ID domainName:HELPSHIFT_DOMAIN apiKey:HELPSHIFT_API_KEY];
+   // [TestFlight takeOff: TESTFLIGHT_API_KEY];
+   // [Helpshift installForAppID:HELPSHIFT_APP_ID domainName:HELPSHIFT_DOMAIN apiKey:HELPSHIFT_API_KEY];
   
   }
   
@@ -275,7 +274,7 @@ static PKAppDelegate * _instance;
   _bibleViewController = [[PKBibleViewController alloc] initWithStyle: UITableViewStylePlain];
   // define an array that houses all our navigation panels.
   
-  _bibleBooksViewController = [[PKBibleBooksController alloc] initWithCollectionViewLayout:[PSUICollectionViewFlowLayout new]];
+  _bibleBooksViewController = [[PKBibleBooksController alloc] initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
   _highlightsViewController = [[PKHighlightsViewController alloc] init];
   _notesViewController = [[PKNotesViewController alloc] init];
   _historyViewController = [[PKHistoryViewController alloc] init];
@@ -432,7 +431,6 @@ static PKAppDelegate * _instance;
   
   [self.window makeKeyAndVisible];
   
-  [TestFlight passCheckpoint: @"APPLICATION_START"];
   
   // since we alter the brightness, get the value now
   _brightness = [[UIScreen mainScreen] brightness];
@@ -441,13 +439,13 @@ static PKAppDelegate * _instance;
   NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
   if (notificationPayload)
   {
-    if ([[notificationPayload objectForKey:@"origin"] isEqualToString:@"helpshift"]) {
+    if ([notificationPayload[@"origin"] isEqualToString:@"helpshift"]) {
       [[Helpshift sharedInstance] handleNotification:notificationPayload withController:self.rootViewController];
     }
     else
     {
       // should be some other notification, like a new Bible :-)
-      UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:[notificationPayload objectForKey:@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
+      UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:notificationPayload[@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
       [anAlert show];
     }
   }
@@ -491,7 +489,7 @@ static PKAppDelegate * _instance;
   
   if ([indexPaths count] > 0)
   {
-    [PKSettings instance].topVerse = [[indexPaths objectAtIndex: 0] row] + 1;
+    [PKSettings instance].topVerse = [indexPaths[0] row] + 1;
   }
   
   // save our settings
@@ -560,13 +558,13 @@ static PKAppDelegate * _instance;
 
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-  if ([[userInfo objectForKey:@"origin"] isEqualToString:@"helpshift"]) {
+  if ([userInfo[@"origin"] isEqualToString:@"helpshift"]) {
     [[Helpshift sharedInstance] handleNotification:userInfo withController:self.rootViewController];
   }
   else
   {
     // should be some other notification, like a new Bible :-)
-    UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:[userInfo objectForKey:@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
+    UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:userInfo[@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
     [anAlert show];
   }
 }

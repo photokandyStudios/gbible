@@ -185,9 +185,9 @@ static PKSettings * _instance;
   theColorString = [self loadSetting: @"highlight-color"];
   NSArray *theColorArray = [theColorString componentsSeparatedByString: @","];
   // there will always be 3 values; R=0, G=1, B=2
-  _highlightColor = [UIColor colorWithRed: [[theColorArray objectAtIndex: 0] floatValue]
-                                   green: [[theColorArray objectAtIndex: 1] floatValue]
-                                    blue: [[theColorArray objectAtIndex: 2] floatValue] alpha: 1.0];
+  _highlightColor = [UIColor colorWithRed: [theColorArray[0] floatValue]
+                                   green: [theColorArray[1] floatValue]
+                                    blue: [theColorArray[2] floatValue] alpha: 1.0];
 
   _textTheme = [[self loadSetting: @"text-theme"] isEqual: @""] ? 0 :
               [[self loadSetting: @"text-theme"] intValue];

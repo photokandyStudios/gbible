@@ -58,7 +58,7 @@
  */
 -(id)initWithBook: (int) theBook
 {
-  self = [super initWithCollectionViewLayout:[PSUICollectionViewFlowLayout new]];
+  self = [super initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
   
   if (self)
   {
@@ -77,7 +77,6 @@
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  [TestFlight passCheckpoint: @"BIBLE_BOOK_CHAPTERS"];
 
 
   self.view.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
@@ -124,7 +123,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - PSTCollectionViewDataSource
 
--(NSInteger) numberOfSectionsInCollectionView:(PSUICollectionView *)collectionView
+-(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
   return 1;
 }
@@ -134,7 +133,7 @@
  * Get number of chapters for the book
  *
  */
-- (NSInteger)collectionView:(PSUICollectionView *)view numberOfItemsInSection:(NSInteger)section
+- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
   return [PKBible countOfChaptersForBook: _selectedBook];
 }
@@ -147,7 +146,7 @@
  *
  */
 
-- (PSUICollectionViewCell *)collectionView:(PSUICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
   PKSimpleCollectionViewCell *cell = (PKSimpleCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"simple-cell" forIndexPath:indexPath];
   
@@ -191,24 +190,24 @@
   [collectionView deselectItemAtIndexPath: indexPath animated: YES];
 }
 
--(CGSize) collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+-(CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
   return CGSizeMake((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 86 : 65),
                     (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 65 : 44));
 }
 
--(CGFloat) collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+-(CGFloat) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
   return 0;
 }
 
--(CGFloat) collectionView:(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+-(CGFloat) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
   return 0;
 }
 
 - (UIEdgeInsets)collectionView:
-(PSUICollectionView *)collectionView layout:(PSUICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(0,0,0,0);
 }
 #pragma mark -

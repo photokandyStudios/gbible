@@ -162,7 +162,7 @@
   [self.view addSubview: _fontSizeLabel];
 
   _fontStepper                   = [[UIStepper alloc] initWithFrame: CGRectMake(216, 44, 88, 60)];
-  _fontStepper.value             = [_fontSizes indexOfObject: [NSNumber numberWithInt: [[PKSettings instance] textFontSize]]];
+  _fontStepper.value             = [_fontSizes indexOfObject: @([[PKSettings instance] textFontSize])];
   [_fontStepper setMinimumValue: 0];
   [_fontStepper setMaximumValue: 11];
   [_fontStepper addTarget: self action: @selector(fontSizeChanged:) forControlEvents: UIControlEventValueChanged];

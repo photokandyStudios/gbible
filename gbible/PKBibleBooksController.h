@@ -36,10 +36,9 @@
 // their respective licenses.
 //
 #import <UIKit/UIKit.h>
-#import "PSTCollectionView.h"
 #import "PKBibleReferenceDelegate.h"
 
-@interface PKBibleBooksController : PSUICollectionViewController
+@interface PKBibleBooksController : UICollectionViewController
 
 @property (nonatomic, weak) id <PKBibleReferenceDelegate> delegate;
 @property BOOL notifyWithCopyOfVerse;

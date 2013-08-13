@@ -182,7 +182,7 @@ const int SECTION_THIRD_PARTY = 5;
                      ];
 
   _versionSettings = @[
-                      @[ [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"], @0 ],
+                      @[ [[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"], @0 ],
                       @[ __Tv(@"Anonymous Usage Statistics", @"Anonymous Usage Statistics?"), @2, @"usage-stats" ],
                       @[ __T(@"Rate this app..."), @0 ],
                       @[ __T(@"Submit an issue..."), @0 ],
@@ -204,7 +204,7 @@ const int SECTION_THIRD_PARTY = 5;
                             @[ @"New Athena Unicode by the American Philological Association", @0 ],
                             @[ @"MAConfirmButton © 2011 Mike Ahmarani", @0 ],
                             @[ @"OpenDyslexic by Abelardo Gonzalez", @0 ],
-                            @[ @"PSTCollectionView © 2010-2013 Peter Steinberger", @0 ],
+//                            @[ @"PSTCollectionView © 2010-2013 Peter Steinberger", @0 ],
                             @[ @"SegmentedControllerRevisited © 2012 Marcus Crafter", @0 ],
                             @[ @"SVProgressHUD © 2011 Sam Vermette", @0 ],
                             @[ @"TestFlightSDK 1.2 © 2011 TestFlight", @0 ],
@@ -226,7 +226,7 @@ const int SECTION_THIRD_PARTY = 5;
                                @"http://apagreekkeys.org/NAUdownload.html", 
                                @"https://github.com/mikeahmarani/MAConfirmButton",
                                @"http://opendyslexic.org/",
-                               @"https://github.com/steipete/PSTCollectionView",
+//                               @"https://github.com/steipete/PSTCollectionView",
                                @"https://github.com/crafterm/SegmentedControlRevisited",
                                @"https://github.com/samvermette/SVProgressHUD",
                                @"http://www.testflightapp.com",
@@ -250,7 +250,6 @@ const int SECTION_THIRD_PARTY = 5;
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  [TestFlight passCheckpoint: @"SETTINGS"];
   [self.tableView setBackgroundView: nil];
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   [self reloadSettingsArray];
@@ -429,7 +428,7 @@ const int SECTION_THIRD_PARTY = 5;
  */
 -(NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
-  return [[_settingsGroup objectAtIndex: section] count];
+  return [_settingsGroup[section] count];
 }
 
 -(CGFloat)tableView: (UITableView *) tableView heightForHeaderInSection: (NSInteger) section
@@ -512,16 +511,16 @@ const int SECTION_THIRD_PARTY = 5;
 
   NSUInteger section = [indexPath section];
   NSUInteger row     = [indexPath row];
-  NSArray *cellData  = [[_settingsGroup objectAtIndex: section] objectAtIndex: row];
+  NSArray *cellData  = _settingsGroup[section][row];
 
-  cell.textLabel.text      = [cellData objectAtIndex: 0];
+  cell.textLabel.text      = cellData[0];
   cell.textLabel.numberOfLines=0;
   cell.textLabel.textColor = [PKSettings PKTextColor];
   cell.textLabel.font = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   cell.detailTextLabel.font = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
   cell.accessoryType       = UITableViewCellAccessoryNone;
 
-  switch ([[cellData objectAtIndex: 1] intValue])
+  switch ([cellData[1] intValue])
   {
   case 0 :      // the nothing case. :-)
     cell.detailTextLabel.text = @"";
@@ -529,14 +528,14 @@ const int SECTION_THIRD_PARTY = 5;
 
   case 1 :      // here we want a disclosure arrow and the current setting
                 
-    cell.detailTextLabel.text = [[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]];
+    cell.detailTextLabel.text = [[PKSettings instance] loadSetting: cellData[2]];
     break;
 
   case 2 :      // here we want to display a checkbox if YES; none if NO
                 // FIX ISSUE #48
     cell.detailTextLabel.text = __T(@"No");
 
-    if ([[[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]] boolValue])
+    if ([[[PKSettings instance] loadSetting: cellData[2]] boolValue])
     {
       cell.detailTextLabel.text = __T(@"Yes");
     }
@@ -545,16 +544,16 @@ const int SECTION_THIRD_PARTY = 5;
   case 3 :      // here we want a disclosure arrow, current settings, and lookup
     ;             
                   // first, get the setting
-    NSString *theSetting      = [[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]];
+    NSString *theSetting      = [[PKSettings instance] loadSetting: cellData[2]];
     // now, convert it to an NSNumber
-    NSNumber *theSettingValue = [NSNumber numberWithInt: [theSetting integerValue]];
+    NSNumber *theSettingValue = @([theSetting integerValue]);
     // find it in the cell's 3rd array
-    int theIndex              = [[cellData objectAtIndex: 3] indexOfObject: theSettingValue];
+    int theIndex              = [cellData[3] indexOfObject: theSettingValue];
 
     // now look up the corresponding text in the 4th array
     if (theIndex != NSNotFound)
     {
-      NSString *theValue = [[cellData objectAtIndex: 4] objectAtIndex: theIndex];
+      NSString *theValue = cellData[4][theIndex];
       cell.detailTextLabel.text = theValue;
     }
     else
@@ -580,13 +579,13 @@ const int SECTION_THIRD_PARTY = 5;
   UIActionSheet *popover;
   NSUInteger section       = [indexPath section];
   NSUInteger row           = [indexPath row];
-  NSArray *cellData        = [[_settingsGroup objectAtIndex: section] objectAtIndex: row];
+  NSArray *cellData        = _settingsGroup[section][row];
   BOOL curValue;
   UITableViewCell *newCell = [tableView cellForRowAtIndexPath: indexPath];
 
   NSString *title          = __T(@"Operation");
 
-  switch ([[cellData objectAtIndex: 1] intValue])
+  switch ([cellData[1] intValue])
   {
   case 0 : {     // we're on a "nothing cell", but these will do actions...
       if (section == SECTION_TEXT)
@@ -721,7 +720,7 @@ const int SECTION_THIRD_PARTY = 5;
       }
       if (section == SECTION_THIRD_PARTY)
       {
-          NSURL *theURL = [NSURL URLWithString:[_thirdPartyComponentURLs objectAtIndex:row ]];
+          NSURL *theURL = [NSURL URLWithString:_thirdPartyComponentURLs[row]];
           TSMiniWebBrowser *wb = [[TSMiniWebBrowser alloc] initWithUrl: theURL];
           wb.showURLStringOnActionSheetTitle = YES;
           wb.showPageTitleOnTitleBar         = YES;
@@ -736,15 +735,15 @@ const int SECTION_THIRD_PARTY = 5;
   }
 
   case 1 :      // we're on a cell that wants to display a popover/actionsheet (no lookup)
-    popover = [[UIActionSheet alloc] initWithTitle: [cellData objectAtIndex: 0]
+    popover = [[UIActionSheet alloc] initWithTitle: cellData[0]
                                           delegate: self
                                  cancelButtonTitle: nil
                             destructiveButtonTitle: nil
                                  otherButtonTitles: nil];
 
-    for (int i = 0; i < [[cellData objectAtIndex: 3] count]; i++)
+    for (int i = 0; i < [cellData[3] count]; i++)
     {
-      [popover addButtonWithTitle: [[cellData objectAtIndex: 3] objectAtIndex: i]];
+      [popover addButtonWithTitle: cellData[3][i]];
     }
     [popover addButtonWithTitle: __T(@"Cancel")];
     popover.cancelButtonIndex = popover.numberOfButtons - 1;
@@ -754,23 +753,23 @@ const int SECTION_THIRD_PARTY = 5;
     break;
 
   case 2:       // we're on a cell that we need to toggle the checkmark on
-    curValue                     = [[[PKSettings instance] loadSetting: [cellData objectAtIndex: 2]] boolValue];
-    [[PKSettings instance] saveSetting: [cellData objectAtIndex: 2] valueForSetting: (!curValue ? @"YES": @"NO")];
+    curValue                     = [[[PKSettings instance] loadSetting: cellData[2]] boolValue];
+    [[PKSettings instance] saveSetting: cellData[2] valueForSetting: (!curValue ? @"YES": @"NO")];
     [[PKSettings instance] reloadSettings];
     newCell.detailTextLabel.text = (!curValue) ? __T(@"Yes") : __T(@"No");
 
     break;
 
   case 3 :      // we're on a cell that we need to display a popover for, with lookup
-    popover = [[UIActionSheet alloc] initWithTitle: [cellData objectAtIndex: 0]
+    popover = [[UIActionSheet alloc] initWithTitle: cellData[0]
                                           delegate: self
                                  cancelButtonTitle: nil
                             destructiveButtonTitle: nil
                                  otherButtonTitles: nil];
 
-    for (int i = 0; i < [[cellData objectAtIndex: 4] count]; i++)
+    for (int i = 0; i < [cellData[4] count]; i++)
     {
-      [popover addButtonWithTitle: [[cellData objectAtIndex: 4] objectAtIndex: i]];
+      [popover addButtonWithTitle: cellData[4][i]];
     }
     [popover addButtonWithTitle: __T(@"Cancel")];
     popover.cancelButtonIndex = popover.numberOfButtons - 1;
@@ -796,7 +795,7 @@ const int SECTION_THIRD_PARTY = 5;
 {
   NSUInteger section = [_currentPathForPopover section];
   NSUInteger row     = [_currentPathForPopover row];
-  NSArray *cellData  = [[_settingsGroup objectAtIndex: section] objectAtIndex: row];
+  NSArray *cellData  = _settingsGroup[section][row];
   NSString *selectedValue;
   NSString *settingValue;
 
@@ -808,25 +807,25 @@ const int SECTION_THIRD_PARTY = 5;
     return;     // no action
   }
 
-  switch ([[cellData objectAtIndex: 1] intValue])
+  switch ([cellData[1] intValue])
   {
   case 1:       // we're a simple copy-the-value popover -- no lookup.
-    selectedValue                     = [[cellData objectAtIndex: 3] objectAtIndex: buttonIndex];
-    [[PKSettings instance] saveSetting: [cellData objectAtIndex: 2] valueForSetting: selectedValue];
+    selectedValue                     = cellData[3][buttonIndex];
+    [[PKSettings instance] saveSetting: cellData[2] valueForSetting: selectedValue];
     [[PKSettings instance] reloadSettings];
     _theTableCell.detailTextLabel.text = selectedValue;
     break;
 
   case 3:       // we're a lookup popover
-    selectedValue                     = [[cellData objectAtIndex: 4] objectAtIndex: buttonIndex];
-    settingValue                      = [[cellData objectAtIndex: 3] objectAtIndex: buttonIndex];
-    [[PKSettings instance] saveSetting: [cellData objectAtIndex: 2] valueForSetting: settingValue];
+    selectedValue                     = cellData[4][buttonIndex];
+    settingValue                      = cellData[3][buttonIndex];
+    [[PKSettings instance] saveSetting: cellData[2] valueForSetting: settingValue];
     [[PKSettings instance] reloadSettings];
     _theTableCell.detailTextLabel.text = selectedValue;
     break;
   }
 
-  if ([[cellData objectAtIndex: 2] isEqual: @"text-theme"])
+  if ([cellData[2] isEqual: @"text-theme"])
   {
     [self updateAppearanceForTheme];
     [[PKAppDelegate sharedInstance] updateAppearanceForTheme];

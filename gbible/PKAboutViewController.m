@@ -66,7 +66,6 @@
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  [TestFlight passCheckpoint: @"ABOUT"];
   CGRect theRect = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
   _aboutWebView = [[UIWebView alloc] initWithFrame: theRect];
   [self.view addSubview: _aboutWebView];
@@ -76,7 +75,7 @@
   // Second, try to load "about-language.html"; for English, this would be about-en.html.
   // Third, if that particular file doesn't exist, fall back to about.html
   NSURL *theURL;
-  NSString *language = [[NSLocale preferredLanguages] objectAtIndex: 0];
+  NSString *language = [NSLocale preferredLanguages][0];
   NSString *path     = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"about-%@", language] ofType: @"html"];
   
   if (path)

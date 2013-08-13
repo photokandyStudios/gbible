@@ -95,24 +95,19 @@
     if ([bibleViewController.tabBarItem respondsToSelector: @selector(setTitleTextAttributes:forState:)])
     {
       [bibleViewController.tabBarItem setTitleTextAttributes:
-       [[NSDictionary alloc] initWithObjectsAndKeys:
-        [UIColor whiteColor], UITextAttributeTextColor, nil]
+       @{UITextAttributeTextColor: [UIColor whiteColor]}
                                                     forState: UIControlStateNormal];
       [strongsViewController.tabBarItem setTitleTextAttributes:
-       [[NSDictionary alloc] initWithObjectsAndKeys:
-        [UIColor whiteColor], UITextAttributeTextColor, nil]
+       @{UITextAttributeTextColor: [UIColor whiteColor]}
                                                       forState: UIControlStateNormal];
       [aboutViewController.tabBarItem setTitleTextAttributes:
-       [[NSDictionary alloc] initWithObjectsAndKeys:
-        [UIColor whiteColor], UITextAttributeTextColor, nil]
+       @{UITextAttributeTextColor: [UIColor whiteColor]}
                                                     forState: UIControlStateNormal];
       [settingsViewController.tabBarItem setTitleTextAttributes:
-       [[NSDictionary alloc] initWithObjectsAndKeys:
-        [UIColor whiteColor], UITextAttributeTextColor, nil]
+       @{UITextAttributeTextColor: [UIColor whiteColor]}
                                                        forState: UIControlStateNormal];
       [searchViewController.tabBarItem setTitleTextAttributes:
-       [[NSDictionary alloc] initWithObjectsAndKeys:
-        [UIColor whiteColor], UITextAttributeTextColor, nil]
+       @{UITextAttributeTextColor: [UIColor whiteColor]}
                                                      forState: UIControlStateNormal];
     }
     // navigation controllers
@@ -137,34 +132,29 @@
     
     if ([navBar respondsToSelector: @selector(setBackgroundImage:forBarMetrics:)])
     {
-      [navBar setTitleTextAttributes: [[NSDictionary alloc] initWithObjectsAndKeys: [UIColor blackColor],
-                                       UITextAttributeTextShadowColor,
-                                       [UIColor whiteColor], UITextAttributeTextColor, nil]];
+      [navBar setTitleTextAttributes: @{UITextAttributeTextShadowColor: [UIColor blackColor],
+                                       UITextAttributeTextColor: [UIColor whiteColor]}];
       
       navBar = [navSearchController navigationBar];
-      [navBar setTitleTextAttributes: [[NSDictionary alloc] initWithObjectsAndKeys: [UIColor blackColor],
-                                       UITextAttributeTextShadowColor,
-                                       [UIColor whiteColor], UITextAttributeTextColor, nil]];
+      [navBar setTitleTextAttributes: @{UITextAttributeTextShadowColor: [UIColor blackColor],
+                                       UITextAttributeTextColor: [UIColor whiteColor]}];
       
       navBar = [navStrongsController navigationBar];
-      [navBar setTitleTextAttributes: [[NSDictionary alloc] initWithObjectsAndKeys: [UIColor blackColor],
-                                       UITextAttributeTextShadowColor,
-                                       [UIColor whiteColor], UITextAttributeTextColor, nil]];
+      [navBar setTitleTextAttributes: @{UITextAttributeTextShadowColor: [UIColor blackColor],
+                                       UITextAttributeTextColor: [UIColor whiteColor]}];
       
       navBar = [navAboutController navigationBar];
-      [navBar setTitleTextAttributes: [[NSDictionary alloc] initWithObjectsAndKeys: [UIColor blackColor],
-                                       UITextAttributeTextShadowColor,
-                                       [UIColor whiteColor], UITextAttributeTextColor, nil]];
+      [navBar setTitleTextAttributes: @{UITextAttributeTextShadowColor: [UIColor blackColor],
+                                       UITextAttributeTextColor: [UIColor whiteColor]}];
       
       navBar = [navSettingsController navigationBar];
-      [navBar setTitleTextAttributes: [[NSDictionary alloc] initWithObjectsAndKeys: [UIColor blackColor],
-                                       UITextAttributeTextShadowColor,
-                                       [UIColor whiteColor], UITextAttributeTextColor, nil]];
+      [navBar setTitleTextAttributes: @{UITextAttributeTextShadowColor: [UIColor blackColor],
+                                       UITextAttributeTextColor: [UIColor whiteColor]}];
     }
     
     // add them to our view
-    [self setViewControllers: [NSArray arrayWithObjects: navBibleController, navSearchController, navStrongsController,
-                               navAboutController, navSettingsController, nil]];
+    [self setViewControllers: @[navBibleController, navSearchController, navStrongsController,
+                               navAboutController, navSettingsController]];
     UITabBar *myTabBar = [self tabBar];
     
     if ([myTabBar respondsToSelector: @selector(setBackgroundImage:)])
@@ -173,7 +163,6 @@
     }
     self.delegate = self;
   }
-  [TestFlight passCheckpoint: @"ROOTVIEW"];
   return self;
 }
 

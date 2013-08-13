@@ -199,7 +199,7 @@ static PKNotes * _instance;
         NSString *theNote;
         theTitle  = [s stringForColumnIndex: 0];
         theNote   = [s stringForColumnIndex: 1];
-        theResult = [NSArray arrayWithObjects: theTitle, theNote, nil];
+        theResult = @[theTitle, theNote];
       }
       [s close];
     }
