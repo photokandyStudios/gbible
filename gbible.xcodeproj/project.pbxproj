@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A0BB48917BAEA9100C52F6C /* NSObject+PKGCD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A0BB48817BAEA9100C52F6C /* NSObject+PKGCD.m */; };
+		6A0BB48C17BB27B200C52F6C /* CheckMark-30.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0BB48A17BB27B200C52F6C /* CheckMark-30.png */; };
+		6A0BB48D17BB27B200C52F6C /* CheckMark-30@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0BB48B17BB27B200C52F6C /* CheckMark-30@2x.png */; };
 		6A495CD7169D371000F1A55C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A495CD9169D371000F1A55C /* Localizable.strings */; };
 		6A510A4E1733104A00EF5BB1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A4C1733104A00EF5BB1 /* CoreTelephony.framework */; };
 		6A510A4F1733104A00EF5BB1 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A4D1733104A00EF5BB1 /* CoreText.framework */; };
@@ -343,6 +346,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A0BB48717BAEA9100C52F6C /* NSObject+PKGCD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PKGCD.h"; sourceTree = "<group>"; };
+		6A0BB48817BAEA9100C52F6C /* NSObject+PKGCD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PKGCD.m"; sourceTree = "<group>"; };
+		6A0BB48A17BB27B200C52F6C /* CheckMark-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CheckMark-30.png"; sourceTree = "<group>"; };
+		6A0BB48B17BB27B200C52F6C /* CheckMark-30@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CheckMark-30@2x.png"; sourceTree = "<group>"; };
 		6A495CD8169D371000F1A55C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A495CDE169D37BB00F1A55C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A495CDF169D37BC00F1A55C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -895,6 +902,8 @@
 		6AC0B95917BAE30100E6BD6F /* 30px */ = {
 			isa = PBXGroup;
 			children = (
+				6A0BB48A17BB27B200C52F6C /* CheckMark-30.png */,
+				6A0BB48B17BB27B200C52F6C /* CheckMark-30@2x.png */,
 				6AC0B95A17BAE30100E6BD6F /* ArrowLeft-30.png */,
 				6AC0B95B17BAE30100E6BD6F /* ArrowLeft-30@2x.png */,
 				6AC0B95C17BAE30100E6BD6F /* ArrowRight-30.png */,
@@ -1137,6 +1146,8 @@
 				6AC0BA0A17BAE30200E6BD6F /* UIFont+Utility.m */,
 				6AC0BA0B17BAE30200E6BD6F /* UIImage+PKUtility.h */,
 				6AC0BA0C17BAE30200E6BD6F /* UIImage+PKUtility.m */,
+				6A0BB48717BAEA9100C52F6C /* NSObject+PKGCD.h */,
+				6A0BB48817BAEA9100C52F6C /* NSObject+PKGCD.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1853,6 +1864,8 @@
 				6AC0BC2217BAE30200E6BD6F /* reload_icon.png in Resources */,
 				6AC0BC2317BAE30200E6BD6F /* reload_icon@2x.png in Resources */,
 				6AC0BC2517BAE30200E6BD6F /* TSMiniWebBrowser.xib in Resources */,
+				6A0BB48C17BB27B200C52F6C /* CheckMark-30.png in Resources */,
+				6A0BB48D17BB27B200C52F6C /* CheckMark-30@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1958,6 +1971,7 @@
 				6AC0BC2717BAE30200E6BD6F /* UIColor-Expanded2.m in Sources */,
 				6AC0BC2817BAE30200E6BD6F /* WKVerticalScrollBar.m in Sources */,
 				6AC0BC2917BAE30200E6BD6F /* ZUUIRevealController.m in Sources */,
+				6A0BB48917BAEA9100C52F6C /* NSObject+PKGCD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2075,7 +2089,7 @@
 				GCC_PREFIX_HEADER = "gbible/gbible-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "gbible/gbible-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -2111,7 +2125,7 @@
 				GCC_PREFIX_HEADER = "gbible/gbible-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "gbible/gbible-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
