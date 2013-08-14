@@ -60,7 +60,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        _enableVerticalScrollBar = YES;
+        _enableVerticalScrollBar = NO; // disables odd scroller; TODO leave enabled for iOS 6?
     }
     return self;
 }
