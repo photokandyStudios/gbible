@@ -88,7 +88,7 @@
   _theBibleImageAbbr = [[UILabel alloc] initWithFrame:CGRectMake(35, 30, 98, 35)];
   _theBibleImageAbbr.font = [UIFont fontWithName:@"Georgia" size:35];
   _theBibleImageAbbr.textColor = [UIColor colorWithHexString:@"b4a567"];
-  _theBibleImageAbbr.textAlignment = UITextAlignmentCenter;
+  _theBibleImageAbbr.textAlignment = NSTextAlignmentCenter;
   _theBibleImageAbbr.backgroundColor = [UIColor clearColor];
   _theBibleImageAbbr.adjustsFontSizeToFitWidth = YES;
   _theBibleImageAbbr.shadowColor = [UIColor whiteColor];
@@ -159,42 +159,36 @@
     {
       // the bible is an available one; get the object from Parse.
       // send off a request to parse
-      [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeNone];
-      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
-                     ^{
-                       
-                       PFQuery *query = [PFQuery queryWithClassName:@"Bibles"];
-                       [query whereKey:@"ID" equalTo:@(_theBibleID)];
-                       [query orderByAscending:@"Abbreviation"];
-                       [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                         if (!error) {
-                           dispatch_async(dispatch_get_main_queue(),
-                                          ^{
-                                            [SVProgressHUD dismiss];
-                                            for (int i=0; i<objects.count; i++)
-                                            {
-                                              //            theBibleTitle.text = [objects[i] objectForKey:@"Title"];
-                                              //            theBibleAbbreviation.text = [objects[i] objectForKey:@"Abbreviation"];
-                                              _theBibleImageAbbr.text = (objects[i])[@"Abbreviation"];
-                                              [self setHTML:(objects[i])[@"Info"]];
-                                              
-                                              _theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"FREE") confirm:__T(@"Download")];
-                                              [_theActionButton setAnchor:CGPointMake(141, 193)];
-                                              [_theActionButton addTarget:self action:@selector(downloadBible:) forControlEvents:UIControlEventTouchUpInside];
-                                              [self.view addSubview:_theActionButton];
-                                              
-                                            }
-                                          });
-                         } else {
-                           dispatch_async(dispatch_get_main_queue(),
-                                          ^{
-                                            [SVProgressHUD dismiss];
-                                          });
-                           // Log details of the failure
-                           NSLog(@"Error: %@ %@", error, [error userInfo]);
-                         }
-                       }];
-                     });
+      [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeNone]; } afterDelay:0.01];
+      [self performBlockAsynchronouslyInForeground:^{
+         PFQuery *query = [PFQuery queryWithClassName:@"Bibles"];
+         [query whereKey:@"ID" equalTo:@(_theBibleID)];
+         [query orderByAscending:@"Abbreviation"];
+         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+           if (!error) {
+             [self performBlockAsynchronouslyInForeground:^{
+                              [SVProgressHUD dismiss];
+                              for (int i=0; i<objects.count; i++)
+                              {
+                                //            theBibleTitle.text = [objects[i] objectForKey:@"Title"];
+                                //            theBibleAbbreviation.text = [objects[i] objectForKey:@"Abbreviation"];
+                                _theBibleImageAbbr.text = (objects[i])[@"Abbreviation"];
+                                [self setHTML:(objects[i])[@"Info"]];
+                                
+                                _theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"FREE") confirm:__T(@"Download")];
+                                [_theActionButton setAnchor:CGPointMake(141, 193)];
+                                [_theActionButton addTarget:self action:@selector(downloadBible:) forControlEvents:UIControlEventTouchUpInside];
+                                [self.view addSubview:_theActionButton];
+                                
+                              }
+                            } afterDelay:0.1f];
+           } else {
+             [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD dismiss]; } afterDelay:0.01];
+             // Log details of the failure
+             NSLog(@"Error: %@ %@", error, [error userInfo]);
+           }
+         }];
+      } afterDelay:0.02];
     }
   
 }
@@ -209,13 +203,15 @@
     [[PKSettings instance] saveSettings];
   }
   // change the button
-  [_theActionButton disableWithTitle:__T(@"Removing")];
-  [SVProgressHUD showWithStatus:__T(@"Removing...") maskType:SVProgressHUDMaskTypeClear];
+  [self performBlockAsynchronouslyInForeground:^{
+    [_theActionButton disableWithTitle:__T(@"Removing")];
+    [SVProgressHUD showWithStatus:__T(@"Removing...") maskType:SVProgressHUDMaskTypeClear];
+  } afterDelay:0.01];
+
   
   // delete the corresponding entry from the master table,
   // and all records from the content table
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
-                 ^{
+  [self performBlockAsynchronouslyInBackground:^{
                    FMDatabaseQueue *db = [[PKDatabase instance] userBible];
                    [db inDatabase: ^(FMDatabase *db)
                     {
@@ -236,28 +232,28 @@
                       sql = @"DELETE FROM searchIndexMaster WHERE NOT EXISTS (SELECT searchIndexTerm FROM searchIndex WHERE searchIndexTerm=searchIndexMasterID)";
                       [db executeUpdate:sql];
                       */
-                      [db executeUpdate:@"Vacuum"]; // might have to remark to exclude from backup?
+                      [db executeUpdate:@"Vacuum"]; // TODO: might have to remark to exclude from backup?
                       
-                      dispatch_async(dispatch_get_main_queue(),
-                                     ^{
+                      [self performBlockAsynchronouslyInForeground:^{
                                        [SVProgressHUD showSuccessWithStatus:__T(@"Removed!")];
                                        [self loadBibleInformation];
                                        if (_delegate)
                                        {
                                          [_delegate installedBiblesChanged];
                                        }
-                                     }
-                                     );
+                                     } afterDelay:0.01];
                     }
                     ];
-                 }
-                 );
+                 } afterDelay:0.02];
 }
 
 - (void) downloadBible: (id) sender
 {
   // change the button
-  [_theActionButton disableWithTitle:__T(@"Installing")];
+  [self performBlockAsynchronouslyInForeground:^{
+    [_theActionButton disableWithTitle:__T(@"Installing")];
+    [SVProgressHUD showWithStatus:__T(@"Installing...") maskType:SVProgressHUDMaskTypeClear];
+  } afterDelay:0.01];
   
   // ask Parse for the Bible again
   PFQuery *query = [PFQuery queryWithClassName:@"Bibles"];
@@ -274,9 +270,7 @@
         [theBibleFile getDataInBackgroundWithBlock:
          ^(NSData *data, NSError *error)
          {
-           [SVProgressHUD showWithStatus:__T(@"Installing...") maskType:SVProgressHUDMaskTypeClear];
-           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
-                          ^{
+            [self performBlockAsynchronouslyInBackground:^{
                             // save the data out to a temporary file
                             NSString *directoryPath = NSTemporaryDirectory();
                             NSLog (@"%@", directoryPath);
@@ -304,19 +298,15 @@
                             [fileManager removeItemAtPath:[downloadFileTo stringByReplacingOccurrencesOfString:@"zip" withString:@"db"] error:NULL];
                             [fileManager removeItemAtPath:downloadFileTo error:NULL];
                             // tell the user we're done
-                            dispatch_async(dispatch_get_main_queue(),
-                                           ^{
+                            [self performBlockAsynchronouslyInForeground:^{
                                              [SVProgressHUD showSuccessWithStatus:__T(@"Installed!")];
                                              [self loadBibleInformation];
                                              if (_delegate)
                                              {
                                                [_delegate installedBiblesChanged];
                                              }
-                                             
-                                           }
-                                           );
-                          }
-                          );
+                                           } afterDelay:0.01f];
+                          } afterDelay:0.02f];
          }
                                      progressBlock:
          ^(int percentDone)

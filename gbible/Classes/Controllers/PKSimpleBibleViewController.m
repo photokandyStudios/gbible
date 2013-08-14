@@ -112,26 +112,28 @@
 
 -(void)scrollToVerse: (int)theVerse
 {
-  PKWaitDelay(0.05, {
-                if (theVerse > 1)
-                {
-                  if ([self.tableView numberOfRowsInSection: 0] >  1)
-                  {
-                    if (theVerse - 1 < [self.tableView numberOfRowsInSection: 0])
-                    {
-                      [self.tableView scrollToRowAtIndexPath:
-                       [NSIndexPath                    indexPathForRow:
-                        theVerse - 1 inSection: 0]
-                                            atScrollPosition: UITableViewScrollPositionMiddle animated: YES];
-                    }
-                  }
-                }
-                else
-                {
-                  [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: YES];
-                }
-              }
-              );
+  __weak typeof(self) weakSelf = self;
+  [self performBlockAsynchronouslyInForeground:^(void)
+    {
+      if (theVerse > 1)
+      {
+        if ([weakSelf.tableView numberOfRowsInSection: 0] >  1)
+        {
+          if (theVerse - 1 < [weakSelf.tableView numberOfRowsInSection: 0])
+          {
+            [weakSelf.tableView scrollToRowAtIndexPath:
+             [NSIndexPath                    indexPathForRow:
+              theVerse - 1 inSection: 0]
+                                  atScrollPosition: UITableViewScrollPositionMiddle animated: YES];
+          }
+        }
+      }
+      else
+      {
+        [weakSelf.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: YES];
+      }
+    }
+  afterDelay:0.01];
 }
 
 -(void)loadHighlights
@@ -637,7 +639,7 @@
     {
       [self.delegate newReferenceByBook:_currentBook andChapter:_currentChapter andVerse:row+1];
     }
-    [self dismissModalViewControllerAnimated: YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
   }
 }
 
@@ -645,7 +647,7 @@
 #pragma mark buttons
 -(void) closeMe: (id) sender
 {
-  [self dismissModalViewControllerAnimated: YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark -
@@ -733,6 +735,7 @@
 
   UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
   pasteBoard.string = theText;
+  [SVProgressHUD showSuccessWithStatus:__T(@"Copied!")]; // Fixes Issue #85
 }
 
 
