@@ -56,6 +56,7 @@
 #import "APIKeys.h"
 #import "UIImage+PKUtility.h"
 #import "UIColor-Expanded.h"
+#import "SVProgressHUD.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -129,19 +130,31 @@ static PKAppDelegate * _instance;
 {
   if (b.tag == 498)
     return;
+
+  // TODO: iPhone Landscape metrics?
+  // set the back button's background
+  UIImage *backButtonImage = [UIImage imageNamed:@"ArrowLeft-30" withColor:[PKSettings PKTintColor]];
+  backButtonImage = [backButtonImage stretchableImageWithLeftCapWidth:30 topCapHeight:30];
+  [b setBackButtonBackgroundImage:backButtonImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+  [b setBackButtonTitlePositionAdjustment:UIOffsetMake(-5, -2) forBarMetrics:UIBarMetricsDefault];
+  
+  // set the regular bar item's background
+  [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleBordered barMetrics:UIBarMetricsDefault];
+  [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleDone barMetrics:UIBarMetricsDefault];
+  
   [b setTintColor: [PKSettings PKPageColor]];
   [b setTitleTextAttributes:@{
     UITextAttributeTextColor: [PKSettings PKTintColor],
     UITextAttributeTextShadowColor: [UIColor clearColor],
     UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)],
-    UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:13]
+    UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:16]
     }
                    forState:UIControlStateNormal];
   [b setTitleTextAttributes:@{
     UITextAttributeTextColor: [[PKSettings PKTintColor] colorByMultiplyingBy:1.5f],
     UITextAttributeTextShadowColor: [UIColor clearColor],
     UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)],
-    UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:13]
+    UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:16]
     }
                    forState:UIControlStateHighlighted];
 
@@ -172,7 +185,17 @@ static PKAppDelegate * _instance;
 
 +(void) applyThemeToUISegmentedControl: (UISegmentedControl *)sca
 {
-  sca.tintColor = [PKSettings PKNavigationColor];
+  //sca.tintColor = [PKSettings PKNavigationColor];
+  // TODO: iPhone landscape metrics?
+  [sca setBackgroundImage:[[UIImage alloc]init] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+  [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+  [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0]  forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+  [sca setDividerImage:[UIImage imageWithColor:[PKSettings PKTintColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+  
+  //sca.layer.backgroundColor = [PKSettings PKTintColor].CGColor;
+  sca.layer.cornerRadius = 5.0f;
+  sca.layer.borderWidth = 1.0f;
+  sca.layer.borderColor = [PKSettings PKTintColor].CGColor;
 }
 
 -(void)updateAppearanceForTheme
@@ -184,8 +207,8 @@ static PKAppDelegate * _instance;
     [PKAppDelegate applyThemeToUINavigationBar:[UINavigationBar appearance]];
   if ([[UISearchBar class] respondsToSelector: @selector(appearance)])
     [PKAppDelegate applyThemeToUISearchBar:[UISearchBar appearance]];
-  if ([[UISegmentedControl class] respondsToSelector: @selector(appearance)])
-    [PKAppDelegate applyThemeToUISegmentedControl:[UISegmentedControl appearance]];
+  //if ([[UISegmentedControl class] respondsToSelector: @selector(appearance)])
+    //[PKAppDelegate applyThemeToUISegmentedControl:[UISegmentedControl appearance]];
   
   // and then update everything we possibly can that might be on screen
   if ([[UIBarButtonItem class] respondsToSelector: @selector(appearance)])
@@ -236,6 +259,14 @@ static PKAppDelegate * _instance;
       //}
     }
   }
+  
+  SVProgressHUD *svph = [SVProgressHUD sharedView];
+  svph.hudBackgroundColor = [PKSettings PKHUDBackgroundColor];
+  svph.hudForegroundColor = [PKSettings PKHUDForegroundColor];
+  svph.hudStatusShadowColor = [UIColor clearColor];
+  svph.hudFont = [UIFont fontWithName:PKSettings.interfaceFont size:16];
+  svph.hudSuccessImage = [UIImage imageNamed:@"CheckMark-30" withColor:[PKSettings PKHUDForegroundColor]];
+  
   
 }
 
@@ -289,20 +320,6 @@ static PKAppDelegate * _instance;
   UINavigationController *segmentedNavBarController =
   [[UINavigationController alloc] init];
   segmentedNavBarController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-  /*
-   if ([segmentedNavBarController.navigationBar respondsToSelector: @selector(setBackgroundImage:forBarMetrics:)])
-   {
-   [segmentedNavBarController.navigationBar setTitleTextAttributes: [[NSDictionary alloc] initWithObjectsAndKeys: [UIColor
-   blackColor],
-   UITextAttributeTextShadowColor,
-   [UIColor whiteColor], UITextAttributeTextColor,
-   [UIFont fontWithName:kFontAwesomeFamilyName size:20], UITextAttributeFont,
-   nil]];
-   }
-   */
-  [self updateAppearanceForTheme];
-  
-  
   self.segmentController = [[SegmentsController alloc]
                             initWithNavigationController: segmentedNavBarController viewControllers: navViewControllers];
   
@@ -310,13 +327,29 @@ static PKAppDelegate * _instance;
   //                            initWithItems: @[ __T(@"Goto"), __T(@"Highlights"), __T(@"Notes"),
   //                                            __T(@"History"), __T(@"Search"), __T(@"Strong's")]];
   self.segmentedControl  = [[AccessibleSegmentedControl alloc]
-                            initWithItems: @[ [NSString fontAwesomeIconStringForIconIdentifier:@"icon-book"],
-                            [NSString fontAwesomeIconStringForIconIdentifier:@"icon-star"],
-                            [NSString fontAwesomeIconStringForIconIdentifier:@"icon-comment"],
-                            [NSString fontAwesomeIconStringForIconIdentifier:@"icon-magic"],
-                            [NSString fontAwesomeIconStringForIconIdentifier:@"icon-search"],
-                            [NSString fontAwesomeIconStringForIconIdentifier:@"icon-time"]
+                            initWithItems: @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
+                                              [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
+                                              [UIImage imageNamed:@"Bookmarks-30" withColor:[PKSettings PKTintColor]],
+                                              [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKTintColor]],
+                                              [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]],
+                                              [UIImage imageNamed:@"History-30" withColor:[PKSettings PKTintColor]]
                             ]];
+  
+  self.segmentedControl.segmentNormalImages = @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
+                                                 [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
+                                                 [UIImage imageNamed:@"Bookmarks-30" withColor:[PKSettings PKTintColor]],
+                                                 [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKTintColor]],
+                                                 [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]],
+                                                 [UIImage imageNamed:@"History-30" withColor:[PKSettings PKTintColor]]
+                                              ];
+  self.segmentedControl.segmentSelectedImages = @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKPageColor]],
+                                                 [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKPageColor]],
+                                                 [UIImage imageNamed:@"Bookmarks-30" withColor:[PKSettings PKPageColor]],
+                                                 [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKPageColor]],
+                                                 [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKPageColor]],
+                                                 [UIImage imageNamed:@"History-30" withColor:[PKSettings PKPageColor]]
+                                              ];
+
   self.segmentedControl.segmentAccessibilityLabels = @[ __T(@"Goto"), __T(@"Highlights"), __T(@"Notes"),
                                                         __T(@"Strong's"), __T(@"Search"), __T(@"History")];
   [self.segmentedControl setTitleTextAttributes:@{ UITextAttributeFont: [UIFont fontWithName:kFontAwesomeFamilyName size:20] } forState:UIControlStateNormal];
@@ -349,6 +382,9 @@ static PKAppDelegate * _instance;
   self.rootViewController        = revealController;
   self.window.rootViewController = self.rootViewController;
   self.window.backgroundColor    = [UIColor blackColor]; // [PKSettings PKBaseUIColor];
+
+  [self updateAppearanceForTheme];
+
   
   // Add imageView overlay with fade out and zoom in animation
   // inspired by https://gist.github.com/1026439 and https://gist.github.com/3798781
@@ -415,8 +451,10 @@ static PKAppDelegate * _instance;
   [self.window.rootViewController.view addSubview: _splash];
   [self.window.rootViewController.view bringSubviewToFront: _splash];
   
-  PKWaitDelay(2, {
-    [UIView transitionWithView: self.window
+  __weak typeof(self) weakSelf = self;
+  [self performBlockAsynchronouslyInForeground:^(void)
+  {
+    [UIView transitionWithView: weakSelf.window
                       duration: 1.00f
                        options: UIViewAnimationOptionCurveEaseInOut
                     animations:^(void) {
@@ -426,8 +464,7 @@ static PKAppDelegate * _instance;
                       [_splash removeFromSuperview];
                     }
      ];
-  }
-              );
+  } afterDelay:2.0f];
   
   [self.window makeKeyAndVisible];
   
@@ -520,9 +557,11 @@ static PKAppDelegate * _instance;
   //[iOSHierarchyViewer start];
   
   [_bibleViewController resignFirstResponder];
-  PKWaitDelay(0.5,
-              [_bibleViewController becomeFirstResponder];
-              );
+  __weak typeof(_bibleViewController) weakBVC = _bibleViewController;
+  [self performBlockAsynchronouslyInForeground:^(void)
+  {
+    [weakBVC becomeFirstResponder];
+  }];
 }
 
 /**
