@@ -98,12 +98,13 @@
 -(void)doSearchForTerm: (NSString *) theTerm requireParsings: (BOOL) parsings
 {
   [self clearCellHeights];
-  [SVProgressHUD showWithStatus:__T(@"Searching...") maskType:SVProgressHUDMaskTypeClear];
+  [self performBlockAsynchronouslyInForeground:^{
+    [SVProgressHUD showWithStatus:__T(@"Searching...") maskType:SVProgressHUDMaskTypeClear];
+  } afterDelay:0.01];
+  
   [[PKHistory instance] addBibleSearch: theTerm];
   [[[PKAppDelegate sharedInstance] historyViewController] reloadHistory];
-      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
-        ^{
-
+        [self performBlockAsynchronouslyInBackground:^{
            _theSearchResults = nil;
            _theSearchTerm = theTerm;
            
@@ -116,8 +117,7 @@
              _theSearchResults = [PKBible passagesMatching: theTerm requireParsings: parsings];
            }
           
-           dispatch_async(dispatch_get_main_queue(),
-            ^{
+           [self performBlockAsynchronouslyInForeground:^{
                [SVProgressHUD dismiss];
                [self.tableView reloadData];
                
@@ -133,12 +133,8 @@
                {
                  _noResults.text = @"";
                }
-             }
-           );
-
-
-         }
-      );
+             } afterDelay:0.01f];
+         } afterDelay:0.02f];
 }
 
 -(void)viewDidLoad
@@ -153,6 +149,12 @@
       ];
     self.navigationItem.rightBarButtonItem = closeButton;
   }
+
+  self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+  CGFloat topOffset = self.navigationController.navigationBar.frame.size.height;
+  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ) { topOffset = 0; }
+  self.tableView.contentInset = UIEdgeInsetsMake(topOffset, 0, 0, 0);
+
 
   // add search bar
   _theSearchBar                   = [[UISearchBar alloc] initWithFrame: CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
@@ -197,7 +199,7 @@
   _noResults                      = [[UILabel alloc] initWithFrame: theRect];
   _noResults.textColor            = [PKSettings PKTextColor];
   _noResults.font                 = [UIFont fontWithName: @"Zapfino" size: 15];
-  _noResults.textAlignment        = UITextAlignmentCenter;
+  _noResults.textAlignment        = NSTextAlignmentCenter;
   _noResults.backgroundColor      = [UIColor clearColor];
   _noResults.shadowColor          = [UIColor whiteColor];
   _noResults.autoresizingMask     = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
@@ -519,7 +521,7 @@
     {
       [_delegate newReferenceByBook:theBook andChapter:theChapter andVerse:theVerse];
     }
-    [self dismissModalViewControllerAnimated: YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
   }
   else
   {
@@ -600,7 +602,7 @@
 
 -(void) closeMe: (id) sender
 {
-  [self dismissModalViewControllerAnimated: YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

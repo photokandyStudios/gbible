@@ -70,6 +70,7 @@
 #import "PKReference.h"
 #import "UIFont+Utility.h"
 #import "UIImage+PKUtility.h"
+#import "NSObject+PKGCD.h"
 
 
 @interface PKBibleViewController ()
@@ -207,29 +208,31 @@
  */
 -(void)displayBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse
 {
-  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+  [self performBlockAsynchronouslyInForeground:^(void) {[SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];}
+   afterDelay:0.01f];
 
-  PKWait(
-    if (self.navigationController.visibleViewController != self)
+  __weak typeof(self) weakSelf = self;
+  [self performBlockAsynchronouslyInForeground:^(void)
     {
-      [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-    [self loadChapter: theChapter forBook: theBook];
-    [self reloadTableCache];
-    [[PKHistory instance] addReference: [PKReference referenceWithBook:theBook andChapter: theChapter andVerse: theVerse]];
-    [self notifyChangedHistory];
-    [PKSettings instance].topVerse = theVerse;
-
-    if (theVerse > 1)
-    {
-      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow: theVerse -
-                                               1 inSection: 0] atScrollPosition: UITableViewScrollPositionTop animated: NO];
-    }
-    else
-    {
-      [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: NO];
-    }
-    );
+      if (weakSelf.navigationController.visibleViewController != self)
+      {
+        [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+      }
+      [weakSelf loadChapter: theChapter forBook: theBook];
+      [weakSelf reloadTableCache];
+      [[PKHistory instance] addReference: [PKReference referenceWithBook:theBook andChapter: theChapter andVerse: theVerse]];
+      [weakSelf notifyChangedHistory];
+      [PKSettings instance].topVerse = theVerse;
+        if (theVerse > 1)
+        {
+          [weakSelf.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow: theVerse -
+                                                   1 inSection: 0] atScrollPosition: UITableViewScrollPositionTop animated: NO];
+        }
+        else
+        {
+          [weakSelf.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: NO];
+        }
+    } afterDelay:0.02f];
 }
 
 /**
@@ -255,34 +258,37 @@
  */
 -(void)nextChapter
 {
-  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-  PKWait(
-    int currentBook = [[PKSettings instance] currentBook];
-    int currentChapter = [[PKSettings instance] currentChapter];
-
-    currentChapter++;
-
-    if (currentChapter > [PKBible countOfChaptersForBook: currentBook])
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+  
+  __weak typeof(self) weakSelf = self;
+  [self performBlockAsynchronouslyInForeground:^(void)
     {
-      // advance the book
-      currentChapter = 1;
-      currentBook++;
+      int currentBook = [[PKSettings instance] currentBook];
+      int currentChapter = [[PKSettings instance] currentChapter];
 
-      if (currentBook > 66)
+      currentChapter++;
+
+      if (currentChapter > [PKBible countOfChaptersForBook: currentBook])
       {
-        [SVProgressHUD dismiss];
-        return;     // can't go past the end of the Bible
+        // advance the book
+        currentChapter = 1;
+        currentBook++;
+
+        if (currentBook > 66)
+        {
+          [SVProgressHUD dismiss];
+          return;     // can't go past the end of the Bible
+        }
       }
+
+      [weakSelf loadChapter: currentChapter forBook: currentBook];
+      [weakSelf reloadTableCache];
+      [[PKHistory instance] addReferenceWithBook: currentBook andChapter: currentChapter andVerse: 1];
+      [weakSelf notifyChangedHistory];
+
+      [weakSelf.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: NO];
     }
-
-    [self loadChapter: currentChapter forBook: currentBook];
-    [self reloadTableCache];
-    [[PKHistory instance] addReferenceWithBook: currentBook andChapter: currentChapter andVerse: 1];
-    [self notifyChangedHistory];
-
-    [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: NO];
-
-    );
+  afterDelay: 0.02];
 }
 
 /**
@@ -292,9 +298,10 @@
  */
 -(void)previousChapter
 {
-  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-  PKWait(
-
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+  __weak typeof(self) weakSelf = self;
+  [self performBlockAsynchronouslyInForeground:^(void)
+  {
     int currentBook = [[PKSettings instance] currentBook];
     int currentChapter = [[PKSettings instance] currentChapter];
 
@@ -313,18 +320,19 @@
       currentChapter = [PKBible countOfChaptersForBook: currentBook];
     }
 
-    [self loadChapter: currentChapter forBook: currentBook];
-    [self reloadTableCache];
+    [weakSelf loadChapter: currentChapter forBook: currentBook];
+    [weakSelf reloadTableCache];
     [[PKHistory instance] addReferenceWithBook: currentBook andChapter: currentChapter andVerse: [PKBible
                                                                                                              countOfVersesForBook:
                                                                                                              currentBook forChapter
                                                                                                              : currentChapter]];
-    [self notifyChangedHistory];
-    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow: [PKBible countOfVersesForBook: currentBook forChapter:
+    [weakSelf notifyChangedHistory];
+    [weakSelf.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow: [PKBible countOfVersesForBook: currentBook forChapter:
                                                                            currentChapter] -
                                              1 inSection: 0] atScrollPosition: UITableViewScrollPositionTop animated: NO];
 
-    );
+  } afterDelay:0.02f
+  ];
 }
 
 /**
@@ -492,7 +500,7 @@
   }
 
   [self loadHighlights];
-  [SVProgressHUD dismiss];
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD dismiss]; } afterDelay:0.01];
 }
 
 /**
@@ -534,74 +542,80 @@
 -(void) scrollToTopVerseWithAnimation
 {
   // attempt to fix issue #37
-  PKWaitDelay(0.05, {
-                if ([[PKSettings instance] topVerse] > 1)
-                {
-                  if ([self.tableView numberOfRowsInSection: 0] >  1)
-                  {
-                    if ([[PKSettings instance] topVerse] - 1 < [self.tableView numberOfRowsInSection: 0])
-                    {
-                      [self.tableView scrollToRowAtIndexPath:
-                       [NSIndexPath                    indexPathForRow:
-                        [[PKSettings instance] topVerse] - 1 inSection: 0]
-                                            atScrollPosition: UITableViewScrollPositionTop animated: YES];
-                    }
-                  }
-                }
-                else
-                {
-                  [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: YES];
-                }
-              }
-              );
+  __weak typeof(self) weakSelf = self;
+  [self performBlockAsynchronouslyInForeground:^(void)
+    {
+      if ([[PKSettings instance] topVerse] > 1)
+      {
+        if ([weakSelf.tableView numberOfRowsInSection: 0] >  1)
+        {
+          if ([[PKSettings instance] topVerse] - 1 < [self.tableView numberOfRowsInSection: 0])
+          {
+            [weakSelf.tableView scrollToRowAtIndexPath:
+             [NSIndexPath                    indexPathForRow:
+              [[PKSettings instance] topVerse] - 1 inSection: 0]
+                                  atScrollPosition: UITableViewScrollPositionTop animated: YES];
+          }
+        }
+      }
+      else
+      {
+        [weakSelf.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: YES];
+      }
+    }
+  afterDelay:0.01];
 }
 
 -(void) scrollToTopVerse
 {
   // attempt to fix issue #37
-  PKWaitDelay(0.05, {
-                if ([[PKSettings instance] topVerse] > 1)
-                {
-                  if ([self.tableView numberOfRowsInSection: 0] >  1)
-                  {
-                    if ([[PKSettings instance] topVerse] - 1 < [self.tableView numberOfRowsInSection: 0])
-                    {
-                      [self.tableView scrollToRowAtIndexPath:
-                       [NSIndexPath                    indexPathForRow:
-                        [[PKSettings instance] topVerse] - 1 inSection: 0]
-                                            atScrollPosition: UITableViewScrollPositionTop animated: NO];
-                    }
-                  }
-                }
-                else
-                {
-                  [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: NO];
-                }
-              }
-              );
+  __weak typeof(self) weakSelf = self;
+  [self performBlockAsynchronouslyInForeground:^(void)
+    {
+      if ([[PKSettings instance] topVerse] > 1)
+      {
+        if ([weakSelf.tableView numberOfRowsInSection: 0] >  1)
+        {
+          if ([[PKSettings instance] topVerse] - 1 < [self.tableView numberOfRowsInSection: 0])
+          {
+            [weakSelf.tableView scrollToRowAtIndexPath:
+             [NSIndexPath                    indexPathForRow:
+              [[PKSettings instance] topVerse] - 1 inSection: 0]
+                                  atScrollPosition: UITableViewScrollPositionTop animated: NO];
+          }
+        }
+      }
+      else
+      {
+        [weakSelf.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: NO];
+      }
+    }
+  afterDelay:0.01];
 }
 -(void)scrollToVerse: (int)theVerse
 {
-  PKWaitDelay(0.05, {
-                if (theVerse > 1)
-                {
-                  if ([self.tableView numberOfRowsInSection: 0] >  1)
-                  {
-                    if (theVerse - 1 < [self.tableView numberOfRowsInSection: 0])
-                    {
-                      [self.tableView scrollToRowAtIndexPath:
-                       [NSIndexPath                    indexPathForRow:
-                        theVerse - 1 inSection: 0]
-                                            atScrollPosition: UITableViewScrollPositionMiddle animated: YES];
-                    }
-                  }
-                }
-                else
-                {
-                  [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: YES];
-                }
-              }
-              );
+  __weak typeof(self) weakSelf = self;
+  [self performBlockAsynchronouslyInForeground:^(void)
+    {
+      if (theVerse > 1)
+      {
+        if ([weakSelf.tableView numberOfRowsInSection: 0] >  1)
+        {
+          if (theVerse - 1 < [self.tableView numberOfRowsInSection: 0])
+          {
+            [weakSelf.tableView scrollToRowAtIndexPath:
+             [NSIndexPath                    indexPathForRow:
+              theVerse - 1 inSection: 0]
+                                  atScrollPosition: UITableViewScrollPositionMiddle animated: YES];
+          }
+        }
+      }
+      else
+      {
+        [weakSelf.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: YES];
+      }
+    }
+  afterDelay: 0.01];
 }
 #pragma mark -
 #pragma mark View Lifecycle
@@ -884,7 +898,7 @@
   {
     _tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 28];
   }
-  _tableTitle.textAlignment    = UITextAlignmentCenter;
+  _tableTitle.textAlignment    = NSTextAlignmentCenter;
   _tableTitle.textColor        = [PKSettings PKTextColor];
   _tableTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
   _tableTitle.backgroundColor  = [UIColor clearColor];
@@ -1648,7 +1662,7 @@
 
         theNewWord.layer.cornerRadius = 10;
 
-        theNewWord.textAlignment      = UITextAlignmentCenter;
+        theNewWord.textAlignment      = NSTextAlignmentCenter;
         [theCell addSubview: theNewWord];
         [UIView animateWithDuration: 0.5f animations:
          ^{
@@ -1778,45 +1792,54 @@
 {
   [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
   [_PO dismissPopoverAnimated: NO];
-  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-  PKWait(
-  [self saveTopVerse];
-  [PKSettings instance].showStrongs = ![PKSettings instance].showStrongs;
-  [[PKSettings instance] saveSettings];
-  [self loadChapter];
-  [self reloadTableCache];
-  [self scrollToTopVerseWithAnimation];
-  );
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+  __weak typeof(self) weakSelf = self;
+  [self performBlockAsynchronouslyInForeground:^(void)
+    {
+      [weakSelf saveTopVerse];
+      [PKSettings instance].showStrongs = ![PKSettings instance].showStrongs;
+      [[PKSettings instance] saveSettings];
+      [weakSelf loadChapter];
+      [weakSelf reloadTableCache];
+      [weakSelf scrollToTopVerseWithAnimation];
+    } afterDelay:0.02f
+  ];
 }
 
 -(void) toggleMorphology: (id) sender
 {
   [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
   [_PO dismissPopoverAnimated: NO];
-  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-  PKWait(
-  [self saveTopVerse];
-  [PKSettings instance].showMorphology = ![PKSettings instance].showMorphology;
-  [[PKSettings instance] saveSettings];
-  [self loadChapter];
-  [self reloadTableCache];
-  [self scrollToTopVerseWithAnimation];
-  );
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+  __weak typeof(self) weakSelf = self;
+  [self performBlockAsynchronouslyInForeground:^(void)
+    {
+      [weakSelf saveTopVerse];
+      [PKSettings instance].showMorphology = ![PKSettings instance].showMorphology;
+      [[PKSettings instance] saveSettings];
+      [weakSelf loadChapter];
+      [weakSelf reloadTableCache];
+      [weakSelf scrollToTopVerseWithAnimation];
+    } afterDelay:0.02f
+  ];
 }
 
 -(void) toggleTranslation: (id) sender
 {
   [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
   [_PO dismissPopoverAnimated: NO];
-  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-  PKWait(
-  [self saveTopVerse];
-  [PKSettings instance].showInterlinear = ![PKSettings instance].showInterlinear;
-  [[PKSettings instance] saveSettings];
-  [self loadChapter];
-  [self reloadTableCache];
-  [self scrollToTopVerseWithAnimation];
-  );
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+  __weak typeof(self) weakSelf = self;
+  [self performBlockAsynchronouslyInForeground:^(void)
+    {
+      [weakSelf saveTopVerse];
+      [PKSettings instance].showInterlinear = ![PKSettings instance].showInterlinear;
+      [[PKSettings instance] saveSettings];
+      [weakSelf loadChapter];
+      [weakSelf reloadTableCache];
+      [weakSelf scrollToTopVerseWithAnimation];
+    } afterDelay:0.02f
+  ];
 }
 
 -(void) goFullScreen: (id) sender
@@ -2142,6 +2165,7 @@
   pasteBoard.string = theText;
 
   [self clearSelection: nil];
+  [SVProgressHUD showSuccessWithStatus:__T(@"Copied!")]; // Fixes Issue #85
 }
 
 -(void) highlightSelectionYellow: (id) sender
@@ -2249,7 +2273,7 @@
   {
     // FIX ISSUE #46
     dictionary.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentModalViewController: dictionary animated: YES];
+          [self presentViewController:dictionary animated:YES completion:nil];
   }
   else
   {
@@ -2275,7 +2299,7 @@
   UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
   mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
   mvnc.navigationBar.barStyle = UIBarStyleBlack;
-  [self presentModalViewController: mvnc animated: YES];
+          [self presentViewController:mvnc animated:YES completion:nil];
 }
 
 /**
@@ -2300,7 +2324,7 @@
   UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
   mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
   mvnc.navigationBar.barStyle = UIBarStyleBlack;
-  [self presentModalViewController: mvnc animated: YES];
+          [self presentViewController:mvnc animated:YES completion:nil];
 }
 
 /**
@@ -2327,7 +2351,7 @@
   wb.mode = TSMiniWebBrowserModeModal;
   wb.barStyle = UIBarStyleBlack;
   wb.modalDismissButtonTitle         = __T(@"Done");
-  [self presentModalViewController: wb animated: YES];
+          [self presentViewController:wb animated:YES completion:nil];
 }
 
 /**
@@ -2350,7 +2374,7 @@
                                      UITextAttributeTextColor: [UIColor whiteColor]}];
   }
 
-  [self presentModalViewController: mvnc animated: YES];
+          [self presentViewController:mvnc animated:YES completion:nil];
 }
 
 -(void)fontSelect: (id) sender
@@ -2374,7 +2398,7 @@
   {
     PKPortraitNavigationController *mvnc = [[PKPortraitNavigationController alloc] initWithRootViewController: LC];
     mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentModalViewController: mvnc animated: YES];
+          [self presentViewController:mvnc animated:YES completion:nil];
   }
 }
 
@@ -2391,14 +2415,17 @@
 -(void) didChangeLayout: (PKLayoutController *) sender
 {
   // the settings have changed, update ourselves...
-  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-  PKWait(
-  [self saveTopVerse];
-  [self updateAppearanceForTheme];
-  [self loadChapter];
-  [self reloadTableCache];
-  [self scrollToTopVerseWithAnimation];
-  );
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+  __weak typeof(self) weakSelf = self;
+  [self performBlockAsynchronouslyInForeground:^(void)
+    {
+      [weakSelf saveTopVerse];
+      [weakSelf updateAppearanceForTheme];
+      [weakSelf loadChapter];
+      [weakSelf reloadTableCache];
+      [weakSelf scrollToTopVerseWithAnimation];
+    } afterDelay:0.25f
+  ];
 }
 
 #pragma mark -
@@ -2457,13 +2484,16 @@
     }
     [[PKSettings instance] saveSettings];
     [self bibleTextChanged];
-  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-  PKWait(
-    [self saveTopVerse];
-    [self loadChapter];
-    [self reloadTableCache];
-    [self scrollToTopVerseWithAnimation];
-    );
+    [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+    __weak typeof(self) weakSelf = self;
+    [self performBlockAsynchronouslyInForeground:^(void)
+      {
+        [weakSelf saveTopVerse];
+        [weakSelf loadChapter];
+        [weakSelf reloadTableCache];
+        [weakSelf scrollToTopVerseWithAnimation];
+      } afterDelay:0.02f
+    ];
   }
 
   if (actionSheet.tag == 1999)
@@ -2817,16 +2847,26 @@
     if ([text isEqualToString:@"a"] ||
         [text isEqualToString:@"A"])
     {
-      PKWaitDelay(5000, [self previousChapter];
-                );
+      __weak typeof(self) weakSelf = self;
+      [self performBlockAsynchronouslyInForeground:^(void)
+        {
+          [weakSelf previousChapter];
+        }
+        afterDelay:0.01
+      ];
     }
     //
     // NEXT CHAPTER
     if ([text isEqualToString:@"d"] ||
         [text isEqualToString:@"D"])
     {
-      PKWaitDelay(5000, [self nextChapter];
-                 );
+      __weak typeof(self) weakSelf = self;
+      [self performBlockAsynchronouslyInForeground:^(void)
+        {
+          [weakSelf nextChapter];
+        }
+        afterDelay:0.01
+      ];
     }
     
 
