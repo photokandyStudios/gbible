@@ -49,7 +49,7 @@
         // Initialization code
         _label = [[UILabel alloc] initWithFrame:CGRectMake(5,5, frame.size.width-10, frame.size.height-10)];
         _label.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-        _label.textAlignment = UITextAlignmentCenter;
+        _label.textAlignment = NSTextAlignmentCenter;
         //self.label.font = [UIFont boldSystemFontOfSize:50.0];
         _label.backgroundColor = [UIColor clearColor];
         _label.textColor = [PKSettings PKTextColor];

@@ -596,7 +596,7 @@ const int SECTION_THIRD_PARTY = 5;
         UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: blvc];
         mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
         mvnc.navigationBar.barStyle = UIBarStyleBlack;
-        [self presentModalViewController: mvnc animated: YES];
+          [self presentViewController:mvnc animated:YES completion:nil];
       }
       if (section == SECTION_LAYOUT)
       {
@@ -618,7 +618,7 @@ const int SECTION_THIRD_PARTY = 5;
         {
           PKPortraitNavigationController *mvnc = [[PKPortraitNavigationController alloc] initWithRootViewController: LC];
           mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
-          [self presentModalViewController: mvnc animated: YES];
+          [self presentViewController: mvnc animated:YES completion:nil];
         }
       }
 
@@ -704,7 +704,7 @@ const int SECTION_THIRD_PARTY = 5;
           wb.mode = TSMiniWebBrowserModeModal;
           wb.barStyle = UIBarStyleBlack;
           wb.modalDismissButtonTitle         = __T(@"Done");
-          [self presentModalViewController: wb animated: YES];
+          [self presentViewController:wb animated:YES completion:nil];
           
         }
         if (row==4)
@@ -729,7 +729,7 @@ const int SECTION_THIRD_PARTY = 5;
           wb.mode = TSMiniWebBrowserModeModal;
           wb.barStyle = UIBarStyleBlack;
           wb.modalDismissButtonTitle         = __T(@"Done");
-          [self presentModalViewController: wb animated: YES];
+          [self presentViewController:wb animated:YES completion:nil];
       }
       break;
   }

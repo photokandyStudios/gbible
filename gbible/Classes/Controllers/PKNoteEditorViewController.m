@@ -271,7 +271,7 @@
 
 -(void)cancelPressed: (id) sender
 {
-  [self dismissModalViewControllerAnimated: YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)donePressed: (id) sender
@@ -282,7 +282,7 @@
     [[PKAppDelegate sharedInstance].bibleViewController notifyNoteChanged];
     [[[PKAppDelegate sharedInstance] notesViewController] reloadNotes];
   }
-  [self dismissModalViewControllerAnimated: YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)deletePressed: (id) sender
@@ -290,7 +290,7 @@
   [[PKNotes instance] deleteNoteForReference: _reference];
   [[PKAppDelegate sharedInstance].bibleViewController notifyNoteChanged];
     [[[PKAppDelegate sharedInstance] notesViewController] reloadNotes];
-  [self dismissModalViewControllerAnimated: YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark -
@@ -344,7 +344,7 @@
   
   NC.modalPresentationStyle = UIModalPresentationFormSheet;
   [self.view endEditing:YES];
-  [self presentModalViewController: NC animated: YES];
+  [self presentViewController:NC animated:YES completion:nil];
 
 }
 
@@ -359,7 +359,7 @@
   
   NC.modalPresentationStyle = UIModalPresentationFormSheet;
   [self.view endEditing:YES];
-  [self presentModalViewController: NC animated: YES];
+  [self presentViewController:NC animated:YES completion:nil];
 
 }
 
@@ -429,7 +429,7 @@
     
     NC.modalPresentationStyle = UIModalPresentationFormSheet;
     [self.view endEditing:YES];
-    [self presentModalViewController: NC animated: YES];
+    [self presentViewController:NC animated:YES completion:nil];
   }
 
 }
@@ -450,7 +450,7 @@
   UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
   mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
   mvnc.navigationBar.barStyle = UIBarStyleBlack;
-  [self presentModalViewController: mvnc animated: YES];
+  [self presentViewController:mvnc animated:YES completion:nil];
 
 }
 

@@ -117,7 +117,7 @@
 
   _label1                 = [[UILabel alloc] initWithFrame: CGRectMake(10, 10, 160, 30)];
   _label1.text            = [NSString stringWithFormat: @"%@ %i", __T(@"Theme"), [[PKSettings instance] textTheme] + 1];
-  _label1.textAlignment   = UITextAlignmentLeft;
+  _label1.textAlignment   = NSTextAlignmentLeft;
   _label1.font = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
   _label1.backgroundColor = [UIColor clearColor];
   [self.view addSubview: _label1];
@@ -156,7 +156,7 @@
 
   _fontSizeLabel                 = [[UILabel alloc] initWithFrame: CGRectMake(216, 10, 94, 30)];
   _fontSizeLabel.font            = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:20];
-  _fontSizeLabel.textAlignment   = UITextAlignmentCenter;
+  _fontSizeLabel.textAlignment   = NSTextAlignmentCenter;
   _fontSizeLabel.text            = [NSString stringWithFormat: @"%ipt", [[PKSettings instance] textFontSize]];
   _fontSizeLabel.backgroundColor = [UIColor clearColor];
   [self.view addSubview: _fontSizeLabel];
@@ -172,9 +172,9 @@
   _greekFontLabel.text = __T(@"Greek Typeface");
   _greekFontLabel.backgroundColor             = [UIColor clearColor];
   _greekFontLabel.font                      = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
-  _greekFontLabel.textAlignment               = UITextAlignmentCenter;
+  _greekFontLabel.textAlignment               = NSTextAlignmentCenter;
   _greekFontLabel.adjustsFontSizeToFitWidth   = YES;
-  _greekFontLabel.minimumFontSize             = 0;
+  _greekFontLabel.minimumScaleFactor          = 0.1; //TODO: Check that this works for localization
   _greekFontLabel.numberOfLines               = 1;
   [self.view addSubview: _greekFontLabel];
 
@@ -182,9 +182,9 @@
   _englishFontLabel.text                      = __T(@"English Typeface");
   _englishFontLabel.font                      = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
   _englishFontLabel.backgroundColor           = [UIColor clearColor];
-  _englishFontLabel.textAlignment             = UITextAlignmentCenter;
+  _englishFontLabel.textAlignment             = NSTextAlignmentCenter;
   _englishFontLabel.adjustsFontSizeToFitWidth = YES;
-  _englishFontLabel.minimumFontSize           = 0;
+  _englishFontLabel.minimumScaleFactor        = 0.1f; //TODO: check that this works for localization
   _englishFontLabel.numberOfLines             = 1;
   [self.view addSubview: _englishFontLabel];
 
@@ -266,9 +266,9 @@
   _rowSpacingLabel.backgroundColor           = [UIColor clearColor];
   _rowSpacingLabel.text                      = __T(@"Line Spacing");
   _rowSpacingLabel.font                      = [UIFont fontWithName:[PKSettings interfaceFont] size:15];
-  _rowSpacingLabel.textAlignment             = UITextAlignmentLeft;
+  _rowSpacingLabel.textAlignment             = NSTextAlignmentLeft;
   _rowSpacingLabel.adjustsFontSizeToFitWidth = YES;
-  _rowSpacingLabel.minimumFontSize           = 0;
+  _rowSpacingLabel.minimumScaleFactor        = 0.1f; //TODO: Check that this works for localization
   _rowSpacingLabel.numberOfLines             = 2;
   [self.view addSubview: _rowSpacingLabel];
 
@@ -465,7 +465,7 @@
 
 -(void) closeMe: (id) sender
 {
-  [self dismissModalViewControllerAnimated: YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
   [[PKSettings instance] saveSettings];
 
   if (_delegate)
