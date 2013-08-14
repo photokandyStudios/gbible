@@ -80,7 +80,10 @@
   self.view.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   self.collectionView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   self.title                                       = __T(@"Goto");
-  self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+  self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+  CGFloat topOffset = self.navigationController.navigationBar.frame.size.height;
+  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ) { topOffset = 0; }
+  self.collectionView.contentInset = UIEdgeInsetsMake(topOffset, 0, 0, 0);
 
   [self.collectionView registerClass:[PKSimpleCollectionViewCell class] forCellWithReuseIdentifier:@"simple-cell"];
   //self.collectionView.bounds = CGRectMake (0,0, 260, 500);
@@ -182,7 +185,7 @@
   cell.label.text      = [PKBible nameForBook: row + 40]; // get book name
   cell.label.textColor = [PKSettings PKSidebarTextColor];
   cell.label.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
-  cell.label.textAlignment = UITextAlignmentLeft;
+  cell.label.textAlignment = NSTextAlignmentLeft;
   //    cell.textLabel.textColor = [UIColor whiteColor];
   //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
   
@@ -233,7 +236,7 @@
 
 -(void) closeMe: (id) sender
 {
-  [self dismissModalViewControllerAnimated: YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
   [[PKSettings instance] saveSettings];
 }
 
