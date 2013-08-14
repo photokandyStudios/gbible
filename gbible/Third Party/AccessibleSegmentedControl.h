@@ -32,4 +32,6 @@
 
 @interface AccessibleSegmentedControl : UISegmentedControl
 @property (nonatomic, retain) NSArray* segmentAccessibilityLabels;
+@property (nonatomic, retain) NSArray* segmentSelectedImages;
+@property (nonatomic, retain) NSArray* segmentNormalImages;
 @end

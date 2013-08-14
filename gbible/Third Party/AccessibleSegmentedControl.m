@@ -34,6 +34,8 @@
 @interface AccessibleSegmentedControl ()
 {
     NSArray*                segmentAccessibilityLabels;
+    NSArray*                segmentSelectedImages;
+    NSArray*                segmentNormalImages;
 }
 @end
 
@@ -41,14 +43,38 @@
 @implementation AccessibleSegmentedControl
 
 @synthesize segmentAccessibilityLabels;
+@synthesize segmentSelectedImages;
+@synthesize segmentNormalImages;
 
 
 - (void)dealloc 
 {
     self.segmentAccessibilityLabels = nil;
+    self.segmentSelectedImages = nil;
+    self.segmentNormalImages = nil;
     [super dealloc];
 }
 
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+  [super touchesBegan:touches withEvent:event];
+  [self ensureAccessibilityLabels];
+}
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+  [super touchesEnded:touches withEvent:event];
+  [self ensureAccessibilityLabels];
+}
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+  [super touchesMoved:touches withEvent:event];
+  [self ensureAccessibilityLabels];
+}
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+  [super touchesCancelled:touches withEvent:event];
+  [self ensureAccessibilityLabels];
+}
 
 - (void)ensureAccessibilityLabels
 {
@@ -67,9 +93,19 @@
             view.accessibilityLabel = [segmentAccessibilityLabels objectAtIndex:index];
         
         if (index==self.selectedSegmentIndex)
+        {
             view.accessibilityTraits |= UIAccessibilityTraitSelected;
+            if ( index < segmentSelectedImages.count )
+              if ( segmentSelectedImages[index] != nil )
+                [super setImage:segmentSelectedImages[index] forSegmentAtIndex:index];
+        }
         else
+        {
             view.accessibilityTraits &= ~UIAccessibilityTraitSelected;
+            if ( index < segmentNormalImages.count )
+              if ( segmentNormalImages[index] != nil )
+                [super setImage:segmentNormalImages[index] forSegmentAtIndex:index];
+        }
         
         if ([self isEnabledForSegmentAtIndex:index])
             view.accessibilityTraits &= ~UIAccessibilityTraitNotEnabled;
