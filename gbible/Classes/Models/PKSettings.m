@@ -687,6 +687,30 @@ static PKSettings * _instance;
   return [UIColor colorWithWhite: 1.0 alpha: 0.25];
 }
 
++(UIColor *)PKHUDBackgroundColor
+{
+  static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithWhite: 1.0 alpha: 0.75],
+                                [UIColor colorWithWhite: 1.0 alpha: 0.75],
+                                [UIColor colorWithWhite: 0.0 alpha: 0.75],
+                                [UIColor colorWithWhite: 0.0 alpha: 0.75]
+                       ];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
+  return theColor;
+}
+
++(UIColor *)PKHUDForegroundColor
+{
+  static NSArray *theColors;
+  if (!theColors) theColors = @[[UIColor colorWithWhite: 0.125 alpha: 1.0],
+                                [UIColor colorWithWhite: 0.125 alpha: 1.0],
+                                [UIColor colorWithWhite: 0.65 alpha: 1.0],
+                                [UIColor colorWithRed: 0.65 green: 0.50 blue: 0.00 alpha: 1.0]
+                        ];
+  UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
+  return theColor;
+}
+
 +(UIColor *)PKYellowHighlightColor
 {
   return [UIColor colorWithRed: 1.0 green: 1.0 blue: 0.0 alpha: 0.5];

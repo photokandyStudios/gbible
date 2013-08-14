@@ -116,7 +116,8 @@
 +(UIColor *)  PKNavigationColor;
 +(UIColor *)  PKNavigationTextColor;
 +(UIColor *)  PKBarButtonTextColor;
-
++(UIColor *)  PKHUDBackgroundColor;
++(UIColor *)  PKHUDForegroundColor;
 +(NSString *) interfaceFont;
 +(NSString *) boldInterfaceFont;
 
