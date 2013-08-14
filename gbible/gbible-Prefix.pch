@@ -40,15 +40,8 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
-
     #import "TestFlight.h"
-
-    #define PKWait(block)     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 100000), dispatch_get_current_queue(), ^{ block } \
-                                             )
-    #define PKWaitDelay(dly, block)     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, dly * 100000), \
-                                                       dispatch_get_current_queue(), ^{ block } \
-                                                       )
-
+    #import "NSObject+PKGCD.h"
 #endif
 
 //for localization:
