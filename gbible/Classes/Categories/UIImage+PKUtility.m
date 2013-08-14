@@ -11,7 +11,7 @@
 @implementation UIImage (PKUtility)
 
 
-+ (UIImage *)imageWithColor:(UIColor *)color andSize:(CGSize)size {
++ (UIImage *)imageWithColor:(UIColor *)color andSize:(CGSize)size andRoundedCornerRadius: (CGFloat)radius{
   // from stackoverflow.com/questions/.../how-to-get-a-color-image-in-iphone-sdk‎
   //Create a context of the appropriate size
   UIGraphicsBeginImageContext(size);
@@ -20,11 +20,20 @@
   //Build a rect of appropriate size at origin 0,0
   CGRect fillRect = CGRectMake(0,0,size.width,size.height);
 
-  //Set the fill color
-  CGContextSetFillColorWithColor(currentContext, color.CGColor);
-
-  //Fill the color
-  CGContextFillRect(currentContext, fillRect);
+  // first portion of if inspired by https://github.com/piotrbernad/FlatUI/blob/master/FlatUI/Classess/UIImage%2BAdditions.m
+  if (radius > 0)
+  {
+    UIBezierPath *roundedRect = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0,0,size.width, size.height) cornerRadius:radius];
+    [color setFill];
+    [roundedRect fill];
+  }
+  else
+  {
+    //Set the fill color
+    CGContextSetFillColorWithColor(currentContext, color.CGColor);
+    //Fill the color
+    CGContextFillRect(currentContext, fillRect);
+  }
 
   //Snap the picture and close the context
   UIImage *retval = UIGraphicsGetImageFromCurrentImageContext();
@@ -32,7 +41,10 @@
 
   return retval;
 }
-
++ (UIImage *)imageWithColor:(UIColor *)color andSize:(CGSize)size
+{
+  return [UIImage imageWithColor:color andSize:size andRoundedCornerRadius:0.0];
+}
 + (UIImage *)imageWithColor:(UIColor *)color
 {
   return [UIImage imageWithColor:color andSize:CGSizeMake(1.0, 1.0)];

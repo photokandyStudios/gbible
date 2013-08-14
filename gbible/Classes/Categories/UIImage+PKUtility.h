@@ -11,6 +11,7 @@
 @interface UIImage (PKUtility)
 
 /** colored images **/
++ (UIImage *)imageWithColor:(UIColor *)color andSize:(CGSize)size andRoundedCornerRadius: (CGFloat)radius;
 + (UIImage *)imageWithColor:(UIColor *)color andSize:(CGSize)size;
 + (UIImage *)imageWithColor:(UIColor *)color;
 + (UIImage *)image:(UIImage *)image withColor: (UIColor *)color;
