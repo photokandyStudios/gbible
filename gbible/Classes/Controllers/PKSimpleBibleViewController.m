@@ -599,7 +599,7 @@
     if (theNote != nil)
     {
       // need to indicate /somehow/ that we have a note.
-      UIImageView *theImage = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"SlantedPencil.png"]];
+      UIImageView *theImage = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Pencil-30"]];
       theImage.frame = CGRectMake(self.tableView.bounds.size.width - 52, theMax - 42, 32, 32);
       [cell addSubview: theImage];
     }
