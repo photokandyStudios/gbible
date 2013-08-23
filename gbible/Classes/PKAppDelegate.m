@@ -57,6 +57,7 @@
 #import "UIImage+PKUtility.h"
 #import "UIColor-Expanded.h"
 #import "SVProgressHUD.h"
+#import "NSObject+PKGCD.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -328,23 +329,23 @@ static PKAppDelegate * _instance;
   //                                            __T(@"History"), __T(@"Search"), __T(@"Strong's")]];
   self.segmentedControl  = [[AccessibleSegmentedControl alloc]
                             initWithItems: @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
-                                              [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
-                                              [UIImage imageNamed:@"Bookmarks-30" withColor:[PKSettings PKTintColor]],
+                                              [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKTintColor]],
+                                              [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKTintColor]],
                                               [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKTintColor]],
                                               [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]],
                                               [UIImage imageNamed:@"History-30" withColor:[PKSettings PKTintColor]]
                             ]];
   
   self.segmentedControl.segmentNormalImages = @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
-                                                 [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
-                                                 [UIImage imageNamed:@"Bookmarks-30" withColor:[PKSettings PKTintColor]],
+                                                 [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKTintColor]],
+                                                 [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKTintColor]],
                                                  [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKTintColor]],
                                                  [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]],
                                                  [UIImage imageNamed:@"History-30" withColor:[PKSettings PKTintColor]]
                                               ];
   self.segmentedControl.segmentSelectedImages = @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKPageColor]],
-                                                 [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKPageColor]],
-                                                 [UIImage imageNamed:@"Bookmarks-30" withColor:[PKSettings PKPageColor]],
+                                                 [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKPageColor]],
+                                                 [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKPageColor]],
                                                  [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKPageColor]],
                                                  [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKPageColor]],
                                                  [UIImage imageNamed:@"History-30" withColor:[PKSettings PKPageColor]]
