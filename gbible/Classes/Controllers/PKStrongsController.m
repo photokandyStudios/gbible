@@ -49,6 +49,8 @@
 #import "PKHotLabel.h"
 #import "NSString+FontAwesome.h"
 #import "UIFont+Utility.h"
+#import "UIImage+PKUtility.h"
+#import "NSString+PKFont.h"
 
 @interface PKStrongsController ()
 
@@ -151,6 +153,11 @@
       [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
       ];
     self.navigationItem.rightBarButtonItem = closeButton;
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+    }
   }
 
   self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
@@ -226,7 +233,7 @@
 
   
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
-  self.tableView.backgroundColor = [PKSettings PKPageColor];
+  self.tableView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   
 //  [self doSearchForTerm:self.theSearchTerm];
   _theSearchBar.text              = _theSearchTerm;
@@ -246,7 +253,7 @@
   _theBigFont                = [_theFont fontWithSizeDelta:6];
   
   self.tableView.backgroundView  = nil;
-  self.tableView.backgroundColor = [PKSettings PKPageColor];
+  self.tableView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
   [self.tableView reloadData];
@@ -296,6 +303,14 @@
 -(void) viewDidAppear: (BOOL) animated
 {
   [super viewDidAppear: animated];
+
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+  {
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    CGFloat topOffset = self.navigationController.navigationBar.frame.size.height;
+    self.tableView.contentInset = UIEdgeInsetsMake(topOffset, 0, 0, 0);
+  }
+
   [self calculateShadows];
   // ISSUE #61
   [self becomeFirstResponder];
@@ -340,12 +355,12 @@
   theHeight += 10;   // the top margin
   theHeight += _theBigFont.lineHeight;   // the top labels
   
-  theSize    = [theResult[1] sizeWithFont: _theFont constrainedToSize: maxSize];
+  theSize    = [theResult[1] sizeWithFont: _theFont constrainedToSize: maxSize usingLigatures:YES];
   theHeight += theSize.height + 10;
   
   theSize    =
   [[theResult[3] stringByReplacingOccurrencesOfString: @"  " withString: @" "] sizeWithFont: _theFont
-                                                                                          constrainedToSize: maxSize];
+                                                                                          constrainedToSize: maxSize usingLigatures:YES];
   theHeight += theSize.height + 10;
   
   theHeight += 10;
@@ -368,11 +383,11 @@
   }
   
   // need to remove the cell's subviews, if they exist...
-  for (UIView *view in cell.subviews)
+  for (UIView *view in cell.contentView.subviews)
   {
     [view removeFromSuperview];
   }
-  
+  cell.backgroundColor = [UIColor clearColor];
   NSUInteger row           = [indexPath row];
   
   CGFloat theCellWidth     = (self.tableView.bounds.size.width - 30);
@@ -395,13 +410,13 @@
   theLemmaLabel.font            = _theBigFont;
   theLemmaLabel.backgroundColor = [UIColor clearColor];
   
-  CGSize maxSize                 = CGSizeMake(theCellWidth, 300);
+  CGSize maxSize                 = CGSizeMake(theCellWidth, 3000);
   
   CGSize theSize                 =
   [[theResult[3] stringByReplacingOccurrencesOfString: @"  " withString: @" "] sizeWithFont: _theFont
-                                                                                          constrainedToSize: maxSize];
+                                                                                          constrainedToSize: maxSize usingLigatures:YES];
   PKHotLabel *theDefinitionLabel =
-  [[PKHotLabel alloc] initWithFrame: CGRectMake(10, 20 + _theBigFont.lineHeight, theCellWidth, theSize.height)];
+  [[PKHotLabel alloc] initWithFrame: CGRectMake(10, 20 + _theBigFont.lineHeight, theCellWidth, theSize.height+20)];
   theDefinitionLabel.text               =
   [theResult[3] stringByReplacingOccurrencesOfString: @"  " withString: @" "];
   theDefinitionLabel.textColor          = [PKSettings PKTextColor];
@@ -426,14 +441,14 @@
   theDefinitionLabel.delegate               = self;
   theDefinitionLabel.userInteractionEnabled = YES;
   
-  [cell addSubview: theStrongsLabel];
+  [cell.contentView addSubview: theStrongsLabel];
   
   //if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
   if (self.view.bounds.size.width>320)
   {
-    [cell addSubview: theLemmaLabel];
+    [cell.contentView addSubview: theLemmaLabel];
   }
-  [cell addSubview: theDefinitionLabel];
+  [cell.contentView addSubview: theDefinitionLabel];
   
   return cell;
 }
@@ -647,7 +662,7 @@
       NSUInteger row           = [indexPath row];
       
       UITableViewCell *theCell = [self.tableView cellForRowAtIndexPath: indexPath];
-      NSArray *theSubViews     = [theCell subviews];
+      NSArray *theSubViews     = [theCell.contentView subviews];
       PKHotLabel *ourLabel     = (PKHotLabel *)[theSubViews lastObject];
       
       CGPoint wp               = [gestureRecognizer locationInView: ourLabel];

@@ -120,6 +120,7 @@
 +(UIColor *)  PKHUDForegroundColor;
 +(NSString *) interfaceFont;
 +(NSString *) boldInterfaceFont;
++(UIStatusBarStyle) PKStatusBarStyle;
 
 
 @end

@@ -91,7 +91,7 @@
   [super viewDidLoad];
   
   self.tableView.backgroundView  = nil;
-  self.tableView.backgroundColor = [PKSettings PKSelectionColor];
+  self.tableView.backgroundColor = [PKSettings PKSidebarPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
   CGRect theRect = CGRectMake(0, self.tableView.center.y + 20, 260, 60);
@@ -187,6 +187,7 @@
   NSUInteger row           = [indexPath row];
   cell.textLabel.textColor = [PKSettings PKSidebarTextColor];
   cell.textLabel.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
+  cell.backgroundColor     = [UIColor clearColor];
   
   NSString *theHistoryItem = _history[row];
   

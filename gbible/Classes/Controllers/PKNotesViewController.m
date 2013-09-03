@@ -155,6 +155,14 @@
   CGRect newFrame = self.navigationController.view.frame;
   newFrame.size.width                  = 260;
   self.navigationController.view.frame = newFrame;
+
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+  {
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    CGFloat topOffset = self.navigationController.navigationBar.frame.size.height;
+    self.tableView.contentInset = UIEdgeInsetsMake(topOffset, 0, 0, 0);
+  }
+
   [self reloadNotes];
   [self updateAppearanceForTheme];
   [self calculateShadows];
@@ -257,6 +265,7 @@
   cell.detailTextLabel.numberOfLines = 4;
   cell.detailTextLabel.font      = [UIFont fontWithName:[PKSettings interfaceFont] size:14];
   [cell.detailTextLabel sizeToFit];
+  cell.backgroundColor     = [UIColor clearColor];
   
   return cell;
 }

@@ -43,6 +43,7 @@
 //#import "PKRootViewController.h"
 #import "PKSettings.h"
 #import "PKAppDelegate.h"
+#import "UIColor-Expanded.h"
 
 @interface PKHighlightsViewController ()
 
@@ -84,7 +85,7 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   self.tableView.backgroundView  = nil;
-  self.tableView.backgroundColor = [PKSettings PKSelectionColor];
+  self.tableView.backgroundColor = [PKSettings PKSidebarPageColor]; 
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
   CGRect theRect = CGRectMake(0, self.tableView.center.y + 20, 260, 60);
@@ -241,6 +242,7 @@
   cell.textLabel.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   cell.textLabel.textColor       = [UIColor blackColor];
   cell.textLabel.backgroundColor = [UIColor clearColor];
+  cell.backgroundColor = [UIColor clearColor];
   
   return cell;
 }
@@ -261,11 +263,11 @@
   
   if (theColor != nil)
   {
-    cell.backgroundColor = theColor;
+    cell.contentView.backgroundColor = [theColor colorWithAlphaComponent:0.5];
   }
   else
   {
-    cell.backgroundColor = [UIColor clearColor];
+    cell.contentView.backgroundColor = [UIColor clearColor];
   }
 }
 

@@ -98,6 +98,13 @@
       ];
     self.navigationItem.rightBarButtonItem = closeButton;
     self.navigationItem.title              = __T(@"Text Settings");
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+      self.extendedLayoutIncludesOpaqueBars  = YES;
+      self.edgesForExtendedLayout = UIRectEdgeNone;
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+      self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    }
   }
 
   _fontSizes     = @[@9, @10, @11, @12, @14, @16, @18, @20, @22, @26, @32, @48];
@@ -114,6 +121,10 @@
                     ];
 
   self.view.backgroundColor = [UIColor colorWithWhite: 0.9 alpha: 1];
+  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+  {
+    self.view.backgroundColor = [UIColor clearColor];
+  }
 
   _label1                 = [[UILabel alloc] initWithFrame: CGRectMake(10, 10, 160, 30)];
   _label1.text            = [NSString stringWithFormat: @"%@ %i", __T(@"Theme"), [[PKSettings instance] textTheme] + 1];
@@ -189,19 +200,20 @@
   [self.view addSubview: _englishFontLabel];
 
   _greekFontPicker                            =
-    [[UITableView alloc] initWithFrame: CGRectMake(00, 100, 165, 190) style: UITableViewStyleGrouped];
+    [[UITableView alloc] initWithFrame: CGRectMake(00, 100, 165, 190) style: UITableViewStylePlain];
   _greekFontPicker.backgroundColor            = [UIColor clearColor];
   _greekFontPicker.backgroundView             = nil;
   _greekFontPicker.dataSource                 = self;
   _greekFontPicker.delegate                   = self;
-
+  _greekFontPicker.rowHeight                  = 32;
   [self.view addSubview: _greekFontPicker];
 
   _englishFontPicker                 =
-    [[UITableView alloc] initWithFrame: CGRectMake(155, 100, 165, 190) style: UITableViewStyleGrouped];
+    [[UITableView alloc] initWithFrame: CGRectMake(155, 100, 165, 190) style: UITableViewStylePlain];
   _englishFontPicker.backgroundColor = [UIColor clearColor];
   _englishFontPicker.backgroundView  = nil;
   _englishFontPicker.dataSource      = self;
+  _englishFontPicker.rowHeight                  = 32;
   _englishFontPicker.delegate        = self;
 
   [self.view addSubview: _englishFontPicker];
@@ -292,18 +304,12 @@
 
   [self.view addSubview: _brightnessSlider];
 
-  //[self.view addSubview:scroller];
-
   _fontNames = @[__T(@"Arev Sans"), __T(@"Arev Sans Bold"), __T(@"Courier"),    __T(@"Courier Bold"),
                 __T(@"Courier New"),    __T(@"Courier New Bold"),     __T(@"Gentium Plus"), __T(@"Gentium Plus Italic"),
                 __T(@"Helvetica Light"), __T(@"Helvetica"),
                 __T(@"Helvetica Bold"), __T(@"Helvetica Neue Light"), __T(@"Helvetica Neue"),  __T(@"Helvetica Neue Bold"),
                 __T(@"New Athena Unicode"), __T(@"New Athena Unicode Bold"), 
                 __T(@"Open Dyslexic"),  __T(@"Open Dyslexic Bold"),   __T(@"Palatino"),        __T(@"Palatino Bold")];
-
-  //fontFaces = @[@"CourierNewPSMT", @"CourierNewPS-BoldMT", @"Helvetica-Light", @"Helvetica",
-  //              @"Helvetica-Bold", @"HelveticaNeue-Light", @"HelveticaNeue", @"HelveticaNeue-Bold",
-  //              @"OpenDyslexic", @"OpenDyslexic-Bold", @"Palatino-Roman", @"Palatino-Bold"];
 
   // my height is 440px
 }
@@ -356,9 +362,13 @@
   int row = [indexPath row];
 
   cell.textLabel.text          = _fontNames[row];
-  cell.textLabel.numberOfLines = 2;
+  cell.textLabel.numberOfLines = 1;
+  cell.textLabel.minimumScaleFactor = 0.1f;
+  cell.textLabel.adjustsLetterSpacingToFitWidth = YES;
+  cell.textLabel.adjustsFontSizeToFitWidth = YES;
   cell.textLabel.font          = [UIFont fontWithName: _fontNames[row] andSize: 14];
   cell.accessoryType           = UITableViewCellAccessoryNone;
+  cell.backgroundColor     = [UIColor clearColor];
 
   if (tableView == _greekFontPicker)
   {

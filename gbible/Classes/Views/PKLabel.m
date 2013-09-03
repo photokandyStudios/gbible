@@ -42,6 +42,7 @@
 // ====================================================================
 #import "PKLabel.h"
 #import "UIFont+Utility.h"
+#import "NSString+PKFont.h"
 
 @implementation PKLabel
 
@@ -94,10 +95,10 @@
       CGRect newFrame = _frame;
       newFrame.origin.x += _shadowOffset.width;
       newFrame.origin.y += _shadowOffset.height;
-      [_text drawInRect: newFrame withFont: theFont];
+      [_text drawInRect: newFrame withFont: theFont withColor:_shadowColor usingLigatures:YES];
     }
     CGContextSetFillColorWithColor(theCtx, _textColor.CGColor);
-    [_text drawInRect: _frame withFont: theFont];
+    [_text drawInRect: _frame withFont: theFont withColor:_textColor usingLigatures:YES];
   }
   CGContextRestoreGState(theCtx);
 }

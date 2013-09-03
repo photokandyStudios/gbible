@@ -56,6 +56,7 @@
 #import "NSString+FontAwesome.h"
 #import "PKAboutViewController.h"
 #import "Helpshift.h"
+#import "NSString+PKFont.h"
 
 const int SECTION_TEXT = 0;
 const int SECTION_LAYOUT = 1;
@@ -437,7 +438,7 @@ const int SECTION_THIRD_PARTY = 5;
          [[self tableView: tableView titleForHeaderInSection: section] sizeWithFont: [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16]
           constrainedToSize: CGSizeMake(tableView.bounds.size.width -
                                         ( ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88: 20 ),
-                                        1000)].height;
+                                        1000) usingLigatures: YES].height;
 }
 
 -(CGFloat)tableView: (UITableView *) tableView heightForFooterInSection: (NSInteger) section
@@ -446,7 +447,7 @@ const int SECTION_THIRD_PARTY = 5;
          [[self tableView: tableView titleForFooterInSection: section] sizeWithFont: [UIFont fontWithName:[PKSettings interfaceFont] size:16]
           constrainedToSize: CGSizeMake(tableView.bounds.size.width -
                                         ( ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88: 20 ),
-                                        1000)].height;
+                                        1000) usingLigatures:YES].height;
 }
 
 // from http://www.randycrafton.com/2010/09/changing-the-text-color-of-a-grouped-uitableviews-section-header/
@@ -519,6 +520,7 @@ const int SECTION_THIRD_PARTY = 5;
   cell.textLabel.font = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   cell.detailTextLabel.font = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
   cell.accessoryType       = UITableViewCellAccessoryNone;
+  cell.backgroundColor     = [UIColor clearColor];
 
   switch ([cellData[1] intValue])
   {

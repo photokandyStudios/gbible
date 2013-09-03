@@ -71,6 +71,7 @@
 #import "UIFont+Utility.h"
 #import "UIImage+PKUtility.h"
 #import "NSObject+PKGCD.h"
+#import "NSString+PKFont.h"
 
 
 @interface PKBibleViewController ()
@@ -778,13 +779,25 @@
   _selectedVerses = [[NSMutableDictionary alloc] init];
 
 
+  NSDictionary *largeTextAttributes;
   // Text Attributes for Font-Awesome Icons:
-  NSDictionary *largeTextAttributes = @{ //UITextAttributeFont : [UIFont systemFontOfSize:20],
-                                         UITextAttributeFont : [UIFont fontWithName:@"HelveticaNeue" size:20],
-                                         UITextAttributeTextColor : [PKSettings PKTintColor],
-                                         UITextAttributeTextShadowColor: [UIColor clearColor],
-                                         UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
-  
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
+  {
+    largeTextAttributes = @{ //UITextAttributeFont : [UIFont systemFontOfSize:20],
+                                           UITextAttributeFont : [UIFont fontWithName:@"HelveticaNeue" size:20],
+                                           UITextAttributeTextColor : [PKSettings PKTintColor],
+                                           UITextAttributeTextShadowColor: [UIColor clearColor],
+                                           UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
+  }
+  else
+  {
+    largeTextAttributes = @{ //UITextAttributeFont : [UIFont systemFontOfSize:20],
+                                           UITextAttributeFont : [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline],
+//                                           UITextAttributeTextColor : [PKSettings PKTintColor],
+                                           UITextAttributeTextShadowColor: [UIColor clearColor],
+                                           UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
+  }
+
   UIImage *blankImage = [UIImage new];
   // add navbar items
   //
@@ -803,13 +816,13 @@
                                                    stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
   
   // build the toggle items
-  _toggleStrongsBtn = [UIBarButtonItem barButtonItemWithTitle:@"#" target:self action:@selector(toggleStrongs:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+  _toggleStrongsBtn = [UIBarButtonItem barButtonItemWithTitle:@"G#" target:self action:@selector(toggleStrongs:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
   _toggleStrongsBtn.accessibilityLabel = __T(@"Toggle Strong's Numbers");
 
-  _toggleMorphologyBtn = [UIBarButtonItem barButtonItemWithTitle:@"M" target:self action:@selector(toggleMorphology:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+  _toggleMorphologyBtn = [UIBarButtonItem barButtonItemWithTitle:@"Morph" target:self action:@selector(toggleMorphology:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
   _toggleMorphologyBtn.accessibilityLabel = __T(@"Toggle Morphology");
 
-  _toggleTranslationBtn = [UIBarButtonItem barButtonItemWithTitle:@"T" target:self action:@selector(toggleTranslation:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+  _toggleTranslationBtn = [UIBarButtonItem barButtonItemWithTitle:@"Tran" target:self action:@selector(toggleTranslation:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
   _toggleTranslationBtn.accessibilityLabel = __T(@"Toggle Translation");
 
 
@@ -1267,7 +1280,7 @@
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                                                     andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width -
-                             (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 1999)];
+                             (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 1999) usingLigatures:YES];
     theMax += 10 + theSize.height + 10;
   }
 
@@ -1338,13 +1351,14 @@
   }
 
   // need to remove the cell's subviews, if they exist...
-  for (UIView *view in cell.subviews)
+  for (UIView *view in cell.contentView.subviews)
   {
     [view removeFromSuperview];
   }
 
   cell.contentMode         = UIViewContentModeRedraw;
   cell.autoresizesSubviews = NO;
+  cell.backgroundColor     = [UIColor clearColor];
   NSUInteger row = [indexPath row];
 
   /*
@@ -1388,7 +1402,7 @@
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                                                     andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width -
-                             (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 1999)];
+                             (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 1999) usingLigatures:YES ];
     CGRect theRect        = CGRectMake( ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad  ) ? 44 : 10,
                                         theMax + 10,
                                         self.tableView.bounds.size.width -
@@ -1405,7 +1419,7 @@
     theNoteLabel.shadowColor     = [PKSettings PKLightShadowColor];
     theNoteLabel.shadowOffset    = CGSizeMake(0, 1);
     theNoteLabel.tag             = 99;
-    [cell addSubview: theNoteLabel];
+    [cell.contentView addSubview: theNoteLabel];
   }
   else
   {
@@ -1663,7 +1677,7 @@
         theNewWord.layer.cornerRadius = 10;
 
         theNewWord.textAlignment      = NSTextAlignmentCenter;
-        [theCell addSubview: theNewWord];
+        [theCell.contentView addSubview: theNewWord];
         [UIView animateWithDuration: 0.5f animations:
          ^{
            theNewWord.alpha = 1.0f;
@@ -1871,20 +1885,10 @@
   theRect.size.width  = 44;
   theRect.size.height = 32;
 
+
   _btnRegularScreen    = [UIButton buttonWithType: UIButtonTypeRoundedRect];
-
+  [_btnRegularScreen setImage:[UIImage imageNamed:@"RegularScreen-30" withColor:[PKSettings PKTintColor]] forState:UIControlStateNormal];
   [_btnRegularScreen setFrame: theRect];
-  [_btnRegularScreen setTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-small"] forState:
-   UIControlStateNormal];
-  [_btnRegularScreen setTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-small"] forState:
-   UIControlStateHighlighted];
-  [_btnRegularScreen setTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-small"] forState:
-   UIControlStateDisabled];
-  [_btnRegularScreen setTitle: [NSString fontAwesomeIconStringForIconIdentifier: @"icon-resize-small"] forState:
-   UIControlStateSelected];
-
-  _btnRegularScreen.titleLabel.font = [UIFont fontWithName: kFontAwesomeFamilyName size: 22];
-
   _btnRegularScreen.accessibilityLabel   = __T(@"Leave Full Screen");
 
   _btnRegularScreen.titleLabel.textColor = [PKSettings PKBaseUIColor];
@@ -1902,6 +1906,8 @@
   _btnRegularScreen = nil;
   [self.navigationController setNavigationBarHidden: NO animated: YES];
   [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+  if SYSTEM_VERSION_LESS_THAN(@"7.0")
+  {
   CGRect theFrame = PKAppDelegate.sharedInstance.rootViewController.view.frame;
   if ( UIInterfaceOrientationIsLandscape(  [[UIApplication sharedApplication] statusBarOrientation] ))
   {
@@ -1916,6 +1922,7 @@
     theFrame.size.height = UIScreen.mainScreen.bounds.size.height-20;
   }
   [PKAppDelegate.sharedInstance.rootViewController.view setFrame:theFrame];
+  }
   _fullScreen = NO;
 }
 

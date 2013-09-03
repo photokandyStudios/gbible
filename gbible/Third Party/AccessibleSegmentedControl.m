@@ -95,16 +95,22 @@
         if (index==self.selectedSegmentIndex)
         {
             view.accessibilityTraits |= UIAccessibilityTraitSelected;
-            if ( index < segmentSelectedImages.count )
-              if ( segmentSelectedImages[index] != nil )
-                [super setImage:segmentSelectedImages[index] forSegmentAtIndex:index];
+            if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
+            {
+              if ( index < segmentSelectedImages.count )
+                if ( segmentSelectedImages[index] != nil )
+                  [super setImage:segmentSelectedImages[index] forSegmentAtIndex:index];
+            }
         }
         else
         {
             view.accessibilityTraits &= ~UIAccessibilityTraitSelected;
-            if ( index < segmentNormalImages.count )
-              if ( segmentNormalImages[index] != nil )
-                [super setImage:segmentNormalImages[index] forSegmentAtIndex:index];
+            if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
+            {
+              if ( index < segmentNormalImages.count )
+                if ( segmentNormalImages[index] != nil )
+                  [super setImage:segmentNormalImages[index] forSegmentAtIndex:index];
+            }
         }
         
         if ([self isEnabledForSegmentAtIndex:index])

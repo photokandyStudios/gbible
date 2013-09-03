@@ -132,71 +132,95 @@ static PKAppDelegate * _instance;
   if (b.tag == 498)
     return;
 
-  // TODO: iPhone Landscape metrics?
-  // set the back button's background
-  UIImage *backButtonImage = [UIImage imageNamed:@"ArrowLeft-30" withColor:[PKSettings PKTintColor]];
-  backButtonImage = [backButtonImage stretchableImageWithLeftCapWidth:30 topCapHeight:30];
-  [b setBackButtonBackgroundImage:backButtonImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-  [b setBackButtonTitlePositionAdjustment:UIOffsetMake(-5, -2) forBarMetrics:UIBarMetricsDefault];
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
+  {
   
-  // set the regular bar item's background
-  [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleBordered barMetrics:UIBarMetricsDefault];
-  [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleDone barMetrics:UIBarMetricsDefault];
-  
-  [b setTintColor: [PKSettings PKPageColor]];
-  [b setTitleTextAttributes:@{
-    UITextAttributeTextColor: [PKSettings PKTintColor],
-    UITextAttributeTextShadowColor: [UIColor clearColor],
-    UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)],
-    UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:16]
-    }
-                   forState:UIControlStateNormal];
-  [b setTitleTextAttributes:@{
-    UITextAttributeTextColor: [[PKSettings PKTintColor] colorByMultiplyingBy:1.5f],
-    UITextAttributeTextShadowColor: [UIColor clearColor],
-    UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)],
-    UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:16]
-    }
-                   forState:UIControlStateHighlighted];
-
+    // TODO: iPhone Landscape metrics?
+    // set the back button's background
+    UIImage *backButtonImage = [UIImage imageNamed:@"ArrowLeft-30" withColor:[PKSettings PKTintColor]];
+    backButtonImage = [backButtonImage stretchableImageWithLeftCapWidth:30 topCapHeight:30];
+    [b setBackButtonBackgroundImage:backButtonImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [b setBackButtonTitlePositionAdjustment:UIOffsetMake(-5, -2) forBarMetrics:UIBarMetricsDefault];
+    
+    // set the regular bar item's background
+    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleBordered barMetrics:UIBarMetricsDefault];
+    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleDone barMetrics:UIBarMetricsDefault];
+    
+    [b setTintColor: [PKSettings PKPageColor]];
+    [b setTitleTextAttributes:@{
+      UITextAttributeTextColor: [PKSettings PKTintColor],
+      UITextAttributeTextShadowColor: [UIColor clearColor],
+      UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)],
+      UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:16]
+      }
+                     forState:UIControlStateNormal];
+    [b setTitleTextAttributes:@{
+      UITextAttributeTextColor: [[PKSettings PKTintColor] colorByMultiplyingBy:1.5f],
+      UITextAttributeTextShadowColor: [UIColor clearColor],
+      UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)],
+      UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:16]
+      }
+                     forState:UIControlStateHighlighted];
+  }
 }
 
 +(void) applyThemeToUINavigationBar: (UINavigationBar *)nba
 {
-  nba.barStyle = UIBarStyleBlackTranslucent;
-  //nba.tintColor = [UIColor clearColor]; //[PKSettings PKNavigationColor];
-  //const float colorMask[6] = {222, 255, 222, 255, 222, 255};
-  //UIImage *img = [[UIImage alloc] init];
-  //UIImage *maskedImage = [UIImage imageWithCGImage: CGImageCreateWithMaskingColors(img.CGImage, colorMask)];
-  UIImage *img = [UIImage imageWithColor: [[PKSettings PKPageColor] colorWithAlphaComponent:0.85] ];
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
+  {
+    nba.barStyle = UIBarStyleBlackTranslucent;
+    //nba.tintColor = [UIColor clearColor]; //[PKSettings PKNavigationColor];
+    //const float colorMask[6] = {222, 255, 222, 255, 222, 255};
+    //UIImage *img = [[UIImage alloc] init];
+    //UIImage *maskedImage = [UIImage imageWithCGImage: CGImageCreateWithMaskingColors(img.CGImage, colorMask)];
+    UIImage *img = [UIImage imageWithColor: [[PKSettings PKSecondaryPageColor] colorWithAlphaComponent:0.85] ];
 
-  [nba setBackgroundImage:img forBarMetrics:UIBarMetricsDefault];
-  //[nba setShadowImage:[[UIImage alloc] init]];
+    [nba setBackgroundImage:img forBarMetrics:UIBarMetricsDefault];
+    //[nba setShadowImage:[[UIImage alloc] init]];
+    
+    nba.titleTextAttributes = @{ UITextAttributeTextColor: [PKSettings PKTextColor],
+                                 UITextAttributeTextShadowColor: [UIColor clearColor],
+      UITextAttributeFont: [UIFont fontWithName:PKSettings.interfaceFont size:20]
+                                 };
+  }
+  else
+  {
+    nba.barTintColor = [PKSettings PKSecondaryPageColor ]; //TODO: decide final version of header color on iOS 7
+    nba.titleTextAttributes = @{ UITextAttributeTextColor: [PKSettings PKTextColor],
+                                 UITextAttributeTextShadowColor: [UIColor clearColor],
+      UITextAttributeFont: [UIFont fontWithName:PKSettings.interfaceFont size:20]
+                                 };
   
-  nba.titleTextAttributes = @{ UITextAttributeTextColor: [PKSettings PKTextColor],
-                               UITextAttributeTextShadowColor: [UIColor clearColor],
-    UITextAttributeFont: [UIFont fontWithName:PKSettings.interfaceFont size:20]
-                               };
+//    [nba setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithWhite:1.0 alpha:0.75]]  forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
+//    nba.shadowImage = [[UIImage alloc] init];
+ //   nba.shadowImage = [UIImage imageWithColor:[UIColor redColor] andSize:CGSizeMake(10,10)];
+  }
 }
 
 +(void) applyThemeToUISearchBar: (UISearchBar *)sba
 {
-  sba.tintColor = [PKSettings PKNavigationColor];
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
+  {
+    sba.tintColor = [PKSettings PKNavigationColor];
+  }
 }
 
 +(void) applyThemeToUISegmentedControl: (UISegmentedControl *)sca
 {
-  //sca.tintColor = [PKSettings PKNavigationColor];
-  // TODO: iPhone landscape metrics?
-  [sca setBackgroundImage:[[UIImage alloc]init] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-  [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-  [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0]  forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-  [sca setDividerImage:[UIImage imageWithColor:[PKSettings PKTintColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-  
-  //sca.layer.backgroundColor = [PKSettings PKTintColor].CGColor;
-  sca.layer.cornerRadius = 5.0f;
-  sca.layer.borderWidth = 1.0f;
-  sca.layer.borderColor = [PKSettings PKTintColor].CGColor;
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
+  {
+    //sca.tintColor = [PKSettings PKNavigationColor];
+    // TODO: iPhone landscape metrics?
+    [sca setBackgroundImage:[[UIImage alloc]init] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0]  forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    [sca setDividerImage:[UIImage imageWithColor:[PKSettings PKTintColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    
+    //sca.layer.backgroundColor = [PKSettings PKTintColor].CGColor;
+    sca.layer.cornerRadius = 5.0f;
+    sca.layer.borderWidth = 1.0f;
+    sca.layer.borderColor = [PKSettings PKTintColor].CGColor;
+  }
 }
 
 -(void)updateAppearanceForTheme
@@ -268,6 +292,11 @@ static PKAppDelegate * _instance;
   svph.hudFont = [UIFont fontWithName:PKSettings.interfaceFont size:16];
   svph.hudSuccessImage = [UIImage imageNamed:@"CheckMark-30" withColor:[PKSettings PKHUDForegroundColor]];
   
+  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") )
+  {
+    self.window.tintColor = [PKSettings PKTintColor];
+    UIApplication.sharedApplication.statusBarStyle = [PKSettings PKStatusBarStyle];
+  }
   
 }
 
@@ -327,29 +356,43 @@ static PKAppDelegate * _instance;
   //  self.segmentedControl  = [[UISegmentedControl alloc]
   //                            initWithItems: @[ __T(@"Goto"), __T(@"Highlights"), __T(@"Notes"),
   //                                            __T(@"History"), __T(@"Search"), __T(@"Strong's")]];
-  self.segmentedControl  = [[AccessibleSegmentedControl alloc]
-                            initWithItems: @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
-                                              [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKTintColor]],
-                                              [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKTintColor]],
-                                              [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKTintColor]],
-                                              [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]],
-                                              [UIImage imageNamed:@"History-30" withColor:[PKSettings PKTintColor]]
-                            ]];
-  
-  self.segmentedControl.segmentNormalImages = @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
-                                                 [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKTintColor]],
-                                                 [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKTintColor]],
-                                                 [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKTintColor]],
-                                                 [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]],
-                                                 [UIImage imageNamed:@"History-30" withColor:[PKSettings PKTintColor]]
-                                              ];
-  self.segmentedControl.segmentSelectedImages = @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKPageColor]],
-                                                 [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKPageColor]],
-                                                 [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKPageColor]],
-                                                 [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKPageColor]],
-                                                 [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKPageColor]],
-                                                 [UIImage imageNamed:@"History-30" withColor:[PKSettings PKPageColor]]
-                                              ];
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
+  {
+    self.segmentedControl  = [[AccessibleSegmentedControl alloc]
+                              initWithItems: @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
+                                                [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKTintColor]],
+                                                [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKTintColor]],
+                                                [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKTintColor]],
+                                                [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]],
+                                                [UIImage imageNamed:@"History-30" withColor:[PKSettings PKTintColor]]
+                              ]];
+    
+    self.segmentedControl.segmentNormalImages = @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
+                                                   [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKTintColor]],
+                                                   [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKTintColor]],
+                                                   [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKTintColor]],
+                                                   [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]],
+                                                   [UIImage imageNamed:@"History-30" withColor:[PKSettings PKTintColor]]
+                                                ];
+    self.segmentedControl.segmentSelectedImages = @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKPageColor]],
+                                                   [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKPageColor]],
+                                                   [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKPageColor]],
+                                                   [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKPageColor]],
+                                                   [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKPageColor]],
+                                                   [UIImage imageNamed:@"History-30" withColor:[PKSettings PKPageColor]]
+                                                ];
+  }
+  else
+  {
+    self.segmentedControl  = [[AccessibleSegmentedControl alloc]
+                              initWithItems: @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
+                                                [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKTintColor]],
+                                                [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKTintColor]],
+                                                [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKTintColor]],
+                                                [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]],
+                                                [UIImage imageNamed:@"History-30" withColor:[PKSettings PKTintColor]]
+                              ]];
+  }
 
   self.segmentedControl.segmentAccessibilityLabels = @[ __T(@"Goto"), __T(@"Highlights"), __T(@"Notes"),
                                                         __T(@"Strong's"), __T(@"Search"), __T(@"History")];

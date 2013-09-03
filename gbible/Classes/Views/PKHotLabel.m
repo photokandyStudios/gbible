@@ -37,6 +37,7 @@
 //
 #import "PKHotLabel.h"
 #import "UIFont+Utility.h"
+#import "NSString+PKFont.h"
 
 @implementation PKHotLabel
 
@@ -98,8 +99,8 @@
   CGFloat x          = 0;
   CGFloat y          = 0;
   CGFloat rectWidth  = rect.size.width;
-  CGFloat spaceWidth = [@" " sizeWithFont: theRegularFont].width;
-  CGFloat fontHeight = [@"M" sizeWithFont: theRegularFont].height;
+  CGFloat spaceWidth = [@" " sizeWithFont: theRegularFont usingLigatures:YES].width;
+  CGFloat fontHeight = [@"M" sizeWithFont: theRegularFont usingLigatures:YES].height;
   
   for (NSUInteger i = 0; i < [theWords count]; i++)
   {
@@ -115,7 +116,7 @@
       isHot |= _hotComparator(theWord);
     }
     
-    CGSize sizeOfTheWord = [theWord sizeWithFont: (isHot ? theHotFont: theRegularFont)];
+    CGSize sizeOfTheWord = [theWord sizeWithFont: (isHot ? theHotFont: theRegularFont) usingLigatures:YES];
     
     // will the word go off the side?
     if (x + sizeOfTheWord.width > rectWidth)
@@ -145,7 +146,8 @@
       [theRegularColor setFill];
     }
     
-    [theWord drawAtPoint: CGPointMake(x, y) withFont: (isHot ? theHotFont: theRegularFont)];
+    [theWord drawAtPoint: CGPointMake(x, y) withFont: (isHot ? theHotFont: theRegularFont)
+             withColor:(isHot?_hotColor:theRegularColor) usingLigatures:YES];
     
     x += sizeOfTheWord.width + spaceWidth;
   }

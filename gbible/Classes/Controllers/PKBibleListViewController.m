@@ -41,6 +41,7 @@
 #import "PKSettings.h"
 #import <Parse/Parse.h>
 #import "PKBibleInfoViewController.h"
+#import "UIImage+PKUtility.h"
 
 
 @interface PKBibleListViewController ()
@@ -134,6 +135,13 @@
     [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
      ];
     self.navigationItem.rightBarButtonItem = closeButton;
+
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+    }
+
+
   }
     [self loadBibles];
 }
@@ -245,6 +253,7 @@
   cell.detailTextLabel.text = theBibleAbbreviation;
   cell.textLabel.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   cell.detailTextLabel.font      = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
+  cell.backgroundColor     = [UIColor clearColor];
 
   return cell;
 }

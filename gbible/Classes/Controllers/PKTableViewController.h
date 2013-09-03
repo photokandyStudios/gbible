@@ -40,6 +40,7 @@
 @interface PKTableViewController : UITableViewController
 
 @property BOOL enableVerticalScrollBar;
--(void)calculateShadows;
+-(void)calculateShadows /**DEPRECATED**/;
+-(UIStatusBarStyle) preferredStatusBarStyle;
 
 @end

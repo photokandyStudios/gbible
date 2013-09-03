@@ -794,4 +794,12 @@ static PKSettings * _instance;
   return [UIFont fontForFamilyName:@"Helvetica Bold"];
 }
 
++(UIStatusBarStyle) PKStatusBarStyle
+{
+  int theTheme =  [[PKSettings instance] textTheme];
+  if (theTheme > 1) return UIStatusBarStyleLightContent;
+  return UIStatusBarStyleDefault;
+}
+
+
 @end

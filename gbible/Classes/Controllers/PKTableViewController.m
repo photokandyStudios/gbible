@@ -38,6 +38,7 @@
 #import "PKTableViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "WKVerticalScrollBar.h"
+#import "PKSettings.h"
 
 @interface PKTableViewController ()
 
@@ -69,24 +70,7 @@
 {
     [super viewDidLoad];
 
-    _topShadow                     = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"topShadow.png"]];
-    _bottomShadow                  = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"bottomShadow.png"]];
-    
-    _topShadow.frame               = CGRectMake(0, 44, self.view.bounds.size.width, 15);
-    _bottomShadow.frame            = CGRectMake(0, self.view.bounds.size.height - 44 - 20, self.view.bounds.size.width, 15);
-    
-    _topShadow.contentMode         = UIViewContentModeScaleToFill;
-    _bottomShadow.contentMode      = UIViewContentModeScaleToFill;
-    
-    _topShadow.autoresizingMask    = UIViewAutoresizingFlexibleWidth;
-    _bottomShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    
-    _topShadow.layer.opacity       = 0.0f;
-    _bottomShadow.layer.opacity    = 0.0f;
-    
-    [self.view addSubview: _topShadow];
-    [self.view addSubview: _bottomShadow];
-  
+ 
     self.navigationItem.leftItemsSupplementBackButton = YES;
   
     if (_enableVerticalScrollBar)
@@ -109,10 +93,12 @@
 
 -(void) showTopShadowWithOpacity: (CGFloat) opacity
 {
+  return;
   _topShadow.layer.opacity = opacity;
 }
 -(void) showBottomShadowWithOpacity: (CGFloat) opacity
 {
+  return;
   _bottomShadow.layer.opacity = opacity;
 }
 
@@ -144,6 +130,7 @@
 
 -(void)calculateShadows
 {
+  return;
   CGFloat topOpacity       = 0.0f;
   CGFloat theContentOffset = (self.tableView.contentOffset.y);
 
@@ -187,12 +174,13 @@
 
 -(void)willRotateToInterfaceOrientation: (UIInterfaceOrientation) toInterfaceOrientation duration: (NSTimeInterval) duration
 {
+  return;
   [self calcShadowPosition: toInterfaceOrientation];
 }
 
 -(void)scrollViewDidScroll: (UIScrollView *) scrollView
 {
-  [self calculateShadows];
+  //[self calculateShadows];
   // THIS SECTION: MIT LICENSE
   if (UIAccessibilityIsVoiceOverRunning())
   {
@@ -208,6 +196,11 @@
 -(BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation
 {
   return YES;
+}
+
+-(UIStatusBarStyle) preferredStatusBarStyle
+{
+  return [PKSettings PKStatusBarStyle];
 }
 
 

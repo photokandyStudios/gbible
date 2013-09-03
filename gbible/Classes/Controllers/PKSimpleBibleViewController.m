@@ -50,6 +50,7 @@
 #import "PKStrongs.h"
 #import "SVProgressHUD.h"
 #import "UIFont+Utility.h"
+#import "NSString+PKFont.h"
 
 @interface PKSimpleBibleViewController ()
 
@@ -472,7 +473,7 @@
                              theNote[1]];
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                                                     andSize: [[PKSettings instance] textFontSize]]
-                             constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999)];
+                             constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999) usingLigatures:YES];
     theMax += 10 + theSize.height + 10;
   }
 
@@ -547,6 +548,7 @@
 
   cell.contentMode         = UIViewContentModeRedraw;
   cell.autoresizesSubviews = NO;
+  cell.backgroundColor     = [UIColor clearColor];
   NSUInteger row = [indexPath row];
 
   // and check if we have a note
@@ -579,7 +581,7 @@
                              theNote[1]];
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                                                     andSize: [[PKSettings instance] textFontSize]]
-                             constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999)];
+                             constrainedToSize: CGSizeMake(self.tableView.bounds.size.width - 20, 999) usingLigatures:YES];
     CGRect theRect        = CGRectMake(10, theMax + 10, self.tableView.bounds.size.width - 20, theSize.height);
 
     UILabel *theNoteLabel = [[UILabel alloc] initWithFrame: theRect];

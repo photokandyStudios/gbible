@@ -46,6 +46,7 @@
 #import "FMDatabaseQueue.h"
 #import "PKSettings.h"
 #import "SSZipArchive.h"
+#import "UIImage+PKUtility.h"
 
 @interface PKBibleInfoViewController ()
 
@@ -77,6 +78,15 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+      self.extendedLayoutIncludesOpaqueBars  = YES;
+      self.edgesForExtendedLayout = UIRectEdgeNone;
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+      self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    }
+
   
   self.view.backgroundColor = [UIColor colorWithWhite:0.95 alpha: 1.0];
   

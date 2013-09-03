@@ -51,6 +51,7 @@
 #import "KBKeyboardHandler.h"
 #import "PKStrongsController.h"
 #import "UIFont+Utility.h"
+#import "UIImage+PKUtility.h"
 
 @interface PKNoteEditorViewController ()
 
@@ -175,9 +176,15 @@
   UIFont *theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                  andSize: [[PKSettings instance] textFontSize]];
   
-  _scroller =
-  [[TPKeyboardAvoidingScrollView alloc] initWithFrame: CGRectMake(0, 0, self.view.bounds.size.width,
-                                                                  self.view.bounds.size.height)];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+      self.extendedLayoutIncludesOpaqueBars = YES;
+      self.edgesForExtendedLayout = UIRectEdgeNone;
+      self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+    }
+
+
   
   _txtTitle =
   [[UITextView alloc] initWithFrame: CGRectMake(10, 10, self.view.bounds.size.width - 20, (theFont.lineHeight*1.5) + 10)];
@@ -209,7 +216,7 @@
                                                            target: self
                                                            action: @selector(cancelPressed:)];
   
-  self.view.backgroundColor = [UIColor whiteColor];
+  self.view.backgroundColor = [PKSettings PKPageColor];
   [self.view addSubview: _txtTitle];
   [self.view addSubview: _txtNote];
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -232,7 +239,15 @@
   _txtTitle.backgroundColor                    = [UIColor clearColor];
   _txtNote.textColor                           = [PKSettings PKTextColor];
   _txtTitle.textColor                          = [PKSettings PKTextColor];
-  self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+  {
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+  }
+  else
+  {
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+  }
 }
 
 -(void)viewWillAppear: (BOOL) animated

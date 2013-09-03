@@ -50,6 +50,8 @@
 #import "NSString+FontAwesome.h"
 #import "PKReference.h"
 #import "UIFont+Utility.h"
+#import "UIImage+PKUtility.h"
+#import "NSString+PKFont.h"
 
 @interface PKSearchViewController ()
 
@@ -148,6 +150,11 @@
       [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
       ];
     self.navigationItem.rightBarButtonItem = closeButton;
+
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+    }
   }
 
   self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
@@ -215,7 +222,7 @@
     _noResults.text = __Tv(@"do-search", @"Search to display results");
   }
   
-  self.tableView.backgroundColor = [PKSettings PKPageColor];
+  self.tableView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
   
@@ -240,7 +247,7 @@
   _leftFont                  = theBoldFont;
   
   self.tableView.backgroundView  = nil;
-  self.tableView.backgroundColor = [PKSettings PKPageColor];
+  self.tableView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   self.tableView.rowHeight       = 100;
   [self.tableView reloadData];
@@ -284,6 +291,14 @@
 -(void) viewDidAppear: (BOOL) animated
 {
   [super viewDidAppear: animated];
+
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+  {
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    CGFloat topOffset = self.navigationController.navigationBar.frame.size.height;
+    self.tableView.contentInset = UIEdgeInsetsMake(topOffset, 0, 0, 0);
+  }
+
   [self calculateShadows];
 }
 
@@ -343,7 +358,7 @@
                                  forChapter: theChapter
                                    forVerse: theVerse
                                     forSide: 1]] sizeWithFont: _leftFont
-                   constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
+                   constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping usingLigatures:YES];
     
     theRightSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
                      [PKBible nameForBook: theBook],
@@ -352,14 +367,14 @@
                                   forChapter: theChapter
                                     forVerse: theVerse
                                      forSide: 2]] sizeWithFont: _rightFont
-                    constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
+                    constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping usingLigatures:YES];
     
     theHeight += MAX(theLeftSize.height, theRightSize.height) + 10;
   }
   else
   {
     UIFont *theHeadingFont = [_leftFont fontWithSizeDeltaPercent:1.25];
-    theHeight = 40 + [@"M" sizeWithFont: theHeadingFont].height + [@"M" sizeWithFont: _leftFont].height*2 + + [@"M" sizeWithFont: _rightFont].height*2;
+    theHeight = 40 + [@"M" sizeWithFont: theHeadingFont usingLigatures:YES].height + [@"M" sizeWithFont: _leftFont usingLigatures:YES].height*2 + + [@"M" sizeWithFont: _rightFont usingLigatures:YES].height*2;
   }
   _cellHeights[@(row)] = @(theHeight);
   
@@ -379,10 +394,12 @@
   }
   
   // need to remove the cell's subviews, if they exist...
-  for (UIView *view in cell.subviews)
+  for (UIView *view in cell.contentView.subviews)
   {
     [view removeFromSuperview];
   }
+  
+  cell.backgroundColor     = [UIColor clearColor];
   
   NSUInteger row         = [indexPath row];
   
@@ -405,7 +422,7 @@
                                             forChapter: theChapter
                                               forVerse: theVerse
                                                forSide: 1]] sizeWithFont: _leftFont
-                              constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
+                              constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping usingLigatures:YES];
     
     CGSize theRightSize = [[NSString stringWithFormat: @"%@ %i:%@\n\n\n", //ISSUE #63
                             [PKBible nameForBook: theBook],
@@ -414,7 +431,7 @@
                                          forChapter: theChapter
                                            forVerse: theVerse
                                             forSide: 2]] sizeWithFont: _rightFont
-                           constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping];
+                           constrainedToSize: maxSize lineBreakMode: NSLineBreakByWordWrapping usingLigatures:YES];
     
     // now create the new subviews
     PKHotLabel *theLeftSide = [[PKHotLabel alloc] initWithFrame: CGRectMake(20, 10, theColumnWidth - 40, theLeftSize.height)];
@@ -451,19 +468,19 @@
     theRightSide.backgroundColor = [UIColor clearColor];
     theRightSide.font            = _rightFont;
     
-    [cell addSubview: theLeftSide];
-    [cell addSubview: theRightSide];
+    [cell.contentView addSubview: theLeftSide];
+    [cell.contentView addSubview: theRightSide];
   }
   else
   {
     UIFont *theHeadingFont = [_leftFont fontWithSizeDeltaPercent:1.25];
-    UILabel *theReference = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, theCellWidth-20, [@"M" sizeWithFont: theHeadingFont].height)];
+    UILabel *theReference = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, theCellWidth-20, [@"M" sizeWithFont: theHeadingFont usingLigatures:YES].height)];
     
-    PKHotLabel *theTopText = [[PKHotLabel alloc] initWithFrame:CGRectMake(10, 20 + [@"M" sizeWithFont: theHeadingFont].height,
+    PKHotLabel *theTopText = [[PKHotLabel alloc] initWithFrame:CGRectMake(10, 20 + [@"M" sizeWithFont: theHeadingFont usingLigatures:YES].height,
                                                                           theCellWidth-20,
-                                                                          [@"M" sizeWithFont: _leftFont].height*2)];
-    PKHotLabel *theBottomText=[[PKHotLabel alloc] initWithFrame:CGRectMake(10, 30 + [@"M" sizeWithFont: theHeadingFont].height + [@"M" sizeWithFont: _leftFont].height*2,
-    theCellWidth-20, [@"M" sizeWithFont: _rightFont].height*2)];
+                                                                          [@"M" sizeWithFont: _leftFont usingLigatures:YES].height*2)];
+    PKHotLabel *theBottomText=[[PKHotLabel alloc] initWithFrame:CGRectMake(10, 30 + [@"M" sizeWithFont: theHeadingFont usingLigatures:YES].height + [@"M" sizeWithFont: _leftFont usingLigatures:YES].height*2,
+    theCellWidth-20, [@"M" sizeWithFont: _rightFont usingLigatures:YES].height*2)];
     
     
     
@@ -495,10 +512,11 @@
                                          forChapter: theChapter
                                            forVerse: theVerse
                                             forSide: 2];
-    [cell addSubview:theReference];
-    [cell addSubview:theTopText];
-    [cell addSubview:theBottomText];
+    [cell.contentView addSubview:theReference];
+    [cell.contentView addSubview:theTopText];
+    [cell.contentView addSubview:theBottomText];
   }
+  [cell setNeedsDisplay];
   return cell;
 }
 

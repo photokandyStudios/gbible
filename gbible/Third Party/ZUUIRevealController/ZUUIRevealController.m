@@ -535,7 +535,7 @@
 	self.frontView.layer.shadowColor = [UIColor blackColor].CGColor;
 	self.frontView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
 	self.frontView.layer.shadowOpacity = 1.0f;
-	self.frontView.layer.shadowRadius = 2.5f;
+	self.frontView.layer.shadowRadius = 0.5f; //2.5f;
 	self.frontView.layer.shadowPath = shadowPath.CGPath;
 	
 	// Init the position with only the front view visible.
@@ -615,6 +615,21 @@
 	[super viewDidDisappear:animated];
   
 	self.visible = NO;
+}
+
+- (UIViewController *)childViewControllerForStatusBarHidden
+{
+  return self.frontViewController;
+}
+
+- (UIViewController *)childViewControllerForStatusBarStyle
+{
+  return self.frontViewController;
+}
+
+- (UIStatusBarStyle) preferredStatusBarStyle
+{
+  return [self.frontViewController preferredStatusBarStyle];
 }
 
 #pragma mark - Memory Management

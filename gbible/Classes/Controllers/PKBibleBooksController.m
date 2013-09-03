@@ -41,6 +41,7 @@
 #import "PKSettings.h"
 #import "PKSimpleCollectionViewCell.h"
 #import "PKAppDelegate.h"
+#import "UIImage+PKUtility.h"
 
 @interface PKBibleBooksController ()
 
@@ -95,6 +96,10 @@
       ];
     self.navigationItem.rightBarButtonItem = closeButton;
     self.navigationItem.title              = __T(@"Select Book");
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+    }
   }
   
   
