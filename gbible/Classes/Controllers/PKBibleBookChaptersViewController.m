@@ -41,6 +41,7 @@
 #import "PKSettings.h"
 #import "PKSimpleCollectionViewCell.h"
 #import "PKSimpleBibleViewController.h"
+#import "UIImage+PKUtility.h"
 
 @interface PKBibleBookChaptersViewController ()
 
@@ -96,6 +97,10 @@
       [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
       ];
     self.navigationItem.rightBarButtonItem = closeButton;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+    }
   }
 
 }
