@@ -47,6 +47,7 @@
 #import <Parse/Parse.h>
 #import "PKLabel.h"
 #import "UIFont+Utility.h"
+#import "NSString+PKFont.h"
 
 @implementation PKBible
 
@@ -599,7 +600,7 @@
   int currentBible         = (theSide == 1 ? [[PKSettings instance] greekText] : [[PKSettings instance] englishText]);
   FMDatabaseQueue *db   = [self bibleDatabaseForText:currentBible];
 
-  NSString *theSQL         = @"SELECT bibleText FROM content WHERE bibleID=? AND bibleBook = ? AND bibleChapter = ?";
+  NSString *theSQL         = @"SELECT bibleText, bibleVerse FROM content WHERE bibleID=? AND bibleBook = ? AND bibleChapter = ?";
   NSMutableArray *theArray = [[NSMutableArray alloc] init];
 
   [db inDatabase:^(FMDatabase *db)
@@ -611,6 +612,14 @@
 
       while ([s next])
       {
+        int theVerse = [s intForColumnIndex:1];
+        while (theVerse > i)
+        {
+          NSString *theRef  = [NSString stringWithFormat: @"%i ", i];
+          NSString *theText = [theRef stringByAppendingString:@"[...]"];
+          [theArray addObject:theText];
+          i++;
+        }
         NSString *theText = [s stringForColumnIndex: 0];
         NSString *theRef  = [NSString stringWithFormat: @"%i ", i];
         // if (theSide == 2)
@@ -647,7 +656,7 @@
   UIFont *theFont      = [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                       andSize: [[PKSettings instance] textFontSize]];
   // we need to know the height of an M (* the setting...)
-  CGFloat lineHeight   = [@"M" sizeWithFont: theFont].height;
+  CGFloat lineHeight   = [@"M" sizeWithFont: theFont usingLigatures:YES].height;
   lineHeight    = lineHeight * ( (float)[[PKSettings instance] textLineSpacing] / 100.0 );
   CGFloat maxY = 0.0;
 
@@ -826,7 +835,7 @@
   NSArray *matches              = [theFixedText componentsSeparatedByString: @" "];
 
   // we need to know the width of a space
-  CGFloat spaceWidth            = [@" " sizeWithFont: theFont].width;
+  CGFloat spaceWidth            = [@" " sizeWithFont: theFont usingLigatures:YES].width;
   // we need to know the height of an M (* the setting...)
 /*  CGFloat otherHeight = [@"M" sizeWithFont: theFont].height;
   NSLog ( @"Ascender: %f", [theFont ascender] );
@@ -1053,17 +1062,17 @@
     if (theColumn == 1
         && theWordType == 0)
     {
-      theSize = [theWord sizeWithFont: theBoldFont];
+      theSize = [theWord sizeWithFont: theBoldFont usingLigatures:YES];
     }
     else
     {
       if ((theColumn == 1) ? theWordType : -1 > -1)
       {
-        theSize = [theWord sizeWithFont: theSmallerFont];
+        theSize = [theWord sizeWithFont: theSmallerFont usingLigatures:YES];
       }
       else
       {
-        theSize = [theWord sizeWithFont: theFont];
+        theSize = [theWord sizeWithFont: theFont usingLigatures:YES];
       }
     }
 
