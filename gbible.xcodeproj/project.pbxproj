@@ -15,6 +15,7 @@
 		6A510A4F1733104A00EF5BB1 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A4D1733104A00EF5BB1 /* CoreText.framework */; };
 		6A510A541733296D00EF5BB1 /* APIKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A510A531733296D00EF5BB1 /* APIKeys.m */; };
 		6A74306716ADDCEA00DC1320 /* searchutils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A74306616ADDCEA00DC1320 /* searchutils.m */; };
+		6A94110717D5AE9E00FEE943 /* NSString+PKFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A94110617D5AE9E00FEE943 /* NSString+PKFont.m */; };
 		6A9793B71514162500A5C9F1 /* PKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793B61514162500A5C9F1 /* PKConstants.m */; };
 		6A9B86B01542792400E4ABC0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9B86AF1542792400E4ABC0 /* SystemConfiguration.framework */; };
 		6A9C80C016B61079006D1AF7 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9C80BF16B61079006D1AF7 /* Parse.framework */; };
@@ -310,7 +311,6 @@
 		6AC0BC1217BAE30200E6BD6F /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 6AC0BAC917BAE30200E6BD6F /* unzip.c */; };
 		6AC0BC1317BAE30200E6BD6F /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 6AC0BACB17BAE30200E6BD6F /* zip.c */; };
 		6AC0BC1417BAE30200E6BD6F /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC0BACE17BAE30200E6BD6F /* NSString+FontAwesome.m */; };
-		6AC0BC1517BAE30200E6BD6F /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC0BACF17BAE30200E6BD6F /* Parse.framework */; };
 		6AC0BC1617BAE30200E6BD6F /* SegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC0BAD117BAE30200E6BD6F /* SegmentsController.m */; };
 		6AC0BC1717BAE30200E6BD6F /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC0BAD317BAE30200E6BD6F /* SSZipArchive.m */; };
 		6AC0BC1817BAE30200E6BD6F /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BAD517BAE30200E6BD6F /* SVProgressHUD.bundle */; };
@@ -362,6 +362,8 @@
 		6A510A531733296D00EF5BB1 /* APIKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIKeys.m; sourceTree = "<group>"; };
 		6A74306516ADDCD900DC1320 /* searchutils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = searchutils.h; sourceTree = "<group>"; };
 		6A74306616ADDCEA00DC1320 /* searchutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchutils.m; sourceTree = "<group>"; };
+		6A94110517D5AE9E00FEE943 /* NSString+PKFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PKFont.h"; sourceTree = "<group>"; };
+		6A94110617D5AE9E00FEE943 /* NSString+PKFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PKFont.m"; sourceTree = "<group>"; };
 		6A9793B01513F87700A5C9F1 /* PKConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKConstants.h; sourceTree = "<group>"; };
 		6A9793B61514162500A5C9F1 /* PKConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKConstants.m; sourceTree = "<group>"; };
 		6A9B86AF1542792400E4ABC0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -781,6 +783,12 @@
 		6AC5F56817C715B700397613 /* Tag-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tag-30.png"; sourceTree = "<group>"; };
 		6AC5F56917C715B700397613 /* Tag-30@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tag-30@2x.png"; sourceTree = "<group>"; };
 		6AD7E2D6152AB51C0072483E /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
+		6ADCCCD717D535DF002827C4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6ADCCCD817D535E1002827C4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6ADCCCD917D535EE002827C4 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6ADCCCDA17D535EF002827C4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6ADCCCDB17D535F1002827C4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6ADCCCDC17D535F3002827C4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6AF0C0A1150EE8BB00BFAE03 /* gbible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gbible.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -818,7 +826,6 @@
 				6AF0C0AA150EE8BB00BFAE03 /* CoreGraphics.framework in Frameworks */,
 				6A9C80C016B61079006D1AF7 /* Parse.framework in Frameworks */,
 				6AC0BBFC17BAE30200E6BD6F /* libHelpshift.a in Frameworks */,
-				6AC0BC1517BAE30200E6BD6F /* Parse.framework in Frameworks */,
 				6AC0BC1A17BAE30200E6BD6F /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1148,6 +1155,8 @@
 				6AC0BA0C17BAE30200E6BD6F /* UIImage+PKUtility.m */,
 				6A0BB48717BAEA9100C52F6C /* NSObject+PKGCD.h */,
 				6A0BB48817BAEA9100C52F6C /* NSObject+PKGCD.m */,
+				6A94110517D5AE9E00FEE943 /* NSString+PKFont.h */,
+				6A94110617D5AE9E00FEE943 /* NSString+PKFont.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1598,8 +1607,13 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PK;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "photoKandy Studios LLC";
+				TargetAttributes = {
+					6AF0C0A0150EE8BB00BFAE03 = {
+						DevelopmentTeam = Y3G92HH8YD;
+					};
+				};
 			};
 			buildConfigurationList = 6AF0C09B150EE8BB00BFAE03 /* Build configuration list for PBXProject "gbible" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1926,6 +1940,7 @@
 				6AC0BBC717BAE30200E6BD6F /* PKHistory.m in Sources */,
 				6AC0BBC817BAE30200E6BD6F /* PKNotes.m in Sources */,
 				6AC0BBC917BAE30200E6BD6F /* PKReference.m in Sources */,
+				6A94110717D5AE9E00FEE943 /* NSString+PKFont.m in Sources */,
 				6AC0BBCA17BAE30200E6BD6F /* PKSettings.m in Sources */,
 				6AC0BBCB17BAE30200E6BD6F /* PKStrongs.m in Sources */,
 				6AC0BBCC17BAE30200E6BD6F /* PKAppDelegate.m in Sources */,
@@ -1984,6 +1999,12 @@
 				6A495CD8169D371000F1A55C /* en */,
 				6A495CDE169D37BB00F1A55C /* es */,
 				6A495CE1169D37D900F1A55C /* pl */,
+				6ADCCCD717D535DF002827C4 /* zh-Hans */,
+				6ADCCCD817D535E1002827C4 /* ru */,
+				6ADCCCD917D535EE002827C4 /* pt */,
+				6ADCCCDA17D535EF002827C4 /* it */,
+				6ADCCCDB17D535F1002827C4 /* fr */,
+				6ADCCCDC17D535F3002827C4 /* de */,
 			);
 			name = Localizable.strings;
 			path = Localization;
@@ -2022,9 +2043,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -2040,9 +2062,12 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2052,9 +2077,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -2063,7 +2089,9 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
@@ -2076,9 +2104,8 @@
 		6AF0C0BA150EE8BB00BFAE03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = gbible/gbible.entitlements;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2103,6 +2130,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = app;
@@ -2112,10 +2140,9 @@
 		6AF0C0BB150EE8BB00BFAE03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = gbible/gbible.entitlements;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -2138,6 +2165,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = app;
