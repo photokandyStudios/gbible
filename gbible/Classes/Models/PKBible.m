@@ -58,7 +58,7 @@
  * TODO: make this dynamic.
  *
  */
-+(BOOL) isMorphologySupportedByText: (int) theText
++(BOOL) isMorphologySupportedByText: (NSUInteger) theText
 {
   if (theText == PK_BIBLETEXT_BYZP ||
       theText == PK_BIBLETEXT_TRP ||
@@ -77,7 +77,7 @@
  * TODO: make this dynamic.
  *
  */
-+(BOOL) isTranslationSupportedByText: (int) theText
++(BOOL) isTranslationSupportedByText: (NSUInteger) theText
 {
   if (theText == PK_BIBLETEXT_WHP ||
       theText == 901)
@@ -95,7 +95,7 @@
  * TODO: make this dynamic.
  *
  */
-+(BOOL) isStrongsSupportedByText: (int) theText
++(BOOL) isStrongsSupportedByText: (NSUInteger) theText
 {
   if (theText == PK_BIBLETEXT_BYZP ||
       theText == PK_BIBLETEXT_TRP ||
@@ -115,7 +115,7 @@
  * database. Text IDs>100 will use the user database.
  *
  */
-+(FMDatabaseQueue *) bibleDatabaseForText: (int) theText
++(FMDatabaseQueue *) bibleDatabaseForText: (NSUInteger) theText
 {
   if (theText <= 100) return [[PKDatabase instance] bible];
   return [[PKDatabase instance] userBible];
@@ -140,7 +140,7 @@
  * Excludes KJV if in a crown-copyright area.
  *
  */
-+(NSString *) text: (int) theText inDB: (FMDatabaseQueue *)db withColumn: (int) column
++(NSString *) text: (NSUInteger) theText inDB: (FMDatabaseQueue *)db withColumn: (int) column
 {
   // http://stackoverflow.com/questions/3940615/find-current-country-from-iphone-device
   NSLocale *currentLocale = [NSLocale currentLocale];    // get the current locale.
@@ -178,7 +178,7 @@
  * Returns YES if a given text is in the built-in database.
  *
  */
-+(BOOL) isTextBuiltIn: (int) theText
++(BOOL) isTextBuiltIn: (NSUInteger) theText
 {
   return [self text: theText inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ID] != nil ? YES : NO;
 }
@@ -188,7 +188,7 @@
  * Returns Yes if a given text is in the user database.
  *
  */
-+(BOOL) isTextInstalled: (int) theText
++(BOOL) isTextInstalled: (NSUInteger) theText
 {
   return [self text: theText inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ID] != nil ? YES : NO;
 }
@@ -337,7 +337,7 @@
  * Get the full Bible title for the text ID.
  *
  */
-+(NSString *) titleForTextID: (int) theText
++(NSString *) titleForTextID: (NSUInteger) theText
 {
   FMDatabaseQueue *db = [self bibleDatabaseForText:theText];
   
@@ -363,7 +363,7 @@
  * Get the Bible's abbreviation for the text ID.
  *
  */
-+(NSString *) abbreviationForTextID: (int) theText
++(NSString *) abbreviationForTextID: (NSUInteger) theText
 {
   FMDatabaseQueue *db = [self bibleDatabaseForText:theText];
   
@@ -389,7 +389,7 @@
  * Returns the canonical name for a Bible book, given the book number. For example, 40=Matthew
  *
  */
-+(NSString *) nameForBook: (int) theBook
++(NSString *) nameForBook: (NSUInteger) theBook
 {
   //
   // Books of the bible and chapter count obtained from http://www.deafmissions.com/tally/bkchptrvrs.html
@@ -435,7 +435,7 @@
  * Returns the 3-letter abbreviation for a given book. For example, 40 = Mat
  *
  */
-+(NSString *) abbreviationForBook: (int) theBook
++(NSString *) abbreviationForBook: (NSUInteger) theBook
 {
   static NSArray *bookList;
   @synchronized(bookList)
@@ -460,12 +460,24 @@
   }
 }
 
++(NSString *) abbreviationForBookIfNecessary:(NSUInteger)theBook
+{
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+  {
+    return [PKBible abbreviationForBook:theBook];
+  }
+  else
+  {
+    return [PKBible nameForBook:theBook];
+  }
+}
+
 /**
  *
  * Returns the number of chapters in the given Bible book.
  *
  */
-+(int) countOfChaptersForBook: (int) theBook
++(NSUInteger) countOfChaptersForBook: (NSUInteger) theBook
 {
   static int chapterCountList[]   = {50,40,27,36,34,24,21,4,31,24,22,25,
                                      29,36,10,13,10,42,150,31,12,8,66,52,
@@ -482,13 +494,13 @@
  * Returns the number of verses for the given book and chapter.
  *
  */
-+(int) countOfVersesForBook: (int) theBook forChapter: (int) theChapter
++(NSUInteger) countOfVersesForBook: (NSUInteger) theBook forChapter: (NSUInteger) theChapter
 {
-  int totalCount;
+  NSUInteger totalCount;
   NSString *theSQL        = @"SELECT count(*) FROM content WHERE bibleID=? AND bibleBook = ? AND bibleChapter = ?";
 
-  int currentGreekBible   = [[PKSettings instance] greekText];
-  int currentEnglishBible = [[PKSettings instance] englishText];
+  NSUInteger currentGreekBible   = [[PKSettings instance] greekText];
+  NSUInteger currentEnglishBible = [[PKSettings instance] englishText];
 
   NSArray *theDBs = @[ [self bibleDatabaseForText:currentGreekBible], [self bibleDatabaseForText:currentEnglishBible] ];
   NSMutableArray* theCounts = [ @[ @0, @0 ] mutableCopy];
@@ -546,13 +558,13 @@
  * Note: adds the verse # to the english side. TODO?: Add to greek side too?
  *
  */
-+(NSString *) getTextForBook: (int) theBook forChapter: (int) theChapter forVerse: (int) theVerse forSide: (int) theSide
++(NSString *) getTextForBook: (NSUInteger) theBook forChapter: (NSUInteger) theChapter forVerse: (NSUInteger) theVerse forSide: (NSUInteger) theSide
 {
-  int currentBible = (theSide == 1 ? [[PKSettings instance] greekText] : [[PKSettings instance] englishText]);
+  NSUInteger currentBible = (theSide == 1 ? [[PKSettings instance] greekText] : [[PKSettings instance] englishText]);
   FMDatabaseQueue *db   = [self bibleDatabaseForText:currentBible];
   NSString *theSQL = @"SELECT bibleText FROM content WHERE bibleID=? AND bibleBook=? AND bibleChapter=? AND bibleVerse=?";
   __block NSString *theText;
-  NSString *theRef = [NSString stringWithFormat: @"%i ", theVerse];
+  NSString *theRef = [PKReference stringFromVerseNumber:theVerse];
   
   [db inDatabase:^(FMDatabase *db)
     {
@@ -572,7 +584,7 @@
   if (theText != nil)
   {
     theText = [PKBible handleGlobalStringReplacements:theText];
-    theText = [theRef stringByAppendingString: theText];
+    theText = [NSString stringWithFormat:@"%@ %@", theRef, theText];
   }
   else
   {
@@ -595,9 +607,9 @@
  * for the array on one side to be of a different length than the other side (Notably, Romans 13,16)
  *
  */
-+(NSArray *) getTextForBook: (int) theBook forChapter: (int) theChapter forSide: (int) theSide
++(NSArray *) getTextForBook: (NSUInteger) theBook forChapter: (NSUInteger) theChapter forSide: (NSUInteger) theSide
 {
-  int currentBible         = (theSide == 1 ? [[PKSettings instance] greekText] : [[PKSettings instance] englishText]);
+  NSUInteger currentBible         = (theSide == 1 ? [[PKSettings instance] greekText] : [[PKSettings instance] englishText]);
   FMDatabaseQueue *db   = [self bibleDatabaseForText:currentBible];
 
   NSString *theSQL         = @"SELECT bibleText, bibleVerse FROM content WHERE bibleID=? AND bibleBook = ? AND bibleChapter = ?";
@@ -608,24 +620,23 @@
       FMResultSet *s           = [db executeQuery: theSQL, @(currentBible),
                                   @(theBook),
                                   @(theChapter)];
-      int i                    = 1;
+      NSUInteger i                    = 1;
 
       while ([s next])
       {
-        int theVerse = [s intForColumnIndex:1];
+        NSUInteger theVerse = [s intForColumnIndex:1];
         while (theVerse > i)
         {
-          NSString *theRef  = [NSString stringWithFormat: @"%i ", i];
-          NSString *theText = [theRef stringByAppendingString:@"[...]"];
+          NSString *theText = [NSString stringWithFormat:@"%@ [...]", [PKReference stringFromVerseNumber:i]];
           [theArray addObject:theText];
           i++;
         }
         NSString *theText = [s stringForColumnIndex: 0];
-        NSString *theRef  = [NSString stringWithFormat: @"%i ", i];
+        NSString *theRef  = [PKReference stringFromVerseNumber:i];
         // if (theSide == 2)
         // {
         theText = [PKBible handleGlobalStringReplacements:theText];
-        theText = [theRef stringByAppendingString: theText];
+        theText = [NSString stringWithFormat:@"%@ %@", theRef, theText];
         // }
         theText = [theText stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
 
@@ -682,7 +693,7 @@
  * column settings. 
  *
  */
-+(CGFloat) columnWidth: (int) theColumn forBounds: (CGRect) theRect withCompression: (BOOL)compression
++(CGFloat) columnWidth: (NSUInteger) theColumn forBounds: (CGRect) theRect withCompression: (BOOL)compression
 {
   // set Margin
   CGFloat theMargin = 5;
@@ -760,7 +771,7 @@
  * within the given column's width and perform word-wrap where necessary.
  *
  */
-+(NSArray *)formatText: (NSString *) theText forColumn: (int) theColumn withBounds: (CGRect) theRect withParsings: (BOOL) parsed
++(NSArray *)formatText: (NSString *) theText forColumn: (NSUInteger) theColumn withBounds: (CGRect) theRect withParsings: (BOOL) parsed
             startingAt: (CGFloat) initialY withCompression: (BOOL)compression
 {
   // should we include the morphology?
@@ -771,7 +782,7 @@
   BOOL strongsOnTop    = [[PKSettings instance] strongsOnTop];
   
   // what greek text are we?
-  int whichGreekText          = [[PKSettings instance] greekText];
+  NSUInteger whichGreekText          = [[PKSettings instance] greekText];
   BOOL supportsMorphology = [PKBible isMorphologySupportedByText:whichGreekText];
   BOOL supportsStrongs = [PKBible isStrongsSupportedByText:whichGreekText];
   BOOL supportsTranslation = [PKBible isTranslationSupportedByText:whichGreekText];
@@ -920,7 +931,7 @@
   NSString *theWord;
   NSString *thePriorWord;
   PKLabel *thePriorWordElement;
-  int thePriorWordElementIndex = -1;
+  NSInteger thePriorWordElementIndex = -1;
 
   CGFloat maxX               = 0.0;
   
@@ -994,7 +1005,7 @@
             && [[theOriginalWord substringFromIndex: 1] intValue] <= 5624
             )
         {
-          int theIndex = thePriorWordElementIndex; 
+          NSInteger theIndex = thePriorWordElementIndex;
 
           if (theIndex > -1
               && theIndex < theWordArray.count)
@@ -1245,8 +1256,8 @@ default:
  */
 +(NSArray *) passagesMatching: (NSString *) theTerm
 {
-  int currentGreekBible   = [[PKSettings instance] greekText];
-  int currentEnglishBible = [[PKSettings instance] englishText];
+  NSUInteger currentGreekBible   = [[PKSettings instance] greekText];
+  NSUInteger currentEnglishBible = [[PKSettings instance] englishText];
 
   return [self passagesMatching: theTerm withGreekBible: currentGreekBible andEnglishBible: currentEnglishBible];
 }
@@ -1258,9 +1269,9 @@ default:
  * Returns the parsed variant of a non-parsed text.
  *
  */
-+(int) parsedVariant: (int) theBook
++(NSInteger) parsedVariant: (NSUInteger) theBook
 {
-  __block int theParsedBook = -1;       // return this if nothing matches
+  __block NSInteger theParsedBook = -1;       // return this if nothing matches
   FMDatabaseQueue *db    = [self bibleDatabaseForText:theBook];
   
   [db inDatabase:^(FMDatabase *db)
@@ -1283,7 +1294,7 @@ default:
  * DEPRECATED.
  *
  */
-+(BOOL) checkParsingsForBook: (int) theBook
++(BOOL) checkParsingsForBook: (NSUInteger) theBook
 {
   return (theBook == [self parsedVariant: theBook]);
 }
@@ -1296,12 +1307,12 @@ default:
  */
 +(NSArray *) passagesMatching: (NSString *) theTerm requireParsings: (BOOL) parsings
 {
-  int currentGreekBible   = [[PKSettings instance] greekText];
-  int currentEnglishBible = [[PKSettings instance] englishText];
+  NSUInteger currentGreekBible   = [[PKSettings instance] greekText];
+  NSUInteger currentEnglishBible = [[PKSettings instance] englishText];
 
   if (parsings)
   {
-    int parsedGreekBible = [self parsedVariant: currentGreekBible];
+    NSInteger parsedGreekBible = [self parsedVariant: currentGreekBible];
 
     if (parsedGreekBible > -1)
     {
@@ -1316,7 +1327,7 @@ default:
  * Searches for the term within the two supplied texts and returns an array of the matches.
  *
  */
-+(NSArray *) passagesMatching: (NSString *) theTerm withGreekBible: (int) theGreekBible andEnglishBible: (int) theEnglishBible
++(NSArray *) passagesMatching: (NSString *) theTerm withGreekBible: (NSUInteger) theGreekBible andEnglishBible: (NSUInteger) theEnglishBible
 {
   NSMutableArray *theMatches = [[NSMutableArray alloc] init];
   if (theTerm.length == 0)
@@ -1342,9 +1353,9 @@ default:
 
         while ([s next])
         {
-          int theBook          = [s intForColumnIndex: 0];
-          int theChapter       = [s intForColumnIndex: 1];
-          int theVerse         = [s intForColumnIndex: 2];
+          NSUInteger theBook          = [s intForColumnIndex: 0];
+          NSUInteger theChapter       = [s intForColumnIndex: 1];
+          NSUInteger theVerse         = [s intForColumnIndex: 2];
           PKReference *theReference = [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse];
           [theMatches addObject: theReference];
         }

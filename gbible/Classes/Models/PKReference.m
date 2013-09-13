@@ -46,7 +46,7 @@
 @synthesize verse = _verse;
 */
 
-+(PKReference *)referenceWithBook: (int)theBook andChapter:(int)theChapter andVerse:(int)theVerse
++(PKReference *)referenceWithBook: (NSUInteger)theBook andChapter:(NSUInteger)theChapter andVerse:(NSUInteger)theVerse
 {
   PKReference *aReference = [PKReference new];
   aReference.book = theBook;
@@ -67,13 +67,12 @@
  * Returns the numerical 3-letter code for the given book. For example, 40 = 40N, 10 = 10O
  *
  */
-+(NSString *) numericalThreeLetterCodeForBook: (int) theBook
++(NSString *) numericalThreeLetterCodeForBook: (NSUInteger) theBook
 {
+  static dispatch_once_t once;
   static NSArray *bookList;
-  @synchronized(bookList)
-  {
-    if (!bookList)
-    {
+  
+  dispatch_once(&once, ^{
       bookList = @[
                        @"01O", @"02O", @"03O", @"04O", @"05O", @"06O", @"07O", @"08O",
                        @"09O", @"10O", @"11O", @"12O", @"13O", @"14O",
@@ -87,9 +86,8 @@
                        @"52N", @"53N", @"54N", @"55N", @"56N",
                        @"57N", @"58N", @"59N", @"60N", @"61N", @"62N", @"63N",
                        @"64N", @"65N", @"66N"];
-    }
-    return bookList[theBook - 1];
-  }
+  });
+  return bookList[theBook - 1];
 }
 
 /**
@@ -99,12 +97,11 @@
  * and faster to use the book/chapter/verse method.
  *
  */
-+(NSString *) referenceStringFromBook: (int) theBook forChapter: (int) theChapter forVerse: (int) theVerse
++(NSString *) referenceStringFromBook: (NSUInteger) theBook forChapter: (NSUInteger) theChapter forVerse: (NSUInteger) theVerse
 {
   NSString *theString;
-  theString = [[[[[self numericalThreeLetterCodeForBook: theBook] stringByAppendingString: @"."]
-                 stringByAppendingFormat: @"%i", theChapter] stringByAppendingString: @"."]
-               stringByAppendingFormat: @"%i", theVerse];
+  theString = [NSString stringWithFormat:@"%@.%@.%@", [self numericalThreeLetterCodeForBook:theBook],
+                                                      @(theChapter), @(theVerse)];
   return theString;
 }
 
@@ -115,11 +112,11 @@
  * For example, given Matthew Chapter 1 (book 40), return 40N.1
  *
  */
-+(NSString *) referenceStringFromBook: (int) theBook forChapter: (int) theChapter
++(NSString *) referenceStringFromBook: (NSUInteger) theBook forChapter: (NSUInteger) theChapter
 {
   NSString *theString;
-  theString = [[[self numericalThreeLetterCodeForBook: theBook] stringByAppendingString: @"."]
-               stringByAppendingFormat: @"%i", theChapter];
+  theString = [NSString stringWithFormat:@"%@.%@", [self numericalThreeLetterCodeForBook:theBook],
+                                                      @(theChapter)];
   return theString;
 }
 
@@ -130,7 +127,7 @@
  * For example, given 40N.1.1, return 40
  *
  */
-+(int) bookFromReferenceString: (NSString *) theString
++(NSUInteger) bookFromReferenceString: (NSString *) theString
 {
   return [theString intValue];
 }
@@ -142,11 +139,11 @@
  * For example, given 40N.12.1, return 12
  *
  */
-+(int) chapterFromReferenceString: (NSString *) theString
++(NSUInteger) chapterFromReferenceString: (NSString *) theString
 {
   // return the chapter portion of a string
-  int firstPeriod  = [theString rangeOfString: @"."].location;
-  int secondPeriod =
+  NSUInteger firstPeriod  = [theString rangeOfString: @"."].location;
+  NSUInteger secondPeriod =
     [theString rangeOfString: @"." options: 0 range: NSMakeRange( firstPeriod + 1, [theString length] -
                                                                   (firstPeriod + 1) )].location;
 
@@ -160,11 +157,11 @@
  * For example, given 40N.12.1, returns 1
  *
  */
-+(int) verseFromReferenceString: (NSString *) theString
++(NSUInteger) verseFromReferenceString: (NSString *) theString
 {
   // return the verse portion of a string
-  int firstPeriod  = [theString rangeOfString: @"."].location;
-  int secondPeriod =
+  NSUInteger firstPeriod  = [theString rangeOfString: @"."].location;
+  NSUInteger secondPeriod =
     [theString rangeOfString: @"." options: 0 range: NSMakeRange( firstPeriod + 1, [theString length] -
                                                                   (firstPeriod + 1) )].location;
 
@@ -191,9 +188,125 @@
 
 -(NSString *)prettyReference
 {
-  return [NSString stringWithFormat: @"%@ %i:%i",
-                                [PKBible nameForBook: _book], _chapter, _verse];
+  return [NSString stringWithFormat: @"%@ %@:%@",
+                                [PKBible nameForBook: _book], @(_chapter), @(_verse)];
 }
 
+-(NSString *)prettyShortReference
+{
+  return [NSString stringWithFormat: @"%@. %@:%@",
+                                [PKBible abbreviationForBook: _book], @(_chapter), @(_verse)];
+}
+
+-(NSString *)prettyShortReferenceIfNecessary
+{
+
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+  {
+    return [self prettyShortReference];
+  }
+  else
+  {
+    return [self prettyReference];
+  }
+
+
+}
+
+// canonical representations of verses, chapters, and books, even if it is wordier.
++(NSString *) stringFromVerseNumber: (NSUInteger)theVerse
+{
+  return [@(theVerse) stringValue];
+}
+
++(NSString *) stringFromChapterNumber: (NSUInteger)theChapter
+{
+  return [@(theChapter) stringValue];
+}
+
++(NSString *) stringFromBookNumber: (NSUInteger)theBook
+{
+  return [@(theBook) stringValue];
+}
+
++(NSString *) stringFromChapterNumber: (NSUInteger) theChapter andVerseNumber: (NSUInteger) theVerse
+{
+  return [NSString stringWithFormat:@"%@:%@", [PKReference stringFromChapterNumber:theChapter],
+                                              [PKReference stringFromVerseNumber:theVerse]];
+}
+
+-(NSString *) stringFromVerseNumber
+{
+  return [PKReference stringFromVerseNumber:_verse];
+}
+
+-(NSString *) stringFromChapterNumber
+{
+  return [PKReference stringFromChapterNumber:_chapter];
+}
+
+-(NSString *) stringFromBookNumber
+{
+  return [PKReference stringFromBookNumber:_book];
+}
+
+-(NSString *) stringFromChapterNumberAndVerseNumber
+{
+  return [PKReference stringFromChapterNumber:_chapter andVerseNumber:_verse];
+}
+
+-(NSString *) format: (NSString *)theFormat, ...
+{
+  // This just formats references
+  // using special tokens, and then passes it on to NSString stringWithFormat to do the
+  // rest.
+  //
+  // @ signals format
+  // b == book number; c == chapter number; v == verse
+  // # == number; N == name; C == code
+  //               S == short; 3 == 3-letter
+  //               ? == if necessary
+  //
+  //
+  // SO: @bNS? @c#:@v# would return "Matthew 12:10" or "Mat. 12:10" depending on the device's screen size.
+  //
+  
+
+  NSMutableString *s = [theFormat mutableCopy];
+  
+  // book
+  if ([s rangeOfString:@"%bNS?."].location != NSNotFound)
+  {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+      [s replaceOccurrencesOfString:@"%bNS?." withString:[[PKBible abbreviationForBook:self.book] stringByAppendingString:@"."] options:0 range:NSMakeRange(0, [s length])];
+    else
+      [s replaceOccurrencesOfString:@"%bNS?." withString:[PKBible nameForBook:self.book ] options:0 range:NSMakeRange(0, [s length])];
+  }
+  if ([s rangeOfString:@"%bNS?"].location != NSNotFound)
+    [s replaceOccurrencesOfString:@"%bNS?" withString:[PKBible abbreviationForBookIfNecessary:self.book] options:0 range:NSMakeRange(0, [s length])];
+  if ([s rangeOfString:@"%bNS"].location != NSNotFound)
+    [s replaceOccurrencesOfString:@"%bNS" withString:[PKBible abbreviationForBook:self.book] options:0 range:NSMakeRange(0, [s length])];
+  if ([s rangeOfString:@"%bC3"].location != NSNotFound)
+    [s replaceOccurrencesOfString:@"%bC3" withString:[PKReference numericalThreeLetterCodeForBook:self.book] options:0 range:NSMakeRange(0, [s length])];
+  if ([s rangeOfString:@"%bN"].location != NSNotFound)
+    [s replaceOccurrencesOfString:@"%bN" withString:[PKBible nameForBook:self.book ] options:0 range:NSMakeRange(0, [s length])];
+  if ([s rangeOfString:@"%b#"].location != NSNotFound)
+    [s replaceOccurrencesOfString:@"%b#" withString:[self stringFromBookNumber] options:0 range:NSMakeRange(0, [s length])];
+
+  // chapter
+  if ([s rangeOfString:@"%c#"].location != NSNotFound)
+    [s replaceOccurrencesOfString:@"%c#" withString:[self stringFromChapterNumber] options:0 range:NSMakeRange(0, [s length])];
+  
+  // verse
+  if ([s rangeOfString:@"%v#"].location != NSNotFound)
+    [s replaceOccurrencesOfString:@"%v#" withString:[self stringFromVerseNumber] options:0 range:NSMakeRange(0, [s length])];
+
+  va_list args;
+  va_start(args, theFormat);
+  NSString *swf = [[NSString alloc] initWithFormat:s arguments:args];
+  va_end(args);
+  
+  return swf;
+}
 
 @end

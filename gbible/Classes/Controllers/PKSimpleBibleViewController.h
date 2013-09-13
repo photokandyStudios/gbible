@@ -44,8 +44,8 @@
 @property (nonatomic, weak) id <PKBibleReferenceDelegate> delegate;
 @property BOOL notifyWithCopyOfVerse;
 
--(void)loadChapter: (int) theChapter forBook: (int) theBook;
--(void)selectVerse: (int)theVerse;
--(void)scrollToVerse: (int)theVerse;
+-(void)loadChapter: (NSUInteger) theChapter forBook: (NSUInteger) theBook;
+-(void)selectVerse: (NSUInteger)theVerse;
+-(void)scrollToVerse: (NSUInteger)theVerse;
 
 @end

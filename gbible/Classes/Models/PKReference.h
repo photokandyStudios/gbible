@@ -39,24 +39,36 @@
 
 @interface PKReference : NSObject
 
-@property int book;
-@property int chapter;
-@property int verse;
+@property NSUInteger book;
+@property NSUInteger chapter;
+@property NSUInteger verse;
 @property (getter=getReference, setter=setReference:) NSString *reference;
 
-+(PKReference *)referenceWithBook: (int)theBook andChapter:(int)theChapter andVerse:(int)theVerse;
++(PKReference *)referenceWithBook: (NSUInteger)theBook andChapter:(NSUInteger)theChapter andVerse:(NSUInteger)theVerse;
 +(PKReference *)referenceWithString: (NSString *)theRef;
 
 -(NSString *)description;
 -(NSString *)prettyReference;
+-(NSString *)prettyShortReference;
+-(NSString *)prettyShortReferenceIfNecessary;
 
 // use only if necessary; you should try to use the regular object instead
-+(NSString *) numericalThreeLetterCodeForBook: (int) theBook;
-+(NSString *) referenceStringFromBook: (int) theBook forChapter: (int) theChapter forVerse: (int) theVerse;
-+(NSString *) referenceStringFromBook: (int) theBook forChapter: (int) theChapter;
-+(int) bookFromReferenceString: (NSString *) theString;
-+(int) chapterFromReferenceString: (NSString *) theString;
-+(int) verseFromReferenceString: (NSString *) theString;
++(NSString *) numericalThreeLetterCodeForBook: (NSUInteger) theBook;
++(NSString *) referenceStringFromBook: (NSUInteger) theBook forChapter: (NSUInteger) theChapter forVerse: (NSUInteger) theVerse;
++(NSString *) referenceStringFromBook: (NSUInteger) theBook forChapter: (NSUInteger) theChapter;
++(NSUInteger) bookFromReferenceString: (NSString *) theString;
++(NSUInteger) chapterFromReferenceString: (NSString *) theString;
++(NSUInteger) verseFromReferenceString: (NSString *) theString;
 
++(NSString *) stringFromVerseNumber: (NSUInteger)theVerse;
++(NSString *) stringFromChapterNumber: (NSUInteger)theChapter;
++(NSString *) stringFromBookNumber: (NSUInteger)theBook;
++(NSString *) stringFromChapterNumber: (NSUInteger) theChapter andVerseNumber: (NSUInteger) theVerse;
+-(NSString *) stringFromVerseNumber;
+-(NSString *) stringFromChapterNumber;
+-(NSString *) stringFromBookNumber;
+-(NSString *) stringFromChapterNumberAndVerseNumber;
+
+-(NSString *) format: (NSString *)theFormat, ...;
 
 @end

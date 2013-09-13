@@ -141,10 +141,20 @@ static PKAppDelegate * _instance;
     backButtonImage = [backButtonImage stretchableImageWithLeftCapWidth:30 topCapHeight:30];
     [b setBackButtonBackgroundImage:backButtonImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     [b setBackButtonTitlePositionAdjustment:UIOffsetMake(-5, -2) forBarMetrics:UIBarMetricsDefault];
+    [b setBackButtonTitlePositionAdjustment:UIOffsetMake(-5, -2) forBarMetrics:UIBarMetricsDefaultPrompt];
+    [b setBackButtonTitlePositionAdjustment:UIOffsetMake(-5, -2) forBarMetrics:UIBarMetricsLandscapePhone];
+    [b setBackButtonTitlePositionAdjustment:UIOffsetMake(-5, -2) forBarMetrics:UIBarMetricsLandscapePhonePrompt];
     
     // set the regular bar item's background
     [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleBordered barMetrics:UIBarMetricsDefault];
+    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleBordered barMetrics:UIBarMetricsDefaultPrompt];
+    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleBordered barMetrics:UIBarMetricsLandscapePhone];
+    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleBordered barMetrics:UIBarMetricsLandscapePhonePrompt];
+
     [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleDone barMetrics:UIBarMetricsDefault];
+    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleDone barMetrics:UIBarMetricsDefaultPrompt];
+    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleDone barMetrics:UIBarMetricsLandscapePhone];
+    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleDone barMetrics:UIBarMetricsLandscapePhonePrompt];
     
     [b setTintColor: [PKSettings PKPageColor]];
     [b setTitleTextAttributes:@{
@@ -176,15 +186,20 @@ static PKAppDelegate * _instance;
     UIImage *img = [UIImage imageWithColor: [[PKSettings PKSecondaryPageColor] colorWithAlphaComponent:0.85] ];
 
     [nba setBackgroundImage:img forBarMetrics:UIBarMetricsDefault];
+    [nba setBackgroundImage:img forBarMetrics:UIBarMetricsDefaultPrompt];
+    [nba setBackgroundImage:img forBarMetrics:UIBarMetricsLandscapePhone];
+    [nba setBackgroundImage:img forBarMetrics:UIBarMetricsLandscapePhonePrompt];
+    
     //[nba setShadowImage:[[UIImage alloc] init]];
     
     nba.titleTextAttributes = @{ UITextAttributeTextColor: [PKSettings PKTextColor],
                                  UITextAttributeTextShadowColor: [UIColor clearColor],
-      UITextAttributeFont: [UIFont fontWithName:PKSettings.interfaceFont size:20]
-                                 };
+                                 UITextAttributeFont: [UIFont fontWithName:PKSettings.interfaceFont size:18]
+                               };
   }
   else
   {
+    nba.barStyle = UIBarStyleDefault;
     nba.barTintColor = [PKSettings PKSecondaryPageColor ]; //TODO: decide final version of header color on iOS 7
     nba.titleTextAttributes = @{ UITextAttributeTextColor: [PKSettings PKTextColor],
                                  UITextAttributeTextShadowColor: [UIColor clearColor],
@@ -201,7 +216,11 @@ static PKAppDelegate * _instance;
 {
   if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
   {
-    sba.tintColor = [PKSettings PKNavigationColor];
+    sba.tintColor = [PKSettings PKSecondaryPageColor];
+  }
+  else
+  {
+    sba.barTintColor = [PKSettings PKSecondaryPageColor];
   }
 }
 
@@ -209,14 +228,26 @@ static PKAppDelegate * _instance;
 {
   if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
   {
-    //sca.tintColor = [PKSettings PKNavigationColor];
-    // TODO: iPhone landscape metrics?
-    [sca setBackgroundImage:[[UIImage alloc]init] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0]  forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-    [sca setDividerImage:[UIImage imageWithColor:[PKSettings PKTintColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [sca setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor] andSize:CGSizeMake(10,40)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [sca setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor] andSize:CGSizeMake(10,40)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefaultPrompt];
+    [sca setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor] andSize:CGSizeMake(10,30)] forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+    [sca setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor] andSize:CGSizeMake(10,40)] forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhonePrompt];
     
-    //sca.layer.backgroundColor = [PKSettings PKTintColor].CGColor;
+    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefaultPrompt];
+    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,30) andRoundedCornerRadius:5.0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
+    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhonePrompt];
+    
+    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0]  forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0]  forState:UIControlStateSelected barMetrics:UIBarMetricsDefaultPrompt];
+    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,30) andRoundedCornerRadius:5.0]  forState:UIControlStateSelected barMetrics:UIBarMetricsLandscapePhone];
+    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0]  forState:UIControlStateSelected barMetrics:UIBarMetricsLandscapePhonePrompt];
+    
+    [sca setDividerImage:[UIImage imageWithColor:[PKSettings PKTintColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [sca setDividerImage:[UIImage imageWithColor:[PKSettings PKTintColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefaultPrompt];
+    [sca setDividerImage:[UIImage imageWithColor:[PKSettings PKTintColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+    [sca setDividerImage:[UIImage imageWithColor:[PKSettings PKTintColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhonePrompt];
+    
     sca.layer.cornerRadius = 5.0f;
     sca.layer.borderWidth = 1.0f;
     sca.layer.borderColor = [PKSettings PKTintColor].CGColor;
@@ -296,6 +327,7 @@ static PKAppDelegate * _instance;
   {
     self.window.tintColor = [PKSettings PKTintColor];
     UIApplication.sharedApplication.statusBarStyle = [PKSettings PKStatusBarStyle];
+    [self.rootViewController setNeedsStatusBarAppearanceUpdate];
   }
   
 }
@@ -325,7 +357,7 @@ static PKAppDelegate * _instance;
   
   if ([_mySettings usageStats] == YES)
   {
-   // [TestFlight takeOff: TESTFLIGHT_API_KEY];
+    [TestFlight takeOff: TESTFLIGHT_API_KEY];
    // [Helpshift installForAppID:HELPSHIFT_APP_ID domainName:HELPSHIFT_DOMAIN apiKey:HELPSHIFT_API_KEY];
   
   }
@@ -434,36 +466,19 @@ static PKAppDelegate * _instance;
   // inspired by https://gist.github.com/1026439 and https://gist.github.com/3798781
   
   self.splash = [[UIImageView alloc] initWithFrame: self.window.frame];
+  CGRect theFrame;
   
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
   { switch ([[UIApplication sharedApplication] statusBarOrientation])
     {
       case UIInterfaceOrientationLandscapeLeft:
       case UIInterfaceOrientationLandscapeRight:
-        
-        if ([UIScreen mainScreen].scale == 2)
-        {
-          _splash.image = [UIImage imageNamed: @"Default-Landscape@2x~ipad.png"];
-        }
-        else
-        {
-          _splash.image = [UIImage imageNamed: @"Default-Landscape~ipad.png"];
-        }
-        [_splash setFrame: CGRectMake(0, 0, 1024, 748)];
+        theFrame = CGRectMake(0, 0, 1024, 768);
         break;
         
       case UIInterfaceOrientationPortrait:
       case UIInterfaceOrientationPortraitUpsideDown:
-        
-        if ([UIScreen mainScreen].scale == 2)
-        {
-          _splash.image = [UIImage imageNamed: @"Default-Portrait@2x~ipad.png"];
-        }
-        else
-        {
-          _splash.image = [UIImage imageNamed: @"Default-Portrait~ipad.png"];
-        }
-        [_splash setFrame: CGRectMake(0, 0, 768, 1004)];
+        theFrame = CGRectMake(0, 0, 768, 1024);
         break;
     }
   }
@@ -476,22 +491,22 @@ static PKAppDelegate * _instance;
       if ([UIScreen mainScreen].bounds.size.height == 568.0f)
       {
         // 4 inch iPhone 5
-        _splash.image = [UIImage imageNamed: @"Default-568h@2x.png"];
-        [_splash setFrame: CGRectMake(0, 0, 320, 548)];
+        theFrame = CGRectMake(0, 0, 320, 568);
       }
       else
       {
-        _splash.image = [UIImage imageNamed: @"Default@2x.png"];
-        [_splash setFrame: CGRectMake(0, 0, 320, 460)];
+        theFrame = CGRectMake(0, 0, 320, 480);
       }
     }
     else
     {
-      _splash.image = [UIImage imageNamed: @"Default.png"];
-      [_splash setFrame: CGRectMake(0, 0, 320, 460)];
+      theFrame = CGRectMake(0, 0, 320, 480);
     }
   }
-  
+
+  _splash.image = [UIImage imageWithColor:[UIColor colorWithHexString:@"F1EEE5"] andSize:theFrame.size];
+  [_splash setFrame: theFrame];
+
   [self.window.rootViewController.view addSubview: _splash];
   [self.window.rootViewController.view bringSubviewToFront: _splash];
   
@@ -499,7 +514,7 @@ static PKAppDelegate * _instance;
   [self performBlockAsynchronouslyInForeground:^(void)
   {
     [UIView transitionWithView: weakSelf.window
-                      duration: 1.00f
+                      duration: 0.30f
                        options: UIViewAnimationOptionCurveEaseInOut
                     animations:^(void) {
                       _splash.alpha = 0.0f;
@@ -508,7 +523,7 @@ static PKAppDelegate * _instance;
                       [_splash removeFromSuperview];
                     }
      ];
-  } afterDelay:2.0f];
+  } afterDelay:1.0f];
   
   [self.window makeKeyAndVisible];
   
@@ -521,7 +536,7 @@ static PKAppDelegate * _instance;
   if (notificationPayload)
   {
     if ([notificationPayload[@"origin"] isEqualToString:@"helpshift"]) {
-      [[Helpshift sharedInstance] handleNotification:notificationPayload withController:self.rootViewController];
+      //[[Helpshift sharedInstance] handleNotification:notificationPayload withController:self.rootViewController];
     }
     else
     {
@@ -547,7 +562,7 @@ static PKAppDelegate * _instance;
   // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method
   // to pause the game.
   // and restore the brightness
-  [[UIScreen mainScreen] setBrightness: _brightness];
+  //[[UIScreen mainScreen] setBrightness: _brightness];
 }
 
 /**
@@ -563,15 +578,9 @@ static PKAppDelegate * _instance;
   // quits.
   
   // and restore the brightness
-  [[UIScreen mainScreen] setBrightness: _brightness];
+  //[[UIScreen mainScreen] setBrightness: _brightness];
   
-  // attempt to fix issue #36
-  NSArray *indexPaths        = [_bibleViewController.tableView indexPathsForVisibleRows];
-  
-  if ([indexPaths count] > 0)
-  {
-    [PKSettings instance].topVerse = [indexPaths[0] row] + 1;
-  }
+  [_bibleViewController saveTopVerse];
   
   // save our settings
   [[PKSettings instance] saveSettings];
@@ -617,7 +626,7 @@ static PKAppDelegate * _instance;
 {
   // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   // and restore the brightness
-  [[UIScreen mainScreen] setBrightness: _brightness];
+//  [[UIScreen mainScreen] setBrightness: _brightness];
   [[PKSettings instance] saveSettings];
 }
 
@@ -628,7 +637,7 @@ static PKAppDelegate * _instance;
  */
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-  [[Helpshift sharedInstance] registerDeviceToken:deviceToken];
+//  [[Helpshift sharedInstance] registerDeviceToken:deviceToken];
 
  // Store the deviceToken in the current Installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -642,7 +651,7 @@ static PKAppDelegate * _instance;
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
   if ([userInfo[@"origin"] isEqualToString:@"helpshift"]) {
-    [[Helpshift sharedInstance] handleNotification:userInfo withController:self.rootViewController];
+//    [[Helpshift sharedInstance] handleNotification:userInfo withController:self.rootViewController];
   }
   else
   {

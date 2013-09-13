@@ -81,7 +81,7 @@
   if (self)
   {
     // Custom initialization
-    [self.view setFrame: CGRectMake(0, 0, 320, 460)];
+   // [self.view setFrame: CGRectMake(0, 0, 320, 460)];
   }
   return self;
 }
@@ -105,6 +105,14 @@
       [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
       self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     }
+    else
+    {
+      self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefaultPrompt];
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsLandscapePhone];
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsLandscapePhonePrompt];
+    }
   }
 
   _fontSizes     = @[@9, @10, @11, @12, @14, @16, @18, @20, @22, @26, @32, @48];
@@ -123,7 +131,8 @@
   self.view.backgroundColor = [UIColor colorWithWhite: 0.9 alpha: 1];
   if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
   {
-    self.view.backgroundColor = [UIColor clearColor];
+      if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        self.view.backgroundColor = [UIColor clearColor];
   }
 
   _label1                 = [[UILabel alloc] initWithFrame: CGRectMake(10, 10, 160, 30)];
@@ -359,7 +368,7 @@
             reuseIdentifier: cellID];
   }
 
-  int row = [indexPath row];
+  NSInteger row = [indexPath row];
 
   cell.textLabel.text          = _fontNames[row];
   cell.textLabel.numberOfLines = 1;
@@ -390,7 +399,7 @@
 
 -(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath
 {
-  int row = [indexPath row];
+  NSInteger row = [indexPath row];
   [tableView deselectRowAtIndexPath: indexPath animated: YES];
 
   if (tableView == _greekFontPicker)

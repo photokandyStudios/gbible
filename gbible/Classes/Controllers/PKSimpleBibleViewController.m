@@ -58,7 +58,7 @@
 
 @implementation PKSimpleBibleViewController
 {
-  int globalVerse;
+  NSUInteger globalVerse;
   NSArray * /**__strong**/ _currentGreekChapter;
   NSArray * /**__strong**/ _currentEnglishChapter;
   NSMutableArray * /**__strong**/ _formattedGreekChapter;
@@ -72,8 +72,8 @@
   NSMutableArray * /**__strong**/ _formattedCells;
   UITableViewCell * /**__strong**/ _theCachedCell;
   NSArray * /**__strong**/ _bibleTextIDs;
-  int _currentBook;
-  int _currentChapter;
+  NSUInteger _currentBook;
+  NSUInteger _currentChapter;
   int _reusableLabelQueuePosition;
   BOOL _dirty;
 }
@@ -88,7 +88,7 @@
  * Load the desired chapter for the desired book. Also saves the settings.
  *
  */
--(void)loadChapter: (int) theChapter forBook: (int) theBook
+-(void)loadChapter: (NSUInteger) theChapter forBook: (NSUInteger) theBook
 {
   _selectedVerses             = [[NSMutableDictionary alloc] init];
   globalVerse = 0;
@@ -97,7 +97,7 @@
   [self.tableView reloadData];
 }
 
--(void)selectVerse: (int)theVerse
+-(void)selectVerse: (NSUInteger)theVerse
 {
   NSUInteger row            = theVerse -1;
   globalVerse = theVerse;
@@ -111,7 +111,7 @@
 
 }
 
--(void)scrollToVerse: (int)theVerse
+-(void)scrollToVerse: (NSUInteger)theVerse
 {
   __weak typeof(self) weakSelf = self;
   [self performBlockAsynchronouslyInForeground:^(void)
@@ -159,7 +159,7 @@
   NSDate *tEndTime;
 
   tStartTime            = [NSDate date];
-  self.title            = [[PKBible nameForBook: _currentBook] stringByAppendingFormat: @" %i", _currentChapter];
+  self.title            = [[PKBible nameForBook: _currentBook] stringByAppendingFormat: @" %lu", (unsigned long)_currentChapter];
   startTime             = [NSDate date];
   _currentGreekChapter   = [PKBible getTextForBook: _currentBook forChapter: _currentChapter forSide: 1];
   _currentEnglishChapter = [PKBible getTextForBook: _currentBook forChapter: _currentChapter forSide: 2];
@@ -354,7 +354,10 @@
 
   if (self.navigationItem)
   {
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+      self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    else
+      self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     UIBarButtonItem *closeButton =
       [[UIBarButtonItem alloc] initWithTitle: __T(@"Done") style: UIBarButtonItemStylePlain target: self action: @selector(closeMe:)
       ];
@@ -382,7 +385,7 @@
 {
   [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
   // get the top verse so we can scroll back to it after the rotation change
-  int theVerse = [[self.tableView indexPathsForVisibleRows][0] row] + 1;
+  NSUInteger theVerse = [[self.tableView indexPathsForVisibleRows][0] row] + 1;
 
   [self loadChapter];
   [self reloadTableCache];
@@ -422,9 +425,9 @@
 -(NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
   // return the number of verses in the current passage
-  int currentGreekVerseCount   = [_currentGreekChapter count];
-  int currentEnglishVerseCount = [_currentEnglishChapter count];
-  int currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
+  NSUInteger currentGreekVerseCount   = [_currentGreekChapter count];
+  NSUInteger currentEnglishVerseCount = [_currentEnglishChapter count];
+  NSUInteger currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
 
   return currentVerseCount;
 }
@@ -459,8 +462,8 @@
   float theMax = MAX(greekVerseHeight, englishVerseHeight);
 
   // if we have a note to display, add to theMax
-  int theBook      = _currentBook;
-  int theChapter   = _currentChapter;
+  NSUInteger theBook      = _currentBook;
+  NSUInteger theChapter   = _currentChapter;
 
   NSArray *theNote =
     [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:row+1]];
@@ -507,9 +510,9 @@
   }
 
   // are we highlighted?
-  if (_highlightedVerses[[NSString stringWithFormat: @"%i", row + 1]] != nil)
+  if (_highlightedVerses[[PKReference stringFromVerseNumber: row + 1]] != nil)
   {
-    pkCell.highlightColor = _highlightedVerses[[NSString stringWithFormat: @"%i", row + 1]];
+    pkCell.highlightColor = _highlightedVerses[[PKReference stringFromVerseNumber: row + 1]];
   }
   else   // not highlighted, be transparent.
   {
@@ -552,8 +555,8 @@
   NSUInteger row = [indexPath row];
 
   // and check if we have a note
-  int theBook              = _currentBook;
-  int theChapter           = _currentChapter;
+  NSUInteger theBook              = _currentBook;
+  NSUInteger theChapter           = _currentChapter;
 
   NSArray *theNote         =
     [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:row+1]];
@@ -705,7 +708,7 @@
 {
   NSMutableString *theText   = [[NSMutableString alloc] init];
 
-  int theVerse = globalVerse;
+  NSUInteger theVerse = globalVerse;
 
     PKReference *theReference = [PKReference referenceWithBook:_currentBook andChapter:_currentChapter andVerse:theVerse];
     [theText appendFormat:@"%@\n\n", [theReference prettyReference]];
@@ -724,8 +727,8 @@
     [theText appendString: _currentGreekChapter[theVerse - 1]];
   }
 
-  int theBook      = _currentBook;
-  int theChapter   = _currentChapter;
+  NSUInteger theBook      = _currentBook;
+  NSUInteger theChapter   = _currentChapter;
   NSArray *theNote =
     [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse]];
 

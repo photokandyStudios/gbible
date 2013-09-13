@@ -98,13 +98,11 @@
   if (self)
   {
     _reference = theReference;
-    int theBook    = theReference.book;
-    int theChapter = theReference.chapter;
-    int theVerse   = theReference.verse;
+    NSUInteger theBook    = theReference.book;
+    NSUInteger theChapter = theReference.chapter;
+    NSUInteger theVerse   = theReference.verse;
     
-    _noteTitle = [NSString stringWithFormat: @"%@ %i:%i",
-                 [PKBible nameForBook: theBook],
-                 theChapter, theVerse];
+    _noteTitle = [_reference prettyReference];
     
     _note = [NSString stringWithFormat: @"%@\n%@",
             [PKBible getTextForBook: theBook forChapter: theChapter forVerse: theVerse forSide: 1],
@@ -246,7 +244,11 @@
   }
   else
   {
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefaultPrompt];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsLandscapePhone];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsLandscapePhonePrompt];
   }
 }
 
@@ -380,9 +382,9 @@
 
 - (void)showVerse
 {
-  int theVerse = -1;
-  int theBook = -1;
-  int theChapter = -1;
+  NSInteger theVerse = -1;
+  NSInteger theBook = -1;
+  NSInteger theChapter = -1;
   NSString *theSelectedWord = @"";
   if (_txtNote.selectedTextRange)
   {
@@ -393,8 +395,8 @@
   {
     // might have a verse? Format should be of the form
     // abcdef[space]number:number
-    int foundBook = -1;
-    int startIndex = -1;
+    NSInteger foundBook = -1;
+    NSInteger startIndex = -1;
     // first, do we start with a book name?
     for (int i=1; i<=66; i++)
     {
@@ -419,9 +421,9 @@
       theRemainder = [theRemainder stringByReplacingOccurrencesOfString:@":" withString:@"."];
       PKReference *theReference = [PKReference referenceWithString: [NSString stringWithFormat:@"%@.%@", the3LC, theRemainder]];
       
-      int book = theReference.book;
-      int chapter = theReference.chapter;
-      int verse = theReference.verse;
+      NSUInteger book = theReference.book;
+      NSUInteger chapter = theReference.chapter;
+      NSUInteger verse = theReference.verse;
       
       if (book>39 && chapter>0 && verse>0)
       {
@@ -440,7 +442,7 @@
     [sbvc scrollToVerse:theVerse];
 
     UINavigationController *NC = [[UINavigationController alloc] initWithRootViewController:sbvc];
-    NC.navigationBar.barStyle = UIBarStyleBlack;
+    NC.navigationBar.barStyle = UIBarStyleDefault;
     
     NC.modalPresentationStyle = UIModalPresentationFormSheet;
     [self.view endEditing:YES];
@@ -464,7 +466,7 @@
   
   UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
   mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
-  mvnc.navigationBar.barStyle = UIBarStyleBlack;
+  mvnc.navigationBar.barStyle = UIBarStyleDefault;
   [self presentViewController:mvnc animated:YES completion:nil];
 
 }
@@ -472,15 +474,14 @@
 
 #pragma mark -
 #pragma mark a Bible verse is trying to be inserted
-- (void)newReferenceByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
+- (void)newReferenceByBook:(NSUInteger)theBook andChapter:(NSUInteger)theChapter andVerse:(NSUInteger)andVerse
 {
-  NSString *theReference = [NSString stringWithFormat:@" %@ %i:%i ", [PKBible nameForBook:theBook],
-                                                                  theChapter, andVerse];
-  [_txtNote insertText:theReference];
+  NSString *theReference = [[PKReference referenceWithBook:theBook andChapter:theChapter andVerse:andVerse] prettyReference];
+  [_txtNote insertText:[NSString stringWithFormat:@" %@ ", theReference]];
   //[txtNote becomeFirstResponder];
 }
 
-- (void)newVerseByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
+- (void)newVerseByBook:(NSUInteger)theBook andChapter:(NSUInteger)theChapter andVerse:(NSUInteger)andVerse
 {
   NSString *theText = [NSString stringWithFormat:@"%@\n%@",
     [PKBible getTextForBook:theBook forChapter:theChapter forVerse:andVerse forSide:1],

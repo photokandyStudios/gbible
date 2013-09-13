@@ -40,6 +40,7 @@
 #import "FMResultSet.h"
 #import "PKDatabase.h"
 #import "PKBible.h"
+#import "PKReference.h"
 
 @implementation PKHighlights
 
@@ -160,7 +161,7 @@ static PKHighlights * _instance;
  * the UIColor of each highlight.
  *
  */
--(NSMutableDictionary *)allHighlightedReferencesForBook: (int) theBook andChapter: (int) theChapter
+-(NSMutableDictionary *)allHighlightedReferencesForBook: (NSUInteger) theBook andChapter: (NSUInteger) theChapter
 {
   FMDatabaseQueue *content = [PKDatabase instance].content;
   NSMutableDictionary *theArray = [[NSMutableDictionary alloc] init];
@@ -185,7 +186,7 @@ static PKHighlights * _instance;
                                                  green: [theColorArray[1] floatValue]
                                                   blue: [theColorArray[2] floatValue] alpha: 0.33];
         
-        [theArray setValue: theColor forKey: [NSString stringWithFormat: @"%i", theVerse]];
+        [theArray setValue: theColor forKey: [PKReference stringFromVerseNumber: theVerse]];
       }
       [s close];
     }
@@ -250,10 +251,10 @@ static PKHighlights * _instance;
   
   FMDatabaseQueue *content  = [PKDatabase instance].content;
   
-  float red            = 0.0;
-  float green          = 0.0;
-  float blue           = 0.0;
-  float alpha          = 0.0;
+  CGFloat red            = 0.0;
+  CGFloat green          = 0.0;
+  CGFloat blue           = 0.0;
+  CGFloat alpha          = 0.0;
   
   if ([theColor respondsToSelector: @selector(getRed:green:blue:alpha:)])
   {

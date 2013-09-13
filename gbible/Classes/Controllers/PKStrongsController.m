@@ -160,10 +160,12 @@
     }
   }
 
-  self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+  self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
   CGFloat topOffset = self.navigationController.navigationBar.frame.size.height;
   if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ) { topOffset = 0; }
   self.tableView.contentInset = UIEdgeInsetsMake(topOffset, 0, 0, 0);
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0") && !_delegate)
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(-topOffset, 0, 0, 0);
   
   // add search bar
   _theSearchBar                   = [[UISearchBar alloc] initWithFrame: CGRectMake(0, 0, self.tableView.bounds.size.width, 44)];
@@ -211,14 +213,14 @@
     self.navigationItem.leftBarButtonItem = changeReference;*/
   }
   
-  CGRect theRect = CGRectMake(0, self.tableView.center.y + 60, self.tableView.bounds.size.width, 60);
+  CGRect theRect = CGRectMake(0, 88, self.tableView.bounds.size.width, 60);
   _noResults                      = [[UILabel alloc] initWithFrame: theRect];
   _noResults.textColor            = [PKSettings PKTextColor];
-  _noResults.font                 = [UIFont fontWithName: @"Zapfino" size: 15];
+  _noResults.font                 = [UIFont fontWithName: [PKSettings interfaceFont] size: 16];
   _noResults.textAlignment        = NSTextAlignmentCenter;
   _noResults.backgroundColor      = [UIColor clearColor];
-  _noResults.shadowColor          = [UIColor whiteColor];
-  _noResults.autoresizingMask     = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+  _noResults.shadowColor          = [UIColor clearColor];
+  _noResults.autoresizingMask     = UIViewAutoresizingFlexibleWidth;
   _noResults.numberOfLines        = 0;
   [self.view addSubview: _noResults];
 
@@ -230,6 +232,10 @@
   {
     _noResults.text = __Tv(@"do-search", @"Search to display results");
   }
+  _theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
+                              andSize: [[PKSettings instance] textFontSize]];
+  _theBigFont                = [_theFont fontWithSizeDelta:6];
+  
 
   
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
@@ -350,10 +356,10 @@
   CGSize theSize;
   CGFloat theHeight    = 0;
   CGFloat theCellWidth = (self.tableView.bounds.size.width - 30);
-  CGSize maxSize       = CGSizeMake(theCellWidth, 300);
+  CGSize maxSize       = CGSizeMake(theCellWidth, 3000);
   
   theHeight += 10;   // the top margin
-  theHeight += _theBigFont.lineHeight;   // the top labels
+  theHeight += ceil(_theBigFont.lineHeight);   // the top labels
   
   theSize    = [theResult[1] sizeWithFont: _theFont constrainedToSize: maxSize usingLigatures:YES];
   theHeight += theSize.height + 10;
@@ -392,9 +398,10 @@
   
   CGFloat theCellWidth     = (self.tableView.bounds.size.width - 30);
   CGFloat theColumnWidth   = (theCellWidth) / 2;
+  CGFloat theBigLineHeight    = ceil ( _theBigFont.lineHeight );
   
   // now create the new subviews
-  UILabel *theStrongsLabel = [[UILabel alloc] initWithFrame: CGRectMake(10, 10, theColumnWidth, _theBigFont.lineHeight)];
+  UILabel *theStrongsLabel = [[UILabel alloc] initWithFrame: CGRectMake(10, 10, theColumnWidth, theBigLineHeight)];
   theStrongsLabel.text            = _theSearchResults[row];
   theStrongsLabel.textColor       = [PKSettings PKStrongsColor];
   theStrongsLabel.font            = _theBigFont;
@@ -403,7 +410,7 @@
   NSArray *theResult     = [PKStrongs entryForKey: _theSearchResults[row]];
   
   UILabel *theLemmaLabel =
-  [[UILabel alloc] initWithFrame: CGRectMake(theColumnWidth + 20, 10, theColumnWidth, _theBigFont.lineHeight)];
+  [[UILabel alloc] initWithFrame: CGRectMake(theColumnWidth + 20, 10, theColumnWidth, theBigLineHeight)];
   theLemmaLabel.text            = [theResult[1] stringByAppendingFormat: @" (%@)", theResult[2]];
   theLemmaLabel.textAlignment   = NSTextAlignmentRight;
   theLemmaLabel.textColor       = [PKSettings PKTextColor];
@@ -416,7 +423,7 @@
   [[theResult[3] stringByReplacingOccurrencesOfString: @"  " withString: @" "] sizeWithFont: _theFont
                                                                                           constrainedToSize: maxSize usingLigatures:YES];
   PKHotLabel *theDefinitionLabel =
-  [[PKHotLabel alloc] initWithFrame: CGRectMake(10, 20 + _theBigFont.lineHeight, theCellWidth, theSize.height+20)];
+  [[PKHotLabel alloc] initWithFrame: CGRectMake(10, 20 + theBigLineHeight, theCellWidth, theSize.height+20)];
   theDefinitionLabel.text               =
   [theResult[3] stringByReplacingOccurrencesOfString: @"  " withString: @" "];
   theDefinitionLabel.textColor          = [PKSettings PKTextColor];
@@ -489,7 +496,18 @@
 -(void)searchBarTextDidBeginEditing: (UISearchBar *) searchBar
 {
   CGRect theRect = self.tableView.frame;
-  theRect.origin.y               += 44;
+  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+  {
+    theRect.origin.y               += (self.tableView.contentInset.top > 0 ? 44 : 0);
+    if (_delegate)
+    {
+      theRect.origin.y = 44;
+    }
+  }
+  else
+  {
+    theRect.origin.y               += 44;
+  };
   _clickToDismiss                  = [[UIButton alloc] initWithFrame: theRect];
   _clickToDismiss.autoresizingMask = UIViewAutoresizingFlexibleWidth |
   UIViewAutoresizingFlexibleHeight;
@@ -562,7 +580,7 @@
   
   if ( action == @selector(searchBible:) )
   {
-    return YES;
+    return _clickToDismiss == nil;
   }
   
   if ( action == @selector(defineStrongs:) )
@@ -617,7 +635,7 @@
     PKSearchViewController *svc = [[PKSearchViewController alloc] initWithStyle:UITableViewStylePlain];
     svc.notifyWithCopyOfVerse = NO;
     svc.delegate = self;
-    if (!_selectedRow)
+    if (!_selectedWord)
     {
       [svc doSearchForTerm: [NSString stringWithFormat: @"\"%@ \"", _theSearchResults[_selectedRow]]];
     }
@@ -707,7 +725,7 @@
 
 #pragma mark -
 #pragma mark Bible Reference Delegate
--(void)newReferenceByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
+-(void)newReferenceByBook:(NSUInteger)theBook andChapter:(NSUInteger)theChapter andVerse:(NSUInteger)andVerse
 {
   if (_delegate)
   {
@@ -716,7 +734,7 @@
   }
 }
 
--(void)newVerseByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
+-(void)newVerseByBook:(NSUInteger)theBook andChapter:(NSUInteger)theChapter andVerse:(NSUInteger)andVerse
 {
   return;
 }

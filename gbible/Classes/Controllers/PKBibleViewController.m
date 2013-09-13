@@ -207,7 +207,7 @@
  * Display the desired book, chapter, and verse. Typically called from the side-bar navigation
  *
  */
--(void)displayBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse
+-(void)displayBook: (NSUInteger) theBook andChapter: (NSUInteger) theChapter andVerse: (NSUInteger) theVerse
 {
   [self performBlockAsynchronouslyInForeground:^(void) {[SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];}
    afterDelay:0.01f];
@@ -224,15 +224,7 @@
       [[PKHistory instance] addReference: [PKReference referenceWithBook:theBook andChapter: theChapter andVerse: theVerse]];
       [weakSelf notifyChangedHistory];
       [PKSettings instance].topVerse = theVerse;
-        if (theVerse > 1)
-        {
-          [weakSelf.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow: theVerse -
-                                                   1 inSection: 0] atScrollPosition: UITableViewScrollPositionTop animated: NO];
-        }
-        else
-        {
-          [weakSelf.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: NO];
-        }
+      [weakSelf scrollToVerse:theVerse withAnimation:NO afterDelay:0.0f];
     } afterDelay:0.02f];
 }
 
@@ -241,7 +233,7 @@
  * Load the desired chapter for the desired book. Also saves the settings.
  *
  */
--(void)loadChapter: (int) theChapter forBook: (int) theBook
+-(void)loadChapter: (NSUInteger) theChapter forBook: (NSUInteger) theBook
 {
   // clear selectedVerses
   _selectedVerses             = [[NSMutableDictionary alloc] init];
@@ -264,8 +256,8 @@
   __weak typeof(self) weakSelf = self;
   [self performBlockAsynchronouslyInForeground:^(void)
     {
-      int currentBook = [[PKSettings instance] currentBook];
-      int currentChapter = [[PKSettings instance] currentChapter];
+      NSUInteger currentBook = [[PKSettings instance] currentBook];
+      NSUInteger currentChapter = [[PKSettings instance] currentChapter];
 
       currentChapter++;
 
@@ -303,8 +295,8 @@
   __weak typeof(self) weakSelf = self;
   [self performBlockAsynchronouslyInForeground:^(void)
   {
-    int currentBook = [[PKSettings instance] currentBook];
-    int currentChapter = [[PKSettings instance] currentChapter];
+    NSUInteger currentBook = [[PKSettings instance] currentBook];
+    NSUInteger currentChapter = [[PKSettings instance] currentChapter];
 
     currentChapter--;
 
@@ -328,10 +320,7 @@
                                                                                                              currentBook forChapter
                                                                                                              : currentChapter]];
     [weakSelf notifyChangedHistory];
-    [weakSelf.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow: [PKBible countOfVersesForBook: currentBook forChapter:
-                                                                           currentChapter] -
-                                             1 inSection: 0] atScrollPosition: UITableViewScrollPositionTop animated: NO];
-
+    [weakSelf scrollToVerse: MAX( [_currentGreekChapter count], [_currentEnglishChapter count]) withAnimation:NO afterDelay:0.0];
   } afterDelay:0.02f
   ];
 }
@@ -375,18 +364,10 @@
   NSDate *tEndTime;
 
   tStartTime            = [NSDate date];
-  _tableTitle.text       = [[PKBible nameForBook: currentBook] stringByAppendingFormat: @" %i", currentChapter];
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-  {
-    NSString * bookName= [PKBible nameForBook:currentBook];
-    bookName = [bookName stringByReplacingOccurrencesOfString:@" " withString:@""];
-    bookName = [bookName substringToIndex:3];
-    self.title            = [bookName stringByAppendingFormat: @". %i", currentChapter];
-  }
-  else
-  {
-    self.title = _tableTitle.text;
-  }
+  PKReference *theReference = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:0];
+  _tableTitle.text       = [theReference format:@"%bN %c#"];
+  self.title = [theReference format:@"%bNS?. %c#"];
+
   startTime             = [NSDate date];
   _currentGreekChapter   = [PKBible getTextForBook: currentBook forChapter: currentChapter forSide: 1];
   _currentEnglishChapter = [PKBible getTextForBook: currentBook forChapter: currentChapter forSide: 2];
@@ -528,11 +509,14 @@
 
 -(void) saveTopVerse
 {
-  NSArray *indexPaths = [self.tableView indexPathsForVisibleRows];
-
-  if ([indexPaths count] > 0)
+  CGFloat offset = 64.0f;
+  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && self.navigationController.navigationBarHidden)
+    offset = 0;
+  NSIndexPath *topRow = [self.tableView indexPathForRowAtPoint:CGPointMake(0, offset + self.tableView.contentOffset.y)];
+  
+  if (topRow != nil)
   {
-    [PKSettings instance].topVerse = [indexPaths[1] row] + 1;
+    [PKSettings instance].topVerse = [topRow row] + 1;
   }
   else
   {
@@ -542,81 +526,69 @@
 
 -(void) scrollToTopVerseWithAnimation
 {
-  // attempt to fix issue #37
-  __weak typeof(self) weakSelf = self;
-  [self performBlockAsynchronouslyInForeground:^(void)
-    {
-      if ([[PKSettings instance] topVerse] > 1)
-      {
-        if ([weakSelf.tableView numberOfRowsInSection: 0] >  1)
-        {
-          if ([[PKSettings instance] topVerse] - 1 < [self.tableView numberOfRowsInSection: 0])
-          {
-            [weakSelf.tableView scrollToRowAtIndexPath:
-             [NSIndexPath                    indexPathForRow:
-              [[PKSettings instance] topVerse] - 1 inSection: 0]
-                                  atScrollPosition: UITableViewScrollPositionTop animated: YES];
-          }
-        }
-      }
-      else
-      {
-        [weakSelf.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: YES];
-      }
-    }
-  afterDelay:0.01];
+  [self scrollToVerse:PKSettings.instance.topVerse withAnimation:YES afterDelay:0.01f];
 }
 
 -(void) scrollToTopVerse
 {
-  // attempt to fix issue #37
-  __weak typeof(self) weakSelf = self;
-  [self performBlockAsynchronouslyInForeground:^(void)
-    {
-      if ([[PKSettings instance] topVerse] > 1)
-      {
-        if ([weakSelf.tableView numberOfRowsInSection: 0] >  1)
-        {
-          if ([[PKSettings instance] topVerse] - 1 < [self.tableView numberOfRowsInSection: 0])
-          {
-            [weakSelf.tableView scrollToRowAtIndexPath:
-             [NSIndexPath                    indexPathForRow:
-              [[PKSettings instance] topVerse] - 1 inSection: 0]
-                                  atScrollPosition: UITableViewScrollPositionTop animated: NO];
-          }
-        }
-      }
-      else
-      {
-        [weakSelf.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: NO];
-      }
-    }
-  afterDelay:0.01];
+  [self scrollToVerse:PKSettings.instance.topVerse withAnimation:NO afterDelay:0.01f];
 }
 -(void)scrollToVerse: (int)theVerse
 {
-  __weak typeof(self) weakSelf = self;
-  [self performBlockAsynchronouslyInForeground:^(void)
-    {
-      if (theVerse > 1)
+  [self scrollToVerse:theVerse withAnimation:YES];
+}
+-(void)scrollToVerse: (int)theVerse withAnimation: (BOOL)animation
+{
+  [self scrollToVerse:theVerse withAnimation: animation afterDelay:0.01f];
+}
+
+-(void)scrollToVerse: (int)theVerse withAnimation:(BOOL)animation afterDelay: (float)delay
+{
+  if (delay > 0)
+  {
+    __weak typeof(self) weakSelf = self;
+    [self performBlockAsynchronouslyInForeground:^(void)
       {
-        if ([weakSelf.tableView numberOfRowsInSection: 0] >  1)
+        if (theVerse > 1)
         {
-          if (theVerse - 1 < [self.tableView numberOfRowsInSection: 0])
+          if ([weakSelf.tableView numberOfRowsInSection: 0] >  1)
           {
-            [weakSelf.tableView scrollToRowAtIndexPath:
-             [NSIndexPath                    indexPathForRow:
-              theVerse - 1 inSection: 0]
-                                  atScrollPosition: UITableViewScrollPositionMiddle animated: YES];
+            if (theVerse - 1 < [self.tableView numberOfRowsInSection: 0])
+            {
+              [weakSelf.tableView scrollToRowAtIndexPath:
+               [NSIndexPath                    indexPathForRow:
+                theVerse - 1 inSection: 0]
+                                    atScrollPosition: UITableViewScrollPositionTop animated: animation];
+            }
           }
         }
+        else
+        {
+          [weakSelf.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: animation];
+        }
       }
-      else
-      {
-        [weakSelf.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: YES];
-      }
-    }
-  afterDelay: 0.01];
+    afterDelay: delay];
+  }
+  else
+  {
+        if (theVerse > 1)
+        {
+          if ([self.tableView numberOfRowsInSection: 0] >  1)
+          {
+            if (theVerse - 1 < [self.tableView numberOfRowsInSection: 0])
+            {
+              [self.tableView scrollToRowAtIndexPath:
+               [NSIndexPath                    indexPathForRow:
+                theVerse - 1 inSection: 0]
+                                    atScrollPosition: UITableViewScrollPositionTop animated: animation];
+            }
+          }
+        }
+        else
+        {
+          [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: animation];
+        }
+  }
 }
 #pragma mark -
 #pragma mark View Lifecycle
@@ -716,7 +688,7 @@
 
 -(void)viewWillDisappear: (BOOL) animated
 {
-  int theVerse = [[self.tableView indexPathsForVisibleRows][0] row] + 1;
+  NSInteger theVerse = [[self.tableView indexPathsForVisibleRows][0] row] + 1;
   [PKSettings instance].topVerse = theVerse;
   [[PKSettings instance] saveCurrentReference];
 
@@ -816,13 +788,24 @@
                                                    stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
   
   // build the toggle items
+  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+  {
   _toggleStrongsBtn = [UIBarButtonItem barButtonItemWithTitle:@"G#" target:self action:@selector(toggleStrongs:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-  _toggleStrongsBtn.accessibilityLabel = __T(@"Toggle Strong's Numbers");
 
   _toggleMorphologyBtn = [UIBarButtonItem barButtonItemWithTitle:@"Morph" target:self action:@selector(toggleMorphology:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-  _toggleMorphologyBtn.accessibilityLabel = __T(@"Toggle Morphology");
 
   _toggleTranslationBtn = [UIBarButtonItem barButtonItemWithTitle:@"Tran" target:self action:@selector(toggleTranslation:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+  }
+  else
+  {
+  _toggleStrongsBtn = [UIBarButtonItem barButtonItemWithTitle:@"G#" target:self action:@selector(toggleStrongs:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+
+  _toggleMorphologyBtn = [UIBarButtonItem barButtonItemWithTitle:@"M" target:self action:@selector(toggleMorphology:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+
+  _toggleTranslationBtn = [UIBarButtonItem barButtonItemWithTitle:@"Tr" target:self action:@selector(toggleTranslation:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+  }
+  _toggleStrongsBtn.accessibilityLabel = __T(@"Toggle Strong's Numbers");
+  _toggleMorphologyBtn.accessibilityLabel = __T(@"Toggle Morphology");
   _toggleTranslationBtn.accessibilityLabel = __T(@"Toggle Translation");
 
 
@@ -882,11 +865,11 @@
   UIView *headerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
   _tableTitle            = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
   _previousChapterButton = [UIButton buttonWithType: UIButtonTypeCustom];
-  [_previousChapterButton setFrame: CGRectMake(10, 22, 44, 44)];
+  [_previousChapterButton setFrame: CGRectMake((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 10 : 0), 22, 44, 44)];
 
   UIView *footerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, self.tableView.frame.size.width, 64)];
   _nextChapterButton = [UIButton buttonWithType: UIButtonTypeCustom];
-  [_nextChapterButton setFrame: CGRectMake(self.tableView.frame.size.width - 54, 10, 44, 44)];
+  [_nextChapterButton setFrame: CGRectMake(self.tableView.frame.size.width - (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 54 : 44), 10, 44, 44)];
 
   // set the button titles
   [_previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft-30" withColor:[PKSettings PKTintColor]] forState: UIControlStateNormal];
@@ -1180,23 +1163,10 @@
 {
   _lastKnownOrientation = [[UIDevice currentDevice] orientation];
   [self calculateShadows];
-  // get the top verse so we can scroll back to it after the rotation change
-  int theVerse = [[self.tableView indexPathsForVisibleRows][0] row] + 1;
-
+  [self saveTopVerse];
   [self loadChapter];
   [self reloadTableCache];
-
-  if (theVerse > 1)
-  {
-    [self.tableView scrollToRowAtIndexPath:
-     [NSIndexPath indexPathForRow:
-      theVerse - 1      inSection: 0]
-                          atScrollPosition: UITableViewScrollPositionTop animated: YES];
-  }
-  else
-  {
-    [self.tableView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: YES];
-  }
+  [self scrollToTopVerseWithAnimation];
 }
 
 /*
@@ -1228,9 +1198,9 @@
 -(NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
   // return the number of verses in the current passage
-  int currentGreekVerseCount   = [_currentGreekChapter count];
-  int currentEnglishVerseCount = [_currentEnglishChapter count];
-  int currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
+  NSUInteger currentGreekVerseCount   = [_currentGreekChapter count];
+  NSUInteger currentEnglishVerseCount = [_currentEnglishChapter count];
+  NSUInteger currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
 
   return currentVerseCount;
 }
@@ -1265,8 +1235,8 @@
   float theMax = MAX(greekVerseHeight, englishVerseHeight);
 
   // if we have a note to display, add to theMax
-  int theBook      = [[PKSettings instance] currentBook];
-  int theChapter   = [[PKSettings instance] currentChapter];
+  NSUInteger theBook      = [[PKSettings instance] currentBook];
+  NSUInteger theChapter   = [[PKSettings instance] currentChapter];
 
   NSArray *theNote =
     [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter: theChapter andVerse: row + 1]];
@@ -1317,9 +1287,9 @@
   }
 
   // are we highlighted?
-  if (_highlightedVerses[[NSString stringWithFormat: @"%i", row + 1]] != nil)
+  if (_highlightedVerses[[PKReference stringFromVerseNumber: row + 1]] != nil)
   {
-    pkCell.highlightColor = _highlightedVerses[[NSString stringWithFormat: @"%i", row + 1]];
+    pkCell.highlightColor = _highlightedVerses[[PKReference stringFromVerseNumber: row + 1]];
   }
   else   // not highlighted, be transparent.
   {
@@ -1361,19 +1331,9 @@
   cell.backgroundColor     = [UIColor clearColor];
   NSUInteger row = [indexPath row];
 
-  /*
-     // add in a verse #
-     UILabel *theVerseNumber = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.bounds.size.width-120, 0, 120, 80)];
-
-     theVerseNumber.text = [NSString stringWithFormat:@"%i", row+1];
-     theVerseNumber.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0625];
-     theVerseNumber.backgroundColor = [UIColor clearColor];
-     theVerseNumber.textAlignment = UITextAlignmentRight;
-     theVerseNumber.font = [UIFont fontWithName:@"Helvetica" size:96];
-   */
   // and check if we have a note
-  int theBook              = [[PKSettings instance] currentBook];
-  int theChapter           = [[PKSettings instance] currentChapter];
+  NSUInteger theBook              = [[PKSettings instance] currentBook];
+  NSUInteger theChapter           = [[PKSettings instance] currentChapter];
 
   NSArray *theNote         =
     [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter: theChapter andVerse: row + 1]];
@@ -1403,10 +1363,10 @@
                                                                     andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width -
                              (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 1999) usingLigatures:YES ];
-    CGRect theRect        = CGRectMake( ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad  ) ? 44 : 10,
+    CGRect theRect        = CGRectIntegral( CGRectMake( ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad  ) ? 44 : 10,
                                         theMax + 10,
                                         self.tableView.bounds.size.width -
-                                        (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad  ) ? 88 : 20), theSize.height);
+                                        (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad  ) ? 88 : 20), theSize.height) );
 
     UILabel *theNoteLabel = [[UILabel alloc] initWithFrame: theRect];
     theNoteLabel.text            = theNoteText;
@@ -1490,9 +1450,9 @@
   }
 
   // are we highlighted?
-  if (_highlightedVerses[[NSString stringWithFormat: @"%i", row + 1]] != nil)
+  if (_highlightedVerses[[PKReference stringFromVerseNumber: row + 1]] != nil)
   {
-    newCell.highlightColor = _highlightedVerses[[NSString stringWithFormat: @"%i", row + 1]];
+    newCell.highlightColor = _highlightedVerses[[PKReference stringFromVerseNumber: row + 1]];
   }
   else   // not highlighted, be transparent.
   {
@@ -1644,9 +1604,9 @@
       }
 
       // are we highlighted?
-      if (_highlightedVerses[[NSString stringWithFormat: @"%i", row + 1]] != nil)
+      if (_highlightedVerses[[PKReference stringFromVerseNumber: row + 1]] != nil)
       {
-        newCell.highlightColor = _highlightedVerses[[NSString stringWithFormat: @"%i", row + 1]];
+        newCell.highlightColor = _highlightedVerses[[PKReference stringFromVerseNumber: row + 1]];
       }
       else       // not highlighted, be transparent.
       {
@@ -1667,7 +1627,7 @@
         theNewRect.origin.y       -= 5;
         theNewRect.size.width     += 30;
         theNewRect.size.height    += 10;
-        UILabel *theNewWord = [[UILabel alloc] initWithFrame: theNewRect];
+        UILabel *theNewWord = [[UILabel alloc] initWithFrame: CGRectIntegral(theNewRect)];
         theNewWord.alpha           = 0.0f;
         theNewWord.backgroundColor = [UIColor whiteColor];
         theNewWord.textColor       = [PKSettings PKTextColor];
@@ -1862,7 +1822,11 @@
   [_PO dismissPopoverAnimated: NO];
 
   [self.navigationController setNavigationBarHidden: YES animated: YES];
-  [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+  if SYSTEM_VERSION_LESS_THAN(@"7.0")
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+  else
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+  
   CGRect theFrame = PKAppDelegate.sharedInstance.rootViewController.view.frame;
   if ( UIInterfaceOrientationIsLandscape(  [[UIApplication sharedApplication] statusBarOrientation] ))
   {
@@ -1904,24 +1868,30 @@
 {
   [_btnRegularScreen removeFromSuperview];
   _btnRegularScreen = nil;
-  [self.navigationController setNavigationBarHidden: NO animated: YES];
-  [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
   if SYSTEM_VERSION_LESS_THAN(@"7.0")
   {
-  CGRect theFrame = PKAppDelegate.sharedInstance.rootViewController.view.frame;
-  if ( UIInterfaceOrientationIsLandscape(  [[UIApplication sharedApplication] statusBarOrientation] ))
-  {
-    if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationLandscapeLeft)
-      theFrame.origin.x = 20;
-    theFrame.size.width = UIScreen.mainScreen.bounds.size.width-20;
+    [self.navigationController setNavigationBarHidden: NO animated: YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+    CGRect theFrame = PKAppDelegate.sharedInstance.rootViewController.view.frame;
+    if ( UIInterfaceOrientationIsLandscape(  [[UIApplication sharedApplication] statusBarOrientation] ))
+    {
+      if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationLandscapeLeft)
+        theFrame.origin.x = 20;
+      theFrame.size.width = UIScreen.mainScreen.bounds.size.width-20;
+    }
+    else
+    {
+      if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait)
+        theFrame.origin.y = 20;
+      theFrame.size.height = UIScreen.mainScreen.bounds.size.height-20;
+    }
+    [PKAppDelegate.sharedInstance.rootViewController.view setFrame:theFrame];
   }
   else
   {
-    if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait)
-      theFrame.origin.y = 20;
-    theFrame.size.height = UIScreen.mainScreen.bounds.size.height-20;
-  }
-  [PKAppDelegate.sharedInstance.rootViewController.view setFrame:theFrame];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [self.navigationController setNavigationBarHidden: NO animated: YES];
+    [self setNeedsStatusBarAppearanceUpdate];
   }
   _fullScreen = NO;
 }
@@ -1930,9 +1900,9 @@
 {
   _selectedVerses = [[NSMutableDictionary alloc] init]; // clear selection
 
-  int currentGreekVerseCount   = [_currentGreekChapter count];
-  int currentEnglishVerseCount = [_currentEnglishChapter count];
-  int currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
+  NSUInteger currentGreekVerseCount   = [_currentGreekChapter count];
+  NSUInteger currentEnglishVerseCount = [_currentEnglishChapter count];
+  NSUInteger currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
 
   // add all the verses to the selection
   for (int i = 0; i < currentVerseCount; i++)
@@ -2113,8 +2083,8 @@
                                 sortedArrayUsingComparator:
                                 ^NSComparisonResult (id obj1, id obj2)
                                 {
-                                  int verse1 = [PKReference verseFromReferenceString: obj1];
-                                  int verse2 = [PKReference verseFromReferenceString: obj2];
+                                  NSUInteger verse1 = [PKReference verseFromReferenceString: obj1];
+                                  NSUInteger verse2 = [PKReference verseFromReferenceString: obj2];
 
                                   if (verse1 > verse2)
                                   {
@@ -2156,8 +2126,8 @@
         }
       }
 
-      int theBook      = [[PKSettings instance] currentBook];
-      int theChapter   = [[PKSettings instance] currentChapter];
+      NSUInteger theBook      = [[PKSettings instance] currentBook];
+      NSUInteger theChapter   = [[PKSettings instance] currentChapter];
       NSArray *theNote =
         [[PKNotes instance] getNoteForReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse]];
       if (theNote != nil)
@@ -2304,8 +2274,8 @@
     [svc doSearchForTerm: _selectedWord];
 
   UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
-  mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
-  mvnc.navigationBar.barStyle = UIBarStyleBlack;
+  mvnc.modalPresentationStyle = UIModalPresentationPageSheet;
+  mvnc.navigationBar.barStyle = UIBarStyleDefault;
           [self presentViewController:mvnc animated:YES completion:nil];
 }
 
@@ -2329,8 +2299,8 @@
   [svc doSearchForTerm: _selectedWord byKeyOnly: isStrongs];
   
   UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
-  mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
-  mvnc.navigationBar.barStyle = UIBarStyleBlack;
+  mvnc.modalPresentationStyle = UIModalPresentationPageSheet;
+  mvnc.navigationBar.barStyle = UIBarStyleDefault;
           [self presentViewController:mvnc animated:YES completion:nil];
 }
 
@@ -2341,13 +2311,14 @@
  */
 -(void)explainVerse: (id) sender
 {
-  int theBook                 = _selectedPassage.book;
-  int theChapter              = _selectedPassage.chapter;
-  int theVerse                = _selectedPassage.verse;
+  NSUInteger theBook                 = _selectedPassage.book;
+  NSUInteger theChapter              = _selectedPassage.chapter;
+  NSUInteger theVerse                = _selectedPassage.verse;
 
-  NSString *theTransformedURL = [NSString stringWithFormat: @"http://bible.cc/%@/%i-%i.htm",
+  NSString *theTransformedURL = [NSString stringWithFormat: @"http://bible.cc/%@/%@-%@.htm",
                                  [[PKBible nameForBook: theBook] lowercaseString],
-                                 theChapter, theVerse];
+                                 [PKReference stringFromChapterNumber:theChapter],
+                                 [PKReference stringFromVerseNumber:theVerse]];
   theTransformedURL = [theTransformedURL stringByReplacingOccurrencesOfString: @" " withString: @"_"];
   NSURL *theURL        = [[NSURL alloc] initWithString: theTransformedURL];
   TSMiniWebBrowser *wb = [[TSMiniWebBrowser alloc] initWithUrl: theURL];
@@ -2356,7 +2327,7 @@
   wb.showActionButton                = YES;
   wb.showReloadButton                = YES;
   wb.mode = TSMiniWebBrowserModeModal;
-  wb.barStyle = UIBarStyleBlack;
+  wb.barStyle = UIBarStyleDefault;
   wb.modalDismissButtonTitle         = __T(@"Done");
           [self presentViewController:wb animated:YES completion:nil];
 }
@@ -2405,6 +2376,7 @@
   {
     PKPortraitNavigationController *mvnc = [[PKPortraitNavigationController alloc] initWithRootViewController: LC];
     mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
+        mvnc.navigationBar.barStyle = UIBarStyleDefault;
           [self presentViewController:mvnc animated:YES completion:nil];
   }
 }
@@ -2448,11 +2420,11 @@
 
 #pragma mark -
 #pragma mark Reference delegate
--(void) newReferenceByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
+-(void) newReferenceByBook:(NSUInteger)theBook andChapter:(NSUInteger)theChapter andVerse:(NSUInteger)andVerse
 {
   [self displayBook:theBook andChapter:theChapter andVerse:andVerse];
 }
--(void) newVerseByBook:(int)theBook andChapter:(int)theChapter andVerse:(int)andVerse
+-(void) newVerseByBook:(NSUInteger)theBook andChapter:(NSUInteger)theChapter andVerse:(NSUInteger)andVerse
 {
   [self displayBook:theBook andChapter:theChapter andVerse:andVerse];  
 }
@@ -2574,11 +2546,11 @@
 }
 
 
--(void)selectVerse: (int)theVerse
+-(void)selectVerse: (NSUInteger)theVerse
 {
-  NSUInteger row            = theVerse -1;
-  int currentBook = [[PKSettings instance] currentBook];
-  int currentChapter = [[PKSettings instance] currentChapter];
+  NSInteger row            = theVerse -1;
+  NSUInteger currentBook = [[PKSettings instance] currentBook];
+  NSUInteger currentChapter = [[PKSettings instance] currentChapter];
   BOOL curValue;
 
   PKReference *reference = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:row+1];
@@ -2589,15 +2561,15 @@
   [self.tableView reloadData];
 }
 
--(int)lowestSelectedVerse
+-(NSUInteger)lowestSelectedVerse
 {
   NSArray *allSelectedVerses = [[_selectedVerses allKeys]
                                 // FIX ISSUE #60
                                 sortedArrayUsingComparator:
                                 ^NSComparisonResult (id obj1, id obj2)
                                 {
-                                  int verse1 = [PKReference verseFromReferenceString: obj1];
-                                  int verse2 = [PKReference verseFromReferenceString: obj2];
+                                  NSUInteger verse1 = [PKReference verseFromReferenceString: obj1];
+                                  NSUInteger verse2 = [PKReference verseFromReferenceString: obj2];
 
                                   if (verse1 > verse2)
                                   {
@@ -2611,12 +2583,12 @@
                                   return NSOrderedSame;
                                 }
                                ];
-  int lowestIndex = 999;
+  NSUInteger lowestIndex = 999;
   for (NSString *key in allSelectedVerses)
   {
     if ([_selectedVerses[key] boolValue])
     {
-      int index = [PKReference verseFromReferenceString:key];
+      NSUInteger index = [PKReference verseFromReferenceString:key];
       if (index < lowestIndex)
         lowestIndex = index;
     }
@@ -2628,15 +2600,15 @@
     return 0;
 }
 
--(int)highestSelectedVerse
+-(NSUInteger)highestSelectedVerse
 {
   NSArray *allSelectedVerses = [[_selectedVerses allKeys]
                                 // FIX ISSUE #60
                                 sortedArrayUsingComparator:
                                 ^NSComparisonResult (id obj1, id obj2)
                                 {
-                                  int verse1 = [PKReference verseFromReferenceString: obj1];
-                                  int verse2 = [PKReference verseFromReferenceString: obj2];
+                                  NSUInteger verse1 = [PKReference verseFromReferenceString: obj1];
+                                  NSUInteger verse2 = [PKReference verseFromReferenceString: obj2];
 
                                   if (verse1 > verse2)
                                   {
@@ -2651,12 +2623,12 @@
                                 }
                                ];
 
-  int highestIndex = 0;
+  NSUInteger highestIndex = 0;
   for (NSString *key in allSelectedVerses)
   {
     if ([_selectedVerses[key] boolValue])
     {
-      int index = [PKReference verseFromReferenceString:key];
+      NSUInteger index = [PKReference verseFromReferenceString:key];
       if (index > highestIndex)
         highestIndex = index;
     }
@@ -2695,11 +2667,11 @@
   // aA= previous chapter
   // dD= next chapter
   //
-  int currentBook = [[PKSettings instance] currentBook];
-  int currentChapter = [[PKSettings instance] currentChapter];
-  int currentGreekVerseCount   = [_currentGreekChapter count];
-  int currentEnglishVerseCount = [_currentEnglishChapter count];
-  int currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
+  NSUInteger currentBook = [[PKSettings instance] currentBook];
+  NSUInteger currentChapter = [[PKSettings instance] currentChapter];
+  NSUInteger currentGreekVerseCount   = [_currentGreekChapter count];
+  NSUInteger currentEnglishVerseCount = [_currentEnglishChapter count];
+  NSUInteger currentVerseCount        = MAX(currentGreekVerseCount, currentEnglishVerseCount);
 
   static NSDate *lastKeypress;
   NSTimeInterval lastKeypressInterval = [lastKeypress timeIntervalSince1970];
@@ -2712,19 +2684,19 @@
   {
     lastKeypress = thisKeypress;
 
-    NSIndexPath *currentPath = [self.tableView indexPathsForVisibleRows][0];
-    int theRow = currentPath.row;
+    [self saveTopVerse];
+    NSInteger theRow = PKSettings.instance.topVerse - 1; // rows are 0; verses are 1-based
     //
     // SCROLL TO TOP
     if ([text isEqualToString:@"t"])
     {
-      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+      [self scrollToVerse:0 withAnimation:YES afterDelay:0.0];
     }
     //
     // SELECT UP ONE VERSE
     if ([text isEqualToString:@"W"])
     {
-      int theLowestVerse = [self lowestSelectedVerse];
+      NSUInteger theLowestVerse = [self lowestSelectedVerse];
       if (theLowestVerse<1)
       {
         theLowestVerse = theRow+1;
@@ -2733,7 +2705,7 @@
       if (theLowestVerse>0)
       {
         [self selectVerse:theLowestVerse];
-        [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theLowestVerse-1 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        [self scrollToVerse:theLowestVerse withAnimation:YES afterDelay:0.0f];
       }
     }
     //
@@ -2741,8 +2713,7 @@
     if ([text isEqualToString:@"w"])
     {
       theRow--;
-      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
-      
+      [self scrollToVerse:theRow+1 withAnimation:YES afterDelay:0.0f];
     }
     //
     // UP THREE VERSES
@@ -2750,16 +2721,14 @@
     {
       theRow = theRow - 3;
       if (theRow < 0) theRow = 0;
-      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
-      
+      [self scrollToVerse:theRow+1 withAnimation:YES afterDelay:0.0f];
     }
     //
     // DOWN ONE VERSE
     if ([text isEqualToString:@"s"])
     {
       theRow++;
-      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
-      
+      [self scrollToVerse:theRow+1 withAnimation:YES afterDelay:0.0f];
     }
     //
     // DOWN THREE VERSES
@@ -2767,14 +2736,13 @@
     {
       theRow = theRow + 3;
       if (theRow > currentVerseCount-1) theRow = currentVerseCount - 1;
-      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theRow inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
-      
+      [self scrollToVerse:theRow+1 withAnimation:YES afterDelay:0.0f];
     }
     //
     // SELECT DOWN ONE VERSE
     if ([text isEqualToString:@"S"])
     {
-      int theHighestVerse = [self highestSelectedVerse];
+      NSUInteger theHighestVerse = [self highestSelectedVerse];
       if (theHighestVerse<1)
       {
         theHighestVerse = theRow;
@@ -2783,14 +2751,14 @@
       if (theHighestVerse>0 && theHighestVerse <= currentVerseCount)
       {
         [self selectVerse:theHighestVerse];
-        [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow:theHighestVerse-1 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        [self scrollToVerse:theHighestVerse withAnimation:YES afterDelay:0.0f];
       }
     }
     //
     // SCROLL TO BOTTOM
     if ([text isEqualToString:@"b"])
     {
-      [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow: currentVerseCount-1 inSection:0]  atScrollPosition:UITableViewScrollPositionTop animated:YES];
+      [self scrollToVerse:currentVerseCount withAnimation:YES afterDelay:0.0f];
     }
     //
     // HIGHLIGHT
@@ -2816,7 +2784,7 @@
     if ([text isEqualToString:@"n"] ||
         [text isEqualToString:@"N"])
     {
-      int lowestVerse = 0;
+      NSUInteger lowestVerse = 0;
       lowestVerse = [self lowestSelectedVerse];
       if (lowestVerse>0)
       {
@@ -2829,7 +2797,7 @@
     if ([text isEqualToString:@"e"] ||
         [text isEqualToString:@"E"])
     {
-      int lowestVerse = 0;
+      NSUInteger lowestVerse = 0;
       lowestVerse = [self lowestSelectedVerse];
       if (lowestVerse>0)
       {

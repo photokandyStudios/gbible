@@ -187,7 +187,7 @@ const int SECTION_THIRD_PARTY = 5;
                       @[ __Tv(@"Anonymous Usage Statistics", @"Anonymous Usage Statistics?"), @2, @"usage-stats" ],
                       @[ __T(@"Rate this app..."), @0 ],
                       @[ __T(@"Submit an issue..."), @0 ],
-                      @[ __T(@"Support"), @0 ],
+//                      @[ __T(@"Support"), @0 ],
                       @[ __T(@"Help and About..."), @0 ]
                      ];
 
@@ -431,7 +431,7 @@ const int SECTION_THIRD_PARTY = 5;
 {
   return [_settingsGroup[section] count];
 }
-
+/*
 -(CGFloat)tableView: (UITableView *) tableView heightForHeaderInSection: (NSInteger) section
 {
   return 20.0 +
@@ -488,7 +488,7 @@ const int SECTION_THIRD_PARTY = 5;
   [footerView addSubview: label];
   return footerView;
 }
-
+*/
 /**
  *
  * Generate the cell for a given index path. This cell will be based on our settings array defined
@@ -550,7 +550,7 @@ const int SECTION_THIRD_PARTY = 5;
     // now, convert it to an NSNumber
     NSNumber *theSettingValue = @([theSetting integerValue]);
     // find it in the cell's 3rd array
-    int theIndex              = [cellData[3] indexOfObject: theSettingValue];
+    NSUInteger theIndex              = [cellData[3] indexOfObject: theSettingValue];
 
     // now look up the corresponding text in the 4th array
     if (theIndex != NSNotFound)
@@ -597,7 +597,7 @@ const int SECTION_THIRD_PARTY = 5;
         blvc.delegate = self;
         UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: blvc];
         mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
-        mvnc.navigationBar.barStyle = UIBarStyleBlack;
+        mvnc.navigationBar.barStyle = UIBarStyleDefault;
           [self presentViewController:mvnc animated:YES completion:nil];
       }
       if (section == SECTION_LAYOUT)
@@ -620,6 +620,7 @@ const int SECTION_THIRD_PARTY = 5;
         {
           PKPortraitNavigationController *mvnc = [[PKPortraitNavigationController alloc] initWithRootViewController: LC];
           mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
+        mvnc.navigationBar.barStyle = UIBarStyleDefault;
           [self presentViewController: mvnc animated:YES completion:nil];
         }
       }
@@ -704,17 +705,17 @@ const int SECTION_THIRD_PARTY = 5;
           wb.showActionButton                = YES;
           wb.showReloadButton                = YES;
           wb.mode = TSMiniWebBrowserModeModal;
-          wb.barStyle = UIBarStyleBlack;
+          wb.barStyle = UIBarStyleDefault;
           wb.modalDismissButtonTitle         = __T(@"Done");
           [self presentViewController:wb animated:YES completion:nil];
           
         }
-        if (row==4)
+/*        if (row==4)
         {
           //TODO: Disable this when anonymous statistics is disabled?
           [[Helpshift sharedInstance] showSupport: self];
-        }
-        if (row==5)
+        }*/
+        if (row==4)
         {
           PKAboutViewController *avc = [[PKAboutViewController alloc] init];
           [self.navigationController pushViewController:avc animated:YES];
@@ -729,7 +730,7 @@ const int SECTION_THIRD_PARTY = 5;
           wb.showActionButton                = YES;
           wb.showReloadButton                = YES;
           wb.mode = TSMiniWebBrowserModeModal;
-          wb.barStyle = UIBarStyleBlack;
+          wb.barStyle = UIBarStyleDefault;
           wb.modalDismissButtonTitle         = __T(@"Done");
           [self presentViewController:wb animated:YES completion:nil];
       }

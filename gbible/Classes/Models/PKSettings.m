@@ -39,6 +39,7 @@
 #import "PKConstants.h"
 #import "PKDatabase.h"
 #import "UIFont+Utility.h"
+#import "PKReference.h"
 
 @implementation PKSettings
 /*
@@ -248,10 +249,10 @@ static PKSettings * _instance;
 {
   FMDatabaseQueue *content = [PKDatabase instance].content;
   [content inTransaction:^(FMDatabase *db, BOOL *rollback) {
-    [self saveSetting: @"current-book" valueForSetting: [NSString stringWithFormat: @"%i", _currentBook]];
-    [self saveSetting: @"current-chapter" valueForSetting: [NSString stringWithFormat: @"%i", _currentChapter]];
-    [self saveSetting: @"current-verse" valueForSetting: [NSString stringWithFormat: @"%i", _currentVerse]];
-    [self saveSetting: @"top-verse" valueForSetting: [NSString stringWithFormat: @"%i", _topVerse]];
+    [self saveSetting: @"current-book" valueForSetting: [PKReference stringFromBookNumber: _currentBook]];
+    [self saveSetting: @"current-chapter" valueForSetting: [PKReference stringFromChapterNumber: _currentChapter]];
+    [self saveSetting: @"current-verse" valueForSetting: [PKReference stringFromVerseNumber: _currentVerse]];
+    [self saveSetting: @"top-verse" valueForSetting: [PKReference stringFromVerseNumber: _topVerse]];
   }];
 }
 
@@ -263,10 +264,10 @@ static PKSettings * _instance;
 -(void) saveCurrentHighlight
 {
   // save the highlight color
-  float red   = 0.0;
-  float green = 0.0;
-  float blue  = 0.0;
-  float alpha = 0.0;
+  CGFloat red   = 0.0;
+  CGFloat green = 0.0;
+  CGFloat blue  = 0.0;
+  CGFloat alpha = 0.0;
 
   if ([_highlightColor respondsToSelector: @selector(getRed:green:blue:alpha:)])
   {
@@ -306,8 +307,8 @@ static PKSettings * _instance;
     [self saveSetting: PK_SETTING_LINESPACING valueForSetting: [NSString stringWithFormat: @"%i", _textLineSpacing]];
     [self saveSetting: PK_SETTING_VERSESPACING valueForSetting: [NSString stringWithFormat: @"%i", _textVerseSpacing]];
     [self saveSetting: PK_SETTING_COLUMNWIDTHS valueForSetting: [NSString stringWithFormat: @"%i", _layoutColumnWidths]];
-    [self saveSetting: PK_SETTING_GREEKTEXT valueForSetting: [NSString stringWithFormat: @"%i", _greekText]];
-    [self saveSetting: PK_SETTING_ENGLISHTEXT valueForSetting: [NSString stringWithFormat: @"%i", _englishText]];
+    [self saveSetting: PK_SETTING_GREEKTEXT valueForSetting: [NSString stringWithFormat: @"%@", @(_greekText)]];
+    [self saveSetting: PK_SETTING_ENGLISHTEXT valueForSetting: [NSString stringWithFormat: @"%@", @(_englishText)]];
     [self saveSetting: PK_SETTING_TRANSLITERATE valueForSetting: (_transliterateText ? @"YES": @"NO")];
     [self saveSetting: PK_SETTING_INLINENOTES valueForSetting: (_showNotesInline ? @"YES": @"NO")];
     [self saveSetting: PK_SETTING_SHOWMORPHOLOGY valueForSetting: (_showMorphology ? @"YES": @"NO")];
@@ -321,9 +322,9 @@ static PKSettings * _instance;
     [self saveSetting: @"extend-highlights" valueForSetting: (_extendHighlights ? @"YES": @"NO")];
 
 
-    [self saveSetting: @"note-book" valueForSetting: [NSString stringWithFormat: @"%i", _noteBook]];
-    [self saveSetting: @"note-chapter" valueForSetting: [NSString stringWithFormat: @"%i", _noteChapter]];
-    [self saveSetting: @"note-verse" valueForSetting: [NSString stringWithFormat: @"%i", _noteVerse]];
+    [self saveSetting: @"note-book" valueForSetting: [PKReference stringFromBookNumber:_noteBook]];
+    [self saveSetting: @"note-chapter" valueForSetting: [PKReference stringFromChapterNumber:_noteChapter]];
+    [self saveSetting: @"note-verse" valueForSetting: [PKReference stringFromVerseNumber:_noteVerse]];
 
     [self saveSetting: @"current-text-highlight" valueForSetting: _currentTextHighlight];
     [self saveSetting: @"last-strongs-lookup" valueForSetting: _lastStrongsLookup];
@@ -486,10 +487,13 @@ static PKSettings * _instance;
 +(UIColor *)PKTintColor
 {
   static NSArray *theColors;
-  if (!theColors) theColors = @[[UIColor colorWithRed: 27.0/255.0 green: 105.0/255.0 blue: 161.0/255.0 alpha: 1.0],
-                                [UIColor colorWithRed: 27.0/255.0 green: 105.0/255.0 blue: 161.0/255.0 alpha: 1.0],
-                                [UIColor colorWithRed: 27.0/255.0 green: 105.0/255.0 blue: 161.0/255.0 alpha: 1.0],
-                                [UIColor colorWithRed: 27.0/255.0 green: 105.0/255.0 blue: 161.0/255.0 alpha: 1.0]
+  float r =  49.0; // 241.0; //  27.0;
+  float g = 167.0; //  49.0; // 105.0;
+  float b = 241.0; // 148.0; // 161.0;
+  if (!theColors) theColors = @[[UIColor colorWithRed: r/255.0 green: g/255.0 blue: b/255.0 alpha: 1.0],
+                                [UIColor colorWithRed: r/255.0 green: g/255.0 blue: b/255.0 alpha: 1.0],
+                                [UIColor colorWithRed: r/255.0 green: g/255.0 blue: b/255.0 alpha: 1.0],
+                                [UIColor colorWithRed: r/255.0 green: g/255.0 blue: b/255.0 alpha: 1.0]
                        ];
   UIColor *theColor = theColors[[[PKSettings instance] textTheme]];
   return theColor;

@@ -40,9 +40,9 @@
 
 @interface PKBibleBookChaptersViewController : UICollectionViewController
 
--(id)initWithBook: (int) theBook;
+-(id)initWithBook: (NSUInteger) theBook;
 
-@property int selectedBook;
+@property NSUInteger selectedBook;
 @property BOOL notifyWithCopyOfVerse;
 @property (nonatomic, weak) id <PKBibleReferenceDelegate> delegate;
 

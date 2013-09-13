@@ -41,14 +41,14 @@
 
 @interface PKBible : NSObject
 
-+(BOOL) isMorphologySupportedByText: (int) theText;
-+(BOOL) isTranslationSupportedByText: (int) theText;
-+(BOOL) isStrongsSupportedByText: (int) theText;
++(BOOL) isMorphologySupportedByText: (NSUInteger) theText;
++(BOOL) isTranslationSupportedByText: (NSUInteger) theText;
++(BOOL) isStrongsSupportedByText: (NSUInteger) theText;
 
 
-+(NSString *) text: (int) theText inDB: (FMDatabaseQueue *)db withColumn: (int) column;
-+(BOOL) isTextBuiltIn: (int) theText;
-+(BOOL) isTextInstalled: (int) theText;
++(NSString *) text: (NSUInteger) theText inDB: (FMDatabaseQueue *)db withColumn: (int) column;
++(BOOL) isTextBuiltIn: (NSUInteger) theText;
++(BOOL) isTextInstalled: (NSUInteger) theText;
 
 
 +(NSArray *) availableTextsInDB: (FMDatabaseQueue *)db withColumn: (int) column;
@@ -58,31 +58,32 @@
 
 +(NSArray *)  availableOriginalTexts: (int) column;
 +(NSArray *)  availableHostTexts: (int) column;
-+(NSString *) titleForTextID: (int) theText;
-+(NSString *) abbreviationForTextID: (int) theText;
-+(NSString *) nameForBook: (int) theBook;
++(NSString *) titleForTextID: (NSUInteger) theText;
++(NSString *) abbreviationForTextID: (NSUInteger) theText;
++(NSString *) nameForBook: (NSUInteger) theBook;
++(NSString *) abbreviationForBookIfNecessary:(NSUInteger)theBook;
 
-+(NSString *) abbreviationForBook: (int) theBook;
-+(int)        countOfChaptersForBook: (int) theBook;
-+(int)        countOfVersesForBook: (int) theBook forChapter: (int) theChapter;
++(NSString *) abbreviationForBook: (NSUInteger) theBook;
++(NSUInteger)        countOfChaptersForBook: (NSUInteger) theBook;
++(NSUInteger)        countOfVersesForBook: (NSUInteger) theBook forChapter: (NSUInteger) theChapter;
 
-+(NSArray *)  getTextForBook: (int) theBook forChapter: (int) theChapter
- forSide                    : (int) theSide;
++(NSArray *)  getTextForBook: (NSUInteger) theBook forChapter: (NSUInteger) theChapter
+ forSide                    : (NSUInteger) theSide;
 
-+(NSString *) getTextForBook: (int) theBook forChapter: (int) theChapter forVerse: (int) theVerse
- forSide                    : (int) theSide;
++(NSString *) getTextForBook: (NSUInteger) theBook forChapter: (NSUInteger) theChapter forVerse: (NSUInteger) theVerse
+ forSide                    : (NSUInteger) theSide;
 
 
 +(NSArray *)  passagesMatching: (NSString *) theTerm;
-+(int)        parsedVariant: (int) theBook;
-+(BOOL)       checkParsingsForBook: (int) theBook;
++(NSInteger)        parsedVariant: (NSUInteger) theBook;
++(BOOL)       checkParsingsForBook: (NSUInteger) theBook;
 +(NSArray *)  passagesMatching: (NSString *) theTerm requireParsings: (BOOL) parsings;
-+(NSArray *)  passagesMatching: (NSString *) theTerm withGreekBible: (int) theGreekBible andEnglishBible: (int) theEnglishBible;
++(NSArray *)  passagesMatching: (NSString *) theTerm withGreekBible: (NSUInteger) theGreekBible andEnglishBible: (NSUInteger) theEnglishBible;
 
 // formatting routines
 +(CGFloat)    formattedTextHeight: (NSArray *) theWordArray withParsings: (BOOL) parsed;
-+(NSArray *)  formatText: (NSString *) theText forColumn: (int) theColumn withBounds: (CGRect) theRect withParsings: (BOOL) parsed
++(NSArray *)  formatText: (NSString *) theText forColumn: (NSUInteger) theColumn withBounds: (CGRect) theRect withParsings: (BOOL) parsed
  startingAt             : (CGFloat) initialY withCompression: (BOOL)compression;
-+(CGFloat)    columnWidth: (int) theColumn forBounds: (CGRect) theRect withCompression: (BOOL)compression;
++(CGFloat)    columnWidth: (NSUInteger) theColumn forBounds: (CGRect) theRect withCompression: (BOOL)compression;
 +(NSString *) transliterate: (NSString *) theWord;
 @end

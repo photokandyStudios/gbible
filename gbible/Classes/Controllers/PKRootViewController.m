@@ -122,11 +122,11 @@
     UINavigationController *navSearchController   =
     [[UINavigationController alloc] initWithRootViewController: searchViewController];
     
-    navBibleController.navigationBar.barStyle    = UIBarStyleBlack;
-    navStrongsController.navigationBar.barStyle  = UIBarStyleBlack;
-    navAboutController.navigationBar.barStyle    = UIBarStyleBlack;
-    navSettingsController.navigationBar.barStyle = UIBarStyleBlack;
-    navSearchController.navigationBar.barStyle   = UIBarStyleBlack;
+    navBibleController.navigationBar.barStyle    = UIBarStyleDefault;
+    navStrongsController.navigationBar.barStyle  = UIBarStyleDefault;
+    navAboutController.navigationBar.barStyle    = UIBarStyleDefault;
+    navSettingsController.navigationBar.barStyle = UIBarStyleDefault;
+    navSearchController.navigationBar.barStyle   = UIBarStyleDefault;
     // set up our nav image
     UINavigationBar *navBar = [navBibleController navigationBar];
     

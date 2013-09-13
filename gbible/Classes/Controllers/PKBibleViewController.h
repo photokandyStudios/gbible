@@ -49,7 +49,8 @@
                                                           PKSearchDelegate, PKBibleReferenceDelegate>
 @property BOOL dirty;
 
--(void)displayBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse;
+-(void)displayBook: (NSUInteger) theBook andChapter: (NSUInteger) theChapter andVerse: (NSUInteger) theVerse;
 -(void)notifyNoteChanged;
+-(void) saveTopVerse;
 
 @end

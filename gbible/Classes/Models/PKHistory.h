@@ -44,7 +44,7 @@
 -(NSMutableArray *)mostRecentReferences;
 -(NSMutableArray *)mostRecentReferencesWithLimit: (int) theLimit;
 -(void)            addReference: (PKReference *) theReference;
--(void)            addReferenceWithBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse;
+-(void)            addReferenceWithBook: (NSUInteger) theBook andChapter: (NSUInteger) theChapter andVerse: (NSUInteger) theVerse;
 -(void)            createSchema;
 
 //v1.1 additions

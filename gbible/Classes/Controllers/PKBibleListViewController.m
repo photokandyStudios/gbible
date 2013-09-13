@@ -104,12 +104,24 @@
       NSMutableArray *mAvailableBibleIDs = [[NSMutableArray alloc] initWithCapacity:10];
       NSMutableArray *mAvailableBibleAbbreviations = [[NSMutableArray alloc] initWithCapacity:10];
       NSMutableArray *mAvailableBibleTitles = [[NSMutableArray alloc] initWithCapacity:10];
+
+      // http://stackoverflow.com/questions/3940615/find-current-country-from-iphone-device
+      NSLocale *currentLocale = [NSLocale currentLocale];    // get the current locale.
+      NSString *countryCode   = [currentLocale objectForKey: NSLocaleCountryCode];
       
       for (int i=0; i<objects.count; i++)
       {
-        [mAvailableBibleIDs addObject:(objects[i])[@"ID"]];
-        [mAvailableBibleAbbreviations addObject:(objects[i])[@"Abbreviation"]];
-        [mAvailableBibleTitles addObject:(objects[i])[@"Title"]];
+        // make sure we don't add the KJV version if we're in the UK, or in the Euro-zone (since they
+        // must respect the UK copyright)
+        if ( !( ([@" GB "
+//          if ( !( ([@" GB AT BE BG CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE "
+                  rangeOfString: [NSString stringWithFormat: @" %@ ", countryCode]].location != NSNotFound)
+                && [(objects[i])[@"Abbreviation"] isEqualToString: @"KJV"] ) )
+        {
+          [mAvailableBibleIDs addObject:(objects[i])[@"ID"]];
+          [mAvailableBibleAbbreviations addObject:(objects[i])[@"Abbreviation"]];
+          [mAvailableBibleTitles addObject:(objects[i])[@"Title"]];
+        }
       }
    
    _availableBibleIDs = [mAvailableBibleIDs copy];
@@ -136,10 +148,10 @@
      ];
     self.navigationItem.rightBarButtonItem = closeButton;
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-    {
-      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
-    }
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefaultPrompt];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsLandscapePhone];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsLandscapePhonePrompt];
 
 
   }

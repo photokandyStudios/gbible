@@ -88,8 +88,8 @@
     {
       // might have a verse? Format should be of the form
       // abcdef[space]number:number
-      int foundBook = -1;
-      int startIndex = -1;
+      NSInteger foundBook = -1;
+      NSInteger startIndex = -1;
       // first, do we start with a book name?
       for (int i=1; i<=66; i++)
       {
@@ -114,9 +114,9 @@
         theRemainder = [theRemainder stringByReplacingOccurrencesOfString:@":" withString:@"."];
         PKReference *theReference = [PKReference referenceWithString:[NSString stringWithFormat:@"%@.%@", the3LC, theRemainder]];
         
-        int book = theReference.book;
-        int chapter = theReference.chapter;
-        int verse = theReference.verse;
+        NSInteger book = theReference.book;
+        NSInteger chapter = theReference.chapter;
+        NSInteger verse = theReference.verse;
         
         if (book>39 && chapter>0 && verse>0)
         {

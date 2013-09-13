@@ -183,13 +183,13 @@ static PKHistory * _instance;
 
 -(void) addReference: (PKReference *) theReference
 {
-  int theBook    = theReference.book;
-  int theChapter = theReference.chapter;
-  int theVerse   = theReference.verse;
+  NSUInteger theBook    = theReference.book;
+  NSUInteger theChapter = theReference.chapter;
+  NSUInteger theVerse   = theReference.verse;
   [self addReferenceWithBook: theBook andChapter: theChapter andVerse: theVerse];
 }
 
--(void) addReferenceWithBook: (int) theBook andChapter: (int) theChapter andVerse: (int) theVerse
+-(void) addReferenceWithBook: (NSUInteger) theBook andChapter: (NSUInteger) theChapter andVerse: (NSUInteger) theVerse
 {
   FMDatabaseQueue *content = [PKDatabase instance].content;
   [content inDatabase:^(FMDatabase *db)

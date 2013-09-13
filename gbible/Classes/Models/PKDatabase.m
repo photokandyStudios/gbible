@@ -40,6 +40,7 @@
 #import "PKNotes.h"
 #import "PKHighlights.h"
 #import "PKSettings.h"
+#include <sys/xattr.h>
 
 @implementation PKDatabase
 
@@ -160,8 +161,8 @@ static PKDatabase * _instance;
                const char *y = (const char *)sqlite3_value_text (aargv[1]);
                NSString *sy = @(y);
                
-               int lx = [sx length];
-               int ly = [sy length];
+               NSUInteger lx = [sx length];
+               NSUInteger ly = [sy length];
                
                if (lx > 0
                    && ly > 0)

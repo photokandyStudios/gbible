@@ -45,6 +45,7 @@
 #import "PKBibleReferenceDelegate.h"
 #import "PKAppDelegate.h"
 #import "UIImage+PKUtility.h"
+#import "PKReference.h"
 
 @interface PKBibleBookChapterVersesViewController ()
 
@@ -60,7 +61,7 @@
  * Set the book and chapter
  *
  */
--(id)initWithBook: (int) theBook withChapter: (int) theChapter
+-(id)initWithBook: (NSUInteger) theBook withChapter: (NSUInteger) theChapter
 {
   self = [super initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
   
@@ -86,11 +87,16 @@
   self.view.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   self.collectionView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   //self.title                                       = __T(@"Select Verse");
-  self.title = [__T(@"Chapter") stringByAppendingFormat:@" %i", _selectedChapter];
-  self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+  self.title = [__T(@"Chapter") stringByAppendingFormat:@" %lu", (unsigned long)_selectedChapter];
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+  else
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
   CGFloat topOffset = self.navigationController.navigationBar.frame.size.height;
   if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ) { topOffset = 0; }
   self.collectionView.contentInset = UIEdgeInsetsMake(topOffset, 0, 0, 0);
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0") && !_delegate)
+    self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(topOffset, 0, 0, 0);
 
   [self.collectionView registerClass:[PKSimpleCollectionViewCell class] forCellWithReuseIdentifier:@"simple-cell"];
   
@@ -162,7 +168,7 @@
   
   NSUInteger row = [indexPath row];
   
-  cell.label.text      = [NSString stringWithFormat: @"%i:%i", _selectedChapter, row + 1];
+  cell.label.text      = [PKReference stringFromChapterNumber:_selectedChapter andVerseNumber:row+1];
   cell.label.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   cell.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   cell.label.textColor = [PKSettings PKSidebarTextColor];

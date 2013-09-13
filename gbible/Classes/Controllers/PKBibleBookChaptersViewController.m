@@ -42,6 +42,7 @@
 #import "PKSimpleCollectionViewCell.h"
 #import "PKSimpleBibleViewController.h"
 #import "UIImage+PKUtility.h"
+#import "PKReference.h"
 
 @interface PKBibleBookChaptersViewController ()
 
@@ -57,7 +58,7 @@
  * Initialize; set our selectedBook to the incoming book
  *
  */
--(id)initWithBook: (int) theBook
+-(id)initWithBook: (NSUInteger) theBook
 {
   self = [super initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
   
@@ -84,10 +85,15 @@
   self.collectionView.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
 //  self.title                                       = __T(@"Select Chapter");
   self.title = [PKBible nameForBook:_selectedBook];
-  self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+  else
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
   CGFloat topOffset = self.navigationController.navigationBar.frame.size.height;
   if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ) { topOffset = 0; }
   self.collectionView.contentInset = UIEdgeInsetsMake(topOffset, 0, 0, 0);
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0") && !_delegate)
+    self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(topOffset, 0, 0, 0);
 
   [self.collectionView registerClass:[PKSimpleCollectionViewCell class] forCellWithReuseIdentifier:@"simple-cell"];
 
@@ -160,7 +166,7 @@
   
   NSUInteger row = [indexPath row];
   
-  cell.label.text      = [NSString stringWithFormat: @"%i", row + 1]; // get chapter
+  cell.label.text      = [PKReference stringFromChapterNumber:row + 1]; // get chapter
   cell.label.font      = [UIFont fontWithName:[PKSettings boldInterfaceFont] size:16];
   cell.backgroundColor = (self.delegate)?[PKSettings PKPageColor]:[PKSettings PKSidebarPageColor];
   cell.label.textColor = [PKSettings PKSidebarTextColor];

@@ -41,7 +41,7 @@
 
 @required
 
--(void)newReferenceByBook: (int)theBook andChapter: (int)theChapter andVerse: (int) andVerse;
--(void)newVerseByBook: (int)theBook andChapter: (int)theChapter andVerse: (int) andVerse;
+-(void)newReferenceByBook: (NSUInteger)theBook andChapter: (NSUInteger)theChapter andVerse: (NSUInteger) andVerse;
+-(void)newVerseByBook: (NSUInteger)theBook andChapter: (NSUInteger)theChapter andVerse: (NSUInteger) andVerse;
 
 @end

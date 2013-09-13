@@ -94,21 +94,22 @@
   self.tableView.backgroundColor = [PKSettings PKSidebarPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
-  CGRect theRect = CGRectMake(0, self.tableView.center.y + 20, 260, 60);
+  CGRect theRect = CGRectMake(0, 88, 260, 60);
   _noResults                  = [[UILabel alloc] initWithFrame: theRect];
   _noResults.textColor        = [PKSettings PKTextColor];
-  _noResults.font             = [UIFont fontWithName: @"Zapfino" size: 15];
+  _noResults.font             = [UIFont fontWithName: [PKSettings interfaceFont] size: 16];
   _noResults.textAlignment    = NSTextAlignmentCenter;
   _noResults.backgroundColor  = [UIColor clearColor];
   _noResults.shadowColor      = [UIColor clearColor];
-  _noResults.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
   _noResults.numberOfLines    = 0;
   [self.view addSubview: _noResults];
 
-  self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+  self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
   CGFloat topOffset = self.navigationController.navigationBar.frame.size.height;
   if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ) { topOffset = 0; }
   self.tableView.contentInset = UIEdgeInsetsMake(topOffset, 0, 0, 0);
+//  if (SYSTEM_VERSION_LESS_THAN(@"7.0") && !_delegate)
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(-topOffset, 0, 0, 0);
 }
 
 -(void)viewDidUnload
@@ -131,6 +132,16 @@
 -(void)viewDidAppear: (BOOL) animated
 {
   [super viewDidAppear:animated];
+
+  if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+  {
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    CGFloat topOffset = self.navigationController.navigationBar.frame.size.height;
+    self.tableView.contentInset = UIEdgeInsetsMake(topOffset, 0, 0, 0);
+  }
+
+
+
   CGRect newFrame = self.navigationController.view.frame;
   newFrame.size.width                  = 260;
   self.navigationController.view.frame = newFrame;
@@ -195,11 +206,7 @@
   {
     // passage
     PKReference *theReference       = [PKReference referenceWithString:[theHistoryItem substringFromIndex: 1]];
-    int theBook                = theReference.book;
-    int theChapter             = theReference.chapter;
-    int theVerse               = theReference.verse;
-    NSString *thePrettyReference = [NSString stringWithFormat: @"%@ %i:%i",
-                                  [PKBible nameForBook: theBook], theChapter, theVerse];
+    NSString *thePrettyReference = [theReference prettyReference];
     
     cell.textLabel.text = thePrettyReference;
   }
@@ -234,9 +241,9 @@
   {
     // passage
     PKReference *theReference       = [PKReference referenceWithString:[theHistoryItem substringFromIndex: 1]];
-    int theBook                = theReference.book;
-    int theChapter             = theReference.chapter;
-    int theVerse               = theReference.verse;
+    NSUInteger theBook                = theReference.book;
+    NSUInteger theChapter             = theReference.chapter;
+    NSUInteger theVerse               = theReference.verse;
     [[PKAppDelegate sharedInstance].bibleViewController displayBook: theBook andChapter: theChapter andVerse: theVerse];
   }
   else

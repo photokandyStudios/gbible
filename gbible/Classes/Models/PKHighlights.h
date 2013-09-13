@@ -43,7 +43,7 @@
 +(PKHighlights *)                   instance;
 -(int)                  countHighlights;
 -(NSMutableArray *)     allHighlightedReferences;
--(NSMutableDictionary *)allHighlightedReferencesForBook: (int) theBook andChapter: (int) theChapter;
+-(NSMutableDictionary *)allHighlightedReferencesForBook: (NSUInteger) theBook andChapter: (NSUInteger) theChapter;
 -(void)                 setHighlight: (UIColor *) theColor forReference: (PKReference *) theReference;
 -(void)                 removeHighlightFromReference: (PKReference *) theReference;
 -(UIColor *)            highlightForReference: (PKReference *) theReference;
