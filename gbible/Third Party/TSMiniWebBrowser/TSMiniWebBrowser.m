@@ -26,6 +26,9 @@
 
 #import "TSMiniWebBrowser.h"
 #import "SSZipArchive.h"
+#import "UIBarButtonItem+Utility.h"
+#import "PKSettings.h"
+#import "UIImage+PKUtility.h"
 
 @implementation TSMiniWebBrowser
 
@@ -84,7 +87,18 @@
     titleBar.leftBarButtonItem = buttonDone;
     
     CGFloat width = self.view.frame.size.width;
-    navigationBarModal = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, width, 44)];
+    CGFloat height = 44;
+    // support iOS 7
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+      height = 64;
+      CGRect newWebFrame = webView.frame;
+      newWebFrame.origin.y -= 44;
+      newWebFrame.size.height += 88;
+      webView.frame = newWebFrame;
+      webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
+    }
+    navigationBarModal = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     //navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
     navigationBarModal.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     navigationBarModal.barStyle = barStyle;
@@ -109,17 +123,21 @@
     toolBar.barStyle = barStyle;
     [self.view addSubview:toolBar];
     
-    buttonGoBack = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTouchUp:)];
-    
+//    buttonGoBack = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTouchUp:)];
+  
+    buttonGoBack = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"ArrowLeft-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(backButtonTouchUp:) andBackgroundImage:[[UIImage alloc] init]];
+  
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpace.width = 30;
     
-    buttonGoForward = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"forward_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(forwardButtonTouchUp:)];
-    
+//    buttonGoForward = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"forward_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(forwardButtonTouchUp:)];
+    buttonGoForward = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"ArrowRight-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(forwardButtonTouchUp:) andBackgroundImage:[[UIImage alloc] init]];
+  
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    UIBarButtonItem *buttonReload = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reload_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(reloadButtonTouchUp:)];
-    
+//    UIBarButtonItem *buttonReload = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reload_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(reloadButtonTouchUp:)];
+    UIBarButtonItem *buttonReload = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadButtonTouchUp:)];
+  
     UIBarButtonItem *fixedSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpace2.width = 20;
     
@@ -135,10 +153,23 @@
     // nuke the appearance proxy for these buttons:
     if ([buttonGoBack respondsToSelector:@selector(setTintColor:)])
     {
-    buttonGoBack.tintColor = [UIColor whiteColor];
-    buttonGoForward.tintColor = [UIColor whiteColor];
-    buttonReload.tintColor = [UIColor whiteColor];
-    buttonAction.tintColor = [UIColor whiteColor];
+      if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+      {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        {
+          buttonGoBack.tintColor = [UIColor whiteColor];
+          buttonGoForward.tintColor = [UIColor whiteColor];
+          buttonReload.tintColor = [UIColor whiteColor];
+          buttonAction.tintColor = [UIColor whiteColor];
+        }
+        else
+        {
+          buttonGoBack.tintColor = [PKSettings PKTintColor];
+          buttonGoForward.tintColor = [PKSettings PKTintColor];
+          buttonReload.tintColor = [PKSettings PKTintColor];
+          buttonAction.tintColor = [PKSettings PKTintColor];
+        }
+      }
     }
     
     // Add butons to an array
@@ -224,12 +255,13 @@
         originalBarStyle = self.navigationController.navigationBar.barStyle;
     }
     
-    // Init tool bar
-    [self initToolBar];
-    
+  
     // Init web view
     [self initWebView];
     
+    // Init tool bar
+    [self initToolBar];
+
     // Init title bar if presented modally
     if (mode == TSMiniWebBrowserModeModal) {
         [self initTitleBar];
