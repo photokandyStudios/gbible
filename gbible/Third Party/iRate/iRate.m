@@ -801,7 +801,7 @@ static NSString *const iRateMacAppStoreURLFormat = @"macappstore://itunes.apple.
     {
         if (self.verboseLogging)
         {
-            NSLog(@"iRate will attempt to open the StoreKit in-app product page using the following app store ID: %i", self.appStoreID);
+            NSLog(@"iRate will attempt to open the StoreKit in-app product page using the following app store ID: %lu", (unsigned long)self.appStoreID);
         }
         
         //create store view controller
