@@ -107,6 +107,9 @@
   [_aboutWebView addGestureRecognizer: swipeRight];
   [_aboutWebView addGestureRecognizer: swipeLeft];
   
+  _aboutWebView.backgroundColor = [UIColor whiteColor];
+  self.view.backgroundColor = [UIColor whiteColor];
+  
 }
 
 -(void)viewDidUnload

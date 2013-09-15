@@ -3,7 +3,7 @@
 <html>
     <head>
         <title>
-            About Greek Interlinear Bible 1.2
+            About Greek Interlinear Bible 1.3
         </title>
         <style>
             body
@@ -14,8 +14,9 @@
                 font-size: 12pt;
                 line-height: 1.5em;
                 padding: 30px;
+                margin: 0 0;
             }
-            h1, h2, h3, h4, h5, p, ul, ol, pre
+            p, ul, ol, pre
             {
                 max-width: 700px;
                 margin: 0 auto;
@@ -30,8 +31,8 @@
                 max-width: 600px;
                 margin: 10px auto;
                 text-align: justify;
-                border-top: 3px double #573920;
-                border-bottom: 3px double #573920;
+                border-top: 1px double #573920;
+                border-bottom: 1px double #573920;
             }
             p, ul, blockquote, pre, ol
             {
@@ -43,15 +44,21 @@
                 text-align: left;
                 font-family: Helvetica;
                 font-weight: 100;
-                background-color: rgba(0,0,0,0.75);
-                color: #FFF;
+                background-color: #FFF;
+                color: #573920;
                 padding: 10px;
                 line-height: 1em;
+                border-top: 1px double #573920;
+                border-bottom: 1px double #573920;
+                margin-right: -30px;
+                margin-left: -30px;
             }
             h1
             {
                 text-align: center;
                 font-size: 36pt;
+                margin-top: -31px;
+                padding-top: 100px;
             }
             h2
             {
@@ -71,33 +78,75 @@
             }
             button
             {
-                height: 34px;
-                line-height: 34px;
-                border: 1px solid #000;
-                background-image: -webkit-linear-gradient(bottom, rgb(39,44,49) 0%, rgb(144,146,149) 100%);
-                border-radius: 5px;
+                height: 30px;
+                line-height: 30px;
+                border: 1px solid #31a7f1;
+                background-color: #FFF;
                 padding: 0;
-                vertical-align: bottom;
-                color: #FFF;
+                vertical-align: baseline;
                 font-family: Helvetica;
                 font-size: 12pt;
                 padding-left: 5px;
                 padding-right: 5px;
+                color: #31a7f1;
+            }
+            button.keyboard
+            {
+                height: 30px;
+                line-height: 30px;
+                border: 1px solid #31a7f1;
+                color: #FFF;
+                border-radius: 5px;
+                padding: 0;
+                vertical-align: baseline;
+                font-family: Helvetica;
+                font-size: 12pt;
+                padding-left: 5px;
+                padding-right: 5px;
+                background-color: #31a7f1;
+            }
+            button.menu
+            {
+                height: 30px;
+                line-height: 30px;
+                border: 1px solid #FFF;
+                color: #FFF;
+                border-radius: 5px;
+                padding: 0;
+                vertical-align: baseline;
+                font-family: Helvetica;
+                font-size: 12pt;
+                padding-left: 5px;
+                padding-right: 5px;
+                background-color: rgba(0,0,0,0.75);
             }
             button img
             {
-                width: 32px;
-                height: 32px;
+                width: 30px;
+                height: 30px;
+            }
+            img
+            {
+                width: 30px;
+                height: 30px;
+                padding: 5px;
+                vertical-align: middle;
+                border: 1px solid #31a7f1;
+                background-color: #FFF;
             }
             pre 
             { 
                 font-size: 10pt;
                 padding: 10px;
             }
+            a, a:link, a:visited
+            {
+                color: #31a7f1;
+            }
         </style>
     </head>
     <body>
-    <h1>Greek Interlinear Bible 1.2</h1>
+    <h1>Greek Interlinear Bible 1.3</h1>
     <p>&copy; Copyright 2013 by Kerri Shotts and photoKandy Studios LLC. Released under a CC-BY-NC-SA license.</p>
     <a name="top">
     <h2>Table of Contents</h2>
@@ -111,6 +160,7 @@
       <li><a href="#Search">Searching the Bible and the Strong's Dictionary</a></li>      
       <li><a href="#Define">Defining a Word</a></li>      
       <li><a href="#Explain">Explaining a Verse with a Commentary</a></li>
+      <li><a href="#Layout">Text and Paragraph Layout</a></li>
       <li><a href="#Settings">Settings</a></li>
      </ul>
      <li><a href="#Morphology">Morphology</a><br><br></li>
@@ -125,56 +175,62 @@
     
     <a name="HowToUse"></a>
     <h2>How to use the Greek Interlinear Bible</h2>
-    <p>While this application was designed to be easy to use and intuitive, sometimes it helps to have instructions
-       for various features, especially for those features you may not use very often. With that in mind, here's a 
-       mini-manual for the Greek Interlinear Bible application.</p>
+    <p>Version 1.3 of the Greek interlinear Bible has a new look and feel with the introduction of iOS 7 support. Although some
+       of the icons have changed, everything is still in the same place, so this new version should work very much like the
+       previous version.</p>
     <p><a href="#top">Back to Table of Contents</a></p>
     <a name="Navigation"></a>
     <h3>Navigation</h3>
     <p>Navigating the Bible is made very easy by two different mechanisms. The first mechanism is the left-hand
-       navigation bar, which you can make visible by tapping the <button><img src="./List@2x.png"></button> button,
+       navigation bar, which you can make visible by tapping the <img src="./Menu-30@2x.png" alt="Menu"/> button,
        which will display a list of Bible Books that you can choose from, your highlights, your annotations, or
        your most recent history, based on the selection at the top of the left-hand navigation bar.</p>
-    <p>To go directly to a Bible reference, press <button>Goto</button> at the top, and then select the book from the
+    <p>To go directly to a Bible reference, press <img src="./Books-30@2x.png" alt="Goto"/> at the top, and then select the book from the
        grid below. Once you select a book, you'll be presented with a grid of chapters in that book. Select a chapter
        from the grid, and you'll be presented with a grid of verses in that chapter. Tap on the verse you want to go
        to and after the left-hand navigation bar closes, you'll be taken to that spot in the Bible.
-    <p>If you want to go to one of your highlights, press <button>Highlights</button> instead, and then select the
+    <p>If you want to go to one of your highlights, press <img src="./Tag-30@2x.png" alt="Highlights" /> instead, and then select the
        reference from the list. To help your memory, the references are colored with the highlight color you used when
        you created them. Once you tap a reference, you'll be taken to that spot in the Bible.
-    <p>If you want to go to one of your annotations, press <button>Notes</button> instead. Then select one of your
+    <p>If you want to go to one of your annotations, press <img src="./Pencil-30@2x.png" alt="Notes" /> instead. Then select one of your
        notes from the list. As a memory aide, a portion of your note is displayed in the list. Once you tap a note,
        you'll be taken to that particular spot in the Bible. If you want to search your notes, just tap the search
-       bar and enter your search. When done, tap <button>Search</button>, and the notes matching your search results
+       bar and enter your search. When done, tap <button class="keyboard">Search</button>, and the notes matching your search results
        will be displayed. If you want to see all your notes, just tap the search bar, clear the search, and dismiss
        the keyboard.
-    <p>If you want to go to a place you've been recently, press <button>History</button>. You'll see a list of all
+    <p>If you want to go to a place you've been recently, press <img src="./History-30@2x.png" alt="History" />. You'll see a list of all
        the references and searches you've viewed lately (up to 200). Tap a reference and you'll be taken to that spot in the Bible.
        Tap a search, and you'll be taken to the search results.
-    <p>While you are reading and come to the end of a particular chapter, you don't want to have to open up the left-
+    <p>If you want to search for a particular keyword or phrase, you can press <img src="./Search-30@2x.png" alt="Search" />. You'll be able
+       to type in the search field your query, and tap <button class="keyboard">Search</button>, and the verses matching your search will
+       appear. Tap one to be taken to the particular passage.</p>
+    <p>If you want to look at a particular Strong's # or search the Strong's dictonary, press <img src="./Strongs-30@2x.png" alt="Strongs" />.
+       Type in the G# or other search term, and tap <button class="keyboard">Search</button>, and the Strong's entries matching your search will
+       appear.
+    <p>While you are reading and come to the end of a particular chapter, you don't need to open up the left-
        hand navigation bar and select a new reference just to continue reading. Instead, you can just swipe left
        or right with your finger to change pages, just like typical book reader. Swipe to the <b>left</b> to go forward one
-       chapter, and swipe to the <b>right</b> to go back one chapter. (If you swipe right too close to the edge of the screen,
+       chapter, and swipe to the <b>right</b> to go back one chapter. (<b>Note:</b> If you swipe right too close to the edge of the screen,
        you'll open the sidebar instead.)
     <blockquote>
        <b>Note:</b> You can display the left-hand navigation bar by swiping right from the left edge of the screen. To
        close it again, just swipe left anywhere to the right of the navigation bar.
     </blockquote>
-    <p>To switch between the various modes (Bible, Search, Strong's Lookup, About, and Settings), just tap the
-       corresponding icon at the bottom of your screen.</p>
-       
+    
      <p><a href="#top">Back to Table of Contents</a></p>
    
-    <a name="Copy">
+    <a name="Copy"></a>
     <h3>Copy a Verse to the Clipboard</h3>
     <p>There may be times when you want to take a verse (or more) and use it in another app or send it to someone
        via email or some other social tool. All you have to do is tap on the verse(s) you wish to copy, and then
-       tap-and-hold with your finger anywhere within the selection. A menu will appear, and <button>Copy</button>
-       is the first item on that menu. <!--h-->Tap it, and the verse (along with any notes) will be copied to your clipboard.
+       tap-and-hold with your finger anywhere within the selection. A menu will appear, and <button class="menu">Copy</button>
+       is the first item on that menu. <!--h-->Tap it, and the both the left and right-side verse (along with any notes) will be copied to your clipboard.
        You can then go to your other application and paste the contents of your clipboard.
+    <p>If you only want to copy the left or right-side text, select the <button class="menu">Copy...</button> item instead. A secondary
+       menu will appear with the options to copy the left or right-side.
     <blockquote>
-       <b>Note:</b> When you copy one or more verses, both the Greek and English come along for the ride. If your
-       selected Greek edition has the Strong's Numbers and Morphology Parsings, those will also come along. Any notes
+       <b>Note:</b> If your
+       selected Greek edition has the Strong's Numbers and Morphology Parsings, those will be included. Any notes
        that you've attached to the verse(s) will also be included.
     </blockquote>
     <blockquote>
@@ -184,11 +240,11 @@
     </blockquote>
        <p><a href="#top">Back to Table of Contents</a></p>
  
-    <a name="Notes">
+    <a name="Notes"></a>
     <h3>Create, Edit, and Manage Annotations</h3>
     <p>When studying the Word, there will often be times when you wish to make notes or annotations about the
-       text you are reading. Doing that is really easy. To create a note (or view/edit a previously created note), just 
-       tap-and-hold anywhere within the verse you want to annotate, and a menu will appear. Tap <button>Annotate</button>
+       text you are reading. To create a note (or view/edit a previously created note), just
+       tap-and-hold anywhere within the verse you want to annotate, and a menu will appear. Tap <button class="menu">Annotate</button>
        and a note-entry screen will be displayed.
     <p>The first text field is the <i>title</i> of the annotation, and is set to the passage reference by default. This allows
        notes to act as good bookmarks if you don't want to change the title. If, however, you want the title to reflect
@@ -204,47 +260,43 @@
        by tapping <button>Delete</button>. If you just want to close the note, tap <button>Done</button>.
     <blockquote>
        <b>Note:</b> Notes, by default, are presented in-line with the Biblical text. If you want<!--o--> to turn this off,
-       uncheck the "Show Inline Notes?" item in the <b>Settings</b> tab.
+       uncheck the "Show Inline Notes?" item in <a href="#Settings">Settings</a>.
     </blockquote>
         <p><a href="#top">Back to Table of Contents</a></p>
 
-    <a name="Highlights">
+    <a name="Highlights"></a>
     <h3>Create and Manage Highlights</h3>
     <p>There may be occasions where you will want to highlight a particular verse (or series of verses) for some
        reason. You can do this easily by first tapping the verses you want to highlight, and then tap-and-hold until
-       the menu appears. Tap <button>Highlight</button>, and a new menu will appear.
-    <p>This new menu has two options: <button>Add Highlight</button> and <button>Remove</button>. The first will
+       the menu appears. Tap <button class="menu">Highlight</button>, and a new menu will appear.
+    <p>This new menu has several options: a series of colors and <button class="menu">Remove</button>. The colors will
        add a highlight to the selected verses, while the latter will remove any existing highlight from the same
        selected verses.
-    <p>If you want to change the color, tap the colored indicator next to the <button><img src="./List@2x.png"></button>
-       button. A list of colors will appear: Yellow, Green, Magenta, Blue, and Pink. Tap any one of those colors
-       and the color of the indicator will change. The next time you highlight a verse, it will use the color you 
-       chose.
     <p>You can have as many highlights as you'd lik<!--t-->e. There is no enforced limit.</p>
     
         <p><a href="#top">Back to Table of Contents</a></p>
-<a name="Search">
+<a name="Search"></a>
     <h3>Searching the Bible and the Strong's Dictionary</h3>
     <p>Searching is a critical component when studying the Word. As such there are several different ways you can
     search both the Bible and the Strong's Dictionary. 
     <p>The first method involves coming across a word you want to know more about while reading the Bible. You can 
        tap-and-hold on the word in question, and you should notice that the word will be highlighted for a brief 
-       moment. The menu will also appear with a <button>Search</button> item. Tap it and you'll be presented with
-       another menu containing <button>Search Bible</button> and <button>Search Strong's</button>.
-    <p>If you select <button>Search Bible</button>, you'll be taken to the <b>Search</b> tab, and the search will
+       moment. The menu will also appear with a <button class="menu">Search</button> item. Tap it and you'll be presented with
+       another menu containing <button class="menu">Search Bible</button> and <button class="menu">Search Strong's</button>.
+    <p>If you select <button class="menu">Search Bible</button>, a Search view will appear, and the search for the highlighted word will
        be initiated. If it is a long search, you may see an indicator on-screen &mdash; this is normal and will go
        away when the search is finished.
-    <p>The same thing will occur when you select <button>Search Strong's</button>, only you'll be taken to the 
-       <b>Strong's Lookup</b> tab.
+    <p>The same thing will occur when you select <button class="menu">Search Strong's</button>, only you'll see the
+       Strong's Lookup View.
     <blockquote>
       <b>Note:</b> If you have turned on Greek Transliteration, understand that this applies both to the visual
       display of Greek and to searches.
     </blockquote>
     <p>Once the search is complete, a list of results will appear. You can then tap on that result. If you are
        searching the Bible, you'll go to that particular verse. If you are searching the Strong's Dictionary, you'll
-       be presented with a menu that will let you conduct a new search containing all the verses where that particular Strong's Number was found, or copy the Strong's text to the clipboard. If you long-press on a G# in a Strong's search, you can also go directly to that index by tapping "Define" in the menu that appears.
-    <p>The second method involves going to the <b>Search</b> or <b>Strong's Lookup</b> tab directly. O<!--o-->nce there you 
-       can tap on the search field to enter your desired search term(s). Press "Search" on the on-screen keyboard to 
+       be presented with a menu that will let you conduct a new search containing all the verses where that particular Strong's Number was found, or copy the Strong's text to the clipboard. If you long-press on a G# in a Strong's search, you can also go directly to that index by tapping <button class="menu">Define</button> in the menu that appears.
+    <p>The second method involves tapping <img src="Search-30@2x.png" alt="Search" /> in the sidebar or in the top toolbar, or <img src="Strongs-30@2x.png" alt="Strongs" /> in the sidebar. O<!--o-->nce there you
+       can tap on the search field to enter your desired search term(s). Press <button class="keyboard">Search</button> on the on-screen keyboard to
        start the search.
     <p>When searching using this method, you can get pretty complicated with your search terms. Here's a quick rundown
        of how you can use various operators to change the search meaning:
@@ -261,57 +313,71 @@
     <p>When searching Greek and English, case is disregarded. Therefore you can search for "abraham" and the result will return verses with "Abraham". Also, when searching for Greek words, you aren't required to type in the diacritical marks.
         <p><a href="#top">Back to Table of Contents</a></p>
 
-    <a name="Define">
+    <a name="Define"></a>
     <h3>Defining a Word</h3>
     <p>Sometimes you'll come across a word you aren't familiar with. When you do, you can tap-and-hold on the word
-       until the menu appears. Then tap on <button>Define</button> to receive a definition of that word.
+       until the menu appears. Then tap on <button class="menu">Define</button> to receive a definition of that word.
     <blockquote>
-       <b>Note:</b> If you tap-and-hold a Strong's Number, you may notice <button>Define</button> on the menu. This
-       is just a shortcut to tapping <button>Search</button> and <button>Search Strong's</button>.
-    </blockquote>
-    <blockquote>
-       <b>Tip:</b> If you don't see <button>Define</button> on the menu, it means that you're probably tapping and
-       holding on a Greek word. Definitions are supported only for English words and for Strong's Numbers.
+       <b>Note:</b> If you tap-and-hold a Strong's Number, you may notice <button class="menu">Define</button> on the menu. This
+       is just a shortcut to tapping <button class="menu">Search</button> and <button class="menu">Search Strong's</button>.
     </blockquote>
         <p><a href="#top">Back to Table of Contents</a></p>
 
-    <a name="Explain">
+    <a name="Explain"></a>
     <h3>Explaining a Verse with a Commentary</h3>
     <p>There will be times, no doubt, when you will wish to consult a commentary about the particular verse you 
        are reading. To do this, just tap-and-hold anywhere in the verse, and the menu will appear. If you are 
-       connected to the Internet you should see <button>Explain</button> on the menu. Tap this, and a web browser
+       connected to the Internet you should see <button class="menu">Explain</button> on the menu. Tap this, and a web browser
        will open that takes you to a site run by Biblos.com (specifically, http://bible.cc) where a lot of 
        different versions of the ve<!--k-->rse are displayed. If you scroll down a distance, you'll come across the
        Parallel Comentaries. These often provide valuable insight to the verse you are studying.
     <p>When you are finished reading, just tap <button>Done</button>.
         <p><a href="#top">Back to Table of Contents</a></p>
-      
-    <a name="Settings">
+
+
+    <a name="Layout"></a>
+    <h3>Text and Paragraph Layout</h3>
+    <p>You can change the text and paragraph layout, as well as adjust screen brightness, by tapping <img src="Layout-30@2x.png" alt="Layout">.
+       There are many options available, including four different themes, different fonts and sizes, and different layout options.
+       <ul><li>Themes 1-4: There are four themes: book (theme 1), white (theme 2), black (theme 3), and amber (theme 4). The latter two themes
+       are perfect for night reading.</li>
+           <li>Font size: select <button>-</button> to decrease the font size, or <button>+</button> to increase the font size.</li>
+           <li>Greek/English Typeface: select the desired font and style for each side.</li>
+           <li>Verse Spacing: There are three options for spacing between verses. <img src="vs0-30@2x.png" alt="No Verse Spacing"/> renders no spacing
+               between verses. <img src="vs1-30@2x.png" alt="Single Verse Spacing" /> renders a single line between verses for improved clarity. <img src="vs2-30@2x.png" alt="Double Verse Spacing" /> renders two lines between verses.</li>
+           <li>Column Widths: There are three options for column sizes. <img src="wlc-30@2x.png" alt="Wide Left Column" /> makes the left column the widest column. <img src="wrc-30@2x.png" alt="Wide Right Column" /> makes the right column the widest column. <img src="eqc-30@2x.png" alt="Equal Columns" /> makes both columns equally wide.</li>
+           <li>Line spacing: there are four options for the amount of spacing between lines (not verses), ranging from "tight" to "very loose".</li>
+           <li>Brightness: Use the slider to adjust the screen brightness to your preference.</li>
+        </ul>
+    <p>When you are finished, just tap <button>Done</button> on the iPhone, or tap outside the popover on the iPad.
+        <p><a href="#top">Back to Table of Contents</a></p>
+
+    <a name="Settings"></a>
     <h3>Settings</h3>
     <p>You can change the text layout, Greek and English text, import and export, and more by navigationg to the
-       Settings area. Just tap "Settings" in the tab bar.
+       Settings area. Just tap <img src="Settings-30@2x.png" alt="Settings">, which is located near the top right of the screen.
     <ul><li>Text Settings</li>
-        <ul><li>Greek Text &mdash; Select from four Greek texts. The Westcott-Hort text provides diacritical markings
+        <ul><li>Left Text &mdash; Select from the available Greek texts. The Westcott-Hort text provides diacritical markings
                 along with in-line English translations of the words as well as morphology and Strong's numbers in-line.
                 The Byzantine and Textus-Receptus texts provide
                 only in-line morphology and Strong's numbers; the Greek is unaccented. Finally, the Tischendorf text does
                 not include any morphology or Strong's numbers; it is unparsed and unaccented.</li>
-            <li>English Text &mdash; Select either the Young's Literal Translation or the Authorized (King James)
-                version. (Keep in mind that the Strong's numbers are indexed to the Authorized Version.)</li>
+            <li>Right Text &mdash; Select from the available right-side texts. (Keep in mind that the Strong's numbers are indexed to the Authorized Version.)</li>
             <li>Transliterate Greek? &mdash; If Yes, the Greek letterforms will be transliterated. Note that this can
-                considerably slow the app down, especially when searching. Also note that transliterations do not reflect
-                any diacritics in the text.</li>
-            <li>Show Morphology? &mdash; If Yes, the morphology is in<!--a-->dicated below the Greek word.</li>
-            <li>Show Strongs? &mdash; If Yes, the Strong's # is indicated below the Greek word.</li>
+                considerably slow the app down, especially when searching.</li>
+            <li>Show Morphology? &mdash; If Yes, the morphology is in<!--a-->dicated below the Greek word. On the iPad, this is available as a toggle button at the top of the Bible view labeled <button>Morph</button> or <button>M</button>.</li>
+            <li>Show Strongs? &mdash; If Yes, the Strong's # is indicated near the Greek word. On the iPad, this is available as a toggle button at the top of the Bible view labeled <button>G#</button>.</li>
             <li>Show Translation? &mdash; If Yes and the text supports it, the English translation is indicated below the
-                Greek word. (Only supported on Westcott-Hort.)</li>
-            <li>Manage Bibles... &mdash; Manage downloadable Bibles.</li>
+                Greek word. (Only supported on WestCott-Hort and certain downloadable editions.) On the iPad, this is available as a toggle button at the top of the Bible view labeled <button>Tran</button> or <button>Tr</button>.</li>
+            <li>Manage Bibles... &mdash; Manage downloadable Bibles. Download new editions, delete others, and see information about the available editions.</li>
             </ul>
         <li>Layout</li>
-        <ul><li>Layout... &mdash; Change the theme, font, size, and more.</li>
+        <ul><li>Layout... &mdash; Change the theme, font, size, and more (Only in Settings on the iPhone). Also available by tapping <img src="Layout-30@2x.png" alt="Layout" /> in the toolbar.</li>
             <li>Compress Right Side &mdash; If Yes, removes empty space between lines on the right side.</li>
             <li>Expand Highlights &mdash; If Yes, displays highlights behind the entire verse. On some themes this may
                 result in hard-to-read text; in this case, switch this back to No.</li>
+            <li>Strong's On Top &mdash; If Yes, renders Strong's #s above the Greek word (instead of below).</li>
+            <li>Smaller Non-Greek Words &mdash; If Yes, renders non-greek words in a slightly smaller text size.</li>
             <li>Show Inline Notes? &mdash; If Yes, displays your notes inline with the text. If No, a pencil will appear
                 next to any verse that has a note.</li>
             </ul>
@@ -327,39 +393,49 @@
             <li>Import Everything &mdash; Tap to import everything in the import file. This is used most often to
                 restore all your settings, annotations, and highlights from a previous export.</li>
         </ul>
+        <li>Version</li>
+        <ul><li>Version Number &mdash; The version number of the app; please use this in any correspondance when reporting bugs or other
+            issues.</li>
+            <li>Anonymous Usage Statistics &mdash; If Yes, anonymous usage statistics are reported. This contains no identifying information,
+            and is only used in improving the app by collecting crash reports. If you are in an area where transmitting this information might
+            be dangerous, or if you wish not to transmit this information for other reasons, tap it to set it to "No".
+            <li>Rate This App &mdash; Every rating, good or bad, is greatly appreciated. We'd be honored if you'd take the time to rate the app on the App Store.</li>
+            <li>Submit an Issue &mdash; If you encounter a crash or other bug, please report it here.</li>
+            <li>Help and About &mdash; This help text.</li>
+        </ul>
       </ul>
         <p><a href="#top">Back to Table of Contents</a></p>
     
 
-    <a name="Morphology">
+    <a name="Morphology"></a>
     <h2>Morphology</h2>
     <p>Where available, the <!--d-->morphology of the Greek word is displayed in green text. This code describes the type of word,
        the person used (that is, first, second, third person), and various tenses. An exhaustive key of what these mean
        is located at <a target="_blank" href="./parsings.html">http://koti.24.fi/jusalak/GreekNT/PARSINGS.TXT</a>.
         <p><a href="#top">Back to Table of Contents</a></p>
 
-    <a name="DataSources">
+    <a name="DataSources"></a>
     <h3>Data Sources and Acknowledgements</h3>
     <p>Without the following data sources, the software would not have been possible.
     <p><a href="#top">Back to Table of Contents</a></p>
 
-<a name="BiblicalTexts">    
+<a name="BiblicalTexts">  </a>
 <h4>Biblical Texts</h4>
-<p>All Biblical Text Sources and Attributions may be found under the Settings tab, and then under "Manage Bibles..."</p>
+<p>All Biblical Text Sources and Attributions may be found under Settings, and then under "Manage Bibles..."</p>
 
-<a name="BookChapter">
+<a name="BookChapter"></a>
 <h4>Book &amp; Chapter Counts</h4>
 <p>Obtained from http://www.deafmissions.com/tally/bkchptrvrs.html
     <p><a href="#top">Back to Table of Contents</a></p>
 
-<a name="Strongs">
+<a name="Strongs"></a>
 <h4>Strong's Dictionary</h4>
 <p>Dictionary of Greek Words, taken from Strong's Exhaustive Concordance
 <p>Authored by James Strong, S.T.D., LL.D., 1890. JSON Version (C) Copyright 2009, Open Scriptures. CC-BY-SA. Derived from XML. The XML version of this work was prepared in 2006 by Ulrik Petersen (http://ulrikp.org) from the ASCII e-text version presented below. The XML version contains "real" UTF-8 Greek where the original ASCII<!--pk--> e-text version had transliteration. The XML has a stand-alone DTD which should be easy to follow. Ulrik Petersen welcomes bugfixes to the text. Please send them to the address provided on the website: http://ulrikp.org
         <p><a href="#top">Back to Table of Contents</a></p>
 
 
-<a name="License">
+<a name="License"></a>
 <h3>Greek Interlinear Bible License Agreement</h3>
 <p>The code that is not otherwise licensed and is owned by photoKandy Studios LLC is hereby licensed under a CC BY-NC-SA 3.0 license. That is, you may copy the code and use it for non-commercial uses under the same license. For the entire license, see http://creativecommons.org/licenses/by-nc-sa/3.0/.</p>
 
