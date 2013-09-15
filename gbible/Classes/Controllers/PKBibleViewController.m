@@ -688,8 +688,7 @@
 
 -(void)viewWillDisappear: (BOOL) animated
 {
-  NSInteger theVerse = [[self.tableView indexPathsForVisibleRows][0] row] + 1;
-  [PKSettings instance].topVerse = theVerse;
+  [self saveTopVerse];
   [[PKSettings instance] saveCurrentReference];
 
   if (_fullScreen)
@@ -1386,9 +1385,9 @@
     if (theNote != nil)
     {
       // need to indicate /somehow/ that we have a note.
-      UIImageView *theImage = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Pencil-30"]];
-      theImage.frame = CGRectMake(self.tableView.bounds.size.width - 52, theMax - 42, 32, 32);
-      [cell addSubview: theImage];
+      UIImageView *theImage = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Pencil-30" withColor:[PKSettings PKTextColor]]];
+      theImage.frame = CGRectMake(self.tableView.bounds.size.width - 50, theMax - 40, 30, 30);
+      [cell.contentView addSubview: theImage];
     }
   }
 

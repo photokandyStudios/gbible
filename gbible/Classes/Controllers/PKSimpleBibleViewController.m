@@ -51,6 +51,7 @@
 #import "SVProgressHUD.h"
 #import "UIFont+Utility.h"
 #import "NSString+PKFont.h"
+#import "UIImage+PKUtility.h"
 
 @interface PKSimpleBibleViewController ()
 
@@ -544,7 +545,7 @@
   }
 
   // need to remove the cell's subviews, if they exist...
-  for (UIView *view in cell.subviews)
+  for (UIView *view in cell.contentView.subviews)
   {
     [view removeFromSuperview];
   }
@@ -597,16 +598,16 @@
     theNoteLabel.shadowColor     = [PKSettings PKLightShadowColor];
     theNoteLabel.shadowOffset    = CGSizeMake(0, 1);
     theNoteLabel.tag             = 99;
-    [cell addSubview: theNoteLabel];
+    [cell.contentView addSubview: theNoteLabel];
   }
   else
   {
     if (theNote != nil)
     {
       // need to indicate /somehow/ that we have a note.
-      UIImageView *theImage = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Pencil-30"]];
-      theImage.frame = CGRectMake(self.tableView.bounds.size.width - 52, theMax - 42, 32, 32);
-      [cell addSubview: theImage];
+      UIImageView *theImage = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Pencil-30" withColor:[PKSettings PKTextColor]]];
+      theImage.frame = CGRectMake(self.tableView.bounds.size.width - 50, theMax - 40, 30, 30);
+      [cell.contentView addSubview: theImage];
     }
   }
 
