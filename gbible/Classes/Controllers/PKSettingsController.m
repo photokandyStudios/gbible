@@ -187,7 +187,7 @@ const int SECTION_THIRD_PARTY = 5;
                       @[ __Tv(@"Anonymous Usage Statistics", @"Anonymous Usage Statistics?"), @2, @"usage-stats" ],
                       @[ __T(@"Rate this app..."), @0 ],
                       @[ __T(@"Submit an issue..."), @0 ],
-//                      @[ __T(@"Support"), @0 ],
+                      @[ __T(@"Support"), @0 ],
                       @[ __T(@"Help and About..."), @0 ]
                      ];
 
@@ -198,6 +198,7 @@ const int SECTION_THIRD_PARTY = 5;
                             @[ @"FMDatabase © Flying Meat Inc.", @0 ],
                             @[ @"Font Awesome © Dave Gandy", @0 ],
                             @[ @"Gentium Plus © 2003-2012, SIL International", @0 ],
+                            @[ @"Helpshift", @0 ],
                             @[ @"iOS FontAwesome © 2012 Alex Usbergo", @0 ],
                             @[ @"iRate © 2011 Charcoal Design", @0 ],
                             @[ @"KBKeyboard Handler by Vladimir Grigorov", @0 ],
@@ -220,6 +221,7 @@ const int SECTION_THIRD_PARTY = 5;
                                @"https://github.com/ccgus/fmdb",
                                @"http://fortawesome.github.com/Font-Awesome/",
                                @"http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=Gentium_download",
+                               @"http://www.helpshift.com",
                                @"https://github.com/alexdrone/ios-fontawesome",
                                @"https://github.com/nicklockwood/iRate",
                                @"http://stackoverflow.com/a/12402817",
@@ -710,12 +712,12 @@ const int SECTION_THIRD_PARTY = 5;
           [self presentViewController:wb animated:YES completion:nil];
           
         }
-/*        if (row==4)
+        if (row==4)
         {
           //TODO: Disable this when anonymous statistics is disabled?
           [[Helpshift sharedInstance] showSupport: self];
-        }*/
-        if (row==4)
+        }
+        if (row==5)
         {
           PKAboutViewController *avc = [[PKAboutViewController alloc] init];
           [self.navigationController pushViewController:avc animated:YES];

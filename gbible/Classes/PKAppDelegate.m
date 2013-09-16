@@ -358,7 +358,7 @@ static PKAppDelegate * _instance;
   if ([_mySettings usageStats] == YES)
   {
     [TestFlight takeOff: TESTFLIGHT_API_KEY];
-   // [Helpshift installForAppID:HELPSHIFT_APP_ID domainName:HELPSHIFT_DOMAIN apiKey:HELPSHIFT_API_KEY];
+    [Helpshift installForAppID:HELPSHIFT_APP_ID domainName:HELPSHIFT_DOMAIN apiKey:HELPSHIFT_API_KEY];
   
   }
   
@@ -536,12 +536,12 @@ static PKAppDelegate * _instance;
   if (notificationPayload)
   {
     if ([notificationPayload[@"origin"] isEqualToString:@"helpshift"]) {
-      //[[Helpshift sharedInstance] handleNotification:notificationPayload withController:self.rootViewController];
+      [[Helpshift sharedInstance] handleNotification:notificationPayload withController:self.rootViewController];
     }
     else
     {
       // should be some other notification, like a new Bible :-)
-      UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:notificationPayload[@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
+      UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:notificationPayload[@"aps"][@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
       [anAlert show];
     }
   }
@@ -637,7 +637,7 @@ static PKAppDelegate * _instance;
  */
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-//  [[Helpshift sharedInstance] registerDeviceToken:deviceToken];
+  [[Helpshift sharedInstance] registerDeviceToken:deviceToken];
 
  // Store the deviceToken in the current Installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -651,12 +651,12 @@ static PKAppDelegate * _instance;
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
   if ([userInfo[@"origin"] isEqualToString:@"helpshift"]) {
-//    [[Helpshift sharedInstance] handleNotification:userInfo withController:self.rootViewController];
+    [[Helpshift sharedInstance] handleNotification:userInfo withController:self.rootViewController];
   }
   else
   {
     // should be some other notification, like a new Bible :-)
-    UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:userInfo[@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
+    UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:userInfo[@"aps"][@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
     [anAlert show];
   }
 }
