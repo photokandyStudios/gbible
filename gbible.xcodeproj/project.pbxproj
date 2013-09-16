@@ -55,6 +55,31 @@
 		6AA61D7517E2DB6500B99BA6 /* Default-Portrait-iOS7@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA61D6A17E2DB6500B99BA6 /* Default-Portrait-iOS7@2x~ipad.png */; };
 		6AA61D7617E2DB6500B99BA6 /* Default-Landscape-iOS7~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA61D6B17E2DB6500B99BA6 /* Default-Landscape-iOS7~ipad.png */; };
 		6AA61D7717E2DB6500B99BA6 /* Default-Landscape-iOS7@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA61D6C17E2DB6500B99BA6 /* Default-Landscape-iOS7@2x~ipad.png */; };
+		6AAB47FF17E7AC530084D497 /* 3.0.0-release.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47DB17E7AC530084D497 /* 3.0.0-release.txt */; };
+		6AAB480017E7AC530084D497 /* HelpshiftLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47DE17E7AC530084D497 /* HelpshiftLocalizable.strings */; };
+		6AAB480117E7AC530084D497 /* HS-background-tile.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47E317E7AC530084D497 /* HS-background-tile.png */; };
+		6AAB480217E7AC530084D497 /* HS-background-tile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47E417E7AC530084D497 /* HS-background-tile@2x.png */; };
+		6AAB480317E7AC530084D497 /* HS-no-connection.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47E517E7AC530084D497 /* HS-no-connection.png */; };
+		6AAB480417E7AC530084D497 /* HS-no-connection@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47E617E7AC530084D497 /* HS-no-connection@2x.png */; };
+		6AAB480517E7AC530084D497 /* HS-powered-by-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47E717E7AC530084D497 /* HS-powered-by-logo.png */; };
+		6AAB480617E7AC530084D497 /* HS-powered-by-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47E817E7AC530084D497 /* HS-powered-by-logo@2x.png */; };
+		6AAB480717E7AC530084D497 /* HS-screenshot-error.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47E917E7AC530084D497 /* HS-screenshot-error.png */; };
+		6AAB480817E7AC530084D497 /* HS-screenshot-error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47EA17E7AC530084D497 /* HS-screenshot-error@2x.png */; };
+		6AAB480917E7AC530084D497 /* HS-section-header.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47EB17E7AC530084D497 /* HS-section-header.png */; };
+		6AAB480A17E7AC530084D497 /* HS-section-header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47EC17E7AC530084D497 /* HS-section-header@2x.png */; };
+		6AAB480B17E7AC530084D497 /* HSChatBubbleBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47ED17E7AC530084D497 /* HSChatBubbleBlue.png */; };
+		6AAB480C17E7AC530084D497 /* HSChatBubbleBlue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47EE17E7AC530084D497 /* HSChatBubbleBlue@2x.png */; };
+		6AAB480D17E7AC530084D497 /* HSChatBubbleWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47EF17E7AC530084D497 /* HSChatBubbleWhite.png */; };
+		6AAB480E17E7AC530084D497 /* HSChatBubbleWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47F017E7AC530084D497 /* HSChatBubbleWhite@2x.png */; };
+		6AAB480F17E7AC530084D497 /* HSConfirmBox.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47F117E7AC530084D497 /* HSConfirmBox.png */; };
+		6AAB481017E7AC530084D497 /* HSConfirmBox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47F217E7AC530084D497 /* HSConfirmBox@2x.png */; };
+		6AAB481117E7AC530084D497 /* HSTutorial.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47F317E7AC530084D497 /* HSTutorial.png */; };
+		6AAB481217E7AC530084D497 /* HSTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47F417E7AC530084D497 /* HSTutorial@2x.png */; };
+		6AAB481317E7AC530084D497 /* HSTutorialiPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47F517E7AC530084D497 /* HSTutorialiPad.png */; };
+		6AAB481417E7AC530084D497 /* HSTutorialiPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47F617E7AC530084D497 /* HSTutorialiPad@2x.png */; };
+		6AAB481517E7AC530084D497 /* HelpshiftConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47FC17E7AC530084D497 /* HelpshiftConfig.plist */; };
+		6AAB481617E7AC530084D497 /* HelpshiftConfigDark.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AAB47FD17E7AC530084D497 /* HelpshiftConfigDark.plist */; };
+		6AAB481717E7AC530084D497 /* libHelpshift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAB47FE17E7AC530084D497 /* libHelpshift.a */; };
 		6AC0BAF617BAE30200E6BD6F /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0B94317BAE30100E6BD6F /* bibleContent */; };
 		6AC0BAF717BAE30200E6BD6F /* Arev.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0B94517BAE30100E6BD6F /* Arev.ttf */; };
 		6AC0BAF817BAE30200E6BD6F /* ArevBd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0B94617BAE30100E6BD6F /* ArevBd.ttf */; };
@@ -272,31 +297,6 @@
 		6AC0BBE117BAE30200E6BD6F /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC0BA7D17BAE30200E6BD6F /* FMDatabasePool.m */; };
 		6AC0BBE217BAE30200E6BD6F /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC0BA7F17BAE30200E6BD6F /* FMDatabaseQueue.m */; };
 		6AC0BBE317BAE30200E6BD6F /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC0BA8117BAE30200E6BD6F /* FMResultSet.m */; };
-		6AC0BBE417BAE30200E6BD6F /* 2.5.0-release.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA8317BAE30200E6BD6F /* 2.5.0-release.txt */; };
-		6AC0BBE517BAE30200E6BD6F /* HelpshiftLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA8617BAE30200E6BD6F /* HelpshiftLocalizable.strings */; };
-		6AC0BBE617BAE30200E6BD6F /* HS-background-tile.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA8B17BAE30200E6BD6F /* HS-background-tile.png */; };
-		6AC0BBE717BAE30200E6BD6F /* HS-background-tile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA8C17BAE30200E6BD6F /* HS-background-tile@2x.png */; };
-		6AC0BBE817BAE30200E6BD6F /* HS-no-connection.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA8D17BAE30200E6BD6F /* HS-no-connection.png */; };
-		6AC0BBE917BAE30200E6BD6F /* HS-no-connection@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA8E17BAE30200E6BD6F /* HS-no-connection@2x.png */; };
-		6AC0BBEA17BAE30200E6BD6F /* HS-powered-by-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA8F17BAE30200E6BD6F /* HS-powered-by-logo.png */; };
-		6AC0BBEB17BAE30200E6BD6F /* HS-powered-by-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9017BAE30200E6BD6F /* HS-powered-by-logo@2x.png */; };
-		6AC0BBEC17BAE30200E6BD6F /* HS-screenshot-error.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9117BAE30200E6BD6F /* HS-screenshot-error.png */; };
-		6AC0BBED17BAE30200E6BD6F /* HS-screenshot-error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9217BAE30200E6BD6F /* HS-screenshot-error@2x.png */; };
-		6AC0BBEE17BAE30200E6BD6F /* HS-section-header.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9317BAE30200E6BD6F /* HS-section-header.png */; };
-		6AC0BBEF17BAE30200E6BD6F /* HS-section-header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9417BAE30200E6BD6F /* HS-section-header@2x.png */; };
-		6AC0BBF017BAE30200E6BD6F /* HSChatBubbleBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9517BAE30200E6BD6F /* HSChatBubbleBlue.png */; };
-		6AC0BBF117BAE30200E6BD6F /* HSChatBubbleBlue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9617BAE30200E6BD6F /* HSChatBubbleBlue@2x.png */; };
-		6AC0BBF217BAE30200E6BD6F /* HSChatBubbleWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9717BAE30200E6BD6F /* HSChatBubbleWhite.png */; };
-		6AC0BBF317BAE30200E6BD6F /* HSChatBubbleWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9817BAE30200E6BD6F /* HSChatBubbleWhite@2x.png */; };
-		6AC0BBF417BAE30200E6BD6F /* HSConfirmBox.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9917BAE30200E6BD6F /* HSConfirmBox.png */; };
-		6AC0BBF517BAE30200E6BD6F /* HSConfirmBox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9A17BAE30200E6BD6F /* HSConfirmBox@2x.png */; };
-		6AC0BBF617BAE30200E6BD6F /* HSTutorial.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9B17BAE30200E6BD6F /* HSTutorial.png */; };
-		6AC0BBF717BAE30200E6BD6F /* HSTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9C17BAE30200E6BD6F /* HSTutorial@2x.png */; };
-		6AC0BBF817BAE30200E6BD6F /* HSTutorialiPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9D17BAE30200E6BD6F /* HSTutorialiPad.png */; };
-		6AC0BBF917BAE30200E6BD6F /* HSTutorialiPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BA9E17BAE30200E6BD6F /* HSTutorialiPad@2x.png */; };
-		6AC0BBFA17BAE30200E6BD6F /* HelpshiftConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BAA417BAE30200E6BD6F /* HelpshiftConfig.plist */; };
-		6AC0BBFB17BAE30200E6BD6F /* HelpshiftConfigDark.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BAA517BAE30200E6BD6F /* HelpshiftConfigDark.plist */; };
-		6AC0BBFC17BAE30200E6BD6F /* libHelpshift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC0BAA617BAE30200E6BD6F /* libHelpshift.a */; };
 		6AC0BBFD17BAE30200E6BD6F /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0BAA917BAE30200E6BD6F /* iRate.bundle */; };
 		6AC0BBFE17BAE30200E6BD6F /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC0BAAB17BAE30200E6BD6F /* iRate.m */; };
 		6AC0BBFF17BAE30200E6BD6F /* KBKeyboardHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC0BAAD17BAE30200E6BD6F /* KBKeyboardHandler.m */; };
@@ -413,6 +413,39 @@
 		6AA61D6A17E2DB6500B99BA6 /* Default-Portrait-iOS7@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait-iOS7@2x~ipad.png"; sourceTree = "<group>"; };
 		6AA61D6B17E2DB6500B99BA6 /* Default-Landscape-iOS7~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-iOS7~ipad.png"; sourceTree = "<group>"; };
 		6AA61D6C17E2DB6500B99BA6 /* Default-Landscape-iOS7@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-iOS7@2x~ipad.png"; sourceTree = "<group>"; };
+		6AAB47DB17E7AC530084D497 /* 3.0.0-release.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "3.0.0-release.txt"; sourceTree = "<group>"; };
+		6AAB47DC17E7AC530084D497 /* Helpshift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helpshift.h; sourceTree = "<group>"; };
+		6AAB47DF17E7AC530084D497 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6AAB47E017E7AC530084D497 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6AAB47E117E7AC530084D497 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6AAB47E217E7AC530084D497 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6AAB47E317E7AC530084D497 /* HS-background-tile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-background-tile.png"; sourceTree = "<group>"; };
+		6AAB47E417E7AC530084D497 /* HS-background-tile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-background-tile@2x.png"; sourceTree = "<group>"; };
+		6AAB47E517E7AC530084D497 /* HS-no-connection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-no-connection.png"; sourceTree = "<group>"; };
+		6AAB47E617E7AC530084D497 /* HS-no-connection@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-no-connection@2x.png"; sourceTree = "<group>"; };
+		6AAB47E717E7AC530084D497 /* HS-powered-by-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-powered-by-logo.png"; sourceTree = "<group>"; };
+		6AAB47E817E7AC530084D497 /* HS-powered-by-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-powered-by-logo@2x.png"; sourceTree = "<group>"; };
+		6AAB47E917E7AC530084D497 /* HS-screenshot-error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-screenshot-error.png"; sourceTree = "<group>"; };
+		6AAB47EA17E7AC530084D497 /* HS-screenshot-error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-screenshot-error@2x.png"; sourceTree = "<group>"; };
+		6AAB47EB17E7AC530084D497 /* HS-section-header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-section-header.png"; sourceTree = "<group>"; };
+		6AAB47EC17E7AC530084D497 /* HS-section-header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-section-header@2x.png"; sourceTree = "<group>"; };
+		6AAB47ED17E7AC530084D497 /* HSChatBubbleBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSChatBubbleBlue.png; sourceTree = "<group>"; };
+		6AAB47EE17E7AC530084D497 /* HSChatBubbleBlue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSChatBubbleBlue@2x.png"; sourceTree = "<group>"; };
+		6AAB47EF17E7AC530084D497 /* HSChatBubbleWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSChatBubbleWhite.png; sourceTree = "<group>"; };
+		6AAB47F017E7AC530084D497 /* HSChatBubbleWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSChatBubbleWhite@2x.png"; sourceTree = "<group>"; };
+		6AAB47F117E7AC530084D497 /* HSConfirmBox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSConfirmBox.png; sourceTree = "<group>"; };
+		6AAB47F217E7AC530084D497 /* HSConfirmBox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSConfirmBox@2x.png"; sourceTree = "<group>"; };
+		6AAB47F317E7AC530084D497 /* HSTutorial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSTutorial.png; sourceTree = "<group>"; };
+		6AAB47F417E7AC530084D497 /* HSTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSTutorial@2x.png"; sourceTree = "<group>"; };
+		6AAB47F517E7AC530084D497 /* HSTutorialiPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSTutorialiPad.png; sourceTree = "<group>"; };
+		6AAB47F617E7AC530084D497 /* HSTutorialiPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSTutorialiPad@2x.png"; sourceTree = "<group>"; };
+		6AAB47F717E7AC530084D497 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6AAB47F817E7AC530084D497 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6AAB47F917E7AC530084D497 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
+		6AAB47FA17E7AC530084D497 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/HelpshiftLocalizable.strings"; sourceTree = "<group>"; };
+		6AAB47FC17E7AC530084D497 /* HelpshiftConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = HelpshiftConfig.plist; sourceTree = "<group>"; };
+		6AAB47FD17E7AC530084D497 /* HelpshiftConfigDark.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = HelpshiftConfigDark.plist; sourceTree = "<group>"; };
+		6AAB47FE17E7AC530084D497 /* libHelpshift.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libHelpshift.a; sourceTree = "<group>"; };
 		6AABABC9153FC8E800FCBAB9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6AC0B94317BAE30100E6BD6F /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
 		6AC0B94517BAE30100E6BD6F /* Arev.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Arev.ttf; sourceTree = "<group>"; };
@@ -693,39 +726,6 @@
 		6AC0BA7F17BAE30200E6BD6F /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
 		6AC0BA8017BAE30200E6BD6F /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		6AC0BA8117BAE30200E6BD6F /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
-		6AC0BA8317BAE30200E6BD6F /* 2.5.0-release.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "2.5.0-release.txt"; sourceTree = "<group>"; };
-		6AC0BA8417BAE30200E6BD6F /* Helpshift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helpshift.h; sourceTree = "<group>"; };
-		6AC0BA8717BAE30200E6BD6F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
-		6AC0BA8817BAE30200E6BD6F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
-		6AC0BA8917BAE30200E6BD6F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
-		6AC0BA8A17BAE30200E6BD6F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
-		6AC0BA8B17BAE30200E6BD6F /* HS-background-tile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-background-tile.png"; sourceTree = "<group>"; };
-		6AC0BA8C17BAE30200E6BD6F /* HS-background-tile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-background-tile@2x.png"; sourceTree = "<group>"; };
-		6AC0BA8D17BAE30200E6BD6F /* HS-no-connection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-no-connection.png"; sourceTree = "<group>"; };
-		6AC0BA8E17BAE30200E6BD6F /* HS-no-connection@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-no-connection@2x.png"; sourceTree = "<group>"; };
-		6AC0BA8F17BAE30200E6BD6F /* HS-powered-by-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-powered-by-logo.png"; sourceTree = "<group>"; };
-		6AC0BA9017BAE30200E6BD6F /* HS-powered-by-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-powered-by-logo@2x.png"; sourceTree = "<group>"; };
-		6AC0BA9117BAE30200E6BD6F /* HS-screenshot-error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-screenshot-error.png"; sourceTree = "<group>"; };
-		6AC0BA9217BAE30200E6BD6F /* HS-screenshot-error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-screenshot-error@2x.png"; sourceTree = "<group>"; };
-		6AC0BA9317BAE30200E6BD6F /* HS-section-header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-section-header.png"; sourceTree = "<group>"; };
-		6AC0BA9417BAE30200E6BD6F /* HS-section-header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HS-section-header@2x.png"; sourceTree = "<group>"; };
-		6AC0BA9517BAE30200E6BD6F /* HSChatBubbleBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSChatBubbleBlue.png; sourceTree = "<group>"; };
-		6AC0BA9617BAE30200E6BD6F /* HSChatBubbleBlue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSChatBubbleBlue@2x.png"; sourceTree = "<group>"; };
-		6AC0BA9717BAE30200E6BD6F /* HSChatBubbleWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSChatBubbleWhite.png; sourceTree = "<group>"; };
-		6AC0BA9817BAE30200E6BD6F /* HSChatBubbleWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSChatBubbleWhite@2x.png"; sourceTree = "<group>"; };
-		6AC0BA9917BAE30200E6BD6F /* HSConfirmBox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSConfirmBox.png; sourceTree = "<group>"; };
-		6AC0BA9A17BAE30200E6BD6F /* HSConfirmBox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSConfirmBox@2x.png"; sourceTree = "<group>"; };
-		6AC0BA9B17BAE30200E6BD6F /* HSTutorial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSTutorial.png; sourceTree = "<group>"; };
-		6AC0BA9C17BAE30200E6BD6F /* HSTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSTutorial@2x.png"; sourceTree = "<group>"; };
-		6AC0BA9D17BAE30200E6BD6F /* HSTutorialiPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HSTutorialiPad.png; sourceTree = "<group>"; };
-		6AC0BA9E17BAE30200E6BD6F /* HSTutorialiPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HSTutorialiPad@2x.png"; sourceTree = "<group>"; };
-		6AC0BA9F17BAE30200E6BD6F /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
-		6AC0BAA017BAE30200E6BD6F /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
-		6AC0BAA117BAE30200E6BD6F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/HelpshiftLocalizable.strings; sourceTree = "<group>"; };
-		6AC0BAA217BAE30200E6BD6F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/HelpshiftLocalizable.strings"; sourceTree = "<group>"; };
-		6AC0BAA417BAE30200E6BD6F /* HelpshiftConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = HelpshiftConfig.plist; sourceTree = "<group>"; };
-		6AC0BAA517BAE30200E6BD6F /* HelpshiftConfigDark.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = HelpshiftConfigDark.plist; sourceTree = "<group>"; };
-		6AC0BAA617BAE30200E6BD6F /* libHelpshift.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libHelpshift.a; sourceTree = "<group>"; };
 		6AC0BAA717BAE30200E6BD6F /* iOSHierarchyViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSHierarchyViewer.h; sourceTree = "<group>"; };
 		6AC0BAA917BAE30200E6BD6F /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
 		6AC0BAAA17BAE30200E6BD6F /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
@@ -830,6 +830,7 @@
 				6A9B86B01542792400E4ABC0 /* SystemConfiguration.framework in Frameworks */,
 				6A9C80CE16B610F0006D1AF7 /* MobileCoreServices.framework in Frameworks */,
 				6A9C80D416B6110D006D1AF7 /* StoreKit.framework in Frameworks */,
+				6AAB481717E7AC530084D497 /* libHelpshift.a in Frameworks */,
 				6A9C80D216B61108006D1AF7 /* Social.framework in Frameworks */,
 				6A9C80D016B61101006D1AF7 /* Security.framework in Frameworks */,
 				6A9C80CC16B610E0006D1AF7 /* libz.1.1.3.dylib in Frameworks */,
@@ -843,7 +844,6 @@
 				6AF0C0A8150EE8BB00BFAE03 /* Foundation.framework in Frameworks */,
 				6AF0C0AA150EE8BB00BFAE03 /* CoreGraphics.framework in Frameworks */,
 				6A9C80C016B61079006D1AF7 /* Parse.framework in Frameworks */,
-				6AC0BBFC17BAE30200E6BD6F /* libHelpshift.a in Frameworks */,
 				6AC0BC1A17BAE30200E6BD6F /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -880,6 +880,55 @@
 				6AA61D5217E2D73100B99BA6 /* iTunesArtwork@2x.png */,
 			);
 			path = 13;
+			sourceTree = "<group>";
+		};
+		6AAB47DA17E7AC530084D497 /* helpshift-ios-3.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				6AAB47DB17E7AC530084D497 /* 3.0.0-release.txt */,
+				6AAB47DC17E7AC530084D497 /* Helpshift.h */,
+				6AAB47DD17E7AC530084D497 /* HSResources */,
+				6AAB47FB17E7AC530084D497 /* HSThemes */,
+				6AAB47FE17E7AC530084D497 /* libHelpshift.a */,
+			);
+			path = "helpshift-ios-3.0.0";
+			sourceTree = "<group>";
+		};
+		6AAB47DD17E7AC530084D497 /* HSResources */ = {
+			isa = PBXGroup;
+			children = (
+				6AAB47DE17E7AC530084D497 /* HelpshiftLocalizable.strings */,
+				6AAB47E317E7AC530084D497 /* HS-background-tile.png */,
+				6AAB47E417E7AC530084D497 /* HS-background-tile@2x.png */,
+				6AAB47E517E7AC530084D497 /* HS-no-connection.png */,
+				6AAB47E617E7AC530084D497 /* HS-no-connection@2x.png */,
+				6AAB47E717E7AC530084D497 /* HS-powered-by-logo.png */,
+				6AAB47E817E7AC530084D497 /* HS-powered-by-logo@2x.png */,
+				6AAB47E917E7AC530084D497 /* HS-screenshot-error.png */,
+				6AAB47EA17E7AC530084D497 /* HS-screenshot-error@2x.png */,
+				6AAB47EB17E7AC530084D497 /* HS-section-header.png */,
+				6AAB47EC17E7AC530084D497 /* HS-section-header@2x.png */,
+				6AAB47ED17E7AC530084D497 /* HSChatBubbleBlue.png */,
+				6AAB47EE17E7AC530084D497 /* HSChatBubbleBlue@2x.png */,
+				6AAB47EF17E7AC530084D497 /* HSChatBubbleWhite.png */,
+				6AAB47F017E7AC530084D497 /* HSChatBubbleWhite@2x.png */,
+				6AAB47F117E7AC530084D497 /* HSConfirmBox.png */,
+				6AAB47F217E7AC530084D497 /* HSConfirmBox@2x.png */,
+				6AAB47F317E7AC530084D497 /* HSTutorial.png */,
+				6AAB47F417E7AC530084D497 /* HSTutorial@2x.png */,
+				6AAB47F517E7AC530084D497 /* HSTutorialiPad.png */,
+				6AAB47F617E7AC530084D497 /* HSTutorialiPad@2x.png */,
+			);
+			path = HSResources;
+			sourceTree = "<group>";
+		};
+		6AAB47FB17E7AC530084D497 /* HSThemes */ = {
+			isa = PBXGroup;
+			children = (
+				6AAB47FC17E7AC530084D497 /* HelpshiftConfig.plist */,
+				6AAB47FD17E7AC530084D497 /* HelpshiftConfigDark.plist */,
+			);
+			path = HSThemes;
 			sourceTree = "<group>";
 		};
 		6AC0B94117BAE30100E6BD6F /* Assets */ = {
@@ -1295,6 +1344,7 @@
 		6AC0BA5F17BAE30200E6BD6F /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				6AAB47DA17E7AC530084D497 /* helpshift-ios-3.0.0 */,
 				6AC0BA6017BAE30200E6BD6F /* AccessibleSegmentedControl.h */,
 				6AC0BA6117BAE30200E6BD6F /* AccessibleSegmentedControl.m */,
 				6AC0BA6217BAE30200E6BD6F /* AFNetworking */,
@@ -1310,7 +1360,6 @@
 				6AC0BA7F17BAE30200E6BD6F /* FMDatabaseQueue.m */,
 				6AC0BA8017BAE30200E6BD6F /* FMResultSet.h */,
 				6AC0BA8117BAE30200E6BD6F /* FMResultSet.m */,
-				6AC0BA8217BAE30200E6BD6F /* helpshift-ios-2.5.0 */,
 				6AC0BAA717BAE30200E6BD6F /* iOSHierarchyViewer.h */,
 				6AC0BAA817BAE30200E6BD6F /* iRate */,
 				6AC0BAAC17BAE30200E6BD6F /* KBKeyboardHandler.h */,
@@ -1367,55 +1416,6 @@
 				6AC0BA7517BAE30200E6BD6F /* UIImageView+AFNetworking.m */,
 			);
 			path = AFNetworking;
-			sourceTree = "<group>";
-		};
-		6AC0BA8217BAE30200E6BD6F /* helpshift-ios-2.5.0 */ = {
-			isa = PBXGroup;
-			children = (
-				6AC0BA8317BAE30200E6BD6F /* 2.5.0-release.txt */,
-				6AC0BA8417BAE30200E6BD6F /* Helpshift.h */,
-				6AC0BA8517BAE30200E6BD6F /* HSResources */,
-				6AC0BAA317BAE30200E6BD6F /* HSThemes */,
-				6AC0BAA617BAE30200E6BD6F /* libHelpshift.a */,
-			);
-			path = "helpshift-ios-2.5.0";
-			sourceTree = "<group>";
-		};
-		6AC0BA8517BAE30200E6BD6F /* HSResources */ = {
-			isa = PBXGroup;
-			children = (
-				6AC0BA8617BAE30200E6BD6F /* HelpshiftLocalizable.strings */,
-				6AC0BA8B17BAE30200E6BD6F /* HS-background-tile.png */,
-				6AC0BA8C17BAE30200E6BD6F /* HS-background-tile@2x.png */,
-				6AC0BA8D17BAE30200E6BD6F /* HS-no-connection.png */,
-				6AC0BA8E17BAE30200E6BD6F /* HS-no-connection@2x.png */,
-				6AC0BA8F17BAE30200E6BD6F /* HS-powered-by-logo.png */,
-				6AC0BA9017BAE30200E6BD6F /* HS-powered-by-logo@2x.png */,
-				6AC0BA9117BAE30200E6BD6F /* HS-screenshot-error.png */,
-				6AC0BA9217BAE30200E6BD6F /* HS-screenshot-error@2x.png */,
-				6AC0BA9317BAE30200E6BD6F /* HS-section-header.png */,
-				6AC0BA9417BAE30200E6BD6F /* HS-section-header@2x.png */,
-				6AC0BA9517BAE30200E6BD6F /* HSChatBubbleBlue.png */,
-				6AC0BA9617BAE30200E6BD6F /* HSChatBubbleBlue@2x.png */,
-				6AC0BA9717BAE30200E6BD6F /* HSChatBubbleWhite.png */,
-				6AC0BA9817BAE30200E6BD6F /* HSChatBubbleWhite@2x.png */,
-				6AC0BA9917BAE30200E6BD6F /* HSConfirmBox.png */,
-				6AC0BA9A17BAE30200E6BD6F /* HSConfirmBox@2x.png */,
-				6AC0BA9B17BAE30200E6BD6F /* HSTutorial.png */,
-				6AC0BA9C17BAE30200E6BD6F /* HSTutorial@2x.png */,
-				6AC0BA9D17BAE30200E6BD6F /* HSTutorialiPad.png */,
-				6AC0BA9E17BAE30200E6BD6F /* HSTutorialiPad@2x.png */,
-			);
-			path = HSResources;
-			sourceTree = "<group>";
-		};
-		6AC0BAA317BAE30200E6BD6F /* HSThemes */ = {
-			isa = PBXGroup;
-			children = (
-				6AC0BAA417BAE30200E6BD6F /* HelpshiftConfig.plist */,
-				6AC0BAA517BAE30200E6BD6F /* HelpshiftConfigDark.plist */,
-			);
-			path = HSThemes;
 			sourceTree = "<group>";
 		};
 		6AC0BAA817BAE30200E6BD6F /* iRate */ = {
@@ -1684,6 +1684,7 @@
 				6AC0BAFB17BAE30200E6BD6F /* FontAwesome.ttf in Resources */,
 				6AC0BAFC17BAE30200E6BD6F /* FontAwesomeFont.ttf in Resources */,
 				6AC0BAFD17BAE30200E6BD6F /* GentiumPlus-I.ttf in Resources */,
+				6AAB481017E7AC530084D497 /* HSConfirmBox@2x.png in Resources */,
 				6AC0BAFE17BAE30200E6BD6F /* GentiumPlus-R.ttf in Resources */,
 				6AC0BAFF17BAE30200E6BD6F /* newathu405.ttf in Resources */,
 				6AC0BB0017BAE30200E6BD6F /* newathuBold405.ttf in Resources */,
@@ -1694,15 +1695,18 @@
 				6AC0BB0417BAE30200E6BD6F /* OpenDyslexic-BoldItalic.otf in Resources */,
 				6AC0BB0517BAE30200E6BD6F /* OpenDyslexic-Italic.otf in Resources */,
 				6AC0BB0617BAE30200E6BD6F /* OpenDyslexic-Regular.otf in Resources */,
+				6AAB480617E7AC530084D497 /* HS-powered-by-logo@2x.png in Resources */,
 				6AC0BB0717BAE30200E6BD6F /* about.html in Resources */,
 				6AC0BB0817BAE30200E6BD6F /* parsings.html in Resources */,
 				6AC0BB0917BAE30200E6BD6F /* ArrowLeft-30.png in Resources */,
+				6AAB480317E7AC530084D497 /* HS-no-connection.png in Resources */,
 				6AC0BB0A17BAE30200E6BD6F /* ArrowLeft-30@2x.png in Resources */,
 				6AC0BB0B17BAE30200E6BD6F /* ArrowRight-30.png in Resources */,
 				6AC0BB0C17BAE30200E6BD6F /* ArrowRight-30@2x.png in Resources */,
 				6AC0BB0D17BAE30200E6BD6F /* Bookmarks-30.png in Resources */,
 				6AC0BB0E17BAE30200E6BD6F /* Bookmarks-30@2x.png in Resources */,
 				6AC0BB0F17BAE30200E6BD6F /* Books-30.png in Resources */,
+				6AAB480417E7AC530084D497 /* HS-no-connection@2x.png in Resources */,
 				6AC0BB1017BAE30200E6BD6F /* Books-30@2x.png in Resources */,
 				6AC0BB1117BAE30200E6BD6F /* eqc-30.png in Resources */,
 				6AC0BB1217BAE30200E6BD6F /* eqc-30@2x.png in Resources */,
@@ -1721,14 +1725,17 @@
 				6AC0BB1C17BAE30200E6BD6F /* ls100-30@2x.png in Resources */,
 				6AC0BB1D17BAE30200E6BD6F /* ls125-30.png in Resources */,
 				6AC0BB1E17BAE30200E6BD6F /* ls125-30@2x.png in Resources */,
+				6AAB480F17E7AC530084D497 /* HSConfirmBox.png in Resources */,
 				6AC0BB1F17BAE30200E6BD6F /* ls150-30.png in Resources */,
 				6AC0BB2017BAE30200E6BD6F /* ls150-30@2x.png in Resources */,
 				6AC0BB2117BAE30200E6BD6F /* ls200-30.png in Resources */,
 				6AC0BB2217BAE30200E6BD6F /* ls200-30@2x.png in Resources */,
+				6AAB480A17E7AC530084D497 /* HS-section-header@2x.png in Resources */,
 				6AC0BB2317BAE30200E6BD6F /* Menu-30.png in Resources */,
 				6AC0BB2417BAE30200E6BD6F /* Menu-30@2x.png in Resources */,
 				6AC0BB2517BAE30200E6BD6F /* MoreBrightness-30.png in Resources */,
 				6AC0BB2617BAE30200E6BD6F /* MoreBrightness-30@2x.png in Resources */,
+				6AAB480217E7AC530084D497 /* HS-background-tile@2x.png in Resources */,
 				6AC0BB2717BAE30200E6BD6F /* RegularScreen-30.png in Resources */,
 				6AC0BB2817BAE30200E6BD6F /* RegularScreen-30@2x.png in Resources */,
 				6AC0BB2917BAE30200E6BD6F /* Search-30.png in Resources */,
@@ -1736,6 +1743,7 @@
 				6AC0BB2B17BAE30200E6BD6F /* Settings-30.png in Resources */,
 				6AA61D5A17E2D73100B99BA6 /* Icon.png in Resources */,
 				6AC0BB2C17BAE30200E6BD6F /* Settings-30@2x.png in Resources */,
+				6AAB47FF17E7AC530084D497 /* 3.0.0-release.txt in Resources */,
 				6AC0BB2D17BAE30200E6BD6F /* Strongs-30.png in Resources */,
 				6AC0BB2E17BAE30200E6BD6F /* Strongs-30@2x.png in Resources */,
 				6AC0BB2F17BAE30200E6BD6F /* vs0-30.png in Resources */,
@@ -1744,13 +1752,16 @@
 				6AC0BB3117BAE30200E6BD6F /* vs1-30.png in Resources */,
 				6AC0BB3217BAE30200E6BD6F /* vs1-30@2x.png in Resources */,
 				6AC0BB3317BAE30200E6BD6F /* vs2-30.png in Resources */,
+				6AAB481317E7AC530084D497 /* HSTutorialiPad.png in Resources */,
 				6AC0BB3417BAE30200E6BD6F /* vs2-30@2x.png in Resources */,
 				6AC0BB3517BAE30200E6BD6F /* wlc-30.png in Resources */,
 				6AC0BB3617BAE30200E6BD6F /* wlc-30@2x.png in Resources */,
 				6AC0BB3717BAE30200E6BD6F /* wrc-30.png in Resources */,
 				6AC0BB3817BAE30200E6BD6F /* wrc-30@2x.png in Resources */,
 				6AC0BB3917BAE30200E6BD6F /* Bookmarks.png in Resources */,
+				6AAB480517E7AC530084D497 /* HS-powered-by-logo.png in Resources */,
 				6AC0BB3A17BAE30200E6BD6F /* Bookmarks@2x.png in Resources */,
+				6AAB481417E7AC530084D497 /* HSTutorialiPad@2x.png in Resources */,
 				6AA61D6017E2D73100B99BA6 /* iTunesArtwork.png in Resources */,
 				6AC0BB3B17BAE30200E6BD6F /* Books.png in Resources */,
 				6AA61D5F17E2D73100B99BA6 /* Icon-Small.png in Resources */,
@@ -1762,7 +1773,9 @@
 				6AC0BB4117BAE30200E6BD6F /* FullScreen.png in Resources */,
 				6AC0BB4217BAE30200E6BD6F /* FullScreen@2x.png in Resources */,
 				6AC0BB4317BAE30200E6BD6F /* Highlighter.png in Resources */,
+				6AAB480717E7AC530084D497 /* HS-screenshot-error.png in Resources */,
 				6AC0BB4417BAE30200E6BD6F /* Highlighter@2x.png in Resources */,
+				6AAB480D17E7AC530084D497 /* HSChatBubbleWhite.png in Resources */,
 				6AC0BB4517BAE30200E6BD6F /* History.png in Resources */,
 				6AC0BB4617BAE30200E6BD6F /* History@2x.png in Resources */,
 				6AC0BB4717BAE30200E6BD6F /* Layout.png in Resources */,
@@ -1771,6 +1784,7 @@
 				6AC0BB4A17BAE30200E6BD6F /* LessBrightness@2x.png in Resources */,
 				6AC0BB4B17BAE30200E6BD6F /* ls100.png in Resources */,
 				6AC0BB4C17BAE30200E6BD6F /* ls100@2x.png in Resources */,
+				6AAB480C17E7AC530084D497 /* HSChatBubbleBlue@2x.png in Resources */,
 				6AC0BB4D17BAE30200E6BD6F /* ls125.png in Resources */,
 				6AC0BB4E17BAE30200E6BD6F /* ls125@2x.png in Resources */,
 				6AC0BB4F17BAE30200E6BD6F /* ls150.png in Resources */,
@@ -1779,6 +1793,7 @@
 				6AC0BB5217BAE30200E6BD6F /* ls200@2x.png in Resources */,
 				6AC0BB5317BAE30200E6BD6F /* Menu.png in Resources */,
 				6AC0BB5417BAE30200E6BD6F /* Menu@2x.png in Resources */,
+				6AAB480917E7AC530084D497 /* HS-section-header.png in Resources */,
 				6AC0BB5517BAE30200E6BD6F /* MoreBrightness.png in Resources */,
 				6AC0BB5617BAE30200E6BD6F /* MoreBrightness@2x.png in Resources */,
 				6AC0BB5717BAE30200E6BD6F /* RegularScreen.png in Resources */,
@@ -1816,8 +1831,10 @@
 				6AC0BB7517BAE30200E6BD6F /* EqualColumns.png in Resources */,
 				6AC0BB7617BAE30200E6BD6F /* EqualColumns@2x.png in Resources */,
 				6AC0BB7717BAE30200E6BD6F /* One.png in Resources */,
+				6AAB481217E7AC530084D497 /* HSTutorial@2x.png in Resources */,
 				6AC0BB7817BAE30200E6BD6F /* One@2x.png in Resources */,
 				6AC0BB7917BAE30200E6BD6F /* OneAndOneHalf.png in Resources */,
+				6AAB480017E7AC530084D497 /* HelpshiftLocalizable.strings in Resources */,
 				6AC0BB7A17BAE30200E6BD6F /* OneAndOneHalf@2x.png in Resources */,
 				6AC0BB7B17BAE30200E6BD6F /* OneAndOneQuarter.png in Resources */,
 				6AC0BB7C17BAE30200E6BD6F /* OneAndOneQuarter@2x.png in Resources */,
@@ -1825,16 +1842,21 @@
 				6AA61D6E17E2DB6500B99BA6 /* Default@2x.png in Resources */,
 				6AA61D5D17E2D73100B99BA6 /* Icon-Small-50.png in Resources */,
 				6AC0BB7E17BAE30200E6BD6F /* OneHalfSpacing@2x.png in Resources */,
+				6AAB480E17E7AC530084D497 /* HSChatBubbleWhite@2x.png in Resources */,
 				6AC0BB7F17BAE30200E6BD6F /* OneQuarterSpacing.png in Resources */,
 				6AC0BB8017BAE30200E6BD6F /* OneQuarterSpacing@2x.png in Resources */,
+				6AAB480117E7AC530084D497 /* HS-background-tile.png in Resources */,
 				6AC0BB8317BAE30200E6BD6F /* SingleSpacing.png in Resources */,
 				6AA61D5E17E2D73100B99BA6 /* Icon-Small@2x.png in Resources */,
+				6AAB481517E7AC530084D497 /* HelpshiftConfig.plist in Resources */,
 				6AC0BB8417BAE30200E6BD6F /* SingleSpacing@2x.png in Resources */,
+				6AAB481617E7AC530084D497 /* HelpshiftConfigDark.plist in Resources */,
 				6AC0BB8717BAE30200E6BD6F /* Two.png in Resources */,
 				6AC0BB8817BAE30200E6BD6F /* Two@2x.png in Resources */,
 				6AC0BB8917BAE30200E6BD6F /* WideLeftColumns.png in Resources */,
 				6AC0BB8A17BAE30200E6BD6F /* WideLeftColumns@2x.png in Resources */,
 				6AC0BB8B17BAE30200E6BD6F /* WideRightColumns.png in Resources */,
+				6AAB480817E7AC530084D497 /* HS-screenshot-error@2x.png in Resources */,
 				6AC0BB8C17BAE30200E6BD6F /* WideRightColumns@2x.png in Resources */,
 				6AC0BB8D17BAE30200E6BD6F /* GreekInterlinearBibleIcon-114.png in Resources */,
 				6AC0BB8E17BAE30200E6BD6F /* GreekInterlinearBibleIcon-144.png in Resources */,
@@ -1855,33 +1877,10 @@
 				6AC0BBA317BAE30200E6BD6F /* Swipe@2x.png in Resources */,
 				6AC0BBA417BAE30200E6BD6F /* Wait.png in Resources */,
 				6AC0BBA517BAE30200E6BD6F /* Wait@2x.png in Resources */,
-				6AC0BBE417BAE30200E6BD6F /* 2.5.0-release.txt in Resources */,
-				6AC0BBE517BAE30200E6BD6F /* HelpshiftLocalizable.strings in Resources */,
-				6AC0BBE617BAE30200E6BD6F /* HS-background-tile.png in Resources */,
-				6AC0BBE717BAE30200E6BD6F /* HS-background-tile@2x.png in Resources */,
+				6AAB481117E7AC530084D497 /* HSTutorial.png in Resources */,
 				6AA61D5717E2D73100B99BA6 /* Icon-76@2x.png in Resources */,
-				6AC0BBE817BAE30200E6BD6F /* HS-no-connection.png in Resources */,
-				6AC0BBE917BAE30200E6BD6F /* HS-no-connection@2x.png in Resources */,
-				6AC0BBEA17BAE30200E6BD6F /* HS-powered-by-logo.png in Resources */,
-				6AC0BBEB17BAE30200E6BD6F /* HS-powered-by-logo@2x.png in Resources */,
-				6AC0BBEC17BAE30200E6BD6F /* HS-screenshot-error.png in Resources */,
-				6AC0BBED17BAE30200E6BD6F /* HS-screenshot-error@2x.png in Resources */,
-				6AC0BBEE17BAE30200E6BD6F /* HS-section-header.png in Resources */,
-				6AC0BBEF17BAE30200E6BD6F /* HS-section-header@2x.png in Resources */,
 				6AA61D5417E2D73100B99BA6 /* Icon-40.png in Resources */,
-				6AC0BBF017BAE30200E6BD6F /* HSChatBubbleBlue.png in Resources */,
 				6AA61D6D17E2DB6500B99BA6 /* Default-568h@2x.png in Resources */,
-				6AC0BBF117BAE30200E6BD6F /* HSChatBubbleBlue@2x.png in Resources */,
-				6AC0BBF217BAE30200E6BD6F /* HSChatBubbleWhite.png in Resources */,
-				6AC0BBF317BAE30200E6BD6F /* HSChatBubbleWhite@2x.png in Resources */,
-				6AC0BBF417BAE30200E6BD6F /* HSConfirmBox.png in Resources */,
-				6AC0BBF517BAE30200E6BD6F /* HSConfirmBox@2x.png in Resources */,
-				6AC0BBF617BAE30200E6BD6F /* HSTutorial.png in Resources */,
-				6AC0BBF717BAE30200E6BD6F /* HSTutorial@2x.png in Resources */,
-				6AC0BBF817BAE30200E6BD6F /* HSTutorialiPad.png in Resources */,
-				6AC0BBF917BAE30200E6BD6F /* HSTutorialiPad@2x.png in Resources */,
-				6AC0BBFA17BAE30200E6BD6F /* HelpshiftConfig.plist in Resources */,
-				6AC0BBFB17BAE30200E6BD6F /* HelpshiftConfigDark.plist in Resources */,
 				6AA61D7617E2DB6500B99BA6 /* Default-Landscape-iOS7~ipad.png in Resources */,
 				6AA61D5517E2D73100B99BA6 /* Icon-Small-50@2x.png in Resources */,
 				6AC0BBFD17BAE30200E6BD6F /* iRate.bundle in Resources */,
@@ -1906,6 +1905,7 @@
 				6AC0BC1F17BAE30200E6BD6F /* back_icon@2x.png in Resources */,
 				6AC0BC2017BAE30200E6BD6F /* forward_icon.png in Resources */,
 				6AC0BC2117BAE30200E6BD6F /* forward_icon@2x.png in Resources */,
+				6AAB480B17E7AC530084D497 /* HSChatBubbleBlue.png in Resources */,
 				6AC0BC2217BAE30200E6BD6F /* reload_icon.png in Resources */,
 				6AC0BC2317BAE30200E6BD6F /* reload_icon@2x.png in Resources */,
 				6AC0BC2517BAE30200E6BD6F /* TSMiniWebBrowser.xib in Resources */,
@@ -2046,17 +2046,17 @@
 			path = Localization;
 			sourceTree = "<group>";
 		};
-		6AC0BA8617BAE30200E6BD6F /* HelpshiftLocalizable.strings */ = {
+		6AAB47DE17E7AC530084D497 /* HelpshiftLocalizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6AC0BA8717BAE30200E6BD6F /* de */,
-				6AC0BA8817BAE30200E6BD6F /* en */,
-				6AC0BA8917BAE30200E6BD6F /* es */,
-				6AC0BA8A17BAE30200E6BD6F /* fr */,
-				6AC0BA9F17BAE30200E6BD6F /* it */,
-				6AC0BAA017BAE30200E6BD6F /* pt */,
-				6AC0BAA117BAE30200E6BD6F /* ru */,
-				6AC0BAA217BAE30200E6BD6F /* zh-Hans */,
+				6AAB47DF17E7AC530084D497 /* de */,
+				6AAB47E017E7AC530084D497 /* en */,
+				6AAB47E117E7AC530084D497 /* es */,
+				6AAB47E217E7AC530084D497 /* fr */,
+				6AAB47F717E7AC530084D497 /* it */,
+				6AAB47F817E7AC530084D497 /* pt */,
+				6AAB47F917E7AC530084D497 /* ru */,
+				6AAB47FA17E7AC530084D497 /* zh-Hans */,
 			);
 			name = HelpshiftLocalizable.strings;
 			sourceTree = "<group>";
@@ -2142,7 +2142,6 @@
 		6AF0C0BA150EE8BB00BFAE03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_ENTITLEMENTS = gbible/gbible.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2158,10 +2157,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/gbible/Third Party/helpshift-ios-2.5.0\"",
-					"\"$(SRCROOT)/gbible/Third Party\"",
-					"\"$(SRCROOT)/gbible/Third Party/TestFlightSDK2.0.0\"",
+					"$(SRCROOT)/**",
 				);
 				OTHER_CFLAGS = "-ferror-limit=999";
 				OTHER_LDFLAGS = (
@@ -2169,7 +2165,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "DF68C79C-7164-4EA9-825A-7924C40CD9E6";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = app;
@@ -2179,7 +2175,6 @@
 		6AF0C0BB150EE8BB00BFAE03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_ENTITLEMENTS = gbible/gbible.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2195,17 +2190,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/gbible/Third Party/helpshift-ios-2.5.0\"",
-					"\"$(SRCROOT)/gbible/Third Party\"",
-					"\"$(SRCROOT)/gbible/Third Party/TestFlightSDK2.0.0\"",
+					"$(SRCROOT)/**",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8EBD64DE-D7C2-47E2-8E62-FB34D6C78DB7";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = app;
