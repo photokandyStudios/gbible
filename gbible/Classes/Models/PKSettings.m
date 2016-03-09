@@ -419,22 +419,22 @@ static PKSettings * _instance;
     _textLineSpacing      = PK_LS_NORMAL;
     _textVerseSpacing     = PK_VS_NONE;
     _layoutColumnWidths   = PK_CW_WIDEGREEK;
-    _greekText            = PK_BIBLETEXT_BYZP;
+    _greekText            = PK_BIBLETEXT_WHP;
     _englishText          = PK_BIBLETEXT_YLT;
     _transliterateText    = NO;
     _showNotesInline      = NO;
     _showMorphology       = YES;
     _showStrongs          = YES;
     _showInterlinear      = YES;
-    _strongsOnTop         = NO;
+    _strongsOnTop         = YES;
     _smallerLeftSideWords = YES;
     _useICloud            = NO;
     
-    _extendHighlights     = NO;
-    _compressRightSideText= NO;
+    _extendHighlights     = YES;
+    _compressRightSideText= YES;
     
-    _textFontFace         = @"Helvetica";
-    _textGreekFontFace    = @"Helvetica Bold";     //RE: ISSUE #6
+    _textFontFace         = @"Arev Sans";
+    _textGreekFontFace    = @"Arev Sans Bold";
 
     _currentBook          = 40;  // Matthew
     _currentChapter       = 1;   // Chapter 1
