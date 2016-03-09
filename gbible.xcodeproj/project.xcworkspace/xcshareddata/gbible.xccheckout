@@ -2,35 +2,37 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>69F60FEE-DB4D-497F-A4F5-4A2EF7FE3B43</string>
+	<string>8FF94DD7-7FBA-4458-9BE2-8127B7F4F588</string>
 	<key>IDESourceControlProjectName</key>
 	<string>gbible</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>6DBF5C6C-2147-4789-88BD-CC043CFC447A</key>
+		<key>9EF2869586C4D7577DBC9520F80ECC93102F3F30</key>
 		<string>https://github.com/photokandyStudios/gbible.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>gbible.xcodeproj/project.xcworkspace</string>
+	<string>gbible.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>6DBF5C6C-2147-4789-88BD-CC043CFC447A</key>
+		<key>9EF2869586C4D7577DBC9520F80ECC93102F3F30</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/photokandyStudios/gbible.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>6DBF5C6C-2147-4789-88BD-CC043CFC447A</string>
+	<string>9EF2869586C4D7577DBC9520F80ECC93102F3F30</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>6DBF5C6C-2147-4789-88BD-CC043CFC447A</string>
+			<string>9EF2869586C4D7577DBC9520F80ECC93102F3F30</string>
 			<key>IDESourceControlWCCName</key>
 			<string>gbible</string>
 		</dict>
