@@ -80,8 +80,8 @@ static PKDatabase * _instance;
   {
     // open our databases
     // locate our database within the application bundle
-    NSString *bibleDatabase       = [NSHomeDirectory () stringByAppendingPathComponent: @"gbible.app/bibleContent"];
-    
+    NSString *bibleDatabase;
+    bibleDatabase = [[NSBundle mainBundle] pathForResource:@"bibleContent" ofType:nil];
     
     // locate our user content database
     NSString *userContentDatabase =
