@@ -42,43 +42,6 @@
 #import "PKReference.h"
 
 @implementation PKSettings
-/*
-@synthesize textFontFace;
-@synthesize textGreekFontFace;    //RE: ISSUE #6
-@synthesize textLineSpacing;
-@synthesize textVerseSpacing;
-@synthesize layoutColumnWidths;
-@synthesize greekText;
-@synthesize englishText;
-@synthesize transliterateText;
-@synthesize showNotesInline;
-@synthesize useICloud;
-@synthesize textFontSize;
-@synthesize showMorphology;
-@synthesize showStrongs;
-@synthesize showInterlinear;
-@synthesize currentBook;
-@synthesize currentChapter;
-@synthesize currentVerse;
-@synthesize topVerse;
-@synthesize noteBook;
-@synthesize noteChapter;
-@synthesize noteVerse;
-@synthesize currentTextHighlight;
-@synthesize lastStrongsLookup;
-@synthesize lastSearch;
-@synthesize lastNotesSearch;
-@synthesize oldNote;
-@synthesize currentNote;
-@synthesize highlightColor;
-@synthesize highlightTextColor;
-@synthesize textTheme;
-@synthesize usageStats;
-@synthesize extendHighlights;
-@synthesize compressRightSideText;
-@synthesize strongsOnTop;
-@synthesize smallerLeftSideWords;
-*/
 
 static PKSettings * _instance;
 
@@ -186,9 +149,11 @@ static PKSettings * _instance;
   theColorString = [self loadSetting: @"highlight-color"];
   NSArray *theColorArray = [theColorString componentsSeparatedByString: @","];
   // there will always be 3 values; R=0, G=1, B=2
-  _highlightColor = [UIColor colorWithRed: [theColorArray[0] floatValue]
-                                   green: [theColorArray[1] floatValue]
-                                    blue: [theColorArray[2] floatValue] alpha: 1.0];
+  if (theColorArray && theColorArray.count == 3) {
+    _highlightColor = [UIColor colorWithRed: [theColorArray[0] floatValue]
+                                     green: [theColorArray[1] floatValue]
+                                      blue: [theColorArray[2] floatValue] alpha: 1.0];
+  }
 
   _textTheme = [[self loadSetting: @"text-theme"] isEqual: @""] ? 0 :
               [[self loadSetting: @"text-theme"] intValue];
@@ -247,13 +212,10 @@ static PKSettings * _instance;
  */
 -(void) saveCurrentReference
 {
-  FMDatabaseQueue *content = [PKDatabase instance].content;
-  [content inTransaction:^(FMDatabase *db, BOOL *rollback) {
     [self saveSetting: @"current-book" valueForSetting: [PKReference stringFromBookNumber: _currentBook]];
     [self saveSetting: @"current-chapter" valueForSetting: [PKReference stringFromChapterNumber: _currentChapter]];
     [self saveSetting: @"current-verse" valueForSetting: [PKReference stringFromVerseNumber: _currentVerse]];
     [self saveSetting: @"top-verse" valueForSetting: [PKReference stringFromVerseNumber: _topVerse]];
-  }];
 }
 
 /**
@@ -282,13 +244,10 @@ static PKSettings * _instance;
     alpha = CGColorGetAlpha([_highlightColor CGColor]);
   }
 
-  FMDatabaseQueue *content = [PKDatabase instance].content;
-  [content inTransaction:^(FMDatabase *db, BOOL *rollback) {
     [self saveSetting: @"highlight-color" valueForSetting: [NSString stringWithFormat: @"%f,%f,%f",
                                                             red, green, blue]];
 
     [self saveSetting: @"highlight-text-color" valueForSetting: _highlightTextColor];
-  }];
 }
 
 /**
@@ -299,8 +258,6 @@ static PKSettings * _instance;
 -(void) saveSettings
 {
 
-  FMDatabaseQueue *content = [PKDatabase instance].content;
-  [content inTransaction:^(FMDatabase *db, BOOL *rollback) {
     [self saveSetting: PK_SETTING_FONTFACE valueForSetting: _textFontFace];
     [self saveSetting: @"greek-typeface" valueForSetting: _textGreekFontFace];     //RE: ISSUE #6
     [self saveSetting: PK_SETTING_FONTSIZE valueForSetting: [NSString stringWithFormat: @"%i", _textFontSize]];
@@ -338,8 +295,6 @@ static PKSettings * _instance;
     [self saveSetting: @"text-theme" valueForSetting: [NSString stringWithFormat: @"%i", _textTheme]];
     [self saveSetting: @"usage-stats" valueForSetting: (_usageStats ? @"YES": @"NO")];
     
-  }];
-
   [self saveCurrentReference];
   [self saveCurrentHighlight];
 }
@@ -353,39 +308,36 @@ static PKSettings * _instance;
 -(void) saveSetting: (NSString *) theSetting valueForSetting: (NSString *) theValue
 {
   FMDatabaseQueue *content = [PKDatabase instance].content;
-  FMDatabase *db = [content database];
+  [content inDatabase:^(FMDatabase *db) {
+    BOOL theResult      = YES;
+    FMResultSet *resultSet;
+    int rowCount        = 0;
+    
+    theResult = [db executeUpdate: @"UPDATE settings SET value=? WHERE setting=?",
+                 theValue, theSetting];
+    
+    // theResult is almost always TRUE -- so we need to query the db for the value we just set...
+    resultSet = [db executeQuery: @"SELECT * FROM settings WHERE setting=?", theSetting];
+    
+    if ([resultSet next])
+    {
+      rowCount++;
+    }
+    [resultSet close];
+    
+    if (rowCount < 1)
+    {
+      // updating didn't work -- insert the value instead.
+      theResult = [db executeUpdate: @"INSERT INTO settings VALUES (?,?)",
+                   theSetting, theValue];
+    }
+    
+    if (!theResult)
+    {
+      NSLog(@"Couldn't save %@ into %@", theValue, theSetting);
+    }
+  }];
   
-//  [content inDatabase:^(FMDatabase *db)
-//    {
-      BOOL theResult      = YES;
-      FMResultSet *resultSet;
-      int rowCount        = 0;
-
-      theResult = [db executeUpdate: @"UPDATE settings SET value=? WHERE setting=?",
-                   theValue, theSetting];
-
-      // theResult is almost always TRUE -- so we need to query the db for the value we just set...
-      resultSet = [db executeQuery: @"SELECT * FROM settings WHERE setting=?", theSetting];
-
-      if ([resultSet next])
-      {
-        rowCount++;
-      }
-      [resultSet close];
-
-      if (rowCount < 1)
-      {
-        // updating didn't work -- insert the value instead.
-        theResult = [db executeUpdate: @"INSERT INTO settings VALUES (?,?)",
-                     theSetting, theValue];
-      }
-
-      if (!theResult)
-      {
-        NSLog(@"Couldn't save %@ into %@", theValue, theSetting);
-      }
-//    }
-//  ];
 }
 
 /**
