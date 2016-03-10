@@ -79,14 +79,10 @@
 {
   [super viewDidLoad];
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-    {
-      self.extendedLayoutIncludesOpaqueBars  = YES;
-      self.edgesForExtendedLayout = UIRectEdgeNone;
-      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
-      self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    }
-
+  self.extendedLayoutIncludesOpaqueBars  = YES;
+  self.edgesForExtendedLayout = UIRectEdgeNone;
+  [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+  self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
   
   self.view.backgroundColor = [UIColor colorWithWhite:0.95 alpha: 1.0];
   
@@ -212,6 +208,9 @@
     [PKSettings instance].englishText = PK_BIBLETEXT_YLT;
     [[PKSettings instance] saveSettings];
   }
+
+  // TODO: what about the greek side? 
+  
   // change the button
   [self performBlockAsynchronouslyInForeground:^{
     [_theActionButton disableWithTitle:__T(@"Removing")];
@@ -292,17 +291,17 @@
                             
                             // now that the file is written, attach it to our userBible database
                             FMDatabaseQueue *dbq = [[PKDatabase instance] userBible];
-                            FMDatabase *db = dbq.database;
-                            [db executeUpdate:@"ATTACH DATABASE ? AS bibleImport", [downloadFileTo stringByReplacingOccurrencesOfString:@"zip" withString:@"db"]];
-                            [db executeUpdate:@"INSERT INTO content SELECT * FROM bibleImport.content"];
-                            [db executeUpdate:@"INSERT INTO bibles SELECT * FROM bibleImport.bibles"];
-                            /* NOTE: Removing for now until I come up with a better option.
-                            [db executeUpdate:@"INSERT INTO searchIndexMaster SELECT null, searchIndexMasterTerm FROM ( SELECT searchIndexMasterTerm FROM bibleImport.searchIndexMaster EXCEPT SELECT searchIndexMasterTerm FROM searchIndexMaster)"];
-                            [db executeUpdate:@"INSERT INTO searchIndex SELECT null, (SELECT searchIndexMasterID FROM searchIndexMaster WHERE searchIndexMasterTerm=(SELECT searchIndexMasterTerm FROM bibleImport.searchIndexMaster WHERE searchIndexMasterID=searchIndexTerm) ) searchIndexTerm, bibleID, lexiconID, commentaryID, reference FROM bibleImport.searchIndex"];
-                            */
-                            [db executeUpdate:@"DETACH DATABASE bibleImport"];
-                            
-                            
+                            [dbq inDatabase:^(FMDatabase *db) {
+                              [db executeUpdate:@"ATTACH DATABASE ? AS bibleImport", [downloadFileTo stringByReplacingOccurrencesOfString:@"zip" withString:@"db"]];
+                              [db executeUpdate:@"INSERT INTO content SELECT * FROM bibleImport.content"];
+                              [db executeUpdate:@"INSERT INTO bibles SELECT * FROM bibleImport.bibles"];
+                              /* NOTE: Removing for now until I come up with a better option.
+                               [db executeUpdate:@"INSERT INTO searchIndexMaster SELECT null, searchIndexMasterTerm FROM ( SELECT searchIndexMasterTerm FROM bibleImport.searchIndexMaster EXCEPT SELECT searchIndexMasterTerm FROM searchIndexMaster)"];
+                               [db executeUpdate:@"INSERT INTO searchIndex SELECT null, (SELECT searchIndexMasterID FROM searchIndexMaster WHERE searchIndexMasterTerm=(SELECT searchIndexMasterTerm FROM bibleImport.searchIndexMaster WHERE searchIndexMasterID=searchIndexTerm) ) searchIndexTerm, bibleID, lexiconID, commentaryID, reference FROM bibleImport.searchIndex"];
+                               */
+                              [db executeUpdate:@"DETACH DATABASE bibleImport"];
+                            }];
+              
                             // delete the file once we're done with it
                             NSFileManager *fileManager = [NSFileManager defaultManager];
                             [fileManager removeItemAtPath:[downloadFileTo stringByReplacingOccurrencesOfString:@"zip" withString:@"db"] error:NULL];
