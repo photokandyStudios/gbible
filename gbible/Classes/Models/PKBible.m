@@ -456,6 +456,9 @@
                        @"Phl", @"Heb", @"Jas", @"1Pe", @"2Pe", @"1Jo", @"2Jo",
                        @"3Jo", @"Jud", @"Rev"];
     }
+    if (theBook < 1 || theBook > 66) {
+      theBook = 40;
+    }
     return bookList[theBook - 1];
   }
 }
