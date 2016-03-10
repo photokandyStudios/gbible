@@ -76,7 +76,6 @@
 +(void) applyThemeToUIBarButtonItem: (UIBarButtonItem *)b;
 +(void) applyThemeToUINavigationBar: (UINavigationBar *)nba;
 +(void) applyThemeToUISearchBar: (UISearchBar *)sba;
-+(void) applyThemeToUISegmentedControl: (UISegmentedControl *)sca;
 
 
 @end
