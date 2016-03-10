@@ -40,6 +40,7 @@
 #import "PKNotes.h"
 #import "PKHighlights.h"
 #import "PKSettings.h"
+#import "sqlite3.h"
 #include <sys/xattr.h>
 
 @implementation PKDatabase
@@ -96,22 +97,14 @@ static PKDatabase * _instance;
                                            YES)[0] stringByAppendingPathComponent: @"webContent"]
                           error:nil];
     
-/*    [fileManager removeItemAtPath:[[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userBible"] error:nil]; */
+    [fileManager removeItemAtPath:[[NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
+                                           YES) objectAtIndex: 0] stringByAppendingPathComponent: @"userBible"] error:nil];
 
     // locate our user Bible database
     NSString *userBibleDatabase =
     [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
                                            YES)[0] stringByAppendingPathComponent: @"webContent"];
     
-    if (SYSTEM_VERSION_LESS_THAN(@"5.0.1"))
-    {
-      // per apple reqs, we have to put this in the cache directory.
-      userBibleDatabase =
-      [NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask,
-                                           YES)[0] stringByAppendingPathComponent: @"webContent"];
-    }
-
     // does the bible database exist? If not, we have a problem...
     if (![[NSFileManager defaultManager] fileExistsAtPath: bibleDatabase])
     {
@@ -141,57 +134,53 @@ static PKDatabase * _instance;
         }
 
         // add a case and diacritic-insensitive comparator to the sqlite instances
-        [db makeFunctionNamed: @"doesContain" maximumArguments: 2 withBlock:^(sqlite3_context * context, int aargc,
-                                                                                 sqlite3_value **aargv)
-         {
-           if (aargc < 2)
-           {
-             NSLog (@"doesContain doesn't have enough parameters (%d) %s:%d", aargc, __FUNCTION__, __LINE__);
-             sqlite3_result_null (context);
-             return;
-           }
-           
-           if (sqlite3_value_type (aargv[0]) == SQLITE_TEXT
-               && sqlite3_value_type (aargv[1]) == SQLITE_TEXT)
-           {
-             @autoreleasepool {
-               const char *x = (const char *)sqlite3_value_text (aargv[0]);
-               NSString *sx = @(x);
-               
-               const char *y = (const char *)sqlite3_value_text (aargv[1]);
-               NSString *sy = @(y);
-               
-               NSUInteger lx = [sx length];
-               NSUInteger ly = [sy length];
-               
-               if (lx > 0
-                   && ly > 0)
-               {
-                 sx = [[sx lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
-                 sy = [[sy lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
-                 
-                 if ([[PKSettings instance] transliterateText])
-                 {
-                   sx = [PKBible transliterate: sx];
-                   sy = [PKBible transliterate: sy];
-                 }
-                 sqlite3_result_int (context, [sx rangeOfString: sy].location != NSNotFound);
-               }
-               else
-               {
-                 sqlite3_result_int (context, 0);
-               }
-             }
-           }
-           else
-           {
-             NSLog (@"Unknown format for doesContain (%d, %d) %s:%d", sqlite3_value_type (aargv[0]),
-                    sqlite3_value_type (aargv[1]), __FUNCTION__, __LINE__);
-             sqlite3_result_null (context);
-           }
-         }
-         ];
-        
+        [db makeFunctionNamed:@"doesContain" maximumArguments:2 withBlock:^(void *context, int argc, void **argv) {
+          if (argc < 2)
+          {
+            NSLog (@"doesContain doesn't have enough parameters (%d) %s:%d", argc, __FUNCTION__, __LINE__);
+            sqlite3_result_null (context);
+            return;
+          }
+          
+          if (sqlite3_value_type (argv[0]) == SQLITE_TEXT
+              && sqlite3_value_type (argv[1]) == SQLITE_TEXT)
+          {
+            @autoreleasepool {
+              const char *x = (const char *)sqlite3_value_text (argv[0]);
+              NSString *sx = @(x);
+              
+              const char *y = (const char *)sqlite3_value_text (argv[1]);
+              NSString *sy = @(y);
+              
+              NSUInteger lx = [sx length];
+              NSUInteger ly = [sy length];
+              
+              if (lx > 0
+                  && ly > 0)
+              {
+                sx = [[sx lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
+                sy = [[sy lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
+                
+                if ([[PKSettings instance] transliterateText])
+                {
+                  sx = [PKBible transliterate: sx];
+                  sy = [PKBible transliterate: sy];
+                }
+                sqlite3_result_int (context, [sx rangeOfString: sy].location != NSNotFound);
+              }
+              else
+              {
+                sqlite3_result_int (context, 0);
+              }
+            }
+          }
+          else
+          {
+            NSLog (@"Unknown format for doesContain (%d, %d) %s:%d", sqlite3_value_type (argv[0]),
+                   sqlite3_value_type (argv[1]), __FUNCTION__, __LINE__);
+            sqlite3_result_null (context);
+          }
+        }];
         
        }
       ];
@@ -230,17 +219,6 @@ static PKDatabase * _instance;
     
     // and make sure the userBible is excluded from user backup
     NSURL *URL = [[NSURL alloc] initWithString: [[@"file://" stringByAppendingString:userBibleDatabase] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ];
-    if ( SYSTEM_VERSION_GREATER_THAN(@"5.0.1") )
-    {
-      NSError *error = nil;
-      BOOL success = [URL setResourceValue: @YES
-                                    forKey: NSURLIsExcludedFromBackupKey error: &error];
-      if(!success){
-          NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
-      }
-    }
-    else if (SYSTEM_VERSION_EQUAL_TO(@"5.0.1"))
-    {
       const char* filePath = [[URL path] fileSystemRepresentation];
       const char* attrName = "com.apple.MobileBackup";
       u_int8_t attrValue = 1;
@@ -248,7 +226,6 @@ static PKDatabase * _instance;
       if(!result==0){
           NSLog(@"Error excluding %@ from backup", [URL lastPathComponent]);
       }
-    }
   }
   return self;
 }
@@ -456,6 +433,7 @@ static PKDatabase * _instance;
   [userBible close];
   [content close];
   [bible close];
+  userBible = nil;
   content = nil;
   bible   = nil;
 }
