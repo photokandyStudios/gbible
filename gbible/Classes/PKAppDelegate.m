@@ -52,7 +52,6 @@
 #import <Parse/Parse.h>
 #import "UIFont+Utility.h"
 #import "AccessibleSegmentedControl.h"
-#import "Helpshift.h"
 #import "APIKeys.h"
 #import "UIImage+PKUtility.h"
 #import "UIColor-Expanded.h"
@@ -131,74 +130,10 @@ static PKAppDelegate * _instance;
 {
   if (b.tag == 498)
     return;
-
-  if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
-  {
-  
-    // TODO: iPhone Landscape metrics?
-    // set the back button's background
-    UIImage *backButtonImage = [UIImage imageNamed:@"ArrowLeft-30" withColor:[PKSettings PKTintColor]];
-    backButtonImage = [backButtonImage stretchableImageWithLeftCapWidth:30 topCapHeight:30];
-    [b setBackButtonBackgroundImage:backButtonImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [b setBackButtonTitlePositionAdjustment:UIOffsetMake(-5, -2) forBarMetrics:UIBarMetricsDefault];
-    [b setBackButtonTitlePositionAdjustment:UIOffsetMake(-5, -2) forBarMetrics:UIBarMetricsDefaultPrompt];
-    [b setBackButtonTitlePositionAdjustment:UIOffsetMake(-5, -2) forBarMetrics:UIBarMetricsLandscapePhone];
-    [b setBackButtonTitlePositionAdjustment:UIOffsetMake(-5, -2) forBarMetrics:UIBarMetricsLandscapePhonePrompt];
-    
-    // set the regular bar item's background
-    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleBordered barMetrics:UIBarMetricsDefault];
-    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleBordered barMetrics:UIBarMetricsDefaultPrompt];
-    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleBordered barMetrics:UIBarMetricsLandscapePhone];
-    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleBordered barMetrics:UIBarMetricsLandscapePhonePrompt];
-
-    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleDone barMetrics:UIBarMetricsDefault];
-    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleDone barMetrics:UIBarMetricsDefaultPrompt];
-    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleDone barMetrics:UIBarMetricsLandscapePhone];
-    [b setBackgroundImage:[[UIImage alloc] init] forState:UIControlStateNormal style:UIBarButtonItemStyleDone barMetrics:UIBarMetricsLandscapePhonePrompt];
-    
-    [b setTintColor: [PKSettings PKPageColor]];
-    [b setTitleTextAttributes:@{
-      UITextAttributeTextColor: [PKSettings PKTintColor],
-      UITextAttributeTextShadowColor: [UIColor clearColor],
-      UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)],
-      UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:16]
-      }
-                     forState:UIControlStateNormal];
-    [b setTitleTextAttributes:@{
-      UITextAttributeTextColor: [[PKSettings PKTintColor] colorByMultiplyingBy:1.5f],
-      UITextAttributeTextShadowColor: [UIColor clearColor],
-      UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)],
-      UITextAttributeFont: [UIFont fontWithName:PKSettings.boldInterfaceFont size:16]
-      }
-                     forState:UIControlStateHighlighted];
-  }
 }
 
 +(void) applyThemeToUINavigationBar: (UINavigationBar *)nba
 {
-  if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
-  {
-    nba.barStyle = UIBarStyleBlackTranslucent;
-    //nba.tintColor = [UIColor clearColor]; //[PKSettings PKNavigationColor];
-    //const float colorMask[6] = {222, 255, 222, 255, 222, 255};
-    //UIImage *img = [[UIImage alloc] init];
-    //UIImage *maskedImage = [UIImage imageWithCGImage: CGImageCreateWithMaskingColors(img.CGImage, colorMask)];
-    UIImage *img = [UIImage imageWithColor: [[PKSettings PKSecondaryPageColor] colorWithAlphaComponent:0.85] ];
-
-    [nba setBackgroundImage:img forBarMetrics:UIBarMetricsDefault];
-    [nba setBackgroundImage:img forBarMetrics:UIBarMetricsDefaultPrompt];
-    [nba setBackgroundImage:img forBarMetrics:UIBarMetricsLandscapePhone];
-    [nba setBackgroundImage:img forBarMetrics:UIBarMetricsLandscapePhonePrompt];
-    
-    //[nba setShadowImage:[[UIImage alloc] init]];
-    
-    nba.titleTextAttributes = @{ UITextAttributeTextColor: [PKSettings PKTextColor],
-                                 UITextAttributeTextShadowColor: [UIColor clearColor],
-                                 UITextAttributeFont: [UIFont fontWithName:PKSettings.interfaceFont size:18]
-                               };
-  }
-  else
-  {
     nba.barStyle = UIBarStyleDefault;
     nba.barTintColor = [PKSettings PKSecondaryPageColor ]; //TODO: decide final version of header color on iOS 7
     nba.titleTextAttributes = @{ UITextAttributeTextColor: [PKSettings PKTextColor],
@@ -209,49 +144,11 @@ static PKAppDelegate * _instance;
 //    [nba setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithWhite:1.0 alpha:0.75]]  forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
 //    nba.shadowImage = [[UIImage alloc] init];
  //   nba.shadowImage = [UIImage imageWithColor:[UIColor redColor] andSize:CGSizeMake(10,10)];
-  }
 }
 
 +(void) applyThemeToUISearchBar: (UISearchBar *)sba
 {
-  if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
-  {
-    sba.tintColor = [PKSettings PKSecondaryPageColor];
-  }
-  else
-  {
     sba.barTintColor = [PKSettings PKSecondaryPageColor];
-  }
-}
-
-+(void) applyThemeToUISegmentedControl: (UISegmentedControl *)sca
-{
-  if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
-  {
-    [sca setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor] andSize:CGSizeMake(10,40)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [sca setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor] andSize:CGSizeMake(10,40)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefaultPrompt];
-    [sca setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor] andSize:CGSizeMake(10,30)] forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-    [sca setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor] andSize:CGSizeMake(10,40)] forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhonePrompt];
-    
-    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefaultPrompt];
-    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,30) andRoundedCornerRadius:5.0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
-    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0] forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhonePrompt];
-    
-    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0]  forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0]  forState:UIControlStateSelected barMetrics:UIBarMetricsDefaultPrompt];
-    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,30) andRoundedCornerRadius:5.0]  forState:UIControlStateSelected barMetrics:UIBarMetricsLandscapePhone];
-    [sca setBackgroundImage:[UIImage imageWithColor:[PKSettings PKTintColor] andSize:CGSizeMake(10,40) andRoundedCornerRadius:5.0]  forState:UIControlStateSelected barMetrics:UIBarMetricsLandscapePhonePrompt];
-    
-    [sca setDividerImage:[UIImage imageWithColor:[PKSettings PKTintColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [sca setDividerImage:[UIImage imageWithColor:[PKSettings PKTintColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefaultPrompt];
-    [sca setDividerImage:[UIImage imageWithColor:[PKSettings PKTintColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-    [sca setDividerImage:[UIImage imageWithColor:[PKSettings PKTintColor]] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhonePrompt];
-    
-    sca.layer.cornerRadius = 5.0f;
-    sca.layer.borderWidth = 1.0f;
-    sca.layer.borderColor = [PKSettings PKTintColor].CGColor;
-  }
 }
 
 -(void)updateAppearanceForTheme
@@ -263,14 +160,10 @@ static PKAppDelegate * _instance;
     [PKAppDelegate applyThemeToUINavigationBar:[UINavigationBar appearance]];
   if ([[UISearchBar class] respondsToSelector: @selector(appearance)])
     [PKAppDelegate applyThemeToUISearchBar:[UISearchBar appearance]];
-  //if ([[UISegmentedControl class] respondsToSelector: @selector(appearance)])
-    //[PKAppDelegate applyThemeToUISegmentedControl:[UISegmentedControl appearance]];
   
   // and then update everything we possibly can that might be on screen
   if ([[UIBarButtonItem class] respondsToSelector: @selector(appearance)])
   {
-    
-    [PKAppDelegate applyThemeToUISegmentedControl:_segmentedControl];
     
     NSMutableArray *va = [[NSMutableArray alloc] initWithArray:
                           @[ _bibleBooksViewController, _notesViewController,
@@ -316,19 +209,10 @@ static PKAppDelegate * _instance;
     }
   }
   
-  SVProgressHUD *svph = [SVProgressHUD sharedView];
-  svph.hudBackgroundColor = [PKSettings PKHUDBackgroundColor];
-  svph.hudForegroundColor = [PKSettings PKHUDForegroundColor];
-  svph.hudStatusShadowColor = [UIColor clearColor];
-  svph.hudFont = [UIFont fontWithName:PKSettings.interfaceFont size:16];
-  svph.hudSuccessImage = [UIImage imageNamed:@"CheckMark-30" withColor:[PKSettings PKHUDForegroundColor]];
-  
-  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") )
-  {
-    self.window.tintColor = [PKSettings PKTintColor];
-    UIApplication.sharedApplication.statusBarStyle = [PKSettings PKStatusBarStyle];
-    [self.rootViewController setNeedsStatusBarAppearanceUpdate];
-  }
+  [SVProgressHUD setBackgroundColor:[PKSettings PKHUDBackgroundColor]];
+  [SVProgressHUD setForegroundColor:[PKSettings PKHUDForegroundColor]];
+  [SVProgressHUD setFont:[UIFont fontWithName:PKSettings.interfaceFont size:16]];
+  [SVProgressHUD setSuccessImage:[UIImage imageNamed:@"CheckMark-30" withColor:[PKSettings PKHUDForegroundColor]]];
   
 }
 
@@ -357,9 +241,7 @@ static PKAppDelegate * _instance;
   
   if ([_mySettings usageStats] == YES)
   {
-    [TestFlight takeOff: TESTFLIGHT_API_KEY];
-    [Helpshift installForAppID:HELPSHIFT_APP_ID domainName:HELPSHIFT_DOMAIN apiKey:HELPSHIFT_API_KEY];
-  
+      //    [TestFlight takeOff: TESTFLIGHT_API_KEY];
   }
   
   self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
@@ -385,11 +267,6 @@ static PKAppDelegate * _instance;
   self.segmentController = [[SegmentsController alloc]
                             initWithNavigationController: segmentedNavBarController viewControllers: navViewControllers];
   
-  //  self.segmentedControl  = [[UISegmentedControl alloc]
-  //                            initWithItems: @[ __T(@"Goto"), __T(@"Highlights"), __T(@"Notes"),
-  //                                            __T(@"History"), __T(@"Search"), __T(@"Strong's")]];
-  if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
-  {
     self.segmentedControl  = [[AccessibleSegmentedControl alloc]
                               initWithItems: @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
                                                 [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKTintColor]],
@@ -398,33 +275,6 @@ static PKAppDelegate * _instance;
                                                 [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]],
                                                 [UIImage imageNamed:@"History-30" withColor:[PKSettings PKTintColor]]
                               ]];
-    
-    self.segmentedControl.segmentNormalImages = @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
-                                                   [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKTintColor]],
-                                                   [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKTintColor]],
-                                                   [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKTintColor]],
-                                                   [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]],
-                                                   [UIImage imageNamed:@"History-30" withColor:[PKSettings PKTintColor]]
-                                                ];
-    self.segmentedControl.segmentSelectedImages = @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKPageColor]],
-                                                   [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKPageColor]],
-                                                   [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKPageColor]],
-                                                   [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKPageColor]],
-                                                   [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKPageColor]],
-                                                   [UIImage imageNamed:@"History-30" withColor:[PKSettings PKPageColor]]
-                                                ];
-  }
-  else
-  {
-    self.segmentedControl  = [[AccessibleSegmentedControl alloc]
-                              initWithItems: @[ [UIImage imageNamed:@"Books-30" withColor:[PKSettings PKTintColor]],
-                                                [UIImage imageNamed:@"Tag-30" withColor:[PKSettings PKTintColor]],
-                                                [UIImage imageNamed:@"Pencil-30" withColor:[PKSettings PKTintColor]],
-                                                [UIImage imageNamed:@"Strongs-30" withColor:[PKSettings PKTintColor]],
-                                                [UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]],
-                                                [UIImage imageNamed:@"History-30" withColor:[PKSettings PKTintColor]]
-                              ]];
-  }
 
   self.segmentedControl.segmentAccessibilityLabels = @[ __T(@"Goto"), __T(@"Highlights"), __T(@"Notes"),
                                                         __T(@"Strong's"), __T(@"Search"), __T(@"History")];
@@ -461,70 +311,6 @@ static PKAppDelegate * _instance;
 
   [self updateAppearanceForTheme];
 
-  
-  // Add imageView overlay with fade out and zoom in animation
-  // inspired by https://gist.github.com/1026439 and https://gist.github.com/3798781
-  
-  self.splash = [[UIImageView alloc] initWithFrame: self.window.frame];
-  CGRect theFrame;
-  
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-  { switch ([[UIApplication sharedApplication] statusBarOrientation])
-    {
-      case UIInterfaceOrientationLandscapeLeft:
-      case UIInterfaceOrientationLandscapeRight:
-        theFrame = CGRectMake(0, 0, 1024, 768);
-        break;
-        
-      case UIInterfaceOrientationPortrait:
-      case UIInterfaceOrientationPortraitUpsideDown:
-        theFrame = CGRectMake(0, 0, 768, 1024);
-        break;
-    }
-  }
-  else
-  {
-    // we're an iPhone or iPod touch. No rotation for you.
-    if ([UIScreen mainScreen].scale == 2)
-    {
-      // are we a 3.5in? or a 4?
-      if ([UIScreen mainScreen].bounds.size.height == 568.0f)
-      {
-        // 4 inch iPhone 5
-        theFrame = CGRectMake(0, 0, 320, 568);
-      }
-      else
-      {
-        theFrame = CGRectMake(0, 0, 320, 480);
-      }
-    }
-    else
-    {
-      theFrame = CGRectMake(0, 0, 320, 480);
-    }
-  }
-
-  _splash.image = [UIImage imageWithColor:[UIColor colorWithHexString:@"F1EEE5"] andSize:theFrame.size];
-  [_splash setFrame: theFrame];
-
-  [self.window.rootViewController.view addSubview: _splash];
-  [self.window.rootViewController.view bringSubviewToFront: _splash];
-  
-  __weak typeof(self) weakSelf = self;
-  [self performBlockAsynchronouslyInForeground:^(void)
-  {
-    [UIView transitionWithView: weakSelf.window
-                      duration: 0.30f
-                       options: UIViewAnimationOptionCurveEaseInOut
-                    animations:^(void) {
-                      _splash.alpha = 0.0f;
-                    }
-                    completion:^(BOOL finished) {
-                      [_splash removeFromSuperview];
-                    }
-     ];
-  } afterDelay:1.0f];
-  
   [self.window makeKeyAndVisible];
   
   
@@ -535,15 +321,9 @@ static PKAppDelegate * _instance;
   NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
   if (notificationPayload)
   {
-    if ([notificationPayload[@"origin"] isEqualToString:@"helpshift"]) {
-      [[Helpshift sharedInstance] handleNotification:notificationPayload withController:self.rootViewController];
-    }
-    else
-    {
       // should be some other notification, like a new Bible :-)
       UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:notificationPayload[@"aps"][@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
       [anAlert show];
-    }
   }
   
   return YES;
@@ -637,7 +417,6 @@ static PKAppDelegate * _instance;
  */
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-  [[Helpshift sharedInstance] registerDeviceToken:deviceToken];
 
  // Store the deviceToken in the current Installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -650,15 +429,9 @@ static PKAppDelegate * _instance;
 
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-  if ([userInfo[@"origin"] isEqualToString:@"helpshift"]) {
-    [[Helpshift sharedInstance] handleNotification:userInfo withController:self.rootViewController];
-  }
-  else
-  {
-    // should be some other notification, like a new Bible :-)
-    UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:userInfo[@"aps"][@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
-    [anAlert show];
-  }
+  // should be some other notification, like a new Bible :-)
+  UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:userInfo[@"aps"][@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
+  [anAlert show];
 }
 
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
