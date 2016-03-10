@@ -87,6 +87,9 @@
                        @"57N", @"58N", @"59N", @"60N", @"61N", @"62N", @"63N",
                        @"64N", @"65N", @"66N"];
   });
+  if (theBook < 1 || theBook > 66) {
+    theBook = 40;
+  }
   return bookList[theBook - 1];
 }
 
