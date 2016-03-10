@@ -55,7 +55,6 @@
 #import "iRate.h"
 #import "NSString+FontAwesome.h"
 #import "PKAboutViewController.h"
-#import "Helpshift.h"
 #import "NSString+PKFont.h"
 
 const int SECTION_TEXT = 0;
@@ -715,7 +714,7 @@ const int SECTION_THIRD_PARTY = 5;
         if (row==4)
         {
           //TODO: Disable this when anonymous statistics is disabled?
-          [[Helpshift sharedInstance] showSupport: self];
+          //[[Helpshift sharedInstance] showSupport: self];
         }
         if (row==5)
         {
