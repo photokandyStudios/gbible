@@ -209,7 +209,7 @@
     [[PKSettings instance] saveSettings];
   }
 
-  // TODO: what about the greek side? 
+  // çTODO: what about the greek side? 
   
   // change the button
   [self performBlockAsynchronouslyInForeground:^{
