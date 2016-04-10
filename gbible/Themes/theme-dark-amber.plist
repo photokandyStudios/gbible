@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>theme-index</key>
+	<string>4</string>
+	<key>theme-name</key>
+	<string>Dark Amber</string>
+	<key>tint-color</key>
+	<string>0.1921568627, 0.6549019608, 0.9450980392, 1.0</string>
+	<key>sidebar-selection-color</key>
+	<string>0.875, 0.9325, 1.0, 1.0</string>
+	<key>sidebar-page-color</key>
+	<string>0.11, 1.0</string>
+	<key>sidebar-text-color</key>
+	<string>0.65, 0.5, 0.0, 1.0</string>
+	<key>navigation-color</key>
+	<string>0.11, 1.0</string>
+	<key>navigation-text-color</key>
+	<string>0.85, 1.0</string>
+	<key>bar-button-text-color</key>
+	<string>0.85, 1.0</string>
+	<key>selection-color</key>
+	<string>0.25, 0.20, 0.10, 1.0</string>
+	<key>word-select-color</key>
+	<string>1.0, 1.0</string>
+	<key>secondary-page-color</key>
+	<string>0.0, 1.0</string>
+	<key>page-color</key>
+	<string>0.10, 1.0</string>
+	<key>text-color</key>
+	<string>0.65, 0.50, 0.0, 1.0</string>
+	<key>strongs-color</key>
+	<string>0.56, 0.43, 0.0, 1.0</string>
+	<key>morphology-color</key>
+	<string>0.56, 0.43, 0.0, 1.0</string>
+	<key>interlinear-color</key>
+	<string>0.56, 0.43, 0.0, 1.0</string>
+	<key>annotation-color</key>
+	<string>0.56, 0.43, 0.0, 1.0</string>
+	<key>light-shadow-color</key>
+	<string>0.0, 0.75</string>
+	<key>hud-background-color</key>
+	<string>0.0, 0.75</string>
+	<key>hud-foreground-color</key>
+	<string>0.65, 0.5, 0.0, 1.0</string>
+	<key>base-ui-color</key>
+	<string>0.250980, 0.282352, 0.313725, 1.0</string>
+	<key>highlight-colors</key>
+	<array>
+		<string>1.0, 1.0, 0.0, 0.5</string>
+		<string>0.5, 1.0, 0.5, 0.5</string>
+		<string>0.5, 0.75, 1.0, 0.5</string>
+		<string>1.0, 0.75, 0.75, 0.5</string>
+		<string>1.0, 0.5, 1.0, 0.5</string>
+	</array>
+	<key>highlight-names</key>
+	<array>
+		<string>yellow</string>
+		<string>green</string>
+		<string>blue</string>
+		<string>pink</string>
+		<string>magenta</string>
+	</array>
+	<key>yellow-highlight-index</key>
+	<integer>0</integer>
+	<key>green-highlight-index</key>
+	<integer>1</integer>
+	<key>blue-highlight-index</key>
+	<integer>2</integer>
+	<key>pink-highlight-index</key>
+	<integer>3</integer>
+	<key>magenta-highlight-index</key>
+	<integer>4</integer>
+	<key>interface-fonts</key>
+	<dict>
+		<key>bold</key>
+		<dict>
+			<key>system</key>
+			<string>Helvetica Bold</string>
+			<key>dyslexic</key>
+			<string>Open Dyslexic Bold</string>
+		</dict>
+		<key>normal</key>
+		<dict>
+			<key>system</key>
+			<string>Helvetica</string>
+			<key>dyslexic</key>
+			<string>Open Dyslexic</string>
+		</dict>
+	</dict>
+	<key>status-bar-style</key>
+	<string>light</string>
+</dict>
+</plist>
