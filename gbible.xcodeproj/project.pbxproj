@@ -90,6 +90,13 @@
 		6AA61D7517E2DB6500B99BA6 /* Default-Portrait-iOS7@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA61D6A17E2DB6500B99BA6 /* Default-Portrait-iOS7@2x~ipad.png */; };
 		6AA61D7617E2DB6500B99BA6 /* Default-Landscape-iOS7~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA61D6B17E2DB6500B99BA6 /* Default-Landscape-iOS7~ipad.png */; };
 		6AA61D7717E2DB6500B99BA6 /* Default-Landscape-iOS7@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA61D6C17E2DB6500B99BA6 /* Default-Landscape-iOS7@2x~ipad.png */; };
+		6AB382891CB9AAEA000271FF /* theme-book.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AB382881CB9AAEA000271FF /* theme-book.plist */; };
+		6AB3828D1CB9AF71000271FF /* theme-dark-amber.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AB3828A1CB9AF71000271FF /* theme-dark-amber.plist */; };
+		6AB3828E1CB9AF71000271FF /* theme-dark.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AB3828B1CB9AF71000271FF /* theme-dark.plist */; };
+		6AB3828F1CB9AF71000271FF /* theme-light.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AB3828C1CB9AF71000271FF /* theme-light.plist */; };
+		6AB382951CB9B358000271FF /* PKSTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB382941CB9B358000271FF /* PKSTheme.swift */; };
+		6AB3829D1CB9C7B3000271FF /* PKSThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB3829C1CB9C7B3000271FF /* PKSThemeTests.swift */; };
+		6AB382A51CB9C960000271FF /* PKSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB382A41CB9C960000271FF /* PKSColor.swift */; };
 		6AC0BAF617BAE30200E6BD6F /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0B94317BAE30100E6BD6F /* bibleContent */; };
 		6AC0BAF717BAE30200E6BD6F /* Arev.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0B94517BAE30100E6BD6F /* Arev.ttf */; };
 		6AC0BAF817BAE30200E6BD6F /* ArevBd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0B94617BAE30100E6BD6F /* ArevBd.ttf */; };
@@ -307,6 +314,16 @@
 		6AF9D05615129BC100514499 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF9D05415129B9D00514499 /* libsqlite3.0.dylib */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6AB3829F1CB9C7B3000271FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6AF0C098150EE8BB00BFAE03 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6AF0C0A0150EE8BB00BFAE03;
+			remoteInfo = gbible;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		3D537D892C6D586E6D98C223 /* Pods-gbible.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gbible.release.xcconfig"; path = "Pods/Target Support Files/Pods-gbible/Pods-gbible.release.xcconfig"; sourceTree = "<group>"; };
 		6A0BB48717BAEA9100C52F6C /* NSObject+PKGCD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PKGCD.h"; sourceTree = "<group>"; };
@@ -422,6 +439,16 @@
 		6AA61D6B17E2DB6500B99BA6 /* Default-Landscape-iOS7~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-iOS7~ipad.png"; sourceTree = "<group>"; };
 		6AA61D6C17E2DB6500B99BA6 /* Default-Landscape-iOS7@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-iOS7@2x~ipad.png"; sourceTree = "<group>"; };
 		6AABABC9153FC8E800FCBAB9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		6AB382881CB9AAEA000271FF /* theme-book.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "theme-book.plist"; path = "Themes/theme-book.plist"; sourceTree = "<group>"; };
+		6AB3828A1CB9AF71000271FF /* theme-dark-amber.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "theme-dark-amber.plist"; path = "Themes/theme-dark-amber.plist"; sourceTree = "<group>"; };
+		6AB3828B1CB9AF71000271FF /* theme-dark.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "theme-dark.plist"; path = "Themes/theme-dark.plist"; sourceTree = "<group>"; };
+		6AB3828C1CB9AF71000271FF /* theme-light.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "theme-light.plist"; path = "Themes/theme-light.plist"; sourceTree = "<group>"; };
+		6AB382931CB9B357000271FF /* gbible-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "gbible-Bridging-Header.h"; sourceTree = "<group>"; };
+		6AB382941CB9B358000271FF /* PKSTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKSTheme.swift; sourceTree = "<group>"; };
+		6AB3829A1CB9C7B3000271FF /* gbibleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gbibleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AB3829C1CB9C7B3000271FF /* PKSThemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKSThemeTests.swift; sourceTree = "<group>"; };
+		6AB3829E1CB9C7B3000271FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6AB382A41CB9C960000271FF /* PKSColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PKSColor.swift; path = util/PKSColor.swift; sourceTree = "<group>"; };
 		6AC0B94317BAE30100E6BD6F /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
 		6AC0B94517BAE30100E6BD6F /* Arev.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Arev.ttf; sourceTree = "<group>"; };
 		6AC0B94617BAE30100E6BD6F /* ArevBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ArevBd.ttf; sourceTree = "<group>"; };
@@ -696,6 +723,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6AB382971CB9C7B3000271FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6AF0C09E150EE8BB00BFAE03 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -841,6 +875,7 @@
 			children = (
 				6A74306516ADDCD900DC1320 /* searchutils.h */,
 				6A74306616ADDCEA00DC1320 /* searchutils.m */,
+				6AB382A41CB9C960000271FF /* PKSColor.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -865,6 +900,26 @@
 				6AA61D5217E2D73100B99BA6 /* iTunesArtwork@2x.png */,
 			);
 			path = 13;
+			sourceTree = "<group>";
+		};
+		6AB382871CB9AAA7000271FF /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				6AB3828A1CB9AF71000271FF /* theme-dark-amber.plist */,
+				6AB3828B1CB9AF71000271FF /* theme-dark.plist */,
+				6AB3828C1CB9AF71000271FF /* theme-light.plist */,
+				6AB382881CB9AAEA000271FF /* theme-book.plist */,
+			);
+			name = Themes;
+			sourceTree = "<group>";
+		};
+		6AB3829B1CB9C7B3000271FF /* gbibleTests */ = {
+			isa = PBXGroup;
+			children = (
+				6AB3829C1CB9C7B3000271FF /* PKSThemeTests.swift */,
+				6AB3829E1CB9C7B3000271FF /* Info.plist */,
+			);
+			path = gbibleTests;
 			sourceTree = "<group>";
 		};
 		6AC0B94117BAE30100E6BD6F /* Assets */ = {
@@ -1253,6 +1308,8 @@
 				6AC0BA4B17BAE30200E6BD6F /* PKSettings.m */,
 				6AC0BA4C17BAE30200E6BD6F /* PKStrongs.h */,
 				6AC0BA4D17BAE30200E6BD6F /* PKStrongs.m */,
+				6AB382941CB9B358000271FF /* PKSTheme.swift */,
+				6AB382931CB9B357000271FF /* gbible-Bridging-Header.h */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1281,6 +1338,7 @@
 		6AF0C096150EE8BB00BFAE03 = {
 			isa = PBXGroup;
 			children = (
+				6AB3829B1CB9C7B3000271FF /* gbibleTests */,
 				6AF0C0A4150EE8BB00BFAE03 /* Frameworks */,
 				6AF0C0AB150EE8BB00BFAE03 /* gbible */,
 				6AF0C0A2150EE8BB00BFAE03 /* Products */,
@@ -1293,6 +1351,7 @@
 			isa = PBXGroup;
 			children = (
 				6AF0C0A1150EE8BB00BFAE03 /* gbible.app */,
+				6AB3829A1CB9C7B3000271FF /* gbibleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1339,6 +1398,7 @@
 		6AF0C0AC150EE8BB00BFAE03 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6AB382871CB9AAA7000271FF /* Themes */,
 				6AABABC9153FC8E800FCBAB9 /* libz.dylib */,
 				6A495CD9169D371000F1A55C /* Localizable.strings */,
 				6AF0C0AD150EE8BB00BFAE03 /* gbible-Info.plist */,
@@ -1365,6 +1425,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6AB382991CB9C7B3000271FF /* gbibleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6AB382A11CB9C7B3000271FF /* Build configuration list for PBXNativeTarget "gbibleTests" */;
+			buildPhases = (
+				6AB382961CB9C7B3000271FF /* Sources */,
+				6AB382971CB9C7B3000271FF /* Frameworks */,
+				6AB382981CB9C7B3000271FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6AB382A01CB9C7B3000271FF /* PBXTargetDependency */,
+			);
+			name = gbibleTests;
+			productName = gbibleTests;
+			productReference = 6AB3829A1CB9C7B3000271FF /* gbibleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		6AF0C0A0150EE8BB00BFAE03 /* gbible */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6AF0C0B9150EE8BB00BFAE03 /* Build configuration list for PBXNativeTarget "gbible" */;
@@ -1393,9 +1471,14 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PK;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "photoKandy Studios LLC";
 				TargetAttributes = {
+					6AB382991CB9C7B3000271FF = {
+						CreatedOnToolsVersion = 7.3;
+						TestTargetID = 6AF0C0A0150EE8BB00BFAE03;
+					};
 					6AF0C0A0150EE8BB00BFAE03 = {
 						DevelopmentTeam = Y3G92HH8YD;
 					};
@@ -1426,11 +1509,19 @@
 			projectRoot = "";
 			targets = (
 				6AF0C0A0150EE8BB00BFAE03 /* gbible */,
+				6AB382991CB9C7B3000271FF /* gbibleTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6AB382981CB9C7B3000271FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6AF0C09F150EE8BB00BFAE03 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1477,6 +1568,8 @@
 				6AC0BB1517BAE30200E6BD6F /* History-30.png in Resources */,
 				6AC0BB1617BAE30200E6BD6F /* History-30@2x.png in Resources */,
 				6AA61D5B17E2D73100B99BA6 /* Icon-72@2x.png in Resources */,
+				6AB3828E1CB9AF71000271FF /* theme-dark.plist in Resources */,
+				6AB3828D1CB9AF71000271FF /* theme-dark-amber.plist in Resources */,
 				6AC0BB1717BAE30200E6BD6F /* Layout-30.png in Resources */,
 				6A661B4F19BC16E7009283E3 /* forward_icon.png in Resources */,
 				6AC0BB1817BAE30200E6BD6F /* Layout-30@2x.png in Resources */,
@@ -1504,6 +1597,7 @@
 				6A661B2E19BC16E6009283E3 /* hal-black.png in Resources */,
 				6AC0BB2B17BAE30200E6BD6F /* Settings-30.png in Resources */,
 				6AA61D5A17E2D73100B99BA6 /* Icon.png in Resources */,
+				6AB382891CB9AAEA000271FF /* theme-book.plist in Resources */,
 				6AC0BB2C17BAE30200E6BD6F /* Settings-30@2x.png in Resources */,
 				6AC0BB2D17BAE30200E6BD6F /* Strongs-30.png in Resources */,
 				6AC0BB2E17BAE30200E6BD6F /* Strongs-30@2x.png in Resources */,
@@ -1515,6 +1609,7 @@
 				6AC0BB3217BAE30200E6BD6F /* vs1-30@2x.png in Resources */,
 				6A661B5019BC16E7009283E3 /* forward_icon@2x.png in Resources */,
 				6AC0BB3317BAE30200E6BD6F /* vs2-30.png in Resources */,
+				6AB3828F1CB9AF71000271FF /* theme-light.plist in Resources */,
 				6A661B3919BC16E6009283E3 /* key@2x.png in Resources */,
 				6AC0BB3417BAE30200E6BD6F /* vs2-30@2x.png in Resources */,
 				6AC0BB3517BAE30200E6BD6F /* wlc-30.png in Resources */,
@@ -1721,6 +1816,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6AB382961CB9C7B3000271FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6AB3829D1CB9C7B3000271FF /* PKSThemeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6AF0C09D150EE8BB00BFAE03 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1742,6 +1845,7 @@
 				6A661B5719BC16E7009283E3 /* WKVerticalScrollBar.m in Sources */,
 				6AC0BBB217BAE30200E6BD6F /* PKBibleBookChapterVersesViewController.m in Sources */,
 				6AC0BBB317BAE30200E6BD6F /* PKBibleBooksController.m in Sources */,
+				6AB382A51CB9C960000271FF /* PKSColor.swift in Sources */,
 				6AC0BBB417BAE30200E6BD6F /* PKBibleInfoViewController.m in Sources */,
 				6AC0BBB517BAE30200E6BD6F /* PKBibleListViewController.m in Sources */,
 				6AC0BBB617BAE30200E6BD6F /* PKBibleViewController.m in Sources */,
@@ -1763,6 +1867,7 @@
 				6AC0BBC317BAE30200E6BD6F /* PKVerseTableViewController.m in Sources */,
 				6AC0BBC417BAE30200E6BD6F /* PKBible.m in Sources */,
 				6A661B4B19BC16E7009283E3 /* release_notes.md in Sources */,
+				6AB382951CB9B358000271FF /* PKSTheme.swift in Sources */,
 				6AC0BBC517BAE30200E6BD6F /* PKDatabase.m in Sources */,
 				6AC0BBC617BAE30200E6BD6F /* PKHighlights.m in Sources */,
 				6AC0BBC717BAE30200E6BD6F /* PKHistory.m in Sources */,
@@ -1790,6 +1895,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6AB382A01CB9C7B3000271FF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6AF0C0A0150EE8BB00BFAE03 /* gbible */;
+			targetProxy = 6AB3829F1CB9C7B3000271FF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6A495CD9169D371000F1A55C /* Localizable.strings */ = {
@@ -1823,6 +1936,55 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6AB382A21CB9C7B3000271FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = gbibleTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photokandy.gbibleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/gbible.app/gbible";
+			};
+			name = Debug;
+		};
+		6AB382A31CB9C7B3000271FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = gbibleTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photokandy.gbibleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/gbible.app/gbible";
+			};
+			name = Release;
+		};
 		6AF0C0B7150EE8BB00BFAE03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1900,6 +2062,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = gbible/gbible.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1914,6 +2077,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "gbible/gbible-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
@@ -1936,6 +2100,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "DF68C79C-7164-4EA9-825A-7924C40CD9E6";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "gbible/Classes/Models/gbible-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = app;
@@ -1948,6 +2114,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = gbible/gbible.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1962,6 +2129,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "gbible/gbible-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
@@ -1979,6 +2147,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8EBD64DE-D7C2-47E2-8E62-FB34D6C78DB7";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "gbible/Classes/Models/gbible-Bridging-Header.h";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = app;
@@ -1988,6 +2157,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6AB382A11CB9C7B3000271FF /* Build configuration list for PBXNativeTarget "gbibleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AB382A21CB9C7B3000271FF /* Debug */,
+				6AB382A31CB9C7B3000271FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		6AF0C09B150EE8BB00BFAE03 /* Build configuration list for PBXProject "gbible" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
