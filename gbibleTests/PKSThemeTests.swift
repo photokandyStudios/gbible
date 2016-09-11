@@ -21,46 +21,55 @@ class PKSThemeTests: XCTestCase {
         super.tearDown()
     }
     
-    func testCanMakeWhiteColor() {
-
-      let whiteColor = UIColor(colorLiteralRed:1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-      
-      XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0"), UIColor.whiteColor())
-      XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0, 1.0"), UIColor.whiteColor())
-      XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0, 1.0, 1.0"), whiteColor)
-      XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0, 1.0, 1.0, 1.0"), whiteColor)
-
-      XCTAssertEqual(gbible.PKSColor.color(fromHexString: "#FFF"), whiteColor)
-      XCTAssertEqual(gbible.PKSColor.color(fromHexString: "#FFFF"), whiteColor)
-      XCTAssertEqual(gbible.PKSColor.color(fromHexString: "#FFFFFF"), whiteColor)
-      XCTAssertEqual(gbible.PKSColor.color(fromHexString: "#FFFFFFFF"), whiteColor)
-
-      XCTAssertEqual(gbible.PKSColor.color(fromHexString: "FFF"), whiteColor)
-      XCTAssertEqual(gbible.PKSColor.color(fromHexString: "FFFF"), whiteColor)
-      XCTAssertEqual(gbible.PKSColor.color(fromHexString: "FFFFFF"), whiteColor)
-      XCTAssertEqual(gbible.PKSColor.color(fromHexString: "FFFFFFFF"), whiteColor)
-    }
-  
-  func testCanMakeRedColor() {
-    let redColor = UIColor(colorLiteralRed: 1.0, green: 0, blue: 0, alpha: 1.0);
-    
-    XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0, 0.0, 0.0"), redColor)
-    XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0, 0.0, 0.0, 1.0"), redColor)
-    
-    XCTAssertEqual(gbible.PKSColor.color(fromHexString: "#F00"), redColor)
-    XCTAssertEqual(gbible.PKSColor.color(fromHexString: "#F00F"), redColor)
-    XCTAssertEqual(gbible.PKSColor.color(fromHexString: "#FF0000"), redColor)
-    XCTAssertEqual(gbible.PKSColor.color(fromHexString: "#FF0000FF"), redColor)
-
+  func testCanCreateTheme() {
+    let theme = try? gbible.PKSTheme(withResource: "theme-0")
+    XCTAssertNotNil(theme)
   }
   
+  func testMissingTheme() {
+    let theme = try? gbible.PKSTheme(withResource: "theme-bookerdo")
+    XCTAssertNil(theme)
+  }
   
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-          XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0"), UIColor.whiteColor())
-        }
+  func testCanGetName() {
+    do {
+      let theme = try gbible.PKSTheme(withResource: "theme-0")
+      XCTAssertEqual(theme.themeName, "Book")
+      // make sure it works twice
+      XCTAssertEqual(theme.themeName, "Book")
+
+    } catch {
+      XCTFail()
     }
-    
+  }
+  
+  func testCanRetrieveColor() {
+    do {
+      let theme = try gbible.PKSTheme(withResource: "theme-0")
+      let tintColor = UIColor(colorLiteralRed: 0.1921568627, green: 0.6549019608, blue: 0.9450980392, alpha: 1.0)
+      XCTAssertEqual(theme.getColor(forKey:"tint-color"), tintColor)
+    } catch {
+      XCTFail()
+    }
+  }
+  
+  func testCanGetNumber() {
+    do {
+      let theme = try gbible.PKSTheme(withResource: "theme-0")
+      XCTAssertEqual(theme.getNumber(forKey:"green-highlight-index"), 1)
+    } catch {
+      XCTFail()
+    }
+  }
+  
+  func testCanGetValInStrAr() {
+    do {
+      let theme = try gbible.PKSTheme(withResource: "theme-0")
+      let a = theme.getStringArray(forKey: "highlight-names")
+      XCTAssertEqual(a[0], "yellow")
+    } catch {
+      XCTFail()
+    }
+  }
+
 }

@@ -52,6 +52,7 @@
 		6A661B5719BC16E7009283E3 /* WKVerticalScrollBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A661AFA19BC16E6009283E3 /* WKVerticalScrollBar.m */; };
 		6A661B5819BC16E7009283E3 /* ZUUIRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A661AFD19BC16E6009283E3 /* ZUUIRevealController.m */; };
 		6A74306716ADDCEA00DC1320 /* searchutils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A74306616ADDCEA00DC1320 /* searchutils.m */; };
+		6A8433341CBC4D6C00FF283C /* PKGenericSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8433331CBC4D6C00FF283C /* PKGenericSettingsViewController.m */; };
 		6A94110717D5AE9E00FEE943 /* NSString+PKFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A94110617D5AE9E00FEE943 /* NSString+PKFont.m */; };
 		6A9793B71514162500A5C9F1 /* PKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9793B61514162500A5C9F1 /* PKConstants.m */; };
 		6A9B86B01542792400E4ABC0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9B86AF1542792400E4ABC0 /* SystemConfiguration.framework */; };
@@ -90,13 +91,14 @@
 		6AA61D7517E2DB6500B99BA6 /* Default-Portrait-iOS7@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA61D6A17E2DB6500B99BA6 /* Default-Portrait-iOS7@2x~ipad.png */; };
 		6AA61D7617E2DB6500B99BA6 /* Default-Landscape-iOS7~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA61D6B17E2DB6500B99BA6 /* Default-Landscape-iOS7~ipad.png */; };
 		6AA61D7717E2DB6500B99BA6 /* Default-Landscape-iOS7@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA61D6C17E2DB6500B99BA6 /* Default-Landscape-iOS7@2x~ipad.png */; };
-		6AB382891CB9AAEA000271FF /* theme-book.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AB382881CB9AAEA000271FF /* theme-book.plist */; };
-		6AB3828D1CB9AF71000271FF /* theme-dark-amber.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AB3828A1CB9AF71000271FF /* theme-dark-amber.plist */; };
-		6AB3828E1CB9AF71000271FF /* theme-dark.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AB3828B1CB9AF71000271FF /* theme-dark.plist */; };
-		6AB3828F1CB9AF71000271FF /* theme-light.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AB3828C1CB9AF71000271FF /* theme-light.plist */; };
+		6AB382891CB9AAEA000271FF /* theme-0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AB382881CB9AAEA000271FF /* theme-0.plist */; };
+		6AB3828D1CB9AF71000271FF /* theme-3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AB3828A1CB9AF71000271FF /* theme-3.plist */; };
+		6AB3828E1CB9AF71000271FF /* theme-2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AB3828B1CB9AF71000271FF /* theme-2.plist */; };
+		6AB3828F1CB9AF71000271FF /* theme-1.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AB3828C1CB9AF71000271FF /* theme-1.plist */; };
 		6AB382951CB9B358000271FF /* PKSTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB382941CB9B358000271FF /* PKSTheme.swift */; };
 		6AB3829D1CB9C7B3000271FF /* PKSThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB3829C1CB9C7B3000271FF /* PKSThemeTests.swift */; };
 		6AB382A51CB9C960000271FF /* PKSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB382A41CB9C960000271FF /* PKSColor.swift */; };
+		6AB382A71CBAE35F000271FF /* PKSColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB382A61CBAE35F000271FF /* PKSColorTests.swift */; };
 		6AC0BAF617BAE30200E6BD6F /* bibleContent in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0B94317BAE30100E6BD6F /* bibleContent */; };
 		6AC0BAF717BAE30200E6BD6F /* Arev.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0B94517BAE30100E6BD6F /* Arev.ttf */; };
 		6AC0BAF817BAE30200E6BD6F /* ArevBd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC0B94617BAE30100E6BD6F /* ArevBd.ttf */; };
@@ -398,6 +400,8 @@
 		6A661AFD19BC16E6009283E3 /* ZUUIRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZUUIRevealController.m; sourceTree = "<group>"; };
 		6A74306516ADDCD900DC1320 /* searchutils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = searchutils.h; sourceTree = "<group>"; };
 		6A74306616ADDCEA00DC1320 /* searchutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchutils.m; sourceTree = "<group>"; };
+		6A8433321CBC4D6C00FF283C /* PKGenericSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKGenericSettingsViewController.h; sourceTree = "<group>"; };
+		6A8433331CBC4D6C00FF283C /* PKGenericSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKGenericSettingsViewController.m; sourceTree = "<group>"; };
 		6A94110517D5AE9E00FEE943 /* NSString+PKFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PKFont.h"; sourceTree = "<group>"; };
 		6A94110617D5AE9E00FEE943 /* NSString+PKFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PKFont.m"; sourceTree = "<group>"; };
 		6A9793B01513F87700A5C9F1 /* PKConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKConstants.h; sourceTree = "<group>"; };
@@ -439,16 +443,17 @@
 		6AA61D6B17E2DB6500B99BA6 /* Default-Landscape-iOS7~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-iOS7~ipad.png"; sourceTree = "<group>"; };
 		6AA61D6C17E2DB6500B99BA6 /* Default-Landscape-iOS7@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-iOS7@2x~ipad.png"; sourceTree = "<group>"; };
 		6AABABC9153FC8E800FCBAB9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		6AB382881CB9AAEA000271FF /* theme-book.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "theme-book.plist"; path = "Themes/theme-book.plist"; sourceTree = "<group>"; };
-		6AB3828A1CB9AF71000271FF /* theme-dark-amber.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "theme-dark-amber.plist"; path = "Themes/theme-dark-amber.plist"; sourceTree = "<group>"; };
-		6AB3828B1CB9AF71000271FF /* theme-dark.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "theme-dark.plist"; path = "Themes/theme-dark.plist"; sourceTree = "<group>"; };
-		6AB3828C1CB9AF71000271FF /* theme-light.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "theme-light.plist"; path = "Themes/theme-light.plist"; sourceTree = "<group>"; };
+		6AB382881CB9AAEA000271FF /* theme-0.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "theme-0.plist"; path = "Themes/theme-0.plist"; sourceTree = "<group>"; };
+		6AB3828A1CB9AF71000271FF /* theme-3.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "theme-3.plist"; path = "Themes/theme-3.plist"; sourceTree = "<group>"; };
+		6AB3828B1CB9AF71000271FF /* theme-2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "theme-2.plist"; path = "Themes/theme-2.plist"; sourceTree = "<group>"; };
+		6AB3828C1CB9AF71000271FF /* theme-1.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "theme-1.plist"; path = "Themes/theme-1.plist"; sourceTree = "<group>"; };
 		6AB382931CB9B357000271FF /* gbible-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "gbible-Bridging-Header.h"; sourceTree = "<group>"; };
 		6AB382941CB9B358000271FF /* PKSTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKSTheme.swift; sourceTree = "<group>"; };
 		6AB3829A1CB9C7B3000271FF /* gbibleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gbibleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AB3829C1CB9C7B3000271FF /* PKSThemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKSThemeTests.swift; sourceTree = "<group>"; };
 		6AB3829E1CB9C7B3000271FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6AB382A41CB9C960000271FF /* PKSColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PKSColor.swift; path = util/PKSColor.swift; sourceTree = "<group>"; };
+		6AB382A61CBAE35F000271FF /* PKSColorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKSColorTests.swift; sourceTree = "<group>"; };
 		6AC0B94317BAE30100E6BD6F /* bibleContent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bibleContent; sourceTree = "<group>"; };
 		6AC0B94517BAE30100E6BD6F /* Arev.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Arev.ttf; sourceTree = "<group>"; };
 		6AC0B94617BAE30100E6BD6F /* ArevBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ArevBd.ttf; sourceTree = "<group>"; };
@@ -905,10 +910,10 @@
 		6AB382871CB9AAA7000271FF /* Themes */ = {
 			isa = PBXGroup;
 			children = (
-				6AB3828A1CB9AF71000271FF /* theme-dark-amber.plist */,
-				6AB3828B1CB9AF71000271FF /* theme-dark.plist */,
-				6AB3828C1CB9AF71000271FF /* theme-light.plist */,
-				6AB382881CB9AAEA000271FF /* theme-book.plist */,
+				6AB3828A1CB9AF71000271FF /* theme-3.plist */,
+				6AB3828B1CB9AF71000271FF /* theme-2.plist */,
+				6AB3828C1CB9AF71000271FF /* theme-1.plist */,
+				6AB382881CB9AAEA000271FF /* theme-0.plist */,
 			);
 			name = Themes;
 			sourceTree = "<group>";
@@ -916,6 +921,7 @@
 		6AB3829B1CB9C7B3000271FF /* gbibleTests */ = {
 			isa = PBXGroup;
 			children = (
+				6AB382A61CBAE35F000271FF /* PKSColorTests.swift */,
 				6AB3829C1CB9C7B3000271FF /* PKSThemeTests.swift */,
 				6AB3829E1CB9C7B3000271FF /* Info.plist */,
 			);
@@ -1272,6 +1278,8 @@
 				6AC0BA3317BAE30200E6BD6F /* PKTableViewController.m */,
 				6AC0BA3417BAE30200E6BD6F /* PKVerseTableViewController.h */,
 				6AC0BA3517BAE30200E6BD6F /* PKVerseTableViewController.m */,
+				6A8433321CBC4D6C00FF283C /* PKGenericSettingsViewController.h */,
+				6A8433331CBC4D6C00FF283C /* PKGenericSettingsViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1477,10 +1485,12 @@
 				TargetAttributes = {
 					6AB382991CB9C7B3000271FF = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 						TestTargetID = 6AF0C0A0150EE8BB00BFAE03;
 					};
 					6AF0C0A0150EE8BB00BFAE03 = {
 						DevelopmentTeam = Y3G92HH8YD;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -1568,8 +1578,8 @@
 				6AC0BB1517BAE30200E6BD6F /* History-30.png in Resources */,
 				6AC0BB1617BAE30200E6BD6F /* History-30@2x.png in Resources */,
 				6AA61D5B17E2D73100B99BA6 /* Icon-72@2x.png in Resources */,
-				6AB3828E1CB9AF71000271FF /* theme-dark.plist in Resources */,
-				6AB3828D1CB9AF71000271FF /* theme-dark-amber.plist in Resources */,
+				6AB3828E1CB9AF71000271FF /* theme-2.plist in Resources */,
+				6AB3828D1CB9AF71000271FF /* theme-3.plist in Resources */,
 				6AC0BB1717BAE30200E6BD6F /* Layout-30.png in Resources */,
 				6A661B4F19BC16E7009283E3 /* forward_icon.png in Resources */,
 				6AC0BB1817BAE30200E6BD6F /* Layout-30@2x.png in Resources */,
@@ -1597,7 +1607,7 @@
 				6A661B2E19BC16E6009283E3 /* hal-black.png in Resources */,
 				6AC0BB2B17BAE30200E6BD6F /* Settings-30.png in Resources */,
 				6AA61D5A17E2D73100B99BA6 /* Icon.png in Resources */,
-				6AB382891CB9AAEA000271FF /* theme-book.plist in Resources */,
+				6AB382891CB9AAEA000271FF /* theme-0.plist in Resources */,
 				6AC0BB2C17BAE30200E6BD6F /* Settings-30@2x.png in Resources */,
 				6AC0BB2D17BAE30200E6BD6F /* Strongs-30.png in Resources */,
 				6AC0BB2E17BAE30200E6BD6F /* Strongs-30@2x.png in Resources */,
@@ -1609,7 +1619,7 @@
 				6AC0BB3217BAE30200E6BD6F /* vs1-30@2x.png in Resources */,
 				6A661B5019BC16E7009283E3 /* forward_icon@2x.png in Resources */,
 				6AC0BB3317BAE30200E6BD6F /* vs2-30.png in Resources */,
-				6AB3828F1CB9AF71000271FF /* theme-light.plist in Resources */,
+				6AB3828F1CB9AF71000271FF /* theme-1.plist in Resources */,
 				6A661B3919BC16E6009283E3 /* key@2x.png in Resources */,
 				6AC0BB3417BAE30200E6BD6F /* vs2-30@2x.png in Resources */,
 				6AC0BB3517BAE30200E6BD6F /* wlc-30.png in Resources */,
@@ -1820,6 +1830,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AB382A71CBAE35F000271FF /* PKSColorTests.swift in Sources */,
 				6AB3829D1CB9C7B3000271FF /* PKSThemeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1872,6 +1883,7 @@
 				6AC0BBC617BAE30200E6BD6F /* PKHighlights.m in Sources */,
 				6AC0BBC717BAE30200E6BD6F /* PKHistory.m in Sources */,
 				6AC0BBC817BAE30200E6BD6F /* PKNotes.m in Sources */,
+				6A8433341CBC4D6C00FF283C /* PKGenericSettingsViewController.m in Sources */,
 				6AC0BBC917BAE30200E6BD6F /* PKReference.m in Sources */,
 				6A661B4C19BC16E7009283E3 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				6A661B2D19BC16E6009283E3 /* KBKeyboardHandler.m in Sources */,
@@ -1956,6 +1968,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.photokandy.gbibleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/gbible.app/gbible";
 			};
 			name = Debug;
@@ -1981,6 +1994,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photokandy.gbibleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/gbible.app/gbible";
 			};
 			name = Release;
@@ -2066,6 +2080,7 @@
 				CODE_SIGN_ENTITLEMENTS = gbible/gbible.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -2102,6 +2117,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "gbible/Classes/Models/gbible-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = app;
@@ -2118,6 +2134,7 @@
 				CODE_SIGN_ENTITLEMENTS = gbible/gbible.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -2148,6 +2165,7 @@
 				PROVISIONING_PROFILE = "8EBD64DE-D7C2-47E2-8E62-FB34D6C78DB7";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "gbible/Classes/Models/gbible-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = app;
@@ -2164,6 +2182,7 @@
 				6AB382A31CB9C7B3000271FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6AF0C09B150EE8BB00BFAE03 /* Build configuration list for PBXProject "gbible" */ = {
 			isa = XCConfigurationList;

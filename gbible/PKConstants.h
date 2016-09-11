@@ -94,4 +94,14 @@ extern int const PK_TBL_BIBLES_ID;
 extern int const PK_TBL_BIBLES_NAME;
 extern int const PK_TBL_BIBLES_PARSED_ID;
 
+typedef NS_ENUM(int, PK_SETTINGS_FIELD_TYPE) {
+  TEXT_ONLY = 0,
+  TEXT_AND_VALUE,
+  TEXT_AND_YESNO,
+  TEXT_AND_LOOKUP,
+  TEXT_AND_SPINNER,
+  URL_ONLY,
+  TEXT_WITH_ACTION
+};
+
 #endif

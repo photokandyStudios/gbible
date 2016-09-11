@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>theme-index</key>
-	<string>1</string>
+	<integer>0</integer>
 	<key>theme-name</key>
 	<string>Book</string>
 	<key>tint-color</key>

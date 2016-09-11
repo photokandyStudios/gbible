@@ -36,6 +36,7 @@
 // their respective licenses.
 //
 #import <Foundation/Foundation.h>
+#import "gbible-Swift.h"
 
 @interface PKSettings : NSObject
 
@@ -89,6 +90,8 @@
 -(void)       saveCurrentHighlight;
 -(BOOL)       createDefaultSettings;
 -(void)       dealloc;
+
+-(PKSTheme *) currentTheme;
 
 +(UIColor *)  PKTintColor;
 +(UIColor *)  PKSidebarSelectionColor;

@@ -69,20 +69,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
- 
     self.navigationItem.leftItemsSupplementBackButton = YES;
-  
-    if (_enableVerticalScrollBar)
-    {
-      _verticalScrollBar = [[WKVerticalScrollBar alloc] initWithFrame:self.view.bounds];
-      _verticalScrollBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-      _verticalScrollBar.scrollView = self.tableView;
-    
-      [self.tableView addSubview:_verticalScrollBar];
-    }
-  
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -94,93 +81,29 @@
 -(void) showTopShadowWithOpacity: (CGFloat) opacity
 {
   return;
-  _topShadow.layer.opacity = opacity;
 }
 -(void) showBottomShadowWithOpacity: (CGFloat) opacity
 {
   return;
-  _bottomShadow.layer.opacity = opacity;
 }
 
 -(void)calcShadowPosition: (UIInterfaceOrientation) toInterfaceOrientation
 {
   return;
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-  {
-    // for iphone we have 44 and 32(?) for the navbar height
-    if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
-    {
-      _topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
-    }
-    else
-    {
-      _topShadow.frame = CGRectMake(0, 32, self.view.bounds.size.width, 15);
-    }
-  }
-  else
-  {
-    _topShadow.frame = CGRectMake(0, 44, self.view.bounds.size.width, 15);
-  }
-  
-  if ( self.navigationController.isNavigationBarHidden != YES )
-  {
-    _topShadow.frame = CGRectMake(0, 0, self.view.bounds.size.width, 15);
-  }
 }
 
 -(void)calculateShadows
 {
   return;
-  CGFloat topOpacity       = 0.0f;
-  CGFloat theContentOffset = (self.tableView.contentOffset.y);
-
-  CGRect theFrame = _topShadow.frame;
-  theFrame.origin.y = theContentOffset;
-  //if (!self.navigationController.isNavigationBarHidden && !self.navigationController.navigationBar.isOpaque)
-  //{
-  //  theFrame.origin.y += self.navigationController.navigationBar.bounds.size.height;
- // }
-  [_topShadow setFrame:theFrame];
-    
-  if (theContentOffset > 15)
-  {
-    theContentOffset = 15;
-  }
-  //topOpacity = (theContentOffset / 15) * 0.5;
-
-  [self showTopShadowWithOpacity: topOpacity];
-
-  CGFloat bottomOpacity = 0.0f;
-
-  theContentOffset = self.tableView.contentSize.height - self.tableView.contentOffset.y -
-                     self.tableView.bounds.size.height;
-
-  theFrame = _bottomShadow.frame;
-  theFrame.origin.y = self.tableView.contentOffset.y + self.tableView.bounds.size.height - theFrame.size.height;
-  [_bottomShadow setFrame:theFrame];
-
-  if (theContentOffset > 15)
-  {
-    theContentOffset = 15;
-  }
-  //bottomOpacity = (theContentOffset / 15) * 0.5;
-
-  [self showBottomShadowWithOpacity: bottomOpacity];
-  
-  theFrame = self.view.bounds;
-  theFrame.origin.y = self.tableView.contentOffset.y;
-  [_verticalScrollBar setFrame:theFrame];
 }
 
 -(void)willRotateToInterfaceOrientation: (UIInterfaceOrientation) toInterfaceOrientation duration: (NSTimeInterval) duration
 {
   return;
-  [self calcShadowPosition: toInterfaceOrientation];
 }
 
 -(void)scrollViewDidScroll: (UIScrollView *) scrollView
 {
-  //[self calculateShadows];
   // THIS SECTION: MIT LICENSE
   if (UIAccessibilityIsVoiceOverRunning())
   {
