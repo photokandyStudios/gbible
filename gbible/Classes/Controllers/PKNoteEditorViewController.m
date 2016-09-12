@@ -43,15 +43,14 @@
 #import "PKBibleViewController.h"
 #import "ZUUIRevealController.h"
 //#import "PKRootViewController.h"
-#import "TestFlight.h"
 #import "KOKeyboardRow.h"
 #import "PKTextView.h"
 #import "PKBibleBooksController.h"
 #import "PKSimpleBibleViewController.h"
-#import "KBKeyboardHandler.h"
 #import "PKStrongsController.h"
 #import "UIFont+Utility.h"
 #import "UIImage+PKUtility.h"
+#import <UIViewController-KeyboardAdditions/UIViewController+KeyboardAdditions.h>
 
 @interface PKNoteEditorViewController ()
 
@@ -60,7 +59,6 @@
 
 @implementation PKNoteEditorViewController
 {
-  KBKeyboardHandler* keyboard;
 
   UIPopoverController */**__strong**/ _PO;
 
@@ -187,8 +185,8 @@
   _txtTitle =
   [[UITextView alloc] initWithFrame: CGRectMake(10, 10, self.view.bounds.size.width - 20, (theFont.lineHeight*1.5) + 10)];
   _txtNote  =
-  [[PKTextView alloc] initWithFrame: CGRectMake(10, 20 + theFont.lineHeight, self.view.bounds.size.width - 20,
-                                                self.view.bounds.size.height - 52)];
+  [[PKTextView alloc] initWithFrame: CGRectMake(10, 30 + (theFont.lineHeight *1.5 ), self.view.bounds.size.width - 20,
+                                                self.view.bounds.size.height - (40 + (theFont.lineHeight *1.5 )))];
   
   self.view.autoresizesSubviews   = YES;
   _txtTitle.autoresizingMask       = UIViewAutoresizingFlexibleWidth;
@@ -222,9 +220,6 @@
     [KOKeyboardRow applyToTextView:_txtNote];
     [KOKeyboardRow applyToTextView:_txtTitle];
   }
-  // register for keyboard events
-  keyboard = [[KBKeyboardHandler alloc] init];
-  keyboard.delegate = self;
   
   [self loadData];
 
@@ -247,8 +242,8 @@
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefaultPrompt];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsLandscapePhone];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsLandscapePhonePrompt];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsCompact];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsCompactPrompt];
   }
 }
 
@@ -256,14 +251,18 @@
 {
   [self updateAppearanceForTheme];
   [self.view setNeedsLayout];
+  [self ka_startObservingKeyboardNotifications];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+  [self ka_stopObservingKeyboardNotifications];
 }
 
 -(void)viewDidUnload
 {
   [super viewDidUnload];
   // Release any retained subviews of the main view.
-  keyboard.delegate = nil;
-  keyboard = nil;
   _txtTitle  = nil;
   _txtNote   = nil;
   _btnDelete = nil;
@@ -493,22 +492,14 @@
 
 #pragma mark -
 #pragma mark keyboard size changed
-//http://stackoverflow.com/a/12402817
-- (void)keyboardSizeChanged:(CGSize)delta
-{
-    // Resize / reposition your views here. All actions performed here 
-    // will appear animated.
-    // delta is the difference between the previous size of the keyboard 
-    // and the new one.
-    // For instance when the keyboard is shown, 
-    // delta may has width=768, height=264,
-    // when the keyboard is hidden: width=-768, height=-264.
-    // Use keyboard.frame.size to get the real keyboard size.
-
-    // Sample:
-    CGRect frame = self.view.frame;
-    frame.size.height -= delta.height;
-    self.view.frame = frame;
+- (void)ka_keyboardShowOrHideAnimationWithHeight:(CGFloat)height
+                               animationDuration:(NSTimeInterval)animationDuration
+                                  animationCurve:(UIViewAnimationCurve)animationCurve {
+  
+  _txtNote.contentInset = UIEdgeInsetsMake(0.0f, 0.0, height, 0.0f);
+  
+  [self.view layoutIfNeeded];
 }
+
 
 @end

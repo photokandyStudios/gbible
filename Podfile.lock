@@ -24,32 +24,38 @@ PODS:
   - FMDB (2.6):
     - FMDB/standard (= 2.6)
   - FMDB/standard (2.6)
+  - GTScrollNavigationBar (0.4)
   - iRate (1.11.4)
   - Parse (1.12.0):
     - Bolts/Tasks (~> 1.5)
   - SSZipArchive (1.1)
   - SVProgressHUD (1.1.3)
+  - UIViewController-KeyboardAdditions (1.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
   - Bolts (~> 1.6)
   - DownloadButton (~> 0.1)
   - FMDB (~> 2.6)
+  - GTScrollNavigationBar (~> 0.4)
   - iRate (~> 1.11)
   - Parse (~> 1.12)
   - SSZipArchive (~> 1.1)
-  - SVProgressHUD
+  - SVProgressHUD (~> 1.1)
+  - UIViewController-KeyboardAdditions (~> 1.2)
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
   Bolts: f52a250053bb517ca874523c3913776359ab3def
   DownloadButton: 49a21a89e0d7d1b42d9134f79aaa40e727cd57c3
   FMDB: c1968bab3ab0aed38f66cb778ae1e7fa9a652b6e
+  GTScrollNavigationBar: 17e80b99c4250c92c82f31cd5e052a99422c2195
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   Parse: de2c52a9a1421b91ae7594ab8ce191afd184f19b
   SSZipArchive: de3d215ab73f87db627f81f2ce24f1731e3886c3
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+  UIViewController-KeyboardAdditions: 9c9c69a012890f71010dc7ffef18d98e4e0768d2
 
-PODFILE CHECKSUM: 99a4c8244bdf930902418f308e9c034be6199522
+PODFILE CHECKSUM: 2344e5091afdecf98c81f2141f64f157e01abae4
 
-COCOAPODS: 1.0.0.beta.3
+COCOAPODS: 1.0.1

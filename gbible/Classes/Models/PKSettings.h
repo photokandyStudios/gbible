@@ -124,6 +124,7 @@
 +(NSString *) interfaceFont;
 +(NSString *) boldInterfaceFont;
 +(UIStatusBarStyle) PKStatusBarStyle;
++(UIBarStyle) PKBarStyle;
 
 
 @end

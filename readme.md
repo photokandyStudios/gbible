@@ -1,23 +1,51 @@
-Greek Interlinear Bible for iOS
-===============================
+# Greek Interlinear Bible for iOS v1.4
 
-*NOTE*: We're on the App Store now with version 1.1: http://itunes.apple.com/us/app/greek-interlinear-bible/id520000138?mt=8
+*NOTE*: App store link: http://itunes.apple.com/us/app/greek-interlinear-bible/id520000138?mt=8
 
-Project code for the Greek Interlinear Bible for iOS. This code is COPYRIGHT (C) 2012 photoKandy Studios LLC.
+Project code for the Greek Interlinear Bible for iOS. This code is COPYRIGHT (C) 2012 - 2016 photoKandy Studios LLC.
 Portions of the code are under different licenses, see https://github.com/photokandyStudios/gbible/wiki/Third-Party-Components.
 
-For screenshots of current (and previous) builds, see https://plus.google.com/photos/110429856422449500918/albums/5734725845327381729
+## Changes 
 
-*Why are the assets and Bible Database missing?*
+### 1.4
+
+ * Support for 4.7" and 5.5" screens... finally!
+
+ * Support for 12.9" iPad Pro -- finally!
+
+ * Support for split-view multitasking
+
+ * iOS 8 is now the minimum supported version -- sorry to any users < iOS 8.
+
+ * Full screen removed; nav bar now moves during scroll
+
+ * Tint color correct
+
+#### Known Issues
+
+ * no keyboard control overlay
+
+ * Layout needs to adjust to screen
+
+ * Add simple bible to note editor?
+
+ * Make editor rich text?
+
+ * HUD is not centered when viewport != screen
+
+ * navigation bar does not update when theme changes
+
+## FAQ
+
+### Why are the assets and Bible Database missing?
+
 It is unfortunate that people would take the code and re-release it on the app store while replacing the attribution required. As such, I've told Git to ignore the graphical assets, as they are not covered under the license. While easy to circumvent, hopefully it will convince such unscrupulous developers to look elswhere. Furthermore, removing the Bible Database further complicates matters -- it is trivial to reconstruct, but difficult enough to dissuade unscrupulous developers. For legitimate development information, see: https://github.com/photokandyStudios/gbible/wiki/Bible-Database and https://github.com/photokandyStudios/gbible/wiki/Missing-Assets.
 
-Attributions
-------------
+## Attributions
 
 For attributions regarding the texts utilized, see https://github.com/photokandyStudios/gbible/wiki/Data-Sources.
 
-License
--------
+## License
 
 The code that is not otherwise licensed and is owned by photoKandy Studios LLC is hereby
 licensed under a CC BY-NC-SA 3.0 license. That is, you may copy the code and use it for 

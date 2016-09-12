@@ -54,7 +54,6 @@
 #import "TSMiniWebBrowser.h"
 #import "PKTableViewCell.h"
 #import "PKLabel.h"
-#import "TestFlight.h"
 #import "NSString+FontAwesome.h"
 #import <QuartzCore/QuartzCore.h>
 #import "PKLayoutController.h"
@@ -72,6 +71,9 @@
 #import "UIImage+PKUtility.h"
 #import "NSObject+PKGCD.h"
 #import "NSString+PKFont.h"
+#import "GTScrollNavigationBar.h"
+
+@import SafariServices;
 
 
 @interface PKBibleViewController ()
@@ -112,17 +114,12 @@
   int _theWordTag;
   int _theWordIndex;
 
-  BOOL _fullScreen;
-
   UIButton * /**__strong**/ _previousChapterButton;
   UIButton * /**__strong**/ _nextChapterButton;
 
   UIPopoverController * /**__strong**/ _PO;
   //@property (strong, nonatomic) FWTPopoverView *popoverView;
 
-  UIBarButtonItem * /**__strong**/ _toggleStrongsBtn;
-  UIBarButtonItem * /**__strong**/ _toggleMorphologyBtn;
-  UIBarButtonItem * /**__strong**/ _toggleTranslationBtn;
 
   UIBarButtonItem * /**__strong**/ _leftTextSelect;
   UIBarButtonItem * /**__strong**/ _rightTextSelect;
@@ -224,7 +221,7 @@
       [[PKHistory instance] addReference: [PKReference referenceWithBook:theBook andChapter: theChapter andVerse: theVerse]];
       [weakSelf notifyChangedHistory];
       [PKSettings instance].topVerse = theVerse;
-      [weakSelf scrollToVerse:theVerse withAnimation:NO afterDelay:0.0f];
+      [weakSelf scrollToVerse:(int)theVerse withAnimation:NO afterDelay:0.0f];
     } afterDelay:0.02f];
 }
 
@@ -320,7 +317,7 @@
                                                                                                              currentBook forChapter
                                                                                                              : currentChapter]];
     [weakSelf notifyChangedHistory];
-    [weakSelf scrollToVerse: MAX( [_currentGreekChapter count], [_currentEnglishChapter count]) withAnimation:NO afterDelay:0.0];
+    [weakSelf scrollToVerse: (int)MAX( [_currentGreekChapter count], [_currentEnglishChapter count]) withAnimation:NO afterDelay:0.0];
   } afterDelay:0.02f
   ];
 }
@@ -526,12 +523,12 @@
 
 -(void) scrollToTopVerseWithAnimation
 {
-  [self scrollToVerse:PKSettings.instance.topVerse withAnimation:YES afterDelay:0.01f];
+  [self scrollToVerse:(int)PKSettings.instance.topVerse withAnimation:YES afterDelay:0.01f];
 }
 
 -(void) scrollToTopVerse
 {
-  [self scrollToVerse:PKSettings.instance.topVerse withAnimation:NO afterDelay:0.01f];
+  [self scrollToVerse:(int)PKSettings.instance.topVerse withAnimation:NO afterDelay:0.01f];
 }
 -(void)scrollToVerse: (int)theVerse
 {
@@ -645,10 +642,6 @@
   _leftTextSelect.title         = [[PKBible abbreviationForTextID: [[PKSettings instance] greekText]] stringByAppendingString: @" ▾"];
   _rightTextSelect.title        = [[PKBible abbreviationForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"];
 
-  // this will have to change, but for now it will do.
-  _toggleStrongsBtn.enabled     = [PKBible isStrongsSupportedByText: [[PKSettings instance] greekText]];
-  _toggleMorphologyBtn.enabled  = [PKBible isMorphologySupportedByText: [[PKSettings instance] greekText]];
-  _toggleTranslationBtn.enabled = [PKBible isTranslationSupportedByText: [[PKSettings instance] greekText]];;
 }
 
 // ISSUE #61
@@ -667,6 +660,8 @@
 -(void)viewWillAppear: (BOOL) animated
 {
   [super viewWillAppear:animated];
+  self.navigationController.scrollNavigationBar.scrollView = self.tableView;
+
   if (_dirty
       || _lastKnownOrientation != [[UIDevice currentDevice] orientation])
   {
@@ -691,10 +686,6 @@
   [self saveTopVerse];
   [[PKSettings instance] saveCurrentReference];
 
-  if (_fullScreen)
-  {
-    [self goRegularScreen: nil];
-  }
 }
 
 /**
@@ -742,32 +733,14 @@
   longPress.numberOfTouchesRequired = 1;
   [self.tableView addGestureRecognizer: longPress];
   
-  UITapGestureRecognizer *doublePress = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didReceiveDoubleTap:)];
-  doublePress.numberOfTapsRequired = 2;
-  [self.tableView addGestureRecognizer:doublePress];
-
   // init our selectedVeres
   _selectedVerses = [[NSMutableDictionary alloc] init];
 
 
   NSDictionary *largeTextAttributes;
   // Text Attributes for Font-Awesome Icons:
-  if (SYSTEM_VERSION_LESS_THAN(@"7.0") )
-  {
     largeTextAttributes = @{ //UITextAttributeFont : [UIFont systemFontOfSize:20],
-                                           UITextAttributeFont : [UIFont fontWithName:@"HelveticaNeue" size:20],
-                                           UITextAttributeTextColor : [PKSettings PKTintColor],
-                                           UITextAttributeTextShadowColor: [UIColor clearColor],
-                                           UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
-  }
-  else
-  {
-    largeTextAttributes = @{ //UITextAttributeFont : [UIFont systemFontOfSize:20],
-                                           UITextAttributeFont : [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline],
-//                                           UITextAttributeTextColor : [PKSettings PKTintColor],
-                                           UITextAttributeTextShadowColor: [UIColor clearColor],
-                                           UITextAttributeTextShadowOffset: [NSValue valueWithCGSize:  CGSizeMake(0,-1)] };
-  }
+                                           NSFontAttributeName : [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline] };
 
   UIImage *blankImage = [UIImage new];
   // add navbar items
@@ -786,27 +759,6 @@
   _leftTextSelect                = [UIBarButtonItem barButtonItemWithTitle:[[PKBible titleForTextID: [[PKSettings instance] greekText]]
                                                    stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
   
-  // build the toggle items
-  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-  {
-  _toggleStrongsBtn = [UIBarButtonItem barButtonItemWithTitle:@"G#" target:self action:@selector(toggleStrongs:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-
-  _toggleMorphologyBtn = [UIBarButtonItem barButtonItemWithTitle:@"Morph" target:self action:@selector(toggleMorphology:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-
-  _toggleTranslationBtn = [UIBarButtonItem barButtonItemWithTitle:@"Tran" target:self action:@selector(toggleTranslation:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-  }
-  else
-  {
-  _toggleStrongsBtn = [UIBarButtonItem barButtonItemWithTitle:@"G#" target:self action:@selector(toggleStrongs:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-
-  _toggleMorphologyBtn = [UIBarButtonItem barButtonItemWithTitle:@"M" target:self action:@selector(toggleMorphology:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-
-  _toggleTranslationBtn = [UIBarButtonItem barButtonItemWithTitle:@"Tr" target:self action:@selector(toggleTranslation:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-  }
-  _toggleStrongsBtn.accessibilityLabel = __T(@"Toggle Strong's Numbers");
-  _toggleMorphologyBtn.accessibilityLabel = __T(@"Toggle Morphology");
-  _toggleTranslationBtn.accessibilityLabel = __T(@"Toggle Translation");
-
 
   if ([self.navigationItem respondsToSelector: @selector(setLeftBarButtonItems:)])
   {
@@ -815,8 +767,7 @@
       self.navigationItem.leftBarButtonItems = @[changeReference,
                                                 fontSelect,
                                                // changeHighlight,
-                                                _leftTextSelect,
-                                                _toggleStrongsBtn, _toggleMorphologyBtn, _toggleTranslationBtn];
+                                                 _leftTextSelect];
     }
     else
     {
@@ -826,7 +777,7 @@
   else
   {
   //  changeHighlight.style = UIBarButtonItemStyleBordered;
-    changeReference.style = UIBarButtonItemStyleBordered;
+    changeReference.style = UIBarButtonItemStylePlain;
     NSArray *buttons = @[changeReference];
     UIToolbar *tb    = [[UIToolbar alloc] initWithFrame: CGRectMake(0, 0, 150, 44)];
     tb.backgroundColor    = [UIColor clearColor];
@@ -835,10 +786,6 @@
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: tb];
   }
-
-  UIBarButtonItem *goFullScreen = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"FullScreen-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(goFullScreen:) andBackgroundImage:blankImage];
-  
-  goFullScreen.accessibilityLabel = __T(@"Enter Full Screen");
 
   _rightTextSelect = [UIBarButtonItem barButtonItemWithTitle:[[PKBible titleForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
 
@@ -851,7 +798,7 @@
 
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
   {
-    self.navigationItem.rightBarButtonItems = @[goFullScreen, adjustSettings, _searchText, _rightTextSelect
+    self.navigationItem.rightBarButtonItems = @[ adjustSettings, _searchText, _rightTextSelect
                                               ];
   }
   else
@@ -1158,7 +1105,7 @@
  * in the middle and have the rotation visually /stop/ for a few ms.
  *
  */
--(void)didRotateFromInterfaceOrientation: (UIInterfaceOrientation) fromInterfaceOrientation
+/*-(void)didRotateFromInterfaceOrientation: (UIInterfaceOrientation) fromInterfaceOrientation
 {
   _lastKnownOrientation = [[UIDevice currentDevice] orientation];
   [self calculateShadows];
@@ -1166,6 +1113,33 @@
   [self loadChapter];
   [self reloadTableCache];
   [self scrollToTopVerseWithAnimation];
+}*/
+
+-(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+  // VIA http://stackoverflow.com/a/27409619
+  [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+  
+  // Code here will execute before the rotation begins.
+  // Equivalent to placing it in the deprecated method -[willRotateToInterfaceOrientation:duration:]
+  
+  [coordinator animateAlongsideTransition:nil completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+    
+    // Code here will execute after the rotation has finished.
+    // Equivalent to placing it in the deprecated method -[didRotateFromInterfaceOrientation:]
+    _lastKnownOrientation = [[UIDevice currentDevice] orientation];
+    [self calculateShadows];
+    [self saveTopVerse];
+    [self loadChapter];
+    [self reloadTableCache];
+    [self scrollToTopVerseWithAnimation];
+    
+    
+  }];
+}
+
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+{
+  [self.navigationController.scrollNavigationBar resetToDefaultPositionWithAnimation:NO];
 }
 
 /*
@@ -1693,17 +1667,6 @@
   }
 }
 
--(void)didReceiveDoubleTap: (id) sender
-{
-  if ( self.navigationController.navigationBarHidden )
-  {
-    [self goRegularScreen:nil];
-  }
-  else
-  {
-    [self goFullScreen:nil];
-  }
-}
 
 #pragma mark -
 #pragma mark miscellaneous selectors (called from popovers, buttons, etc.)
@@ -1815,85 +1778,6 @@
   ];
 }
 
--(void) goFullScreen: (id) sender
-{
-  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
-  [_PO dismissPopoverAnimated: NO];
-
-  [self.navigationController setNavigationBarHidden: YES animated: YES];
-  if SYSTEM_VERSION_LESS_THAN(@"7.0")
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-  else
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-  
-  CGRect theFrame = PKAppDelegate.sharedInstance.rootViewController.view.frame;
-  if ( UIInterfaceOrientationIsLandscape(  [[UIApplication sharedApplication] statusBarOrientation] ))
-  {
-    theFrame.origin.x = 0;
-    theFrame.size.width = UIScreen.mainScreen.bounds.size.width;
-  }
-  else
-  {
-    theFrame.origin.y = 0;
-    theFrame.size.height = UIScreen.mainScreen.bounds.size.height;
-  }
-  [PKAppDelegate.sharedInstance.rootViewController.view setFrame:theFrame];
-  _fullScreen     = YES;
-
-  // create a button to get us back!
-  CGRect theRect;
-  theRect             = self.view.frame;
-  theRect.origin.x    = theRect.size.width - 54;
-  theRect.origin.y    = 10;
-  theRect.size.width  = 44;
-  theRect.size.height = 32;
-
-
-  _btnRegularScreen    = [UIButton buttonWithType: UIButtonTypeRoundedRect];
-  [_btnRegularScreen setImage:[UIImage imageNamed:@"RegularScreen-30" withColor:[PKSettings PKTintColor]] forState:UIControlStateNormal];
-  [_btnRegularScreen setFrame: theRect];
-  _btnRegularScreen.accessibilityLabel   = __T(@"Leave Full Screen");
-
-  _btnRegularScreen.titleLabel.textColor = [PKSettings PKBaseUIColor];
-  _btnRegularScreen.layer.opacity        = 0.5;
-  _btnRegularScreen.autoresizingMask     = UIViewAutoresizingFlexibleLeftMargin;
-  [_btnRegularScreen addTarget: self action: @selector(goRegularScreen:) forControlEvents: UIControlEventTouchUpInside];
-  [self.parentViewController.view addSubview: _btnRegularScreen];
-  [self.parentViewController.view bringSubviewToFront: _btnRegularScreen];
-
-}
-
--(void) goRegularScreen: (id) sender
-{
-  [_btnRegularScreen removeFromSuperview];
-  _btnRegularScreen = nil;
-  if SYSTEM_VERSION_LESS_THAN(@"7.0")
-  {
-    [self.navigationController setNavigationBarHidden: NO animated: YES];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-    CGRect theFrame = PKAppDelegate.sharedInstance.rootViewController.view.frame;
-    if ( UIInterfaceOrientationIsLandscape(  [[UIApplication sharedApplication] statusBarOrientation] ))
-    {
-      if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationLandscapeLeft)
-        theFrame.origin.x = 20;
-      theFrame.size.width = UIScreen.mainScreen.bounds.size.width-20;
-    }
-    else
-    {
-      if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait)
-        theFrame.origin.y = 20;
-      theFrame.size.height = UIScreen.mainScreen.bounds.size.height-20;
-    }
-    [PKAppDelegate.sharedInstance.rootViewController.view setFrame:theFrame];
-  }
-  else
-  {
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [self.navigationController setNavigationBarHidden: NO animated: YES];
-    [self setNeedsStatusBarAppearanceUpdate];
-  }
-  _fullScreen = NO;
-}
 
 -(void) selectAll: (id) sender
 {
@@ -2320,15 +2204,24 @@
                                  [PKReference stringFromVerseNumber:theVerse]];
   theTransformedURL = [theTransformedURL stringByReplacingOccurrencesOfString: @" " withString: @"_"];
   NSURL *theURL        = [[NSURL alloc] initWithString: theTransformedURL];
-  TSMiniWebBrowser *wb = [[TSMiniWebBrowser alloc] initWithUrl: theURL];
-  wb.showURLStringOnActionSheetTitle = YES;
-  wb.showPageTitleOnTitleBar         = YES;
-  wb.showActionButton                = YES;
-  wb.showReloadButton                = YES;
-  wb.mode = TSMiniWebBrowserModeModal;
-  wb.barStyle = UIBarStyleDefault;
-  wb.modalDismissButtonTitle         = __T(@"Done");
-          [self presentViewController:wb animated:YES completion:nil];
+  //http://stackoverflow.com/a/33929917
+  if ([SFSafariViewController class] != nil) {
+    SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:theURL];
+    //sfvc.delegate = self;
+    [self presentViewController:sfvc animated:YES completion:nil];
+  } else {
+  
+    TSMiniWebBrowser *wb = [[TSMiniWebBrowser alloc] initWithUrl: theURL];
+    wb.showURLStringOnActionSheetTitle = YES;
+    wb.showPageTitleOnTitleBar         = YES;
+    wb.showActionButton                = YES;
+    wb.showReloadButton                = YES;
+    wb.mode = TSMiniWebBrowserModeModal;
+    wb.barStyle = UIBarStyleDefault;
+    wb.modalDismissButtonTitle         = __T(@"Done");
+            [self presentViewController:wb animated:YES completion:nil];
+    
+  }
 }
 
 /**
@@ -2347,8 +2240,8 @@
   if ([navBar respondsToSelector: @selector(setBackgroundImage:)])
   {
     [navBar setBackgroundImage: [UIImage imageNamed: @"BlueNavigationBar.png"] forBarMetrics: UIBarMetricsDefault];
-    [navBar setTitleTextAttributes: @{UITextAttributeTextShadowColor: [UIColor blackColor],
-                                     UITextAttributeTextColor: [UIColor whiteColor]}];
+    [navBar setTitleTextAttributes: @{
+                                     NSForegroundColorAttributeName: [UIColor whiteColor]}];
   }
 
           [self presentViewController:mvnc animated:YES completion:nil];
@@ -2639,6 +2532,23 @@
     return 0;
 }
 
+-(NSArray<UIKeyCommand *> *)keyCommands {
+  if ([[UIKeyCommand class] respondsToSelector:@selector(keyCommandWithInput:modifierFlags:action:discoverabilityTitle:)]) {
+    return @[
+             [UIKeyCommand keyCommandWithInput:@"f" modifierFlags:UIKeyModifierCommand | UIKeyModifierAlternate action:@selector(onKeySearch:) discoverabilityTitle:__T(@"Search Bible")],
+             ];
+  } else {
+    return @[
+             [UIKeyCommand keyCommandWithInput:@"f" modifierFlags:UIKeyModifierCommand | UIKeyModifierAlternate action:@selector(onKeySearch:)],
+             ];
+    
+  }
+}
+
+-(void) onKeySearch:(UIKeyCommand *) sender {
+  [self searchBible:nil];
+}
+
 -(void) insertText:(NSString *)text
 {
   //
@@ -2704,7 +2614,7 @@
       if (theLowestVerse>0)
       {
         [self selectVerse:theLowestVerse];
-        [self scrollToVerse:theLowestVerse withAnimation:YES afterDelay:0.0f];
+        [self scrollToVerse:(int)theLowestVerse withAnimation:YES afterDelay:0.0f];
       }
     }
     //
@@ -2712,7 +2622,7 @@
     if ([text isEqualToString:@"w"])
     {
       theRow--;
-      [self scrollToVerse:theRow+1 withAnimation:YES afterDelay:0.0f];
+      [self scrollToVerse:(int)theRow+1 withAnimation:YES afterDelay:0.0f];
     }
     //
     // UP THREE VERSES
@@ -2720,14 +2630,14 @@
     {
       theRow = theRow - 3;
       if (theRow < 0) theRow = 0;
-      [self scrollToVerse:theRow+1 withAnimation:YES afterDelay:0.0f];
+      [self scrollToVerse:(int)theRow+1 withAnimation:YES afterDelay:0.0f];
     }
     //
     // DOWN ONE VERSE
     if ([text isEqualToString:@"s"])
     {
       theRow++;
-      [self scrollToVerse:theRow+1 withAnimation:YES afterDelay:0.0f];
+      [self scrollToVerse:(int)theRow+1 withAnimation:YES afterDelay:0.0f];
     }
     //
     // DOWN THREE VERSES
@@ -2735,7 +2645,7 @@
     {
       theRow = theRow + 3;
       if (theRow > currentVerseCount-1) theRow = currentVerseCount - 1;
-      [self scrollToVerse:theRow+1 withAnimation:YES afterDelay:0.0f];
+      [self scrollToVerse:(int)theRow+1 withAnimation:YES afterDelay:0.0f];
     }
     //
     // SELECT DOWN ONE VERSE
@@ -2750,14 +2660,14 @@
       if (theHighestVerse>0 && theHighestVerse <= currentVerseCount)
       {
         [self selectVerse:theHighestVerse];
-        [self scrollToVerse:theHighestVerse withAnimation:YES afterDelay:0.0f];
+        [self scrollToVerse:(int)theHighestVerse withAnimation:YES afterDelay:0.0f];
       }
     }
     //
     // SCROLL TO BOTTOM
     if ([text isEqualToString:@"b"])
     {
-      [self scrollToVerse:currentVerseCount withAnimation:YES afterDelay:0.0f];
+      [self scrollToVerse:(int)currentVerseCount withAnimation:YES afterDelay:0.0f];
     }
     //
     // HIGHLIGHT

@@ -14,18 +14,10 @@
   if (!font)  return;
   if (!color) return;
   
-  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-  {
     NSDictionary *attrs = @{ NSFontAttributeName: font,
                              NSForegroundColorAttributeName: color,
                              NSLigatureAttributeName: @(ligatures?1:0) };
     [self drawInRect:CGRectIntegral(rect) withAttributes:attrs];
-  }
-  else
-  {
-    [color setFill];
-    [self drawInRect:CGRectIntegral(rect) withFont:font];
-  }
 }
 - (void) drawAtPoint:(CGPoint)aPoint withFont:(UIFont *)font withColor:(UIColor *)color usingLigatures:(BOOL) ligatures
 {
@@ -34,18 +26,10 @@
   if (!color) return;
 
   point = CGPointMake(ceil(aPoint.x), ceil(aPoint.y));
-  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-  {
     NSDictionary *attrs = @{ NSFontAttributeName: font,
                              NSForegroundColorAttributeName: color,
                              NSLigatureAttributeName: @(ligatures?1:0) };
     [self drawAtPoint:point withAttributes:attrs];
-  }
-  else
-  {
-    [color setFill];
-    [self drawAtPoint:point withFont:font];
-  }
 }
 
 - (CGSize) sizeWithFont: (UIFont *)font usingLigatures:(BOOL)ligatures
@@ -53,16 +37,9 @@
   CGSize size = CGSizeZero;
   if (!font)  return size;
   
-  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-  {
     NSDictionary *attrs = @{ NSFontAttributeName: font,
                              NSLigatureAttributeName: @(ligatures?1:0) };
     size = [self sizeWithAttributes:attrs];
-  }
-  else
-  {
-    size = [self sizeWithFont:font];
-  }
   size.height = ceil(size.height);
   size.width = ceil(size.width);
   return size;
@@ -73,16 +50,9 @@
   CGSize aSize = CGSizeZero;
   if (!font)  return aSize;
 
-  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-  {
     NSDictionary *attrs = @{ NSFontAttributeName: font,
                              NSLigatureAttributeName: @(ligatures?1:0) };
     aSize= [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
-  }
-  else
-  {
-    aSize= [self sizeWithFont:font constrainedToSize:size];
-  }
   aSize.height = ceil(aSize.height);
   aSize.width = ceil(aSize.width);
   return aSize;
@@ -93,17 +63,10 @@
   CGSize aSize = CGSizeZero;
   if (!font)  return aSize;
 
-  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-  {
     NSDictionary *attrs = @{ NSFontAttributeName: font,
                              NSLigatureAttributeName: @(ligatures?1:0) };
     aSize= [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
     
-  }
-  else
-  {
-    aSize= [self sizeWithFont:font constrainedToSize:size lineBreakMode:lineBreakMode];
-  }
   aSize.height = ceil(aSize.height);
   aSize.width = ceil(aSize.width);
   return aSize;

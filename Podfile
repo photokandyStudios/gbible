@@ -15,6 +15,7 @@ target 'gbible' do
   pod 'SSZipArchive', '~> 1.1'
   pod 'SVProgressHUD', '~> 1.1'
   pod 'DownloadButton', '~> 0.1'
-  
+  pod 'UIViewController-KeyboardAdditions', '~> 1.2'
+  pod 'GTScrollNavigationBar', '~> 0.4'
 end
 

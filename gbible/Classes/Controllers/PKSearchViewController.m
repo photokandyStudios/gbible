@@ -45,7 +45,6 @@
 #import "PKHotLabel.h"
 #import "PKHistory.h"
 #import "PKHistoryViewController.h"
-#import "TestFlight.h"
 #import "SVProgressHUD.h"
 #import "NSString+FontAwesome.h"
 #import "PKReference.h"

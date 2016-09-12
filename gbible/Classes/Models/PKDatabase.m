@@ -223,7 +223,7 @@ static PKDatabase * _instance;
       const char* attrName = "com.apple.MobileBackup";
       u_int8_t attrValue = 1;
       int result = setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0);
-      if(!result==0){
+      if((!result)==0){
           NSLog(@"Error excluding %@ from backup", [URL lastPathComponent]);
       }
   }

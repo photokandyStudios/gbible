@@ -44,7 +44,6 @@
 #import "PKBibleViewController.h"
 //#import "iOSHierarchyViewer.h"
 #import "PKSettings.h"
-#import "TestFlight.h"
 #import "NSString+FontAwesome.h"
 #import "iRate.h"
 #import "PKSearchViewController.h"
@@ -57,6 +56,7 @@
 #import "UIColor-Expanded.h"
 #import "SVProgressHUD.h"
 #import "NSObject+PKGCD.h"
+#import "GTScrollNavigationBar.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -130,20 +130,24 @@ static PKAppDelegate * _instance;
 {
   if (b.tag == 498)
     return;
+  
+  b.tintColor = [PKSettings PKTintColor];
 }
 
 +(void) applyThemeToUINavigationBar: (UINavigationBar *)nba
 {
-    nba.barStyle = UIBarStyleDefault;
-    nba.barTintColor = [PKSettings PKSecondaryPageColor ]; //TODO: decide final version of header color on iOS 7
-    nba.titleTextAttributes = @{ UITextAttributeTextColor: [PKSettings PKTextColor],
-                                 UITextAttributeTextShadowColor: [UIColor clearColor],
-      UITextAttributeFont: [UIFont fontWithName:PKSettings.interfaceFont size:20]
+  
+    nba.tintColor = [PKSettings PKTintColor];
+    nba.barStyle = [PKSettings PKBarStyle];
+    //nba.barTintColor = [[PKSettings PKPageColor ] colorWithAlphaComponent:0.0]; //TODO: decide final version of header color on iOS 7
+    nba.translucent = YES;
+    nba.titleTextAttributes = @{ NSForegroundColorAttributeName: [PKSettings PKTextColor],
+                                 NSFontAttributeName: [UIFont fontWithName:PKSettings.interfaceFont size:20]
                                  };
   
-//    [nba setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithWhite:1.0 alpha:0.75]]  forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
-//    nba.shadowImage = [[UIImage alloc] init];
- //   nba.shadowImage = [UIImage imageWithColor:[UIColor redColor] andSize:CGSizeMake(10,10)];
+    //[nba setBackgroundImage:[UIImage imageWithColor:[[PKSettings PKPageColor] colorWithAlphaComponent:0.85] ]  forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
+    //nba.shadowImage = [[UIImage alloc] init];
+    //nba.shadowImage = [UIImage imageWithColor:[UIColor redColor] andSize:CGSizeMake(10,10)];
 }
 
 +(void) applyThemeToUISearchBar: (UISearchBar *)sba
@@ -169,9 +173,9 @@ static PKAppDelegate * _instance;
                           @[ _bibleBooksViewController, _notesViewController,
                           _highlightsViewController, _historyViewController,
                           _searchViewController, _strongsViewController ] ];
-    if (_bibleBooksViewController.navigationController.visibleViewController)
+    //if (_bibleBooksViewController.navigationController.visibleViewController)
       [va addObject:_bibleBooksViewController.navigationController.visibleViewController];
-    if (_bibleViewController.navigationController.visibleViewController)
+    //if (_bibleViewController.navigationController.visibleViewController)
       [va addObject:_bibleViewController.navigationController.visibleViewController];
     for ( UIViewController * nb in va )
     {
@@ -278,8 +282,7 @@ static PKAppDelegate * _instance;
 
   self.segmentedControl.segmentAccessibilityLabels = @[ __T(@"Goto"), __T(@"Highlights"), __T(@"Notes"),
                                                         __T(@"Strong's"), __T(@"Search"), __T(@"History")];
-  [self.segmentedControl setTitleTextAttributes:@{ UITextAttributeFont: [UIFont fontWithName:kFontAwesomeFamilyName size:20] } forState:UIControlStateNormal];
-  self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+  [self.segmentedControl setTitleTextAttributes:@{ NSFontAttributeName: [UIFont fontWithName:kFontAwesomeFamilyName size:20] } forState:UIControlStateNormal];
   [self.segmentedControl addTarget: self.segmentController
                             action: @selector(indexDidChangeForSegmentedControl:)
                   forControlEvents: UIControlEventValueChanged];
@@ -300,7 +303,10 @@ static PKAppDelegate * _instance;
   [self.segmentController indexDidChangeForSegmentedControl: _segmentedControl];
   
   // define our ZUII
-  UINavigationController *NC = [[UINavigationController alloc] initWithRootViewController:_bibleViewController];
+  //UINavigationController *NC = [[UINavigationController alloc] initWithRootViewController:_bibleViewController];
+  UINavigationController *NC = [[UINavigationController alloc] initWithNavigationBarClass:[GTScrollNavigationBar class] toolbarClass:nil];
+  [NC setViewControllers:@[ _bibleViewController ] animated:NO];
+  
   ZUUIRevealController *revealController = [[ZUUIRevealController alloc]
                                             initWithFrontViewController: NC
                                             rearViewController: segmentedNavBarController];

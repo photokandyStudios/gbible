@@ -110,8 +110,8 @@
       self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
       [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
       [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefaultPrompt];
-      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsLandscapePhone];
-      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsLandscapePhonePrompt];
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsCompact];
+      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsCompactPrompt];
     }
   }
 
@@ -373,7 +373,6 @@
   cell.textLabel.text          = _fontNames[row];
   cell.textLabel.numberOfLines = 1;
   cell.textLabel.minimumScaleFactor = 0.1f;
-  cell.textLabel.adjustsLetterSpacingToFitWidth = YES;
   cell.textLabel.adjustsFontSizeToFitWidth = YES;
   cell.textLabel.font          = [UIFont fontWithName: _fontNames[row] andSize: 14];
   cell.accessoryType           = UITableViewCellAccessoryNone;
@@ -445,7 +444,7 @@
 
 -(void) lineSpacingChanged: (id) sender
 {
-  ( [PKSettings instance].textVerseSpacing ) = _lineSpacingSelector.selectedSegmentIndex;
+  ( [PKSettings instance].textVerseSpacing ) = (int)_lineSpacingSelector.selectedSegmentIndex;
   [self notifyDelegate];
 }
 
@@ -470,7 +469,7 @@
 
 -(void) themeChanged: (id) sender
 {
-  [PKSettings instance].textTheme = ( (CoolButton *)sender ).tag;
+  [PKSettings instance].textTheme = (int)( (CoolButton *)sender ).tag;
   _label1.text = [NSString stringWithFormat: @"%@ %i", __T(@"Theme"), [[PKSettings instance] textTheme] + 1];
 
   [self notifyDelegate];

@@ -43,7 +43,6 @@
 #import "ZUUIRevealController.h"
 #import "PKSearchViewController.h"
 //#import "PKRootViewController.h"
-#import "TestFlight.h"
 #import "PKHistoryViewController.h"
 #import "SVProgressHUD.h"
 #import "PKHotLabel.h"

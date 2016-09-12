@@ -629,5 +629,13 @@ static PKSettings * _instance;
   return UIStatusBarStyleDefault;
 }
 
++(UIBarStyle) PKBarStyle
+{
+  if ([[[[PKSettings instance] currentTheme] statusBarStyle] isEqualToString:@"light"]) {
+    return UIBarStyleBlack;
+  }
+  return UIBarStyleDefault;
+}
+
 
 @end

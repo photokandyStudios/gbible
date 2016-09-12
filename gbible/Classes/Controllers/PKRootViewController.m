@@ -42,7 +42,6 @@
 #import "PKStrongsController.h"
 #import "PKSearchViewController.h"
 #import "PKSettings.h"
-#import "TestFlight.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -95,19 +94,19 @@
     if ([bibleViewController.tabBarItem respondsToSelector: @selector(setTitleTextAttributes:forState:)])
     {
       [bibleViewController.tabBarItem setTitleTextAttributes:
-       @{UITextAttributeTextColor: [UIColor whiteColor]}
+       @{NSForegroundColorAttributeName: [UIColor whiteColor]}
                                                     forState: UIControlStateNormal];
       [strongsViewController.tabBarItem setTitleTextAttributes:
-       @{UITextAttributeTextColor: [UIColor whiteColor]}
+       @{NSForegroundColorAttributeName: [UIColor whiteColor]}
                                                       forState: UIControlStateNormal];
       [aboutViewController.tabBarItem setTitleTextAttributes:
-       @{UITextAttributeTextColor: [UIColor whiteColor]}
+       @{NSForegroundColorAttributeName: [UIColor whiteColor]}
                                                     forState: UIControlStateNormal];
       [settingsViewController.tabBarItem setTitleTextAttributes:
-       @{UITextAttributeTextColor: [UIColor whiteColor]}
+       @{NSForegroundColorAttributeName: [UIColor whiteColor]}
                                                        forState: UIControlStateNormal];
       [searchViewController.tabBarItem setTitleTextAttributes:
-       @{UITextAttributeTextColor: [UIColor whiteColor]}
+       @{NSForegroundColorAttributeName: [UIColor whiteColor]}
                                                      forState: UIControlStateNormal];
     }
     // navigation controllers
@@ -132,24 +131,24 @@
     
     if ([navBar respondsToSelector: @selector(setBackgroundImage:forBarMetrics:)])
     {
-      [navBar setTitleTextAttributes: @{UITextAttributeTextShadowColor: [UIColor blackColor],
-                                       UITextAttributeTextColor: [UIColor whiteColor]}];
+      [navBar setTitleTextAttributes: @{
+                                       NSForegroundColorAttributeName: [UIColor whiteColor]}];
       
       navBar = [navSearchController navigationBar];
-      [navBar setTitleTextAttributes: @{UITextAttributeTextShadowColor: [UIColor blackColor],
-                                       UITextAttributeTextColor: [UIColor whiteColor]}];
+      [navBar setTitleTextAttributes: @{
+                                       NSForegroundColorAttributeName: [UIColor whiteColor]}];
       
       navBar = [navStrongsController navigationBar];
-      [navBar setTitleTextAttributes: @{UITextAttributeTextShadowColor: [UIColor blackColor],
-                                       UITextAttributeTextColor: [UIColor whiteColor]}];
+      [navBar setTitleTextAttributes: @{
+                                       NSForegroundColorAttributeName: [UIColor whiteColor]}];
       
       navBar = [navAboutController navigationBar];
-      [navBar setTitleTextAttributes: @{UITextAttributeTextShadowColor: [UIColor blackColor],
-                                       UITextAttributeTextColor: [UIColor whiteColor]}];
+      [navBar setTitleTextAttributes: @{
+                                        NSForegroundColorAttributeName: [UIColor whiteColor]}];
       
       navBar = [navSettingsController navigationBar];
-      [navBar setTitleTextAttributes: @{UITextAttributeTextShadowColor: [UIColor blackColor],
-                                       UITextAttributeTextColor: [UIColor whiteColor]}];
+      [navBar setTitleTextAttributes: @{
+                                       NSForegroundColorAttributeName: [UIColor whiteColor]}];
     }
     
     // add them to our view

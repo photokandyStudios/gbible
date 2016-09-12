@@ -44,7 +44,6 @@
 #import "PKSearchViewController.h"
 #import "PKStrongsController.h"
 #import "PKSettings.h"
-#import "TestFlight.h"
 #import "PKAppDelegate.h"
 #import "PKReference.h"
 

@@ -45,7 +45,6 @@
 #import "PKNotesViewController.h"
 #import "PKBibleViewController.h"
 #import "PKBibleBooksController.h"
-#import "TestFlight.h"
 #import "PKBible.h"
 #import "TSMiniWebBrowser.h"
 #import "PKBibleListViewController.h"
@@ -109,25 +108,13 @@ const int SECTION_THIRD_PARTY = 5;
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   // Fix issue #55
   self.tableView.separatorColor  = [PKSettings PKTextColor];
-  self.tableView.separatorStyle  = UITableViewCellSeparatorStyleSingleLine;
+  self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
   [self.tableView reloadData];
 }
 
 -(void)reloadSettingsArray
 {
-  if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-  {
-    _layoutSettings = @[
-                       @[ __T(@"Compress Right Side"), @2, @"compress-right-side"],
-                       @[ __T(@"Extend Highlights"), @2, @"extend-highlights" ],
-                       @[ __T(@"Strong's On Top"), @2, @"strongs-on-top" ],
-                       @[ __T(@"Smaller Non-Greek Words"), @2, @"smaller-left-side-words" ],
-                       @[ __Tv(@"Show Inline Notes", @"Show Inline Notes?"), @2, PK_SETTING_INLINENOTES ]
-                      ];
-  }
-  else
-  {
     _layoutSettings = @[
                        @[ __T(@"Layout..."), @0 ],
                        @[ __T(@"Compress Right Side"), @2, @"compress-right-side"],
@@ -136,34 +123,19 @@ const int SECTION_THIRD_PARTY = 5;
                        @[ __T(@"Smaller Non-Greek Words"), @2, @"smaller-left-side-words" ],
                        @[ __Tv(@"Show Inline Notes", @"Show Inline Notes?"), @2, PK_SETTING_INLINENOTES ]
                       ];
-  }
   // get the left and right-side Bibles
 
-  if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-  {
     _textSettings = @[
                       @[ __T(@"Left Text") , @3, PK_SETTING_GREEKTEXT, [PKBible availableOriginalTexts: PK_TBL_BIBLES_ID],
                                                                        [PKBible availableOriginalTexts: PK_TBL_BIBLES_NAME] ],
                       @[ __T(@"Right Text"), @3, PK_SETTING_ENGLISHTEXT, [PKBible availableHostTexts: PK_TBL_BIBLES_ID],
                                                                          [PKBible availableHostTexts: PK_TBL_BIBLES_NAME] ],
-                      @[ __Tv(@"Transliterate Greek", @"Transliterate Greek﹡?"), @2, PK_SETTING_TRANSLITERATE ],
-                      @[ __T(@"Manage Bibles..."), @0 ]
-                    ];
-  }
-  else
-  {
-    _textSettings = @[
-                      @[ __T(@"Left Text") , @3, PK_SETTING_GREEKTEXT, [PKBible availableOriginalTexts: PK_TBL_BIBLES_ID],
-                                                                       [PKBible availableOriginalTexts: PK_TBL_BIBLES_NAME] ],
-                      @[ __T(@"Right Text"), @3, PK_SETTING_ENGLISHTEXT, [PKBible availableHostTexts: PK_TBL_BIBLES_ID],
-                                                                         [PKBible availableHostTexts: PK_TBL_BIBLES_NAME] ],
-                      @[ __Tv(@"Transliterate Greek", @"Transliterate Greek﹡?"), @2, PK_SETTING_TRANSLITERATE ],
+                      @[ __Tv(@"Transliterate Greek", @"Transliterate Greek?"), @2, PK_SETTING_TRANSLITERATE ],
                       @[ __Tv(@"Show Morphology", @"Show Morphology?"), @2, PK_SETTING_SHOWMORPHOLOGY ],
                       @[ __Tv(@"Show Strong's", @"Show Strong's?"), @2, @"show-strongs" ],
-                      @[ __Tv(@"Show Translation", @"Show Translation✝?"), @2, @"show-interlinear" ],
+                      @[ __Tv(@"Show Translation", @"Show Translation?"), @2, @"show-interlinear" ],
                       @[ __T(@"Manage Bibles..."), @0 ]
                     ];
-  }
   
   
   // iCloudSettings = [NSArray arrayWithObjects: [NSArray arrayWithObjects: @"Enable iCloud?", [NSNumber numberWithInt:2],
@@ -197,10 +169,10 @@ const int SECTION_THIRD_PARTY = 5;
                             @[ @"FMDatabase © Flying Meat Inc.", @0 ],
                             @[ @"Font Awesome © Dave Gandy", @0 ],
                             @[ @"Gentium Plus © 2003-2012, SIL International", @0 ],
-                            @[ @"Helpshift", @0 ],
+//                            @[ @"Helpshift", @0 ],
                             @[ @"iOS FontAwesome © 2012 Alex Usbergo", @0 ],
                             @[ @"iRate © 2011 Charcoal Design", @0 ],
-                            @[ @"KBKeyboard Handler by Vladimir Grigorov", @0 ],
+//                            @[ @"KBKeyboard Handler by Vladimir Grigorov", @0 ],
                             @[ @"KOKeyboard © 2012 Adam Horacek, Kuba Brecka", @0 ],
                             @[ @"New Athena Unicode by the American Philological Association", @0 ],
                             @[ @"MAConfirmButton © 2011 Mike Ahmarani", @0 ],
@@ -208,7 +180,7 @@ const int SECTION_THIRD_PARTY = 5;
 //                            @[ @"PSTCollectionView © 2010-2013 Peter Steinberger", @0 ],
                             @[ @"SegmentedControllerRevisited © 2012 Marcus Crafter", @0 ],
                             @[ @"SVProgressHUD © 2011 Sam Vermette", @0 ],
-                            @[ @"TestFlightSDK 1.2 © 2011 TestFlight", @0 ],
+//                            @[ @"TestFlightSDK 1.2 © 2011 TestFlight", @0 ],
                             @[ @"TSMiniWebBrowser © 2012 Toni Sala", @0 ],
                             @[ @"UIColor-Expanded © Erica Sadun", @0 ],
                             @[ @"WKVerticalScrollBar © 2012 litl, LLC, and authors", @0 ],
@@ -220,10 +192,10 @@ const int SECTION_THIRD_PARTY = 5;
                                @"https://github.com/ccgus/fmdb",
                                @"http://fortawesome.github.com/Font-Awesome/",
                                @"http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=Gentium_download",
-                               @"http://www.helpshift.com",
+//                               @"http://www.helpshift.com",
                                @"https://github.com/alexdrone/ios-fontawesome",
                                @"https://github.com/nicklockwood/iRate",
-                               @"http://stackoverflow.com/a/12402817",
+//                               @"http://stackoverflow.com/a/12402817",
                                @"https://github.com/adamhoracek/KOKeyboard",
                                @"http://apagreekkeys.org/NAUdownload.html", 
                                @"https://github.com/mikeahmarani/MAConfirmButton",
@@ -231,7 +203,7 @@ const int SECTION_THIRD_PARTY = 5;
 //                               @"https://github.com/steipete/PSTCollectionView",
                                @"https://github.com/crafterm/SegmentedControlRevisited",
                                @"https://github.com/samvermette/SVProgressHUD",
-                               @"http://www.testflightapp.com",
+//                               @"http://www.testflightapp.com",
                                @"https://github.com/tonisalae/TSMiniWebBrowser",
                                @"https://github.com/ars/uicolor-utilities",
                                @"https://github.com/litl/WKVerticalScrollBar",
@@ -376,9 +348,9 @@ const int SECTION_THIRD_PARTY = 5;
     else
     {
       return [NSString stringWithFormat:@"%@%@%@", __Tv(@"note-when-transliterating-greek",
-                                               @"﹡ When transliterating Greek, the app may be slower when navigating to new passages."),
+                                               @"When transliterating Greek, the app may be slower when navigating to new passages."),
                                                    @"\n",
-                                                   __Tv(@"note-for-translation", @"✝ Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.") ];
+                                                   __Tv(@"note-for-translation", @"Show Translation setting applies only to texts that support in-line translation. Currently the only text that supports this setting is Westcott-Hort.") ];
     }
     break;
 
@@ -522,7 +494,12 @@ const int SECTION_THIRD_PARTY = 5;
   cell.detailTextLabel.font = [UIFont fontWithName:[PKSettings interfaceFont] size:16];
   cell.accessoryType       = UITableViewCellAccessoryNone;
   cell.backgroundColor     = [UIColor clearColor];
+  
+  
+  cell.preservesSuperviewLayoutMargins = NO;
+  cell.layoutMargins = UIEdgeInsetsZero;
 
+  
   switch ([cellData[1] intValue])
   {
   case 0 :      // the nothing case. :-)

@@ -40,11 +40,10 @@
 #import "PKTextView.h"
 #import "PKTextViewDelegate.h"
 #import "PKBibleReferenceDelegate.h"
-#import "KBKeyboardHandlerDelegate.h"
 #import "PKReference.h"
 
 
-@interface PKNoteEditorViewController : UIViewController <UITextViewDelegate, PKTextViewDelegate, PKBibleReferenceDelegate, KBKeyboardHandlerDelegate>
+@interface PKNoteEditorViewController : UIViewController <UITextViewDelegate, PKTextViewDelegate, PKBibleReferenceDelegate>
 
 
 -(id) initWithReference: (PKReference *) theReference;

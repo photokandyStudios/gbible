@@ -46,7 +46,6 @@
 #import "PKNotes.h"
 #import "PKTableViewCell.h"
 #import "PKLabel.h"
-#import "TestFlight.h"
 #import "PKStrongs.h"
 #import "SVProgressHUD.h"
 #import "UIFont+Utility.h"
@@ -317,6 +316,15 @@
 {
   [super viewDidAppear:animated];
   [self becomeFirstResponder]; // respond to copy command from keyboard?
+  if (_dirty)
+  {
+    [self loadChapter];
+    [self reloadTableCache];
+    [[PKHistory instance] addReferenceWithBook: _currentBook andChapter: _currentChapter
+                                      andVerse: 1];
+    _dirty = NO;
+  }
+
 }
 
 /**
@@ -327,14 +335,6 @@
 -(void)viewWillAppear: (BOOL) animated
 {
   [super viewWillAppear:animated];
-  if (_dirty)
-  {
-    [self loadChapter];
-    [self reloadTableCache];
-    [[PKHistory instance] addReferenceWithBook: _currentBook andChapter: _currentChapter
-     andVerse: 1];
-    _dirty = NO;
-  }
   [self updateAppearanceForTheme];
 
 }
