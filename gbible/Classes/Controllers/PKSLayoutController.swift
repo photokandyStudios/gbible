@@ -41,7 +41,6 @@ class PKSLayoutController: UIViewController {
     spnTextSize.value = Double(PKSettings.instance().textFontSize)
 
     if (sbvc != nil) {
-      sbvc!.loadChapter(1, forBook: 40)
       sbvc!.loadChapter()
       sbvc!.scrollToVerse(0)
       sbvc!.updateAppearanceForTheme()
@@ -76,6 +75,7 @@ class PKSLayoutController: UIViewController {
     if (segue.identifier == "SimpleBibleSegue") {
       sbvc = segue.destinationViewController as? PKSimpleBibleViewController
       sbvc!.incognito = true
+      sbvc!.loadChapter(1, forBook: 40)
     }
   }
 

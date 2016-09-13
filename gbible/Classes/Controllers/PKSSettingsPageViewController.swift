@@ -34,28 +34,22 @@ class PKSSettingsPageViewController: UIPageViewController, UIPageViewControllerD
   }
   
   override func viewWillDisappear(animated: Bool) {
-    onSettingsChanged()
-  }
-  
-  deinit {
-    NSNotificationCenter.defaultCenter().removeObserver(self);
-  }
-
-  func onSettingsChanged() {
     if (layoutDelegate != nil) {
       layoutDelegate!.didChangeLayout(nil)
     }
   }
   
+  deinit {
+    NSNotificationCenter.defaultCenter().removeObserver(self)
+  }
+
+  func onSettingsChanged() {
+    self.view.backgroundColor = PKSettings.PKPageColor()
+  }
+  
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
-  }
-  
-  @IBAction func unwindFromFromSettings(sender: UIStoryboardSegue) {
-    if (layoutDelegate != nil) {
-      layoutDelegate!.didChangeLayout(nil)
-    }  
   }
   
 
