@@ -18,12 +18,12 @@ class PKSLayoutController: UIViewController {
   
   @IBOutlet weak var spnTextSize: UIStepper!
   
-  @IBAction func textFontSizeChanged(sender: UIStepper) {
+  @IBAction func textFontSizeChanged(_ sender: UIStepper) {
     PKSettings.instance().textFontSize = Int32(sender.value)
     updateSettings()
   }
   
-  @IBAction func themeChanged(sender: UISegmentedControl) {
+  @IBAction func themeChanged(_ sender: UISegmentedControl) {
     PKSettings.instance().textTheme = Int32(sender.selectedSegmentIndex)
     updateSettings()
     PKAppDelegate.sharedInstance().updateAppearanceForTheme()
@@ -32,9 +32,9 @@ class PKSLayoutController: UIViewController {
   var sbvc: PKSimpleBibleViewController?
   
   func updateSettings() {
-    PKSettings.instance().saveSettings()
+    PKSettings.instance().save()
 
-    lblTheme.text = "\(__T("Theme")) \(PKSettings.instance().textTheme + 1)"
+    lblTheme.text = "\(__T("Theme")!) \(PKSettings.instance().textTheme + 1)"
     sgcTheme.selectedSegmentIndex = Int(PKSettings.instance().textTheme)
     
     lblTextSize.text = "\(PKSettings.instance().textFontSize)pt"
@@ -42,21 +42,21 @@ class PKSLayoutController: UIViewController {
 
     if (sbvc != nil) {
       sbvc!.loadChapter()
-      sbvc!.scrollToVerse(0)
+      sbvc!.scroll(toVerse: 0)
       sbvc!.updateAppearanceForTheme()
     }
     
     self.updateAppearanceForTheme()
     
-    NSNotificationCenter.defaultCenter().postNotificationName(noticeAppSettingsChanged, object: nil)
+    NotificationCenter.default.post(name: noticeAppSettingsChanged, object: nil)
 
   }
   
   func updateAppearanceForTheme() {
-    self.view.backgroundColor = PKSettings.PKPageColor()
-    self.view.tintColor = PKSettings.PKTintColor()
-    lblTheme.textColor = PKSettings.PKTextColor()
-    lblTextSize.textColor = PKSettings.PKTextColor()
+    self.view.backgroundColor = PKSettings.pkPageColor()
+    self.view.tintColor = PKSettings.pkTintColor()
+    lblTheme.textColor = PKSettings.pkTextColor()
+    lblTextSize.textColor = PKSettings.pkTextColor()
   }
   
   
@@ -66,14 +66,14 @@ class PKSLayoutController: UIViewController {
     // Do any additional setup after loading the view.
   }
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     updateSettings()
   }
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if (segue.identifier == "SimpleBibleSegue") {
-      sbvc = segue.destinationViewController as? PKSimpleBibleViewController
+      sbvc = segue.destination as? PKSimpleBibleViewController
       sbvc!.incognito = true
       sbvc!.loadChapter(1, forBook: 40)
     }

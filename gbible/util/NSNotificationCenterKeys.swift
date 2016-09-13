@@ -8,4 +8,4 @@
 
 import Foundation
 
-let noticeAppSettingsChanged = "com.photokandy.gbible.settings.changed"
+let noticeAppSettingsChanged = NSNotification.Name(rawValue:"com.photokandy.gbible.settings.changed")

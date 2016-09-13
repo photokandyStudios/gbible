@@ -13,28 +13,27 @@ class PKSColor {
   
   static func color(fromHexString hexString: String)->UIColor? {
     if hexString.hasPrefix("#") {
-      return color(fromHexString: hexString.substringFromIndex(hexString.startIndex.advancedBy(1)))
+      return color(fromHexString: hexString.substring(from: hexString.characters.index(hexString.startIndex, offsetBy: 1)))
     }
     
     if hexString.characters.count <= 4 {
       return color(fromHexString:
-        hexString.characters.reduce("", combine:{(p, c) -> String in
-          return p.stringByAppendingString(String(c))
-                  .stringByAppendingString(String(c))
+        hexString.characters.reduce("", {(p, c) -> String in
+          return (p + String(c)) + String(c)
         })
       )
     }
     
     if hexString.characters.count < 8 {
-      return color(fromHexString: hexString.stringByAppendingString("FF"))
+      return color(fromHexString: hexString + "FF")
     }
 
     guard hexString.characters.count >= 8 else {
-      return UIColor.whiteColor();
+      return UIColor.white;
     }
     
     var hexComponents = ["","","",""];
-    for (index, c) in hexString.characters.enumerate() {
+    for (index, c) in hexString.characters.enumerated() {
       hexComponents[Int(index / 2)] += String(c);
     }
     
@@ -49,7 +48,7 @@ class PKSColor {
   static func color(fromString colorString: String)->UIColor? {
     // parse the color string
     // first split by COMMA
-    let colorComponents:[String] = colorString.componentsSeparatedByString(",") ?? [colorString]
+    let colorComponents:[String] = colorString.components(separatedBy: ",") ?? [colorString]
     
     // next, we need to convert each component into a corresponding number
     let colorNumberComponents:[CGFloat] = colorComponents.map({s -> CGFloat in CGFloat((s as NSString).floatValue) })
@@ -73,7 +72,7 @@ class PKSColor {
       return UIColor(red: colorNumberComponents[0], green: colorNumberComponents[1], blue: colorNumberComponents[2], alpha: colorNumberComponents[3])
       
     default:
-      return UIColor.whiteColor()
+      return UIColor.white
     }
   }
 }

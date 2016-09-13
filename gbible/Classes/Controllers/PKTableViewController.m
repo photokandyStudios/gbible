@@ -139,5 +139,11 @@
   return [PKSettings PKStatusBarStyle];
 }
 
+-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+  cell.backgroundColor = [PKSettings PKPageColor];
+  cell.textLabel.textColor = [PKSettings PKTextColor];
+  cell.detailTextLabel.textColor = [PKSettings PKTextColor];
+}
+
 
 @end

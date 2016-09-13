@@ -361,6 +361,9 @@
   NSDate *tStartTime;
   NSDate *tEndTime;
 
+  [self.navigationController.scrollNavigationBar resetToDefaultPositionWithAnimation:NO];
+
+  
   tStartTime            = [NSDate date];
   PKReference *theReference = [PKReference referenceWithBook:currentBook andChapter:currentChapter andVerse:0];
   _tableTitle.text       = [theReference format:@"%bN %c#"];

@@ -25,8 +25,8 @@ class PKSColorTests: XCTestCase {
 
       let whiteColor = UIColor(colorLiteralRed:1.0, green: 1.0, blue: 1.0, alpha: 1.0)
       
-      XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0"), UIColor.whiteColor())
-      XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0, 1.0"), UIColor.whiteColor())
+      XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0"), UIColor.white)
+      XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0, 1.0"), UIColor.white)
       XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0, 1.0, 1.0"), whiteColor)
       XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0, 1.0, 1.0, 1.0"), whiteColor)
 
@@ -57,9 +57,9 @@ class PKSColorTests: XCTestCase {
   
     func testPerformanceExample() {
         // This is an example of a performance test case.
-        self.measureBlock {
+        self.measure {
             // Put the code you want to measure the time of here.
-          XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0"), UIColor.whiteColor())
+          XCTAssertEqual(gbible.PKSColor.color(fromString: "1.0"), UIColor.white)
         }
     }
     

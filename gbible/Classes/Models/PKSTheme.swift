@@ -8,39 +8,39 @@
 
 import UIKit
 
-enum ThemeError: ErrorType {
-  case FailedToLoadResource
+enum ThemeError: Error {
+  case failedToLoadResource
 }
 
 @objc class PKSTheme: NSObject {
   
-  private let dict: NSDictionary?
+  fileprivate let dict: NSDictionary?
   
   init(withResource resource: String) throws {
-    let fileManager = NSFileManager.defaultManager()
+    let fileManager = FileManager.default
     
-    guard let pathToResource = NSBundle.mainBundle().pathForResource(resource, ofType: "plist") else { throw ThemeError.FailedToLoadResource }
+    guard let pathToResource = Bundle.main.path(forResource: resource, ofType: "plist") else { throw ThemeError.failedToLoadResource }
     
-    guard fileManager.fileExistsAtPath(pathToResource) else { throw ThemeError.FailedToLoadResource }
+    guard fileManager.fileExists(atPath: pathToResource) else { throw ThemeError.failedToLoadResource }
     
-    guard let dict = NSDictionary(contentsOfFile: pathToResource) else { throw ThemeError.FailedToLoadResource }
+    guard let dict = NSDictionary(contentsOfFile: pathToResource) else { throw ThemeError.failedToLoadResource }
     
     self.dict = dict;
   }
   
   func getValue(forKey key: String)->AnyObject? {
     guard let dict = self.dict else { return nil }
-    return dict.valueForKey(key)
+    return dict.value(forKey: key) as AnyObject?
   }
   
   func getColor(forKey key: String)->UIColor {
     let colorString = getString(forKey: key)
-    if let color = (colorString.substringToIndex(colorString.startIndex.advancedBy(1)) == "#"
+    if let color = (colorString.substring(to: colorString.characters.index(colorString.startIndex, offsetBy: 1)) == "#"
                     ? PKSColor.color(fromHexString: colorString)
                     : PKSColor.color(fromString: colorString)) {
       return color
     }
-    return UIColor.whiteColor()
+    return UIColor.white
   }
   
   func getString(forKey key: String)->String {
@@ -75,7 +75,7 @@ enum ThemeError: ErrorType {
     if let color = PKSColor.color(fromString:self.getStringArray(forKey: key)[atIndex]) {
       return color
     } else {
-      return UIColor.whiteColor()
+      return UIColor.white
     }
   }
   

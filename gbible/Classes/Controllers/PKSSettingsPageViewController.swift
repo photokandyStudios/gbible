@@ -13,7 +13,7 @@ class PKSSettingsPageViewController: UIPageViewController, UIPageViewControllerD
   
   var layoutDelegate: PKLayoutControllerDelegate?
   
-  private
+  fileprivate
   var pages = [UIViewController]()
 
   // MARK: - View Lifecycle
@@ -22,29 +22,31 @@ class PKSSettingsPageViewController: UIPageViewController, UIPageViewControllerD
     self.delegate = self
     self.dataSource = self
     
-    let page1: UIViewController! = storyboard?.instantiateViewControllerWithIdentifier("PKSLayoutNavigationController")
-    let page2: UIViewController! = storyboard?.instantiateViewControllerWithIdentifier("PKSGeneralSettingsNavigationController")
+    let page1: UIViewController! = storyboard?.instantiateViewController(withIdentifier: "PKSLayoutNavigationController")
+    let page2: UIViewController! = storyboard?.instantiateViewController(withIdentifier: "PKSGeneralSettingsNavigationController")
         
     pages.append(page1)
     pages.append(page2)
     
-    setViewControllers([page1], direction: .Forward, animated: false, completion: nil)
+    setViewControllers([page1], direction: .forward, animated: false, completion: nil)
     
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(onSettingsChanged), name: noticeAppSettingsChanged, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(onSettingsChanged), name: noticeAppSettingsChanged, object: nil)
   }
   
-  override func viewWillDisappear(animated: Bool) {
+  override func viewWillDisappear(_ animated: Bool) {
     if (layoutDelegate != nil) {
-      layoutDelegate!.didChangeLayout(nil)
+      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+0.5, execute: {
+        self.layoutDelegate!.didChangeLayout(nil)
+      })
     }
   }
   
   deinit {
-    NSNotificationCenter.defaultCenter().removeObserver(self)
+    NotificationCenter.default.removeObserver(self)
   }
 
   func onSettingsChanged() {
-    self.view.backgroundColor = PKSettings.PKPageColor()
+    self.view.backgroundColor = PKSettings.pkPageColor()
   }
   
   override func didReceiveMemoryWarning() {
@@ -54,24 +56,24 @@ class PKSSettingsPageViewController: UIPageViewController, UIPageViewControllerD
   
 
   // MARK: - Page View Controller Delegate
-  func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-    let currentIndex = pages.indexOf(viewController)!
+  func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+    let currentIndex = pages.index(of: viewController)!
     let previousIndex = abs((currentIndex - 1) % pages.count)
     return pages[previousIndex]
   }
   
-  func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-    let currentIndex = pages.indexOf(viewController)!
+  func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    let currentIndex = pages.index(of: viewController)!
     let nextIndex = abs((currentIndex + 1) % pages.count)
     return pages[nextIndex]
   }
   
   // MARK: - Page View Controller Data Source
-  func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
+  func presentationCount(for pageViewController: UIPageViewController) -> Int {
     return pages.count
   }
   
-  func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
+  func presentationIndex(for pageViewController: UIPageViewController) -> Int {
     return 0
   }
 

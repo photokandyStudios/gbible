@@ -42,5 +42,6 @@
 @property BOOL enableVerticalScrollBar;
 -(void)calculateShadows /**DEPRECATED**/;
 -(UIStatusBarStyle) preferredStatusBarStyle;
+-(void) updateAppearanceForTheme;
 
 @end
