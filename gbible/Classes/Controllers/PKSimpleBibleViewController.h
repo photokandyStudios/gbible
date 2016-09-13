@@ -43,9 +43,12 @@
 
 @property (nonatomic, weak) id <PKBibleReferenceDelegate> delegate;
 @property BOOL notifyWithCopyOfVerse;
+@property BOOL incognito;
 
 -(void)loadChapter: (NSUInteger) theChapter forBook: (NSUInteger) theBook;
+-(void)loadChapter;
 -(void)selectVerse: (NSUInteger)theVerse;
 -(void)scrollToVerse: (NSUInteger)theVerse;
+-(void) updateAppearanceForTheme;
 
 @end

@@ -72,6 +72,7 @@
 #import "NSObject+PKGCD.h"
 #import "NSString+PKFont.h"
 #import "GTScrollNavigationBar.h"
+#import "gbible-Swift.h"
 
 @import SafariServices;
 
@@ -1118,6 +1119,13 @@
 -(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
   // VIA http://stackoverflow.com/a/27409619
   [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
+  // dismiss any popovers
+  if (_PO)
+  {
+    [_PO dismissPopoverAnimated: NO];
+  }
+  
   
   // Code here will execute before the rotation begins.
   // Equivalent to placing it in the deprecated method -[willRotateToInterfaceOrientation:duration:]
@@ -2277,13 +2285,35 @@
 {
   [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
   [_PO dismissPopoverAnimated: NO];
-  PKSettingsController *sc = [[PKSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
-  [self.navigationController pushViewController:sc animated:YES];
+//  PKSettingsController *sc = [[PKSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
+//  [self.navigationController pushViewController:sc animated:YES];
+
+  PKSSettingsPageViewController *pc = [[UIStoryboard storyboardWithName:@"Settings" bundle:nil] instantiateInitialViewController];
+  pc.layoutDelegate = self;
+  pc.view.backgroundColor = [PKSettings PKPageColor];
+  
+  if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
+  {
+    if (_PO)
+    {
+      [_PO dismissPopoverAnimated: NO];
+    }
+    _PO = [[UIPopoverController alloc] initWithContentViewController: pc];
+    [_PO setPopoverContentSize: CGSizeMake(480, 640) animated: NO];
+    [_PO presentPopoverFromBarButtonItem: (UIBarButtonItem *)sender permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
+  }
+  else
+  {
+    [self.navigationController pushViewController:pc animated:YES];
+  }
+  
+  
+  
 }
 
 #pragma mark -
 #pragma mark layout responder
--(void) didChangeLayout: (PKLayoutController *) sender
+-(void) didChangeLayout: (id) sender
 {
   // the settings have changed, update ourselves...
   [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];

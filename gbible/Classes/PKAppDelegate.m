@@ -212,7 +212,6 @@ static PKAppDelegate * _instance;
       //}
     }
   }
-  
   [SVProgressHUD setBackgroundColor:[PKSettings PKHUDBackgroundColor]];
   [SVProgressHUD setForegroundColor:[PKSettings PKHUDForegroundColor]];
   [SVProgressHUD setFont:[UIFont fontWithName:PKSettings.interfaceFont size:16]];

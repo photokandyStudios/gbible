@@ -66,10 +66,23 @@
     return self;
 }
 
+-(void) updateAppearanceForTheme
+{
+  [self.tableView setBackgroundView: nil];
+  self.tableView.backgroundColor = [PKSettings PKPageColor];
+  // Fix issue #55
+  self.tableView.separatorColor  = [PKSettings PKTextColor];
+  
+  [self.tableView reloadData];
+}
+
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.navigationItem.leftItemsSupplementBackButton = YES;
+  [self updateAppearanceForTheme];
 }
 
 - (void)didReceiveMemoryWarning

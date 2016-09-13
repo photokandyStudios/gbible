@@ -78,7 +78,7 @@
   BOOL _dirty;
 }
 
-@synthesize delegate, notifyWithCopyOfVerse;
+@synthesize delegate, notifyWithCopyOfVerse, incognito;
 
 #pragma mark - 
 #pragma mark content loading and formatting
@@ -94,6 +94,7 @@
   globalVerse = 0;
   _currentBook    = theBook;
   _currentChapter = theChapter;
+  _dirty = YES;
   [self.tableView reloadData];
 }
 
@@ -320,8 +321,10 @@
   {
     [self loadChapter];
     [self reloadTableCache];
-    [[PKHistory instance] addReferenceWithBook: _currentBook andChapter: _currentChapter
-                                      andVerse: 1];
+    if (!self.incognito) {
+      [[PKHistory instance] addReferenceWithBook: _currentBook andChapter: _currentChapter
+                                        andVerse: 1];
+    }
     _dirty = NO;
   }
 

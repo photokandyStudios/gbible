@@ -49,6 +49,12 @@
 		6A661B5619BC16E7009283E3 /* UIColor-Expanded2.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A661AF819BC16E6009283E3 /* UIColor-Expanded2.m */; };
 		6A661B5719BC16E7009283E3 /* WKVerticalScrollBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A661AFA19BC16E6009283E3 /* WKVerticalScrollBar.m */; };
 		6A661B5819BC16E7009283E3 /* ZUUIRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A661AFD19BC16E6009283E3 /* ZUUIRevealController.m */; };
+		6A7013CC1D87328500D91623 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A7013CB1D87328500D91623 /* Settings.storyboard */; };
+		6A7013D01D87510000D91623 /* PKSSettingsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7013CF1D87510000D91623 /* PKSSettingsPageViewController.swift */; };
+		6A7013D41D87909800D91623 /* PKSLayoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7013D31D87909800D91623 /* PKSLayoutController.swift */; };
+		6A7013D61D8792AE00D91623 /* PKSLocalization.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7013D51D8792AE00D91623 /* PKSLocalization.m */; };
+		6A7013D91D879C3300D91623 /* NSNotificationCenterKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7013D81D879C3300D91623 /* NSNotificationCenterKeys.swift */; };
+		6A7013DB1D87B37C00D91623 /* PKSLayoutSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7013DA1D87B37C00D91623 /* PKSLayoutSettingsController.swift */; };
 		6A74306716ADDCEA00DC1320 /* searchutils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A74306616ADDCEA00DC1320 /* searchutils.m */; };
 		6A8433341CBC4D6C00FF283C /* PKGenericSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8433331CBC4D6C00FF283C /* PKGenericSettingsViewController.m */; };
 		6A94110717D5AE9E00FEE943 /* NSString+PKFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A94110617D5AE9E00FEE943 /* NSString+PKFont.m */; };
@@ -391,6 +397,13 @@
 		6A661AFA19BC16E6009283E3 /* WKVerticalScrollBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKVerticalScrollBar.m; sourceTree = "<group>"; };
 		6A661AFC19BC16E6009283E3 /* ZUUIRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZUUIRevealController.h; sourceTree = "<group>"; };
 		6A661AFD19BC16E6009283E3 /* ZUUIRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZUUIRevealController.m; sourceTree = "<group>"; };
+		6A7013CB1D87328500D91623 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Settings.storyboard; path = Assets/Resources/Settings.storyboard; sourceTree = "<group>"; };
+		6A7013CF1D87510000D91623 /* PKSSettingsPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKSSettingsPageViewController.swift; sourceTree = "<group>"; };
+		6A7013D31D87909800D91623 /* PKSLayoutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKSLayoutController.swift; sourceTree = "<group>"; };
+		6A7013D51D8792AE00D91623 /* PKSLocalization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKSLocalization.m; path = util/PKSLocalization.m; sourceTree = "<group>"; };
+		6A7013D71D8792D100D91623 /* PKSLocalization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PKSLocalization.h; path = util/PKSLocalization.h; sourceTree = "<group>"; };
+		6A7013D81D879C3300D91623 /* NSNotificationCenterKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSNotificationCenterKeys.swift; path = util/NSNotificationCenterKeys.swift; sourceTree = "<group>"; };
+		6A7013DA1D87B37C00D91623 /* PKSLayoutSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKSLayoutSettingsController.swift; sourceTree = "<group>"; };
 		6A74306516ADDCD900DC1320 /* searchutils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = searchutils.h; sourceTree = "<group>"; };
 		6A74306616ADDCEA00DC1320 /* searchutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchutils.m; sourceTree = "<group>"; };
 		6A8433321CBC4D6C00FF283C /* PKGenericSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKGenericSettingsViewController.h; sourceTree = "<group>"; };
@@ -854,12 +867,23 @@
 			path = ZUUIRevealController;
 			sourceTree = "<group>";
 		};
+		6A7013C41D872FBD00D91623 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6A7013CB1D87328500D91623 /* Settings.storyboard */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		6A74306316ADDC8E00DC1320 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
 				6A74306516ADDCD900DC1320 /* searchutils.h */,
 				6A74306616ADDCEA00DC1320 /* searchutils.m */,
 				6AB382A41CB9C960000271FF /* PKSColor.swift */,
+				6A7013D51D8792AE00D91623 /* PKSLocalization.m */,
+				6A7013D71D8792D100D91623 /* PKSLocalization.h */,
+				6A7013D81D879C3300D91623 /* NSNotificationCenterKeys.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -1259,6 +1283,9 @@
 				6AC0BA3517BAE30200E6BD6F /* PKVerseTableViewController.m */,
 				6A8433321CBC4D6C00FF283C /* PKGenericSettingsViewController.h */,
 				6A8433331CBC4D6C00FF283C /* PKGenericSettingsViewController.m */,
+				6A7013CF1D87510000D91623 /* PKSSettingsPageViewController.swift */,
+				6A7013D31D87909800D91623 /* PKSLayoutController.swift */,
+				6A7013DA1D87B37C00D91623 /* PKSLayoutSettingsController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1372,6 +1399,7 @@
 		6AF0C0AB150EE8BB00BFAE03 /* gbible */ = {
 			isa = PBXGroup;
 			children = (
+				6A7013C41D872FBD00D91623 /* Resources */,
 				6A661A5619BC16E6009283E3 /* ThirdParty */,
 				6AC0B94117BAE30100E6BD6F /* Assets */,
 				6AC0BA0517BAE30200E6BD6F /* Classes */,
@@ -1551,6 +1579,7 @@
 				6AC0BB0917BAE30200E6BD6F /* ArrowLeft-30.png in Resources */,
 				6AC0BB0A17BAE30200E6BD6F /* ArrowLeft-30@2x.png in Resources */,
 				6AC0BB0B17BAE30200E6BD6F /* ArrowRight-30.png in Resources */,
+				6A7013CC1D87328500D91623 /* Settings.storyboard in Resources */,
 				6AC0BB0C17BAE30200E6BD6F /* ArrowRight-30@2x.png in Resources */,
 				6A661B5419BC16E7009283E3 /* TSMiniWebBrowser.xib in Resources */,
 				6AC0BB0D17BAE30200E6BD6F /* Bookmarks-30.png in Resources */,
@@ -1831,9 +1860,11 @@
 				6A661AFE19BC16E6009283E3 /* AccessibleSegmentedControl.m in Sources */,
 				6AF0C0B2150EE8BB00BFAE03 /* main.m in Sources */,
 				6A9793B71514162500A5C9F1 /* PKConstants.m in Sources */,
+				6A7013D41D87909800D91623 /* PKSLayoutController.swift in Sources */,
 				6A74306716ADDCEA00DC1320 /* searchutils.m in Sources */,
 				6A510A541733296D00EF5BB1 /* APIKeys.m in Sources */,
 				6AC0BBAD17BAE30200E6BD6F /* UIBarButtonItem+Utility.m in Sources */,
+				6A7013D61D8792AE00D91623 /* PKSLocalization.m in Sources */,
 				6AC0BBAE17BAE30200E6BD6F /* UIFont+Utility.m in Sources */,
 				6A661B3D19BC16E6009283E3 /* MAConfirmButton.m in Sources */,
 				6A661B5819BC16E7009283E3 /* ZUUIRevealController.m in Sources */,
@@ -1859,6 +1890,8 @@
 				6AC0BBBE17BAE30200E6BD6F /* PKSearchViewController.m in Sources */,
 				6AC0BBBF17BAE30200E6BD6F /* PKSettingsController.m in Sources */,
 				6A661B4519BC16E7009283E3 /* SegmentsController.m in Sources */,
+				6A7013D91D879C3300D91623 /* NSNotificationCenterKeys.swift in Sources */,
+				6A7013D01D87510000D91623 /* PKSSettingsPageViewController.swift in Sources */,
 				6AC0BBC017BAE30200E6BD6F /* PKSimpleBibleViewController.m in Sources */,
 				6AC0BBC117BAE30200E6BD6F /* PKStrongsController.m in Sources */,
 				6AC0BBC217BAE30200E6BD6F /* PKTableViewController.m in Sources */,
@@ -1867,6 +1900,7 @@
 				6AB382951CB9B358000271FF /* PKSTheme.swift in Sources */,
 				6AC0BBC517BAE30200E6BD6F /* PKDatabase.m in Sources */,
 				6AC0BBC617BAE30200E6BD6F /* PKHighlights.m in Sources */,
+				6A7013DB1D87B37C00D91623 /* PKSLayoutSettingsController.swift in Sources */,
 				6AC0BBC717BAE30200E6BD6F /* PKHistory.m in Sources */,
 				6AC0BBC817BAE30200E6BD6F /* PKNotes.m in Sources */,
 				6A8433341CBC4D6C00FF283C /* PKGenericSettingsViewController.m in Sources */,

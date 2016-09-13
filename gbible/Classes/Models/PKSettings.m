@@ -40,6 +40,8 @@
 #import "PKDatabase.h"
 #import "UIFont+Utility.h"
 #import "PKReference.h"
+#import <gbible-Swift.h>
+
 
 @implementation PKSettings
 
