@@ -465,7 +465,7 @@
 
 +(NSString *) abbreviationForBookIfNecessary:(NSUInteger)theBook
 {
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+  if (viewportIsNarrow())
   {
     return [PKBible abbreviationForBook:theBook];
   }
@@ -701,7 +701,7 @@
   // set Margin
   CGFloat theMargin = 5;
 
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && !compression)
+  if (viewportIsWide() && !compression)
   {
     // iPad gets wider margins
     theMargin = 44;
@@ -810,7 +810,7 @@
   // set Margin
   CGFloat theMargin = 5;
 
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad  &&!compression)
+  if (viewportIsWide()  &&!compression)
   {
     // iPad gets wider margins
     theMargin = 44;

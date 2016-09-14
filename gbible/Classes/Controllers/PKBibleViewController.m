@@ -346,8 +346,8 @@
 -(void)loadChapter
 {
   BOOL parsed               = NO;
-  BOOL compression = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
-         && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]);
+  BOOL narrowViewport       = self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact;
+  BOOL compression =        narrowViewport;
 
   NSUInteger currentBook    = [[PKSettings instance] currentBook];
   NSUInteger currentChapter = [[PKSettings instance] currentChapter];
@@ -404,8 +404,7 @@
 
   for (NSUInteger i = 0; i < [_currentEnglishChapter count]; i++)
   {
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
-         || UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]) )
+    if ( !narrowViewport )
     {
       greekHeightIPhone = 0.0;
     }
@@ -545,6 +544,7 @@
 
 -(void)scrollToVerse: (int)theVerse withAnimation:(BOOL)animation afterDelay: (float)delay
 {
+  [self.navigationController.scrollNavigationBar resetToDefaultPositionWithAnimation:NO];
   if (delay > 0)
   {
     __weak typeof(self) weakSelf = self;
@@ -614,22 +614,17 @@
 -(void) updateAppearanceForTheme
 {
   [self.tableView setBackgroundView: nil];
-
-/*  UINavigationController *NC = self.navigationController;
-  // masking from http://stackoverflow.com/questions/13338668/unable-to-make-navigation-bar-totally-transparent-in-ios6
-  NC.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-  NC.navigationBar.tintColor = nil;
-  const float colorMask[6] = {222, 255, 222, 255, 222, 255};
-  UIImage *img = [[UIImage alloc] init];
-  UIImage *maskedImage = [UIImage imageWithCGImage: CGImageCreateWithMaskingColors(img.CGImage, colorMask)];
-  [NC.navigationBar setBackgroundImage:maskedImage forBarMetrics:UIBarMetricsDefault];
-*/  
-  //self.title = @"";
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   _tableTitle.textColor           = [PKSettings PKTextColor];
-
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+  
+  // set the button titles
+  [_previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft-30" withColor:[PKSettings PKTintColor]] forState: UIControlStateNormal];
+  [_nextChapterButton setImage: [UIImage imageNamed: @"ArrowRight-30" withColor:[PKSettings PKTintColor]] forState: UIControlStateNormal];
+ 
+  
+  // set the table title up
+  if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
   {
     _tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 44];
   }
@@ -637,8 +632,12 @@
   {
     _tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 28];
   }
-
+  
   [self reloadTableCache];
+}
+
+-(UIStatusBarStyle) preferredStatusBarStyle {
+  return [PKSettings PKStatusBarStyle];
 }
 
 -(void) bibleTextChanged
@@ -704,6 +703,8 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeLayout:) name:@"com.photokandy.gbible.settings.changed" object:nil];
+  
 //http://stackoverflow.com/a/13163507
 //if ([self.navigationController.navigationBar
 //respondsToSelector:@selector(shadowImage)]) {
@@ -764,32 +765,9 @@
                                                    stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
   
 
-  if ([self.navigationItem respondsToSelector: @selector(setLeftBarButtonItems:)])
-  {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
       self.navigationItem.leftBarButtonItems = @[changeReference,
                                                 fontSelect,
-                                               // changeHighlight,
                                                  _leftTextSelect];
-    }
-    else
-    {
-      self.navigationItem.leftBarButtonItems = @[changeReference, fontSelect];
-    }
-  }
-  else
-  {
-  //  changeHighlight.style = UIBarButtonItemStyleBordered;
-    changeReference.style = UIBarButtonItemStylePlain;
-    NSArray *buttons = @[changeReference];
-    UIToolbar *tb    = [[UIToolbar alloc] initWithFrame: CGRectMake(0, 0, 150, 44)];
-    tb.backgroundColor    = [UIColor clearColor];
-    tb.barStyle           = UIBarStyleBlack;
-    [tb setItems: buttons animated: NO];
-
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: tb];
-  }
 
   _rightTextSelect = [UIBarButtonItem barButtonItemWithTitle:[[PKBible titleForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
 
@@ -800,26 +778,19 @@
     _searchText.accessibilityLabel = __T(@"Search");
   
 
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-  {
     self.navigationItem.rightBarButtonItems = @[ adjustSettings, _searchText, _rightTextSelect
                                               ];
-  }
-  else
-  {
-    self.navigationItem.rightBarButtonItems = @[ adjustSettings, _searchText ];
-  }
 
 
   // create the header and footer views
   UIView *headerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
   _tableTitle            = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
   _previousChapterButton = [UIButton buttonWithType: UIButtonTypeCustom];
-  [_previousChapterButton setFrame: CGRectMake((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 10 : 0), 22, 44, 44)];
+  [_previousChapterButton setFrame: CGRectMake((isWide((UIView *)self) ? 10 : 0), 22, 44, 44)];
 
   UIView *footerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, self.tableView.frame.size.width, 64)];
   _nextChapterButton = [UIButton buttonWithType: UIButtonTypeCustom];
-  [_nextChapterButton setFrame: CGRectMake(self.tableView.frame.size.width - (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 54 : 44), 10, 44, 44)];
+  [_nextChapterButton setFrame: CGRectMake(self.tableView.frame.size.width - (isWide((UIView *)self) ? 54 : 44), 10, 44, 44)];
 
   // set the button titles
   [_previousChapterButton setImage: [UIImage imageNamed: @"ArrowLeft-30" withColor:[PKSettings PKTintColor]] forState: UIControlStateNormal];
@@ -836,7 +807,7 @@
   _nextChapterButton.accessibilityLabel     = __T(@"Next Chapter");
 
   // set the table title up
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+  if (isWide((UIView *)self))
   {
     _tableTitle.font = [UIFont fontWithName: [[PKSettings instance] textFontFace] andSize: 44];
   }
@@ -941,7 +912,7 @@
 
     if ( action == @selector(textSettings:) )
     {
-      return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone;
+      return isNarrow((UIView *)self);
     }
 
     if ( SYSTEM_VERSION_LESS_THAN(@"5.0") )   // < ios 5
@@ -1142,6 +1113,7 @@
     [self saveTopVerse];
     [self loadChapter];
     [self reloadTableCache];
+    [self updateAppearanceForTheme];
     [self scrollToTopVerseWithAnimation];
     
     
@@ -1234,7 +1206,7 @@
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                                                     andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width -
-                             (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 1999) usingLigatures:YES];
+                             (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular ? 88 : 20), 1999) usingLigatures:YES];
     theMax += 10 + theSize.height + 10;
   }
 
@@ -1293,6 +1265,7 @@
 
 -(UITableViewCell *) cellForRowAtIndexPath: (NSIndexPath *) indexPath
 {
+  BOOL wideViewport = self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular;
   static NSString *bibleCellID = @"PKBibleCellID";
   PKTableViewCell *cell        = //nil; //
                                  [self.tableView dequeueReusableCellWithIdentifier: bibleCellID];
@@ -1346,11 +1319,11 @@
     CGSize theSize        = [theNoteText sizeWithFont: [UIFont fontWithName: [[PKSettings instance] textFontFace]
                                                                     andSize: [[PKSettings instance] textFontSize]]
                              constrainedToSize: CGSizeMake(self.tableView.bounds.size.width -
-                             (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? 88 : 20), 1999) usingLigatures:YES ];
-    CGRect theRect        = CGRectIntegral( CGRectMake( ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad  ) ? 44 : 10,
+                             (wideViewport ? 88 : 20), 1999) usingLigatures:YES ];
+    CGRect theRect        = CGRectIntegral( CGRectMake( wideViewport ? 44 : 10,
                                         theMax + 10,
                                         self.tableView.bounds.size.width -
-                                        (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad  ) ? 88 : 20), theSize.height) );
+                                        (wideViewport ? 88 : 20), theSize.height) );
 
     UILabel *theNoteLabel = [[UILabel alloc] initWithFrame: theRect];
     theNoteLabel.text            = theNoteText;
@@ -2261,39 +2234,10 @@
 -(void)fontSelect: (id) sender
 {
   [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
-  PKLayoutController *LC = [[PKLayoutController alloc] init];
-  LC.delegate = self;
-
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-  {
-    if (_PO)
-    {
-      [_PO dismissPopoverAnimated: NO];
-    }
-    _PO = [[UIPopoverController alloc] initWithContentViewController: LC];
-    [_PO setPopoverContentSize: CGSizeMake(320, 420) animated: NO];
-    [_PO presentPopoverFromBarButtonItem: (UIBarButtonItem *)sender permittedArrowDirections: UIPopoverArrowDirectionAny animated:
-     YES];
-  }
-  else
-  {
-    PKPortraitNavigationController *mvnc = [[PKPortraitNavigationController alloc] initWithRootViewController: LC];
-    mvnc.modalPresentationStyle = UIModalPresentationFormSheet;
-        mvnc.navigationBar.barStyle = UIBarStyleDefault;
-          [self presentViewController:mvnc animated:YES completion:nil];
-  }
-}
-
--(void)doSettings: (id) sender
-{
-  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
   [_PO dismissPopoverAnimated: NO];
-//  PKSettingsController *sc = [[PKSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
-//  [self.navigationController pushViewController:sc animated:YES];
 
-  PKSSettingsPageViewController *pc = [[UIStoryboard storyboardWithName:@"Settings" bundle:nil] instantiateInitialViewController];
-  pc.layoutDelegate = self;
-  pc.view.backgroundColor = [PKSettings PKPageColor];
+  UINavigationController *nc = [[UIStoryboard storyboardWithName:@"Settings" bundle:nil] instantiateViewControllerWithIdentifier:@"PKSLayoutNavigationController"];
+  nc.view.backgroundColor = [PKSettings PKPageColor];
   
   if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
   {
@@ -2301,13 +2245,40 @@
     {
       [_PO dismissPopoverAnimated: NO];
     }
-    _PO = [[UIPopoverController alloc] initWithContentViewController: pc];
+    _PO = [[UIPopoverController alloc] initWithContentViewController: nc];
     [_PO setPopoverContentSize: CGSizeMake(480, 640) animated: NO];
     [_PO presentPopoverFromBarButtonItem: (UIBarButtonItem *)sender permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
   }
   else
   {
-    [self.navigationController pushViewController:pc animated:YES];
+    nc.visibleViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:__T(@"Done") style:UIBarButtonItemStyleDone target:nc.visibleViewController action:@selector(done:)];
+    [self.navigationController presentViewController:nc animated:YES completion:nil];
+  }
+
+}
+
+-(void)doSettings: (id) sender
+{
+  [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
+  [_PO dismissPopoverAnimated: NO];
+
+  UINavigationController *nc = [[UIStoryboard storyboardWithName:@"Settings" bundle:nil] instantiateViewControllerWithIdentifier:@"PKSGeneralSettingsNavigationController"];
+  nc.view.backgroundColor = [PKSettings PKPageColor];
+  
+  if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
+  {
+    if (_PO)
+    {
+      [_PO dismissPopoverAnimated: NO];
+    }
+    _PO = [[UIPopoverController alloc] initWithContentViewController: nc];
+    [_PO setPopoverContentSize: CGSizeMake(480, 640) animated: NO];
+    [_PO presentPopoverFromBarButtonItem: (UIBarButtonItem *)sender permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
+  }
+  else
+  {
+    nc.visibleViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:__T(@"Done") style:UIBarButtonItemStyleDone target:nc.visibleViewController action:@selector(done:)];
+    [self.navigationController presentViewController:nc animated:YES completion:nil];
   }
   
   

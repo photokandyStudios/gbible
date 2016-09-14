@@ -449,7 +449,6 @@
   
   [cell.contentView addSubview: theStrongsLabel];
   
-  //if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
   if (self.view.bounds.size.width>320)
   {
     [cell.contentView addSubview: theLemmaLabel];

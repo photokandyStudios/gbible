@@ -68,6 +68,7 @@
 
 -(void) updateAppearanceForTheme
 {
+  [self.navigationController.navigationBar setBarStyle:[PKSettings PKBarStyle]];
   [self.tableView setBackgroundView: nil];
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   // Fix issue #55

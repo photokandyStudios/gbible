@@ -125,7 +125,7 @@
 {
   NSString *preHTMLiPad = @"<style>BODY { background-color: #f2f2f2; font-family: 'Helvetica'; color:#333; }</style>";
   NSString *preHTMLiPhone = @"<style>BODY { background-color: #f2f2f2; font-family: 'Helvetica'; color:#333; font-size: 66%}</style>";
-  [_theBibleInformation loadHTMLString:[(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? preHTMLiPad : preHTMLiPhone) stringByAppendingString:theHTML] baseURL:nil];
+  [_theBibleInformation loadHTMLString:[(isWide((UIView *)self) ? preHTMLiPad : preHTMLiPhone) stringByAppendingString:theHTML] baseURL:nil];
 }
 
 - (void)loadBibleInformation

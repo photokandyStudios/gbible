@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PKSLayoutController: UIViewController {
+@objc class PKSLayoutController: UIViewController {
 
   @IBOutlet weak var lblTheme: UILabel!
   
@@ -59,6 +59,9 @@ class PKSLayoutController: UIViewController {
     lblTextSize.textColor = PKSettings.pkTextColor()
   }
   
+  func done(_ sender: AnyObject?) {
+    self.dismiss(animated: true, completion: nil)
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()

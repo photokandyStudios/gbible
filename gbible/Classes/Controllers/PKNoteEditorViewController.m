@@ -215,7 +215,7 @@
   self.view.backgroundColor = [PKSettings PKPageColor];
   [self.view addSubview: _txtTitle];
   [self.view addSubview: _txtNote];
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+  if (isWide((UIView *)self))
   {
     [KOKeyboardRow applyToTextView:_txtNote];
     [KOKeyboardRow applyToTextView:_txtTitle];

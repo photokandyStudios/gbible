@@ -137,10 +137,10 @@ static PKAppDelegate * _instance;
 +(void) applyThemeToUINavigationBar: (UINavigationBar *)nba
 {
   
-    nba.tintColor = [PKSettings PKTintColor];
+//    nba.tintColor = [PKSettings PKTintColor];
     nba.barStyle = [PKSettings PKBarStyle];
     //nba.barTintColor = [[PKSettings PKPageColor ] colorWithAlphaComponent:0.0]; //TODO: decide final version of header color on iOS 7
-    nba.translucent = YES;
+    //nba.translucent = YES;
     nba.titleTextAttributes = @{ NSForegroundColorAttributeName: [PKSettings PKTextColor],
                                  NSFontAttributeName: [UIFont fontWithName:PKSettings.interfaceFont size:20]
                                  };
@@ -157,13 +157,7 @@ static PKAppDelegate * _instance;
 
 -(void)updateAppearanceForTheme
 {
-  // update our proxies
-  if ([[UIBarButtonItem class] respondsToSelector: @selector(appearance)])
-    [PKAppDelegate applyThemeToUIBarButtonItem:[UIBarButtonItem appearance]];
-  if ([[UINavigationBar class] respondsToSelector: @selector(appearance)])
-    [PKAppDelegate applyThemeToUINavigationBar:[UINavigationBar appearance]];
-  if ([[UISearchBar class] respondsToSelector: @selector(appearance)])
-    [PKAppDelegate applyThemeToUISearchBar:[UISearchBar appearance]];
+  self.window.tintColor = [PKSettings PKTintColor];
   
   // and then update everything we possibly can that might be on screen
   if ([[UIBarButtonItem class] respondsToSelector: @selector(appearance)])
@@ -174,12 +168,12 @@ static PKAppDelegate * _instance;
                           _highlightsViewController, _historyViewController,
                           _searchViewController, _strongsViewController ] ];
     //if (_bibleBooksViewController.navigationController.visibleViewController)
-      [va addObject:_bibleBooksViewController.navigationController.visibleViewController];
+      [va addObject:_bibleBooksViewController];
     //if (_bibleViewController.navigationController.visibleViewController)
-      [va addObject:_bibleViewController.navigationController.visibleViewController];
+      [va addObject:_bibleViewController];
     for ( UIViewController * nb in va )
     {
-      UINavigationItem * ni = nb.navigationItem;
+/*      UINavigationItem * ni = nb.navigationItem;
       if (ni.leftBarButtonItems)
       {
         for ( UIBarButtonItem* b in ni.leftBarButtonItems )
@@ -202,21 +196,34 @@ static PKAppDelegate * _instance;
         [PKAppDelegate applyThemeToUIBarButtonItem:ni.backBarButtonItem];
       if (nb.presentingViewController.navigationItem.backBarButtonItem)
         [PKAppDelegate applyThemeToUIBarButtonItem:nb.presentingViewController.navigationItem.backBarButtonItem];
-      //if (nb != bibleViewController)
-      //{
+      //{*/
+//      [nb.navigationController setNavigationBarHidden:YES];
       [PKAppDelegate applyThemeToUINavigationBar:nb.navigationController.navigationBar];
+//      [nb.navigationController setNavigationBarHidden:NO animated:YES];
+      
       if ([nb respondsToSelector:@selector(updateAppearanceForTheme)])
       {
         [nb performSelector:@selector(updateAppearanceForTheme)];
       }
-      //}
     }
   }
   [SVProgressHUD setBackgroundColor:[PKSettings PKHUDBackgroundColor]];
   [SVProgressHUD setForegroundColor:[PKSettings PKHUDForegroundColor]];
   [SVProgressHUD setFont:[UIFont fontWithName:PKSettings.interfaceFont size:16]];
   [SVProgressHUD setSuccessImage:[UIImage imageNamed:@"CheckMark-30" withColor:[PKSettings PKHUDForegroundColor]]];
+
+  // update our proxies
+  if ([[UIBarButtonItem class] respondsToSelector: @selector(appearance)])
+    [PKAppDelegate applyThemeToUIBarButtonItem:[UIBarButtonItem appearance]];
+  if ([[UINavigationBar class] respondsToSelector: @selector(appearance)]) {
+    UINavigationBar* nba = [UINavigationBar appearance];
+    [PKAppDelegate applyThemeToUINavigationBar:nba];
+  }
+  if ([[UISearchBar class] respondsToSelector: @selector(appearance)])
+    [PKAppDelegate applyThemeToUISearchBar:[UISearchBar appearance]];
   
+  
+  [self.rootViewController setNeedsStatusBarAppearanceUpdate];
 }
 
 /**

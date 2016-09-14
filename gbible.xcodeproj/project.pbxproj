@@ -16,6 +16,7 @@
 		6A510A4E1733104A00EF5BB1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A4C1733104A00EF5BB1 /* CoreTelephony.framework */; };
 		6A510A4F1733104A00EF5BB1 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A4D1733104A00EF5BB1 /* CoreText.framework */; };
 		6A510A541733296D00EF5BB1 /* APIKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A510A531733296D00EF5BB1 /* APIKeys.m */; };
+		6A63D0CE1D8A01D800A80C49 /* PKSViewport.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A63D0CD1D8A01D800A80C49 /* PKSViewport.m */; };
 		6A661AFE19BC16E6009283E3 /* AccessibleSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A661A5819BC16E6009283E3 /* AccessibleSegmentedControl.m */; };
 		6A661B0819BC16E6009283E3 /* CoolButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A661A6E19BC16E6009283E3 /* CoolButton.m */; };
 		6A661B2D19BC16E6009283E3 /* KBKeyboardHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A661AB319BC16E6009283E3 /* KBKeyboardHandler.m */; };
@@ -347,6 +348,8 @@
 		6A510A511733242E00EF5BB1 /* gbible.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = gbible.entitlements; sourceTree = "<group>"; };
 		6A510A52173328A900EF5BB1 /* APIKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIKeys.h; sourceTree = "<group>"; };
 		6A510A531733296D00EF5BB1 /* APIKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIKeys.m; sourceTree = "<group>"; };
+		6A63D0CD1D8A01D800A80C49 /* PKSViewport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSViewport.m; sourceTree = "<group>"; };
+		6A63D0CF1D8A02BD00A80C49 /* PKSViewport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKSViewport.h; sourceTree = "<group>"; };
 		6A661A5719BC16E6009283E3 /* AccessibleSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessibleSegmentedControl.h; sourceTree = "<group>"; };
 		6A661A5819BC16E6009283E3 /* AccessibleSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessibleSegmentedControl.m; sourceTree = "<group>"; };
 		6A661A6D19BC16E6009283E3 /* CoolButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoolButton.h; sourceTree = "<group>"; };
@@ -884,6 +887,8 @@
 				6A7013D51D8792AE00D91623 /* PKSLocalization.m */,
 				6A7013D71D8792D100D91623 /* PKSLocalization.h */,
 				6A7013D81D879C3300D91623 /* NSNotificationCenterKeys.swift */,
+				6A63D0CD1D8A01D800A80C49 /* PKSViewport.m */,
+				6A63D0CF1D8A02BD00A80C49 /* PKSViewport.h */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -1878,6 +1883,7 @@
 				6AC0BBB417BAE30200E6BD6F /* PKBibleInfoViewController.m in Sources */,
 				6AC0BBB517BAE30200E6BD6F /* PKBibleListViewController.m in Sources */,
 				6AC0BBB617BAE30200E6BD6F /* PKBibleViewController.m in Sources */,
+				6A63D0CE1D8A01D800A80C49 /* PKSViewport.m in Sources */,
 				6A661B5319BC16E7009283E3 /* TSMiniWebBrowser.m in Sources */,
 				6AC0BBB717BAE30200E6BD6F /* PKHighlightsViewController.m in Sources */,
 				6AC0BBB817BAE30200E6BD6F /* PKHistoryViewController.m in Sources */,

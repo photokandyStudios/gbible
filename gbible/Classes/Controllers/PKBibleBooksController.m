@@ -223,7 +223,7 @@
 
 -(CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  return CGSizeMake(130, (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 50 : 36));
+  return CGSizeMake(130, (isWide((UIView *)self) ? 50 : 36));
 }
 
 -(CGFloat) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section

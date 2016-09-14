@@ -204,7 +204,7 @@
 -(NSString *)prettyShortReferenceIfNecessary
 {
 
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+  if (viewportIsNarrow())
   {
     return [self prettyShortReference];
   }
@@ -280,7 +280,7 @@
   // book
   if ([s rangeOfString:@"%bNS?."].location != NSNotFound)
   {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    if (viewportIsNarrow())
       [s replaceOccurrencesOfString:@"%bNS?." withString:[[PKBible abbreviationForBook:self.book] stringByAppendingString:@"."] options:0 range:NSMakeRange(0, [s length])];
     else
       [s replaceOccurrencesOfString:@"%bNS?." withString:[PKBible nameForBook:self.book ] options:0 range:NSMakeRange(0, [s length])];

@@ -7,7 +7,7 @@
 	<key>theme-name</key>
 	<string>Dark Amber</string>
 	<key>tint-color</key>
-	<string>0.1921568627, 0.6549019608, 0.9450980392, 1.0</string>
+	<string>0.65, 0.50, 0.0, 1.0</string>
 	<key>sidebar-selection-color</key>
 	<string>0.875, 0.9325, 1.0, 1.0</string>
 	<key>sidebar-page-color</key>

@@ -211,8 +211,8 @@
 }
 -(CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  return CGSizeMake((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 86 : 65),
-                    (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 50 : 44) );
+  return CGSizeMake((isWide((UIView *)self) ? 86 : 65),
+                    (isWide((UIView *)self) ? 50 : 44) );
 }
 
 -(CGFloat) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
