@@ -21,19 +21,27 @@ Portions of the code are under different licenses, see https://github.com/photok
 
  * Tint color correct
 
+ * Theme now properly changes navigation bar without requiring restart
+
+ * Revamped layout & settings
+
+ * Switched to size classes instead of UI Idioms
+
+
 #### Known Issues
 
- * no keyboard control overlay
+ v Note view scrollable portion is incorrect with hardware keyboard
 
- * Layout needs to adjust to screen
+ ^ no keyboard shortcut control overlay nor response
 
- * Add simple bible to note editor?
+ - Layout needs to adjust to screen
 
- * Make editor rich text?
+ v Add simple bible to note editor?
 
- * HUD is not centered when viewport != screen
+ v Make editor rich text?
 
- * navigation bar does not update when theme changes
+ ? HUD is not centered when viewport != screen
+
 
 ## FAQ
 

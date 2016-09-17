@@ -36,9 +36,27 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.4.7112</string>
+	<string>1.4.7138</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>NSExceptionAllowsInsecureHTTPLoads</key>
+			<true/>
+			<key>NSIncludesSubdomains</key>
+			<true/>
+			<key>bible.cc</key>
+			<string></string>
+			<key>biblehub.com</key>
+			<string></string>
+			<key>files.parsetfss.com</key>
+			<string></string>
+		</dict>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenDyslexic-Bold.otf</string>

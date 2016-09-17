@@ -71,14 +71,14 @@
 #import "UIImage+PKUtility.h"
 #import "NSObject+PKGCD.h"
 #import "NSString+PKFont.h"
-#import "GTScrollNavigationBar.h"
+//#import "GTScrollNavigationBar.h"
 #import "gbible-Swift.h"
 
 @import SafariServices;
 
 
 @interface PKBibleViewController ()
-  @property (strong, nonatomic, readwrite) UIView *inputView;
+  //@property (strong, nonatomic, readwrite) UIView *inputView;
 @end
 
 @implementation PKBibleViewController
@@ -361,7 +361,7 @@
   NSDate *tStartTime;
   NSDate *tEndTime;
 
-  [self.navigationController.scrollNavigationBar resetToDefaultPositionWithAnimation:NO];
+//  [self.navigationController.scrollNavigationBar resetToDefaultPositionWithAnimation:NO];
 
   
   tStartTime            = [NSDate date];
@@ -544,7 +544,7 @@
 
 -(void)scrollToVerse: (int)theVerse withAnimation:(BOOL)animation afterDelay: (float)delay
 {
-  [self.navigationController.scrollNavigationBar resetToDefaultPositionWithAnimation:NO];
+//  [self.navigationController.scrollNavigationBar resetToDefaultPositionWithAnimation:NO];
   if (delay > 0)
   {
     __weak typeof(self) weakSelf = self;
@@ -640,6 +640,11 @@
   return [PKSettings PKStatusBarStyle];
 }
 
+//http://stackoverflow.com/a/26007878
+- (BOOL)prefersStatusBarHidden {
+  return self.navigationController.isNavigationBarHidden;
+}
+
 -(void) bibleTextChanged
 {
   _leftTextSelect.title         = [[PKBible abbreviationForTextID: [[PKSettings instance] greekText]] stringByAppendingString: @" ▾"];
@@ -663,7 +668,9 @@
 -(void)viewWillAppear: (BOOL) animated
 {
   [super viewWillAppear:animated];
-  self.navigationController.scrollNavigationBar.scrollView = self.tableView;
+  [self configureNavigationItemsWith:self.traitCollection];
+  
+//  self.navigationController.scrollNavigationBar.scrollView = self.tableView;
 
   if (_dirty
       || _lastKnownOrientation != [[UIDevice currentDevice] orientation])
@@ -691,6 +698,50 @@
 
 }
 
+-(void)configureNavigationItemsWith: (UITraitCollection *)traitCollection {
+  NSDictionary *largeTextAttributes;
+  // Text Attributes for Font-Awesome Icons:
+  largeTextAttributes = @{ //UITextAttributeFont : [UIFont systemFontOfSize:20],
+                          NSFontAttributeName : [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline] };
+
+  UIImage *blankImage = [UIImage new];
+  // add navbar items
+  //
+  // change reference is the menu button
+  
+  
+  UIBarButtonItem *changeReference = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"Menu-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(revealToggle:) andBackgroundImage:blankImage];
+  changeReference.accessibilityLabel = __T(@"Go to passage");
+  
+  // font select lets the user change the theme
+  UIBarButtonItem *fontSelect = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"Layout-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(fontSelect:) andBackgroundImage:blankImage];
+  fontSelect.accessibilityLabel = __T(@"Layout");
+  
+  // leftTextSelect lets the user change the left-side Bible
+  _leftTextSelect                = [UIBarButtonItem barButtonItemWithTitle:[[PKBible abbreviationForTextID: [[PKSettings instance] greekText]]
+                                                                            stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+  
+  
+  self.navigationItem.leftBarButtonItems = (traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
+    ? @[changeReference, fontSelect, _leftTextSelect]
+    : @[changeReference, fontSelect];
+  
+  _rightTextSelect = [UIBarButtonItem barButtonItemWithTitle:[[PKBible abbreviationForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
+  
+  UIBarButtonItem *adjustSettings = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"Settings-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(doSettings:) andBackgroundImage:blankImage];
+  adjustSettings.accessibilityLabel = __T(@"Settings");
+  
+  _searchText = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(searchBible:) andBackgroundImage:blankImage];
+  _searchText.accessibilityLabel = __T(@"Search");
+  
+  
+  self.navigationItem.rightBarButtonItems = (traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
+    ? @[ adjustSettings, _searchText, _rightTextSelect ]
+    : @[ adjustSettings, _searchText ];
+  
+  
+}
+
 /**
  *
  * Set up our background color, add gestures for going forward and backward, add the longpress recognizer
@@ -705,6 +756,8 @@
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeLayout:) name:@"com.photokandy.gbible.settings.changed" object:nil];
   
+  self.navigationController.hidesBarsOnSwipe = YES;
+  
 //http://stackoverflow.com/a/13163507
 //if ([self.navigationController.navigationBar
 //respondsToSelector:@selector(shadowImage)]) {
@@ -717,7 +770,7 @@
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
-  self.inputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+ // self.inputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
   
   // add our gestures
   UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
@@ -741,46 +794,7 @@
   // init our selectedVeres
   _selectedVerses = [[NSMutableDictionary alloc] init];
 
-
-  NSDictionary *largeTextAttributes;
-  // Text Attributes for Font-Awesome Icons:
-    largeTextAttributes = @{ //UITextAttributeFont : [UIFont systemFontOfSize:20],
-                                           NSFontAttributeName : [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline] };
-
-  UIImage *blankImage = [UIImage new];
-  // add navbar items
-  //
-  // change reference is the menu button
   
-  
-  UIBarButtonItem *changeReference = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"Menu-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(revealToggle:) andBackgroundImage:blankImage];
-  changeReference.accessibilityLabel = __T(@"Go to passage");
-
-  // font select lets the user change the theme
-  UIBarButtonItem *fontSelect = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"Layout-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(fontSelect:) andBackgroundImage:blankImage];
-  fontSelect.accessibilityLabel = __T(@"Layout");
-
-  // leftTextSelect lets the user change the left-side Bible
-  _leftTextSelect                = [UIBarButtonItem barButtonItemWithTitle:[[PKBible titleForTextID: [[PKSettings instance] greekText]]
-                                                   stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-  
-
-      self.navigationItem.leftBarButtonItems = @[changeReference,
-                                                fontSelect,
-                                                 _leftTextSelect];
-
-  _rightTextSelect = [UIBarButtonItem barButtonItemWithTitle:[[PKBible titleForTextID: [[PKSettings instance] englishText]] stringByAppendingString: @" ▾"] target:self action:@selector(textSelect:) withTitleTextAttributes:largeTextAttributes andBackgroundImage:blankImage];
-
-  UIBarButtonItem *adjustSettings = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"Settings-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(doSettings:) andBackgroundImage:blankImage];
-    adjustSettings.accessibilityLabel = __T(@"Settings");
-
-  _searchText = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@"Search-30" withColor:[PKSettings PKTintColor]] target:self action:@selector(searchBible:) andBackgroundImage:blankImage];
-    _searchText.accessibilityLabel = __T(@"Search");
-  
-
-    self.navigationItem.rightBarButtonItems = @[ adjustSettings, _searchText, _rightTextSelect
-                                              ];
-
 
   // create the header and footer views
   UIView *headerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, self.tableView.frame.size.width, 88)];
@@ -830,6 +844,7 @@
   self.tableView.tableHeaderView = headerView;
   self.tableView.tableFooterView = footerView;
 }
+
 
 -(void) setUpMenuItems
 {
@@ -1090,6 +1105,11 @@
   [self scrollToTopVerseWithAnimation];
 }*/
 
+-(void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+  [self configureNavigationItemsWith:newCollection];
+
+}
+
 -(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
   // VIA http://stackoverflow.com/a/27409619
   [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
@@ -1104,12 +1124,14 @@
   // Code here will execute before the rotation begins.
   // Equivalent to placing it in the deprecated method -[willRotateToInterfaceOrientation:duration:]
   
+  
   [coordinator animateAlongsideTransition:nil completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
     
     // Code here will execute after the rotation has finished.
     // Equivalent to placing it in the deprecated method -[didRotateFromInterfaceOrientation:]
     _lastKnownOrientation = [[UIDevice currentDevice] orientation];
     [self calculateShadows];
+   // [self configureNavigationItems];
     [self saveTopVerse];
     [self loadChapter];
     [self reloadTableCache];
@@ -1119,12 +1141,12 @@
     
   }];
 }
-
+/*
 - (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
 {
   [self.navigationController.scrollNavigationBar resetToDefaultPositionWithAnimation:NO];
 }
-
+*/
 /*
 -(void)scrollViewDidScroll: (UIScrollView *) scrollView
 {
@@ -1654,6 +1676,7 @@
 
 #pragma mark -
 #pragma mark miscellaneous selectors (called from popovers, buttons, etc.)
+
 
 -(void) textSelect: (id) sender
 {
@@ -2537,16 +2560,15 @@
 }
 
 -(NSArray<UIKeyCommand *> *)keyCommands {
-  if ([[UIKeyCommand class] respondsToSelector:@selector(keyCommandWithInput:modifierFlags:action:discoverabilityTitle:)]) {
+//  if ([[UIKeyCommand class] respondsToSelector:@selector(keyCommandWithInput:modifierFlags:action:discoverabilityTitle:)]) {
+//    return @[
+//             [UIKeyCommand keyCommandWithInput:@"f" modifierFlags:0 action:@selector(onKeySearch:) discoverabilityTitle:__T(@"Search Bible")]
+//             ];
+//  } else {
     return @[
-             [UIKeyCommand keyCommandWithInput:@"f" modifierFlags:UIKeyModifierCommand | UIKeyModifierAlternate action:@selector(onKeySearch:) discoverabilityTitle:__T(@"Search Bible")],
+             [UIKeyCommand keyCommandWithInput:@"f" modifierFlags:UIKeyModifierCommand action:@selector(onKeySearch:)],
              ];
-  } else {
-    return @[
-             [UIKeyCommand keyCommandWithInput:@"f" modifierFlags:UIKeyModifierCommand | UIKeyModifierAlternate action:@selector(onKeySearch:)],
-             ];
-    
-  }
+//  }
 }
 
 -(void) onKeySearch:(UIKeyCommand *) sender {

@@ -30,8 +30,8 @@ class PKSLayoutSettingsController: PKTableViewController {
   func updateSettings() {
     lblSourceText.text = PKBible.title(forTextID: PKSettings.instance().greekText)
     lblSourceTextFont.text = PKSettings.instance().textGreekFontFace
-    tglTransliterate.accessoryType = PKSettings.instance().transliterateText ? .checkmark : .none
-  
+    tableView.reloadData()
+    NotificationCenter.default.post(name: noticeAppSettingsChanged, object: nil)
   }
   
   deinit {
@@ -46,6 +46,41 @@ class PKSLayoutSettingsController: PKTableViewController {
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
+  }
+  
+  func getCellTypeAndSetting(_ cell: UITableViewCell?)-> (type: String, setting: String) {
+    let accessibilityIdentifier = cell?.accessibilityIdentifier ?? ""
+    let componentsSplitByColon = accessibilityIdentifier.components(separatedBy: ":")
+    let cellType = componentsSplitByColon.first ?? ""
+    let cellSetting = componentsSplitByColon.last ?? ""
+    
+    return (type: cellType, setting: cellSetting)
+    
+  }
+  
+  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    let (type: cellType, setting:cellSetting) = getCellTypeAndSetting(cell)
+    switch cellType {
+      case "BOOL":
+        cell.accessoryType = PKSettings.instance().loadSetting(cellSetting) == "YES" ? .checkmark : .none
+        break
+      default:
+        break
+    }
+  }
+  
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let cell = tableView.cellForRow(at: indexPath)
+    let (type: cellType, setting:cellSetting) = getCellTypeAndSetting(cell)
+    switch cellType {
+      case "BOOL":
+        PKSettings.instance().saveSetting(cellSetting, valueForSetting: PKSettings.instance().loadSetting(cellSetting) == "YES" ? "NO" : "YES")
+        PKSettings.instance().reload()
+        updateSettings()
+        break
+      default:
+        break
+    }
   }
   
   
