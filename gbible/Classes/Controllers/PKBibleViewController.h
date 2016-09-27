@@ -45,7 +45,7 @@
 //#import "FWTPopoverView.h"
 
 @interface PKBibleViewController : PKTableViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate,
-                                                          UIActionSheetDelegate, PKLayoutControllerDelegate , //UIKeyInput,
+                                                          UIActionSheetDelegate, PKLayoutControllerDelegate , UIKeyInput,
                                                           PKSearchDelegate, PKBibleReferenceDelegate>
 @property BOOL dirty;
 

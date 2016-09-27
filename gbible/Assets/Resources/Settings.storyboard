@@ -37,7 +37,7 @@
                             <tableViewSection headerTitle="Source Text" footerTitle="Transliterating Greek may result in slower rendering." id="TAn-67-oVt">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="SfN-9m-YBN" detailTextLabel="Jk2-mI-AHl" style="IBUITableViewCellStyleValue1" id="Nwl-gA-BFz">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nwl-gA-BFz" id="Bmr-EO-d61">
                                             <frame key="frameInset" width="342" height="43.5"/>
@@ -65,7 +65,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="m4t-oV-GVt" detailTextLabel="ETk-jH-0Xk" style="IBUITableViewCellStyleValue1" id="Xdk-kO-YBq">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xdk-kO-YBq" id="Yrb-mm-PLI">
                                             <frame key="frameInset" width="342" height="43.5"/>
@@ -89,11 +89,11 @@
                                         </tableViewCellContentView>
                                         <accessibility key="accessibilityConfiguration" identifier="FONT:greek-typeface"/>
                                         <connections>
-                                            <segue destination="hlX-ZR-g1b" kind="show" id="LF7-7C-3oo"/>
+                                            <segue destination="hlX-ZR-g1b" kind="show" identifier="SourceTypefaceSegue" id="LF7-7C-3oo"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="vdN-hu-PaI" style="IBUITableViewCellStyleDefault" id="GdU-zj-fe5">
-                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="143.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GdU-zj-fe5" id="fOH-S5-V6Y">
                                             <frame key="frameInset" width="336" height="43.5"/>
@@ -167,7 +167,7 @@
                                         </tableViewCellContentView>
                                         <accessibility key="accessibilityConfiguration" identifier="FONT:font-face"/>
                                         <connections>
-                                            <segue destination="hlX-ZR-g1b" kind="show" id="Vir-Se-3V8"/>
+                                            <segue destination="hlX-ZR-g1b" kind="show" identifier="GlossTypefaceSegue" id="Vir-Se-3V8"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="QUb-Tm-i7I" style="IBUITableViewCellStyleDefault" id="UtP-26-8pM">
@@ -211,7 +211,7 @@
                             <tableViewSection headerTitle="Indexes" footerTitle="Available only in parsed source texts with indexes." id="0Wi-MK-SHg">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="jzF-Vm-R7p" style="IBUITableViewCellStyleDefault" id="eQ6-G7-14P">
-                                        <rect key="frame" x="0.0" y="515" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="514.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eQ6-G7-14P" id="T8A-aW-Wgq">
                                             <frame key="frameInset" width="336" height="43.5"/>
@@ -229,7 +229,7 @@
                                         <accessibility key="accessibilityConfiguration" identifier="BOOL:show-strongs"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="JhZ-ii-3Fd" style="IBUITableViewCellStyleDefault" id="7WQ-wE-vwH">
-                                        <rect key="frame" x="0.0" y="559" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="558.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7WQ-wE-vwH" id="GeN-BL-vpS">
                                             <frame key="frameInset" width="336" height="43.5"/>
@@ -349,9 +349,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <accessibility key="accessibilityConfiguration" identifier="LIST:100,Normal;125,1.25;150,1.50;200,Double"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="LIST:line-spacing:100,Single;125,1.25;150,1.50;200,Double"/>
                                         <connections>
-                                            <segue destination="hFB-YC-X5z" kind="show" id="hvi-ig-pFQ"/>
+                                            <segue destination="hFB-YC-X5z" kind="show" identifier="LineSpacingSegue" id="hvi-ig-pFQ"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="iQ7-bt-zTE" detailTextLabel="RkS-5s-TCZ" style="IBUITableViewCellStyleValue1" id="fAQ-dE-hgn">
@@ -377,9 +377,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <accessibility key="accessibilityConfiguration" identifier="LIST:0,Normal;1,Large;2,Larger"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="LIST:verse-spacing:0,Normal;1,Large;2,Larger"/>
                                         <connections>
-                                            <segue destination="zcv-tO-pMY" kind="show" id="WvX-Py-Q0h"/>
+                                            <segue destination="zcv-tO-pMY" kind="show" identifier="RowSpacingSegue" id="WvX-Py-Q0h"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="cz0-6l-SGR" detailTextLabel="pGM-fn-d29" style="IBUITableViewCellStyleValue1" id="fT5-hy-wP9">
@@ -405,7 +405,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <accessibility key="accessibilityConfiguration" identifier="LIST:0,Wide/Narrow;1,Narrow/Wide;2,Equal"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="LIST:column-widths:0,Wide/Narrow;1,Narrow/Wide;2,Equal"/>
                                         <connections>
                                             <segue destination="3Gg-PU-MY9" kind="show" identifier="ColumnLayoutSegue" id="vLO-vw-oyH"/>
                                         </connections>
@@ -418,11 +418,6 @@
                             <outlet property="delegate" destination="MYu-MY-2Bw" id="vDQ-rR-AIQ"/>
                         </connections>
                     </tableView>
-                    <connections>
-                        <outlet property="lblSourceText" destination="Jk2-mI-AHl" id="UYR-OD-l8a"/>
-                        <outlet property="lblSourceTextFont" destination="ETk-jH-0Xk" id="cvb-Qb-NcM"/>
-                        <outlet property="tglTransliterate" destination="GdU-zj-fe5" id="k4D-7F-xps"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="crn-gd-AXX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -551,7 +546,7 @@
         <!--General Settings-->
         <scene sceneID="kiS-LS-LmD">
             <objects>
-                <tableViewController storyboardIdentifier="PKSGeneralSettingsController" title="General Settings" id="KdH-sr-9Pe" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="PKSGeneralSettingsController" title="General Settings" id="KdH-sr-9Pe" customClass="PKSGeneralSettingsController" customModule="gbible" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="V5j-ay-phs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -559,15 +554,15 @@
                         <sections>
                             <tableViewSection headerTitle="Content" footerTitle="Downloadable Bibles will take up additional space on your device." id="s6r-Gt-LHo">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="bIQ-Vl-WIE" style="IBUITableViewCellStyleDefault" id="f1X-pn-R4b">
-                                        <rect key="frame" x="0.0" y="120" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="101" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="bIQ-Vl-WIE" style="IBUITableViewCellStyleDefault" id="f1X-pn-R4b">
+                                        <rect key="frame" x="0.0" y="119.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f1X-pn-R4b" id="9vA-2t-LQx">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Manage Bibles..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bIQ-Vl-WIE">
-                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -580,15 +575,15 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Your Data" footerTitle="You should export your data regularly to ensure that you have a backup in case you need to restore your device." id="hs9-iF-rtB">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Sod-3i-FAg" style="IBUITableViewCellStyleDefault" id="tx6-yv-Y6E">
+                                    <tableViewCell clipsSubviews="YES" tag="201" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Sod-3i-FAg" style="IBUITableViewCellStyleDefault" id="tx6-yv-Y6E">
                                         <rect key="frame" x="0.0" y="255" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tx6-yv-Y6E" id="5Rz-fx-3Go">
-                                            <frame key="frameInset" width="342" height="43.5"/>
+                                            <frame key="frameInset" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Export..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Sod-3i-FAg">
-                                                    <frame key="frameInset" minX="15" width="325" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="325" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -600,15 +595,15 @@
                                             <segue destination="oQk-KU-Kv9" kind="show" id="LrJ-SJ-CD3"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="VRB-Is-W3F" style="IBUITableViewCellStyleDefault" id="aW7-Eq-5oN">
+                                    <tableViewCell clipsSubviews="YES" tag="202" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="VRB-Is-W3F" style="IBUITableViewCellStyleDefault" id="aW7-Eq-5oN">
                                         <rect key="frame" x="0.0" y="299" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aW7-Eq-5oN" id="dfZ-Ak-a3z">
-                                            <frame key="frameInset" width="342" height="43.5"/>
+                                            <frame key="frameInset" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Import..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VRB-Is-W3F">
-                                                    <frame key="frameInset" minX="15" width="325" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="325" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -624,15 +619,15 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Your Privacy" footerTitle="If you are in a region where using the Bible may result in personal harm, you may wish to disable Anonymous Usage Statistics." id="v3U-vX-3uF">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" textLabel="VQa-1i-bli" style="IBUITableViewCellStyleDefault" id="HLx-qu-0kg">
-                                        <rect key="frame" x="0.0" y="435" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="301" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" textLabel="VQa-1i-bli" style="IBUITableViewCellStyleDefault" id="HLx-qu-0kg">
+                                        <rect key="frame" x="0.0" y="434.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HLx-qu-0kg" id="zOE-wm-9Uc">
-                                            <frame key="frameInset" width="336" height="43.5"/>
+                                            <frame key="frameInset" width="336" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Anonymous Usage Statistics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VQa-1i-bli">
-                                                    <frame key="frameInset" minX="15" width="321" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="321" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -641,15 +636,15 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Tvg-rH-nEf" style="IBUITableViewCellStyleDefault" id="LDj-fV-9P0">
-                                        <rect key="frame" x="0.0" y="479" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="302" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Tvg-rH-nEf" style="IBUITableViewCellStyleDefault" id="LDj-fV-9P0">
+                                        <rect key="frame" x="0.0" y="478.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LDj-fV-9P0" id="OwE-CD-m27">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Privacy Notice..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tvg-rH-nEf">
-                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -662,22 +657,22 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Help and About" id="aaw-qv-0x8">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" textLabel="9FS-Ng-48e" detailTextLabel="lxx-hl-SeH" style="IBUITableViewCellStyleValue1" id="Ap5-XR-K23">
-                                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="401" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" textLabel="9FS-Ng-48e" detailTextLabel="lxx-hl-SeH" style="IBUITableViewCellStyleValue1" id="Ap5-XR-K23">
+                                        <rect key="frame" x="0.0" y="622.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ap5-XR-K23" id="197-wu-I5y">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Version" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9FS-Ng-48e">
-                                                    <frame key="frameInset" minX="15" minY="12" width="57" height="20.5"/>
+                                                    <frame key="frameInset" minX="15" minY="11" width="57" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="1.4.6944" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="lxx-hl-SeH">
-                                                    <frame key="frameInset" minX="292.5" minY="12" width="67.5" height="20.5"/>
+                                                    <frame key="frameInset" minX="292" minY="11" width="68" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -686,15 +681,15 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="ZGx-6b-qXE" style="IBUITableViewCellStyleDefault" id="WO2-Cz-ngv">
-                                        <rect key="frame" x="0.0" y="667" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="402" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="ZGx-6b-qXE" style="IBUITableViewCellStyleDefault" id="WO2-Cz-ngv">
+                                        <rect key="frame" x="0.0" y="666.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WO2-Cz-ngv" id="20Q-XS-IVK">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Submit an issue..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZGx-6b-qXE">
-                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -703,15 +698,15 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="PuI-3f-uyf" style="IBUITableViewCellStyleDefault" id="7st-0n-pe4">
-                                        <rect key="frame" x="0.0" y="711" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="403" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="PuI-3f-uyf" style="IBUITableViewCellStyleDefault" id="7st-0n-pe4">
+                                        <rect key="frame" x="0.0" y="710.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7st-0n-pe4" id="WHw-Dv-Iaq">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Using this app..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PuI-3f-uyf">
-                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -720,15 +715,15 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="hOD-q0-tev" style="IBUITableViewCellStyleDefault" id="QBQ-c8-Yho">
-                                        <rect key="frame" x="0.0" y="755" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="404" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="hOD-q0-tev" style="IBUITableViewCellStyleDefault" id="QBQ-c8-Yho">
+                                        <rect key="frame" x="0.0" y="754.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QBQ-c8-Yho" id="ORq-pB-lcK">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Rate this app..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hOD-q0-tev">
-                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -737,105 +732,25 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="Attributions" id="w4P-1W-U5B">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="gdn-lj-B7s" detailTextLabel="h4p-i2-AhI" style="IBUITableViewCellStyleSubtitle" id="eIj-xl-XfS">
-                                        <rect key="frame" x="0.0" y="855" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="405" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="eQV-vV-6Ac" style="IBUITableViewCellStyleDefault" id="XUg-GS-d3d">
+                                        <rect key="frame" x="0.0" y="798.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eIj-xl-XfS" id="3QE-9g-xbT">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XUg-GS-d3d" id="lNr-I4-1AW">
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="AccessibleSegmentedController" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gdn-lj-B7s">
-                                                    <frame key="frameInset" minX="15" minY="5" width="245.5" height="20.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Attributions and Open Source" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eQV-vV-6Ac">
+                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="© 2012 Wooji Juice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="h4p-i2-AhI">
-                                                    <frame key="frameInset" minX="15" minY="25.5" width="109.5" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="EWw-aG-maq" detailTextLabel="jH6-rc-eOf" style="IBUITableViewCellStyleSubtitle" id="QFz-HS-2Rb">
-                                        <rect key="frame" x="0.0" y="899" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QFz-HS-2Rb" id="1q7-eT-jHw">
-                                            <frame key="frameInset" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Arev Sans (Font)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EWw-aG-maq">
-                                                    <frame key="frameInset" minX="15" minY="5" width="127" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="© Tavmjong Bah" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jH6-rc-eOf">
-                                                    <frame key="frameInset" minX="15" minY="25.5" width="93.5" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="CAh-t8-dT0" detailTextLabel="oDu-lW-IqQ" style="IBUITableViewCellStyleSubtitle" id="Z8B-uk-fg2">
-                                        <rect key="frame" x="0.0" y="943" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z8B-uk-fg2" id="DhH-gS-T4O">
-                                            <frame key="frameInset" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="FMDatabase" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CAh-t8-dT0">
-                                                    <frame key="frameInset" minX="15" minY="5" width="96.5" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="© Flying Meat INc." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oDu-lW-IqQ">
-                                                    <frame key="frameInset" minX="15" minY="25.5" width="105" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Ywj-MF-kfD" detailTextLabel="CZv-vy-ic0" style="IBUITableViewCellStyleSubtitle" id="LqN-tw-F2a">
-                                        <rect key="frame" x="0.0" y="987" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LqN-tw-F2a" id="El0-Uh-4Xd">
-                                            <frame key="frameInset" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Gentium Plus (Font)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ywj-MF-kfD">
-                                                    <frame key="frameInset" minX="15" minY="5" width="151.5" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="© 2003-2012, SIL International" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CZv-vy-ic0">
-                                                    <frame key="frameInset" minX="15" minY="25.5" width="175.5" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="PcS-0Z-wqU" kind="show" identifier="AttributionsSegue" id="Jkg-cu-fyD"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -865,15 +780,15 @@
 
 Data exported to Dropbox and/or iCloud is subject to the privacy agreements of said third parties. All trademarks are owned by their respective parties.</string>
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Sx7-mk-Ue7" style="IBUITableViewCellStyleDefault" id="RXI-a2-yFV">
-                                        <rect key="frame" x="0.0" y="120" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="101" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Sx7-mk-Ue7" style="IBUITableViewCellStyleDefault" id="RXI-a2-yFV">
+                                        <rect key="frame" x="0.0" y="119.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RXI-a2-yFV" id="fCw-W6-0Ey">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Export to iTunes..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Sx7-mk-Ue7">
-                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -882,15 +797,15 @@ Data exported to Dropbox and/or iCloud is subject to the privacy agreements of s
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="D68-6M-O23" style="IBUITableViewCellStyleDefault" id="gG7-p3-SXD">
-                                        <rect key="frame" x="0.0" y="164" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="102" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="D68-6M-O23" style="IBUITableViewCellStyleDefault" id="gG7-p3-SXD">
+                                        <rect key="frame" x="0.0" y="163.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gG7-p3-SXD" id="maF-gg-mPw">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Export to Dropbox..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D68-6M-O23">
-                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -899,15 +814,15 @@ Data exported to Dropbox and/or iCloud is subject to the privacy agreements of s
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="8mQ-Vo-3SI" style="IBUITableViewCellStyleDefault" id="wGH-UL-Ogg">
-                                        <rect key="frame" x="0.0" y="208" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="103" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="8mQ-Vo-3SI" style="IBUITableViewCellStyleDefault" id="wGH-UL-Ogg">
+                                        <rect key="frame" x="0.0" y="207.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wGH-UL-Ogg" id="iqf-vq-5cV">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Export to iCloud..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8mQ-Vo-3SI">
-                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -929,6 +844,34 @@ Data exported to Dropbox and/or iCloud is subject to the privacy agreements of s
             </objects>
             <point key="canvasLocation" x="1417" y="358"/>
         </scene>
+        <!--Attributions-->
+        <scene sceneID="wXn-xJ-pQz">
+            <objects>
+                <tableViewController title="Attributions" id="PcS-0Z-wqU" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qC2-Y5-fgp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="n9e-CV-uu0">
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n9e-CV-uu0" id="wNv-nu-60u">
+                                    <frame key="frameInset" width="375" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="PcS-0Z-wqU" id="aAl-iY-q7w"/>
+                            <outlet property="delegate" destination="PcS-0Z-wqU" id="FT4-12-AzG"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1V7-gH-f8M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="385" y="1461"/>
+        </scene>
         <!--Import Settings-->
         <scene sceneID="nY4-ib-RBJ">
             <objects>
@@ -943,15 +886,15 @@ Data exported to Dropbox and/or iCloud is subject to the privacy agreements of s
 
 All trademarks are owned by their respective parties.</string>
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="pO6-RZ-XAv" style="IBUITableViewCellStyleDefault" id="i1Y-Mm-kd9">
-                                        <rect key="frame" x="0.0" y="120" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="201" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="pO6-RZ-XAv" style="IBUITableViewCellStyleDefault" id="i1Y-Mm-kd9">
+                                        <rect key="frame" x="0.0" y="119.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i1Y-Mm-kd9" id="v7D-hu-ZbW">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Import from iTunes..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pO6-RZ-XAv">
-                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -960,15 +903,15 @@ All trademarks are owned by their respective parties.</string>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="ygc-Dn-Tuo" style="IBUITableViewCellStyleDefault" id="GFn-Ge-C7Y">
-                                        <rect key="frame" x="0.0" y="164" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="202" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="ygc-Dn-Tuo" style="IBUITableViewCellStyleDefault" id="GFn-Ge-C7Y">
+                                        <rect key="frame" x="0.0" y="163.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GFn-Ge-C7Y" id="Jh0-M1-7B7">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Import from Dropbox..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ygc-Dn-Tuo">
-                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -977,15 +920,15 @@ All trademarks are owned by their respective parties.</string>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="OIf-D8-dwP" style="IBUITableViewCellStyleDefault" id="7J9-xh-7c0">
-                                        <rect key="frame" x="0.0" y="208" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" tag="203" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="OIf-D8-dwP" style="IBUITableViewCellStyleDefault" id="7J9-xh-7c0">
+                                        <rect key="frame" x="0.0" y="207.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7J9-xh-7c0" id="3Nb-Ik-HV2">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Import from iCloud..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OIf-D8-dwP">
-                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -1010,19 +953,31 @@ All trademarks are owned by their respective parties.</string>
         <!--Source Texts-->
         <scene sceneID="sIY-TR-i70">
             <objects>
-                <tableViewController storyboardIdentifier="PKSSourceTextsController" title="Source Texts" id="ddy-3b-fxT" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="PKSSourceTextsController" title="Source Texts" id="ddy-3b-fxT" customClass="PKSLayoutTextSelectionController" customModule="gbible" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Orb-dK-ou8">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="361.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="jov-s9-wg6">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PKSBibleTitleCellId" textLabel="rj7-VM-wlj" style="IBUITableViewCellStyleDefault" id="jov-s9-wg6">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jov-s9-wg6" id="1du-Za-YSQ">
-                                    <frame key="frameInset" width="375" height="44"/>
+                                    <frame key="frameInset" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rj7-VM-wlj">
+                                            <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="GVr-VB-clK" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="Vxo-7w-cSB"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -1030,27 +985,43 @@ All trademarks are owned by their respective parties.</string>
                             <outlet property="delegate" destination="ddy-3b-fxT" id="yBN-TK-KfL"/>
                         </connections>
                     </tableView>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="greek-text"/>
+                    </userDefinedRuntimeAttributes>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G2l-6x-OrU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="GVr-VB-clK" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2353" y="-2259"/>
         </scene>
         <!--Gloss Texts-->
         <scene sceneID="3ja-4r-LFv">
             <objects>
-                <tableViewController storyboardIdentifier="PKSGlossTextsController" title="Gloss Texts" id="sNO-Ev-60u" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="PKSGlossTextsController" title="Gloss Texts" id="sNO-Ev-60u" customClass="PKSLayoutTextSelectionController" customModule="gbible" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="rpQ-Va-i7X">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="361.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="xym-6o-mEQ">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PKSBibleTitleCellId" textLabel="CGk-4D-NSi" style="IBUITableViewCellStyleDefault" id="xym-6o-mEQ">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xym-6o-mEQ" id="oi1-p9-3Hd">
-                                    <frame key="frameInset" width="375" height="44"/>
+                                    <frame key="frameInset" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CGk-4D-NSi">
+                                            <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="h4Q-PW-V8X" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="sFy-g0-PgQ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -1058,15 +1029,19 @@ All trademarks are owned by their respective parties.</string>
                             <outlet property="delegate" destination="sNO-Ev-60u" id="HMM-EK-sXn"/>
                         </connections>
                     </tableView>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="setting" value="english-text"/>
+                    </userDefinedRuntimeAttributes>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lgD-6f-yPT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="h4Q-PW-V8X" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2353" y="-1843"/>
         </scene>
         <!--Font Selection-->
         <scene sceneID="1AF-6k-VGH">
             <objects>
-                <tableViewController storyboardIdentifier="PKSFontSelectionController" title="Font Selection" id="hlX-ZR-g1b" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="PKSFontSelectionController" title="Font Selection" id="hlX-ZR-g1b" customClass="PKSLayoutSingleSettingController" customModule="gbible" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Ta3-hP-XkP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="361.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1090,6 +1065,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="B0V-V3-oQ6"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="wI4-Vi-hQ3" style="IBUITableViewCellStyleDefault" id="jJM-0Y-4mp">
                                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -1107,6 +1085,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="zFe-N0-0Dh"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="EEs-xN-SSR" style="IBUITableViewCellStyleDefault" id="Ryn-Kv-5Pv">
                                         <rect key="frame" x="0.0" y="88" width="375" height="44"/>
@@ -1124,6 +1105,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="NZC-He-hLv"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="yAD-sp-Mj3" style="IBUITableViewCellStyleDefault" id="JTY-at-9FQ">
                                         <rect key="frame" x="0.0" y="132" width="375" height="44"/>
@@ -1141,6 +1125,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="S3v-AA-yiD"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="VWI-h3-0SB" style="IBUITableViewCellStyleDefault" id="fCq-iA-szO">
                                         <rect key="frame" x="0.0" y="176" width="375" height="44"/>
@@ -1158,6 +1145,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="wnk-Hv-6W9"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="4Ie-Wl-EDd" style="IBUITableViewCellStyleDefault" id="z8Q-yo-iUl">
                                         <rect key="frame" x="0.0" y="220" width="375" height="44"/>
@@ -1175,6 +1165,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="lYd-PZ-o6x"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="iy5-O7-dbK" style="IBUITableViewCellStyleDefault" id="g2W-1q-NBI">
                                         <rect key="frame" x="0.0" y="264" width="375" height="44"/>
@@ -1192,6 +1185,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="8in-w1-y6e"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="YqI-10-Qwy" style="IBUITableViewCellStyleDefault" id="rVh-8i-1Z0">
                                         <rect key="frame" x="0.0" y="308" width="375" height="44"/>
@@ -1209,6 +1205,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="8Ip-8a-nQN"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="Rgd-fS-x1A" style="IBUITableViewCellStyleDefault" id="S38-Kl-yRb">
                                         <rect key="frame" x="0.0" y="352" width="375" height="44"/>
@@ -1226,6 +1225,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="fgQ-Jr-xFe"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="xZd-ht-euX" style="IBUITableViewCellStyleDefault" id="4Sp-zI-eWO">
                                         <rect key="frame" x="0.0" y="396" width="375" height="44"/>
@@ -1243,6 +1245,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="Sj0-s3-E0X"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="jNX-ud-F9O" style="IBUITableViewCellStyleDefault" id="buw-oY-UYO">
                                         <rect key="frame" x="0.0" y="440" width="375" height="44"/>
@@ -1260,6 +1265,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="ukH-F6-nQy"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="Xg8-HQ-pNe" style="IBUITableViewCellStyleDefault" id="Idp-hA-AdN">
                                         <rect key="frame" x="0.0" y="484" width="375" height="44"/>
@@ -1277,6 +1285,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="E7B-ah-wZN"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="NCZ-B9-kG4" style="IBUITableViewCellStyleDefault" id="alJ-mZ-Hbh">
                                         <rect key="frame" x="0.0" y="528" width="375" height="44"/>
@@ -1294,6 +1305,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="QlR-mt-rzc"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="QKt-rx-4f4" style="IBUITableViewCellStyleDefault" id="Y9f-Rf-OIk">
                                         <rect key="frame" x="0.0" y="572" width="375" height="44"/>
@@ -1311,6 +1325,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="JbJ-Jh-CL8"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="m3i-zl-eGo" style="IBUITableViewCellStyleDefault" id="SiT-tp-iU8">
                                         <rect key="frame" x="0.0" y="616" width="375" height="44"/>
@@ -1328,6 +1345,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="Cj4-2O-bUW"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="tGb-rm-3Sw" style="IBUITableViewCellStyleDefault" id="OZl-HU-gUY">
                                         <rect key="frame" x="0.0" y="660" width="375" height="44"/>
@@ -1345,6 +1365,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="6ac-eG-NgP"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="0ah-Y4-0QA" style="IBUITableViewCellStyleDefault" id="iMC-cy-HNt">
                                         <rect key="frame" x="0.0" y="704" width="375" height="44"/>
@@ -1362,6 +1385,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="DlR-Bu-tDG"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="FNo-O9-rNK" style="IBUITableViewCellStyleDefault" id="HOp-nX-5CN">
                                         <rect key="frame" x="0.0" y="748" width="375" height="44"/>
@@ -1379,6 +1405,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="3M6-oj-gth"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="rV0-tS-Gmg" style="IBUITableViewCellStyleDefault" id="yR2-X7-6ok">
                                         <rect key="frame" x="0.0" y="792" width="375" height="44"/>
@@ -1396,6 +1425,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="42I-jn-zxg"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fontcell" textLabel="59q-1w-60f" style="IBUITableViewCellStyleDefault" id="KDL-wM-flY">
                                         <rect key="frame" x="0.0" y="836" width="375" height="44"/>
@@ -1413,6 +1445,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7pG-j9-JRP" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="Lt8-OL-ROu"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1422,15 +1457,19 @@ All trademarks are owned by their respective parties.</string>
                             <outlet property="delegate" destination="hlX-ZR-g1b" id="3nK-bD-DV8"/>
                         </connections>
                     </tableView>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="settingType" value="font"/>
+                    </userDefinedRuntimeAttributes>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BQR-yk-Wlz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="7pG-j9-JRP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2353" y="-1395"/>
         </scene>
         <!--Line Spacing-->
         <scene sceneID="AnO-fN-yTa">
             <objects>
-                <tableViewController storyboardIdentifier="PKSLineSpacingController" title="Line Spacing" id="hFB-YC-X5z" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="PKSLineSpacingController" title="Line Spacing" id="hFB-YC-X5z" customClass="PKSLayoutSingleSettingController" customModule="gbible" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="AEf-68-5kE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="361.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1439,7 +1478,7 @@ All trademarks are owned by their respective parties.</string>
                             <tableViewSection headerTitle="Line Spacing" footerTitle="Spacing is inserted between every line of text, including indexes, morphology, and source and gloss text." id="ikv-Cs-NZJ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" tag="100" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" textLabel="3Ij-LO-JmX" style="IBUITableViewCellStyleDefault" id="KAg-VJ-cUF">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KAg-VJ-cUF" id="dMZ-o3-Lji">
                                             <frame key="frameInset" width="336" height="43.5"/>
@@ -1454,9 +1493,12 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Og9-9M-7ac" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="KEb-3Y-ySn"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" tag="125" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="sWT-w1-BJp" style="IBUITableViewCellStyleDefault" id="oky-bX-QxB">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oky-bX-QxB" id="LsC-hr-Enz">
                                             <frame key="frameInset" width="375" height="43.5"/>
@@ -1471,9 +1513,12 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Og9-9M-7ac" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="VDb-tk-YeJ"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" tag="150" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="3M3-sp-d49" style="IBUITableViewCellStyleDefault" id="jWA-hL-8hr">
-                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="143.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jWA-hL-8hr" id="d0m-a7-f6T">
                                             <frame key="frameInset" width="375" height="43.5"/>
@@ -1488,9 +1533,12 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Og9-9M-7ac" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="WxA-Ut-nw8"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" tag="200" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="mxZ-93-Rot" style="IBUITableViewCellStyleDefault" id="6fo-4D-XSw">
-                                        <rect key="frame" x="0.0" y="188" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="187.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6fo-4D-XSw" id="RMt-hI-csb">
                                             <frame key="frameInset" width="375" height="43.5"/>
@@ -1505,6 +1553,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Og9-9M-7ac" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="wbP-Eg-CXt"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1514,15 +1565,19 @@ All trademarks are owned by their respective parties.</string>
                             <outlet property="delegate" destination="hFB-YC-X5z" id="PC1-It-wbb"/>
                         </connections>
                     </tableView>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="setting" value="line-spacing"/>
+                    </userDefinedRuntimeAttributes>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IaZ-2d-PDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Og9-9M-7ac" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1417" y="-739"/>
         </scene>
         <!--Row Spacing-->
         <scene sceneID="Tbc-iJ-a5u">
             <objects>
-                <tableViewController storyboardIdentifier="PKSRowSpacingController" title="Row Spacing" id="zcv-tO-pMY" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="PKSRowSpacingController" title="Row Spacing" id="zcv-tO-pMY" customClass="PKSLayoutSingleSettingController" customModule="gbible" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Y2f-Yx-hks">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="361.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1531,7 +1586,7 @@ All trademarks are owned by their respective parties.</string>
                             <tableViewSection headerTitle="Row Spacing" footerTitle="Spacing is inserted between rows of text." id="gLe-Ht-RvT">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Zvg-Tm-ctc" style="IBUITableViewCellStyleDefault" id="9ZI-Zv-HTJ">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9ZI-Zv-HTJ" id="i3N-2n-t7R">
                                             <frame key="frameInset" width="375" height="43.5"/>
@@ -1546,9 +1601,12 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="qeu-gB-bOm" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="hfF-07-dBN"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" tag="1" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="8Sm-et-9mk" style="IBUITableViewCellStyleDefault" id="iNR-yq-PEz">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iNR-yq-PEz" id="xPL-Nz-0yI">
                                             <frame key="frameInset" width="375" height="43.5"/>
@@ -1563,9 +1621,12 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="qeu-gB-bOm" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="zwP-Bf-0hM"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" tag="2" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="ki4-YH-drU" style="IBUITableViewCellStyleDefault" id="qLf-Ey-vMj">
-                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="143.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qLf-Ey-vMj" id="dRR-ML-biH">
                                             <frame key="frameInset" width="375" height="43.5"/>
@@ -1580,6 +1641,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="qeu-gB-bOm" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="LBq-Yr-vV6"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1589,15 +1653,19 @@ All trademarks are owned by their respective parties.</string>
                             <outlet property="delegate" destination="zcv-tO-pMY" id="9rp-tW-XGz"/>
                         </connections>
                     </tableView>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="setting" value="verse-spacing"/>
+                    </userDefinedRuntimeAttributes>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mQP-R3-Kf3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="qeu-gB-bOm" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2058" y="-738"/>
         </scene>
         <!--Column Layout-->
         <scene sceneID="1vJ-0a-5mz">
             <objects>
-                <tableViewController storyboardIdentifier="PKSColumnLayoutController" title="Column Layout" id="3Gg-PU-MY9" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="PKSColumnLayoutController" title="Column Layout" id="3Gg-PU-MY9" customClass="PKSLayoutSingleSettingController" customModule="gbible" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="WIv-4h-hkF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="361.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1606,13 +1674,13 @@ All trademarks are owned by their respective parties.</string>
                             <tableViewSection headerTitle="Column Layout" footerTitle="Column layout only affects wide viewports. Narrow viewports will display text in a vertical layout instead." id="yGc-hg-R3U">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="cZ4-4t-6zJ" style="IBUITableViewCellStyleDefault" id="jci-m4-gcS">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jci-m4-gcS" id="5Mn-ZB-ebX">
                                             <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Wide:Narrow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cZ4-4t-6zJ">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Wide/Narrow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cZ4-4t-6zJ">
                                                     <frame key="frameInset" minX="15" width="345" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1621,15 +1689,18 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="caX-r1-WEi" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="d4Q-iR-vbJ"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" tag="1" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="v7h-59-iI2" style="IBUITableViewCellStyleDefault" id="HPE-Hv-pa6">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HPE-Hv-pa6" id="Tae-lX-t7K">
                                             <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Narrow:Wide" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v7h-59-iI2">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Narrow/Wide" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v7h-59-iI2">
                                                     <frame key="frameInset" minX="15" width="345" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1638,9 +1709,12 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="caX-r1-WEi" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="93p-5N-4Pb"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" tag="2" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="byc-YJ-mwp" style="IBUITableViewCellStyleDefault" id="gWa-6X-4ww">
-                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="143.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gWa-6X-4ww" id="AOL-xp-dHX">
                                             <frame key="frameInset" width="375" height="43.5"/>
@@ -1655,6 +1729,9 @@ All trademarks are owned by their respective parties.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="caX-r1-WEi" kind="unwind" unwindAction="unwindFromSingleSettingWithSegue:" id="o9e-P8-fbm"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1664,8 +1741,12 @@ All trademarks are owned by their respective parties.</string>
                             <outlet property="delegate" destination="3Gg-PU-MY9" id="caJ-cN-oZ6"/>
                         </connections>
                     </tableView>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="setting" value="column-widths"/>
+                    </userDefinedRuntimeAttributes>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Adp-y1-bpt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="caX-r1-WEi" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2694" y="-739"/>
         </scene>
@@ -1689,6 +1770,6 @@ All trademarks are owned by their respective parties.</string>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="LF7-7C-3oo"/>
+        <segue reference="Vir-Se-3V8"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -21,12 +21,14 @@ import UIKit
   @IBAction func textFontSizeChanged(_ sender: UIStepper) {
     PKSettings.instance().textFontSize = Int32(sender.value)
     updateSettings()
+    NotificationCenter.default.post(name: noticeAppSettingsChanged, object: nil)
   }
   
   @IBAction func themeChanged(_ sender: UISegmentedControl) {
     PKSettings.instance().textTheme = Int32(sender.selectedSegmentIndex)
     updateSettings()
     PKAppDelegate.sharedInstance().updateAppearanceForTheme()
+    NotificationCenter.default.post(name: noticeAppSettingsChanged, object: nil)
   }
 
   var sbvc: PKSimpleBibleViewController?
@@ -48,7 +50,6 @@ import UIKit
     
     self.updateAppearanceForTheme()
     
-    NotificationCenter.default.post(name: noticeAppSettingsChanged, object: nil)
 
   }
   
@@ -58,6 +59,9 @@ import UIKit
     lblTheme.textColor = PKSettings.pkTextColor()
     lblTextSize.textColor = PKSettings.pkTextColor()
   }
+  deinit {
+    NotificationCenter.default.removeObserver(self)
+  }
   
   func done(_ sender: AnyObject?) {
     self.dismiss(animated: true, completion: nil)
@@ -65,10 +69,14 @@ import UIKit
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    // Do any additional setup after loading the view.
+    NotificationCenter.default.addObserver(self, selector: #selector(onSettingsChanged), name: noticeAppSettingsChanged, object: nil)
+    self.updateAppearanceForTheme()
   }
-  
+
+  func onSettingsChanged() {
+    self.updateSettings()
+  }
+
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     updateSettings()
@@ -78,7 +86,8 @@ import UIKit
     if (segue.identifier == "SimpleBibleSegue") {
       sbvc = segue.destination as? PKSimpleBibleViewController
       sbvc!.incognito = true
-      sbvc!.loadChapter(1, forBook: 40)
+      sbvc!.loadChapter(1, forBook: 62)
+
     }
   }
 

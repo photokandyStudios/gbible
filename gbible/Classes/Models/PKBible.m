@@ -1186,7 +1186,7 @@
                                                                             theSize.width, theSize.height)];
     theWordElement.text         = theWord;
     theWordElement.trait        = theTrait;
-    theWordElement.shadowColor  = [PKSettings PKLightShadowColor];
+    theWordElement.shadowColor  = [PKSettings PKPageColor];
     theWordElement.shadowOffset = CGSizeMake(0, 1);
     theWordElement.tag          = (theColumn == 1) ? theWordType : -1; // so we can avoid certain words later
     theWordElement.font         = (theColumn == 1 && theWordType == 0) ? theBoldFont : ((theWordElement.tag>-1) ? theSmallerFont : theFont);

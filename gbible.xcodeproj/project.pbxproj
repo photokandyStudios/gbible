@@ -312,6 +312,9 @@
 		6AD7E2D7152AB51C0072483E /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 6AD7E2D6152AB51C0072483E /* readme.md */; };
 		6AE89ABD1C921456005B8D68 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AE89ABC1C921456005B8D68 /* Images.xcassets */; };
 		6AE89ABF1C921498005B8D68 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AE89ABE1C921498005B8D68 /* Launch Screen.storyboard */; };
+		6AEA94391D9A04040090AFC7 /* PKSLayoutSingleSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEA94381D9A04040090AFC7 /* PKSLayoutSingleSettingController.swift */; };
+		6AEA943B1D9A10E70090AFC7 /* PKSGeneralSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEA943A1D9A10E70090AFC7 /* PKSGeneralSettingsController.swift */; };
+		6AEE96FD1D9A032800B7F75D /* PKSLayoutTextSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEE96FC1D9A032800B7F75D /* PKSLayoutTextSelectionController.swift */; };
 		6AF0C0A6150EE8BB00BFAE03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */; };
 		6AF0C0A8150EE8BB00BFAE03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */; };
 		6AF0C0AA150EE8BB00BFAE03 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF0C0A9150EE8BB00BFAE03 /* CoreGraphics.framework */; };
@@ -722,6 +725,9 @@
 		6ADCCCDC17D535F3002827C4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6AE89ABC1C921456005B8D68 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6AE89ABE1C921498005B8D68 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		6AEA94381D9A04040090AFC7 /* PKSLayoutSingleSettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKSLayoutSingleSettingController.swift; sourceTree = "<group>"; };
+		6AEA943A1D9A10E70090AFC7 /* PKSGeneralSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKSGeneralSettingsController.swift; sourceTree = "<group>"; };
+		6AEE96FC1D9A032800B7F75D /* PKSLayoutTextSelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKSLayoutTextSelectionController.swift; sourceTree = "<group>"; };
 		6AF0C0A1150EE8BB00BFAE03 /* gbible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gbible.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF0C0A5150EE8BB00BFAE03 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6AF0C0A7150EE8BB00BFAE03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1247,50 +1253,53 @@
 			isa = PBXGroup;
 			children = (
 				6AC0BA0E17BAE30200E6BD6F /* PKAboutViewController.h */,
-				6AC0BA0F17BAE30200E6BD6F /* PKAboutViewController.m */,
 				6AC0BA1017BAE30200E6BD6F /* PKBibleBookChaptersViewController.h */,
-				6AC0BA1117BAE30200E6BD6F /* PKBibleBookChaptersViewController.m */,
 				6AC0BA1217BAE30200E6BD6F /* PKBibleBookChapterVersesViewController.h */,
-				6AC0BA1317BAE30200E6BD6F /* PKBibleBookChapterVersesViewController.m */,
 				6AC0BA1417BAE30200E6BD6F /* PKBibleBooksController.h */,
-				6AC0BA1517BAE30200E6BD6F /* PKBibleBooksController.m */,
 				6AC0BA1617BAE30200E6BD6F /* PKBibleInfoViewController.h */,
-				6AC0BA1717BAE30200E6BD6F /* PKBibleInfoViewController.m */,
 				6AC0BA1817BAE30200E6BD6F /* PKBibleListViewController.h */,
-				6AC0BA1917BAE30200E6BD6F /* PKBibleListViewController.m */,
 				6AC0BA1A17BAE30200E6BD6F /* PKBibleViewController.h */,
-				6AC0BA1B17BAE30200E6BD6F /* PKBibleViewController.m */,
-				6AC0BA1C17BAE30200E6BD6F /* PKHighlightsViewController.h */,
-				6AC0BA1D17BAE30200E6BD6F /* PKHighlightsViewController.m */,
-				6AC0BA1E17BAE30200E6BD6F /* PKHistoryViewController.h */,
-				6AC0BA1F17BAE30200E6BD6F /* PKHistoryViewController.m */,
-				6AC0BA2017BAE30200E6BD6F /* PKLayoutController.h */,
-				6AC0BA2117BAE30200E6BD6F /* PKLayoutController.m */,
-				6AC0BA2217BAE30200E6BD6F /* PKNoteEditorViewController.h */,
-				6AC0BA2317BAE30200E6BD6F /* PKNoteEditorViewController.m */,
-				6AC0BA2417BAE30200E6BD6F /* PKNotesViewController.h */,
-				6AC0BA2517BAE30200E6BD6F /* PKNotesViewController.m */,
-				6AC0BA2617BAE30200E6BD6F /* PKPortraitNavigationController.h */,
-				6AC0BA2717BAE30200E6BD6F /* PKPortraitNavigationController.m */,
-				6AC0BA2817BAE30200E6BD6F /* PKRootViewController.h */,
-				6AC0BA2917BAE30200E6BD6F /* PKRootViewController.m */,
-				6AC0BA2A17BAE30200E6BD6F /* PKSearchViewController.h */,
-				6AC0BA2B17BAE30200E6BD6F /* PKSearchViewController.m */,
-				6AC0BA2C17BAE30200E6BD6F /* PKSettingsController.h */,
-				6AC0BA2D17BAE30200E6BD6F /* PKSettingsController.m */,
-				6AC0BA2E17BAE30200E6BD6F /* PKSimpleBibleViewController.h */,
-				6AC0BA2F17BAE30200E6BD6F /* PKSimpleBibleViewController.m */,
-				6AC0BA3017BAE30200E6BD6F /* PKStrongsController.h */,
-				6AC0BA3117BAE30200E6BD6F /* PKStrongsController.m */,
-				6AC0BA3217BAE30200E6BD6F /* PKTableViewController.h */,
-				6AC0BA3317BAE30200E6BD6F /* PKTableViewController.m */,
-				6AC0BA3417BAE30200E6BD6F /* PKVerseTableViewController.h */,
-				6AC0BA3517BAE30200E6BD6F /* PKVerseTableViewController.m */,
 				6A8433321CBC4D6C00FF283C /* PKGenericSettingsViewController.h */,
+				6AC0BA1C17BAE30200E6BD6F /* PKHighlightsViewController.h */,
+				6AC0BA1E17BAE30200E6BD6F /* PKHistoryViewController.h */,
+				6AC0BA2017BAE30200E6BD6F /* PKLayoutController.h */,
+				6AC0BA2217BAE30200E6BD6F /* PKNoteEditorViewController.h */,
+				6AC0BA2417BAE30200E6BD6F /* PKNotesViewController.h */,
+				6AC0BA2617BAE30200E6BD6F /* PKPortraitNavigationController.h */,
+				6AC0BA2817BAE30200E6BD6F /* PKRootViewController.h */,
+				6AC0BA2A17BAE30200E6BD6F /* PKSearchViewController.h */,
+				6AC0BA2C17BAE30200E6BD6F /* PKSettingsController.h */,
+				6AC0BA2E17BAE30200E6BD6F /* PKSimpleBibleViewController.h */,
+				6AC0BA3017BAE30200E6BD6F /* PKStrongsController.h */,
+				6AC0BA3217BAE30200E6BD6F /* PKTableViewController.h */,
+				6AC0BA3417BAE30200E6BD6F /* PKVerseTableViewController.h */,
+				6AC0BA0F17BAE30200E6BD6F /* PKAboutViewController.m */,
+				6AC0BA1117BAE30200E6BD6F /* PKBibleBookChaptersViewController.m */,
+				6AC0BA1317BAE30200E6BD6F /* PKBibleBookChapterVersesViewController.m */,
+				6AC0BA1517BAE30200E6BD6F /* PKBibleBooksController.m */,
+				6AC0BA1717BAE30200E6BD6F /* PKBibleInfoViewController.m */,
+				6AC0BA1917BAE30200E6BD6F /* PKBibleListViewController.m */,
+				6AC0BA1B17BAE30200E6BD6F /* PKBibleViewController.m */,
 				6A8433331CBC4D6C00FF283C /* PKGenericSettingsViewController.m */,
-				6A7013CF1D87510000D91623 /* PKSSettingsPageViewController.swift */,
+				6AC0BA1D17BAE30200E6BD6F /* PKHighlightsViewController.m */,
+				6AC0BA1F17BAE30200E6BD6F /* PKHistoryViewController.m */,
+				6AC0BA2117BAE30200E6BD6F /* PKLayoutController.m */,
+				6AC0BA2317BAE30200E6BD6F /* PKNoteEditorViewController.m */,
+				6AC0BA2517BAE30200E6BD6F /* PKNotesViewController.m */,
+				6AC0BA2717BAE30200E6BD6F /* PKPortraitNavigationController.m */,
+				6AC0BA2917BAE30200E6BD6F /* PKRootViewController.m */,
+				6AC0BA2B17BAE30200E6BD6F /* PKSearchViewController.m */,
+				6AC0BA2D17BAE30200E6BD6F /* PKSettingsController.m */,
+				6AC0BA2F17BAE30200E6BD6F /* PKSimpleBibleViewController.m */,
+				6AC0BA3117BAE30200E6BD6F /* PKStrongsController.m */,
+				6AC0BA3317BAE30200E6BD6F /* PKTableViewController.m */,
+				6AC0BA3517BAE30200E6BD6F /* PKVerseTableViewController.m */,
 				6A7013D31D87909800D91623 /* PKSLayoutController.swift */,
 				6A7013DA1D87B37C00D91623 /* PKSLayoutSettingsController.swift */,
+				6AEA94381D9A04040090AFC7 /* PKSLayoutSingleSettingController.swift */,
+				6AEE96FC1D9A032800B7F75D /* PKSLayoutTextSelectionController.swift */,
+				6A7013CF1D87510000D91623 /* PKSSettingsPageViewController.swift */,
+				6AEA943A1D9A10E70090AFC7 /* PKSGeneralSettingsController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1886,12 +1895,14 @@
 				6A63D0CE1D8A01D800A80C49 /* PKSViewport.m in Sources */,
 				6A661B5319BC16E7009283E3 /* TSMiniWebBrowser.m in Sources */,
 				6AC0BBB717BAE30200E6BD6F /* PKHighlightsViewController.m in Sources */,
+				6AEA943B1D9A10E70090AFC7 /* PKSGeneralSettingsController.swift in Sources */,
 				6AC0BBB817BAE30200E6BD6F /* PKHistoryViewController.m in Sources */,
 				6AC0BBB917BAE30200E6BD6F /* PKLayoutController.m in Sources */,
 				6AC0BBBA17BAE30200E6BD6F /* PKNoteEditorViewController.m in Sources */,
 				6A661B4219BC16E6009283E3 /* NSString+FontAwesome.m in Sources */,
 				6AC0BBBB17BAE30200E6BD6F /* PKNotesViewController.m in Sources */,
 				6AC0BBBC17BAE30200E6BD6F /* PKPortraitNavigationController.m in Sources */,
+				6AEA94391D9A04040090AFC7 /* PKSLayoutSingleSettingController.swift in Sources */,
 				6AC0BBBD17BAE30200E6BD6F /* PKRootViewController.m in Sources */,
 				6AC0BBBE17BAE30200E6BD6F /* PKSearchViewController.m in Sources */,
 				6AC0BBBF17BAE30200E6BD6F /* PKSettingsController.m in Sources */,
@@ -1910,6 +1921,7 @@
 				6AC0BBC717BAE30200E6BD6F /* PKHistory.m in Sources */,
 				6AC0BBC817BAE30200E6BD6F /* PKNotes.m in Sources */,
 				6A8433341CBC4D6C00FF283C /* PKGenericSettingsViewController.m in Sources */,
+				6AEE96FD1D9A032800B7F75D /* PKSLayoutTextSelectionController.swift in Sources */,
 				6AC0BBC917BAE30200E6BD6F /* PKReference.m in Sources */,
 				6A661B4C19BC16E7009283E3 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				6A661B2D19BC16E6009283E3 /* KBKeyboardHandler.m in Sources */,
@@ -2123,7 +2135,7 @@
 				GCC_PREFIX_HEADER = "gbible/gbible-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "gbible/gbible-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2173,7 +2185,7 @@
 				GCC_PREFIX_HEADER = "gbible/gbible-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "gbible/gbible-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

@@ -17,7 +17,7 @@ Portions of the code are under different licenses, see https://github.com/photok
 
  * iOS 8 is now the minimum supported version -- sorry to any users < iOS 8.
 
- * Full screen removed; nav bar now moves during scroll
+ * Full screen removed
 
  * Tint color correct
 
@@ -29,6 +29,9 @@ Portions of the code are under different licenses, see https://github.com/photok
 
 
 #### Known Issues
+
+ - export/import
+
 
  v Note view scrollable portion is incorrect with hardware keyboard
 

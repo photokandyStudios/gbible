@@ -9,3 +9,7 @@
 #import "PKSimpleBibleViewController.h"
 #import "PKBible.h"
 #import "PKSViewport.h"
+#import "UIFont+Utility.h"
+#import "PKAboutViewController.h"
+#import "PKBibleListViewController.h"
+#import "iRate.h"

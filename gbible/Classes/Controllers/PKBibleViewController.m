@@ -78,7 +78,7 @@
 
 
 @interface PKBibleViewController ()
-  //@property (strong, nonatomic, readwrite) UIView *inputView;
+  @property (strong, nonatomic, readwrite) UIView *inputView;
 @end
 
 @implementation PKBibleViewController
@@ -756,21 +756,14 @@
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeLayout:) name:@"com.photokandy.gbible.settings.changed" object:nil];
   
-  self.navigationController.hidesBarsOnSwipe = YES;
-  
-//http://stackoverflow.com/a/13163507
-//if ([self.navigationController.navigationBar
-//respondsToSelector:@selector(shadowImage)]) {
-//self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init] ;
-//}
-  
   _dirty = YES;
   _lastKnownOrientation           = [[UIDevice currentDevice] orientation];
   [self.tableView setBackgroundView: nil];
   self.tableView.backgroundColor = [PKSettings PKPageColor];
   self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
   
- // self.inputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+  self.inputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+  
   
   // add our gestures
   UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
@@ -840,9 +833,13 @@
 
   [footerView addSubview: _nextChapterButton];
 
+  //[headerView addSubview:[[UITextView alloc] initWithFrame:CGRectMake(0,0,100,100)]];
+
   // add the views to the table
   self.tableView.tableHeaderView = headerView;
   self.tableView.tableFooterView = footerView;
+ 
+ 
 }
 
 
@@ -2566,7 +2563,7 @@
 //             ];
 //  } else {
     return @[
-             [UIKeyCommand keyCommandWithInput:@"f" modifierFlags:UIKeyModifierCommand action:@selector(onKeySearch:)],
+             [UIKeyCommand keyCommandWithInput:@"f" modifierFlags:0 action:@selector(onKeySearch:)],
              ];
 //  }
 }
