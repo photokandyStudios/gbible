@@ -2136,7 +2136,7 @@
   if (dictionary != nil)
   {
     // FIX ISSUE #46
-    dictionary.modalPresentationStyle = UIModalPresentationFormSheet;
+    dictionary.modalPresentationStyle = UIModalPresentationPageSheet;
           [self presentViewController:dictionary animated:YES completion:nil];
   }
   else
@@ -2267,6 +2267,7 @@
     }
     _PO = [[UIPopoverController alloc] initWithContentViewController: nc];
     [_PO setPopoverContentSize: CGSizeMake(480, 640) animated: NO];
+    _PO.backgroundColor = [PKSettings PKPageColor];
     [_PO presentPopoverFromBarButtonItem: (UIBarButtonItem *)sender permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
   }
   else
@@ -2293,6 +2294,7 @@
     }
     _PO = [[UIPopoverController alloc] initWithContentViewController: nc];
     [_PO setPopoverContentSize: CGSizeMake(480, 640) animated: NO];
+    _PO.backgroundColor = [PKSettings PKPageColor];
     [_PO presentPopoverFromBarButtonItem: (UIBarButtonItem *)sender permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
   }
   else

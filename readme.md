@@ -32,12 +32,27 @@ Portions of the code are under different licenses, see https://github.com/photok
 
  - export/import
 
+ - strongs / search has white nav bar
+
+ - strongs / search should layout after size class changes
+
+ x popovers show white fringes in dark theme
+
+ - need attributions
+
+ - inject color into bible view web view
+
+ x proper iOS7+ download button -- maybe move to upper right navbar instead (yes)
+
+ x Search includes OT results if avail in book
+
+ - help (maybe videos?)
+
+
 
  v Note view scrollable portion is incorrect with hardware keyboard
 
  ^ no keyboard shortcut control overlay nor response
-
- - Layout needs to adjust to screen
 
  v Add simple bible to note editor?
 

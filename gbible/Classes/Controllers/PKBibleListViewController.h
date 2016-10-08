@@ -37,8 +37,9 @@
 //
 #import <UIKit/UIKit.h>
 #import "PKBibleDelegate.h"
+#import "PKTableViewController.h"
 
-@interface PKBibleListViewController : UITableViewController <PKBibleDelegate>
+@interface PKBibleListViewController : PKTableViewController <PKBibleDelegate>
 
 @property (nonatomic, assign) id <PKBibleDelegate> delegate;
 

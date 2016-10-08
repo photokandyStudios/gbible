@@ -48,6 +48,8 @@
 #import "SSZipArchive.h"
 #import "UIImage+PKUtility.h"
 
+#import <DownloadButton/PKDownloadButton.h>
+
 @interface PKBibleInfoViewController ()
 
 @end
@@ -55,12 +57,21 @@
 @implementation PKBibleInfoViewController
 {
   int _theBibleID;
-  UILabel *  /**__strong**/ _theBibleTitle;
-  UILabel *  /**__strong**/ _theBibleAbbreviation;
-  UIImageView *  /**__strong**/ _theBibleImage;
-  UILabel *  /**__strong**/ _theBibleImageAbbr;
+  //UILabel *  /**__strong**/ _theBibleTitle;
+  //UILabel *  /**__strong**/ _theBibleAbbreviation;
+  //UIImageView *  /**__strong**/ _theBibleImage;
+  //UILabel *  /**__strong**/ _theBibleImageAbbr;
   UIWebView *  /**__strong**/ _theBibleInformation;
-  MAConfirmButton *  /**__strong**/ _theActionButton;
+  //MAConfirmButton *  /**__strong**/ _theActionButton;
+  //PKDownloadButton * /**__strong**/ _theDownloadButton;
+}
+
+-(void) updateAppearanceForTheme
+{
+  [self.navigationController.navigationBar setBarStyle:[PKSettings PKBarStyle]];
+  self.view.backgroundColor = [PKSettings PKPageColor];
+  //_theBibleImage.backgroundColor = [PKSettings PKSidebarPageColor];
+  _theBibleInformation.backgroundColor = [PKSettings PKPageColor];
 }
 
 - (id)initWithBibleID: (int) bibleID
@@ -81,31 +92,29 @@
 
   self.extendedLayoutIncludesOpaqueBars  = YES;
   self.edgesForExtendedLayout = UIRectEdgeNone;
-  [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
-  self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-  
-  self.view.backgroundColor = [UIColor colorWithWhite:0.95 alpha: 1.0];
   
   // create the UI layout and then fire off a load of the information.
-  _theBibleImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 141, 173)];
-  _theBibleImage.image = [UIImage imageNamed:@"leather-book"];
-  [self.view addSubview:_theBibleImage];
-  
+  // _theBibleImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 141, 173)];
+  //_theBibleImage.image = [UIImage imageNamed:@"leather-book"];
+  // [self.view addSubview:_theBibleImage];
+  /*
   _theBibleImageAbbr = [[UILabel alloc] initWithFrame:CGRectMake(35, 30, 98, 35)];
   _theBibleImageAbbr.font = [UIFont fontWithName:@"Georgia" size:35];
-  _theBibleImageAbbr.textColor = [UIColor colorWithHexString:@"b4a567"];
+  _theBibleImageAbbr.textColor = [PKSettings PKSidebarTextColor];//[UIColor colorWithHexString:@"b4a567"];
   _theBibleImageAbbr.textAlignment = NSTextAlignmentCenter;
   _theBibleImageAbbr.backgroundColor = [UIColor clearColor];
   _theBibleImageAbbr.adjustsFontSizeToFitWidth = YES;
   _theBibleImageAbbr.shadowColor = [UIColor whiteColor];
   _theBibleImageAbbr.shadowOffset = CGSizeMake(0, -1);
   [self.view addSubview:_theBibleImageAbbr];
-  _theBibleInformation = [[UIWebView alloc] initWithFrame: CGRectMake( 151, 10, self.view.bounds.size.width-171,
-                                                                     self.view.bounds.size.height-20 )];
+   */
+  _theBibleInformation = [[UIWebView alloc] initWithFrame: CGRectMake( 0, 0, self.view.bounds.size.width,
+                                                                     self.view.bounds.size.height )];
   _theBibleInformation.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-  _theBibleInformation.backgroundColor = [UIColor clearColor];
   _theBibleInformation.opaque = NO;
   [self.view addSubview:_theBibleInformation];
+  
+  [self updateAppearanceForTheme];
   
 }
 
@@ -123,43 +132,46 @@
 
 - (void)setHTML: (NSString *)theHTML
 {
-  NSString *preHTMLiPad = @"<style>BODY { background-color: #f2f2f2; font-family: 'Helvetica'; color:#333; }</style>";
-  NSString *preHTMLiPhone = @"<style>BODY { background-color: #f2f2f2; font-family: 'Helvetica'; color:#333; font-size: 66%}</style>";
+  NSString *preHTMLiPad = @"<style>BODY { font-family: 'Helvetica';  }</style>";
+  NSString *preHTMLiPhone = @"<style>BODY { font-family: 'Helvetica'; }</style>";
   [_theBibleInformation loadHTMLString:[(isWide((UIView *)self) ? preHTMLiPad : preHTMLiPhone) stringByAppendingString:theHTML] baseURL:nil];
 }
 
 - (void)loadBibleInformation
 {
-  if (_theActionButton)
-  {
-    [_theActionButton removeFromSuperview];
-    _theActionButton = nil;
-  }
+  //if (_theActionButton)
+  //{
+  //  [_theActionButton removeFromSuperview];
+  //  _theActionButton = nil;
+  //}
   
   // if the Bible is a built-in or installed, we want to get the information from there first.
   if ( [PKBible isTextBuiltIn: _theBibleID] )
   {
     //    theBibleTitle.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_NAME];
     //    theBibleAbbreviation.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
-    _theBibleImageAbbr.text = [PKBible text:_theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
+  //  _theBibleImageAbbr.text = [PKBible text:_theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
     [self setHTML:[PKBible text:_theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ATTRIBUTION]];
     
-    _theActionButton = [[MAConfirmButton alloc] initWithDisabledTitle:__T(@"Built-In")];
-    [_theActionButton setAnchor:CGPointMake(141, 193)];
-    [self.view addSubview:_theActionButton];
+//    _theActionButton = [[MAConfirmButton alloc] initWithDisabledTitle:__T(@"Built-In")];
+//    [_theActionButton setAnchor:CGPointMake(141, 193)];
+//    [self.view addSubview:_theActionButton];
   }
   else
     if ( [PKBible isTextInstalled: _theBibleID] )
     {
       //      theBibleTitle.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_NAME];
       //      theBibleAbbreviation.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
-      _theBibleImageAbbr.text = [PKBible text:_theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
+//      _theBibleImageAbbr.text = [PKBible text:_theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
       [self setHTML:[PKBible text:_theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ATTRIBUTION]];
-      _theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"Installed") confirm:__T(@"Remove Bible")];
-      _theActionButton.secondColor=[UIColor redColor];
-      [_theActionButton setAnchor:CGPointMake(141, 193)];
-      [_theActionButton addTarget:self action:@selector(removeBible:) forControlEvents:UIControlEventTouchUpInside];
-      [self.view addSubview:_theActionButton];
+//      _theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"Installed") confirm:__T(@"Remove Bible")];
+//      _theActionButton.secondColor=[UIColor redColor];
+//      [_theActionButton setAnchor:CGPointMake(141, 193)];
+//      [_theActionButton addTarget:self action:@selector(removeBible:) forControlEvents:UIControlEventTouchUpInside];
+//      [self.view addSubview:_theActionButton];
+
+      self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:__T(@"Remove") style:UIBarButtonItemStylePlain target:self action:@selector(removeBible:)];
+    
     }
     else
     {
@@ -178,13 +190,15 @@
                               {
                                 //            theBibleTitle.text = [objects[i] objectForKey:@"Title"];
                                 //            theBibleAbbreviation.text = [objects[i] objectForKey:@"Abbreviation"];
-                                _theBibleImageAbbr.text = (objects[i])[@"Abbreviation"];
+//                                _theBibleImageAbbr.text = (objects[i])[@"Abbreviation"];
                                 [self setHTML:(objects[i])[@"Info"]];
                                 
-                                _theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"FREE") confirm:__T(@"Download")];
-                                [_theActionButton setAnchor:CGPointMake(141, 193)];
-                                [_theActionButton addTarget:self action:@selector(downloadBible:) forControlEvents:UIControlEventTouchUpInside];
-                                [self.view addSubview:_theActionButton];
+//                                _theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"FREE") confirm:__T(@"Download")];
+//                                [_theActionButton setAnchor:CGPointMake(141, 193)];
+//                                [_theActionButton addTarget:self action:@selector(downloadBible:) forControlEvents:UIControlEventTouchUpInside];
+//                                [self.view addSubview:_theActionButton];
+                                
+                                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:__T(@"Download") style:UIBarButtonItemStylePlain target:self action:@selector(downloadBible:)];
                                 
                               }
                             } afterDelay:0.1f];
@@ -209,11 +223,11 @@
     [[PKSettings instance] saveSettings];
   }
 
-  // çTODO: what about the greek side? 
+  // TODO: what about the greek side?
   
   // change the button
   [self performBlockAsynchronouslyInForeground:^{
-    [_theActionButton disableWithTitle:__T(@"Removing")];
+//    [_theActionButton disableWithTitle:__T(@"Removing")];
     [SVProgressHUD showWithStatus:__T(@"Removing...") maskType:SVProgressHUDMaskTypeClear];
   } afterDelay:0.01];
 
@@ -260,7 +274,7 @@
 {
   // change the button
   [self performBlockAsynchronouslyInForeground:^{
-    [_theActionButton disableWithTitle:__T(@"Installing")];
+  //  [_theActionButton disableWithTitle:__T(@"Installing")];
     [SVProgressHUD showWithStatus:__T(@"Installing...") maskType:SVProgressHUDMaskTypeClear];
   } afterDelay:0.01];
   

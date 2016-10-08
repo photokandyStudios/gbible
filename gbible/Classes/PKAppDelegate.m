@@ -60,6 +60,10 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
+
 @implementation PKAppDelegate
 
 /*
@@ -252,6 +256,8 @@ static PKAppDelegate * _instance;
   if ([_mySettings usageStats] == YES)
   {
       //    [TestFlight takeOff: TESTFLIGHT_API_KEY];
+    [Fabric with:@[[Crashlytics class]]];
+
   }
   
   self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];

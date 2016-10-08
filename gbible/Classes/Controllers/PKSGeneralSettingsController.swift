@@ -46,7 +46,7 @@ class PKSGeneralSettingsController: PKTableViewController {
     switch (cell!.tag) {
     case 101:
       // Manage Bibles
-      let blvc: PKBibleListViewController = PKBibleListViewController.init(style: .plain)
+      let blvc: PKBibleListViewController = PKBibleListViewController.init(style: .grouped)
       navigationController?.pushViewController(blvc, animated: true)
       break
       
@@ -60,6 +60,10 @@ class PKSGeneralSettingsController: PKTableViewController {
       
     case 302:
       // Privacy Notice
+      let url = URL(string: "https://www.photokandy.com/apps/greek-interlinear-bible/privacy/")
+      let sfvc = SFSafariViewController.init(url: url!)
+      sfvc.modalPresentationStyle = .pageSheet
+      present(sfvc, animated: true, completion: nil)
       break
       
     case 402:

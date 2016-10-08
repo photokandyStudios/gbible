@@ -1350,7 +1350,7 @@ default:
       {
         FMResultSet *s =
           [db executeQuery: [NSString stringWithFormat:
-                             @"SELECT DISTINCT bibleBook, bibleChapter, bibleVerse FROM content WHERE bibleID = ? AND (%@) ORDER BY 1,2,3",
+                             @"SELECT DISTINCT bibleBook, bibleChapter, bibleVerse FROM content WHERE bibleID = ? AND (%@) AND bibleBook >= 40 ORDER BY 1,2,3",
                              searchPhrase],
            @(i==0?theGreekBible:theEnglishBible)];
 

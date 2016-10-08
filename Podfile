@@ -18,5 +18,7 @@ target 'gbible' do
   pod 'DownloadButton', '~> 0.1'
   pod 'UIViewController-KeyboardAdditions', '~> 1.2'
   pod 'GTScrollNavigationBar', '~> 0.4'
+  pod 'Fabric'
+  pod 'Crashlytics'
 end
 

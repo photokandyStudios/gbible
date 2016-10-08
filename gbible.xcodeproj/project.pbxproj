@@ -12,6 +12,7 @@
 		6A0BB48917BAEA9100C52F6C /* NSObject+PKGCD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A0BB48817BAEA9100C52F6C /* NSObject+PKGCD.m */; };
 		6A0BB48C17BB27B200C52F6C /* CheckMark-30.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0BB48A17BB27B200C52F6C /* CheckMark-30.png */; };
 		6A0BB48D17BB27B200C52F6C /* CheckMark-30@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0BB48B17BB27B200C52F6C /* CheckMark-30@2x.png */; };
+		6A3DDC4F1D9EFFC20072EBC7 /* gbibleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3DDC4E1D9EFFC20072EBC7 /* gbibleUITests.swift */; };
 		6A495CD7169D371000F1A55C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A495CD9169D371000F1A55C /* Localizable.strings */; };
 		6A510A4E1733104A00EF5BB1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A4C1733104A00EF5BB1 /* CoreTelephony.framework */; };
 		6A510A4F1733104A00EF5BB1 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A510A4D1733104A00EF5BB1 /* CoreText.framework */; };
@@ -325,6 +326,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6A3DDC511D9EFFC20072EBC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6AF0C098150EE8BB00BFAE03 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6AF0C0A0150EE8BB00BFAE03;
+			remoteInfo = gbible;
+		};
 		6AB3829F1CB9C7B3000271FF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6AF0C098150EE8BB00BFAE03 /* Project object */;
@@ -341,6 +349,9 @@
 		6A0BB48817BAEA9100C52F6C /* NSObject+PKGCD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PKGCD.m"; sourceTree = "<group>"; };
 		6A0BB48A17BB27B200C52F6C /* CheckMark-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CheckMark-30.png"; sourceTree = "<group>"; };
 		6A0BB48B17BB27B200C52F6C /* CheckMark-30@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CheckMark-30@2x.png"; sourceTree = "<group>"; };
+		6A3DDC4C1D9EFFC20072EBC7 /* gbibleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gbibleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A3DDC4E1D9EFFC20072EBC7 /* gbibleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gbibleUITests.swift; sourceTree = "<group>"; };
+		6A3DDC501D9EFFC20072EBC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6A495CD8169D371000F1A55C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A495CDE169D37BB00F1A55C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A495CDF169D37BC00F1A55C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -743,6 +754,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6A3DDC491D9EFFC20072EBC7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6AB382971CB9C7B3000271FF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -779,6 +797,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A3DDC4D1D9EFFC20072EBC7 /* gbibleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6A3DDC4E1D9EFFC20072EBC7 /* gbibleUITests.swift */,
+				6A3DDC501D9EFFC20072EBC7 /* Info.plist */,
+			);
+			path = gbibleUITests;
+			sourceTree = "<group>";
+		};
 		6A661A5619BC16E6009283E3 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
@@ -1367,6 +1394,7 @@
 			isa = PBXGroup;
 			children = (
 				6AB3829B1CB9C7B3000271FF /* gbibleTests */,
+				6A3DDC4D1D9EFFC20072EBC7 /* gbibleUITests */,
 				6AF0C0A4150EE8BB00BFAE03 /* Frameworks */,
 				6AF0C0AB150EE8BB00BFAE03 /* gbible */,
 				6AF0C0A2150EE8BB00BFAE03 /* Products */,
@@ -1380,6 +1408,7 @@
 			children = (
 				6AF0C0A1150EE8BB00BFAE03 /* gbible.app */,
 				6AB3829A1CB9C7B3000271FF /* gbibleTests.xctest */,
+				6A3DDC4C1D9EFFC20072EBC7 /* gbibleUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1455,6 +1484,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6A3DDC4B1D9EFFC20072EBC7 /* gbibleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A3DDC531D9EFFC20072EBC7 /* Build configuration list for PBXNativeTarget "gbibleUITests" */;
+			buildPhases = (
+				6A3DDC481D9EFFC20072EBC7 /* Sources */,
+				6A3DDC491D9EFFC20072EBC7 /* Frameworks */,
+				6A3DDC4A1D9EFFC20072EBC7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6A3DDC521D9EFFC20072EBC7 /* PBXTargetDependency */,
+			);
+			name = gbibleUITests;
+			productName = gbibleUITests;
+			productReference = 6A3DDC4C1D9EFFC20072EBC7 /* gbibleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		6AB382991CB9C7B3000271FF /* gbibleTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6AB382A11CB9C7B3000271FF /* Build configuration list for PBXNativeTarget "gbibleTests" */;
@@ -1484,6 +1531,7 @@
 				6AF0C09F150EE8BB00BFAE03 /* Resources */,
 				B35A512EEAF31E08CFA0D1A0 /* [CP] Embed Pods Frameworks */,
 				998B91EF3B195F93B07073C6 /* [CP] Copy Pods Resources */,
+				6AC116FA1DA6CDC60011EB54 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1501,10 +1549,16 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PK;
-				LastSwiftUpdateCheck = 0730;
+				LastSwiftUpdateCheck = 0800;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "photoKandy Studios LLC";
 				TargetAttributes = {
+					6A3DDC4B1D9EFFC20072EBC7 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = Y3G92HH8YD;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 6AF0C0A0150EE8BB00BFAE03;
+					};
 					6AB382991CB9C7B3000271FF = {
 						CreatedOnToolsVersion = 7.3;
 						LastSwiftMigration = 0800;
@@ -1550,11 +1604,19 @@
 			targets = (
 				6AF0C0A0150EE8BB00BFAE03 /* gbible */,
 				6AB382991CB9C7B3000271FF /* gbibleTests */,
+				6A3DDC4B1D9EFFC20072EBC7 /* gbibleUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6A3DDC4A1D9EFFC20072EBC7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6AB382981CB9C7B3000271FF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1809,6 +1871,19 @@
 			shellPath = /bin/sh;
 			shellScript = "TARGET=\"$PROJECT_DIR/gbible/gbible-Info.plist\"\necho $TARGET\nif [ ! -f \"$TARGET\" ]; then\n   echo \"missing file $TARGET\"\n   exit 1;\nfi\n\n# the perl regex splits out the last part of a build number (ie: 1.1.1) and increments it by one\n# if you have a build number that is more than 3 components, add a '\\.\\d+' into the first part of the regex.\n\nNEW_VERSION=`/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$TARGET\" | /usr/bin/perl -pe 's/(\\d+\\.\\d+\\.)(\\d+)/$1.($2+1)/eg'`\necho $NEW_VERSION;\n/usr/libexec/PListBuddy -c \"Set CFBundleVersion $NEW_VERSION\" \"$TARGET\"\n";
 		};
+		6AC116FA1DA6CDC60011EB54 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" e906ab319449baeda392b890e266e9e76a8c2603 bfc561f4fbed29e36cc9a52285329fa223f07122e3365b81391aa72d9f1a6172";
+		};
 		998B91EF3B195F93B07073C6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1857,6 +1932,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6A3DDC481D9EFFC20072EBC7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A3DDC4F1D9EFFC20072EBC7 /* gbibleUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6AB382961CB9C7B3000271FF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1947,6 +2030,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6A3DDC521D9EFFC20072EBC7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6AF0C0A0150EE8BB00BFAE03 /* gbible */;
+			targetProxy = 6A3DDC511D9EFFC20072EBC7 /* PBXContainerItemProxy */;
+		};
 		6AB382A01CB9C7B3000271FF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6AF0C0A0150EE8BB00BFAE03 /* gbible */;
@@ -1986,6 +2074,62 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6A3DDC541D9EFFC20072EBC7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = Y3G92HH8YD;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = gbibleUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photokandy.gbibleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = gbible;
+			};
+			name = Debug;
+		};
+		6A3DDC551D9EFFC20072EBC7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = Y3G92HH8YD;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = gbibleUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photokandy.gbibleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = gbible;
+			};
+			name = Release;
+		};
 		6AB382A21CB9C7B3000271FF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2212,6 +2356,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6A3DDC531D9EFFC20072EBC7 /* Build configuration list for PBXNativeTarget "gbibleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A3DDC541D9EFFC20072EBC7 /* Debug */,
+				6A3DDC551D9EFFC20072EBC7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6AB382A11CB9C7B3000271FF /* Build configuration list for PBXNativeTarget "gbibleTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

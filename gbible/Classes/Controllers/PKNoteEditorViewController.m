@@ -176,8 +176,7 @@
     {
       self.extendedLayoutIncludesOpaqueBars = YES;
       self.edgesForExtendedLayout = UIRectEdgeNone;
-      self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-      [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
+      //self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     }
 
 
@@ -227,24 +226,13 @@
 
 -(void) updateAppearanceForTheme
 {
+  [self.navigationController.navigationBar setBarStyle:[PKSettings PKBarStyle]];
+  self.navigationController.view.backgroundColor = [PKSettings PKPageColor];
   self.view.backgroundColor = [PKSettings PKPageColor];
   _txtNote.backgroundColor                     = [UIColor clearColor];
   _txtTitle.backgroundColor                    = [UIColor clearColor];
   _txtNote.textColor                           = [PKSettings PKTextColor];
   _txtTitle.textColor                          = [PKSettings PKTextColor];
-  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-  {
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
-  }
-  else
-  {
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsDefaultPrompt];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsCompact];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[PKSettings PKSecondaryPageColor]] forBarMetrics:UIBarMetricsCompactPrompt];
-  }
 }
 
 -(void)viewWillAppear: (BOOL) animated
