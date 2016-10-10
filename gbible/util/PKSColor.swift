@@ -48,7 +48,7 @@ class PKSColor {
   static func color(fromString colorString: String)->UIColor? {
     // parse the color string
     // first split by COMMA
-    let colorComponents:[String] = colorString.components(separatedBy: ",") ?? [colorString]
+    let colorComponents:[String] = colorString.components(separatedBy: ",")
     
     // next, we need to convert each component into a corresponding number
     let colorNumberComponents:[CGFloat] = colorComponents.map({s -> CGFloat in CGFloat((s as NSString).floatValue) })

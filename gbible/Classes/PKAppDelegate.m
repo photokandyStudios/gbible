@@ -66,23 +66,6 @@
 
 @implementation PKAppDelegate
 
-/*
-@synthesize window = _window;
-@synthesize database;
-@synthesize mySettings;
-@synthesize rootViewController;
-@synthesize bibleViewController;
-@synthesize bibleBooksViewController;
-@synthesize notesViewController;
-@synthesize historyViewController;
-@synthesize highlightsViewController;
-@synthesize segmentController;
-@synthesize segmentedControl;
-@synthesize searchViewController;
-@synthesize strongsViewController;
-@synthesize brightness;
-@synthesize splash;
-*/
 
 static PKAppDelegate * _instance;
 
@@ -141,17 +124,11 @@ static PKAppDelegate * _instance;
 +(void) applyThemeToUINavigationBar: (UINavigationBar *)nba
 {
   
-//    nba.tintColor = [PKSettings PKTintColor];
     nba.barStyle = [PKSettings PKBarStyle];
-    //nba.barTintColor = [[PKSettings PKPageColor ] colorWithAlphaComponent:0.0]; //TODO: decide final version of header color on iOS 7
-    //nba.translucent = YES;
     nba.titleTextAttributes = @{ NSForegroundColorAttributeName: [PKSettings PKTextColor],
                                  NSFontAttributeName: [UIFont fontWithName:PKSettings.interfaceFont size:20]
                                  };
   
-    //[nba setBackgroundImage:[UIImage imageWithColor:[[PKSettings PKPageColor] colorWithAlphaComponent:0.85] ]  forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
-    //nba.shadowImage = [[UIImage alloc] init];
-    //nba.shadowImage = [UIImage imageWithColor:[UIColor redColor] andSize:CGSizeMake(10,10)];
 }
 
 +(void) applyThemeToUISearchBar: (UISearchBar *)sba
@@ -171,39 +148,11 @@ static PKAppDelegate * _instance;
                           @[ _bibleBooksViewController, _notesViewController,
                           _highlightsViewController, _historyViewController,
                           _searchViewController, _strongsViewController ] ];
-    //if (_bibleBooksViewController.navigationController.visibleViewController)
       [va addObject:_bibleBooksViewController];
-    //if (_bibleViewController.navigationController.visibleViewController)
       [va addObject:_bibleViewController];
     for ( UIViewController * nb in va )
     {
-/*      UINavigationItem * ni = nb.navigationItem;
-      if (ni.leftBarButtonItems)
-      {
-        for ( UIBarButtonItem* b in ni.leftBarButtonItems )
-        {
-          [PKAppDelegate applyThemeToUIBarButtonItem:b];
-        }
-      }
-      if (ni.rightBarButtonItems)
-      {
-        for ( UIBarButtonItem* b in ni.rightBarButtonItems )
-        {
-          [PKAppDelegate applyThemeToUIBarButtonItem:b];
-        }
-      }
-      if (ni.leftBarButtonItem)
-        [PKAppDelegate applyThemeToUIBarButtonItem:ni.leftBarButtonItem];
-      if (ni.rightBarButtonItem)
-        [PKAppDelegate applyThemeToUIBarButtonItem:ni.rightBarButtonItem];
-      if (ni.backBarButtonItem)
-        [PKAppDelegate applyThemeToUIBarButtonItem:ni.backBarButtonItem];
-      if (nb.presentingViewController.navigationItem.backBarButtonItem)
-        [PKAppDelegate applyThemeToUIBarButtonItem:nb.presentingViewController.navigationItem.backBarButtonItem];
-      //{*/
-//      [nb.navigationController setNavigationBarHidden:YES];
       [PKAppDelegate applyThemeToUINavigationBar:nb.navigationController.navigationBar];
-//      [nb.navigationController setNavigationBarHidden:NO animated:YES];
       
       if ([nb respondsToSelector:@selector(updateAppearanceForTheme)])
       {
@@ -243,9 +192,6 @@ static PKAppDelegate * _instance;
   [Parse setApplicationId:PARSE_APPLICATION_ID
                 clientKey:PARSE_CLIENT_KEY];
   
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert |
-                                                                          UIRemoteNotificationTypeBadge];
-  
   //open our databases...
   _database   = [PKDatabase instance];
   
@@ -255,10 +201,13 @@ static PKAppDelegate * _instance;
   
   if ([_mySettings usageStats] == YES)
   {
-      //    [TestFlight takeOff: TESTFLIGHT_API_KEY];
     [Fabric with:@[[Crashlytics class]]];
-
   }
+  
+  // init our icloud container
+  [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+  
+  [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
   
   self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
   // define our "top-level" controller -- this is the one above the navigation panel
@@ -334,16 +283,11 @@ static PKAppDelegate * _instance;
   
   // since we alter the brightness, get the value now
   _brightness = [[UIScreen mainScreen] brightness];
-
-  // check for notifications; and handle if necessary
-  NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-  if (notificationPayload)
-  {
-      // should be some other notification, like a new Bible :-)
-      UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:notificationPayload[@"aps"][@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
-      [anAlert show];
-  }
   
+  return YES;
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
   return YES;
 }
 
@@ -428,32 +372,4 @@ static PKAppDelegate * _instance;
   [[PKSettings instance] saveSettings];
 }
 
-/**
- *
- * Receive 3rd party notifications
- *
- */
--(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-{
-
- // Store the deviceToken in the current Installation and save it to Parse.
-    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-    [currentInstallation setDeviceTokenFromData:deviceToken];
-    [currentInstallation saveInBackground];
- // and register for a channel
-  [currentInstallation addUniqueObject:@"BibleNotifications" forKey:@"channels"];
-  [currentInstallation saveInBackground];
-}
-
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
-  // should be some other notification, like a new Bible :-)
-  UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:__T(@"Notice") message:userInfo[@"aps"][@"alert"] delegate:nil cancelButtonTitle:__T(@"OK") otherButtonTitles: nil];
-  [anAlert show];
-}
-
--(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
-{
-  NSLog( @"Failed to register for remote notifications: %@", [error localizedDescription]);
-}
 @end

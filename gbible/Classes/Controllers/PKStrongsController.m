@@ -101,7 +101,7 @@
   [self clearCellHeights];
   _byKeyOnly = keyOnly;
   [self performBlockAsynchronouslyInForeground:^{
-    [SVProgressHUD showWithStatus:__T(@"Searching...") maskType:SVProgressHUDMaskTypeClear];
+    [SVProgressHUD showWithStatus:__T(@"Searching...") ];
   } afterDelay:0.01f];
   [[PKHistory instance] addStrongsSearch: theTerm];
   [[[PKAppDelegate sharedInstance] historyViewController] reloadHistory];

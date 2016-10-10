@@ -230,31 +230,41 @@ static PKDatabase * _instance;
   return self;
 }
 
--(BOOL) importNotes
-{
-  // locate our import database
-  NSString *importDatabaseName =
-  [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                         YES)[0] stringByAppendingPathComponent: @"import.dat"];
+-(FMDatabase *)getDatabaseAtURL: (NSURL *)url {
+  // if it's external, we need to tell the system we're accessing it as a security scoped resource
+  [url startAccessingSecurityScopedResource];
+  
+  // locate our the database
+  NSString *theDatabaseName = [url path];
   
   NSFileManager *fm            = [NSFileManager defaultManager];
   
-  if (![fm fileExistsAtPath: importDatabaseName])
+  if (![fm fileExistsAtPath: theDatabaseName])
   {
-    UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle: __T(@"Import Error")
-                                                           message: __Tv(@"error-import-message",
-                                                                         @"Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?")
-                                                          delegate: self
-                                                 cancelButtonTitle: nil otherButtonTitles: __T(@"OK"), nil];
-    [theAlertView show];
-    return NO;
+    NSLog(@"[CRITICAL] Expected file at %@, but was not present", theDatabaseName);
+    return nil;
   }
   
-  FMDatabase *imdb = [FMDatabase databaseWithPath: importDatabaseName];
+  FMDatabase *imdb = [FMDatabase databaseWithPath: theDatabaseName];
   
   if (![imdb open])
   {
-    NSLog(@"[CRITICAL] Could not open the import.dat database!");
+    NSLog(@"[CRITICAL] Could not open the database at %@", theDatabaseName);
+    return nil;
+  }
+  
+  return imdb;
+}
+
+-(void)closeDatabase: (FMDatabase *)db atUrl:(NSURL *)url {
+  [db close];
+  [url stopAccessingSecurityScopedResource];
+}
+
+-(BOOL) importNotesFromURL: (NSURL *)url
+{
+  FMDatabase *imdb = [self getDatabaseAtURL:url];
+  if (!imdb) {
     return NO;
   }
   
@@ -276,36 +286,15 @@ static PKDatabase * _instance;
     [noteModel setNote: theNote withTitle:theTitle forReference:
         [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse]];
   }
-  
-  [imdb close];
+
+  [self closeDatabase:imdb atUrl:url];
   return YES;
 }
 
--(BOOL) importHighlights
+-(BOOL) importHighlightsFromURL: (NSURL *)url
 {
-  // locate our import database
-  NSString *importDatabaseName =
-  [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                         YES)[0] stringByAppendingPathComponent: @"import.dat"];
-  
-  NSFileManager *fm            = [NSFileManager defaultManager];
-  
-  if (![fm fileExistsAtPath: importDatabaseName])
-  {
-    UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle: __T(@"Import Error")
-                                                           message: __Tv(@"error-import-message",
-                                                                         @"Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?")
-                                                          delegate: self
-                                                 cancelButtonTitle: nil otherButtonTitles: __T(@"OK"), nil];
-    [theAlertView show];
-    return NO;
-  }
-  
-  FMDatabase *imdb = [FMDatabase databaseWithPath: importDatabaseName];
-  
-  if (![imdb open])
-  {
-    NSLog(@"[CRITICAL] Could not open the import.dat database!");
+  FMDatabase *imdb = [self getDatabaseAtURL:url];
+  if (!imdb) {
     return NO;
   }
   
@@ -332,35 +321,14 @@ static PKDatabase * _instance;
     [highlightModel setHighlight: theColor forReference: [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse]];
   }
   
-  [imdb close];
+  [self closeDatabase:imdb atUrl:url];
   return YES;
 }
 
--(BOOL) importSettings
+-(BOOL) importSettingsFromURL: (NSURL *)url
 {
-  // locate our import database
-  NSString *importDatabaseName =
-  [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask,
-                                         YES)[0] stringByAppendingPathComponent: @"import.dat"];
-  
-  NSFileManager *fm            = [NSFileManager defaultManager];
-  
-  if (![fm fileExistsAtPath: importDatabaseName])
-  {
-    UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle: __T(@"Import Error")
-                                                           message: __Tv(@"error-import-message",
-                                                                         @"Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?")
-                                                          delegate: self
-                                                 cancelButtonTitle: nil otherButtonTitles: __T(@"OK"), nil];
-    [theAlertView show];
-    return NO;
-  }
-  
-  FMDatabase *imdb = [FMDatabase databaseWithPath: importDatabaseName];
-  
-  if (![imdb open])
-  {
-    NSLog(@"[CRITICAL] Could not open the import.dat database!");
+  FMDatabase *imdb = [self getDatabaseAtURL:url];
+  if (!imdb) {
     return NO;
   }
   
@@ -379,20 +347,21 @@ static PKDatabase * _instance;
     [settingsModel saveSetting: theSettingKey valueForSetting: theSettingValue];
   }
   [settingsModel reloadSettings];
-  [imdb close];
+  
+  [self closeDatabase:imdb atUrl:url];
   return YES;
 }
 
--(BOOL) exportAll
+-(NSString *) exportAll
 {
   //[content close];          // close the database first...
   
   // our export will be of the form: exportMMDDYYY_HHMISS.dat
   NSDate *theDate               = [NSDate date];
   NSDateFormatter *theFormatter = [[NSDateFormatter alloc] init];
-  [theFormatter setDateFormat: @"yyyyMMddHHmmss"];
+  [theFormatter setDateFormat: @"yyyy-MM-dd-HH-mm-ss"];
   
-  NSString *theExportName       = [NSString stringWithFormat: @"export%@.dat",
+  NSString *theExportName       = [NSString stringWithFormat: @"gbible-export-%@.guserdata",
                                    [theFormatter stringFromDate: theDate]];
   // get the export name
   NSString *exportDatabaseName  =
@@ -415,11 +384,11 @@ static PKDatabase * _instance;
   else
   {
     NSLog(@"Export unsuccessful.");
-    return NO;
+    return nil;
   }
   
   //[content open];
-  return YES;
+  return [NSString stringWithFormat:@"file://%@", exportDatabaseName];
 }
 
 /**

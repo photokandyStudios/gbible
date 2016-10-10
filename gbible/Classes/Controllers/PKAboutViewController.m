@@ -37,7 +37,6 @@
 //
 #import "PKAboutViewController.h"
 #import "ZUUIRevealController.h"
-#import "PKRootViewController.h"
 #import "PKSettings.h"
 #import "PKAppDelegate.h"
 

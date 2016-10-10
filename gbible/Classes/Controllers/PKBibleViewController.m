@@ -51,7 +51,6 @@
 #import "PKHistoryViewController.h"
 #import "PKHistory.h"
 #import "PKNotes.h"
-#import "TSMiniWebBrowser.h"
 #import "PKTableViewCell.h"
 #import "PKLabel.h"
 #import "NSString+FontAwesome.h"
@@ -64,7 +63,6 @@
 //#import "FWTPopoverView.h"
 #import "PKStrongs.h"
 #import "SVProgressHUD.h"
-#import "PKSettingsController.h"
 #import "UIBarButtonItem+Utility.h"
 #import "PKReference.h"
 #import "UIFont+Utility.h"
@@ -207,7 +205,7 @@
  */
 -(void)displayBook: (NSUInteger) theBook andChapter: (NSUInteger) theChapter andVerse: (NSUInteger) theVerse
 {
-  [self performBlockAsynchronouslyInForeground:^(void) {[SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];}
+  [self performBlockAsynchronouslyInForeground:^(void) {[SVProgressHUD show];}
    afterDelay:0.01f];
 
   __weak typeof(self) weakSelf = self;
@@ -249,7 +247,7 @@
  */
 -(void)nextChapter
 {
-  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD show]; } afterDelay:0.01];
   
   __weak typeof(self) weakSelf = self;
   [self performBlockAsynchronouslyInForeground:^(void)
@@ -289,7 +287,7 @@
  */
 -(void)previousChapter
 {
-  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD show]; } afterDelay:0.01];
   __weak typeof(self) weakSelf = self;
   [self performBlockAsynchronouslyInForeground:^(void)
   {
@@ -1732,7 +1730,7 @@
 {
   [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
   [_PO dismissPopoverAnimated: NO];
-  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD show]; } afterDelay:0.01];
   __weak typeof(self) weakSelf = self;
   [self performBlockAsynchronouslyInForeground:^(void)
     {
@@ -1750,7 +1748,7 @@
 {
   [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
   [_PO dismissPopoverAnimated: NO];
-  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD show]; } afterDelay:0.01];
   __weak typeof(self) weakSelf = self;
   [self performBlockAsynchronouslyInForeground:^(void)
     {
@@ -1768,7 +1766,7 @@
 {
   [_ourPopover dismissWithClickedButtonIndex: -1 animated: YES];
   [_PO dismissPopoverAnimated: NO];
-  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD show]; } afterDelay:0.01];
   __weak typeof(self) weakSelf = self;
   [self performBlockAsynchronouslyInForeground:^(void)
     {
@@ -2208,24 +2206,9 @@
                                  [PKReference stringFromVerseNumber:theVerse]];
   theTransformedURL = [theTransformedURL stringByReplacingOccurrencesOfString: @" " withString: @"_"];
   NSURL *theURL        = [[NSURL alloc] initWithString: theTransformedURL];
-  //http://stackoverflow.com/a/33929917
-  if ([SFSafariViewController class] != nil) {
-    SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:theURL];
-    //sfvc.delegate = self;
-    [self presentViewController:sfvc animated:YES completion:nil];
-  } else {
-  
-    TSMiniWebBrowser *wb = [[TSMiniWebBrowser alloc] initWithUrl: theURL];
-    wb.showURLStringOnActionSheetTitle = YES;
-    wb.showPageTitleOnTitleBar         = YES;
-    wb.showActionButton                = YES;
-    wb.showReloadButton                = YES;
-    wb.mode = TSMiniWebBrowserModeModal;
-    wb.barStyle = UIBarStyleDefault;
-    wb.modalDismissButtonTitle         = __T(@"Done");
-            [self presentViewController:wb animated:YES completion:nil];
-    
-  }
+  SFSafariViewController *sfvc = [[SFSafariViewController alloc] initWithURL:theURL];
+  //sfvc.delegate = self;
+  [self presentViewController:sfvc animated:YES completion:nil];
 }
 
 /**
@@ -2312,7 +2295,7 @@
 -(void) didChangeLayout: (id) sender
 {
   // the settings have changed, update ourselves...
-  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+  [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD show]; } afterDelay:0.01];
   __weak typeof(self) weakSelf = self;
   [self performBlockAsynchronouslyInForeground:^(void)
     {
@@ -2381,7 +2364,7 @@
     }
     [[PKSettings instance] saveSettings];
     [self bibleTextChanged];
-    [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear]; } afterDelay:0.01];
+    [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD show]; } afterDelay:0.01];
     __weak typeof(self) weakSelf = self;
     [self performBlockAsynchronouslyInForeground:^(void)
       {

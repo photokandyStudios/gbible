@@ -48,7 +48,6 @@
 #import "SSZipArchive.h"
 #import "UIImage+PKUtility.h"
 
-#import <DownloadButton/PKDownloadButton.h>
 
 @interface PKBibleInfoViewController ()
 
@@ -57,20 +56,13 @@
 @implementation PKBibleInfoViewController
 {
   int _theBibleID;
-  //UILabel *  /**__strong**/ _theBibleTitle;
-  //UILabel *  /**__strong**/ _theBibleAbbreviation;
-  //UIImageView *  /**__strong**/ _theBibleImage;
-  //UILabel *  /**__strong**/ _theBibleImageAbbr;
   UIWebView *  /**__strong**/ _theBibleInformation;
-  //MAConfirmButton *  /**__strong**/ _theActionButton;
-  //PKDownloadButton * /**__strong**/ _theDownloadButton;
 }
 
 -(void) updateAppearanceForTheme
 {
   [self.navigationController.navigationBar setBarStyle:[PKSettings PKBarStyle]];
   self.view.backgroundColor = [PKSettings PKPageColor];
-  //_theBibleImage.backgroundColor = [PKSettings PKSidebarPageColor];
   _theBibleInformation.backgroundColor = [PKSettings PKPageColor];
 }
 
@@ -93,21 +85,6 @@
   self.extendedLayoutIncludesOpaqueBars  = YES;
   self.edgesForExtendedLayout = UIRectEdgeNone;
   
-  // create the UI layout and then fire off a load of the information.
-  // _theBibleImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 141, 173)];
-  //_theBibleImage.image = [UIImage imageNamed:@"leather-book"];
-  // [self.view addSubview:_theBibleImage];
-  /*
-  _theBibleImageAbbr = [[UILabel alloc] initWithFrame:CGRectMake(35, 30, 98, 35)];
-  _theBibleImageAbbr.font = [UIFont fontWithName:@"Georgia" size:35];
-  _theBibleImageAbbr.textColor = [PKSettings PKSidebarTextColor];//[UIColor colorWithHexString:@"b4a567"];
-  _theBibleImageAbbr.textAlignment = NSTextAlignmentCenter;
-  _theBibleImageAbbr.backgroundColor = [UIColor clearColor];
-  _theBibleImageAbbr.adjustsFontSizeToFitWidth = YES;
-  _theBibleImageAbbr.shadowColor = [UIColor whiteColor];
-  _theBibleImageAbbr.shadowOffset = CGSizeMake(0, -1);
-  [self.view addSubview:_theBibleImageAbbr];
-   */
   _theBibleInformation = [[UIWebView alloc] initWithFrame: CGRectMake( 0, 0, self.view.bounds.size.width,
                                                                      self.view.bounds.size.height )];
   _theBibleInformation.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -132,43 +109,24 @@
 
 - (void)setHTML: (NSString *)theHTML
 {
-  NSString *preHTMLiPad = @"<style>BODY { font-family: 'Helvetica';  }</style>";
-  NSString *preHTMLiPhone = @"<style>BODY { font-family: 'Helvetica'; }</style>";
-  [_theBibleInformation loadHTMLString:[(isWide((UIView *)self) ? preHTMLiPad : preHTMLiPhone) stringByAppendingString:theHTML] baseURL:nil];
+  NSString *preHTML = [NSString stringWithFormat:@"<style>BODY { font-family: '%@'; color: #%@; }</style>",
+                       [PKSettings interfaceFont],
+                       [PKSettings PKTextColor].hexStringFromColor];
+  [_theBibleInformation loadHTMLString:[theHTML stringByAppendingString:preHTML] baseURL:nil];
 }
 
 - (void)loadBibleInformation
 {
-  //if (_theActionButton)
-  //{
-  //  [_theActionButton removeFromSuperview];
-  //  _theActionButton = nil;
-  //}
   
   // if the Bible is a built-in or installed, we want to get the information from there first.
   if ( [PKBible isTextBuiltIn: _theBibleID] )
   {
-    //    theBibleTitle.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_NAME];
-    //    theBibleAbbreviation.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
-  //  _theBibleImageAbbr.text = [PKBible text:_theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
     [self setHTML:[PKBible text:_theBibleID inDB:[[PKDatabase instance]bible] withColumn:PK_TBL_BIBLES_ATTRIBUTION]];
-    
-//    _theActionButton = [[MAConfirmButton alloc] initWithDisabledTitle:__T(@"Built-In")];
-//    [_theActionButton setAnchor:CGPointMake(141, 193)];
-//    [self.view addSubview:_theActionButton];
   }
   else
     if ( [PKBible isTextInstalled: _theBibleID] )
     {
-      //      theBibleTitle.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_NAME];
-      //      theBibleAbbreviation.text = [PKBible text:theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
-//      _theBibleImageAbbr.text = [PKBible text:_theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ABBREVIATION];
       [self setHTML:[PKBible text:_theBibleID inDB:[[PKDatabase instance]userBible] withColumn:PK_TBL_BIBLES_ATTRIBUTION]];
-//      _theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"Installed") confirm:__T(@"Remove Bible")];
-//      _theActionButton.secondColor=[UIColor redColor];
-//      [_theActionButton setAnchor:CGPointMake(141, 193)];
-//      [_theActionButton addTarget:self action:@selector(removeBible:) forControlEvents:UIControlEventTouchUpInside];
-//      [self.view addSubview:_theActionButton];
 
       self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:__T(@"Remove") style:UIBarButtonItemStylePlain target:self action:@selector(removeBible:)];
     
@@ -177,7 +135,7 @@
     {
       // the bible is an available one; get the object from Parse.
       // send off a request to parse
-      [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeNone]; } afterDelay:0.01];
+      [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD show]; } afterDelay:0.01];
       [self performBlockAsynchronouslyInForeground:^{
          PFQuery *query = [PFQuery queryWithClassName:@"Bibles"];
          [query whereKey:@"ID" equalTo:@(_theBibleID)];
@@ -188,15 +146,7 @@
                               [SVProgressHUD dismiss];
                               for (int i=0; i<objects.count; i++)
                               {
-                                //            theBibleTitle.text = [objects[i] objectForKey:@"Title"];
-                                //            theBibleAbbreviation.text = [objects[i] objectForKey:@"Abbreviation"];
-//                                _theBibleImageAbbr.text = (objects[i])[@"Abbreviation"];
                                 [self setHTML:(objects[i])[@"Info"]];
-                                
-//                                _theActionButton = [[MAConfirmButton alloc] initWithTitle:__T(@"FREE") confirm:__T(@"Download")];
-//                                [_theActionButton setAnchor:CGPointMake(141, 193)];
-//                                [_theActionButton addTarget:self action:@selector(downloadBible:) forControlEvents:UIControlEventTouchUpInside];
-//                                [self.view addSubview:_theActionButton];
                                 
                                 self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:__T(@"Download") style:UIBarButtonItemStylePlain target:self action:@selector(downloadBible:)];
                                 
@@ -224,14 +174,16 @@
   }
 
   // TODO: what about the greek side?
+  if ([[PKSettings instance] greekText] == _theBibleID) {
+    [PKSettings instance].greekText = PK_BIBLETEXT_WHP;
+    [[PKSettings instance] saveSettings];
+  }
   
   // change the button
   [self performBlockAsynchronouslyInForeground:^{
-//    [_theActionButton disableWithTitle:__T(@"Removing")];
-    [SVProgressHUD showWithStatus:__T(@"Removing...") maskType:SVProgressHUDMaskTypeClear];
+    [SVProgressHUD showWithStatus:__T(@"Removing...")];
   } afterDelay:0.01];
 
-  
   // delete the corresponding entry from the master table,
   // and all records from the content table
   [self performBlockAsynchronouslyInBackground:^{
@@ -274,8 +226,7 @@
 {
   // change the button
   [self performBlockAsynchronouslyInForeground:^{
-  //  [_theActionButton disableWithTitle:__T(@"Installing")];
-    [SVProgressHUD showWithStatus:__T(@"Installing...") maskType:SVProgressHUDMaskTypeClear];
+    [SVProgressHUD showWithStatus:__T(@"Installing...")];
   } afterDelay:0.01];
   
   // ask Parse for the Bible again
@@ -334,7 +285,7 @@
                                      progressBlock:
          ^(int percentDone)
          {
-           [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"%i%%", percentDone] maskType:SVProgressHUDMaskTypeClear];
+           [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"%i%%", percentDone] ];
          }
          ];
         

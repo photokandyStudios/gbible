@@ -100,7 +100,7 @@
 {
   [self clearCellHeights];
   [self performBlockAsynchronouslyInForeground:^{
-    [SVProgressHUD showWithStatus:__T(@"Searching...") maskType:SVProgressHUDMaskTypeClear];
+    [SVProgressHUD showWithStatus:__T(@"Searching...") ];
   } afterDelay:0.01];
   
   [[PKHistory instance] addBibleSearch: theTerm];

@@ -9,7 +9,9 @@
 import UIKit
 import SafariServices
 
-class PKSGeneralSettingsController: PKTableViewController {
+class PKSGeneralSettingsController: PKTableViewController, UIDocumentMenuDelegate, UIDocumentPickerDelegate {
+  
+  private var importMode = 0;
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -48,6 +50,32 @@ class PKSGeneralSettingsController: PKTableViewController {
       // Manage Bibles
       let blvc: PKBibleListViewController = PKBibleListViewController.init(style: .grouped)
       navigationController?.pushViewController(blvc, animated: true)
+      break
+      
+    case 201:
+      // export
+      let pathToExportedFile = PKDatabase.instance().exportAll();
+      if (pathToExportedFile != nil) {
+        let url = URL(string: pathToExportedFile!)
+        if (url != nil) {
+          let dmvc = UIDocumentMenuViewController.init(url: url!, in: .exportToService)
+          dmvc.delegate = self
+          dmvc.modalPresentationStyle = .formSheet
+          present(dmvc, animated: true, completion: nil)
+        }
+      }
+      // and let the user export it to a service
+      break
+    
+    case 202, 203:
+      // the tag specifies the import mode; 0 = content, 1 = settings
+      importMode = (cell!.tag - 202)
+      
+      // import
+      let dmvc = UIDocumentMenuViewController.init(documentTypes: ["com.photokandy.gbible.userdata"], in: .import)
+      dmvc.delegate = self
+      dmvc.modalPresentationStyle = .formSheet
+      present(dmvc, animated: true, completion: nil)
       break
       
     case 301:
@@ -90,6 +118,41 @@ class PKSGeneralSettingsController: PKTableViewController {
     }
     
     tableView.deselectRow(at: indexPath, animated: true)
+  }
+  
+  func documentMenu(_ documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+    documentPicker.delegate = self
+    present(documentPicker, animated: true, completion: nil)
+  }
+
+  func documentMenuWasCancelled(_ documentMenu: UIDocumentMenuViewController) {
+    //?
+  }
+
+  func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+    if (controller.documentPickerMode == .exportToService) {
+      // export
+    } else if (controller.documentPickerMode == .import) {
+      // import
+      var success = false
+      if (importMode == 0) {
+        success = PKDatabase.instance().importNotes(from: url)
+        if (success) {
+          success = PKDatabase.instance().importHighlights(from: url)
+        }
+      } else {
+        success = PKDatabase.instance().importSettings(from: url)
+        NotificationCenter.default.post(name: noticeAppSettingsChanged, object: nil)
+      }
+    }
+  }
+  
+  func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+    if (controller.documentPickerMode == .exportToService) {
+      // export cancelled
+    } else if (controller.documentPickerMode == .import) {
+      // import cancelled
+    }
   }
   
   

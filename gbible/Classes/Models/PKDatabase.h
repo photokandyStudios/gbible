@@ -49,9 +49,9 @@
 -(id)   init;
 -(void) dealloc;
 
--(BOOL) importNotes;
--(BOOL) importHighlights;
--(BOOL) importSettings;
--(BOOL) exportAll;
+-(BOOL) importNotesFromURL: (NSURL *)url;
+-(BOOL) importHighlightsFromURL: (NSURL *)url;
+-(BOOL) importSettingsFromURL: (NSURL *)url;
+-(NSString *) exportAll;
 
 @end

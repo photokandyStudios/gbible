@@ -40,7 +40,7 @@ Portions of the code are under different licenses, see https://github.com/photok
 
  - need attributions
 
- - inject color into bible view web view
+ x inject color into bible view web view
 
  x proper iOS7+ download button -- maybe move to upper right navbar instead (yes)
 

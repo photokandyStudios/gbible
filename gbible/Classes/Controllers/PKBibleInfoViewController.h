@@ -36,7 +36,6 @@
 // their respective licenses.
 //
 #import <UIKit/UIKit.h>
-#import "MAConfirmButton.h"
 #import "PKBibleDelegate.h"
 
 @interface PKBibleInfoViewController : UIViewController
