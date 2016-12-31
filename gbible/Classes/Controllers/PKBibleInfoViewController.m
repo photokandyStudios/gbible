@@ -40,13 +40,14 @@
 #import "PKDatabase.h"
 #import "PKConstants.h"
 #import "UIColor-Expanded.h"
-#import <Parse/Parse.h>
 #import "SVProgressHUD.h"
 #import "FMDatabase.h"
 #import "FMDatabaseQueue.h"
 #import "PKSettings.h"
 #import "SSZipArchive.h"
 #import "UIImage+PKUtility.h"
+
+#import "AFNetworking/AFNetworking.h"
 
 
 @interface PKBibleInfoViewController ()
@@ -56,6 +57,8 @@
 @implementation PKBibleInfoViewController
 {
   int _theBibleID;
+  NSString *_theBibleAbbreviation;
+  NSString *_theDownloadURI;
   UIWebView *  /**__strong**/ _theBibleInformation;
 }
 
@@ -133,31 +136,27 @@
     }
     else
     {
-      // the bible is an available one; get the object from Parse.
-      // send off a request to parse
       [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD show]; } afterDelay:0.01];
       [self performBlockAsynchronouslyInForeground:^{
-         PFQuery *query = [PFQuery queryWithClassName:@"Bibles"];
-         [query whereKey:@"ID" equalTo:@(_theBibleID)];
-         [query orderByAscending:@"Abbreviation"];
-         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-           if (!error) {
-             [self performBlockAsynchronouslyInForeground:^{
-                              [SVProgressHUD dismiss];
-                              for (int i=0; i<objects.count; i++)
-                              {
-                                [self setHTML:(objects[i])[@"Info"]];
-                                
-                                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:__T(@"Download") style:UIBarButtonItemStylePlain target:self action:@selector(downloadBible:)];
-                                
-                              }
-                            } afterDelay:0.1f];
-           } else {
-             [self performBlockAsynchronouslyInForeground:^{ [SVProgressHUD dismiss]; } afterDelay:0.01];
-             // Log details of the failure
-             NSLog(@"Error: %@ %@", error, [error userInfo]);
-           }
-         }];
+
+        [PKBible availableTextsOnlineMatchingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+          return ( [((NSNumber *)(evaluatedObject)[@"ID"]) isEqualToNumber:@(_theBibleID)] );
+        }]                       withCompletionHandler:^(NSArray *objects) {
+                                    [SVProgressHUD dismiss];
+                                    for (int i=0; i<objects.count; i++)
+                                    {
+                                      [self setHTML:(objects[i])[@"Info"]];
+                                      
+                                      // get the download link in case the user needs it
+                                      _theDownloadURI = [NSString stringWithFormat:@"https://www.photokandy.com/gbible%@",(objects[i])[@"Data"][@"url"] ];
+                                      _theBibleAbbreviation = (objects[i])[@"Abbreviation"];
+                                      
+                                      self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:__T(@"Download") style:UIBarButtonItemStylePlain target:self action:@selector(downloadBible:)];
+                                      
+                                    }
+        }     andErrorHandler:^(NSError *error) {
+          [SVProgressHUD dismiss];
+        }];
       } afterDelay:0.02];
     }
   
@@ -229,73 +228,62 @@
     [SVProgressHUD showWithStatus:__T(@"Installing...")];
   } afterDelay:0.01];
   
-  // ask Parse for the Bible again
-  PFQuery *query = [PFQuery queryWithClassName:@"Bibles"];
-  [query whereKey:@"ID" equalTo:@(_theBibleID)];
-  [query orderByAscending:@"Abbreviation"];
-  [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+  
+  NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+  AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+  
+  NSURL *URL = [NSURL URLWithString:[_theDownloadURI stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+  NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+
+  NSString *directoryPath = NSTemporaryDirectory();
+  
+  NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull progress) {
+    [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"%@", progress.localizedDescription]];
+  } destination: ^NSURL *(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+    // save the data out to a temporary file
+    NSURL *temporaryDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]];
+    return [temporaryDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+  } completionHandler: ^(NSURLResponse *response, NSURL *filePath, NSError *error) {
     if (!error) {
-      for (int i=0; i<objects.count; i++)
-      {
-        [objects[i] incrementKey:@"DLCount"];
-        [objects[i] saveEventually];
-        PFFile *theBibleFile = (objects[i])[@"Data"];
-        NSString * theBibleFileName = [(objects[i])[@"Abbreviation"] stringByAppendingString:@".zip"];
-        [theBibleFile getDataInBackgroundWithBlock:
-         ^(NSData *data, NSError *error)
-         {
-            [self performBlockAsynchronouslyInBackground:^{
-                            // save the data out to a temporary file
-                            NSString *directoryPath = NSTemporaryDirectory();
-                            NSLog (@"%@", directoryPath);
-                            NSString *downloadFileTo = [NSString stringWithFormat:@"%@/%@", directoryPath, theBibleFileName];
-                            [data writeToFile:downloadFileTo atomically:YES];
-                            
-                            // now that the file is saved, we need to uncompress it.
-                            [SSZipArchive unzipFileAtPath:downloadFileTo toDestination:directoryPath];
-                            
-                            // now that the file is written, attach it to our userBible database
-                            FMDatabaseQueue *dbq = [[PKDatabase instance] userBible];
-                            [dbq inDatabase:^(FMDatabase *db) {
-                              [db executeUpdate:@"ATTACH DATABASE ? AS bibleImport", [downloadFileTo stringByReplacingOccurrencesOfString:@"zip" withString:@"db"]];
-                              [db executeUpdate:@"INSERT INTO content SELECT * FROM bibleImport.content"];
-                              [db executeUpdate:@"INSERT INTO bibles SELECT * FROM bibleImport.bibles"];
-                              /* NOTE: Removing for now until I come up with a better option.
-                               [db executeUpdate:@"INSERT INTO searchIndexMaster SELECT null, searchIndexMasterTerm FROM ( SELECT searchIndexMasterTerm FROM bibleImport.searchIndexMaster EXCEPT SELECT searchIndexMasterTerm FROM searchIndexMaster)"];
-                               [db executeUpdate:@"INSERT INTO searchIndex SELECT null, (SELECT searchIndexMasterID FROM searchIndexMaster WHERE searchIndexMasterTerm=(SELECT searchIndexMasterTerm FROM bibleImport.searchIndexMaster WHERE searchIndexMasterID=searchIndexTerm) ) searchIndexTerm, bibleID, lexiconID, commentaryID, reference FROM bibleImport.searchIndex"];
-                               */
-                              [db executeUpdate:@"DETACH DATABASE bibleImport"];
-                            }];
-              
-                            // delete the file once we're done with it
-                            NSFileManager *fileManager = [NSFileManager defaultManager];
-                            [fileManager removeItemAtPath:[downloadFileTo stringByReplacingOccurrencesOfString:@"zip" withString:@"db"] error:NULL];
-                            [fileManager removeItemAtPath:downloadFileTo error:NULL];
-                            // tell the user we're done
-                            [self performBlockAsynchronouslyInForeground:^{
-                                             [SVProgressHUD showSuccessWithStatus:__T(@"Installed!")];
-                                             [self loadBibleInformation];
-                                             if (_delegate)
-                                             {
-                                               [_delegate installedBiblesChanged];
-                                             }
-                                           } afterDelay:0.01f];
-                          } afterDelay:0.02f];
-         }
-                                     progressBlock:
-         ^(int percentDone)
-         {
-           [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"%i%%", percentDone] ];
-         }
-         ];
-        
-      }
+      // now that the file is saved, we need to uncompress it.
+      [SSZipArchive unzipFileAtPath:[filePath path] toDestination:directoryPath];
+      
+      // path to extracted db
+      NSString *extractedDatabase =[NSString stringWithFormat: @"%@%@.db", directoryPath, _theBibleAbbreviation];
+      
+      // now that the file is written, attach it to our userBible database
+      FMDatabaseQueue *dbq = [[PKDatabase instance] userBible];
+      [dbq inDatabase:^(FMDatabase *db) {
+        [db executeUpdate:@"ATTACH DATABASE ? AS bibleImport", extractedDatabase];
+        [db executeUpdate:@"INSERT INTO content SELECT * FROM bibleImport.content"];
+        [db executeUpdate:@"INSERT INTO bibles SELECT * FROM bibleImport.bibles"];
+        /* NOTE: Removing for now until I come up with a better option.
+         [db executeUpdate:@"INSERT INTO searchIndexMaster SELECT null, searchIndexMasterTerm FROM ( SELECT searchIndexMasterTerm FROM bibleImport.searchIndexMaster EXCEPT SELECT searchIndexMasterTerm FROM searchIndexMaster)"];
+         [db executeUpdate:@"INSERT INTO searchIndex SELECT null, (SELECT searchIndexMasterID FROM searchIndexMaster WHERE searchIndexMasterTerm=(SELECT searchIndexMasterTerm FROM bibleImport.searchIndexMaster WHERE searchIndexMasterID=searchIndexTerm) ) searchIndexTerm, bibleID, lexiconID, commentaryID, reference FROM bibleImport.searchIndex"];
+         */
+        [db executeUpdate:@"DETACH DATABASE bibleImport"];
+      }];
+      
+      // delete the file once we're done with it
+      NSFileManager *fileManager = [NSFileManager defaultManager];
+      [fileManager removeItemAtPath:extractedDatabase error:NULL];
+      [fileManager removeItemAtPath:[filePath path] error:NULL];
+      // tell the user we're done
+      [self performBlockAsynchronouslyInForeground:^{
+        [SVProgressHUD showSuccessWithStatus:__T(@"Installed!")];
+        [self loadBibleInformation];
+        if (_delegate)
+        {
+          [_delegate installedBiblesChanged];
+        }
+      } afterDelay:0.01f];
     } else {
-      // Log details of the failure
-      NSLog(@"Error: %@ %@", error, [error userInfo]);
+      [self performBlockAsynchronouslyInForeground:^{
+        [SVProgressHUD showErrorWithStatus:__T(@"Error")];
+      } afterDelay:0.01f];
     }
   }];
-  
+  [downloadTask resume];
 }
 
 - (void)didReceiveMemoryWarning

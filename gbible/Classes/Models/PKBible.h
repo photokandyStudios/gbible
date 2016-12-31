@@ -52,6 +52,9 @@
 
 
 +(NSArray *) availableTextsInDB: (FMDatabaseQueue *)db withColumn: (int) column;
++(void) availableTextsOnlineMatchingPredicate:(NSPredicate *)predicate
+                        withCompletionHandler:(void (^)(NSArray *objects))block
+                              andErrorHandler:(void (^)(NSError *error))errorBlock;
 +(NSArray *) builtInTextsWithColumn: (int) column;
 +(NSArray *) installedTextsWithColumn: (int) column;
 +(NSArray *) bibleArray;

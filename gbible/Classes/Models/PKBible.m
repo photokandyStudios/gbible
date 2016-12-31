@@ -44,10 +44,11 @@
 #import "PKConstants.h"
 #import "searchutils.h"
 #import "PKReference.h"
-#import <Parse/Parse.h>
 #import "PKLabel.h"
 #import "UIFont+Utility.h"
 #import "NSString+PKFont.h"
+
+#import "AFNetworking/AFNetworking.h"
 
 @implementation PKBible
 
@@ -232,6 +233,72 @@
     ];
 
   return texts;
+}
+
++(void) availableTextsOnlineMatchingPredicate:(NSPredicate *)predicate
+                        withCompletionHandler:(void (^)(NSArray *objects))block
+                              andErrorHandler:(void (^)(NSError *error))errorBlock
+{
+  NSArray *_installedBibleIDs           = [PKBible installedTextsWithColumn:PK_TBL_BIBLES_ID];
+
+  // http://stackoverflow.com/questions/3940615/find-current-country-from-iphone-device
+  NSLocale *currentLocale = [NSLocale currentLocale];    // get the current locale.
+  NSString *countryCode   = [currentLocale objectForKey: NSLocaleCountryCode];
+
+  // send off a request to our site for available Bibles
+  NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+  AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+  
+  NSURL *URL = [NSURL URLWithString:@"https://www.photokandy.com/gbible/Bibles.json"];
+  NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+  
+  NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+    if (error) {
+      if (errorBlock != nil) {
+        [self performBlockAsynchronouslyInForeground:^(void)
+         {
+           errorBlock(error);
+         }];
+      }
+    } else {
+
+      NSArray *objects = [((NSArray *)responseObject[@"results"]) sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *a, NSDictionary *b) {
+        return [((NSString *)a[@"Title"]) compare: ((NSString *)b[@"Title"])];
+      }];
+      
+      objects = [objects filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        if ([_installedBibleIDs containsObject: (evaluatedObject)[@"ID"]]) {
+          return NO;
+        }
+        if ([((NSString *)((evaluatedObject)[@"minVersion"])) compare:[[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"]] == NSOrderedDescending) {
+          return NO;
+        }
+        if ( ![((evaluatedObject)[@"Available"]) isEqualToNumber: @(1)] ) {
+          return NO;
+        }
+        
+        // make sure we don't add the KJV version if we're in the UK
+        if ( !( ([@" GB "
+                  rangeOfString: [NSString stringWithFormat: @" %@ ", countryCode]].location != NSNotFound)
+               && [(evaluatedObject)[@"Abbreviation"] isEqualToString: @"KJV"] ) )
+        {
+          if (predicate != nil) {
+            return [predicate evaluateWithObject: evaluatedObject];
+          }
+          return YES;
+        }
+        
+        return NO;
+      }]];
+      
+      [self performBlockAsynchronouslyInForeground:^(void)
+       {
+         block(objects);
+       }];
+      
+    }
+  }];
+  [dataTask resume];
 }
 
 /**
@@ -851,17 +918,9 @@
   // we need to know the width of a space
   CGFloat spaceWidth            = [@" " sizeWithFont: theFont usingLigatures:YES].width;
   // we need to know the height of an M (* the setting...)
-/*  CGFloat otherHeight = [@"M" sizeWithFont: theFont].height;
-  NSLog ( @"Ascender: %f", [theFont ascender] );
-  NSLog ( @"Cap Height: %f", [theFont capHeight] );
-  NSLog ( @"x height: %f", [theFont xHeight] );
-  NSLog ( @"Descender: %f", [theFont descender] );
- */
   CGFloat lineHeight            = (theFont.ascender - theFont.descender) + 1; //[@"M" sizeWithFont: theFont].;
   CGFloat boldLineHeight        = (theBoldFont.ascender - theBoldFont.descender) + 1; //[theBoldFont lineHeight];
   CGFloat smallerLineHeight     = (theSmallerFont.ascender - theSmallerFont.descender) + 1; //[theSmallerFont lineHeight]; //[@"M" sizeWithFont: theSmallerFont].height;
-  //CGFloat lineHeightAvg         = boldLineHeight + ((lineHeight - smallerLineHeight)/2);
-  //lineHeight    = lineHeight * ( (float)[[PKSettings instance] textLineSpacing] / 100.0 );
   // determine the maximum size of the column (1 line, 2 lines, 3 lines?)
   CGFloat leading = lineHeight * ( (float)[[PKSettings instance] textLineSpacing] / 100.0 );
 
