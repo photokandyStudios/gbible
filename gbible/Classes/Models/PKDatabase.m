@@ -218,7 +218,7 @@ static PKDatabase * _instance;
     
     
     // and make sure the userBible is excluded from user backup
-    NSURL *URL = [[NSURL alloc] initWithString: [[@"file://" stringByAppendingString:userBibleDatabase] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ];
+    NSURL *URL = [[NSURL alloc] initWithString: [[@"file://" stringByAppendingString:userBibleDatabase] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
       const char* filePath = [[URL path] fileSystemRepresentation];
       const char* attrName = "com.apple.MobileBackup";
       u_int8_t attrValue = 1;
