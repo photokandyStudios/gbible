@@ -135,6 +135,26 @@
   return YES;
 }
 
+-(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+  // VIA http://stackoverflow.com/a/27409619
+  [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+  
+  
+  // Code here will execute before the rotation begins.
+  // Equivalent to placing it in the deprecated method -[willRotateToInterfaceOrientation:duration:]
+  
+  
+  [coordinator animateAlongsideTransition:nil completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+    
+    // Code here will execute after the rotation has finished.
+    // Equivalent to placing it in the deprecated method -[didRotateFromInterfaceOrientation:]
+    [self updateAppearanceForTheme];
+    
+  }];
+}
+
+
+
 -(UIStatusBarStyle) preferredStatusBarStyle
 {
   return [PKSettings PKStatusBarStyle];

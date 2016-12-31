@@ -246,6 +246,7 @@
 
 -(void) updateAppearanceForTheme
 {
+  [super updateAppearanceForTheme];
 /*  UINavigationController *NC = self.navigationController;
   NC.navigationBar.barStyle = UIBarStyleBlackOpaque;
   NC.navigationBar.tintColor = [PKSettings PKSidebarPageColor];

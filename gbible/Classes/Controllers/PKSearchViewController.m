@@ -248,6 +248,8 @@
 
 -(void) updateAppearanceForTheme
 {
+  [self clearCellHeights];
+  [super updateAppearanceForTheme];
   _fontSize = [[PKSettings instance] textFontSize];
   // get the font
   UIFont *theFont = [UIFont fontWithName: [[PKSettings instance] textFontFace]
