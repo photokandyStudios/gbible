@@ -48,7 +48,6 @@
 #import "iRate.h"
 #import "PKSearchViewController.h"
 #import "PKStrongsController.h"
-#import <Parse/Parse.h>
 #import "UIFont+Utility.h"
 #import "AccessibleSegmentedControl.h"
 #import "APIKeys.h"
@@ -97,8 +96,7 @@ static PKAppDelegate * _instance;
 
 -(void)applyProxyToView: (UIView *)theView
 {
-  NSLog (@"%@", [theView class]);
-  
+ 
   // do we have subviews?
   if ( theView.subviews.count > 0 )
   {
@@ -188,10 +186,7 @@ static PKAppDelegate * _instance;
 {
   _instance = self;
   
-  // set up parse
-  [Parse setApplicationId:PARSE_APPLICATION_ID
-                clientKey:PARSE_CLIENT_KEY];
-  
+ 
   //open our databases...
   _database   = [PKDatabase instance];
   

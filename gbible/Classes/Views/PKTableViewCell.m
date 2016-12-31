@@ -244,7 +244,6 @@
 
 - (NSInteger) accessibilityElementCount
 {
-  //NSLog (@"Accessibility Count: %i", [_labels count] + [self.subviews count]);
   if (_accessibilityElements)
     return [_accessibilityElements count] + [self.subviews count];
   else
@@ -253,7 +252,6 @@
 
 - (id) accessibilityElementAtIndex:(NSInteger)index
 {
-  //NSLog (@"accessibilityElementAtIndex: %i", index);
   NSInteger aCount = 0;
   if (_accessibilityElements)
     aCount = _accessibilityElements.count;
@@ -295,7 +293,6 @@
 
 - (NSInteger) indexOfAccessibilityElement:(id)element
 {
-  //NSLog ( @"indexOfAccessibilityElement: %@", [((UIView *)element) description]);
   NSInteger anIndex = NSNotFound;
   if (_accessibilityElements)
   {
