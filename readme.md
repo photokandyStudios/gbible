@@ -17,7 +17,7 @@ Portions of the code are under different licenses, see https://github.com/photok
 
  * iOS 8 is now the minimum supported version -- sorry to any users < iOS 8.
 
- * Full screen removed
+ * Full screen removed (no real need)
 
  * Tint color correct
 
@@ -27,18 +27,20 @@ Portions of the code are under different licenses, see https://github.com/photok
 
  * Switched to size classes instead of UI Idioms
 
+ * Removed dependency on Parse for downloading content
+
 
 #### Known Issues
 
  - export/import
 
- - strongs / search has white nav bar
+ X strongs / search has white nav bar
 
- - strongs / search should layout after size class changes
+ X strongs / search should layout after size class changes
 
  x popovers show white fringes in dark theme
 
- - need attributions
+ x need attributions
 
  x inject color into bible view web view
 
