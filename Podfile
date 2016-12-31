@@ -11,7 +11,6 @@ target 'gbible' do
   pod 'FMDB', '~> 2.6'
   pod 'iRate', '~> 1.11'
   pod 'Bolts', '~> 1.6'
-  pod 'Parse', '~> 1.12'
   pod 'SSZipArchive', '~> 1.1'
   #pod 'SVProgressHUD', '~> 1.0'
   pod 'SVProgressHUD', :git => 'https://github.com/SVProgressHUD/SVProgressHUD.git'
