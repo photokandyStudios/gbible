@@ -46,11 +46,17 @@
 
 +(PKReference *)referenceWithBook: (NSUInteger)theBook andChapter:(NSUInteger)theChapter andVerse:(NSUInteger)theVerse;
 +(PKReference *)referenceWithString: (NSString *)theRef;
++(NSString *) paddedReferenceStringFromBook:(NSUInteger)theBook forChapter:(NSUInteger)theChapter forVerse:(NSUInteger)theVerse;
++(NSComparisonResult) compare: (PKReference *)obj1 with: (PKReference *)obj2;
+
 
 -(NSString *)description;
 -(NSString *)prettyReference;
 -(NSString *)prettyShortReference;
 -(NSString *)prettyShortReferenceIfNecessary;
+-(NSString *) getPaddedReference;
+-(NSComparisonResult) compare: (PKReference *)bReference;
+-(BOOL) isEqual: (PKReference *)bReference;
 
 // use only if necessary; you should try to use the regular object instead
 +(NSString *) numericalThreeLetterCodeForBook: (NSUInteger) theBook;

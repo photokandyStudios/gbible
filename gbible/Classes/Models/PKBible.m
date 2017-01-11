@@ -530,6 +530,16 @@
   }
 }
 
++(NSUInteger) bookForAbbreviation: (NSString *) theAbbreviation
+{
+  for (NSUInteger i=40; i <= 66; i++) {
+    if ([[[self abbreviationForBook:i] lowercaseString] isEqualToString:[theAbbreviation lowercaseString]]) {
+      return i;
+    }
+  }
+  return 0;
+}
+
 +(NSString *) abbreviationForBookIfNecessary:(NSUInteger)theBook
 {
   if (viewportIsNarrow())
@@ -1392,6 +1402,7 @@ default:
 +(NSArray *) passagesMatching: (NSString *) theTerm withGreekBible: (NSUInteger) theGreekBible andEnglishBible: (NSUInteger) theEnglishBible
 {
   NSMutableArray *theMatches = [[NSMutableArray alloc] init];
+  
   if (theTerm.length == 0)
   {
     return nil;
@@ -1419,14 +1430,18 @@ default:
           NSUInteger theChapter       = [s intForColumnIndex: 1];
           NSUInteger theVerse         = [s intForColumnIndex: 2];
           PKReference *theReference = [PKReference referenceWithBook:theBook andChapter:theChapter andVerse:theVerse];
-          [theMatches addObject: theReference];
+          if (![theMatches containsObject:theReference]) {
+            [theMatches addObject: theReference];
+          }
         }
         [s close];
       }
     ];
   }
-
-  return [theMatches copy];
+  
+  return [theMatches sortedArrayUsingComparator:^NSComparisonResult(PKReference *obj1, PKReference *obj2) {
+    return [obj1 compare:obj2];
+  }];
 }
 
 @end

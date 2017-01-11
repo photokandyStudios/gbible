@@ -134,8 +134,8 @@ static PKDatabase * _instance;
         }
 
         // add a case and diacritic-insensitive comparator to the sqlite instances
-        [db makeFunctionNamed:@"doesContain" maximumArguments:2 withBlock:^(void *context, int argc, void **argv) {
-          if (argc < 2)
+        [db makeFunctionNamed:@"doesContain" maximumArguments:3 withBlock:^(void *context, int argc, void **argv) {
+          if (argc < 3)
           {
             NSLog (@"doesContain doesn't have enough parameters (%d) %s:%d", argc, __FUNCTION__, __LINE__);
             sqlite3_result_null (context);
@@ -143,7 +143,8 @@ static PKDatabase * _instance;
           }
           
           if (sqlite3_value_type (argv[0]) == SQLITE_TEXT
-              && sqlite3_value_type (argv[1]) == SQLITE_TEXT)
+              && sqlite3_value_type (argv[1]) == SQLITE_TEXT
+              && sqlite3_value_type (argv[2]) == SQLITE_TEXT)
           {
             @autoreleasepool {
               const char *x = (const char *)sqlite3_value_text (argv[0]);
@@ -152,21 +153,79 @@ static PKDatabase * _instance;
               const char *y = (const char *)sqlite3_value_text (argv[1]);
               NSString *sy = @(y);
               
+              const char *opts = (const char*)sqlite3_value_text (argv[2]);
+              NSString *sopts = @(opts);
+              
+              BOOL caseSensitive = NO;
+              BOOL matchWordOnly = NO;
+              BOOL regex = NO;
+              BOOL transliterate = [[PKSettings instance] transliterateText];
+              
+              if ([sopts containsString: @"c"]) {
+                caseSensitive = YES;
+              }
+              if ([sopts containsString: @"w"]) {
+                matchWordOnly = YES;
+              }
+              if ([sopts containsString: @"r"]) {
+                regex = YES;
+              }
+              if ([sopts containsString: @"t"]) {
+                transliterate = YES;
+              }
+              if ([sopts containsString: @"!t"]) {
+                transliterate = NO;
+              }
+              
+              
               NSUInteger lx = [sx length];
               NSUInteger ly = [sy length];
               
-              if (lx > 0
-                  && ly > 0)
-              {
-                sx = [[sx lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
-                sy = [[sy lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
+              if (lx > 0 && ly > 0) {
                 
-                if ([[PKSettings instance] transliterateText])
+                if ([sy characterAtIndex: 0] == '"' && [sy characterAtIndex: sy.length - 1] == '"' && sy.length > 1) {
+                  sy = [sy substringWithRange:NSMakeRange(1, sy.length - 2)];
+                  caseSensitive = YES;
+                }
+                
+                if ([sy hasSuffix:@"."]) {
+                  sy = [sy substringToIndex: sy.length - 1];
+                  matchWordOnly = YES;
+                }
+                
+                if ([sy hasPrefix:@"~"]) {
+                  sy = [sy substringFromIndex: 1];
+                  transliterate = YES;
+                }
+                
+                if ([sy hasPrefix:@"/"] && [sy hasSuffix:@"/"] && sy.length > 1) {
+                  sy = [sy substringWithRange:NSMakeRange(1, sy.length - 2)];
+                  regex = YES;
+                }
+
+                if (caseSensitive) {
+                  sx = [sx stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
+                  sy = [sy stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
+                } else {
+                  sx = [[sx lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
+                  sy = [[sy lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [NSLocale currentLocale]];
+                }
+
+                if (transliterate)
                 {
                   sx = [PKBible transliterate: sx];
                   sy = [PKBible transliterate: sy];
                 }
-                sqlite3_result_int (context, [sx rangeOfString: sy].location != NSNotFound);
+                
+                if (regex) {
+                  NSRegularExpression *r = [NSRegularExpression regularExpressionWithPattern:sy options:NSRegularExpressionCaseInsensitive error:nil];
+                  sqlite3_result_int (context, [r numberOfMatchesInString:sx options:0 range:NSMakeRange(0, sx.length)] > 0);
+                } else if (matchWordOnly) {
+                  NSRegularExpression *r = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"\\b%@\\b", sy] options:NSRegularExpressionCaseInsensitive error:nil];
+                  sqlite3_result_int (context, [r numberOfMatchesInString:sx options:0 range:NSMakeRange(0, sx.length)] > 0);
+                } else {
+                  sqlite3_result_int (context, [sx rangeOfString: sy].location != NSNotFound);
+                }
               }
               else
               {
@@ -176,8 +235,8 @@ static PKDatabase * _instance;
           }
           else
           {
-            NSLog (@"Unknown format for doesContain (%d, %d) %s:%d", sqlite3_value_type (argv[0]),
-                   sqlite3_value_type (argv[1]), __FUNCTION__, __LINE__);
+            NSLog (@"Unknown format for doesContain (%d, %d, %d) %s:%d", sqlite3_value_type (argv[0]),
+                   sqlite3_value_type (argv[1]), sqlite3_value_type (argv[2]), __FUNCTION__, __LINE__);
             sqlite3_result_null (context);
           }
         }];

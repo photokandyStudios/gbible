@@ -62,6 +62,10 @@
   return aReference;
 }
 
++(NSComparisonResult) compare: (PKReference *)obj1 with: (PKReference *)obj2 {
+  return [obj1 compare:obj2];
+}
+
 /**
  *
  * Returns the numerical 3-letter code for the given book. For example, 40 = 40N, 10 = 10O
@@ -105,6 +109,13 @@
   NSString *theString;
   theString = [NSString stringWithFormat:@"%@.%@.%@", [self numericalThreeLetterCodeForBook:theBook],
                                                       @(theChapter), @(theVerse)];
+  return theString;
+}
+
++(NSString *) paddedReferenceStringFromBook:(NSUInteger)theBook forChapter:(NSUInteger)theChapter forVerse:(NSUInteger)theVerse {
+  NSString *theString;
+  theString = [NSString stringWithFormat:@"%@.%03i.%03i", [self numericalThreeLetterCodeForBook:theBook],
+               (int)theChapter, (int)theVerse];
   return theString;
 }
 
@@ -177,11 +188,23 @@
   return [PKReference referenceStringFromBook:_book forChapter:_chapter forVerse:_verse];
 }
 
+-(NSString *) getPaddedReference {
+  return [PKReference paddedReferenceStringFromBook:_book forChapter:_chapter forVerse:_verse];
+}
+
 -(void) setReference: (NSString *)theReference
 {
   _book = [PKReference bookFromReferenceString:theReference];
   _chapter = [PKReference chapterFromReferenceString:theReference];
   _verse = [PKReference verseFromReferenceString:theReference];
+}
+
+-(NSComparisonResult) compare: (PKReference *)bReference {
+  return [[self getPaddedReference] compare:[bReference getPaddedReference]];
+}
+
+-(BOOL) isEqual: (PKReference *)bReference {
+  return [[self getPaddedReference] isEqualToString:[bReference getPaddedReference]];
 }
 
 -(NSString *)description

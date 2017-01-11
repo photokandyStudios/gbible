@@ -636,11 +636,11 @@
     svc.delegate = self;
     if (!_selectedWord)
     {
-      [svc doSearchForTerm: [NSString stringWithFormat: @"\"%@ \"", _theSearchResults[_selectedRow]]];
+      [svc doSearchForTerm: [NSString stringWithFormat: @"%@.", _theSearchResults[_selectedRow]]];
     }
     else
     {
-      [svc doSearchForTerm: [NSString stringWithFormat: @"\"%@ \"", _selectedWord] ];
+      [svc doSearchForTerm: [NSString stringWithFormat: @"%@.", _selectedWord] ];
     }
     
     //UINavigationController *mvnc = [[UINavigationController alloc] initWithRootViewController: svc];
@@ -654,13 +654,13 @@
     
     if (!_selectedWord)
     {
-      NSString *theSVCTerm = [NSString stringWithFormat: @"\"%@ \"", _theSearchResults[_selectedRow]];
+      NSString *theSVCTerm = [NSString stringWithFormat: @"%@.", _theSearchResults[_selectedRow]];
       [svc doSearchForTerm: theSVCTerm
            requireParsings: YES];
     }
     else
     {
-      [svc doSearchForTerm: [NSString stringWithFormat: @"\"%@ \"", _selectedWord] requireParsings: YES];
+      [svc doSearchForTerm: [NSString stringWithFormat: @"%@.", _selectedWord] requireParsings: YES];
     }
     
     [[PKAppDelegate sharedInstance].bibleViewController.navigationController pushViewController:svc animated:YES];

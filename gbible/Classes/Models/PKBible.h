@@ -67,6 +67,8 @@
 +(NSString *) abbreviationForBookIfNecessary:(NSUInteger)theBook;
 
 +(NSString *) abbreviationForBook: (NSUInteger) theBook;
++(NSUInteger) bookForAbbreviation: (NSString *) theAbbreviation;
+
 +(NSUInteger)        countOfChaptersForBook: (NSUInteger) theBook;
 +(NSUInteger)        countOfVersesForBook: (NSUInteger) theBook forChapter: (NSUInteger) theChapter;
 
