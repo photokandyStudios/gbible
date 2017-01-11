@@ -19,48 +19,44 @@ Portions of the code are under different licenses, see https://github.com/photok
 
  * Full screen removed (no real need)
 
- * Tint color correct
+ * Tint color correctly set
 
  * Theme now properly changes navigation bar without requiring restart
 
  * Revamped layout & settings
 
- * Switched to size classes instead of UI Idioms
+ * Switched to size classes instead of UI Idioms (future proofing!)
 
  * Removed dependency on Parse for downloading content
 
+ * Removed dependency on HelpShift for support; use the Github issues tracker now
+
+#### TODO
+
+ * finish export/import
+
+ * Help
 
 #### Known Issues
 
- - export/import
+ * Layout doesn't update in layout settings when rotation occurs
 
- X strongs / search has white nav bar
-
- X strongs / search should layout after size class changes
-
- x popovers show white fringes in dark theme
-
- x need attributions
-
- x inject color into bible view web view
-
- x proper iOS7+ download button -- maybe move to upper right navbar instead (yes)
-
- x Search includes OT results if avail in book
-
- - help (maybe videos?)
+ * Tableview is too small in layout settings when in landscape mode on an iPhone
 
 
+ * Note view scrollable portion is incorrect with hardware keyboard
 
- v Note view scrollable portion is incorrect with hardware keyboard
+ * no keyboard shortcut control overlay nor response
 
- ^ no keyboard shortcut control overlay nor response
+ * HUD is not centered when viewport != screen
 
- v Add simple bible to note editor?
+#### Next version
 
- v Make editor rich text?
+ * Add simple bible to note editor?
 
- ? HUD is not centered when viewport != screen
+ * Make editor rich text?
+
+
 
 
 ## FAQ
