@@ -99,3 +99,5 @@ int const PK_TBL_BIBLES_ID                = 3;
 int const PK_TBL_BIBLES_NAME              = 4;
 int const PK_TBL_BIBLES_PARSED_ID         = 5;
 
+// notifications
+NSString *const NOTICE_APP_SETTINGS_CHANGED = @"com.photokandy.gbible.settings.changed";

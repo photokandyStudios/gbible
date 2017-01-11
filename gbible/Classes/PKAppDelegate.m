@@ -283,6 +283,51 @@ static PKAppDelegate * _instance;
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  // ask if user wants to import the url?
+  UIAlertController* alert = [UIAlertController alertControllerWithTitle:__T(@"Import") message:[NSString stringWithFormat:__T(@"Import %@"), [url lastPathComponent]] preferredStyle:UIAlertControllerStyleAlert];
+  
+  UIAlertController* error = [UIAlertController alertControllerWithTitle:__T(@"Import Error") message:@"error-import-failed" preferredStyle:UIAlertControllerStyleAlert];
+  __block BOOL success = NO;
+  
+  [error addAction: [UIAlertAction actionWithTitle:__T(@"OK") style:UIAlertActionStyleDefault handler: nil]];
+  
+  [alert addAction: [UIAlertAction actionWithTitle:__T(@"Contents only") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    if ((success = [[PKDatabase instance] importNotesFromURL: url])) {
+      if ((success = [[PKDatabase instance] importHighlightsFromURL: url])) {
+        // success
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTICE_APP_SETTINGS_CHANGED object:nil];
+      }
+    }
+    if (!success) {
+      [[self rootViewController] presentViewController:error animated:YES completion:nil];
+    }
+  }]];
+  [alert addAction: [UIAlertAction actionWithTitle:__T(@"Settings only") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    if ((success = [[PKDatabase instance] importSettingsFromURL: url])) {
+      // success
+      [[NSNotificationCenter defaultCenter] postNotificationName:NOTICE_APP_SETTINGS_CHANGED object:nil];
+    }
+    if (!success) {
+      [[self rootViewController] presentViewController:error animated:YES completion:nil];
+    }
+  }]];
+  [alert addAction: [UIAlertAction actionWithTitle:__T(@"Both contents and settings") style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    if ((success = [[PKDatabase instance] importNotesFromURL: url])) {
+      if ((success = [[PKDatabase instance] importHighlightsFromURL: url])) {
+        if ((success = [[PKDatabase instance] importSettingsFromURL: url])) {
+          // success
+          [[NSNotificationCenter defaultCenter] postNotificationName:NOTICE_APP_SETTINGS_CHANGED object:nil];
+        }
+      }
+    }
+    if (!success) {
+      [[self rootViewController] presentViewController:error animated:YES completion:nil];
+    }
+  }]];
+  
+  [alert addAction: [UIAlertAction actionWithTitle:__T(@"Cancel") style: UIAlertActionStyleCancel handler:nil]];
+  [self.rootViewController presentViewController:alert animated:YES completion:nil];
+  
   return YES;
 }
 

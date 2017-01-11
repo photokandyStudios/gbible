@@ -752,7 +752,7 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
   
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeLayout:) name:@"com.photokandy.gbible.settings.changed" object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeLayout:) name:NOTICE_APP_SETTINGS_CHANGED object:nil];
   
   _dirty = YES;
   _lastKnownOrientation           = [[UIDevice currentDevice] orientation];

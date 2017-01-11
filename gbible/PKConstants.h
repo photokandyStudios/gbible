@@ -104,4 +104,6 @@ typedef NS_ENUM(int, PK_SETTINGS_FIELD_TYPE) {
   TEXT_WITH_ACTION
 };
 
+extern NSString *const NOTICE_APP_SETTINGS_CHANGED;
+
 #endif

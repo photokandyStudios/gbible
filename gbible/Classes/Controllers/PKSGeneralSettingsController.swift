@@ -135,14 +135,20 @@ class PKSGeneralSettingsController: PKTableViewController, UIDocumentMenuDelegat
     } else if (controller.documentPickerMode == .import) {
       // import
       var success = false
+      let error = UIAlertController.init(title: __T("Import Error"), message: __T("error-import-failed"), preferredStyle: .alert)
+      error.addAction(UIAlertAction.init(title: __T("OK"), style: .default, handler: nil))
       if (importMode == 0) {
         success = PKDatabase.instance().importNotes(from: url)
         if (success) {
           success = PKDatabase.instance().importHighlights(from: url)
+          NotificationCenter.default.post(name: noticeAppSettingsChanged, object: nil)
         }
       } else {
         success = PKDatabase.instance().importSettings(from: url)
         NotificationCenter.default.post(name: noticeAppSettingsChanged, object: nil)
+      }
+      if (!success) {
+        present(error, animated: true, completion: nil)
       }
     }
   }

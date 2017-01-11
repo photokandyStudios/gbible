@@ -48,6 +48,7 @@
 
 /* Messages */
 "Import Error" = "Import Error";
+"error-import-failed" = "Failed to import; make sure the files are not corrupt.";
 "error-import-message" = "Couldn't find an 'import.dat' database; did you copy an export over with iTunes and rename it?";
 "no-highlights" = "You've no highlights.";
 "no-history" = "You've no history.";
@@ -140,6 +141,10 @@
 "Import Everything" = "Import Everything";
 "Export" = "Export";
 "Import" = "Import";
+"Import %@" = "Import %@?";
+"Contents only" = "Contents only";
+"Settings only" = "Settings only";
+"Both contents and settings" = "Both contents and settings";
 
 /* Labels */
 "Greek Typeface" = "Greek Typeface";

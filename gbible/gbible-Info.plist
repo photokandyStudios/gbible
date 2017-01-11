@@ -38,7 +38,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.4.7370</string>
+	<string>1.4.7395</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -62,8 +62,18 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 	</dict>
-	<key>NSUbiquitousContainerIsDocumentScopePublic</key>
-	<string>YES</string>
+	<key>NSUbiquitousContainers</key>
+	<dict>
+		<key>iCloud.com.photokandy.gbible</key>
+		<dict>
+			<key>NSUbiquitousContainerIsDocumentScopePublic</key>
+			<true/>
+			<key>NSUbiquitousContainerName</key>
+			<string>Greek Interlinear Bible</string>
+			<key>NSUbiquitousContainerSupportedFolderLevels</key>
+			<string>Any</string>
+		</dict>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenDyslexic-Bold.otf</string>
