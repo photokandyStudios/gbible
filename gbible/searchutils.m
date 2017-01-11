@@ -35,6 +35,10 @@
 // (such as that under the Third Party section) are licensed under
 // their respective licenses.
 //
+
+#include "PKReference.h"
+#include "PKBible.h"
+
 NSString * convertSearchToSQL ( NSString *theTerm, NSString *theColumn )
 {
 
@@ -50,15 +54,16 @@ NSString * convertSearchToSQL ( NSString *theTerm, NSString *theColumn )
   //   * Jesus -Mercy results in an NAND search: "Jesus" AND NOT "Mercy"
   //   * Jesus%Mercy results in a wildcard search: Jesus, followed by Mercy in the verse.
   //
-  // Words separated by SPACES will thus be transformed into LIKE "%word%". Any suspicious
-  // characters (", /, ;) will be removed prior. All words will be transformed to lowercase
-  // for proper searching.
   NSMutableString *searchPhrase =
-    [[[theTerm lowercaseString] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]] mutableCopy];
+    [[theTerm stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]] mutableCopy];
 
   BOOL exactMatch               = NO;
+  
+  if (searchPhrase.length == 0) {
+    return nil;
+  }
 
-  if (searchPhrase.length>0)
+/*  if (searchPhrase.length>0)
   {
     if ([searchPhrase characterAtIndex: 0] == '"'
         && [searchPhrase characterAtIndex: [searchPhrase length] - 1] == '"')
@@ -73,7 +78,8 @@ NSString * convertSearchToSQL ( NSString *theTerm, NSString *theColumn )
   [searchPhrase replaceOccurrencesOfString: @"\"" withString: @"" options: 0 range: NSMakeRange(0, [searchPhrase length])];
   [searchPhrase replaceOccurrencesOfString: @";" withString: @"" options: 0 range: NSMakeRange(0, [searchPhrase length])];
   [searchPhrase replaceOccurrencesOfString: @"/" withString: @"" options: 0 range: NSMakeRange(0, [searchPhrase length])];
-  [searchPhrase replaceOccurrencesOfString: @"\\" withString: @"" options: 0 range: NSMakeRange(0, [searchPhrase length])];
+  [searchPhrase replaceOccurrencesOfString: @"\\" withString: @"" options: 0 range: NSMakeRange(0, [searchPhrase length])];*/
+  [searchPhrase replaceOccurrencesOfString: @"\"" withString: @"\"\"" options: 0 range: NSMakeRange(0, [searchPhrase length])];
   [searchPhrase replaceOccurrencesOfString: @"%" withString: @"%%" options: 0 range: NSMakeRange(0, [searchPhrase length])];
   
   while ([searchPhrase rangeOfString:@"  "].location != NSNotFound)
@@ -89,27 +95,83 @@ NSString * convertSearchToSQL ( NSString *theTerm, NSString *theColumn )
     for (int i = 0; i < [allTerms count]; i++)
     {
       NSMutableString *theWord = [allTerms[i] mutableCopy];
+      
+      BOOL isRef = NO;
+      
+      if ([theWord hasPrefix:@"["] && [theWord hasSuffix:@"]"]) {
+        // reference?
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\[in:([A-Za-z0-9]{0,1}[A-Za-z]*)(\\d*)(\\:)*(\\d*)*(\\-*)([A-Za-z0-9]{0,1}[A-Za-z]*)(\\d*)(\\:)*(\\d*)\\]" options:NSRegularExpressionCaseInsensitive error:nil];
+        NSArray *matches = [regex matchesInString:theWord options:0 range:NSMakeRange(0,theWord.length)];
+        if (matches.count > 0) {
+          isRef = YES;
+          
+          NSUInteger startBook = [PKBible bookForAbbreviation: [theWord substringWithRange: [matches[0] rangeAtIndex:1]]];
+          NSUInteger startChapter = [[theWord substringWithRange: [matches[0] rangeAtIndex:2]] integerValue];
+          NSUInteger startVerse = [[theWord substringWithRange: [matches[0] rangeAtIndex:4]] integerValue];
 
-      switch ([theWord characterAtIndex: 0])
-      {
-      case '.':
-      case '+':[searchPhrase appendString: (i != 0 ? @"AND ( ": @"( ")];
-        [theWord deleteCharactersInRange: NSMakeRange(0, 1)];
-        break;
+          NSUInteger endBook = [PKBible bookForAbbreviation: [theWord substringWithRange: [matches[0] rangeAtIndex:6]]];
+          NSUInteger endChapter = [[theWord substringWithRange: [matches[0] rangeAtIndex:7]] integerValue];
+          NSUInteger endVerse = [[theWord substringWithRange: [matches[0] rangeAtIndex:9]] integerValue];
+          
+          if (startBook < 40) {
+            startBook = 40;
+          }
+          if (startChapter < 1) {
+            startChapter = 1;
+          }
+          if (startVerse < 1) {
+            startVerse = 1;
+          }
+          
+          if (endBook == startBook && endChapter == 0) {
+            endChapter = 999;
+          } else if (endChapter == 0) {
+            endChapter = startChapter;
+          }
+          
+          if (endBook == startBook && endVerse == 0) {
+            endVerse = 999;
+          } else if (endVerse == 0) {
+            endVerse = startVerse;
+          }
 
-      case '!' :
-      case '-':[searchPhrase appendString: (i != 0 ? @"AND ( NOT ": @"( NOT ")];
-        [theWord deleteCharactersInRange: NSMakeRange(0, 1)];
-        break;
-
-      default :            [searchPhrase appendString: (i != 0 ? @"OR ( ": @"( ")];
-        break;
+          if (endBook < startBook) {
+            endBook = startBook;
+          }
+          
+          
+          PKReference *startRef = [PKReference referenceWithBook:startBook andChapter:startChapter andVerse:startVerse];
+          PKReference *endRef = [PKReference referenceWithBook:endBook andChapter:endChapter andVerse:endVerse];
+          
+          [searchPhrase appendString: (i != 0 ? @"AND ( ": @"( ")];
+          [searchPhrase appendString: @"printf('%sN.%03i.%03i', bibleBook, bibleChapter, bibleVerse) between "];
+          [searchPhrase appendFormat: @"'%@' and '%@'", [startRef getPaddedReference], [endRef getPaddedReference]];
+          [searchPhrase appendString: @") "];
+        }
       }
+      
+      if (!isRef) {
+        switch ([theWord characterAtIndex: 0])
+        {
+        case '.':
+        case '+':[searchPhrase appendString: (i != 0 ? @"AND ( ": @"( ")];
+          [theWord deleteCharactersInRange: NSMakeRange(0, 1)];
+          break;
 
-      [searchPhrase appendFormat: @"doesContain(TRIM(%@),\"", theColumn];
-      [searchPhrase appendString: [[theWord lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [
-                                     NSLocale currentLocale]]];
-      [searchPhrase appendString: @"\"))"];
+        case '!' :
+        case '-':[searchPhrase appendString: (i != 0 ? @"AND ( NOT ": @"( NOT ")];
+          [theWord deleteCharactersInRange: NSMakeRange(0, 1)];
+          break;
+
+        default :            [searchPhrase appendString: (i != 0 ? @"OR ( ": @"( ")];
+          break;
+        }
+
+        [searchPhrase appendFormat: @"doesContain(TRIM(%@),\"", theColumn];
+        [searchPhrase appendString: [theWord stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [
+                                       NSLocale currentLocale]]];
+        [searchPhrase appendString: @"\", \"\"))"];
+      }
     }
   }
   else
@@ -119,7 +181,7 @@ NSString * convertSearchToSQL ( NSString *theTerm, NSString *theColumn )
     [searchPhrase appendFormat: @"doesContain(TRIM(%@),\"", theColumn];
     [searchPhrase appendString: [[theWord lowercaseString] stringByFoldingWithOptions: NSDiacriticInsensitiveSearch locale: [
                                    NSLocale currentLocale]]];
-    [searchPhrase appendString: @"\")"];
+    [searchPhrase appendString: @"\", \"\")"];
   }
 
   return searchPhrase;
